@@ -36,12 +36,21 @@
                         <li class="nav-item">
                             <a href="" class="nav-link">Statistieken</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="" class="nav-link">Project informatie</a>
-                        </li>
 
-                        <li class="nav-item">
-                            <a href="" class="nav-link">Gebruikershandleiding</a>
+                        <li class="nav-item dropdown">
+                            <a id="infoDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                Info
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu">
+                                <a class="dropdown-item">
+                                    Project informatie
+                                </a>
+
+                                <a class="dropdown-item">
+                                    Gebruikershandleiding
+                                </a>
+                            </div>
                         </li>
                     </ul>
 
@@ -57,7 +66,7 @@
 
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Registreren') }}</a>
                                 </li>
                             @endif
                         @else

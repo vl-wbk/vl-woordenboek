@@ -6,3 +6,47 @@
 
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
+
+// Icons
+
+.icon-thin {
+    stroke-width: 1.5;
+}
+
+.icon-md {
+    line-height: 1.5;
+    font-size: 1.1rem;
+}
+
+.icon-lg {
+    font-size: 2rem;
+}
+
+.icon-xl {
+    font-size: 4rem;
+}
+
+
+.icon-filled {
+    fill: currentColor;
+}
+
+.icon-sm {
+    width: .8rem !important;
+    height: .8rem !important;
+}
+
+.icon-page-title {
+    color: #748d26;
+}
+
+.icon {
+    width: 1em;
+    height: 1em;
+    font-size: 16px;
+    vertical-align: -0.2em;
+
+    &:hover {
+        text-decoration: none;
+    }
+}
