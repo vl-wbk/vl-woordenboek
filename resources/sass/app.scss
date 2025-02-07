@@ -50,3 +50,26 @@
         text-decoration: none;
     }
 }
+
+// Footer
+
+.footer-icon-color {
+    color: #127453
+}
+
+// Navigation (navbar)
+
+.bg-navbar {
+    background: rgb(0,4,53);
+    background: linear-gradient(90deg, rgba(0,4,53,1) 35%, rgba(0,18,176,1) 100%);
+
+    & .icon {
+        color: #FFaF38;
+    }
+}
+
+// Buttons
+
+.btn-search {
+    @include button-variant(#f6eacb, #f6eacb, #127453);
+}
