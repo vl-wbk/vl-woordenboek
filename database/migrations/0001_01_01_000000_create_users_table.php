@@ -1,5 +1,6 @@
 <?php
 
+use App\UserTypes;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,11 +14,15 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('user_type')->default(UserTypes::Volunteers->value);
+            $table->string('name')->virtualAs("CONCAT(firstname, ' ', lastname)");
+            $table->string('firstname');
+            $table->string('lastname');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->timestamp('last_seen_at')->nullable();
             $table->timestamps();
         });
 

@@ -7,6 +7,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "archtechx/enums": "^1.1",
         "dutchcodingcompany/filament-developer-logins": "^1.6",
         "filament/filament": "^3.2",
         "laravel/fortify": "^1.25",

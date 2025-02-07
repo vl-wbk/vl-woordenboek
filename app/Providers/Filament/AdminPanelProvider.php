@@ -72,7 +72,8 @@ final class AdminPanelProvider extends PanelProvider
     {
         return [
             'Technisch beheerder' => 'developer@domain.tld',
-            'Administrator' => 'administrator@domain.tld'
+            'Administrator' => 'administrator@domain.tld',
+            'Vrijwilliger' => 'volunteer@domain.tld',
         ];
     }
 }
