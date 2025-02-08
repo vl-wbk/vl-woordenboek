@@ -74,6 +74,14 @@
     @include button-variant(#f6eacb, #f6eacb, #127453);
 }
 
+.btn-suggestion-submit {
+    @include button-variant(#127453, #127453, #fff);
+}
+
+.btn-reset {
+    @include button-variant(#fff, #fff, #000);
+}
+
 // Forms
 
 textarea.form-control {
