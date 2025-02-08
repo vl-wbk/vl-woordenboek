@@ -73,3 +73,9 @@
 .btn-search {
     @include button-variant(#f6eacb, #f6eacb, #127453);
 }
+
+// Forms
+
+textarea.form-control {
+    resize: none;
+}
