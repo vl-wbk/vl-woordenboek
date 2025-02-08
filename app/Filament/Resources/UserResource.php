@@ -61,6 +61,8 @@ final class UserResource extends Resource
                         TextInput::make('email')
                             ->label('E-mail adres')
                             ->required()
+                            ->unique(ignoreRecord: true)
+                            ->email()
                             ->columnSpan(12)
                     ])
             ]);

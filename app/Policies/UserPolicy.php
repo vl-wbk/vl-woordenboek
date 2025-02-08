@@ -10,4 +10,9 @@ final readonly class UserPolicy
     {
         return true;
     }
+
+    public function create(User $user): bool
+    {
+        return false;
+    }
 }

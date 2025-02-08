@@ -4,13 +4,21 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Notifications\WelcomeNotification;
 use App\UserTypes;
+use Carbon\Carbon;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\WelcomeNotification\ReceivesWelcomeNotification;
 
-class User extends Authenticatable
+final class User extends Authenticatable implements FilamentUser
 {
+    use ReceivesWelcomeNotification;
+    use Notifiable;
+
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
@@ -37,6 +45,19 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    /**
+     * @todo We moeten bekijken welke gebruikers toegang hebben tot het controle paneel.
+     */
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true;
+    }
+
+    public function sendWelcomeNotification(Carbon $validUntil)
+    {
+        $this->notify(new WelcomeNotification($validUntil));
+    }
 
     /**
      * Get the attributes that should be cast.
