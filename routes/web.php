@@ -3,6 +3,7 @@
 use App\Http\Controllers\Authentication\MyWelcomeController;
 use App\Http\Controllers\Definitions\SubmitNewDefinitionController;
 use Illuminate\Support\Facades\Route;
+use Spatie\Honeypot\ProtectAgainstSpam;
 use Spatie\WelcomeNotification\WelcomesNewUsers;
 
 Route::get('/', function () {
@@ -17,5 +18,7 @@ Route::group(['middleware' => ['web', WelcomesNewUsers::class]], function (): vo
 
 Route::group(['prefix' => 'definities'], function (): void {
     Route::get('insturen', [SubmitNewDefinitionController::class, 'create'])->name('definitions.create');
-    Route::post('insturen', [SubmitNewDefinitionController::class, 'store'])->name('definitions.store');
+    Route::post('insturen', [SubmitNewDefinitionController::class, 'store'])
+        ->middleware(ProtectAgainstSpam::class)
+        ->name('definitions.store');
 });

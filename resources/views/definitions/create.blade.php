@@ -5,6 +5,7 @@
         </div>
         <form action="{{ route('definitions.store') }}" id="createSuggestionForm" method="POST" class="card-body">
             @csrf {{--  Form field protection --}}
+            <x-honeypot /> {{-- Spam $submission protection --}}
 
             <p class="card-text mb-0">
                 Elke gebruiker kan nieuwe termen en hun definities aanleveren bij het Vlaams Woordenboek. <br>
@@ -73,9 +74,6 @@
                     <x-forms.validation-error field="voorbeeld"/>
                 @else
                     <x-forms.help-text icon="true" field="voorbeeldHelpText" text="Geef een voorbeeldzin in Algemeen Beschaafd Vlaams die de hierboven beschreven betekenis van het woord verduidelijkt."/>
-                    <span id="voorbeeldHelptext" class="form-text text-muted">
-                        <x-tabler-info-circle class="icon icon-sm me-1"/> Geef een voorbeeldzin in Algemeen Beschaafd Vlaams die de hierboven beschreven betekenis van het woord verduidelijkt.
-                    </span>
                 @endif
             </div>
         </form>
