@@ -17,4 +17,5 @@ Route::group(['middleware' => ['web', WelcomesNewUsers::class]], function (): vo
 
 Route::group(['prefix' => 'definities'], function (): void {
     Route::get('insturen', [SubmitNewDefinitionController::class, 'create'])->name('definitions.create');
+    Route::post('insturen', [SubmitNewDefinitionController::class, 'store'])->name('definitions.store');
 });

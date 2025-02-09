@@ -18,7 +18,7 @@ final class AppServiceProvider extends ServiceProvider
 
     private function registerGlobalPolicyCheck(): void
     {
-        Gate::before(function (User $user, string $ability) {
+        Gate::after(function (User $user, string $ability) {
             return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer]);
         });
     }
