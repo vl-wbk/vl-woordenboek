@@ -17,6 +17,7 @@ Route::group(['middleware' => ['web', WelcomesNewUsers::class]], function (): vo
 });
 
 Route::group(['prefix' => 'definities'], function (): void {
+    Route::view('/regio-informatie', 'region-information')->name('definitions.region-info');
     Route::get('insturen', [SubmitNewDefinitionController::class, 'create'])->name('definitions.create');
     Route::post('insturen', [SubmitNewDefinitionController::class, 'store'])
         ->middleware(ProtectAgainstSpam::class)

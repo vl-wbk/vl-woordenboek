@@ -8,7 +8,7 @@ use App\Data\DefinitionDataObject;
 use Illuminate\Foundation\Http\FormRequest;
 use Spatie\LaravelData\WithData;
 
-class StoreDefinitionsRequest extends FormRequest
+final class StoreDefinitionsRequest extends FormRequest
 {
     use WithData;
 

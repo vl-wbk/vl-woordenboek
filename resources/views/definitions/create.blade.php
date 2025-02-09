@@ -1,4 +1,4 @@
-<x-layouts.application>
+<x-layouts.application title="Nieuwe suggestie">
     <div class="card bg-white border-0 shadow-sm">
         <div class="card-header border-bottom-0">
             Definitie van een woord insturen
@@ -57,7 +57,7 @@
                 @else
                     <span id="regioHelptext" class="form-text text-muted">
                         <x-tabler-info-circle class="icon icon-sm me-1"/> Indien het woord enkel in een lokaal dialect wordt gebruikt, geef dan ook de streek aan waar deze term wordt gebruikt.
-                        - <a href="" target="_blank">Meer info over de regio's.</a> <br>
+                        - <a href="{{ route('definitions.region-info') }}" target="_blank">Meer info over de regio's.</a> <br>
 
                         U kunt meerdere regio's aanklikken doormiddel van de CRTL toets in te drukken.
                     </span>
