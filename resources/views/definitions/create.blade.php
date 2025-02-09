@@ -27,13 +27,13 @@
 
             <div class="form-group">
                 <label for="kenmerken" class="col-form-label">Kenmerken</label>
-                <input type="text" name="kenmerken" id="kenmerkenHelpText" class="form-control">
+                <input type="text" name="kenmerken" value=" {{ old('kenmerken') }}" id="kenmerkenHelpText" class="form-control">
                 <x-forms.help-text field="kenmerkenHelpText" icon="true" text="Je kunt hier woordkenmerken aangeven, zoals het lidwoord, geslacht en meervoud van een zelfstandig naamwoord. Bijvoorbeeld: de ~ (v.), ~sen."/>
             </div>
 
             <div class="form-group">
                 <label for="beschrijving" class="col-form-label">Beschrijving <span class="text-danger fw-bold">*</span></label>
-                <textarea name="beschrijving" class="form-control" id="beschrijvingHelpText" cols="4"></textarea>
+                <textarea name="beschrijving" class="form-control" id="beschrijvingHelpText" cols="4">{{ old('beschrijving') }}</textarea>
 
                 @if ($errors->has('beschrijving'))
                     <x-forms.validation-error field="kenmerken"/>
@@ -68,7 +68,7 @@
 
             <div class="form-group">
                 <label for="voorbeeld" class="col-form-label">Voorbeeld <span class="fw-bold text-danger">*</span></label>
-                <textarea name="voorbeeld" id="voorbeeldHelpText" class="form-control" cols="6"></textarea>
+                <textarea name="voorbeeld" id="voorbeeldHelpText" class="form-control" cols="6">{{ old('voorbeeld') }}</textarea>
 
                 @if ($errors->has('voorbeeld'))
                     <x-forms.validation-error field="voorbeeld"/>
