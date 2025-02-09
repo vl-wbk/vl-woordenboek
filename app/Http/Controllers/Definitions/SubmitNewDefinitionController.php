@@ -25,6 +25,8 @@ final readonly class SubmitNewDefinitionController
         StoreDefinitionsRequest $storeDefinitionsRequest,
         StoreDefinition $storeDefinition,
     ): RedirectResponse {
-        dd($storeDefinitionsRequest->all(), $storeDefinitionsRequest->getData());
+        $storeDefinition->execute($storeDefinitionsRequest->getData());
+
+        return back();
     }
 }

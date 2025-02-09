@@ -16,7 +16,7 @@
 
                     <hr>
 
-                    <div class="alert alert-info shadow-sm" role="alert">
+                    <div class="alert alert-info alert-important shadow-sm" role="alert">
                         <h4 class="alert-heading">Geen woorden gevonden!</h4>
 
                         <p>

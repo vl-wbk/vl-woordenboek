@@ -2,19 +2,31 @@
 
 namespace App\Models;
 
+use App\Enums\SuggestionStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Suggestion extends Model
 {
     /** @use HasFactory<\Database\Factories\SuggestionFactory> */
     use HasFactory;
 
-    protected $fillable = [];
+    protected $fillable = ['word', 'status', 'description', 'example', 'characteristics'];
 
-    public function regions(): MorphToMany
+    protected $attributes = [
+        'status' => SuggestionStatus::New
+    ];
+
+    public function regions(): BelongsToMany
     {
-        return $this->morphToMany(Region::class, 'regionable');
+        return $this->belongsToMany(Region::class);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'status' => SuggestionStatus::class,
+        ];
     }
 }
