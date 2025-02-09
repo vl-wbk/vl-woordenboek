@@ -33,7 +33,7 @@
 
             <div class="form-group">
                 <label for="beschrijving" class="col-form-label">Beschrijving <span class="text-danger fw-bold">*</span></label>
-                <textarea name="beschrijving" class="form-control" id="beschrijvingHelpText" cols="4">{{ old('beschrijving') }}</textarea>
+                <textarea name="beschrijving" class="form-control @error('beschrijving') is-invalid @enderror" id="beschrijvingHelpText" cols="4">{{ old('beschrijving') }}</textarea>
 
                 @if ($errors->has('beschrijving'))
                     <x-forms.validation-error field="kenmerken"/>
@@ -68,7 +68,7 @@
 
             <div class="form-group">
                 <label for="voorbeeld" class="col-form-label">Voorbeeld <span class="fw-bold text-danger">*</span></label>
-                <textarea name="voorbeeld" id="voorbeeldHelpText" class="form-control" cols="6">{{ old('voorbeeld') }}</textarea>
+                <textarea name="voorbeeld" id="voorbeeldHelpText" class="form-control @error('voorbeeld') is-invalid @enderror" cols="6">{{ old('voorbeeld') }}</textarea>
 
                 @if ($errors->has('voorbeeld'))
                     <x-forms.validation-error field="voorbeeld"/>
