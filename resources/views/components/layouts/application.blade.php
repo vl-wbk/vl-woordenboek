@@ -50,7 +50,23 @@
                             <a class="dropdown-item">
                                 <x-tabler-book-2 class="icon text-muted me-1"/> Gebruikershandleiding
                             </a>
+
+                            <div class="dropdown-divider"></div>
+
+                            <a href="" class="dropdown-item">
+                                Disclaimer
+                            </a>
+
+                            <a href="" class="dropdown-item">
+                                Privacybeleid
+                            </a>
                         </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="" class="nav-link">
+                            Contact
+                        </a>
                     </li>
                 </ul>
 

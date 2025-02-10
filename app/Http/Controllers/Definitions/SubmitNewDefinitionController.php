@@ -21,10 +21,12 @@ final readonly class SubmitNewDefinitionController
         ]);
     }
 
-    public function store(
-        StoreDefinitionsRequest $storeDefinitionsRequest,
-        StoreDefinition $storeDefinition,
-    ): RedirectResponse {
+
+    /**
+     * @todo Implementeren van een flash message om de gebruiker te laten weten/bedanken dat zijn suggestie is opgenomen en word behandeld.
+     */
+    public function store(StoreDefinitionsRequest $storeDefinitionsRequest, StoreDefinition $storeDefinition): RedirectResponse
+    {
         $storeDefinition->execute($storeDefinitionsRequest->getData());
 
         return back();
