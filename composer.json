@@ -10,7 +10,7 @@
         "archtechx/enums": "^1.1",
         "dutchcodingcompany/filament-developer-logins": "^1.6",
         "eightynine/filament-advanced-widgets": "^3.0",
-        "filament/filament": "^3.2",
+        "filament/filament": "^3.2.64",
         "laravel/fortify": "^1.25",
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
