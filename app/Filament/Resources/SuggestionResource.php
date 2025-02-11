@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Enums\SuggestionStatus;
 use App\Filament\Resources\SuggestionResource\Pages;
 use App\Filament\Resources\SuggestionResource\RelationManagers;
 use App\Filament\Resources\SuggestionResource\Widgets\AdvancedStatsOverviewWidget;
@@ -50,11 +51,22 @@ final class SuggestionResource extends Resource
                         ->columnSpan(2)
                         ->badge()
                         ->label('Status v/d suggestie'),
-                        TextEntry::make('assignee.name')
-                            ->label('Behandelaar')
-                            ->translateLabel()
-                            ->placeholder('- onbekend')
-                            ->columnSpan(2),
+                    TextEntry::make('assignee.name')
+                        ->label('Behandelaar')
+                        ->visible(fn(Suggestion $suggestion): bool => $suggestion->status->in(enums: [SuggestionStatus::New,  SuggestionStatus::InProgress]))
+                        ->translateLabel()
+                        ->placeholder('- onbekend')
+                        ->columnSpan(2),
+                    TextEntry::make('rejecter.name')
+                        ->label('Afgewezen door')
+                        ->visible(fn(Suggestion $suggestion): bool => $suggestion->status->is(SuggestionStatus::Rejected))
+                        ->placeholder('- onbekend')
+                        ->columnSpan(2),
+                    TextEntry::make('approver.name')
+                        ->label('Goedgekeurd door')
+                        ->visible(fn (Suggestion $suggestion): bool => $suggestion->status->is(SuggestionStatus::Accepted))
+                        ->placeholder('- onbekend')
+                        ->columnSpan(2),
                     TextEntry::make('word')
                         ->label('Woord')
                         ->weight(FontWeight::Bold)
