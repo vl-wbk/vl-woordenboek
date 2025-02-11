@@ -59,7 +59,7 @@ Afhankelijk van de ernst en frequentie van de overtreding kunnen de volgende sta
 - **Informele waarschuwing:** Bij een lichte overtreding geven we een vriendelijke herinnering aan deze gedragscode. Hierbij krijgt de contributor uitleg over waarom het gedrag onwenselijk is en hoe dit kan worden verbeterd.
 - **Formele waarschuwing:** Bij herhaald of ernstiger ongepast gedrag wordt een formele waarschuwing gegeven. Dit gaat gepaard met een documentatie van het incident en, indien nodig, aanvullende begeleiding om herhaling te voorkomen.
 - **Tijdelijke uitsluiting**: Als het ongewenste gedrag aanhoudt of ernstig is, kan een tijdelijke schorsing van deelname aan de hub worden opgelegd. Dit biedt de contributor de kans om te reflecteren op hun acties voordat zij kunnen terugkeren.
-- **Permanente uitsluiting:**I n gevallen van ernstig, grensoverschrijdend gedrag, of bij herhaalde overtredingen na eerdere maatregelen, kan de deelnemer permanent worden uitgesloten van de open-source hub. Deze beslissing wordt genomen door de beheerders van de hub.
+- **Permanente uitsluiting:** In gevallen van ernstig, grensoverschrijdend gedrag, of bij herhaalde overtredingen na eerdere maatregelen, kan de deelnemer permanent worden uitgesloten van de open-source hub. Deze beslissing wordt genomen door de beheerders van de hub.
 
 Onze handhaving is gericht op herstel en verbetering, maar bij ernstige incidenten behouden we ons het recht voor om strengere maatregelen te nemen om de veiligheid en het welzijn van de gehele community te beschermen.
 
