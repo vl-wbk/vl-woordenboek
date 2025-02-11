@@ -20,7 +20,7 @@ final class InProgressSuggestionAction extends Action implements ChecksAuthoriza
             ->icon('heroicon-o-pencil-square')
             ->requiresConfirmation()
             ->modalHeading('Suggestie behandelen')
-            ->modalDescription('Indien u een suggestie gaat behandelen. Word deze geblokkeerd voor andere gebruikers. Zij zullen de suggestie niet kunnen aanpassen. Weet je zeker dat je deze suggestie wilt behandelen?')
+            ->modalDescription("Wanneer je een suggestie 'onder behandeling' zet, wordt ze geblokkeerd voor de andere gebruikers. Zij kunnen er dan geen aanpassingen aan uitvoeren. Weet je zeker dat je dit wil doen?")
             ->visible(fn (Suggestion $suggestion): bool => self::performActionBasedOnStatus($suggestion))
             ->modalSubmitActionLabel('Ja, ik weet dit zeker')
             ->action(fn (Suggestion $suggestion): mixed => self::performActionLogic($suggestion));
