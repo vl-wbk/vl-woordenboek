@@ -31,18 +31,28 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a href="" class="nav-link">Random woord</a>
+                        <a href="{{ route('filament.admin.pages.dashboard') }}" class="nav-link">
+                            <x-heroicon-s-arrows-right-left class="icon me-1"/> Beheersconsole
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="" class="nav-link">
+                            <x-heroicon-s-language class="icon me-1"/> Random woord
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a href="" class="nav-link">Statistieken</a>
+                        <a href="" class="nav-link">
+                            <x-heroicon-o-chart-bar class="icon me-1"/> Statistieken
+                        </a>
                     </li>
 
                     <li class="nav-item dropdown">
                         <a id="infoDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            Info
+                            <x-heroicon-s-information-circle class="icon me-1"/> Info
                         </a>
 
-                        <div class="dropdown-menu bg-white dropdown-menu">
+                        <div class="dropdown-menu bg-white shadow-sm dropdown-menu">
                             <a class="dropdown-item">
                                 <x-tabler-info-square-rounded class="icon text-muted me-1"/> Project informatie
                             </a>
@@ -54,18 +64,18 @@
                             <div class="dropdown-divider"></div>
 
                             <a href="" class="dropdown-item">
-                                Disclaimer
+                                <x-tabler-gavel class="icon text-muted me-1"/> Disclaimer
                             </a>
 
                             <a href="" class="dropdown-item">
-                                Privacybeleid
+                                <x-tabler-spy class="icon text-muted me-1"/> Privacybeleid
                             </a>
                         </div>
                     </li>
 
                     <li class="nav-item">
                         <a href="" class="nav-link">
-                            Contact
+                            <x-heroicon-s-envelope class="icon me-1"/> Contact
                         </a>
                     </li>
                 </ul>
@@ -88,20 +98,20 @@
                             </li>
                         @endif
                     @else
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name }}
+                        <li class="nav-item">
+                            <a href="" class="nav-link">
+                                <x-heroicon-s-user-circle class="icon me-1"/> {{ Auth::user()->name }}
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <x-heroicon-s-power class="icon text-danger"/>
                             </a>
 
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                </a>
-
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
-                            </div>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
                         </li>
                     @endguest
                 </ul>
