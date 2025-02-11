@@ -38,8 +38,11 @@ final class AcceptSuggestionAction extends Action implements ChecksAuthorization
 
     public static function performActionBasedOnStatus(Model $model): bool
     {
-        return auth()->user()->user_type->in(enums: [UserTypes::Developer, UserTypes::Administrators]) // TODO: Convert this line to a policy class
-            && $model->status->notIn(enums: [SuggestionStatus::Accepted, SuggestionStatus::Rejected]);
+        if ($model->assignee()->exists() && $model->assignee()->isNot(auth()->user())) {
+            return false;
+        }
+
+        return $model->status->notIn(enums: [SuggestionStatus::Accepted, SuggestionStatus::Rejected]);
     }
 
     private static function configureModalForm(): array

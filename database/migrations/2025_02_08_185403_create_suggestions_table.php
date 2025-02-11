@@ -2,6 +2,7 @@
 
 use App\Models\Region;
 use App\Models\Suggestion;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,6 +16,7 @@ return new class extends Migration
     {
         Schema::create('suggestions', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(User::class, 'assignee_id')->nullable()->references('id')->on('users')->nullOnDelete();
             $table->string('status');
             $table->string('word');
             $table->string('description');

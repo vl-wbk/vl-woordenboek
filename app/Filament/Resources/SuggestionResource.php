@@ -39,7 +39,7 @@ final class SuggestionResource extends Resource
     {
         return $infolist->schema([
             Section::make('Suggestie informatie')
-                ->description('Alle informatie die nodig is om aan de slag te kunnen met de ingezonden suggetie.')
+                ->description('Alle informatie die nodig is om aan de slag te kunnen met de ingezonden suggestie.')
                 ->compact()
                 ->icon(fn (Suggestion $suggestion): string => $suggestion->status->getIcon())
                 ->iconSize(IconSize::Medium)
@@ -47,14 +47,19 @@ final class SuggestionResource extends Resource
                 ->columns(12)
                 ->schema([
                     TextEntry::make('status')
-                        ->columnSpan(3)
+                        ->columnSpan(2)
                         ->badge()
                         ->label('Status v/d suggestie'),
+                        TextEntry::make('assignee.name')
+                            ->label('Behandelaar')
+                            ->translateLabel()
+                            ->placeholder('- onbekend')
+                            ->columnSpan(2),
                     TextEntry::make('word')
                         ->label('Woord')
                         ->weight(FontWeight::Bold)
                         ->color('primary')
-                        ->columnSpan(3),
+                        ->columnSpan(2),
                     TextEntry::make('characteristics')
                         ->label('Kenmerken')
                         ->columnSpan(3)
