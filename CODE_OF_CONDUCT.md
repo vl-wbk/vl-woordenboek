@@ -65,7 +65,7 @@ Onze handhaving is gericht op herstel en verbetering, maar bij ernstige incident
 
 ## 6. Probleem melden
 
-Als je getuige bent van een overtreding van deze gedragscode, of als je zelf ongewenst gedrag ervaart, neen dan contact op met @tjoosten. Alle meldingen worden vertrouwelijk behandeld, en we nemen stappen om de veiligheid en privacy van degenen die een melding doen te waarborgen.
+Als je getuige bent van een overtreding van deze gedragscode, of als je zelf ongewenst gedrag ervaart, neem dan contact op met @tjoosten. Alle meldingen worden vertrouwelijk behandeld, en we nemen stappen om de veiligheid en privacy van degenen die een melding doen te waarborgen.
 
 ## 7. Aanpassingen en herziening
 
