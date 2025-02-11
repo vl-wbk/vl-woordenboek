@@ -9,7 +9,7 @@ final readonly class UserPolicy
 {
     public function viewAny(User $user): bool
     {
-        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer]);;
+        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer]);
     }
 
     public function create(User $user): bool
