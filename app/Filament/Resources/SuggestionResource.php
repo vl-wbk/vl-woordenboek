@@ -8,12 +8,15 @@ use App\Filament\Resources\SuggestionResource\Pages;
 use App\Filament\Resources\SuggestionResource\RelationManagers;
 use App\Filament\Resources\SuggestionResource\Widgets\AdvancedStatsOverviewWidget;
 use App\Models\Suggestion;
-use Filament\Actions\Action;
 use Filament\Forms;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\FontWeight;
+use Filament\Support\Enums\IconSize;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -27,31 +30,60 @@ final class SuggestionResource extends Resource
     protected static ?string $modelLabel = 'suggestie';
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
-    public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                Section::make('Suggestie informatie')
-                    ->icon(fn (Suggestion $suggestion): string => $suggestion->status->getIcon())
-                    ->iconColor(fn (Suggestion $suggestion): string => $suggestion->status->getColor())
-                    ->description('Alle nodige informatie omtrent de ingezonden suggestie: Hier kunt u de suggestie wijzigen volgens de criteria die je hanteert voor de woordentabel. Zodra de suggestie is goedgekeurd, zullen deze data in de woordentabel worden geplaatst.')
-                    ->columns(12)
-                    ->collapsible()
-                    ->compact()
-                    ->schema([
-                        TextInput::make("word")
-                    ])
-            ]);
-    }
-
     public static function getWidgets(): array
     {
         return [AdvancedStatsOverviewWidget::class];
     }
 
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist->schema([
+            Section::make('Suggestie informatie')
+                ->description('Alle informatie die nodig is om aan de slag te kunnen met de ingezonden suggetie.')
+                ->compact()
+                ->icon(fn (Suggestion $suggestion): string => $suggestion->status->getIcon())
+                ->iconSize(IconSize::Medium)
+                ->iconColor(fn (Suggestion $suggestion): string => $suggestion->status->getColor())
+                ->columns(12)
+                ->schema([
+                    TextEntry::make('status')
+                        ->columnSpan(3)
+                        ->badge()
+                        ->label('Status v/d suggestie'),
+                    TextEntry::make('word')
+                        ->label('Woord')
+                        ->weight(FontWeight::Bold)
+                        ->color('primary')
+                        ->columnSpan(3),
+                    TextEntry::make('characteristics')
+                        ->label('Kenmerken')
+                        ->columnSpan(3)
+                        ->placeholder('- Geen kenmerken opgegeven'),
+                    TextEntry::make('created_at')
+                        ->label('Ingestuurd op')
+                        ->date()
+                        ->columnSpan(3),
+                    TextEntry::make('description')
+                        ->label('Beschrijving')
+                        ->columnSpan(6),
+                    TextEntry::make('example')
+                        ->label('Voorbeeld')
+                        ->columnSpan(6),
+                    TextEntry::make('regions.name')
+                        ->label("Regio's")
+                        ->color('gray')
+                        ->icon('heroicon-m-map')
+                        ->badge()
+                        ->columnSpan(12),
+                ])
+        ]);
+    }
+
     public static function table(Table $table): Table
     {
         return $table
+            ->heading('Ingezonden suggesties')
+            ->description('Overzicht van alle ingezonden suggesties door gast gebruikers')
             ->emptyStateIcon(self::$navigationIcon)
             ->emptyStateHeading('Geen suggesties gevonden.')
             ->emptyStateDescription('Momenteel zijn er geen suggesties gevonden die matchen met die tabblad. Kom op een later tijdstip nog eens terug.')
@@ -60,19 +92,27 @@ final class SuggestionResource extends Resource
                     ->label('Woord')
                     ->translateLabel()
                     ->sortable()
+                    ->weight(FontWeight::SemiBold)
+                    ->color('primary')
                     ->searchable(),
+                TextColumn::make("regions_count")
+                    ->translateLabel()
+                    ->label("Gekoppelde Regio's")
+                    ->sortable()
+                    ->counts('regions')
+                    ->badge()
+                    ->placeholder("- Geen regio's opgegegeven")
+                    ->color('success'),
                 TextColumn::make('characteristics')
                     ->label('Kenmerken')
                     ->translateLabel()
                     ->sortable()
                     ->searchable()
                     ->color('gray'),
-                TextColumn::make("regions.name")
-                    ->translateLabel()
-                    ->label("Regio's")
-                    ->sortable()
-                    ->badge()
-                    ->color('success'),
+                TextColumn::make('description')
+                    ->label('Beschrijving')
+                    ->searchable()
+                    ->limit(50),
                 TextColumn::make('created_at')
                     ->label('Ingestuurd op')
                     ->translateLabel()
@@ -83,11 +123,7 @@ final class SuggestionResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
-                    Tables\Actions\EditAction::make(),
-                    Tables\Actions\DeleteAction::make(),
-                ])
+                Tables\Actions\ViewAction::make()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -107,8 +143,7 @@ final class SuggestionResource extends Resource
     {
         return [
             'index' => Pages\ListSuggestions::route('/'),
-            'create' => Pages\CreateSuggestion::route('/create'),
-            'edit' => Pages\EditSuggestion::route('/{record}/edit'),
+            'view' => Pages\ViewSuggestion::route('/{record}'),
         ];
     }
 }
