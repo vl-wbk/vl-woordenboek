@@ -88,7 +88,7 @@ final class AcceptSuggestionAction extends Action implements ChecksAuthorization
     private static function configureModalAction(Suggestion $suggestion, array $data): mixed
     {
         return DB::transaction(function () use ($suggestion, $data) {
-            $suggestion->update(['status' => SuggestionStatus::Accepted]);
+            $suggestion->update(attributes: ['status' => SuggestionStatus::Accepted, 'approver_id' => auth()->user()->id]);
             $regions = $suggestion->fresh()->regions->pluck('id')->toArray();
 
             $lemma = Word::query()->create(attributes: $data);

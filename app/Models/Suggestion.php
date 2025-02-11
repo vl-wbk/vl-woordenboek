@@ -15,7 +15,7 @@ class Suggestion extends Model
     use HasFactory;
     use BelongsToManyRegions;
 
-    protected $fillable = ['word', 'status', 'assignee_id', 'description', 'example', 'characteristics'];
+    protected $fillable = ['word', 'status', 'assignee_id', 'rejector_id', 'approver_id', 'description', 'example', 'characteristics'];
 
     protected $attributes = [
         'status' => SuggestionStatus::New
@@ -24,6 +24,16 @@ class Suggestion extends Model
     public function assignee(): BelongsTo
     {
         return $this->belongsTo(User::class, 'assignee_id');
+    }
+
+    public function rejecter(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'rejector_id');
+    }
+
+    public function approver(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'approver_id');
     }
 
     protected function casts(): array

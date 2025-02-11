@@ -10,6 +10,7 @@ use App\Models\Suggestion;
 use App\UserTypes;
 use Filament\Actions\Action;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 final class RejectSuggestionAction extends Action implements ChecksAuthorizationBasedOnStatus
 {
@@ -22,7 +23,7 @@ final class RejectSuggestionAction extends Action implements ChecksAuthorization
             ->modalHeading('Suggestie afwijzen')
             ->modalDescription('Bij het afwijzen van de suggestie zult u die niet meer in het lemma kunnen stoppen.')
             ->visible(fn (Suggestion $suggestion): bool => self::performActionBasedOnStatus($suggestion))
-            ->action(fn (Suggestion $suggestion): bool => $suggestion->update(['status' => SuggestionStatus::Rejected]))
+            ->action(fn (Suggestion $suggestion): bool => self::performAction($suggestion))
             ->modalSubmitActionLabel('Afwijzing bevestigen');
     }
 
@@ -33,5 +34,12 @@ final class RejectSuggestionAction extends Action implements ChecksAuthorization
         }
 
         return $model->status->notIn(enums: [SuggestionStatus::Accepted, SuggestionStatus::Rejected]);
+    }
+
+    private static function performAction(Suggestion $suggestion): bool
+    {
+        return DB::transaction(function () use ($suggestion): bool {
+            return $suggestion->update(['status' => SuggestionStatus::Rejected, 'rejector_id' => auth()->user()->id]);
+        });
     }
 }
