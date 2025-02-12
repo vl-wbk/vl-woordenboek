@@ -40,19 +40,24 @@ final readonly class WordInfolist
                     ->label('Laatst bewerkt door')
                     ->icon('heroicon-o-user-circle')
                     ->iconColor('primary')
-                    ->columnSpan(4),
+                    ->columnSpan(3),
+                TextEntry::make('edits')
+                    ->label('Aantal bewerkingen')
+                    ->icon('heroicon-o-pencil-square')
+                    ->iconColor('primary')
+                    ->columnSpan(3),
                 TextEntry::make('updated_at')
                     ->label('Laast gewijzigd')
                     ->icon('heroicon-o-clock')
                     ->iconColor('primary')
                     ->date()
-                    ->columnSpan(4),
+                    ->columnSpan(3),
                 TextEntry::make('created_at')
                     ->label('Toegevoegd op')
                     ->icon('heroicon-o-clock')
                     ->iconColor('primary')
                     ->date()
-                    ->columnSpan(4)
+                    ->columnSpan(3)
             ]);
     }
 }
