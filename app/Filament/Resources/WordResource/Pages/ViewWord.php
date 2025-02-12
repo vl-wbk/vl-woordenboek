@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\FIlament\Resources\WordResource\Pages;
+namespace App\Filament\Resources\WordResource\Pages;
 
 use App\Filament\Resources\WordResource;
 use Filament\Actions\DeleteAction;
