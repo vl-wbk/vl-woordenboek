@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Region;
+use App\Models\User;
 use App\Models\Word;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,6 +16,10 @@ return new class extends Migration
     {
         Schema::create('words', function (Blueprint $table) {
             $table->id();
+            $table->string('index', 1)
+                ->comment('The index column is used in the word index of the application.')
+                ->virtualAs("UPPER(LEFT(word, 1))");
+            $table->foreignIdFor(User::class, 'author_id')->nullable()->references('id')->on('users')->nullOnDelete();
             $table->string('word');
             $table->string('description');
             $table->text('example');

@@ -4,11 +4,18 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\UserResource\Schemas\WordInfolist;
 use App\Filament\Resources\WordResource\Pages;
 use App\Models\Word;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\Tabs;
+use Filament\Infolists\Components\Tabs\Tab;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
+use Filament\Support\Enums\IconSize;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -20,11 +27,16 @@ final class WordResource extends Resource
     protected static ?string $modelLabel = 'lemma';
     protected static ?string $pluralModelLabel = "lemma's";
 
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return WordInfolist::make($infolist);
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+
             ]);
     }
 
@@ -37,6 +49,12 @@ final class WordResource extends Resource
                     ->weight(FontWeight::SemiBold)
                     ->color('primary')
                     ->label('Lemma'),
+                TextColumn::make('author.name')
+                    ->label('Laatste bewerker')
+                    ->searchable()
+                    ->sortable()
+                    ->icon('heroicon-o-user-circle')
+                    ->iconColor('primary'),
                 TextColumn::make('description')
                     ->label('Beschrijving')
                     ->searchable()
@@ -77,6 +95,7 @@ final class WordResource extends Resource
         return [
             'index' => Pages\ListWords::route('/'),
             'create' => Pages\CreateWord::route('/create'),
+            'view' => Pages\ViewWord::route('/{record}'),
             'edit' => Pages\EditWord::route('/{record}/edit'),
         ];
     }

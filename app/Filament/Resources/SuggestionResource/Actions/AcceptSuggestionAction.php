@@ -87,13 +87,22 @@ final class AcceptSuggestionAction extends Action implements ChecksAuthorization
 
     private static function configureModalAction(Suggestion $suggestion, array $data): mixed
     {
-        return DB::transaction(function () use ($suggestion, $data) {
+        return DB::transaction(function () use ($suggestion, $data): Word {
             $suggestion->update(attributes: ['status' => SuggestionStatus::Accepted, 'approver_id' => auth()->user()->id]);
-            $regions = $suggestion->fresh()->regions->pluck('id')->toArray();
 
-            $lemma = Word::query()->create(attributes: $data);
-            $lemma->syncRegions($regions);
+            // Start repllication process to the word table (Lemma's)
+            return tap(self::createNewLemma($data), function (Word $lemma) use ($suggestion): void {
+                $suggestionRegions = $suggestion->fresh()->regions->pluck('id')->toArray();
+
+                $lemma->syncRegions($suggestionRegions);
+                $lemma->author()->associate(auth()->user())->save();
+            });
         });
+    }
+
+    private static function createNewLemma(array $attributes): Word
+    {
+        return Word::query()->create($attributes);
     }
 
     private static function getActionIcon(): string
