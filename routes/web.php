@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Account\ProfileController;
 use App\Http\Controllers\Authentication\MyWelcomeController;
 use App\Http\Controllers\Definitions\SubmitNewDefinitionController;
 use Illuminate\Support\Facades\Route;
@@ -23,3 +24,6 @@ Route::group(['prefix' => 'definities'], function (): void {
         ->middleware(ProtectAgainstSpam::class)
         ->name('definitions.store');
 });
+
+// Accout routes
+Route::get('/profiel/{user}', ProfileController::class)->name('profile');
