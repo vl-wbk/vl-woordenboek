@@ -114,7 +114,20 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
+                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="card bg-white border-0 py-3 shadow-sm">
+                            <div class="card-body text-center">
+                                <h3 class="text-gold">Geen suggesties gevonden.</h3>
+                                <p class="card-text text-muted">Het lijkt erop dat er geen suggesties in behandeling zijn die door jouw zijn ingestuurd.</p>
+
+                                <p class="card-text mb-0">
+                                    <a href="{{ route('definitions.create') }}" class="btn shadow-sm btn-suggestion-submit">
+                                        <x-heroicon-o-plus class="icon me-1"/> Suggestie insturen
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
