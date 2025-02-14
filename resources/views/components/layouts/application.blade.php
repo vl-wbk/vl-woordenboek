@@ -187,7 +187,7 @@
                 <span class="float-end">
                     <ul class="list-inline mb-0">
                         <li class="list-inline-item">
-                            <a href="" class="footer-icon-color text-decoration-none">
+                            <a href="https://github.com/Tjoosten/vl-woordenboek" class="footer-icon-color text-decoration-none">
                                 <x-tabler-brand-github class="icon"/>
                             </a>
                         </li>

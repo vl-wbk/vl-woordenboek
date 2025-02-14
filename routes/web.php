@@ -9,7 +9,7 @@ use Spatie\WelcomeNotification\WelcomesNewUsers;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 // Authentication routes
 Route::group(['middleware' => ['web', WelcomesNewUsers::class]], function (): void {
