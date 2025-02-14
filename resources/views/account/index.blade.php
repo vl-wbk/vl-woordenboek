@@ -1,4 +1,5 @@
 <x-layouts.application-blank title="{{ $user->name }}">
+    {{-- User profile information section --}}
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
@@ -8,15 +9,17 @@
                         <h4 class="text-gold">
                             {{ $user->name }}
 
-                            <div class="float-end">
-                                <a class="btn btn-white shadow-sm">
-                                    <x-heroicon-o-question-mark-circle class="icon me-1"/> Help
-                                </a>
+                            @if ($user->is(auth()->user()))
+                                <div class="float-end">
+                                    <a class="btn btn-white shadow-sm" href="">
+                                        <x-heroicon-o-question-mark-circle class="icon me-1"/> Help
+                                    </a>
 
-                                <a class="btn btn-white shadow-sm">
-                                    <x-heroicon-o-adjustments-horizontal class="icon me-1"/> Instellingen
-                                </a>
-                            </div>
+                                    <a class="btn btn-white shadow-sm" href="">
+                                        <x-heroicon-o-adjustments-horizontal class="icon me-1"/> Instellingen
+                                    </a>
+                                </div>
+                            @endif
                         </h4>
 
                         <ul class="inline-list text-muted mb-0 p-0">
@@ -36,7 +39,7 @@
 
                             <li class="list-inline-item">
                                 <x-heroicon-o-clock class="icon me-1"/>
-                                <span class="fw-bold">Laast gezien:</span> 11/11/2025
+                                <span class="fw-bold">Laast gezien:</span> {{ $user->last_seen_at->format('d/m/Y') }}
                             </li>
 
                             <li class="list-inline-item">|</li>
@@ -50,8 +53,10 @@
                 </div>
             </div>
         </div>
+        {{-- END - user profile information section --}}
 
         <div class="row py-4">
+            {{-- Side navigation --}}
             <div class="col-3">
                 <div class="list-group shadow-sm">
                     <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" aria-current="true">
@@ -60,6 +65,7 @@
                     </a>
                 </div>
             </div>
+            {{-- END - Side navigation --}}
 
             <div class="col-9">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
