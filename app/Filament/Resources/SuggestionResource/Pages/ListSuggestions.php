@@ -28,7 +28,7 @@ final class ListSuggestions extends ListRecords
                 ->label($status->getLabel())
                 ->icon($status->getIcon())
                 ->badgeColor('primary')
-                ->query(fn (Builder $query): Builder => $query->where('status', $status))
+                ->query(fn (Builder $query): Builder => $query->where('state', $status))
             )->toArray();
     }
 }
