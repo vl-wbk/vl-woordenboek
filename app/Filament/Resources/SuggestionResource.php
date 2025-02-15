@@ -90,7 +90,12 @@ final class SuggestionResource extends Resource
                         ->color('gray')
                         ->icon('heroicon-m-map')
                         ->badge()
-                        ->columnSpan(12),
+                        ->columnSpan(6),
+                    TextEntry::make('status')
+                        ->label('Status')
+                        ->color('gray')
+                        ->badge()
+                        ->columnSpan(6),
                 ])
         ]);
     }

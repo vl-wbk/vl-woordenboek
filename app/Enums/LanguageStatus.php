@@ -31,7 +31,7 @@ enum LanguageStatus: int implements HasLabel
             self::StandaardBelgischNederlands => 'Standaard Belgisch-Nederlands',
             self::KandidaatBelgischNederlands => 'Kandidaat Belgisch-Nederlands',
             self::Onbekend => 'Onbekend',
-            self::GeenStandaardTaal => 'Geen standaardtaab'
+            self::GeenStandaardTaal => 'Geen standaardtaal',
         };
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\SuggestionResource\Actions;
 
 use App\Contracts\ChecksAuthorizationBasedOnStatus;
+use App\Enums\LanguageStatus;
 use App\Enums\SuggestionStatus;
 use App\Models\Suggestion;
 use App\Models\Word;
@@ -62,6 +63,13 @@ final class AcceptSuggestionAction extends Action implements ChecksAuthorization
                         ->maxLength(255)
                         ->translateLabel()
                         ->columnSpan(8),
+                    Select::make('status')
+                        ->options(LanguageStatus::class)
+                        ->preload()
+                        ->native(false)
+                        ->minItems(1)
+                        ->maxItems(1)
+                        ->columnSpan(12),
                     Select::make('regions')
                         ->label("Regio's")
                         ->multiple()
