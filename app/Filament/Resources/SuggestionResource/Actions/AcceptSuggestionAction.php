@@ -42,7 +42,7 @@ final class AcceptSuggestionAction extends Action implements ChecksAuthorization
             return false;
         }
 
-        return $model->status->notIn(enums: [SuggestionStatus::Accepted, SuggestionStatus::Rejected]);
+        return $model->state->notIn(enums: [SuggestionStatus::Accepted, SuggestionStatus::Rejected]);
     }
 
     private static function configureModalForm(): array
@@ -88,7 +88,7 @@ final class AcceptSuggestionAction extends Action implements ChecksAuthorization
     private static function configureModalAction(Suggestion $suggestion, array $data): mixed
     {
         return DB::transaction(function () use ($suggestion, $data): Word {
-            $suggestion->update(attributes: ['status' => SuggestionStatus::Accepted, 'approver_id' => auth()->user()->id]);
+            $suggestion->update(attributes: ['state' => SuggestionStatus::Accepted, 'approver_id' => auth()->user()->id]);
 
             // Start repllication process to the word table (Lemma's)
             return tap(self::createNewLemma($data), function (Word $lemma) use ($suggestion): void {

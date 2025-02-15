@@ -28,14 +28,14 @@ final class InProgressSuggestionAction extends Action implements ChecksAuthoriza
 
     public static function performActionBasedOnStatus(Model $model): bool
     {
-        return $model->assignee()->doesntExist() && $model->status->is(SuggestionStatus::New);
+        return $model->assignee()->doesntExist() && $model->state->is(SuggestionStatus::New);
     }
 
     public static function performActionLogic(Suggestion $suggestion): mixed
     {
         return DB::transaction(function () use ($suggestion): mixed {
             return $suggestion->update(attributes: [
-                'assignee_id' => auth()->user()->getAuthIdentifier(), 'status' => SuggestionStatus::InProgress,
+                'assignee_id' => auth()->user()->getAuthIdentifier(), 'state' => SuggestionStatus::InProgress,
             ]);
         });
     }

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class, 'assignee_id')->nullable()->references('id')->on('users')->nullOnDelete();
             $table->foreignIdFor(User::class, 'approver_id')->nullable()->references('id')->on('users')->nullOnDelete();
             $table->foreignIdFor(User::class, 'rejector_id')->nullable()->references('id')->on('users')->nullOnDelete();
+            $table->string('state')->comment('De behandelings status van de suggestie.');
             $table->string('status');
             $table->string('word');
             $table->string('description');
