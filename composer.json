@@ -17,7 +17,8 @@
         "secondnetwork/blade-tabler-icons": "^3.29",
         "spatie/laravel-data": "^4.13",
         "spatie/laravel-honeypot": "^4.5",
-        "spatie/laravel-welcome-notification": "^2.4"
+        "spatie/laravel-welcome-notification": "^2.4",
+        "watson/active": "^7.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

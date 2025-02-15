@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Account\ProfileController;
+use App\Http\Controllers\Account\SettingsController;
 use App\Http\Controllers\Authentication\MyWelcomeController;
 use App\Http\Controllers\Definitions\SubmitNewDefinitionController;
 use Illuminate\Support\Facades\Route;
@@ -27,3 +28,7 @@ Route::group(['prefix' => 'definities'], function (): void {
 
 // Accout routes
 Route::get('/profiel/{user}', ProfileController::class)->name('profile');
+
+Route::middleware(['auth'])->group(function (): void {
+    Route::get('account-instellingen', SettingsController::class)->name('profile.settings');
+});

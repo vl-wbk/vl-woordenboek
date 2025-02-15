@@ -11,9 +11,15 @@
                         <x-heroicon-o-question-mark-circle class="icon me-1"/> Help
                     </a>
 
-                    <a class="btn btn-white shadow-sm" href="">
-                        <x-heroicon-o-adjustments-horizontal class="icon me-1"/> Instellingen
-                    </a>
+                    @if (active('profile.settings'))
+                        <a class="btn btn-white shadow-sm" href={{ route('profile', ['user' => auth()->user()]) }}">
+                            <x-heroicon-o-arrow-uturn-left class="icon me-1 text-danger"/> Verlaat instellingen
+                        </a>
+                    @else
+                        <a class="btn btn-white shadow-sm" href="{{ route('profile.settings') }}">
+                            <x-heroicon-o-adjustments-horizontal class="icon me-1"/> Instellingen
+                        </a>
+                    @endif
                 </div>
             @endif
         </h4>

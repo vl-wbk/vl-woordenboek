@@ -80,7 +80,7 @@
     @include button-variant(#f6eacb, #f6eacb, #127453);
 }
 
-.btn-suggestion-submit {
+.btn-suggestion-submit, .btn-submit {
     @include button-variant(#127453, #127453, #fff);
 }
 
@@ -110,6 +110,10 @@ textarea.form-control {
 
 // backgrounds
 
-.bg-green {
+.bg-green{
     background-color: #127453;
+}
+
+.color-green {
+    color: #127453
 }
