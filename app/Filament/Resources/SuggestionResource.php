@@ -51,6 +51,11 @@ final class SuggestionResource extends Resource
                         ->columnSpan(2)
                         ->badge()
                         ->label('Status v/d suggestie'),
+                    TextEntry::make('creator.name')
+                        ->label('Ingestuurd door')
+                        ->columnSpan(2)
+                        ->translateLabel()
+                        ->placeholder('onbekend'),
                     TextEntry::make('assignee.name')
                         ->label('Behandelaar')
                         ->visible(fn(Suggestion $suggestion): bool => $suggestion->status->in(enums: [SuggestionStatus::New,  SuggestionStatus::InProgress]))
@@ -74,12 +79,12 @@ final class SuggestionResource extends Resource
                         ->columnSpan(2),
                     TextEntry::make('characteristics')
                         ->label('Kenmerken')
-                        ->columnSpan(3)
+                        ->columnSpan(2)
                         ->placeholder('- Geen kenmerken opgegeven'),
                     TextEntry::make('created_at')
                         ->label('Ingestuurd op')
                         ->date()
-                        ->columnSpan(3),
+                        ->columnSpan(2),
                     TextEntry::make('description')
                         ->label('Beschrijving')
                         ->columnSpan(6),
@@ -112,14 +117,13 @@ final class SuggestionResource extends Resource
                     ->weight(FontWeight::SemiBold)
                     ->color('primary')
                     ->searchable(),
-                TextColumn::make("regions_count")
+                TextColumn::make('creator.name')
+                    ->label('Ingestuurd door')
                     ->translateLabel()
-                    ->label("Gekoppelde Regio's")
-                    ->sortable()
-                    ->counts('regions')
-                    ->badge()
-                    ->placeholder("- Geen regio's opgegegeven")
-                    ->color('success'),
+                    ->searchable()
+                    ->icon('heroicon-o-user-circle')
+                    ->placeholder('onbekend')
+                    ->iconColor('primary'),
                 TextColumn::make('characteristics')
                     ->label('Kenmerken')
                     ->translateLabel()

@@ -95,7 +95,7 @@ final class AcceptSuggestionAction extends Action implements ChecksAuthorization
                 $suggestionRegions = $suggestion->fresh()->regions->pluck('id')->toArray();
 
                 $lemma->syncRegions($suggestionRegions);
-                $lemma->author()->associate(auth()->user())->save();
+                $lemma->author()->associate($suggestion->creator ?? auth()->user())->save();
             });
         });
     }

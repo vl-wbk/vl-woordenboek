@@ -15,6 +15,10 @@ final readonly class StoreDefinition
         DB::transaction(function () use ($definitionDataObject): void {
             $suggestion = Suggestion::query()->create($definitionDataObject->except('regions')->toArray());
             $suggestion->regions()->sync($definitionDataObject->regions);
+
+            if (! is_null($definitionDataObject->creator_id)) {
+                $suggestion->creator()->associate($definitionDataObject->creator_id)->save();
+            }
         });
     }
 }

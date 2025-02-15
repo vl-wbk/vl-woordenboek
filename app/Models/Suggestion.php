@@ -21,6 +21,11 @@ class Suggestion extends Model
         'status' => SuggestionStatus::New
     ];
 
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function assignee(): BelongsTo
     {
         return $this->belongsTo(User::class, 'assignee_id');
