@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\WordResource\Schema;
 
+use App\Enums\LanguageStatus;
 use Filament\Forms\Components\Radio;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -21,7 +23,7 @@ final class WordFormSchema
         return $form->schema([
             Wizard::make([
                 //self::generalInfoWizardForm(),
-                self::regionAndStatusInfoWizardForm(),
+                //self::regionAndStatusInfoWizardForm(),
                 self::definitionInfoWizardForm(),
             ])->columnSpan(12),
         ]);
@@ -66,8 +68,10 @@ final class WordFormSchema
         return Step::make('Regio & status')
             ->icon('heroicon-o-map')
             ->completedIcon('heroicon-m-hand-thumb-up')
+            ->columns(12)
             ->schema([
                 Select::make('regions')
+                    ->columnSpanFull()
                     ->label("Regio's")
                     ->translateLabel()
                     ->multiple()
@@ -77,7 +81,8 @@ final class WordFormSchema
                     ->minItems(1)
                     ->required(),
                 Radio::make('status')
-                    ->options(Language)
+                    ->columnSpanFull()
+                    ->options(LanguageStatus::class)
             ]);
     }
 
@@ -86,6 +91,11 @@ final class WordFormSchema
         return Step::make('Definities')
             ->icon('heroicon-o-queue-list')
             ->completedIcon('heroicon-m-hand-thumb-up')
-            ->schema([]);
+            ->schema([
+                Repeater::make('definitions')
+                    ->label('Definitie voor het woord')
+                    ->relationship()
+                    ->schema([])
+            ]);
     }
 }
