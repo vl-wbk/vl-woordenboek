@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Filament\Clusters\Articles;
 use App\Filament\Resources\WordResource\Schema\WordInfolist;
 use App\Filament\Resources\WordResource\Pages;
 use App\Models\Word;
@@ -14,13 +15,15 @@ use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Cache;
 
 final class WordResource extends Resource
 {
     protected static ?string $model = Word::class;
     protected static ?string $navigationIcon = 'heroicon-o-language';
-    protected static ?string $modelLabel = 'lemma';
-    protected static ?string $pluralModelLabel = "lemma's";
+    protected static ?string $modelLabel = 'Lemma';
+    protected static ?string $pluralModelLabel = "Lemma's";
+    protected static ?string $cluster = Articles::class;
 
     public static function infolist(Infolist $infolist): Infolist
     {
@@ -38,6 +41,9 @@ final class WordResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->emptyStateIcon(self::$navigationIcon)
+            ->emptyStateHeading('Geen artikelen gevonden')
+            ->emptyStateDescription("Momenteel konden we geen artikelen (lemma's) vinden met de matchende criteria. Kom later nog eens terug.")
             ->columns([
                 TextColumn::make('word')
                     ->searchable()
@@ -83,6 +89,13 @@ final class WordResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return Cache::flexible('lemma_count', [10, 60], function (): string {
+            return (string) self::$model::count();
+        });
     }
 
     public static function getPages(): array

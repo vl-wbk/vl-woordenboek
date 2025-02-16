@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources;
 
 use App\Enums\SuggestionStatus;
+use App\Filament\Clusters\Articles;
 use App\Filament\Resources\SuggestionResource\Pages;
 use App\Filament\Resources\SuggestionResource\RelationManagers;
 use App\Filament\Resources\SuggestionResource\Widgets\AdvancedStatsOverviewWidget;
@@ -30,6 +31,7 @@ final class SuggestionResource extends Resource
     protected static ?string $pluralModelLabel = 'suggesties';
     protected static ?string $modelLabel = 'suggestie';
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $cluster = Articles::class;
 
     public static function getWidgets(): array
     {
@@ -135,9 +137,6 @@ final class SuggestionResource extends Resource
                     ->translateLabel()
                     ->date()
                     ->sortable()
-            ])
-            ->filters([
-                //
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()
