@@ -7,6 +7,7 @@ namespace App\Filament\Resources;
 use App\Filament\Clusters\Articles;
 use App\Filament\Resources\WordResource\Schema\WordInfolist;
 use App\Filament\Resources\WordResource\Pages;
+use App\Filament\Resources\WordResource\Schema\WordFormSchema;
 use App\Models\Word;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
@@ -32,10 +33,7 @@ final class WordResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-
-            ]);
+        return WordFormSchema::make($form);
     }
 
     public static function table(Table $table): Table

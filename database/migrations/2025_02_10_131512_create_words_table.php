@@ -21,6 +21,7 @@ return new class extends Migration
                 ->virtualAs("UPPER(LEFT(word, 1))");
             $table->foreignIdFor(User::class, 'author_id')->nullable()->references('id')->on('users')->nullOnDelete();
             $table->string('word');
+            $table->smallInteger('status');
             $table->string('description');
             $table->text('example');
             $table->text('characteristics');

@@ -15,7 +15,7 @@ final class Word extends Model
     use HasFactory;
     use BelongsToManyRegions;
 
-    protected $fillable = ['word', 'description', 'example', 'characteristics'];
+    protected $fillable = ['word', 'description', 'status', 'example', 'characteristics'];
 
     public function author(): BelongsTo
     {
