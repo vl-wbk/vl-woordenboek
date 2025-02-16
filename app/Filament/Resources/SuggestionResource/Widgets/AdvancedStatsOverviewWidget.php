@@ -26,7 +26,7 @@ final class AdvancedStatsOverviewWidget extends BaseWidget
     private function countSuggestions(SuggestionStatus $suggestionStatus)
     {
         return Cache::flexible($suggestionStatus->value . '_suggestions_count', [30, 60], function () use ($suggestionStatus) {
-            return Suggestion::where('status', $suggestionStatus)->count();
+            return Suggestion::where('state', $suggestionStatus)->count();
         });
     }
 }

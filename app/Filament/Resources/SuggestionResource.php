@@ -7,12 +7,8 @@ namespace App\Filament\Resources;
 use App\Enums\SuggestionStatus;
 use App\Filament\Clusters\Articles;
 use App\Filament\Resources\SuggestionResource\Pages;
-use App\Filament\Resources\SuggestionResource\RelationManagers;
 use App\Filament\Resources\SuggestionResource\Widgets\AdvancedStatsOverviewWidget;
 use App\Models\Suggestion;
-use Filament\Forms;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
@@ -22,8 +18,6 @@ use Filament\Support\Enums\IconSize;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 final class SuggestionResource extends Resource
 {
@@ -44,29 +38,34 @@ final class SuggestionResource extends Resource
             Section::make('Suggestie informatie')
                 ->description('Alle informatie die nodig is om aan de slag te kunnen met de ingezonden suggestie.')
                 ->compact()
-                ->icon(fn (Suggestion $suggestion): string => $suggestion->status->getIcon())
+                ->icon(fn (Suggestion $suggestion): string => $suggestion->state->getIcon())
                 ->iconSize(IconSize::Medium)
-                ->iconColor(fn (Suggestion $suggestion): string => $suggestion->status->getColor())
+                ->iconColor(fn (Suggestion $suggestion): string => $suggestion->state->getColor())
                 ->columns(12)
                 ->schema([
-                    TextEntry::make('status')
+                    TextEntry::make('state')
                         ->columnSpan(2)
                         ->badge()
                         ->label('Status v/d suggestie'),
+                    TextEntry::make('creator.name')
+                        ->label('Ingestuurd door')
+                        ->columnSpan(2)
+                        ->translateLabel()
+                        ->placeholder('onbekend'),
                     TextEntry::make('assignee.name')
                         ->label('Behandelaar')
-                        ->visible(fn(Suggestion $suggestion): bool => $suggestion->status->in(enums: [SuggestionStatus::New,  SuggestionStatus::InProgress]))
+                        ->visible(fn(Suggestion $suggestion): bool => $suggestion->state->in(enums: [SuggestionStatus::New,  SuggestionStatus::InProgress]))
                         ->translateLabel()
                         ->placeholder('- onbekend')
                         ->columnSpan(2),
                     TextEntry::make('rejecter.name')
                         ->label('Afgewezen door')
-                        ->visible(fn(Suggestion $suggestion): bool => $suggestion->status->is(SuggestionStatus::Rejected))
+                        ->visible(fn(Suggestion $suggestion): bool => $suggestion->state->is(SuggestionStatus::Rejected))
                         ->placeholder('- onbekend')
                         ->columnSpan(2),
                     TextEntry::make('approver.name')
                         ->label('Goedgekeurd door')
-                        ->visible(fn (Suggestion $suggestion): bool => $suggestion->status->is(SuggestionStatus::Accepted))
+                        ->visible(fn (Suggestion $suggestion): bool => $suggestion->state->is(SuggestionStatus::Accepted))
                         ->placeholder('- onbekend')
                         ->columnSpan(2),
                     TextEntry::make('word')
@@ -76,12 +75,12 @@ final class SuggestionResource extends Resource
                         ->columnSpan(2),
                     TextEntry::make('characteristics')
                         ->label('Kenmerken')
-                        ->columnSpan(3)
+                        ->columnSpan(2)
                         ->placeholder('- Geen kenmerken opgegeven'),
                     TextEntry::make('created_at')
                         ->label('Ingestuurd op')
                         ->date()
-                        ->columnSpan(3),
+                        ->columnSpan(2),
                     TextEntry::make('description')
                         ->label('Beschrijving')
                         ->columnSpan(6),
@@ -93,7 +92,12 @@ final class SuggestionResource extends Resource
                         ->color('gray')
                         ->icon('heroicon-m-map')
                         ->badge()
-                        ->columnSpan(12),
+                        ->columnSpan(6),
+                    TextEntry::make('status')
+                        ->label('Status')
+                        ->color('gray')
+                        ->badge()
+                        ->columnSpan(6),
                 ])
         ]);
     }
@@ -114,14 +118,13 @@ final class SuggestionResource extends Resource
                     ->weight(FontWeight::SemiBold)
                     ->color('primary')
                     ->searchable(),
-                TextColumn::make("regions_count")
+                TextColumn::make('creator.name')
+                    ->label('Ingestuurd door')
                     ->translateLabel()
-                    ->label("Gekoppelde Regio's")
-                    ->sortable()
-                    ->counts('regions')
-                    ->badge()
-                    ->placeholder("- Geen regio's opgegegeven")
-                    ->color('success'),
+                    ->searchable()
+                    ->icon('heroicon-o-user-circle')
+                    ->placeholder('onbekend')
+                    ->iconColor('primary'),
                 TextColumn::make('characteristics')
                     ->label('Kenmerken')
                     ->translateLabel()

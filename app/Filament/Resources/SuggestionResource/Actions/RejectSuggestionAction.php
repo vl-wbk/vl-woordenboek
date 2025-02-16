@@ -33,13 +33,13 @@ final class RejectSuggestionAction extends Action implements ChecksAuthorization
             return false;
         }
 
-        return $model->status->notIn(enums: [SuggestionStatus::Accepted, SuggestionStatus::Rejected]);
+        return $model->state->notIn(enums: [SuggestionStatus::Accepted, SuggestionStatus::Rejected]);
     }
 
     private static function performAction(Suggestion $suggestion): bool
     {
-        return DB::transaction(function () use ($suggestion): bool {
-            return $suggestion->update(['status' => SuggestionStatus::Rejected, 'rejector_id' => auth()->user()->id]);
+        return DB::transaction(function () use ($suggestion): bool|int {
+            return $suggestion->update(['state' => SuggestionStatus::Rejected, 'rejector_id' => auth()->user()->id]);
         });
     }
 }

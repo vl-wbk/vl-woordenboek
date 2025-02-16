@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\SuggestionResource\Actions;
 
 use App\Contracts\ChecksAuthorizationBasedOnStatus;
+use App\Enums\LanguageStatus;
 use App\Enums\SuggestionStatus;
 use App\Models\Suggestion;
 use App\Models\Word;
@@ -42,7 +43,7 @@ final class AcceptSuggestionAction extends Action implements ChecksAuthorization
             return false;
         }
 
-        return $model->status->notIn(enums: [SuggestionStatus::Accepted, SuggestionStatus::Rejected]);
+        return $model->state->notIn(enums: [SuggestionStatus::Accepted, SuggestionStatus::Rejected]);
     }
 
     private static function configureModalForm(): array
@@ -62,6 +63,13 @@ final class AcceptSuggestionAction extends Action implements ChecksAuthorization
                         ->maxLength(255)
                         ->translateLabel()
                         ->columnSpan(8),
+                    Select::make('status')
+                        ->options(LanguageStatus::class)
+                        ->preload()
+                        ->native(false)
+                        ->minItems(1)
+                        ->maxItems(1)
+                        ->columnSpan(12),
                     Select::make('regions')
                         ->label("Regio's")
                         ->multiple()
@@ -88,14 +96,14 @@ final class AcceptSuggestionAction extends Action implements ChecksAuthorization
     private static function configureModalAction(Suggestion $suggestion, array $data): mixed
     {
         return DB::transaction(function () use ($suggestion, $data): Word {
-            $suggestion->update(attributes: ['status' => SuggestionStatus::Accepted, 'approver_id' => auth()->user()->id]);
+            $suggestion->update(attributes: ['state' => SuggestionStatus::Accepted, 'approver_id' => auth()->user()->id]);
 
             // Start repllication process to the word table (Lemma's)
             return tap(self::createNewLemma($data), function (Word $lemma) use ($suggestion): void {
                 $suggestionRegions = $suggestion->fresh()->regions->pluck('id')->toArray();
 
                 $lemma->syncRegions($suggestionRegions);
-                $lemma->author()->associate(auth()->user())->save();
+                $lemma->author()->associate($suggestion->creator ?? auth()->user())->save();
             });
         });
     }

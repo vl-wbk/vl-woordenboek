@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\LanguageStatus;
 use App\Enums\SuggestionStatus;
 use App\Models\Relations\BelongsToManyRegions;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,11 +16,17 @@ class Suggestion extends Model
     use HasFactory;
     use BelongsToManyRegions;
 
-    protected $fillable = ['word', 'status', 'assignee_id', 'rejector_id', 'approver_id', 'description', 'example', 'characteristics'];
+    protected $fillable = ['word', 'state', 'assignee_id', 'rejector_id', 'approver_id', 'description', 'example', 'characteristics'];
 
     protected $attributes = [
-        'status' => SuggestionStatus::New
+        'state' => SuggestionStatus::New,
+        'status' => LanguageStatus::Onbekend,
     ];
+
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function assignee(): BelongsTo
     {
@@ -39,7 +46,8 @@ class Suggestion extends Model
     protected function casts(): array
     {
         return [
-            'status' => SuggestionStatus::class,
+            'state' => SuggestionStatus::class,
+            'status' => LanguageStatus::class,
         ];
     }
 }

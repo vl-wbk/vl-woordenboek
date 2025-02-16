@@ -7,6 +7,9 @@
             @csrf {{--  Form field protection --}}
             <x-honeypot /> {{-- Spam $submission protection --}}
 
+            {{-- This hidoden form input connects the currently authenticated user (if there is a user authenticated) --}}
+            <input type="hidden" name="creator" value="{{ optional(auth()->user())->id }}">
+
             <p class="card-text mb-0">
                 Elke gebruiker kan nieuwe termen en hun definities aanleveren bij het Vlaams Woordenboek. <br>
                 Met het volgende formulier kunt ge nieuwe beschrijvingen van typisch vlaamse woorden, termen en uitspraken toevoegen aan onze databank.

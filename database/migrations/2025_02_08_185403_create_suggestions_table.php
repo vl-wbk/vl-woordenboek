@@ -16,10 +16,12 @@ return new class extends Migration
     {
         Schema::create('suggestions', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(User::class, 'creator_id')->nullable()->references('id')->on('users')->nullOnDelete();
             $table->foreignIdFor(User::class, 'assignee_id')->nullable()->references('id')->on('users')->nullOnDelete();
             $table->foreignIdFor(User::class, 'approver_id')->nullable()->references('id')->on('users')->nullOnDelete();
             $table->foreignIdFor(User::class, 'rejector_id')->nullable()->references('id')->on('users')->nullOnDelete();
-            $table->string('status');
+            $table->string('state')->comment('De behandelings status van de suggestie.');
+            $table->smallInteger('status');
             $table->string('word');
             $table->string('description');
             $table->text('example');

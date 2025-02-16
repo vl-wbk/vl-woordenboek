@@ -2,6 +2,7 @@
 
 namespace App\Data;
 
+use App\Models\User;
 use Spatie\LaravelData\Attributes\MapInputName;
 use Spatie\LaravelData\Data;
 
@@ -18,5 +19,7 @@ class DefinitionDataObject extends Data
         public array $regions = [],
         #[MapInputName('kenmerken')]
         public ?string $characteristics = null,
+        #[MapInputName('creator')]
+        public ?int $creator_id = null,
     ) {}
 }
