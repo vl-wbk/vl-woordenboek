@@ -15,6 +15,8 @@ use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Form;
 use Filament\Support\Enums\IconSize;
+use Filament\Forms\Components\Actions\Action;
+use Filament\Support\Exceptions\Halt;
 
 final class WordFormSchema
 {
@@ -22,8 +24,8 @@ final class WordFormSchema
     {
         return $form->schema([
             Wizard::make([
-                //self::generalInfoWizardForm(),
-                //self::regionAndStatusInfoWizardForm(),
+                self::generalInfoWizardForm(),
+                self::regionAndStatusInfoWizardForm(),
                 self::definitionInfoWizardForm(),
             ])->columnSpan(12),
         ]);
@@ -36,7 +38,7 @@ final class WordFormSchema
             ->completedIcon('heroicon-m-hand-thumb-up')
             ->columns(12)
             ->schema([
-                TextInput::make('woord')
+                TextInput::make('word')
                     ->label('Titel')
                     ->columnSpan(4)
                     ->required()
@@ -91,11 +93,44 @@ final class WordFormSchema
         return Step::make('Definities')
             ->icon('heroicon-o-queue-list')
             ->completedIcon('heroicon-m-hand-thumb-up')
+            ->hiddenOn('edit')
             ->schema([
                 Repeater::make('definitions')
-                    ->label('Definitie voor het woord')
+                    ->addActionLabel('Ik wens nog een definitie toe te voegen')
+                    ->label('Definities voor het woord')
                     ->relationship()
-                    ->schema([])
+                    ->itemLabel(fn (array $state): ?string => $state['description'] ?? null)
+                    ->collapsible()
+                    ->reorderable()
+                    ->reorderableWithButtons()
+                    ->columns(12)
+                    ->deleteAction(fn (Action $action) => $action->requiresConfirmation())
+                    ->mutateRelationshipDataBeforeSaveUsing(function (array $data): array  {
+                        $data['creator_id'] = auth()->id();
+                        $data['editor_id'] = auth()->id();
+
+                        return $data;
+                    })
+                    ->schema([
+                        Select::make('coverageAreas')
+                            ->columnSpan(12)
+                            ->label("regios")
+                            ->translateLabel()
+                            ->multiple()
+                            ->relationship(titleAttribute: 'name')
+                            ->optionsLimit(4)
+                            ->preload()
+                            ->minItems(1)
+                            ->required(),
+                        Textarea::make('description')
+                            ->columnSpan(12)
+                            ->label('Beschrijving')
+                            ->required(),
+                        Textarea::make('example')
+                            ->columnSpan(12)
+                            ->label('Voorbeeld')
+                            ->required()
+                    ])
             ]);
     }
 }

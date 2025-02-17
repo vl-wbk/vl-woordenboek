@@ -22,4 +22,9 @@ final class Word extends Model
     {
         return $this->belongsTo(User::class, 'author_id');
     }
+
+    public function definitions(): HasMany
+    {
+        return $this->hasMany(Definition::class);
+    }
 }
