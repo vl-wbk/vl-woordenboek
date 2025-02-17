@@ -7,12 +7,14 @@ namespace App\Filament\Resources;
 use App\Filament\Clusters\Articles;
 use App\Filament\Resources\WordResource\Schema\WordInfolist;
 use App\Filament\Resources\WordResource\Pages;
-use App\Filament\Resources\WordResource\Schema\WordFormSchema;
+use App\Filament\Resources\WordResource\Schema\FormSchema;
 use App\Models\Word;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
+use Filament\Support\Enums\IconSize;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -33,7 +35,25 @@ final class WordResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return WordFormSchema::make($form);
+        return $form->schema([
+            FormSchema::sectionConfiguration('Algemene informatie')
+                ->collapsible()
+                ->collapsed()
+                ->icon('heroicon-o-language')
+                ->iconColor('primary')
+                ->iconSize(IconSize::Medium)
+                ->description('De basis informatie omtrent het lemma in het woordenboek')
+                ->schema(FormSchema::getDetailSchema()),
+
+            FormSchema::sectionConfiguration('Regio en status van het lemma')
+                ->collapsible()
+                ->collapsed()
+                ->icon('heroicon-o-map')
+                ->iconColor('primary')
+                ->iconSize(IconSize::Medium)
+                ->description('Gegevens omtrent de regio en status van het lemma gebruik')
+                ->schema(FormSchema::getStatusAndRegionDetails())
+        ]);
     }
 
     public static function table(Table $table): Table
@@ -43,21 +63,20 @@ final class WordResource extends Resource
             ->emptyStateHeading('Geen artikelen gevonden')
             ->emptyStateDescription("Momenteel konden we geen artikelen (lemma's) vinden met de matchende criteria. Kom later nog eens terug.")
             ->columns([
+                TextColumn::make('author.name')
+                    ->label('Ingevoegd door')
+                    ->searchable()
+                    ->placeholder('onbekend')
+                    ->icon('heroicon-o-user-circle')
+                    ->iconColor('primary'),
                 TextColumn::make('word')
                     ->searchable()
                     ->weight(FontWeight::SemiBold)
                     ->color('primary')
                     ->label('Lemma'),
-                TextColumn::make('author.name')
-                    ->label('Laatste bewerker')
-                    ->searchable()
-                    ->sortable()
-                    ->icon('heroicon-o-user-circle')
-                    ->iconColor('primary'),
                 TextColumn::make('description')
                     ->label('Beschrijving')
                     ->searchable()
-                    ->color('gray')
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->label('Toegevoegd op')

@@ -7,6 +7,7 @@ namespace App\Filament\Resources\WordResource\Pages;
 use App\Filament\Resources\WordResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Resources\Pages\EditRecord\Concerns\HasWizard;
 
 final class EditWord extends EditRecord
 {

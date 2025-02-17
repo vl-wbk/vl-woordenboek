@@ -9,14 +9,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-final class Word extends Model
+final class Word extends Model implements AuditableContract
 {
     /** @use HasFactory<\Database\Factories\WordFactory> */
     use HasFactory;
     use BelongsToManyRegions;
+    use Auditable;
 
-    protected $fillable = ['word', 'description', 'status', 'example', 'characteristics'];
+    protected $fillable = ['word', 'description', 'author_id', 'status', 'example', 'characteristics'];
 
     public function author(): BelongsTo
     {
