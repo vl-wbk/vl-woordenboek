@@ -59,18 +59,14 @@
                                 <x-tabler-info-square-rounded class="icon text-muted me-1"/> Project informatie
                             </a>
 
-                            <a class="dropdown-item">
-                                <x-tabler-book-2 class="icon text-muted me-1"/> Gebruikershandleiding
+                            <a href="{{ route('terms-of-service') }}" class="dropdown-item">
+                                <x-tabler-gavel class="icon text-muted me-1"/> Disclaimer
                             </a>
 
                             <div class="dropdown-divider"></div>
 
-                            <a href="" class="dropdown-item">
-                                <x-tabler-gavel class="icon text-muted me-1"/> Disclaimer
-                            </a>
-
-                            <a href="" class="dropdown-item">
-                                <x-tabler-spy class="icon text-muted me-1"/> Privacybeleid
+                            <a class="dropdown-item">
+                                <x-tabler-book-2 class="icon text-muted me-1"/> Gebruikershandleiding
                             </a>
                         </div>
                     </li>
