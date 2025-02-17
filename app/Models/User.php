@@ -16,12 +16,10 @@ use Spatie\WelcomeNotification\ReceivesWelcomeNotification;
 
 final class User extends Authenticatable implements FilamentUser
 {
+    /** @use HasFactory<\Database\Factories\UserFactory> */
+    use HasFactory;
     use ReceivesWelcomeNotification;
     use Notifiable;
-
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -46,12 +44,9 @@ final class User extends Authenticatable implements FilamentUser
         'remember_token',
     ];
 
-    /**
-     * @todo We moeten bekijken welke gebruikers toegang hebben tot het controle paneel.
-     */
     public function canAccessPanel(Panel $panel): bool
     {
-        return true;
+        return $this->can('access-backend');
     }
 
     public function sendWelcomeNotification(Carbon $validUntil)

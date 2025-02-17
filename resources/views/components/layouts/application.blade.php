@@ -30,11 +30,13 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a href="{{ route('filament.admin.pages.dashboard') }}" class="nav-link">
-                            <x-heroicon-s-arrows-right-left class="icon me-1"/> Beheersconsole
-                        </a>
-                    </li>
+                    @if (Auth::check() && auth()->user()->can('access-backend'))
+                        <li class="nav-item">
+                            <a href="{{ route('filament.admin.pages.dashboard') }}" class="nav-link">
+                                <x-heroicon-s-arrows-right-left class="icon me-1"/> Beheersconsole
+                            </a>
+                        </li>
+                    @endif
 
                     <li class="nav-item">
                         <a href="" class="nav-link">
@@ -185,7 +187,7 @@
                 <span class="float-end">
                     <ul class="list-inline mb-0">
                         <li class="list-inline-item">
-                            <a href="" class="footer-icon-color text-decoration-none">
+                            <a href="https://github.com/Tjoosten/vl-woordenboek" class="footer-icon-color text-decoration-none">
                                 <x-tabler-brand-github class="icon"/>
                             </a>
                         </li>
