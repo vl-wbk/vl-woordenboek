@@ -80,16 +80,40 @@
     @include button-variant(#f6eacb, #f6eacb, #127453);
 }
 
-.btn-suggestion-submit {
+.btn-suggestion-submit, .btn-submit {
     @include button-variant(#127453, #127453, #fff);
+}
+
+.btn-white {
+    @include button-variant(#fff, #d1d5db, #000);
+
+    > .icon {
+        color: #127453;
+    }
 }
 
 .btn-reset {
     @include button-variant(#fff, #fff, #000);
 }
 
+// Lists
+
+.list-inline-item > .icon {
+    color: #127453;
+}
+
 // Forms
 
 textarea.form-control {
     resize: none;
+}
+
+// backgrounds
+
+.bg-green{
+    background-color: #127453;
+}
+
+.color-green {
+    color: #127453
 }

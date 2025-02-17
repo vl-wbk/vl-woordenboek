@@ -1,14 +1,15 @@
 <?php
 
+use App\Http\Controllers\Account\ProfileController;
+use App\Http\Controllers\Account\SettingsController;
 use App\Http\Controllers\Authentication\MyWelcomeController;
 use App\Http\Controllers\Definitions\SubmitNewDefinitionController;
 use Illuminate\Support\Facades\Route;
 use Spatie\Honeypot\ProtectAgainstSpam;
 use Spatie\WelcomeNotification\WelcomesNewUsers;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::view('/','welcome')->name('home');
+Route::view('/voorwaarden', 'info.terms')->name('terms-of-service');
 
 // Authentication routes
 Route::group(['middleware' => ['web', WelcomesNewUsers::class]], function (): void {
@@ -22,4 +23,11 @@ Route::group(['prefix' => 'definities'], function (): void {
     Route::post('insturen', [SubmitNewDefinitionController::class, 'store'])
         ->middleware(ProtectAgainstSpam::class)
         ->name('definitions.store');
+});
+
+// Accout routes
+Route::get('/profiel/{user}', ProfileController::class)->name('profile');
+
+Route::middleware(['auth'])->group(function (): void {
+    Route::get('account-instellingen', SettingsController::class)->name('profile.settings');
 });
