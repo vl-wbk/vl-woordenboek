@@ -6,9 +6,8 @@ use Illuminate\Support\Facades\Route;
 use Spatie\Honeypot\ProtectAgainstSpam;
 use Spatie\WelcomeNotification\WelcomesNewUsers;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::view('/','welcome')->name('home');
+Route::view('/voorwaarden', 'info.terms')->name('terms-of-service');
 
 // Authentication routes
 Route::group(['middleware' => ['web', WelcomesNewUsers::class]], function (): void {
