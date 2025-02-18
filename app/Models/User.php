@@ -34,6 +34,10 @@ final class User extends Authenticatable implements FilamentUser
         'last_seen_at',
     ];
 
+    protected $attributes = [
+        'user_type' => UserTypes::Normal,
+    ];
+
     /**
      * The attributes that should be hidden for serialization.
      *

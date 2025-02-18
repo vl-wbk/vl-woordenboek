@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\LanguageStatus;
 use App\Models\Relations\BelongsToManyRegions;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -29,5 +30,12 @@ final class Word extends Model implements AuditableContract
     public function definitions(): HasMany
     {
         return $this->hasMany(Definition::class);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'status' => LanguageStatus::class,
+        ];
     }
 }

@@ -3,13 +3,21 @@
 use App\Http\Controllers\Account\ProfileController;
 use App\Http\Controllers\Account\SettingsController;
 use App\Http\Controllers\Authentication\MyWelcomeController;
+use App\Http\Controllers\Definitions\DefinitionInformationController;
 use App\Http\Controllers\Definitions\SubmitNewDefinitionController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 use Spatie\Honeypot\ProtectAgainstSpam;
 use Spatie\WelcomeNotification\WelcomesNewUsers;
 
-Route::view('/','welcome')->name('home');
+Route::get('/', SearchController::class)->name('home');
 Route::view('/voorwaarden', 'info.terms')->name('terms-of-service');
+
+// Lemma routes
+Route::get('/resultaten', SearchController::class)->name('search.results');
+
+// Word information routes
+Route::get('/woord/{word}', DefinitionInformationController::class)->name('word-information.show');
 
 // Authentication routes
 Route::group(['middleware' => ['web', WelcomesNewUsers::class]], function (): void {

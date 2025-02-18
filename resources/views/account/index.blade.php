@@ -1,4 +1,6 @@
-<x-layouts.application-blank title="{{ $user->name }}">
+@extends('layouts.application-blank', ['title' => $user->name])
+
+@section('content')
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
@@ -89,4 +91,4 @@
             </div>
         </div>
     </div>
-</x-layouts.application-blank>
+@endsection

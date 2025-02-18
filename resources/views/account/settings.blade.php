@@ -1,4 +1,6 @@
-<x-layouts.application-blank title="{{ __('Account instellingen') }}">
+@extends('layouts.application-blank', ['title' => __('Account-instelling')])
+
+@section('content')
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
@@ -103,4 +105,4 @@
         </div>
         {{-- END - user profile settings form --}}
     </div>
-</x-layouts.application-blank>
+@endsection

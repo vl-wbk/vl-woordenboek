@@ -1,4 +1,6 @@
-<x-layouts.application title="Nieuwe suggestie">
+@extends ('layouts.application', ['title' => 'Nieuwe suggestie'])
+
+@section ('content')
     <div class="card bg-white border-0 shadow-sm">
         <div class="card-header border-bottom-0">
             Definitie van een woord insturen
@@ -90,4 +92,4 @@
             </button>
         </div>
     </div>
-</x-layouts.application>
+@endsection

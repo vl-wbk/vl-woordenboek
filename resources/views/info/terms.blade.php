@@ -1,4 +1,6 @@
-<x-layouts.application-blank title="Voorwaarden">
+@extends('layouts.application-blank', ['title' => 'Gebruikersvoorwaarden'])
+
+@section('content')
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -216,4 +218,4 @@
             </div>
         </div>
     </div>
-</x-layouts.application-blank>
+@endsection
