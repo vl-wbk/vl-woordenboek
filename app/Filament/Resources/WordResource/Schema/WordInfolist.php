@@ -13,6 +13,8 @@ final readonly class WordInfolist
 {
     public static function make(Infolist $infolist): Infolist
     {
+        $infolist->getRecord()->loadCount('audits');
+
         return $infolist->schema([
             Tabs::make('lemma-information')
                 ->columnSpan(12)
@@ -27,7 +29,38 @@ final readonly class WordInfolist
     {
         return Tab::make('Lemma informatie')
             ->icon('heroicon-o-information-circle')
-            ->schema([]);
+            ->columns(12)
+            ->schema([
+                TextEntry::make('index')
+                    ->label('Index')
+                    ->translateLabel()
+                    ->badge()
+                    ->columnSpan(2),
+                TextEntry::make('word')
+                    ->label('Woord')
+                    ->columnSpan(3)
+                    ->translateLabel(),
+                TextEntry::make('characteristics')
+                    ->label('Kenmerken')
+                    ->columnSpan(4)
+                    ->translateLabel(),
+                TextEntry::make('status')
+                    ->label('Status')
+                    ->translateLabel()
+                    ->columnSpan(3),
+                TextEntry::make('regions.name')
+                    ->label("Regio's")
+                    ->badge()
+                    ->icon('heroicon-o-map')
+                    ->color('success')
+                    ->columnSpan(12),
+                TextEntry::make('description')
+                    ->label('Beschrijving')
+                    ->columnSpan(5),
+                TextEntry::make('example')
+                    ->label('Voorbeeld')
+                    ->columnSpan(7),
+            ]);
     }
 
     private static function editInformationTab(): Tab
@@ -37,14 +70,15 @@ final readonly class WordInfolist
             ->columns(12)
             ->schema([
                 TextEntry::make('author.name')
-                    ->label('Laatst bewerkt door')
+                    ->label('Toegevoegd door')
                     ->icon('heroicon-o-user-circle')
                     ->iconColor('primary')
                     ->columnSpan(3),
-                TextEntry::make('edits')
+                TextEntry::make('audits_count')
                     ->label('Aantal bewerkingen')
                     ->icon('heroicon-o-pencil-square')
                     ->iconColor('primary')
+                    ->badge()
                     ->columnSpan(3),
                 TextEntry::make('updated_at')
                     ->label('Laast gewijzigd')
