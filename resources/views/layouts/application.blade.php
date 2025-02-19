@@ -15,6 +15,7 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @livewireStyles
 </head>
 <body class="d-flex flex-column h-100">
     <nav class="navbar navbar-expand-md navbar-dark bg-navbar shadow-sm">
@@ -206,5 +207,7 @@
             </div>
         </footer>
     </div>
+
+    @livewireScripts
 </body>
 </html>

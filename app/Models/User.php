@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\WelcomeNotification\ReceivesWelcomeNotification;
+use Overtrue\LaravelLike\Traits\Liker;
 
 final class User extends Authenticatable implements FilamentUser
 {
@@ -20,6 +21,7 @@ final class User extends Authenticatable implements FilamentUser
     use HasFactory;
     use ReceivesWelcomeNotification;
     use Notifiable;
+    use Liker;
     /**
      * The attributes that are mass assignable.
      *

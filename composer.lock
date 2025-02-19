@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "af71e8087d9672fd0bdb831cb0713ffc",
+    "content-hash": "ed439a95bda37edea4df85b13f944e69",
     "packages": [
         {
             "name": "amphp/amp",
@@ -5062,6 +5062,74 @@
                 }
             ],
             "time": "2025-01-30T13:51:11+00:00"
+        },
+        {
+            "name": "overtrue/laravel-like",
+            "version": "5.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/overtrue/laravel-like.git",
+                "reference": "3d16c9fa82271177bac15ba935f2336e8e797972"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/overtrue/laravel-like/zipball/3d16c9fa82271177bac15ba935f2336e8e797972",
+                "reference": "3d16c9fa82271177bac15ba935f2336e8e797972",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^9.0|^10.0|^11.0"
+            },
+            "require-dev": {
+                "brainmaestro/composer-git-hooks": "dev-master",
+                "friendsofphp/php-cs-fixer": "^3.0.0",
+                "laravel/pint": "^1.2",
+                "mockery/mockery": "^1.4",
+                "orchestra/testbench": "^8.0|^9.0",
+                "phpunit/phpunit": "^10.0.7"
+            },
+            "type": "library",
+            "extra": {
+                "hooks": {
+                    "post-merge": "composer install",
+                    "pre-commit": [
+                        "composer fix-style",
+                        "composer test"
+                    ]
+                },
+                "laravel": {
+                    "providers": [
+                        "Overtrue\\LaravelLike\\LikeServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Overtrue\\LaravelLike\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "overtrue",
+                    "email": "anzhengchao@gmail.com"
+                }
+            ],
+            "description": "👍 User-like features for Laravel Application.",
+            "support": {
+                "issues": "https://github.com/overtrue/laravel-like/issues",
+                "source": "https://github.com/overtrue/laravel-like/tree/5.3.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/overtrue",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-03-02T01:24:50+00:00"
         },
         {
             "name": "owen-it/laravel-auditing",

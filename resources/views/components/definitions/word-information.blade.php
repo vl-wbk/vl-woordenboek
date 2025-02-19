@@ -7,9 +7,13 @@
 @section ('content')
     <div class="card bg-white border-0 shadow-sm">
         <div class="card-body">
-            <h4 class="text-gold mb-0 border-bottom py-1">{{ $word->word }} <span class="text-muted fs-6">({{ $word->characteristics }}</span></h4>
+            <h4 class="text-gold mb-0 border-bottom py-1">{{ $word->word }} <span class="text-muted fs-6">({{ $word->characteristics }})</span></h4>
 
             <ul class="list-inline mt-1">
+                <li class="list-inline-item">
+                    <x-heroicon-o-user-circle class="icon me-1"/>
+                    <span class="text-muted">{{ $word->author->name }}</span>
+                </li>
                 <li class="list-inline-item">
                     <x-heroicon-o-tag class="icon me-1"/>
                     <span class="text-muted">{{ $word->status->getLabel() }}</span>
@@ -33,41 +37,19 @@
         </div>
 
         <div class="card-footer bg-white">
-
-            <div class="float-start">
-                <a href="" class="btn btn-sm btn-success">
-                    <x-heroicon-s-hand-thumb-up class="icon me-1"/> Upvote
-                </a>
-                <a href="" class="btn btn-sm btn-danger">
-                    <x-heroicon-s-hand-thumb-down class="icon me-1"/> Downvote
-                </a>
-            </div>
-
-            <div class="float-end">
-                <ul class="list-inline mb-0">
-                    <li class="list-inline-item text-muted">
-                        <x-heroicon-s-hand-thumb-up class="icon text-success me-1"/>
-                        Upvotes: <span class="fw-bold">0</span>
-                    </li>
-                    <li class="list-inline-item text-muted">|</li>
-
-                    <li class="list-inline-item text-muted">
-                        <x-heroicon-s-hand-thumb-down class="icon text-danger me-1"/>
-                        Downvotes: <span class="fw-bold">0</span>
-                    </li>
-                </ul>
-            </div>
-
+            <livewire:likewords :word=$word />
         </div>
     </div>
 
-    <div class="py-3">
+    <div class="py-4">
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="#">Definities</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Reacties</a>
+                <a class="nav-link" href="#">
+                    Reacties
+                </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Revisies</a>
