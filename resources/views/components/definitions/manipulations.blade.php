@@ -1,4 +1,3 @@
-@canany(['update', 'delete'], $word)
 <hr>
 
 <div class="card bg-white border-0 shadow-sm">
@@ -8,7 +7,7 @@
 
     <div class="list-group list-group-flush">
         @can ('update', $word)
-            <a href="" class="list-group-item list-group-item-action">
+            <a href="{{ route('definitions.update', $word) }}" class="list-group-item list-group-item-action">
                 <x-heroicon-o-pencil-square class="icon me-1"/> Gegevens wijzigen
             </a>
         @endcan
@@ -20,4 +19,3 @@
         @endcan
     </div>
 </div>
-@endcanany

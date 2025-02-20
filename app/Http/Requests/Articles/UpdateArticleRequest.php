@@ -2,19 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Definitions;
+namespace App\Http\Requests\Articles;
 
-use App\Data\DefinitionDataObject;
+use App\Data\ArticleData;
 use Illuminate\Foundation\Http\FormRequest;
 use Spatie\LaravelData\WithData;
-use JetBrains\PhpStorm\Deprecated;
 
-#[Deprecated('Needs refactoring the the article naming convention of dictionary resource')]
-final class StoreDefinitionsRequest extends FormRequest
+final class UpdateArticleRequest extends FormRequest
 {
     use WithData;
 
-    protected string $dataClass = DefinitionDataObject::class;
+    protected string $dataClass = ArticleData::class;
 
     /**
      * Get the validation rules that apply to the request.

@@ -5,6 +5,7 @@ use App\Http\Controllers\Account\SettingsController;
 use App\Http\Controllers\Authentication\MyWelcomeController;
 use App\Http\Controllers\Definitions\DefinitionInformationController;
 use App\Http\Controllers\Definitions\SubmitNewDefinitionController;
+use App\Http\Controllers\Definitions\UpdateDefinitionController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 use Spatie\Honeypot\ProtectAgainstSpam;
@@ -18,6 +19,11 @@ Route::get('/resultaten', SearchController::class)->name('search.results');
 
 // Word information routes
 Route::get('/woord/{word}', DefinitionInformationController::class)->name('word-information.show');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/woord/{word}/aanpassen', [UpdateDefinitionController::class, 'edit'])->name('definitions.update');
+    Route::patch('/woord/{word}/aanpassen', [UpdateDefinitionController::class, 'update'])->name('article.update');
+});
 
 // Authentication routes
 Route::group(['middleware' => ['web', WelcomesNewUsers::class]], function (): void {

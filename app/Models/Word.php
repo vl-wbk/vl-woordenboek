@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\LanguageStatus;
+use App\Models\Relations\BelongsToEditor;
 use App\Models\Relations\BelongsToManyRegions;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,10 +20,18 @@ final class Word extends Model implements AuditableContract
     /** @use HasFactory<\Database\Factories\WordFactory> */
     use HasFactory;
     use BelongsToManyRegions;
+    use BelongsToEditor;
     use Auditable;
     use Likeable;
 
     protected $fillable = ['word', 'description', 'author_id', 'status', 'example', 'characteristics'];
+
+    /**
+     * Attributes to exclude from the Auditing system.
+     *
+     * @var array
+     */
+    protected $auditExclude = ['editor_id'];
 
     public function author(): BelongsTo
     {

@@ -12,7 +12,7 @@
             <ul class="list-inline mt-1">
                 <li class="list-inline-item">
                     <x-heroicon-o-user-circle class="icon me-1"/>
-                    <span class="text-muted">{{ $word->author->name }}</span>
+                    <span class="text-muted">{{ $word->author->name ?? 'onbekend' }}</span>
                 </li>
                 <li class="list-inline-item">
                     <x-heroicon-o-tag class="icon me-1"/>

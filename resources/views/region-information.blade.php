@@ -1,6 +1,6 @@
-@extends('layouts.application')
+@extends('layouts.application', ['title' => 'Regio informatie'])
 
-@section ('content', ['title' => 'Regio informatie'])
+@section ('content')
     <div class="card bg-white border-0 shadow-sm">
         <div class="card-body">
             <h4 class="fw-bold card-title pb-1 text-gold border-bottom">Vlaamse provincies en regio's</h4>
