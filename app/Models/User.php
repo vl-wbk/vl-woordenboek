@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models;
+declare(strict_types=1);
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+namespace App\Models;
 
 use App\Notifications\WelcomeNotification;
 use App\UserTypes;
@@ -15,6 +15,9 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\WelcomeNotification\ReceivesWelcomeNotification;
 use Overtrue\LaravelLike\Traits\Liker;
 
+/**
+ * @property UserTypes $user_type  The enumeration class that contains the user type information that is connected to the user account.
+ */
 final class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -22,6 +25,7 @@ final class User extends Authenticatable implements FilamentUser
     use ReceivesWelcomeNotification;
     use Notifiable;
     use Liker;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -55,7 +59,7 @@ final class User extends Authenticatable implements FilamentUser
         return $this->can('access-backend');
     }
 
-    public function sendWelcomeNotification(Carbon $validUntil)
+    public function sendWelcomeNotification(Carbon $validUntil): void
     {
         $this->notify(new WelcomeNotification($validUntil));
     }

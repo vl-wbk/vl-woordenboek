@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('definitions', function (Blueprint $table) {
+        Schema::create('definitions', function (Blueprint $table): void {
             $table->id();
             $table->foreignIdFor(Word::class)->references('id')->on('words')->cascadeOnDelete();
             $table->foreignIdfor(User::class, 'creator_id')->nullable()->references('id')->on('users')->nullOnDelete();

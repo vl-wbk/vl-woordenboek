@@ -10,6 +10,7 @@ use Spatie\LaravelData\WithData;
 
 final class UpdateArticleRequest extends FormRequest
 {
+    /** @use WithData<ArticleData> */
     use WithData;
 
     protected string $dataClass = ArticleData::class;

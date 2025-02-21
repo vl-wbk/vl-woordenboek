@@ -1,12 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\UserResource\Pages;
 
 use App\Filament\Resources\UserResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
-class CreateUser extends CreateRecord
+/**
+ * @property \App\Models\User $record The user model related to the created user entoty in the Filament backend
+ */
+final class CreateUser extends CreateRecord
 {
     protected static string $resource = UserResource::class;
 

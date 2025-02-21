@@ -16,6 +16,9 @@ final class ListSuggestions extends ListRecords
 {
     protected static string $resource = SuggestionResource::class;
 
+    /**
+     * @return array<int, string>
+     */
     protected function getHeaderWidgets(): array
     {
         return SuggestionResource::getWidgets();

@@ -14,7 +14,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('suggestions', function (Blueprint $table) {
+        Schema::create('suggestions', function (Blueprint $table): void {
             $table->id();
             $table->foreignIdFor(User::class, 'creator_id')->nullable()->references('id')->on('users')->nullOnDelete();
             $table->foreignIdFor(User::class, 'assignee_id')->nullable()->references('id')->on('users')->nullOnDelete();

@@ -85,6 +85,12 @@ final class AdminPanelProvider extends PanelProvider
             ]);
     }
 
+    /**
+     * Method used for defining the defaulpt logins of the application.
+     * During debugging or development on the application.
+     *
+     * @return array<string, string>
+     */
     private function defaultLoginsDuringDevelopment(): array
     {
         return [

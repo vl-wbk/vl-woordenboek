@@ -11,6 +11,11 @@ use Filament\Actions\Action;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @template TModel of Suggestion
+ *
+ * @implements ChecksAuthorizationBasedOnStatus<TModel>
+ */
 final class InProgressSuggestionAction extends Action implements ChecksAuthorizationBasedOnStatus
 {
     public static function make(?string $name = null): static
@@ -26,6 +31,9 @@ final class InProgressSuggestionAction extends Action implements ChecksAuthoriza
             ->action(fn (Suggestion $suggestion): mixed => self::performActionLogic($suggestion));
     }
 
+    /**
+     * @phpstan-param Suggestion $model
+     */
     public static function performActionBasedOnStatus(Model $model): bool
     {
         return $model->assignee()->doesntExist() && $model->state->is(SuggestionStatus::New);
@@ -33,7 +41,7 @@ final class InProgressSuggestionAction extends Action implements ChecksAuthoriza
 
     public static function performActionLogic(Suggestion $suggestion): mixed
     {
-        return DB::transaction(function () use ($suggestion): mixed {
+        return DB::transaction(function () use ($suggestion): bool {
             return $suggestion->update(attributes: [
                 'assignee_id' => auth()->user()->getAuthIdentifier(), 'state' => SuggestionStatus::InProgress,
             ]);

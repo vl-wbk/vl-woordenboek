@@ -12,6 +12,7 @@ use JetBrains\PhpStorm\Deprecated;
 #[Deprecated('Needs refactoring the the article naming convention of dictionary resource')]
 final class StoreDefinitionsRequest extends FormRequest
 {
+    /** @use WithData<DefinitionDataObject> */
     use WithData;
 
     protected string $dataClass = DefinitionDataObject::class;

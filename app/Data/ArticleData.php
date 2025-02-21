@@ -9,6 +9,9 @@ use Spatie\LaravelData\Data;
 
 final class ArticleData extends Data
 {
+    /**
+     * @param array<int,string> $regions
+     */
     public function __construct(
         #[MapInputName('woord')]        public string $word,
         #[MapInputName("beschrijving")] public string $description,

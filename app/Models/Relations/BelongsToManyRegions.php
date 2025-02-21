@@ -9,11 +9,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 trait BelongsToManyRegions
 {
+    /**
+     * @return BelongsToMany<Region, covariant $this>
+     */
     public function regions(): BelongsToMany
     {
         return $this->belongsToMany(Region::class);
     }
 
+    /**
+     * @param  array<int, string> $regions
+     * @return void
+     */
     public function syncRegions(array $regions): void
     {
         $this->regions()->sync($regions);

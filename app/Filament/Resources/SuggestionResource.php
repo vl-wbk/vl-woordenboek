@@ -27,6 +27,9 @@ final class SuggestionResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static ?string $cluster = Articles::class;
 
+    /**
+     * @return array<int, string>
+     */
     public static function getWidgets(): array
     {
         return [AdvancedStatsOverviewWidget::class];

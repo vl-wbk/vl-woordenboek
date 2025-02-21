@@ -14,7 +14,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('words', function (Blueprint $table) {
+        Schema::create('words', function (Blueprint $table): void {
             $table->id();
             $table->string('index', 1)
                 ->comment('The index column is used in the word index of the application.')

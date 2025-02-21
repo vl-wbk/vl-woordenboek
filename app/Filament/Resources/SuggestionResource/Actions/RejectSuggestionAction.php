@@ -12,6 +12,11 @@ use Filament\Actions\Action;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @template TModel of Suggestion
+ *
+ * @implements ChecksAuthorizationBasedOnStatus<TModel>
+ */
 final class RejectSuggestionAction extends Action implements ChecksAuthorizationBasedOnStatus
 {
     public static function make(?string $name = null): static
@@ -27,6 +32,9 @@ final class RejectSuggestionAction extends Action implements ChecksAuthorization
             ->modalSubmitActionLabel('Afwijzing bevestigen');
     }
 
+    /**
+     * @phpstan-param Suggestion $model
+     */
     public static function performActionBasedOnStatus(Model $model): bool
     {
         if ($model->assignee()->exists() && $model->assignee()->isNot(auth()->user())) {
@@ -38,7 +46,7 @@ final class RejectSuggestionAction extends Action implements ChecksAuthorization
 
     private static function performAction(Suggestion $suggestion): bool
     {
-        return DB::transaction(function () use ($suggestion): bool|int {
+        return DB::transaction(function () use ($suggestion): bool {
             return $suggestion->update(['state' => SuggestionStatus::Rejected, 'rejector_id' => auth()->user()->id]);
         });
     }

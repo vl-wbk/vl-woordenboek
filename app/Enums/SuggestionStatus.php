@@ -18,7 +18,7 @@ enum SuggestionStatus: string implements HasIcon, HasColor, HasLabel
     case Rejected = 'Afgewezen';
     case Accepted = 'Geaccepteerd';
 
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return ucfirst($this->value);
     }
@@ -33,7 +33,7 @@ enum SuggestionStatus: string implements HasIcon, HasColor, HasLabel
         };
     }
 
-    public function getIcon(): ?string
+    public function getIcon(): string
     {
         return match($this) {
             self::New => 'heroicon-o-document-text',

@@ -19,6 +19,11 @@ use Filament\Support\Enums\MaxWidth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @template TModel of Suggestion
+ *
+ * @implements ChecksAuthorizationBasedOnStatus<TModel>
+ */
 final class AcceptSuggestionAction extends Action implements ChecksAuthorizationBasedOnStatus
 {
     public static function make(?string $name = null): static
@@ -37,6 +42,9 @@ final class AcceptSuggestionAction extends Action implements ChecksAuthorization
             ->action(fn (Suggestion $suggestion, array $data) => self::configureModalAction($suggestion, $data));
     }
 
+    /**
+     * @phpstan-param Suggestion $model
+     */
     public static function performActionBasedOnStatus(Model $model): bool
     {
         if ($model->assignee()->exists() && $model->assignee()->isNot(auth()->user())) {
@@ -46,6 +54,9 @@ final class AcceptSuggestionAction extends Action implements ChecksAuthorization
         return $model->state->notIn(enums: [SuggestionStatus::Accepted, SuggestionStatus::Rejected]);
     }
 
+    /**
+     * @return Grid[]
+     */
     private static function configureModalForm(): array
     {
         return [
@@ -93,6 +104,11 @@ final class AcceptSuggestionAction extends Action implements ChecksAuthorization
         ];
     }
 
+    /**
+     * @param  Suggestion $suggestion
+     * @param  array<string, string> $data
+     * @return mixed
+     */
     private static function configureModalAction(Suggestion $suggestion, array $data): mixed
     {
         return DB::transaction(function () use ($suggestion, $data): Word {
@@ -108,6 +124,11 @@ final class AcceptSuggestionAction extends Action implements ChecksAuthorization
         });
     }
 
+    /**
+     *
+     * @param  array<string, string> $attributes
+     * @return Word
+     */
     private static function createNewLemma(array $attributes): Word
     {
         return Word::query()->create($attributes);

@@ -17,13 +17,22 @@ final class Definition extends Model implements AuditableContract
     use HasFactory;
     use Auditable;
 
+    /**
+     * @return list<string>
+     */
     protected $fillable = ['creator_id', 'editor_id', 'description', 'example'];
 
+    /**
+     * @return MorphToMany<Region, covariant $this>
+     */
     public function coverageAreas(): MorphToMany
     {
         return $this->morphToMany(Region::class, 'linguistic', 'coverage');
     }
 
+    /**
+     * @return BelongsTo<User, covariant $this>
+     */
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'creator_id');

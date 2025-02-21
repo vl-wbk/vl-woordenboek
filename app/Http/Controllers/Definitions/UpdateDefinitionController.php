@@ -49,7 +49,7 @@ final readonly class UpdateDefinitionController
      * and redirects the user to the word's detail page upon successful update.
      *
      * @param  UpdateArticleRequest $updateArticleRequest   The validated request data for updating the definition.
-     * @param  StoreArticle         $updateArticle          The action class responsible for updating the dictionary article.
+     * @param  UpdateArticle        $updateArticle          The action class responsible for updating the dictionary article.
      * @param  Word                 $word                   The Word model instance to be updated (injected via route model binding).
      * @return RedirectResponse                             Redirects to the dictionary article detail page after a successful update.
      */

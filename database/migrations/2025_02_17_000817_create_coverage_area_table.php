@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('coverage', function (Blueprint $table) {
+        Schema::create('coverage', function (Blueprint $table): void {
             $table->id();
             $table->foreignId('region_id')->constrained();
             $table->morphs('linguistic');
