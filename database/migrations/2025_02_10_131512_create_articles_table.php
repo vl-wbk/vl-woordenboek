@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('index', 1)
                 ->comment('The index column is used in the word index of the application.')
                 ->virtualAs("UPPER(LEFT(word, 1))");
+            $table->smallInteger('state');
             $table->foreignIdFor(User::class, 'author_id')->nullable()->references('id')->on('users')->nullOnDelete();
             $table->foreignIdFor(User::class, 'editor_id')->nullable()->references('id')->on('users')->nullOnDelete();
             $table->string('word');
