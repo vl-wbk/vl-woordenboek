@@ -8,7 +8,7 @@ use App\Filament\Clusters\Articles;
 use App\Filament\Resources\WordResource\Schema\WordInfolist;
 use App\Filament\Resources\WordResource\Pages;
 use App\Filament\Resources\WordResource\Schema\FormSchema;
-use App\Models\Word;
+use App\Models\Article;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Cache;
 
 final class WordResource extends Resource
 {
-    protected static ?string $model = Word::class;
+    protected static ?string $model = Article::class;
     protected static ?string $navigationIcon = 'heroicon-o-language';
     protected static ?string $modelLabel = 'Lemma';
     protected static ?string $pluralModelLabel = "Lemma's";

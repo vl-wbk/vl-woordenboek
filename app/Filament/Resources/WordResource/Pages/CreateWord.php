@@ -7,7 +7,7 @@ namespace App\Filament\Resources\WordResource\Pages;
 use App\Filament\Resources\WordResource;
 use App\Filament\Resources\WordResource\Schema\FormSchema;
 use App\Models\Definition;
-use App\Models\Word;
+use App\Models\Article;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Form;

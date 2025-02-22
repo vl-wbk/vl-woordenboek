@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\User;
-use App\Models\Word;
+use App\Models\Article;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('definitions', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Word::class)->references('id')->on('words')->cascadeOnDelete();
+            $table->foreignIdFor(Article::class)->references('id')->on('articles')->cascadeOnDelete();
             $table->foreignIdfor(User::class, 'creator_id')->nullable()->references('id')->on('users')->nullOnDelete();
             $table->foreignIdFor(User::class, 'editor_id')->nullable()->references('id')->on('users')->nullOnDelete();
             $table->text('description');

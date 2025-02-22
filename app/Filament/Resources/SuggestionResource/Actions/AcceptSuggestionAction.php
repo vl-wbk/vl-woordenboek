@@ -8,7 +8,7 @@ use App\Contracts\ChecksAuthorizationBasedOnStatus;
 use App\Enums\LanguageStatus;
 use App\Enums\SuggestionStatus;
 use App\Models\Suggestion;
-use App\Models\Word;
+use App\Models\Article;
 use App\UserTypes;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Grid;
@@ -95,11 +95,11 @@ final class AcceptSuggestionAction extends Action implements ChecksAuthorization
 
     private static function configureModalAction(Suggestion $suggestion, array $data): mixed
     {
-        return DB::transaction(function () use ($suggestion, $data): Word {
+        return DB::transaction(function () use ($suggestion, $data): Article {
             $suggestion->update(attributes: ['state' => SuggestionStatus::Accepted, 'approver_id' => auth()->user()->id]);
 
             // Start repllication process to the word table (Lemma's)
-            return tap(self::createNewLemma($data), function (Word $lemma) use ($suggestion): void {
+            return tap(self::createNewLemma($data), function (Article $lemma) use ($suggestion): void {
                 $suggestionRegions = $suggestion->fresh()->regions->pluck('id')->toArray();
 
                 $lemma->syncRegions($suggestionRegions);
@@ -108,9 +108,9 @@ final class AcceptSuggestionAction extends Action implements ChecksAuthorization
         });
     }
 
-    private static function createNewLemma(array $attributes): Word
+    private static function createNewLemma(array $attributes): Article
     {
-        return Word::query()->create($attributes);
+        return Article::query()->create($attributes);
     }
 
     private static function getActionIcon(): string
