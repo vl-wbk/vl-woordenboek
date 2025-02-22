@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Resources\WordResource\Schema;
+namespace App\Filament\Resources\ArticleResource\Schema;
 
 use Filament\Infolists\Components\Tabs;
 use Filament\Infolists\Components\Tabs\Tab;

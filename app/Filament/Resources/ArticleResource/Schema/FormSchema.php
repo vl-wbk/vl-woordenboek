@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Resources\WordResource\Schema;
+namespace App\Filament\Resources\ArticleResource\Schema;
 
 use App\Enums\LanguageStatus;
 use Filament\Forms\Components\Actions\Action;

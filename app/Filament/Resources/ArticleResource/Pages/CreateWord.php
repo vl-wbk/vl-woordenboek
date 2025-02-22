@@ -2,12 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Resources\WordResource\Pages;
+namespace App\Filament\Resources\ArticleResource\Pages;
 
-use App\Filament\Resources\WordResource;
-use App\Filament\Resources\WordResource\Schema\FormSchema;
-use App\Models\Definition;
-use App\Models\Article;
+use App\Filament\Resources\ArticleResource;
+use App\Filament\Resources\ArticleResource\Schema\FormSchema;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Form;
@@ -20,7 +18,7 @@ final class CreateWord extends CreateRecord
 {
     use HasWizard;
 
-    protected static string $resource = WordResource::class;
+    protected static string $resource = ArticleResource::class;
 
     public function form(Form $form): Form
     {
