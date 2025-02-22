@@ -2,9 +2,9 @@
 
 use App\Http\Controllers\Account\ProfileController;
 use App\Http\Controllers\Account\SettingsController;
+use App\Http\Controllers\Articles\StoreArticleSuggestionController;
 use App\Http\Controllers\Authentication\MyWelcomeController;
 use App\Http\Controllers\Definitions\DefinitionInformationController;
-use App\Http\Controllers\Definitions\SubmitNewDefinitionController;
 use App\Http\Controllers\Definitions\UpdateDefinitionController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
@@ -33,8 +33,8 @@ Route::group(['middleware' => ['web', WelcomesNewUsers::class]], function (): vo
 
 Route::group(['prefix' => 'definities'], function (): void {
     Route::view('/regio-informatie', 'region-information')->name('definitions.region-info');
-    Route::get('insturen', [SubmitNewDefinitionController::class, 'create'])->name('definitions.create');
-    Route::post('insturen', [SubmitNewDefinitionController::class, 'store'])
+    Route::get('insturen', [StoreArticleSuggestionController::class, 'create'])->name('definitions.create');
+    Route::post('insturen', [StoreArticleSuggestionController::class, 'store'])
         ->middleware(ProtectAgainstSpam::class)
         ->name('definitions.store');
 });

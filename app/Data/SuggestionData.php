@@ -2,13 +2,10 @@
 
 namespace App\Data;
 
-use App\Models\User;
-use JetBrains\PhpStorm\Deprecated;
-use Spatie\LaravelData\Attributes\MapInputName;
 use Spatie\LaravelData\Data;
+use Spatie\LaravelData\Attributes\MapInputName;
 
-#[Deprecated('Needs refactoring the the article naming convention of dictionary resource.L Due this is used for storing a suggestion')]
-class DefinitionDataObject extends Data
+class SuggestionData extends Data
 {
     public function __construct(
         #[MapInputName('woord')]        public string $word,

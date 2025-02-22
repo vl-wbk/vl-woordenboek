@@ -42,6 +42,7 @@ final class Article extends Model implements AuditableContract
      */
     protected $attributes = [
         'state' => ArticleStates::New,
+        'status' => LanguageStatus::Onbekend,
     ];
 
     /**
@@ -77,6 +78,7 @@ final class Article extends Model implements AuditableContract
     protected function casts(): array
     {
         return [
+            'state' => ArticleStates::class,
             'status' => LanguageStatus::class,
         ];
     }
