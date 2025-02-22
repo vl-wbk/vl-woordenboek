@@ -15,9 +15,9 @@ use Overtrue\LaravelLike\Traits\Likeable;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-final class Word extends Model implements AuditableContract
+final class Article extends Model implements AuditableContract
 {
-    /** @use HasFactory<\Database\Factories\WordFactory> */
+    /** @use HasFactory<\Database\Factories\ArticleFactory> */
     use HasFactory;
     use BelongsToManyRegions;
     use BelongsToEditor;

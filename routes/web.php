@@ -17,7 +17,7 @@ Route::view('/voorwaarden', 'info.terms')->name('terms-of-service');
 // Lemma routes
 Route::get('/resultaten', SearchController::class)->name('search.results');
 
-// Word information routes
+// Article information routes
 Route::get('/woord/{word}', DefinitionInformationController::class)->name('word-information.show');
 
 Route::middleware('auth')->group(function () {

@@ -2,14 +2,14 @@
 
 namespace App\Livewire;
 
-use App\Models\Word;
+use App\Models\Article;
 use Livewire\Component;
 
 class LikeWords extends Component
 {
     public $word;
 
-    public function mount(Word $word)
+    public function mount(Article $word)
     {
         $this->word = $this->word;
     }
