@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('user_type')->default(UserTypes::Volunteers->value);
+            $table->smallInteger('user_type');
             $table->string('name')->virtualAs("CONCAT(firstname, ' ', lastname)");
             $table->string('firstname');
             $table->string('lastname');

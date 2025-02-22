@@ -77,7 +77,7 @@ final class UserResource extends Resource
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('user_type')
-                    ->label('Gebruikersgroep')
+                    ->label('Gebruikers rol')
                     ->badge(),
                 TextColumn::make('email')
                     ->label('E-mail adres')

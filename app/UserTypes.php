@@ -11,14 +11,23 @@ enum UserTypes: string implements HasLabel, HasColor, HasIcon
 {
     use Comparable;
 
+    case Normal = 'Normale gebruiker';
+    case Editor = 'Redacteur';
+    case EditorInChief = 'Eindredacteurs';
     case Developer = 'ontwikkelaars';
     case Administrators = 'Administrators';
-    case Volunteers = 'Vrijwilligers';
-    case Normal = 'Normale gebruiker';
 
     public function getLabel(): ?string
     {
-        return ucfirst($this->value);
+        $usertype = match($this->value) {
+            self::Normal => 'Normale gebruiker',
+            self::Editor => 'Redacteur',
+            self::EditorInChief => 'Eindredacteur',
+            self::Developer => 'Ontwikkelaar',
+            self::Administrators => 'Administrator',
+        };
+
+        return trans($usertype);
     }
 
     public function getIcon(): ?string
@@ -26,8 +35,8 @@ enum UserTypes: string implements HasLabel, HasColor, HasIcon
         return match($this) {
             self::Developer => 'heroicon-o-code-bracket',
             self::Administrators => 'heroicon-o-key',
-            self::Volunteers => 'heroicon-o-users',
-            self::Normal => 'heroicon-o-user-circle',
+            self::Editor, self::EditorInChief => 'heroicon-o-penci',
+            self::Normal => 'heroicon-o-user-users',
         };
     }
 
@@ -35,7 +44,7 @@ enum UserTypes: string implements HasLabel, HasColor, HasIcon
     {
         return match($this) {
             self::Developer, self::Administrators => 'danger',
-            self::Volunteers => 'info',
+            self::Editor, self::EditorInChief => 'gray',
             self::Normal => 'success',
         };
     }

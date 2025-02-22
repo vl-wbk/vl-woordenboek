@@ -19,7 +19,7 @@ final class AppServiceProvider extends ServiceProvider
     private function registerGlobalPolicyCheck(): void
     {
         Gate::define('access-backend', function (User $user): bool {
-            return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer, UserTypes::Volunteers]);
+            return $user->user_type->isNot(enum: UserTypes::Normal);
         });
     }
 }
