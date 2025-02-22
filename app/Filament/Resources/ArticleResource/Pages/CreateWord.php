@@ -47,9 +47,6 @@ final class CreateWord extends CreateRecord
                 ->icon('heroicon-o-map')
                 ->columns(12)
                 ->schema([FormSchema::sectionConfiguration()->schema(FormSchema::getStatusAndRegionDetails())]),
-            Wizard\Step::make(trans('Definities'))
-                ->icon('heroicon-o-queue-list')
-                ->schema([Section::make()->compact()->schema(FormSchema::getDefinitionRepeater())]),
         ];
     }
 }

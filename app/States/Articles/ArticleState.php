@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\States\Articles;
 
-use App\Contracts\States\ArticleStates\ArticleStateContract;
+use App\Contracts\States\ArticleStateContract;
 use App\Models\Article;
 use LogicException;
 

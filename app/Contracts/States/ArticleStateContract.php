@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Contracts\States\ArticleStates;
+namespace App\Contracts\States;
 
 interface ArticleStateContract
 {
