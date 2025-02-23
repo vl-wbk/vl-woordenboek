@@ -99,13 +99,6 @@ final class ArticleResource extends Resource
             ]);
     }
 
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-
     public static function getNavigationBadge(): ?string
     {
         return Cache::flexible('lemma_count', [10, 60], function (): string {

@@ -8,17 +8,15 @@ use App\Filament\Clusters\Articles;
 use App\Filament\Clusters\Articles\Resources\LabelResource\Pages;
 use App\Filament\Clusters\Articles\Resources\LabelResource\RelationManagers;
 use App\Models\Label;
-use Filament\Forms;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components;
 use Filament\Forms\Form;
-use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\FontWeight;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 final class LabelResource extends Resource
@@ -34,13 +32,13 @@ final class LabelResource extends Resource
         return $form
             ->columns(12)
             ->schema([
-                TextInput::make('value')
+                Components\TextInput::make('value')
                     ->label('Label naam')
                     ->columnSpan(6)
                     ->unique(ignoreRecord: true)
                     ->required()
                     ->maxLength(255),
-                Textarea::make('description')
+                Components\Textarea::make('description')
                     ->label('Beschrijving')
                     ->rows(4)
                     ->placeholder('Beschrijf zo goed môgelijk wat het label inhoud. (Optioneel)')
@@ -62,6 +60,7 @@ final class LabelResource extends Resource
                     ->searchable(),
                 TextColumn::make('articles_count')
                     ->sortable()
+                    ->weight(FontWeight::Bold)
                     ->label('Aantal koppelingen')
                     ->counts('articles'),
                 TextColumn::make('description')
@@ -74,14 +73,31 @@ final class LabelResource extends Resource
                     ->date()
             ])
             ->actions([
-                Tables\Actions\EditAction::make()->hiddenLabel(),
-                Tables\Actions\DeleteAction::make()->hiddenLabel(),
+                Tables\Actions\ViewAction::make()
+                    ->hiddenLabel(),
+                Tables\Actions\EditAction::make()
+                    ->hiddenLabel()
+                    ->color('gray')
+                    ->modalWidth(MaxWidth::SevenExtraLarge)
+                    ->modalHeading('Label Wijzigen')
+                    ->modalIcon('heroicon-o-pencil-square')
+                    ->modalIconColor('gray')
+                    ->modalDescription('U staat op het punt om een label te wijzigen voor het woordenboek en zijn artikels.'),
+                Tables\Actions\DeleteAction::make()->hiddenLabel()
+                    ->icon('heroicon-o-trash')
+                    ->modalDescription('Indien u het label verwijderd zal het label ook loskoppeld worden van de woorden. Bent u zeker dat u het label wilt verwijderen?'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->modalDescription('Indien u de geselecteeerde labels verwijderd zullen deze worden losgekoppeld van de woorden. Bent u zeker dat u de handeling wilt uitvoeren?'),
                 ]),
             ]);
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return Cache::flexible('label_count', [10, 60], fn (): string => (string) self::$model::count());
     }
 
     public static function getRelations(): array
@@ -95,6 +111,7 @@ final class LabelResource extends Resource
     {
         return [
             'index' => Pages\ListLabels::route('/'),
+            'view' => Pages\ViewLabel::route('/{record}'),
         ];
     }
 }
