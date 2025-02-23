@@ -11,10 +11,14 @@ use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Resources\Pages\EditRecord\Concerns\HasWizard;
 use Kenepa\ResourceLock\Resources\Pages\Concerns\UsesResourceLock;
+use App\Filament\Resources\ArticleResource\Schema\FormSchema;
+use Filament\Forms\Form;
+use Filament\Forms\Components\Wizard;
 
 final class EditWord extends EditRecord
 {
     use UsesResourceLock;
+    use HasWizard;
 
     protected static string $resource = ArticleResource::class;
 
@@ -23,6 +27,36 @@ final class EditWord extends EditRecord
         return [
             Actions\DeleteAction::make()
                 ->icon('heroicon-o-trash'),
+        ];
+    }
+
+    public function form(Form $form): Form
+    {
+        return parent::form($form)
+            ->schema([
+                Wizard::make($this->getSteps())
+                    ->startOnStep($this->getStartStep())
+                    ->cancelAction($this->getCancelFormAction())
+                    ->submitAction($this->getSubmitFormAction())
+                    ->skippable($this->hasSkippableSteps())
+                    ->contained(false)
+            ])->columns(null);
+    }
+
+     /**
+     * @return Step[]
+     */
+    protected function getSteps(): array
+    {
+        return [
+            Wizard\Step::make(trans('Algemene informatie'))
+                ->icon('heroicon-o-language')
+                ->columns(12)
+                ->schema([FormSchema::sectionConfiguration()->schema(FormSchema::getDetailSchema())]),
+            Wizard\Step::make(trans('Regio & status'))
+                ->icon('heroicon-o-map')
+                ->columns(12)
+                ->schema([FormSchema::sectionConfiguration()->schema(FormSchema::getStatusAndRegionDetails())]),
         ];
     }
 

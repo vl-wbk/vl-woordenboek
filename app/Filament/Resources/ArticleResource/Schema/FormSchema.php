@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Filament\Resources\ArticleResource\Schema;
 
 use App\Enums\LanguageStatus;
+use App\UserTypes;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components;
 use Filament\Forms\Components\Section;
+use Illuminate\Database\Eloquent\Builder;
 
 final readonly class FormSchema
 {
@@ -21,6 +23,15 @@ final readonly class FormSchema
     public static function getDetailSchema(): array
     {
         return [
+            Components\Select::make('author_id')
+                ->relationship(name: 'author', titleAttribute: 'name', modifyQueryUsing: fn (Builder $query): Builder => $query->where('user_type', '!=', UserTypes::Normal))
+                ->searchable()
+                ->default(auth()->id())
+                ->columnSpan(3)
+                ->preload()
+                ->label('Auteur')
+                ->required()
+                ->native(false),
             Components\TextInput::make('word')
                 ->label('Woord')
                 ->columnSpan(3)
