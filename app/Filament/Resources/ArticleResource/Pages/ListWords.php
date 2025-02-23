@@ -33,7 +33,7 @@ final class ListWords extends ListRecords
                 ->icon($status->getIcon())
                 ->badgeColor($status->getColor())
                 ->query(fn(Builder $query) => $query->where('state', $status))
-                ->badge(Cache::flexible($status->value . '_articles_count', [30, 60], function () use ($status) {
+                ->badge(Cache::flexible($status->value . '_articles_count', [10, 20], function () use ($status) {
                     return Article::query()->where('state', $status)->count();
                 })))
             ->toArray();

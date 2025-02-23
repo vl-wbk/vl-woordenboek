@@ -3,12 +3,11 @@
 namespace App\Models;
 
 use App\States\Articles;
-use App\Contracts\States\ArticleStates\ArticleStateContract;
+use App\Contracts\States\ArticleStateContract;
 use App\Enums\ArticleStates;
 use App\Enums\LanguageStatus;
 use App\Models\Relations\BelongsToEditor;
 use App\Models\Relations\BelongsToManyRegions;
-use App\States\Articles\ArticleState;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,7 +15,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Overtrue\LaravelLike\Traits\Likeable;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
+use Kenepa\ResourceLock\Models\Concerns\HasLocks;
 
+/**
+ * @property ArticleStates $state The column that contains the state related information from the dictionary article.
+ */
 final class Article extends Model implements AuditableContract
 {
     /** @use HasFactory<\Database\Factories\ArticleFactory> */
@@ -25,6 +28,7 @@ final class Article extends Model implements AuditableContract
     use BelongsToEditor;
     use Auditable;
     use Likeable;
+    use HasLocks;
 
     protected $fillable = ['word', 'state', 'description', 'author_id', 'status', 'example', 'characteristics'];
 

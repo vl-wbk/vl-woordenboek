@@ -36,13 +36,18 @@ final readonly class WordInfolist
                     ->translateLabel()
                     ->badge()
                     ->columnSpan(2),
+                TextEntry::make('state')
+                    ->label('Artikel status')
+                    ->badge()
+                    ->translateLabel()
+                    ->columnSpan(2),
                 TextEntry::make('word')
                     ->label('Woord')
-                    ->columnSpan(3)
+                    ->columnSpan(2)
                     ->translateLabel(),
                 TextEntry::make('characteristics')
                     ->label('Kenmerken')
-                    ->columnSpan(4)
+                    ->columnSpan(3)
                     ->translateLabel(),
                 TextEntry::make('status')
                     ->label('Status')
@@ -73,6 +78,7 @@ final readonly class WordInfolist
                     ->label('Toegevoegd door')
                     ->icon('heroicon-o-user-circle')
                     ->iconColor('primary')
+                    ->placeholder('onbekend')
                     ->columnSpan(3),
                 TextEntry::make('audits_count')
                     ->label('Aantal bewerkingen')

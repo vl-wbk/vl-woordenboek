@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+use ArchTech\Enums\Comparable;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
 
 enum ArticleStates: int implements HasLabel, HasIcon, HasColor
 {
+    use Comparable;
+
     case New = 0;
     case Draft = 1;
     case Approval = 2;

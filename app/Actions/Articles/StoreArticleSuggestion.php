@@ -17,7 +17,7 @@ final readonly class StoreArticleSuggestion
             $suggestion->regions()->sync($suggestionData->regions);
 
             if (! is_null($suggestionData->creator_id)) {
-                $suggestion->creator()->associate($suggestionData->creator_id)->save();
+                $suggestion->author()->associate($suggestionData->creator_id)->save();
             }
         });
     }

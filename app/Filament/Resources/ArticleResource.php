@@ -88,11 +88,9 @@ final class ArticleResource extends Resource
                     ->date(),
             ])
             ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
-                    Tables\Actions\EditAction::make(),
-                    Tables\Actions\DeleteAction::make(),
-                ])
+                Tables\Actions\ViewAction::make()->hiddenLabel(),
+                Tables\Actions\EditAction::make()->hiddenLabel(),
+                Tables\Actions\DeleteAction::make()->hiddenLabel(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

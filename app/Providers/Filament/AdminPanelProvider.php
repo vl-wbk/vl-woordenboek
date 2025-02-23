@@ -21,6 +21,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Config;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Kenepa\ResourceLock\ResourceLockPlugin;
 
 final class AdminPanelProvider extends PanelProvider
 {
@@ -76,6 +77,7 @@ final class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->plugins([
+                ResourceLockPlugin::make(),
                 FilamentDeveloperLoginsPlugin::make()
                     ->enabled(Config::boolean('app.debug', false))
                     ->users($this->defaultLoginsDuringDevelopment())
@@ -90,7 +92,6 @@ final class AdminPanelProvider extends PanelProvider
         return [
             'Technisch beheerder' => 'developer@domain.tld',
             'Administrator' => 'administrator@domain.tld',
-            'Vrijwilliger' => 'volunteer@domain.tld',
         ];
     }
 }

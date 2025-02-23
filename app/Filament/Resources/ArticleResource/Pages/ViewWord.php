@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\Resources\ArticleResource\Pages;
 
 use App\Filament\Resources\ArticleResource;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\EditAction;
+use App\Filament\Resources\ArticleResource\Actions\States as ArticleStateActions;
+use Filament\Actions as FilamentActions;
 use Filament\Resources\Pages\ViewRecord;
 
 final class ViewWord extends ViewRecord
@@ -16,8 +16,13 @@ final class ViewWord extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            EditAction::make()->icon('heroicon-o-pencil-square'),
-            DeleteAction::make()->icon('heroicon-o-trash'),
+
+                FilamentActions\EditAction::make()->icon('heroicon-o-pencil-square')->color('gray'),
+                ArticleStateActions\PublishArticleAction::make(),
+                ArticleStateActions\AcceptPublishingProposal::make(),
+                ArticleStateActions\ArchiveArticle::make(),
+                ArticleStateActions\RejectPublishingAction::make(),
+                FilamentActions\DeleteAction::make()->icon('heroicon-o-trash'),
         ];
     }
 }

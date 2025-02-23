@@ -11,7 +11,7 @@ use LogicException;
 class ArticleState implements ArticleStateContract
 {
     public function __construct(
-        private readonly Article $article,
+        public readonly Article $article,
     ) {}
 
     public function transitionToApproved(): void
