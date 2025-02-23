@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Clusters\Articles\Resources;
 
 use App\Filament\Clusters\Articles;
@@ -13,11 +15,13 @@ use Filament\Forms\Form;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
-class LabelResource extends Resource
+final class LabelResource extends Resource
 {
     protected static ?string $model = Label::class;
 
@@ -36,9 +40,9 @@ class LabelResource extends Resource
                     ->unique(ignoreRecord: true)
                     ->required()
                     ->maxLength(255),
-                Textarea::make('desqcription')
+                Textarea::make('description')
                     ->label('Beschrijving')
-                    ->rows(3)
+                    ->rows(4)
                     ->placeholder('Beschrijf zo goed môgelijk wat het label inhoud. (Optioneel)')
                     ->columnSpanFull()
             ]);
@@ -51,13 +55,27 @@ class LabelResource extends Resource
             ->emptyStateHeading('Geen labels gevonden')
             ->emptyStateDescription('Momenteel zijn er geen labels gevonden die aan woordenboek artikelen gekoppeld kunnen worden.')
             ->columns([
-                //
-            ])
-            ->filters([
-                //
+                TextColumn::make('value')
+                    ->label('Label')
+                    ->badge()
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('articles_count')
+                    ->sortable()
+                    ->label('Aantal koppelingen')
+                    ->counts('articles'),
+                TextColumn::make('description')
+                    ->label('Beschrijving')
+                    ->placeholder('- geen beschrijving opgegeven')
+                    ->formatStateUsing(fn (Label $label): string => Str::limit($label->description, 60, '...', preserveWords: true)),
+                TextColumn::make('created_at')
+                    ->label('Aangemaakt op')
+                    ->sortable()
+                    ->date()
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->hiddenLabel(),
+                Tables\Actions\DeleteAction::make()->hiddenLabel(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
