@@ -19,7 +19,7 @@ enum UserTypes: string implements HasLabel, HasColor, HasIcon
 
     public function getLabel(): ?string
     {
-        $usertype = match($this->value) {
+        $usertype = match($this) {
             self::Normal => 'Normale gebruiker',
             self::Editor => 'Redacteur',
             self::EditorInChief => 'Eindredacteur',

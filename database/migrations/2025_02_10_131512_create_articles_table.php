@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('index', 1)
                 ->comment('The index column is used in the word index of the application.')
                 ->virtualAs("UPPER(LEFT(word, 1))");
+            $table->smallInteger('state');
             $table->foreignIdFor(User::class, 'author_id')->nullable()->references('id')->on('users')->nullOnDelete();
             $table->foreignIdFor(User::class, 'editor_id')->nullable()->references('id')->on('users')->nullOnDelete();
             $table->string('word');
@@ -29,7 +30,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('region_word', function (Blueprint $table) {
+        Schema::create('article_region', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Region::class)->references('id')->on('regions')->cascadeOnDelete();
             $table->foreignIdFor(Article::class)->references('id')->on('articles')->cascadeOnDelete();
@@ -41,7 +42,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('region_article');
+        Schema::dropIfExists('article_region');
         Schema::dropIfExists('articles');
     }
 };
