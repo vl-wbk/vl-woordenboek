@@ -7,20 +7,20 @@ use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
 
-enum UserTypes: string implements HasLabel, HasColor, HasIcon
+enum UserTypes: int implements HasLabel, HasColor, HasIcon
 {
     use Comparable;
 
-    case Normal = 'Normale gebruiker';
-    case Editor = 'Redacteur';
-    case EditorInChief = 'Eindredacteurs';
-    case Developer = 'ontwikkelaars';
-    case Administrators = 'Administrators';
+    case Normal = 0;
+    case Editor = 1;
+    case EditorInChief = 2;
+    case Developer = 3;
+    case Administrators = 4;
 
     public function getLabel(): ?string
     {
         $usertype = match($this) {
-            self::Normal => 'Normale gebruiker',
+            self::Normal => 'Invoerder',
             self::Editor => 'Redacteur',
             self::EditorInChief => 'Eindredacteur',
             self::Developer => 'Ontwikkelaar',
