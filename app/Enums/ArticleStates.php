@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
 
-enum ArticleStates: int implements HasLabel
+enum ArticleStates: int implements HasLabel, HasIcon, HasColor
 {
     case New = 0;
     case Draft = 1;
@@ -20,11 +22,21 @@ enum ArticleStates: int implements HasLabel
     public function getLabel(): string
     {
         return match ($this) {
-            self::New => 'suggestie',
+            self::New => 'Suggestie',
             self::Draft => 'Klad versie',
             self::Approval => 'In afwachting',
             self::Published => 'Publicatie',
             self::Archived => 'Gearchiveerd',
         };
+    }
+
+    public function getColor(): string
+    {
+        return 'gray';
+    }
+
+    public function getIcon(): string
+    {
+        return 'heroicon-o-document-text';
     }
 }
