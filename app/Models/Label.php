@@ -15,6 +15,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * Labels help users discover related content and administrators organize the dictionary's content effectively.
  * The model supports testing through factories and implements timestamp tracking for relationship changes.
  *
+ * @property int            $id           The unique identifier for the label
+ * @property string         $name         The unique name of the label
+ * @property string|null    $description  The detailed explanation of the label
+ * @property \Carbon\Carbon $created_at   Timestamp of when the label was created
+ * @property \Carbon\Carbon $updated_at   Timestamp of the last update.
+ *
  * @package App\Models
  */
 final class Label extends Model
