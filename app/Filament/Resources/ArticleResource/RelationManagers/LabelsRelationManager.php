@@ -106,6 +106,7 @@ final class LabelsRelationManager extends RelationManager
                     ->formatStateUsing(fn (Label $label): string => Str::limit($label->description, 60, '...', preserveWords: true)),
                 Tables\Columns\TextColumn::make('pivot.created_at')
                     ->label('Gekoppeld op')
+                    ->date()
                     ->searchable(),
             ])
             ->headerActions([
@@ -113,7 +114,6 @@ final class LabelsRelationManager extends RelationManager
                 $this->getHeaderAttachAction()
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
                 Tables\Actions\DetachAction::make(),
             ])
             ->bulkActions([

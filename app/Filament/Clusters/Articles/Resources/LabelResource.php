@@ -6,6 +6,7 @@ namespace App\Filament\Clusters\Articles\Resources;
 
 use App\Filament\Clusters\Articles;
 use App\Filament\Clusters\Articles\Resources\LabelResource\Pages;
+use App\Filament\Clusters\Articles\Resources\LabelResource\RelationManagers;
 use App\Models\Label;
 use Filament\Forms\Components;
 use Filament\Forms\Form;
@@ -83,7 +84,7 @@ final class LabelResource extends Resource
                 Components\Textarea::make('description')
                     ->label('Beschrijving')
                     ->rows(4)
-                    ->placeholder('Beschrijf zo goed môgelijk wat het label inhoud. (Optioneel)')
+                    ->placeholder('Beschrijf zo goed mogelijk wat het label inhoud. (Optioneel)')
                     ->columnSpanFull()
             ]);
     }
@@ -103,6 +104,7 @@ final class LabelResource extends Resource
         return $infolist
             ->schema([
                 Section::make('Label informatie')
+                    ->collapsible()
                     ->description('Alle informatie omtrent het label dat is aangemaakt voor artikelen in het Vlaams Woordenboek')
                     ->icon('heroicon-o-tag')
                     ->iconSize(IconSize::Medium)
@@ -112,6 +114,8 @@ final class LabelResource extends Resource
                     ->schema([
                         TextEntry::make('name')
                             ->label('Naam')
+                            ->weight(FontWeight::Bold)
+                            ->color('primary')
                             ->columnSpan(6),
                         TextEntry::make('created_at')
                             ->label('Aangemaakt op')
@@ -204,16 +208,19 @@ final class LabelResource extends Resource
     }
 
     /**
-     * Defines the relationship management interfaces for the Label resource. This method configures
-     * how related data can be viewed and modified through the admin interface. Currently, no explicit
-     * relation managers are defined, but the structure exists for future expansion.
+     * Configures the available pages for this resource.
+     * The page structure determines how users navigate through the label management interface.
+     * Currently implements a list view for all labels and detailed views for individual labels.
+     * Create and edit operations are handled through modal dialogs for a smoother user experience.
      *
-     * @return array The configured relation managers
+     * This interface is crucial for maintaining the taxonomic structure of the dictionary, allowing organized categorization and easy navigation of related words.
+     *
+     * @return array The configured relation managers, currently containing only the Words relationship
      */
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\ArticlesRelationManager::class
         ];
     }
 
