@@ -6,12 +6,15 @@ namespace App\Filament\Clusters\Articles\Resources;
 
 use App\Filament\Clusters\Articles;
 use App\Filament\Clusters\Articles\Resources\LabelResource\Pages;
-use App\Filament\Clusters\Articles\Resources\LabelResource\RelationManagers;
 use App\Models\Label;
 use Filament\Forms\Components;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
+use Filament\Support\Enums\IconSize;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
@@ -30,7 +33,7 @@ use Illuminate\Support\Str;
  */
 final class LabelResource extends Resource
 {
-   /**
+    /**
      * The underlying Eloquent model that represents labels in our database. This model handles all
      * database interactions and relationships with other models in the system. The Label model
      * contains the core business logic for label management.
@@ -82,6 +85,47 @@ final class LabelResource extends Resource
                     ->rows(4)
                     ->placeholder('Beschrijf zo goed môgelijk wat het label inhoud. (Optioneel)')
                     ->columnSpanFull()
+            ]);
+    }
+
+    /**
+     * Configures the detailed view interface for displaying label information.
+     *
+     * This method creates a structured information display with a clean, organized layout for viewing label details.
+     * It presents the label's core attributes including name, timestamps, and description in a visually appealing format with consistent styling.
+     * The interface uses the Filament design system, incorporating icons and responsive column layouts to ensure optimal presentation across different screen sizes.
+     *
+     * @param  Infolist $infolist   The Filament infolist builder instance
+     * @return Infolist             The configured infolist ready for rendering
+     */
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make('Label informatie')
+                    ->description('Alle informatie omtrent het label dat is aangemaakt voor artikelen in het Vlaams Woordenboek')
+                    ->icon('heroicon-o-tag')
+                    ->iconSize(IconSize::Medium)
+                    ->iconColor('primary')
+                    ->compact()
+                    ->columns(12)
+                    ->schema([
+                        TextEntry::make('name')
+                            ->label('Naam')
+                            ->columnSpan(6),
+                        TextEntry::make('created_at')
+                            ->label('Aangemaakt op')
+                            ->columnSpan(3)
+                            ->date(),
+                        TextEntry::make('updated_at')
+                            ->label('Laaste wijziging')
+                            ->columnSpan(3)
+                            ->date(),
+                        TextEntry::make('description')
+                            ->label('Beschrijving')
+                            ->columnSpanFull()
+                            ->placeholder('Geen label beschrijving geregistreed')
+                    ]),
             ]);
     }
 
