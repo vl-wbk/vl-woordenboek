@@ -15,6 +15,9 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\WelcomeNotification\ReceivesWelcomeNotification;
 use Overtrue\LaravelLike\Traits\Liker;
 
+/**
+ * @property UserTypes $user_type The group where the user is assigned to.
+ */
 final class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -22,6 +25,7 @@ final class User extends Authenticatable implements FilamentUser
     use ReceivesWelcomeNotification;
     use Notifiable;
     use Liker;
+
     /**
      * The attributes that are mass assignable.
      *

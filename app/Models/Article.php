@@ -106,23 +106,11 @@ final class Article extends Model implements AuditableContract
      * Defines the relationship between an article and its author.
      * Each article is created by exactly one user (author). This relationship is crucial for tracking article ownership and attribution.
      *
-     * @return BelongsTo<User, Article>
+     * @return BelongsTo<User, covariant $this>
      */
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id');
-    }
-
-    /**
-     * Defines the relationship between an article and its definitions.
-     * An article can have multiple definitions to cover different meanings or regional variations of the word.
-     *
-     * @return HasMany<Definition>
-     */
-    #[Deprecated('Needs to be removed in a later phase. ')]
-    public function definitions(): HasMany
-    {
-        return $this->hasMany(Definition::class);
     }
 
     /**
