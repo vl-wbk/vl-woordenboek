@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use App\Models\Label;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
+use stdClass;
 
 /**
  * LabelTableSeeder populates the labels table with initial taxonomic data for the Vlaams Woordenboek.
@@ -29,9 +30,11 @@ final class LabelTableSeeder extends Seeder
     public function run(): void
     {
         $jsonDataFile = File::get(database_path('data/labels.json'));
+
+        /** @var stdClass[] $labels */
         $labels = json_decode($jsonDataFile);
 
-        collect($labels)->each(function ($label): void {
+        collect($labels)->each(function (stdClass $label): void {
             Label::create(attributes: ['name' => $label->name, 'description' => $label->description]);
         });
     }
