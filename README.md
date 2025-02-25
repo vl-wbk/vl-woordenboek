@@ -1,66 +1,64 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# VL Woordenboek 
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Een open-source woordenboek voor Vlaamse woorden en uitdrukkingen.
 
-## About Laravel
+## 📖 Over dit project 
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Welkom bij **VL Woordenboek!** Dit project is een verzameling van typisch Vlaamse woorden en uitdrukkingen, bedoeld om deze taalrijkdom te documenteren en toegankelijk te maken voor iedereen.
+Of je nu een liefhebber bent van taal, een onderzoeker, of gewoon nieuwsgierig naar de rijke Vlaamse woordenschat, je bent hier op de juiste plek. 
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+VL Woordenboek is volledig open-source en groeit dankzij de bijdragen van enthousiaste taal- en techliefhebbers.
+Samen bouwen we een complete en interactieve database waarin Vlaamse taal en cultuur bewaard blijven. 
+We nodigen je uit om mee te helpen en dit woordenboek nog beter te maken! 
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Dit project is ontwikkeld met **Laravel**, **Laravel Filament** en **Bootstrap**, wat zorgt voor een moderne en gebruiksvriendelijke interface voor zowel bezoekers als bijdragers.
 
-## Learning Laravel
+## 🚀 Functionaliteiten
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+De volgende functionaliteiten hebben we al reeds op de implementatie planning staan of uitgevoerd: 
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- 📚 **Zoekfunctie** om snel een woord of uitdrukking te vinden.
+- 📝 **Mogelijkheid om nieuwe woorden en definities toe te voegen.**
+- 🔍 **Gedetailleerde definities en voorbeeldzinnen** per woord.
+- 🌍 **Eenvoudige en toegankelijke webinterface.**
+- 🏷 **Categorieën en tags om woorden gemakkelijk te organiseren.**
+- 🔄 **Suggestiesysteem** waarmee gebruikers verbeteringen kunnen voorstellen voor bestaande woorden.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🧐 Bijdragen
 
-## Laravel Sponsors
+Wil je helpen om dit project beter te maken? Dat zou geweldig zijn! O0f je nu een nieuw record toevoegt, een fout corrigeert oàf een nieuwe functie voorstelt, alle hilp is welkom. 
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Hoe bijdragen? 
 
-### Premium Partners
+1. **Fork deze repository** naar je eigen GitHub-account. 
+2. **Maak een nieuwe branch** voor je wijziging:
+   ```sh
+   git checkout -b feature/nieuwe-functionaliteit
+    ```
+3. **Doe je aanpassingen en commit ze:**
+   ```sh
+   git commit -m "Voeg nieuwe woorden en definities toe"
+    ```
+4. **Push je fork en open een pull request. **
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+Elke bijdragen, hoe klein ook, helpt om dit project beter te maken. 
+Laten we samen bouwen aan een uitgebreiçd en authentiek Vlaams Woordenboek!
 
-## Contributing
+## 📜 Gedragscode
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+We streven naar een vriendelijke, respectvolle en inclusieve community. Door bij te dragen aan dit project, ga je akkoord met onze [Code of Conduct](https://github.com/Tjoosten/vl-woordenboek/blob/develop/CODE_OF_CONDUCT.md).
+We verwachten van alle brijdragers dat ze anderen met respect behandelen en samenwerken in een positieve sfeer. 
 
-## Code of Conduct
+## 📜 Licentie
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Dit project is gelicenseerd onder de MIT-licentie. Zie het bestand [LICENSE]() voor meer informlatie.
 
-## Security Vulnerabilities
+## 📞 Contact & Community
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Wil je meedenken, feedback geven of gewoon je liefde voor de Vlaamse taal delen? We horen graag van je! 
 
-## License
+- Open een [een GitHub issue](https://github.com/Tjoosten/vl-woordenboek/issues/new) voor vragen, suggesties of problemen.
+- Doe mee aan discussies en help ons om het project verder uit te bouwen.
+- Heb je een idee voor een verbetering? Aarzel niet om een pull request in te dienen. 
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Samen kunnen we een waardevolle bron creeren voor iedereen die de Vlaamse taal en cultuur wil ontdekken en bewaren. Sluit je aan en draag bij!
