@@ -39,7 +39,7 @@ Wil je helpen om dit project beter te maken? Dat zou geweldig zijn! O0f je nu ee
    ```sh
    git commit -m "Voeg nieuwe woorden en definities toe"
     ```
-4. **Push je fork en open een pull request. 
+4. **Push je fork en open een pull request. **
 
 Elke bijdragen, hoe klein ook, helpt om dit project beter te maken. 
 Laten we samen bouwen aan een uitgebreiçd en authentiek Vlaams Woordenboek!
