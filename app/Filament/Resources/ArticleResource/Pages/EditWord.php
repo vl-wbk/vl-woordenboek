@@ -21,6 +21,8 @@ use Filament\Forms\Components\Wizard;
  * It manages the complete editing workflow including state transitions and form validation across multiple steps.
  * The interface guides editors through a structured process to ensure consistent and complete article updates.
  *
+ * @property \App\Models\Article $record The dictioniry article entity from the database
+ *
  * @package App\Filament\Resources\ArticleResource\Pages
  */
 final class EditWord extends EditRecord
@@ -41,7 +43,7 @@ final class EditWord extends EditRecord
      * Currently provides a delete action with a trash icon, allowing administrators to remove articles when necessary.
      * The action is positioned in the header for consistent placement and easy access.
      *
-     * @return array
+     * @return array<int, Actions\Action>
      */
     protected function getHeaderActions(): array
     {
@@ -78,7 +80,7 @@ final class EditWord extends EditRecord
      * The first step focuses on general information with language settings, while the second step handles geographic coverage and publication status.
      * Each step utilizes dedicated schema configurations from FormSchema to maintain consistency and facilitate future modifications to the form structure.
      *
-     * @return Step[]
+     * @return array<int, Wizard\Step>
      */
     protected function getSteps(): array
     {

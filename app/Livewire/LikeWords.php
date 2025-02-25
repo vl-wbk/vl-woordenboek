@@ -3,13 +3,14 @@
 namespace App\Livewire;
 
 use App\Models\Article;
+use Illuminate\Contracts\Support\Renderable;
 use Livewire\Component;
 
 class LikeWords extends Component
 {
-    public $word;
+    public Article $word;
 
-    public function mount(Article $word)
+    public function mount(Article $word): void
     {
         $this->word = $this->word;
     }
@@ -24,7 +25,7 @@ class LikeWords extends Component
         auth()->user()->unlike($this->word);
     }
 
-    public function render()
+    public function render(): Renderable
     {
         return view('livewire.like-words', [
             'word' => $this->word,

@@ -20,6 +20,9 @@ final readonly class FormSchema
             ->columns(12);
     }
 
+    /**
+     * @return array<int, Components\Select|Components\TextInput|Components\Textarea>
+     */
     public static function getDetailSchema(): array
     {
         return [
@@ -58,6 +61,9 @@ final readonly class FormSchema
         ];
     }
 
+    /**
+     * @return array<int, Components\Select|Components\Radio>
+     */
     public static function getStatusAndRegionDetails(): array
     {
         return [

@@ -87,6 +87,9 @@ final class AdminPanelProvider extends PanelProvider
             ]);
     }
 
+    /**
+     * @return array<string, string>
+     */
     private function defaultLoginsDuringDevelopment(): array
     {
         return [

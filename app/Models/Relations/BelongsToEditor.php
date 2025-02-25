@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 trait BelongsToEditor
 {
+    /**
+     * @return BelongsTo<User, covariant $this>
+     */
     public function editor(): BelongsTo
     {
         return $this->belongsTo(User::class);

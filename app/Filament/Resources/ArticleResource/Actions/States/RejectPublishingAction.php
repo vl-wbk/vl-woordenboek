@@ -6,11 +6,14 @@ namespace App\Filament\Resources\ArticleResource\Actions\States;
 
 use Filament\Actions\Action;
 
+/**
+ * @property \App\Models\Article $record
+ */
 final class RejectPublishingAction extends Action
 {
     protected string $actionIcon = 'heroicon-o-x-mark';
 
-    public static function getDefaultName(): ?string
+    public static function getDefaultName(): string
     {
         return trans('Publicatie afwijzen');
     }

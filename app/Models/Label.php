@@ -46,7 +46,7 @@ final class Label extends Model
      * This relationship tracks when articles are tagged with labels through timestamps in the pivot table, enabling chronological analysis of label usage.
      * The pivot table maintains both creation and update timestamps for detailed auditing.
      *
-     * @return BelongsToMany
+     * @return BelongsToMany<Article, covariant $this>
      */
     public function articles(): BelongsToMany
     {

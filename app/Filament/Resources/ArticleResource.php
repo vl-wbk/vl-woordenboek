@@ -67,7 +67,7 @@ final class ArticleResource extends Resource
     /**
      * The cluster used for grouping related resources.
      *
-     * @var string|null
+     * @var class-string<\Filament\Clusters\Cluster>|null
      */
     protected static ?string $cluster = Articles::class;
 
@@ -85,7 +85,7 @@ final class ArticleResource extends Resource
     /**
      * Returns an array of relation manager classes that define related resources.
      *
-     * @return array  The relation manager classes.
+     * @return array<int, class-string>  The relation manager classes.
      */
     public static function getRelations(): array
     {
@@ -193,7 +193,7 @@ final class ArticleResource extends Resource
      * Defines the routes for the resource's pages.
      * The pages include listing, creating, vieuwing, and editing articles.
      *
-     * @return array  An associative array mapping page keys to their routes.
+     * @return array<string, \Filament\Resources\Pages\PageRegistration>  An associative array mapping page keys to their routes.
      */
     public static function getPages(): array
     {

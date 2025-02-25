@@ -59,7 +59,7 @@ final class User extends Authenticatable implements FilamentUser
         return $this->can('access-backend');
     }
 
-    public function sendWelcomeNotification(Carbon $validUntil)
+    public function sendWelcomeNotification(Carbon $validUntil): void
     {
         $this->notify(new WelcomeNotification($validUntil));
     }

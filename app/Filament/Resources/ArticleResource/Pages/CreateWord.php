@@ -34,7 +34,7 @@ final class CreateWord extends CreateRecord
     }
 
     /**
-     * @return Step[]
+     * @return array<int, Wizard\Step>
      */
     protected function getSteps(): array
     {

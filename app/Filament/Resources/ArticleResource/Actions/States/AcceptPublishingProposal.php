@@ -7,6 +7,9 @@ namespace App\Filament\Resources\ArticleResource\Actions\States;
 
 use Filament\Actions\Action;
 
+/**
+ * @property \App\Models\Article $record
+ */
 final class AcceptPublishingProposal extends Action
 {
     public static function getDefaultName(): string

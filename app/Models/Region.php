@@ -16,6 +16,9 @@ final class Region extends Model
 
     protected $fillable = ['name'];
 
+    /**
+     * @return MorphTo<\Illuminate\Database\Eloquent\Model, covariant $this>
+     */
     public function linguistic(): MorphTo
     {
         return $this->morphTo();

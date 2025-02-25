@@ -25,9 +25,9 @@ final readonly class UpdateArticle
     /**
      * Performs the logic for updating the dictionary article.
      *
-     * @param  Article         $article  The Article model instance representing the article to be updated.
-     * @param  ArticleData  $data     The data transfer object containing the updated article data.
-     * @return bool                   True if the update was successful (including setting the editor), false otherwise.
+     * @param  Article      $article              The Article model instance representing the article to be updated.
+     * @param  ArticleData  $articleObjectData    The data transfer object containing the updated article data.
+     * @return bool                               True if the update was successful (including setting the editor), false otherwise.
      */
     public function __invoke(Article $article, ArticleData $articleObjectData): bool
     {
