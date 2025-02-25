@@ -75,7 +75,7 @@ enum UserTypes: int implements HasLabel, HasColor, HasIcon
      * Icons are chosen to reflect the role's primary function or level of access.
      * The outline variant maintains a cohesive visual language throughout the interface.
      */
-    public function getIcon(): ?string
+    public function getIcon(): string
     {
         return match($this) {
             self::Developer => 'heroicon-o-code-bracket',
@@ -95,7 +95,7 @@ enum UserTypes: int implements HasLabel, HasColor, HasIcon
      *
      * This visual hierarchy helps quickly identify user capabilities in the interface.
      */
-    public function getColor(): string|array|null
+    public function getColor(): string
     {
         return match($this) {
             self::Developer, self::Administrators => 'danger',

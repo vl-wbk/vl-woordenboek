@@ -57,7 +57,7 @@ final class LabelResource extends Resource
      * dictionary article management, including labels. This helps maintain a logical structure in the
      * admin interface and groups related functionality together.
      *
-     * @var string|null
+     * {@inheritDoc}
      */
     protected static ?string $cluster = Articles::class;
 
@@ -215,7 +215,7 @@ final class LabelResource extends Resource
      *
      * This interface is crucial for maintaining the taxonomic structure of the dictionary, allowing organized categorization and easy navigation of related words.
      *
-     * @return array The configured relation managers, currently containing only the Words relationship
+     * @return array<mixed> The configured relation managers, currently containing only the Words relationship
      */
     public static function getRelations(): array
     {
@@ -230,7 +230,7 @@ final class LabelResource extends Resource
      * labels and detailed views for individual labels. Create and edit operations are handled
      * through modal dialogs for a smoother user experience.
      *
-     * @return array The configured page routes and their handlers
+     * @return array<mixed> The configured page routes and their handlers
      */
     public static function getPages(): array
     {

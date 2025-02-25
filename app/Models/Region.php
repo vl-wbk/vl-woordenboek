@@ -16,11 +16,9 @@ final class Region extends Model
 
     protected $fillable = ['name'];
 
-    public function suggestions(): BelongsToMany
-    {
-        return $this->belongsToMany(Suggestion::class);
-    }
-
+    /**
+     * @return MorphTo<\Illuminate\Database\Eloquent\Model, covariant $this>
+     */
     public function linguistic(): MorphTo
     {
         return $this->morphTo();

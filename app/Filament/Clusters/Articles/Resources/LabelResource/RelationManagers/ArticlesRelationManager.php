@@ -66,7 +66,7 @@ final class ArticlesRelationManager extends RelationManager
      * Defines individual row actions available in the table interface.
      * Currently provides only the ability to detach articles from the label, maintaining a focused set of operations for relationship management.
      *
-     * @return array
+     * @return array<mixed>
      */
     protected function getTableActions(): array
     {
@@ -79,7 +79,7 @@ final class ArticlesRelationManager extends RelationManager
      * Configures bulk actions for managing multiple article relationships simultaneously.
      * Enables efficient batch operations for detaching multiple articles from a label at once.
      *
-     * @return array
+     * @return array<mixed>
      */
     protected function getBulkActions(): array
     {
@@ -98,7 +98,7 @@ final class ArticlesRelationManager extends RelationManager
      * - Description preview
      * - Relationsup creation timestamp
      *
-     * @return array  The configured table layout.
+     * @return array<mixed>  The configured table layout.
      */
     protected function getTableLayout(): array
     {

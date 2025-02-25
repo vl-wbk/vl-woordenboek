@@ -36,7 +36,7 @@ use Kenepa\ResourceLock\Models\Concerns\HasLocks;
  * @property int            $author_id        The ID of the user who created the article
  * @property LanguageStatus $status           The current language validation status
  * @property string|null    $example          Optional usage example of the word
- * @property array|null     $characteristics  Additional word characteristics
+ * @property string|null    $characteristics  Additional word characteristics
  * @property int|null       $editor_id        The ID of the assigned editor
  * @property \Carbon\Carbon $created_at       Timestamp of when the article was created
  * @property \Carbon\Carbon $updated_at       Timestamp of the last update
@@ -57,7 +57,7 @@ final class Article extends Model implements AuditableContract
      * The attributes that can be mass assigned when creating or updating an article.
      * Security measure to prevent unintended attribute modifications.
      *
-     * @var array<string>
+     * @var list<string>
      */
     protected $fillable = ['word', 'state', 'description', 'author_id', 'status', 'example', 'characteristics'];
 
@@ -65,7 +65,7 @@ final class Article extends Model implements AuditableContract
      * Attributes excluded from the audit trail.
      * Editor ID changes are not tracked to reduce noise in the audit logs.
      *
-     * @var array<string>
+     * @var list<string>
      */
     protected $auditExclude = ['editor_id'];
 
@@ -89,7 +89,7 @@ final class Article extends Model implements AuditableContract
      *
      * Exmaple states flow: New -> Draft -> Approval -> Published -> Archived
      *
-     * @return ArticleSateContract - The correcponding state class for the current dictionary article
+     * @return ArticleStateContract - The correcponding state class for the current dictionary article
      */
     public function articleStatus(): ArticleStateContract
     {
@@ -106,23 +106,11 @@ final class Article extends Model implements AuditableContract
      * Defines the relationship between an article and its author.
      * Each article is created by exactly one user (author). This relationship is crucial for tracking article ownership and attribution.
      *
-     * @return BelongsTo<User, Article>
+     * @return BelongsTo<User, covariant $this>
      */
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id');
-    }
-
-    /**
-     * Defines the relationship between an article and its definitions.
-     * An article can have multiple definitions to cover different meanings or regional variations of the word.
-     *
-     * @return HasMany<Definition>
-     */
-    #[Deprecated('Needs to be removed in a later phase. ')]
-    public function definitions(): HasMany
-    {
-        return $this->hasMany(Definition::class);
     }
 
     /**
@@ -137,7 +125,7 @@ final class Article extends Model implements AuditableContract
      * - Tracking when labels were assigned (created_at in pivot)
      * - Maintaining updated_at timestamps for label assignments
      *
-     * @return BelongsToMany<Label> The relationship instance for article labels
+     * @return BelongsToMany<Label, covariant $this> The relationship instance for article labels
      */
     public function labels(): BelongsToMany
     {

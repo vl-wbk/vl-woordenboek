@@ -6,9 +6,12 @@ namespace App\Filament\Resources\ArticleResource\Actions\States;
 
 use Filament\Actions\Action;
 
+/**
+ * @property \App\Models\Article $record
+ */
 final class PublishArticleAction extends Action
 {
-    public static function getDefaultName(): ?string
+    public static function getDefaultName(): string
     {
         return 'insturen voor publicatie';
     }

@@ -10,9 +10,10 @@ use Spatie\LaravelData\WithData;
 
 final class StoreSuggestionRequest extends FormRequest
 {
+    /** @use WithData<SuggestionData> */
     use WithData;
 
-    protected $dataClass = SuggestionData::class;
+    protected string $dataClass = SuggestionData::class;
 
     /**
      * Get the validation rules that apply to the request.

@@ -9,9 +9,9 @@ class CreateLikesTable extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create(config('like.likes_table'), function (Blueprint $table) {
+        Schema::create(config('like.likes_table'), function (Blueprint $table): void {
             $table->bigIncrements('id');
             $table->unsignedBigInteger(config('like.user_foreign_key'))->index()->comment('user_id');
             $table->morphs('likeable');
@@ -22,7 +22,7 @@ class CreateLikesTable extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists(config('like.likes_table'));
     }

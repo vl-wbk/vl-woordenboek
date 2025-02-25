@@ -32,7 +32,7 @@ final readonly class UpdateDefinitionController
      * Retrieves available regions for a dropdown and the Article model instance.
      *
      * @param  Article $word  The Article model instance to be edited (injected via route model binding).
-     * @return Renderable  The view for editing the definition.
+     * @return Renderable     The view for editing the definition.
      */
     public function edit(Article $word): Renderable
     {
@@ -49,8 +49,8 @@ final readonly class UpdateDefinitionController
      * and redirects the user to the word's detail page upon successful update.
      *
      * @param  UpdateArticleRequest $updateArticleRequest   The validated request data for updating the definition.
-     * @param  StoreArticle         $updateArticle          The action class responsible for updating the dictionary article.
-     * @param  Article                 $word                   The Article model instance to be updated (injected via route model binding).
+     * @param  UpdateArticle        $updateArticle          The action class responsible for updating the dictionary article.
+     * @param  Article              $word                   The Article model instance to be updated (injected via route model binding).
      * @return RedirectResponse                             Redirects to the dictionary article detail page after a successful update.
      */
     public function update(UpdateArticleRequest $updateArticleRequest, UpdateArticle $updateArticle, Article $word): RedirectResponse

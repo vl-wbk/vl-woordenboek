@@ -6,6 +6,9 @@ use App\Filament\Resources\UserResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
+/**
+ * @property \App\Models\User $record The user model related to the created user entity in the Filament backend
+ */
 class CreateUser extends CreateRecord
 {
     protected static string $resource = UserResource::class;
