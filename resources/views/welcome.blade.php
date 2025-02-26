@@ -23,43 +23,33 @@
 
                 @if (request()->has('zoekterm') && $results->total() > 0)
                     <div class="card bg-white border-0 shadow-sm">
-                        <div class="card-header text-dark bg-white">Zoekresultaten voor: <strong>'{{ request()->get('zoekterm') }}'</strong></div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-sm table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Woord</th>
-                                            <th scope="col">Auteur</th>
-                                            <th scope="col">Voorbeeld</th>
-                                            <th scope="col">&nbsp;</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($results as $result)
-                                            <tr>
-                                                <th scope="row" class="color-green">{{ $result->word }}</th>
-                                                <td>{{ $result->author->name ?? '-' }}</td>
-                                                <td class="text-muted">{{ $result->example }}</td>
-                                                <td>
-                                                    <a href="{{ route('word-information.show', $result) }}" class="float-end text-decoration-none">
-                                                        <x-heroicon-o-eye class="icon me-1"/> Bekijken
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                        <div class="card-header">Zoekresultaten voor: <strong>'{{ request()->get('zoekterm') }}'</strong></div>
+                        <div class="list-group list-group-flush">
+                            @foreach ($results as $result)
+                                <a href="{{ route('word-information.show', $result) }}" class="list-group-item list-group-item-action" aria-current="true">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1 color-green">{{ $result->word }}</h5>
 
-                        @if ($results->hasPages())
-                            <div class="card-footer bg-white">
-                                <span class="float-start">{{ $results->links() }}</span>
-                                <span class="float-end"></span>
-                            </div>
-                        @endif
+                                        <small class="text-muted">
+                                            {{ $result->created_at->diffForHumans() }}
+                                        </small>
+                                    </div>
+
+                                    <p class="mb-2">{{ $result->description }}</p>
+
+                                    @if ($result->author)
+                                        <small class="text-muted">Ingestuurd door: <strong>{{ $result->author->name }}</strong></small>
+                                    @endif
+                                </a>
+                            @endforeach
+                        </div>
                     </div>
+
+                    @if ($results->hasPages())
+                        <div class="py-3 mt-3 border-top">
+                            {{ $results->links() }}
+                        </div>
+                    @endif
                 @else
 
                     <div class="alert alert-info alert-important shadow-sm" role="alert">

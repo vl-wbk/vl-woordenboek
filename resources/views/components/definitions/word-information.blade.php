@@ -7,33 +7,36 @@
 @section ('content')
     <div class="card bg-white border-0 shadow-sm">
         <div class="card-body">
-            <h4 class="text-gold mb-0 border-bottom py-1">{{ $word->word }} <span class="text-muted fs-6">({{ $word->characteristics }})</span></h4>
+            <h1 class="text-gold">{{ $word->word }}</h1>
 
-            <ul class="list-inline mt-1">
-                <li class="list-inline-item">
-                    <x-heroicon-o-user-circle class="icon me-1"/>
-                    <span class="text-muted">{{ $word->author->name ?? 'onbekend' }}</span>
-                </li>
-                <li class="list-inline-item">
-                    <x-heroicon-o-tag class="icon me-1"/>
-                    <span class="text-muted">{{ $word->status->getLabel() }}</span>
-                </li>
+            <ul class="list-unstyled mb-0 text-muted border-bottom pb-2">
+                <li>{{ $word->characteristics }}</li>
+                <li>{{ $word->status->getLabel() }}</li>
             </ul>
 
-            <div class="mt-4 mb-2">
-                <dl class="row mb-0">
-                    <dt class="col-sm-3">Beschrijving</dt>
-                    <dd class="col-sm-9">{{ $word->description }}</dd>
-                    <dt class="col-sm-3">Voorbeeld</dt>
-                    <dd class="col-sm-9">{{ $word->example }}</dd>
-                    <dt class="col-sm-3">Regio's</dt>
-                    <dd class="col-md-9">
-                        @foreach ($word->regions as $region)
-                            <span>{{ $region->name }}@if(! $loop->last),@endif</span>
-                        @endforeach
-                    </dd>
-                </dl>
-            </div>
+            <p class="mb-0 py-2">
+                <strong class="color-green">Regios:</strong></br>
+            </p>
+
+            <ul class="list-unstyled border-bottom mb-2 pb-2">
+                @forelse ($word->regions as $region)
+                    <li>
+                        <x-heroicon-o-map class="icon me-1"/> {{ $region->name }}
+                    </li>
+                @empty
+                    <li>- Geen regio voor het woord gevonden</li>
+                @endforelse
+            </ul>
+
+            <p class="border-bottom mb-0 py-2">
+                <strong class="color-green">Beschrijving:</strong></br>
+                {{ $word->description }}
+            </p>
+
+            <p class="pt-2 mb-0">
+                <strong class="color-green">Voorbeeld:</strong></br>
+                {{ $word->example }}
+            </p>
         </div>
 
         <div class="card-footer bg-white">
@@ -41,23 +44,6 @@
         </div>
     </div>
 
-    <div class="py-4">
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Definities</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    Reacties
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Revisies</a>
-            </li>
-        </ul>
-    </div>
-
-    @yield('information-tab')
 @endsection
 
 @section ('additional-sidenav-components')

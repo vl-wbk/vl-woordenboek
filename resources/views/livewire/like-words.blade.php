@@ -10,14 +10,18 @@
                     <x-heroicon-o-hand-thumb-down class="icon me-1"/> Downvote
                 </button>
             @endif
+
+            <span class="ms-2 text-dark">
+                    Upvotes: <span class="fw-bold">{{ $upvotes }}</span>
+                </li>
+            </span>
         </div>
     @endauth
 
     <div class="float-end">
         <ul class="list-inline mb-0">
-            <li class="list-inline-item text-muted">
-                <x-heroicon-s-hand-thumb-up class="icon text-success me-1"/>
-                Upvotes: <span class="fw-bold">{{ $upvotes }}</span>
+            <li class="list-inline-item fst-italic text-muted">
+                Ingestuurd door: <span class="fw-bold">{{ $word->author->name ?? 'onbekend gebruiker' }}</span>
             </li>
         </ul>
     </div>
