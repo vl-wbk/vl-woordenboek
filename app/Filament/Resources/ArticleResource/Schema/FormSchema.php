@@ -53,18 +53,7 @@ final readonly class FormSchema
                 ->required(),
             Components\RichEditor::make('example')
                 ->label('Voorbeeld')
-                ->toolbarButtons([
-                    'blockquote',
-                    'bold',
-                    'bulletList',
-                    'italic',
-                    'link',
-                    'orderedList',
-                    'redo',
-                    'strike',
-                    'underline',
-                    'undo',
-                ])
+                ->toolbarButtons(['bold', 'italic', 'link', 'redo', 'strike', 'underline', 'undo'])
                 ->placeholder('Probeer zo helder mogelijk te zijn')
                 ->columnSpan(12)
                 ->required()
