@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Casts\ExampleArrtibute;
 use App\States\Articles;
 use App\Contracts\States\ArticleStateContract;
 use App\Enums\ArticleStates;
@@ -145,6 +146,7 @@ final class Article extends Model implements AuditableContract
         return [
             'state' => ArticleStates::class,
             'status' => LanguageStatus::class,
+            'example' => ExampleArrtibute::class,
         ];
     }
 }

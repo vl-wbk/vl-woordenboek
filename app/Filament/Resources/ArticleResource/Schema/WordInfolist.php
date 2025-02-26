@@ -8,6 +8,7 @@ use Filament\Infolists\Components\Tabs;
 use Filament\Infolists\Components\Tabs\Tab;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
+use Illuminate\Support\HtmlString;
 
 final readonly class WordInfolist
 {
@@ -64,6 +65,7 @@ final readonly class WordInfolist
                     ->columnSpan(5),
                 TextEntry::make('example')
                     ->label('Voorbeeld')
+                    ->formatStateUsing(fn (string $state): HtmlString => new HtmlString($state))
                     ->columnSpan(7),
             ]);
     }
