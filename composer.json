@@ -13,8 +13,8 @@
         "filament/filament": "^3.2.64",
         "kenepa/resource-lock": "^2.1",
         "laravel/fortify": "^1.25",
-        "laravel/framework": "^11.31",
-        "laravel/tinker": "^2.9",
+        "laravel/framework": "^12.0",
+        "laravel/tinker": "^2.10.1",
         "overtrue/laravel-like": "^5.3",
         "owen-it/laravel-auditing": "^13.6",
         "secondnetwork/blade-tabler-icons": "^3.29",
@@ -27,13 +27,14 @@
         "fakerphp/faker": "^1.23",
         "jetbrains/phpstorm-attributes": "^1.2",
         "larastan/larastan": "^3.1",
-        "laravel/pail": "^1.1",
+        "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.13",
-        "laravel/sail": "^1.26",
+        "laravel/sail": "^1.41",
         "mockery/mockery": "^1.6",
-        "nunomaduro/collision": "^8.1",
+        "nunomaduro/collision": "^8.6",
         "pestphp/pest": "^3.7",
-        "pestphp/pest-plugin-laravel": "^3.1"
+        "pestphp/pest-plugin-laravel": "^3.1",
+        "phpunit/phpunit": "^11.5.3"
     },
     "autoload": {
         "psr-4": {
