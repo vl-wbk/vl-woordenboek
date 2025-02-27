@@ -1,0 +1,52 @@
+name: "Bug rapportering"
+description: Repporteer een bug en of probleem in het Vlaams Woordenboek. Alvorens u rapportering in te sturen, vragen we u om zeker te zijn dat het nog niet is gerapporteerd in onze issue tracker.
+labels: ["type: bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Sorry om te horen dat je een probleem hebt gevonden in Reiziger-filament. Please help ons het op te lossen doormiddel van het onderstaande formulier zo goed mogelijk in te vullen.
+  - type: textarea
+    id: what-doing
+    attributes:
+      label: Wat probeerde je uit te voeren?
+      description: Wat context omtrent wat je probeerde uit te voeren
+      placeholder: Ik heb geprobeerd om X te regelen in de applicatie
+    validations:
+      required: true
+  - type: textarea
+    id: what-happend
+    attributes:
+      label: Wat gebeurde er?
+      description: Wat verwachte je dat er gebeurde?
+      placeholder: Ik kan X niet uitvoeren want als ik X uitvoerde dan gebeurd er het volgende met Y.
+    validations:
+      required: true
+  - type: textarea
+    id: how-to-reproduce
+    attributes:
+      label: "Hoe kunnen we de fout reproduceren?"
+      description: Hoe is de bug ontstaan? Voeg wat details en of stappen toe. Zodat we de fout kunnen triggeren.
+      placeholder: Wanneer ik I uitgevoerd word door Y iets wat we niet verwachten
+    validations:
+      required: true
+  - type: dropdown
+    id: "web-browsers"
+    attributes:
+      label: Welke webbrowser gebruikte u op het moment dat de bug en of probleem zich voordeed?
+      description: U kunt er hier een selecteren.
+      multiple: true
+      options:
+        - Google Chrome
+        - Microsoft Edge
+        - Safari
+        - Firefox
+        - Opera
+        - Andere
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notities
+      description: "Gebruik dit veld om verdere notities te delen die u relevant vind voor het probleem en of bug."
+    validations:
+      required: false

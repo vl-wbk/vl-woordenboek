@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: "Nieuwe functionaliteit - voorafgaande discussie"
+    url: https://github.com/Tjoosten/vl-woordenboek/discussions/new?category=ideen
+    about: Ik heb een idee voor een nieuwe functionaliteit maar ik wens eerst een discussie te voeren alvorens hiervoor tickets voor aan te maken.

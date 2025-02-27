@@ -1,0 +1,27 @@
+name: "Algemene melding"
+description: "Meld een niet-gestandaardiseerd probleem, opmerking of suggestie."
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Belangrijk:** Vul alle secties zo goed mogelijk in, zodat we de rapportering snelm kunnen bekijken en mogelijks behandelen.
+  - type: textarea
+    id: description
+    attributes:
+      label: Beschrijf duidelijk wat je wilt melden.
+      description: Welke situatie of achtergrondinformatie is relevant?
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: Wat is het effect van deze melding of probleem?
+  - type: textarea
+    id: voorgestelde-oplossing
+    attributes:
+      label: Voorgestelde oplossing
+      description: Wat is het effect van dit probleem of deze melding?
+  - type: textarea
+    id: aanvullende-opmerkingen
+    attributes:
+      label: Aanvullende opmerkingen
+      description: Eventuele extra details of screenshots
