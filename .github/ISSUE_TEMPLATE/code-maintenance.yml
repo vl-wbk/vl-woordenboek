@@ -1,0 +1,24 @@
+name: "Opschonen van bestaande code"
+description: "Opschonen van het project, verbeteringen aan de documentatie (doc blocks) of refactoring van bestaande code"
+labels: ["type: refactoring"]
+body:
+  - type: textarea
+    id: problem-description
+    attributes:
+      label: Beschrijving van het probleem
+      description: Hoe had je verwacht dat de code eruit zou zien of werken?
+      placeholder: Probeer zo goed mogelijk het probleem te beschrijven met de bestaande code
+    validations:
+      required: true
+  - type: textarea
+    id: actual-behaviour
+    attributes:
+      label: Voorstel tot wijziging
+      description: Geef ons een inzicht omtrent hoe jij het probleem zou benaderen.
+    validations:
+      required: true
+  - type: textarea
+    id: provided-example
+    attributes:
+      label: Voorbeeld implementatie van de wijziging
+      description: Met een voorbeeld kunnen we makkelijker volgen wat je bedoeld.
