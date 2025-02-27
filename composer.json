@@ -11,12 +11,12 @@
         "dutchcodingcompany/filament-developer-logins": "^1.6",
         "eightynine/filament-advanced-widgets": "^3.0",
         "filament/filament": "^3.2.64",
-        "kenepa/resource-lock": "^2.1",
+        "kenepa/resource-lock": "dev-l12-compatibility",
         "laravel/fortify": "^1.25",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "overtrue/laravel-like": "^5.3",
-        "owen-it/laravel-auditing": "^13.6",
+        "owen-it/laravel-auditing": "^14.0",
         "secondnetwork/blade-tabler-icons": "^3.29",
         "spatie/laravel-data": "^4.13",
         "spatie/laravel-honeypot": "^4.5",
@@ -48,6 +48,12 @@
             "Tests\\": "tests/"
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/laravel-shift/resource-lock.git"
+        }
+    ],
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
