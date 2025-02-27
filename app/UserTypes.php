@@ -80,8 +80,8 @@ enum UserTypes: int implements HasLabel, HasColor, HasIcon
         return match($this) {
             self::Developer => 'heroicon-o-code-bracket',
             self::Administrators => 'heroicon-o-key',
-            self::Editor, self::EditorInChief => 'heroicon-o-penci',
-            self::Normal => 'heroicon-o-user-users',
+            self::Editor, self::EditorInChief => 'heroicon-o-pencil',
+            self::Normal => 'heroicon-o-users',
         };
     }
 
