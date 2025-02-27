@@ -29,7 +29,7 @@ final class EditUser extends EditRecord
      * Currently provides a delete action for removing users from the system when necessary.
      * The action includes proper confirmation dialogs to prevent accidental user deletion.
      *
-     * @return array
+     * @return array<int, Actions\DeleteAction>
      */
     protected function getHeaderActions(): array
     {
