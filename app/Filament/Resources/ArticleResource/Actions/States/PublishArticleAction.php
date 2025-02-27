@@ -7,15 +7,34 @@ namespace App\Filament\Resources\ArticleResource\Actions\States;
 use Filament\Actions\Action;
 
 /**
- * @property \App\Models\Article $record
+ * PublishArticleAction handles the submission for publication review.
+ *
+ * This action manages the transition of articles form draft state to the approval queue.
+ * It provides a confirmation interface with clear messaging about the review process and ensures proper authorization before allowing submission.
+ * The action maintains visual consistency through standarized icons and color schemes while supporting the Dutch-language interface requirements.
+ *
+ * @property \App\Models\Article $record The dictionary article being submitted for publication
+ *
+ * @package App\Filament\Resources\ArticleResource\Actions\States;
  */
 final class PublishArticleAction extends Action
 {
+    /**
+     * Provides the default name for the action in Dutch, maintaining consistency with the application's primary language interface.
+     * This text appears in buttons and navigation elements throughout the system.
+     */
     public static function getDefaultName(): string
     {
         return 'insturen voor publicatie';
     }
 
+    /**
+     * Configures the action's behavior and visual presentation.
+     *
+     * This setup method establishes the action's appearance and interaction flow.
+     * It configures the confirmation dialog with appropriate messaging about the review process, sets up authorization checks, and handles the state
+     * transition when confirmed. The paper airplane icon visually reinforces the submission concept while maintaining the application's design language.
+     */
     protected function setUp(): void
     {
         parent::setUp();
