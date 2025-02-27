@@ -16,6 +16,9 @@ body:
       required: true
   - type: textarea
     id: uitleg
-    
+    attributes:
+      label: Is deze feature ook waardevol voor het Vlaams woordenboek en waarom?
+      description: We willen het Vlaams woordenboek zodanig opbouwen dat het ook bruikbaar is voor iedereen om de juiste redenen.
+
 
 
