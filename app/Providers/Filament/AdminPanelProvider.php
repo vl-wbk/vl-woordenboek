@@ -7,6 +7,7 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -20,6 +21,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Config;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Kenepa\ResourceLock\ResourceLockPlugin;
 
 final class AdminPanelProvider extends PanelProvider
 {
@@ -42,8 +44,19 @@ final class AdminPanelProvider extends PanelProvider
                 'success' => Color::Green,
                 'warning' => Color::Amber,
             ])
+            ->userMenuItems([
+                MenuItem::make()
+                    ->label('Verlaat beheersconsole')
+                    ->url(fn (): string => route('home'))
+                    ->icon('heroicon-o-arrow-left-start-on-rectangle'),
+                MenuItem::make()
+                    ->label('Account instellingen')
+                    ->url(fn (): string => route('profile.settings'))
+                    ->icon('heroicon-o-adjustments-horizontal')
+            ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
+            ->discoverClusters(in: app_path('Filament/Clusters'), for: 'App\\Filament\\Clusters')
             ->pages([
                 Pages\Dashboard::class,
             ])
@@ -64,6 +77,7 @@ final class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->plugins([
+                ResourceLockPlugin::make(),
                 FilamentDeveloperLoginsPlugin::make()
                     ->enabled(Config::boolean('app.debug', false))
                     ->users($this->defaultLoginsDuringDevelopment())
@@ -73,12 +87,14 @@ final class AdminPanelProvider extends PanelProvider
             ]);
     }
 
+    /**
+     * @return array<string, string>
+     */
     private function defaultLoginsDuringDevelopment(): array
     {
         return [
             'Technisch beheerder' => 'developer@domain.tld',
             'Administrator' => 'administrator@domain.tld',
-            'Vrijwilliger' => 'volunteer@domain.tld',
         ];
     }
 }

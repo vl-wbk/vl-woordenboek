@@ -26,9 +26,9 @@ final class UserTableSeeder extends Seeder
 
     private function seedDataForLocalPurposes(): void
     {
-        User::factory()->create(['email' => 'developer@domain.tld', 'firstname' => 'developer', 'lastname' => 'login', 'user_type' => UserTypes::Developer]);
-        User::factory()->create(['email' => 'administrator@domain.tld', 'firstname' => 'Administrator', 'lastname' => 'login', 'user_type' => UserTypes::Administrators]);
-        User::factory()->create(['email' => 'volunteer@domain.tld', 'firstname' => 'Volunteer', 'lastname' => 'login', 'user_type' => UserTypes::Volunteers]);
+        collect(UserTypes::cases())->each(function (UserTypes $userType) {
+            User::factory()->create(attributes: ['email' => "{$userType->getLabel()}@domain.tld", 'user_type' => $userType->value]);
+        });
     }
 
     /**

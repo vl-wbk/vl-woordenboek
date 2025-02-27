@@ -11,16 +11,22 @@
         "dutchcodingcompany/filament-developer-logins": "^1.6",
         "eightynine/filament-advanced-widgets": "^3.0",
         "filament/filament": "^3.2.64",
+        "kenepa/resource-lock": "^2.1",
         "laravel/fortify": "^1.25",
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
+        "overtrue/laravel-like": "^5.3",
+        "owen-it/laravel-auditing": "^13.6",
         "secondnetwork/blade-tabler-icons": "^3.29",
         "spatie/laravel-data": "^4.13",
         "spatie/laravel-honeypot": "^4.5",
-        "spatie/laravel-welcome-notification": "^2.4"
+        "spatie/laravel-welcome-notification": "^2.4",
+        "watson/active": "^7.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
+        "jetbrains/phpstorm-attributes": "^1.2",
+        "larastan/larastan": "^3.1",
         "laravel/pail": "^1.1",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.26",
@@ -61,6 +67,10 @@
         "dev": [
             "Composer\\Config::disableProcessTimeout",
             "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
+        ],
+        "test:types": "phpstan analyse --memory-limit=2G",
+        "test": [
+            "@test:types"
         ]
     },
     "extra": {

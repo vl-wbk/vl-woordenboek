@@ -9,6 +9,7 @@ use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
 /**
+<<<<<<< HEAD
  * CreateUser provides the user creation interface in the Vlaams Woordenboek admin panel.
  *
  * This page component handles the registration of new users through a form-based interface.
@@ -17,6 +18,11 @@ use Filament\Resources\Pages\CreateRecord;
  * @package App\Filament\Resources\UserResource\Pages
  */
 final class CreateUser extends CreateRecord
+=======
+ * @property \App\Models\User $record The user model related to the created user entity in the Filament backend
+ */
+class CreateUser extends CreateRecord
+>>>>>>> develop
 {
     /**
      * Associates this page with the UserResource, enabling proper routing and form generation within the Filament admin panel.

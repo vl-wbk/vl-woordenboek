@@ -7,6 +7,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 final class Region extends Model
 {
@@ -15,8 +16,11 @@ final class Region extends Model
 
     protected $fillable = ['name'];
 
-    public function suggestions(): BelongsToMany
+    /**
+     * @return MorphTo<\Illuminate\Database\Eloquent\Model, covariant $this>
+     */
+    public function linguistic(): MorphTo
     {
-        return $this->belongsToMany(Suggestion::class);
+        return $this->morphTo();
     }
 }

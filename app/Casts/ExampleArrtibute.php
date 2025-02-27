@@ -1,12 +1,16 @@
 <?php
 
+<<<<<<< HEAD
 declare(strict_types=1);
 
+=======
+>>>>>>> develop
 namespace App\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
 
+<<<<<<< HEAD
 /**
  * ExampleAttrbiute provides custom casting for example text in dictionary entires.
  *
@@ -28,6 +32,14 @@ final readonly class ExampleArrtibute
      * @param  mixed                $value       The raw value from the database
      * @param  array<string, mixed> $attributes  All model attributes
      * @return mixed                             The processed value with HTML tags removed
+=======
+final readonly class ExampleArrtibute
+{
+    /**
+     * Cast the given value.
+     *
+     * @param  array<string, mixed>  $attributes
+>>>>>>> develop
      */
     public function get(Model $model, string $key, mixed $value, array $attributes): mixed
     {

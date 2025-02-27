@@ -13,14 +13,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\WelcomeNotification\ReceivesWelcomeNotification;
+use Overtrue\LaravelLike\Traits\Liker;
 
+/**
+ * @property UserTypes $user_type The group where the user is assigned to.
+ */
 final class User extends Authenticatable implements FilamentUser
 {
+    /** @use HasFactory<\Database\Factories\UserFactory> */
+    use HasFactory;
     use ReceivesWelcomeNotification;
     use Notifiable;
-
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use Liker;
 
     /**
      * The attributes that are mass assignable.
@@ -36,6 +40,10 @@ final class User extends Authenticatable implements FilamentUser
         'last_seen_at',
     ];
 
+    protected $attributes = [
+        'user_type' => UserTypes::Normal,
+    ];
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -46,15 +54,12 @@ final class User extends Authenticatable implements FilamentUser
         'remember_token',
     ];
 
-    /**
-     * @todo We moeten bekijken welke gebruikers toegang hebben tot het controle paneel.
-     */
     public function canAccessPanel(Panel $panel): bool
     {
-        return true;
+        return $this->can('access-backend');
     }
 
-    public function sendWelcomeNotification(Carbon $validUntil)
+    public function sendWelcomeNotification(Carbon $validUntil): void
     {
         $this->notify(new WelcomeNotification($validUntil));
     }

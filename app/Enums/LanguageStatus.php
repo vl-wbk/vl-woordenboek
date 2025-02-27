@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+use Filament\Support\Contracts\HasDescription;
 use Filament\Support\Contracts\HasLabel;
 
 /**
@@ -16,7 +17,7 @@ use Filament\Support\Contracts\HasLabel;
  *
  * @package App\Enums
  */
-enum LanguageStatus: int implements HasLabel
+enum LanguageStatus: int implements HasLabel, HasDescription
 {
     case StandaardNederlands = 1;
     case StandaardBelgischNederlands = 2;
@@ -32,6 +33,17 @@ enum LanguageStatus: int implements HasLabel
             self::KandidaatBelgischNederlands => 'Kandidaat Belgisch-Nederlands',
             self::Onbekend => 'Onbekend',
             self::GeenStandaardTaal => 'Geen standaardtaal',
+        };
+    }
+
+    public function getDescription(): string
+    {
+        return match ($this) {
+            self::StandaardNederlands => 'Dit is de status beschrijving voor Standaard Nederlands',
+            self::StandaardBelgischNederlands => 'Dit is de status beschrijving voor standaard Belgisch Nederlands',
+            self::KandidaatBelgischNederlands => 'Dit is de status beschrijving voor kandidaat Belgisch Nederlands',
+            self::Onbekend => 'Er is geen status veld gekend dat matcht bij dit woord',
+            self::GeenStandaardTaal => 'Zelf Yoda kan niet uit aan deze standarisatie. Nook! Nook!',
         };
     }
 }
