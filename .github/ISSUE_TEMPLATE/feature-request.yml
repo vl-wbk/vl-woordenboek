@@ -1,0 +1,21 @@
+name: "Idee voor een nieuwe toevoegen en of functionaliteit"
+description: "Heb je een idee voor een nieuwe functionaliteit in het VL woordenvoek. Laat het ons weten."
+labels: ["Discussion"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Bedankt voor het voorstellen van een nieuwe functionaliteit in het Vlaams woordenboek.
+  - type: textarea
+    id: feature-beschrijving
+    attributes:
+      label: Feature beschrijving
+      description: Hoe zou de functionaliteit eruit moeten zien of werken?
+      placeholder: Locatie in de broncode, gebruik van de feature, output...
+    validations:
+      required: true
+  - type: textarea
+    id: uitleg
+    
+
+
