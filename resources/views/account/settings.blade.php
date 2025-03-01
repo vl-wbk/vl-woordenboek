@@ -103,6 +103,43 @@
                 </form>
             </div>
         </div>
+
+        <hr class=" my-0 text-body-tertiary">
+
+        <div class="row py-4">
+            <div class="col-4">
+                <h5 class="fw-bold color-green">Account verwijderen</h5>
+                <p class="text-muted mb-0">Verwijder uw account permanent</p>
+            </div>
+            <div class="col-8">
+                <div class="card bg-white border-0 shadow-sm">
+                    <div class="card-header fw-bold bg-danger text-bg-danger">
+                        <x-heroicon-s-exclamation-triangle class="icon me-1"/> Opgepast
+                    </div>
+
+                    <div class="card-body">
+                        <p class="card-text lh-sm text-muted">
+                            Het verwijderen van je account is permanent. Al je bijdragen, bewerkingen en voorkeuren worden gewist, maar openbare wijzigingen blijven zichtbaar met een anonieme auteur.
+                            Indien u zeker bent van de verwijdering van je account vragen we enkel nog je huidig wachtwoord in te geven in het onderstaande formulier.
+                        </p>
+
+                        <hr>
+
+                        <form action="" id="accountDeletion" method="POST">
+                            @csrf
+                            <input type="text" name=:"password" placeholder="Uw huidig wachtwoord" class="form-control"/>
+                            <x-forms.validation-error field="password"/>
+                        </form>
+                    </div>
+
+                    <div class="bg-white card-footer">
+                        <button type="submit" form="accountDeletion" class="btn btn-sm btn-danger">
+                            <x-heroicon-s-trash class="icon icon-sm me-1"/> Account verwijderen
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
         {{-- END - user profile settings form --}}
     </div>
 @endsection
