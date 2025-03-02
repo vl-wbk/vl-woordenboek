@@ -54,6 +54,10 @@ final readonly class WordInfolist
                     ->label('Status')
                     ->translateLabel()
                     ->columnSpan(3),
+                TextEntry::make('keywords')
+                    ->label('Kernwoorden')
+                    ->translateLabel()
+                    ->columnSpanFull(),
                 TextEntry::make('regions.name')
                     ->label("Regio's")
                     ->badge()
