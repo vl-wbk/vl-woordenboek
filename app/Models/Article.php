@@ -33,6 +33,7 @@ use Kenepa\ResourceLock\Models\Concerns\HasLocks;
  * @property int            $id               The unique identifier for the article
  * @property string         $word             The dictionary word being defined
  * @property ArticleStates  $state            The current state of the article in its lifecycle
+ * @property string|null    $keywords         The keywords that are attached to the article
  * @property string         $description      The detailed explanation of the word
  * @property int            $author_id        The ID of the user who created the article
  * @property LanguageStatus $status           The current language validation status
@@ -60,7 +61,7 @@ final class Article extends Model implements AuditableContract
      *
      * @var list<string>
      */
-    protected $fillable = ['word', 'state', 'description', 'author_id', 'status', 'example', 'characteristics'];
+    protected $fillable = ['word', 'state', 'description', 'keywords', 'author_id', 'status', 'example', 'characteristics'];
 
     /**
      * Attributes excluded from the audit trail.
