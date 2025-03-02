@@ -7,7 +7,6 @@
         </div>
         <form action="{{ route('definitions.store') }}" id="createSuggestionForm" method="POST" class="card-body">
             @csrf {{--  Form field protection --}}
-            <x-honeypot /> {{-- Spam $submission protection --}}
 
             {{-- This hidoden form input connects the currently authenticated user (if there is a user authenticated) --}}
             <input type="hidden" name="creator" value="{{ optional(auth()->user())->id }}">
