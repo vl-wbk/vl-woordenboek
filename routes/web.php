@@ -11,11 +11,8 @@ use Illuminate\Support\Facades\Route;
 use Spatie\Honeypot\ProtectAgainstSpam;
 use Spatie\WelcomeNotification\WelcomesNewUsers;
 
-Route::get('/', SearchController::class)->name('home');
 Route::view('/voorwaarden', 'info.terms')->name('terms-of-service');
 
-// Lemma routes
-Route::get('/resultaten', SearchController::class)->name('search.results');
 
 // Article information routes
 Route::get('/woord/{word}', DefinitionInformationController::class)->name('word-information.show');
