@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('word');
             $table->smallInteger('status');
             $table->string('description');
+            $table->text('keywords')->nullable();
             $table->text('example');
             $table->text('characteristics');
             $table->timestamps();

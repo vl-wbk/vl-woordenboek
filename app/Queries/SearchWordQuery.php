@@ -12,6 +12,7 @@ final readonly class SearchWordQuery
     {
         return Article::query()
             ->where('word', 'LIKE', "%{$searchTerm}%")
+            ->orWhere('keywords', 'LIKE', "%{$searchTerm}%")
             ->paginate()
             ->withQueryString();
     }

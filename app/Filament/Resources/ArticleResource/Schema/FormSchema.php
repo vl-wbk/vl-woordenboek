@@ -45,6 +45,11 @@ final readonly class FormSchema
                 ->columnSpan(6)
                 ->required()
                 ->maxLength(255),
+            Components\TextInput::make('keywords')
+                ->label('Kernwoorden')
+                ->translateLabel()
+                ->placeholder('Kernwoord 1, Kernwoord 2, Kernwoord 3, etc...')
+                ->columnSpanFull(),
             Components\Textarea::make('description')
                 ->label('Beschrijving')
                 ->columnSpan(12)
