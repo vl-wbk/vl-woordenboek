@@ -11,6 +11,7 @@
         "dutchcodingcompany/filament-developer-logins": "^1.6",
         "eightynine/filament-advanced-widgets": "^3.0",
         "filament/filament": "^3.2.64",
+        "garygreen/pretty-routes": "^1.0",
         "kenepa/resource-lock": "dev-l12-compatibility",
         "laravel/fortify": "^1.25",
         "laravel/framework": "^12.0",
@@ -20,6 +21,7 @@
         "secondnetwork/blade-tabler-icons": "^3.29",
         "spatie/laravel-data": "^4.13",
         "spatie/laravel-honeypot": "^4.5",
+        "spatie/laravel-route-attributes": "^1.25",
         "spatie/laravel-welcome-notification": "^2.4",
         "watson/active": "^7.1"
     },

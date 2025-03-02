@@ -125,9 +125,9 @@
 
                         <hr>
 
-                        <form action="" id="accountDeletion" method="POST">
+                        <form action="{{ route('account.delete') }}" id="accountDeletion" method="POST">
                             @csrf
-                            <input type="text" name=:"password" placeholder="Uw huidig wachtwoord" class="form-control"/>
+                            <input type="password" name="password" placeholder="Uw huidig wachtwoord" class="form-control @error('password') is-invalid @enderror"/>
                             <x-forms.validation-error field="password"/>
                         </form>
                     </div>
