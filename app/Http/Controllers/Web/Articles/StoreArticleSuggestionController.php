@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Web\Articles;
 
 use App\Actions\Articles\StoreArticleSuggestion;
-use App\Http\Controllers\SearchController;
 use App\Http\Requests\Articles\StoreSuggestionRequest;
 use App\Models\Region;
 use Illuminate\Contracts\Support\Renderable;

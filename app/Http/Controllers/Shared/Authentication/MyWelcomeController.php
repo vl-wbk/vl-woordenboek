@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Authentication;
+namespace App\Http\Controllers\Shared\Authentication;
 
 use Spatie\WelcomeNotification\WelcomeController;
 use Symfony\Component\HttpFoundation\Response;
