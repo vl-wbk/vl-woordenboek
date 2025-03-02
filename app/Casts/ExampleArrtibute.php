@@ -18,6 +18,24 @@ use Illuminate\Database\Eloquent\Model;
 final readonly class ExampleArrtibute
 {
     /**
+     * Stores the example text value without modification.
+     *
+     * When setting the attribute value, we preserve the original input without
+     * any transformations. This allows the storage of raw HTML content while
+     * handling formatting during retrieval.
+     *
+     * @param  Model                $model       The model instance being accessed
+     * @param  string               $key         The attribute key being cast
+     * @param  mixed                $value       The value to be stored
+     * @param  array<string, mixed> $attributes  Current model attributes
+     * @return mixed                             The unmodified value for storage
+     */
+    public function set(Model $model, string $key, mixed $value, array $attributes): mixed
+    {
+        return $value;
+    }
+
+    /**
      * Transforms the stored example text by removing HTML paragraph tags.
      *
      * This method processes example text retrieved from the database, stripping out HTML paragraph tags that might have been stored.

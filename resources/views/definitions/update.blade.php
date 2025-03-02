@@ -25,7 +25,6 @@
             <form action="{{ route('article.update', $word) }}" id="updateArticleForm" method="POST">
                 @csrf               {{-- Form field protection --}}
                 @method('PATCH')    {{-- HTTP method spoofing --}}
-                <x-honeypot />      {{-- Spam $submission protection --}}
 
                 <div class="form-group">
                     <label for="woord" class="col-form-label">Woord <span class="fw-bold text-danger">*</span></label>
