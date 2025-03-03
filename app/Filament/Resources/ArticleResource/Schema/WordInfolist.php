@@ -66,11 +66,11 @@ final readonly class WordInfolist
                     ->columnSpan(12),
                 TextEntry::make('description')
                     ->label('Beschrijving')
-                    ->columnSpan(5),
+                    ->columnSpan(6),
                 TextEntry::make('example')
                     ->label('Voorbeeld')
                     ->formatStateUsing(fn (string $state): HtmlString => new HtmlString($state))
-                    ->columnSpan(7),
+                    ->columnSpan(6),
             ]);
     }
 
