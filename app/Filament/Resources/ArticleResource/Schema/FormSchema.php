@@ -61,8 +61,7 @@ final readonly class FormSchema
                 ->toolbarButtons(['bold', 'italic', 'link', 'redo', 'strike', 'underline', 'undo'])
                 ->placeholder('Probeer zo helder mogelijk te zijn')
                 ->columnSpan(12)
-                ->required()
-                ->maxLength(255),
+                ->required(),
         ];
     }
 
