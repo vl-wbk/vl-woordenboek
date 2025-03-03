@@ -136,6 +136,11 @@ final class Article extends Model implements AuditableContract
             ->withTimestamps();
     }
 
+    public function notes(): HasMany
+    {
+        return $this->hasMany(Note::class);
+    }
+
     /**
      * Configures attribute casting for proper type handling.
      * Ensures that state and status fields are properly cast to their respective enum types when retrieved from the database.
