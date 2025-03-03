@@ -36,7 +36,7 @@ class LikeWords extends Component
      */
     public function mount(Article $article): void
     {
-        $this->article = $this->article;
+        $this->article = $article;
     }
 
     /**
