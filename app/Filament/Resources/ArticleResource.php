@@ -91,6 +91,7 @@ final class ArticleResource extends Resource
     {
         return [
             \App\Filament\Resources\ArticleResource\RelationManagers\LabelsRelationManager::class,
+            \App\Filament\Resources\ArticleResource\RelationManagers\NotesRelationManager::class,
         ];
     }
 

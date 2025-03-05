@@ -137,6 +137,21 @@ final class Article extends Model implements AuditableContract
     }
 
     /**
+     * Establishes the one-to-many relationship between dictionary articles and their associated notes.
+     * This relationship allows articles to maintain multiple textual annotations, providing additional context, clarifications, or editorial comments.
+     * Each note is directly linked to its parent article through a foreign key constraint, ensuring referential integrity in the database.
+     *
+     * The relationship enables efficient access to an article's notes through Laravel's Eloquent ORM, supporting both eager and lazy loading patterns.
+     * This implementation facilitates common operations like retrieving all notes for an article, adding new notes, and managing existing annotations within the dictionary entry context.
+     *
+     * @return HasMany<Note, covariant $this> The relationship instance managing the article's notes
+     */
+    public function notes(): HasMany
+    {
+        return $this->hasMany(Note::class);
+    }
+
+    /**
      * Configures attribute casting for proper type handling.
      * Ensures that state and status fields are properly cast to their respective enum types when retrieved from the database.
      *
