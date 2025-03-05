@@ -91,6 +91,7 @@ final class ArticleResource extends Resource
     {
         return [
             \App\Filament\Resources\ArticleResource\RelationManagers\LabelsRelationManager::class,
+            \App\Filament\Resources\ArticleResource\RelationManagers\NotesRelationManager::class,
         ];
     }
 
@@ -145,7 +146,8 @@ final class ArticleResource extends Resource
                     ->searchable()
                     ->placeholder('onbekend')
                     ->icon('heroicon-o-user-circle')
-                    ->iconColor('primary'),
+                    ->iconColor('primary')
+                    ->toggleable(),
                 TextColumn::make('word')
                     ->searchable()
                     ->weight(FontWeight::SemiBold)
@@ -154,15 +156,18 @@ final class ArticleResource extends Resource
                 TextColumn::make('description')
                     ->label('Beschrijving')
                     ->searchable()
+                    ->words(10)
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->label('Toegevoegd op')
                     ->sortable()
-                    ->date(),
+                    ->date()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
                     ->label('Laast gewijzigd')
                     ->sortable()
-                    ->date(),
+                    ->date()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()->hiddenLabel(),
