@@ -17,4 +17,5 @@ We raden aan om eerst de ontderstaande onderdelen te bekijken, zodat je snel weg
 
 ## Inhoudstafel
 
-
+- **Woordenboek artiklen**
+    - [Notities](/docs/dictionairy-articles/index.md)
