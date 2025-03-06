@@ -3,7 +3,7 @@ import { defineConfig } from 'vitepress'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
     base: '/docs/',
-outDir: '../docs',
+outDir: '../public/docs',
   title: "VL woordenboek documentatie",
   description: "Onze bijhorene documentatie voor de ontwikkeling en gebruik van het Vl woordenboek ",
   themeConfig: {

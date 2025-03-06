@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Shared\Authentication\MyWelcomeController;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Spatie\WelcomeNotification\WelcomesNewUsers;
 
@@ -11,4 +12,8 @@ use Spatie\WelcomeNotification\WelcomesNewUsers;
 Route::group(['middleware' => ['web', WelcomesNewUsers::class]], function (): void {
     Route::get('welkom/{user}', [MyWelcomeController::class, 'showWelcomeForm'])->name('welcome');
     Route::post('welkom/{user}', [MyWelcomeController::class, 'savePassword']);
+});
+
+Route::get('/docs', function (): string {
+    return File::get(public_path() . '/docs/index.html');
 });
