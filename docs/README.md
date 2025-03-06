@@ -19,3 +19,5 @@ We raden aan om eerst de ontderstaande onderdelen te bekijken, zodat je snel weg
 
 - **Woordenboek artiklen**
     - [Notities](/docs/dictionairy-articles/index.md)
+- **Overig**
+    - [Terminologie - Glossarium](/docs/other/glossarium.md)
