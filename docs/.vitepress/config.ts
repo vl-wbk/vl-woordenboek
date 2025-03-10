@@ -3,28 +3,32 @@ import { defineConfig } from 'vitepress'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
     base: '/docs/',
-outDir: '../public/docs',
-  title: "VL woordenboek documentatie",
-  description: "Onze bijhorene documentatie voor de ontwikkeling en gebruik van het Vl woordenboek ",
-  themeConfig: {
-    // https://vitepress.dev/reference/default-theme-config
-    nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' }
-    ],
+    outDir: '../public/docs',
+    title: "VL. WBK docs",
+    description: "Onze bijhorende documentatie voor de ontwikkeling en gebruik van het Vl woordenboek ",
+    themeConfig: {
+        // https://vitepress.dev/reference/default-theme-config
+        sidebar: [
+            {
+                text: 'Artikelen',
+                collapsed: true,
+                items: [
+                    { text: 'Notities', link: '/dictionary-articles/notes' },
+                    { text: 'Labels', link: '/dictionary-articles/labels'},
+                    { text: 'Versiebeheer', link: '/dictionary-articles/versiebeheer' }
+                ]
+            },
+            {
+                text: 'Overig',
+                collapsed: true,
+                items: [
+                    { text: 'Glossarium', link: '/other/glossarium' },
+                ]
+            }
+        ],
 
-    sidebar: [
-      {
-        text: 'Examples',
-        items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
+        socialLinks: [
+            { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
         ]
-      }
-    ],
-
-    socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
-    ]
-  }
+    }
 })
