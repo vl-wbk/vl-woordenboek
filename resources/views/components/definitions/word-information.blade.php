@@ -37,7 +37,9 @@
                 <strong class="color-green">Voorbeeld:</strong>
             </p>
 
-            {!! str($word->example)->sanitizeHtml() !!}
+            <div class="info-section">
+                {!! str($word->example)->sanitizeHtml() !!}
+            </div>
         </div>
 
         <div class="card-footer bg-white">

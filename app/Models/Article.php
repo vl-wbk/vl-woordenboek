@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Casts\ExampleArrtibute;
 use App\States\Articles;
 use App\Contracts\States\ArticleStateContract;
 use App\Enums\ArticleStates;
@@ -16,7 +15,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use JetBrains\PhpStorm\Deprecated;
 use Overtrue\LaravelLike\Traits\Likeable;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
@@ -162,7 +160,6 @@ final class Article extends Model implements AuditableContract
         return [
             'state' => ArticleStates::class,
             'status' => LanguageStatus::class,
-            'example' => ExampleArrtibute::class,
         ];
     }
 }
