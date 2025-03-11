@@ -36,7 +36,7 @@
 
             <p class="border-bottom mb-0 py-2">
                 <strong class="color-green">Beschrijving:</strong></br>
-                {{ $word->description }}
+                {{ str($word->description)->sanitizeHtml() }}
             </p>
 
             <p class="pt-2 mb-0">

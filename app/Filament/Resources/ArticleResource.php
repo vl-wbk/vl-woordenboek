@@ -153,10 +153,11 @@ final class ArticleResource extends Resource
                     ->weight(FontWeight::SemiBold)
                     ->color('primary')
                     ->label('Lemma'),
-                TextColumn::make('description')
-                    ->label('Beschrijving')
-                    ->searchable()
-                    ->words(10)
+                TextColumn::make('partOfSpeech.name')
+                    ->label('woordsoort')
+                    ->sortable(),
+                TextColumn::make('characteristics')
+                    ->label('kenmerken')
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->label('Toegevoegd op')

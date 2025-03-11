@@ -48,10 +48,10 @@ final readonly class FormSchema
                 ->translateLabel()
                 ->placeholder('Kernwoord 1, Kernwoord 2, Kernwoord 3, etc...')
                 ->columnSpanFull(),
-            Components\Textarea::make('description')
+            Components\RichEditor::make('description')
                 ->label('Beschrijving')
                 ->columnSpan(12)
-                ->cols(2)
+                ->toolbarButtons(['bold', 'italic', 'link', 'redo', 'strike', 'underline', 'undo'])
                 ->placeholder('De beschrijving van het woord dat je wenst toe te voegen.')
                 ->required(),
             Components\RichEditor::make('example')
