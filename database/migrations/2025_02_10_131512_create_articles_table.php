@@ -5,6 +5,7 @@ use App\Enums\LanguageStatus;
 use App\Models\Region;
 use App\Models\User;
 use App\Models\Article;
+use App\Models\PartOfSpeech;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -22,6 +23,7 @@ return new class extends Migration
                 ->comment('The index column is used in the word index of the application.')
                 ->virtualAs("UPPER(LEFT(word, 1))");
             $table->smallInteger('state')->default(ArticleStates::New->value);
+            $table->foreignIdFor(PartOfSpeech::class)->nullable()->references('id')->on('part_of_speeches')->nullOnDelete();
             $table->foreignIdFor(User::class, 'author_id')->nullable()->references('id')->on('users')->nullOnDelete();
             $table->foreignIdFor(User::class, 'editor_id')->nullable()->references('id')->on('users')->nullOnDelete();
             $table->string('word');

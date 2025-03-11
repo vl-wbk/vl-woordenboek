@@ -31,6 +31,13 @@ final readonly class FormSchema
                 ->columnSpan(3)
                 ->required()
                 ->maxLength(255),
+            Components\Select::make('partOfSpeech')
+                ->label('Woordsoort')
+                ->columnSpan(3)
+                ->relationship(titleAttribute: 'name')
+                ->optionsLimit(4)
+                ->searchable()
+                ->preload(),
             Components\TextInput::make('characteristics')
                 ->label('Kenmerken')
                 ->columnSpan(6)
