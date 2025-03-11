@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 
 final class PartOfSpeech extends Model
 {
-    protected $guarded = ['id'];
+    protected $fillable = ['name', 'value'];
 }

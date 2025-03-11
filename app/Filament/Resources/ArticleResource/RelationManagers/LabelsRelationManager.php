@@ -107,7 +107,7 @@ final class LabelsRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('pivot.created_at')
                     ->label('Gekoppeld op')
                     ->date()
-                    ->searchable(),
+                    ->sortable(),
             ])
             ->headerActions([
                 $this->getCreateAction(),

@@ -28,18 +28,19 @@ use Kenepa\ResourceLock\Models\Concerns\HasLocks;
  * and includes auditing capabilities to track changes. The model supports relationships with authors,
  * editors, regions, and definitions while also providing likeability features.
  *
- * @property int            $id               The unique identifier for the article
- * @property string         $word             The dictionary word being defined
- * @property ArticleStates  $state            The current state of the article in its lifecycle
- * @property string|null    $keywords         The keywords that are attached to the article
- * @property string         $description      The detailed explanation of the word
- * @property int            $author_id        The ID of the user who created the article
- * @property LanguageStatus $status           The current language validation status
- * @property string|null    $example          Optional usage example of the word
- * @property string|null    $characteristics  Additional word characteristics
- * @property int|null       $editor_id        The ID of the assigned editor
- * @property \Carbon\Carbon $created_at       Timestamp of when the article was created
- * @property \Carbon\Carbon $updated_at       Timestamp of the last update
+ * @property int            $id                 The unique identifier for the article
+ * @property string         $word               The dictionary word being defined
+ * @property ArticleStates  $state              The current state of the article in its lifecycle
+ * @property string|null    $keywords           The keywords that are attached to the article
+ * @property string         $description        The detailed explanation of the word
+ * @property int            $author_id          The ID of the user who created the article
+ * @property LanguageStatus $status             The current language validation status
+ * @property string|null    $example            Optional usage example of the word
+ * @property string|null    $characteristics    Additional word characteristics
+ * @property int|null       $editor_id          The ID of the assigned editor
+ * @property int|null       $part_of_speech_id  The unique ID of the part of speech information.
+ * @property \Carbon\Carbon $created_at         Timestamp of when the article was created
+ * @property \Carbon\Carbon $updated_at         Timestamp of the last update
  *
  * @package App\Models
  */
@@ -102,6 +103,15 @@ final class Article extends Model implements AuditableContract
         };
     }
 
+    /**
+     * Retrieves the associated part of speech data for the article.
+     *
+     * This method defines a "belongs to" relationship that retrieves detailed grammatical information,
+     * such as whether the word is a noun, verb, adjective, etc. This information is critical for categorizing
+     * the article correctly in the application.
+     *
+     * @return BelongsTo<PartOfSpeech, covariant $this>
+     */
     public function partOfSpeech(): BelongsTo
     {
         return $this->belongsTo(PartOfSpeech::class);
