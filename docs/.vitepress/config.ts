@@ -8,6 +8,11 @@ export default defineConfig({
     description: "Onze bijhorende documentatie voor de ontwikkeling en gebruik van het Vl woordenboek ",
     themeConfig: {
         // https://vitepress.dev/reference/default-theme-config
+        nav: [
+            { text: 'Code of Conduct', link: 'https://github.com/Tjoosten/vl-woordenboek/blob/develop/CODE_OF_CONDUCT.md', 'target': '_blank' },
+            { text: 'LICENSE', link: 'https://github.com/Tjoosten/vl-woordenboek/blob/develop/LICENSE', 'target': '_blank' },
+            { text: 'Contributing', link: '/' },
+        ],
         sidebar: [
             {
                 text: 'Artikelen',
