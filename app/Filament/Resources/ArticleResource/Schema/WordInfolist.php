@@ -36,15 +36,23 @@ final readonly class WordInfolist
                     ->label('Index')
                     ->translateLabel()
                     ->badge()
-                    ->columnSpan(2),
+                    ->columnSpan(3),
                 TextEntry::make('state')
                     ->label('Artikel status')
                     ->badge()
                     ->translateLabel()
-                    ->columnSpan(2),
+                    ->columnSpan(3),
                 TextEntry::make('word')
                     ->label('Woord')
-                    ->columnSpan(2)
+                    ->columnSpan(3)
+                    ->translateLabel(),
+                TextEntry::make('keywords')
+                    ->label('Kernwoorden')
+                    ->translateLabel()
+                    ->columnSpan(3),
+                TextEntry::make('partOfSpeech.name')
+                    ->label('Woordsoort')
+                    ->columnSpan(3)
                     ->translateLabel(),
                 TextEntry::make('characteristics')
                     ->label('Kenmerken')
@@ -54,10 +62,6 @@ final readonly class WordInfolist
                     ->label('Status')
                     ->translateLabel()
                     ->columnSpan(3),
-                TextEntry::make('keywords')
-                    ->label('Kernwoorden')
-                    ->translateLabel()
-                    ->columnSpanFull(),
                 TextEntry::make('regions.name')
                     ->label("Regio's")
                     ->badge()

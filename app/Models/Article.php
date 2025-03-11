@@ -59,7 +59,7 @@ final class Article extends Model implements AuditableContract
      *
      * @var list<string>
      */
-    protected $fillable = ['word', 'state', 'description', 'part_of_speech', 'keywords', 'author_id', 'status', 'example', 'characteristics'];
+    protected $fillable = ['word', 'state', 'description', 'keywords', 'author_id', 'status', 'example', 'characteristics'];
 
     /**
      * Attributes excluded from the audit trail.
@@ -100,6 +100,11 @@ final class Article extends Model implements AuditableContract
             ArticleStates::Published => new Articles\PublishedState($this),
             ArticleStates::Archived => new Articles\ArchivedState($this),
         };
+    }
+
+    public function partOfSpeech(): BelongsTo
+    {
+        return $this->belongsTo(PartOfSpeech::class);
     }
 
     /**
