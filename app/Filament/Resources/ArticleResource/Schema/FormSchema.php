@@ -31,6 +31,13 @@ final readonly class FormSchema
                 ->columnSpan(3)
                 ->required()
                 ->maxLength(255),
+            Components\Select::make('partOfSpeech')
+                ->label('Woordsoort')
+                ->columnSpan(3)
+                ->relationship(titleAttribute: 'name')
+                ->optionsLimit(4)
+                ->searchable()
+                ->preload(),
             Components\TextInput::make('characteristics')
                 ->label('Kenmerken')
                 ->columnSpan(6)
@@ -41,10 +48,10 @@ final readonly class FormSchema
                 ->translateLabel()
                 ->placeholder('Kernwoord 1, Kernwoord 2, Kernwoord 3, etc...')
                 ->columnSpanFull(),
-            Components\Textarea::make('description')
+            Components\RichEditor::make('description')
                 ->label('Beschrijving')
                 ->columnSpan(12)
-                ->cols(2)
+                ->toolbarButtons(['bold', 'italic', 'link', 'redo', 'strike', 'underline', 'undo'])
                 ->placeholder('De beschrijving van het woord dat je wenst toe te voegen.')
                 ->required(),
             Components\RichEditor::make('example')

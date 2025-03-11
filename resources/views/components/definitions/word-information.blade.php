@@ -10,7 +10,13 @@
             <h1 class="text-gold">{{ $word->word }}</h1>
 
             <ul class="list-unstyled mb-0 text-muted border-bottom pb-2">
-                <li>{{ $word->characteristics }}</li>
+                <li>
+                    @if ($word->partOfSpeech)
+                    <span class="badge text-bg-secondary me-1">{{ $word->partOfSpeech->name }}</span>
+                    @endif
+
+                    {{ $word->characteristics }}
+                </li>
                 <li>{{ $word->status->getLabel() }}</li>
             </ul>
 
@@ -30,7 +36,7 @@
 
             <p class="border-bottom mb-0 py-2">
                 <strong class="color-green">Beschrijving:</strong></br>
-                {{ $word->description }}
+                {{ str($word->description)->sanitizeHtml() }}
             </p>
 
             <p class="pt-2 mb-0">
