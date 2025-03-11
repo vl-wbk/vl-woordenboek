@@ -26,15 +26,6 @@ final readonly class FormSchema
     public static function getDetailSchema(): array
     {
         return [
-            Components\Select::make('author_id')
-                ->relationship(name: 'author', titleAttribute: 'name', modifyQueryUsing: fn (Builder $query): Builder => $query->where('user_type', '!=', UserTypes::Normal))
-                ->searchable()
-                ->default(auth()->id())
-                ->columnSpan(3)
-                ->preload()
-                ->label('Auteur')
-                ->required()
-                ->native(false),
             Components\TextInput::make('word')
                 ->label('Woord')
                 ->columnSpan(3)
