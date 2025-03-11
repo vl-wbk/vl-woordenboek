@@ -24,6 +24,8 @@ use Filament\Resources\Pages\CreateRecord\Concerns\HasWizard;
  * collects geographical context and publication status information. This separation helps
  * organize the data entry process in a logical and user-friendly manner.
  *
+ * @property \App\Models\Article $record  The database entity from the created dictionary article.
+ *
  * @package App\Filament\Resources\ArticleResource\Pages
  */
 final class CreateWord extends CreateRecord
