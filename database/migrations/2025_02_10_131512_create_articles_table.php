@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->text('keywords')->nullable();
             $table->text('example')->nullable();
+            $table->string('part_of_speech')->nullable();
             $table->text('characteristics')->nullable();
             $table->timestamps();
         });
