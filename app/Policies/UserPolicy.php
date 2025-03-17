@@ -42,4 +42,11 @@ final readonly class UserPolicy
     {
         return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer]);
     }
+
+    public function deactivate(User $user, User $model): bool
+    {
+        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer])
+            && $user->isNot($model)
+            && $model->isNotBanned();
+    }
 }
