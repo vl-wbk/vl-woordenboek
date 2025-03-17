@@ -36,6 +36,8 @@ final class UserTableSeeder extends Seeder
      */
     public function seedDataForProductionPurposes(): void
     {
-        //
+        collect(UserTypes::cases())->each(function (UserTypes $userType) {
+            User::factory()->create(attributes: ['email' => "{$userType->getLabel()}@domain.tld", 'user_type' => $userType->value]);
+        });
     }
 }
