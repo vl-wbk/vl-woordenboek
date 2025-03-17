@@ -15,6 +15,13 @@ export default defineConfig({
         ],
         sidebar: [
             {
+                text: 'Gebruikers',
+                collapsed: true,
+                items: [
+                    { text: 'Machtigingen', link: '/users/authorisations' },
+                ]
+            },
+            {
                 text: 'Artikelen',
                 collapsed: true,
                 items: [
