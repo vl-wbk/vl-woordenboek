@@ -44,7 +44,7 @@ final class BanAction extends Action
             ]));
 
             $this->failureNotificationTitle('Oops! Er is iets fout gelopen.');
-            $this->successNotificationTitle('Het gebruikerdaccount is gedeactiveerd');
+            $this->successNotificationTitle('Het gebruikersaccount is gedeactiveerd');
 
             if (! $result) {
                 $this->failure();
@@ -55,7 +55,7 @@ final class BanAction extends Action
         });
     }
 
-    public function formSchema(): array 
+    public function formSchema(): array
     {
         return [
             Textarea::make('comment')

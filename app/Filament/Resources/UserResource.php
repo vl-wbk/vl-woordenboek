@@ -108,6 +108,7 @@ final class UserResource extends Resource
 
                     // Custom actions for activating/deactivating user accounts in the application platform.
                     Actions\BanAction::make()->visible(fn (User $user): bool => Gate::allows('deactivate', $user)),
+                    Actions\UnbanAction::make()->authorize(fn (User $user): bool => Gate::allows('reactivate', $user)),
 
                     // Default delete actions
                     Tables\Actions\DeleteAction::make(),
