@@ -12,7 +12,7 @@
         "eightynine/filament-advanced-widgets": "^3.0",
         "filament/filament": "^3.2.64",
         "garygreen/pretty-routes": "^1.0",
-        "kenepa/resource-lock": "dev-l12-compatibility",
+        "kenepa/resource-lock": "^2.1.3",
         "laravel/fortify": "^1.25",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
@@ -49,12 +49,6 @@
             "Tests\\": "tests/"
         }
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/laravel-shift/resource-lock.git"
-        }
-    ],
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
