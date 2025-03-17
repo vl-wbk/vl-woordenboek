@@ -39,11 +39,11 @@ enum LanguageStatus: int implements HasLabel, HasDescription
     public function getDescription(): string
     {
         return match ($this) {
-            self::StandaardNederlands => 'Dit is de status beschrijving voor Standaard Nederlands',
-            self::StandaardBelgischNederlands => 'Dit is de status beschrijving voor standaard Belgisch Nederlands',
-            self::KandidaatBelgischNederlands => 'Dit is de status beschrijving voor kandidaat Belgisch Nederlands',
-            self::Onbekend => 'Er is geen status veld gekend dat matcht bij dit woord',
-            self::GeenStandaardTaal => 'Zelf Yoda kan niet uit aan deze standarisatie. Nook! Nook!',
+            self::StandaardNederlands => 'Een officieel erkend woord dat voorkomt in Nederlandse woordenboeken en algemeen gebruikt wordt in Nederland en Belgie in formele en informele contexten.',
+            self::StandaardBelgischNederlands => 'Een officieel erkend woord dat specifiek is voor het Belgisch Nederlands, voorkomt in Belgische woordenboeken en algemeen aanvaard is in België.',
+            self::KandidaatBelgischNederlands => 'Een woord dat frequent gebruikt wordt in België maar (nog) niet officieel erkend is als standaardtaal, mogelijk op weg naar erkenning.',
+            self::Onbekend => 'Een woord waarvan de status nog niet bepaald is of waarover onvoldoende informatie beschikbaar is',
+            self::GeenStandaardTaal => '	Een woord dat niet tot de standaardtaal behoort, zoals dialect of streektaal, en niet algemeen aanvaard is in formele contexten.',
         };
     }
 }
