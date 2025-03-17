@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use JetBrains\PhpStorm\Deprecated;
 use Overtrue\LaravelLike\Traits\Likeable;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
@@ -29,17 +28,19 @@ use Kenepa\ResourceLock\Models\Concerns\HasLocks;
  * and includes auditing capabilities to track changes. The model supports relationships with authors,
  * editors, regions, and definitions while also providing likeability features.
  *
- * @property int            $id               The unique identifier for the article
- * @property string         $word             The dictionary word being defined
- * @property ArticleStates  $state            The current state of the article in its lifecycle
- * @property string         $description      The detailed explanation of the word
- * @property int            $author_id        The ID of the user who created the article
- * @property LanguageStatus $status           The current language validation status
- * @property string|null    $example          Optional usage example of the word
- * @property string|null    $characteristics  Additional word characteristics
- * @property int|null       $editor_id        The ID of the assigned editor
- * @property \Carbon\Carbon $created_at       Timestamp of when the article was created
- * @property \Carbon\Carbon $updated_at       Timestamp of the last update
+ * @property int            $id                 The unique identifier for the article
+ * @property string         $word               The dictionary word being defined
+ * @property ArticleStates  $state              The current state of the article in its lifecycle
+ * @property string|null    $keywords           The keywords that are attached to the article
+ * @property string         $description        The detailed explanation of the word
+ * @property int            $author_id          The ID of the user who created the article
+ * @property LanguageStatus $status             The current language validation status
+ * @property string|null    $example            Optional usage example of the word
+ * @property string|null    $characteristics    Additional word characteristics
+ * @property int|null       $editor_id          The ID of the assigned editor
+ * @property int|null       $part_of_speech_id  The unique ID of the part of speech information.
+ * @property \Carbon\Carbon $created_at         Timestamp of when the article was created
+ * @property \Carbon\Carbon $updated_at         Timestamp of the last update
  *
  * @package App\Models
  */
@@ -59,7 +60,7 @@ final class Article extends Model implements AuditableContract
      *
      * @var list<string>
      */
-    protected $fillable = ['word', 'state', 'description', 'author_id', 'status', 'example', 'characteristics'];
+    protected $fillable = ['word', 'state', 'description', 'keywords', 'author_id', 'status', 'example', 'characteristics'];
 
     /**
      * Attributes excluded from the audit trail.
@@ -103,6 +104,20 @@ final class Article extends Model implements AuditableContract
     }
 
     /**
+     * Retrieves the associated part of speech data for the article.
+     *
+     * This method defines a "belongs to" relationship that retrieves detailed grammatical information,
+     * such as whether the word is a noun, verb, adjective, etc. This information is critical for categorizing
+     * the article correctly in the application.
+     *
+     * @return BelongsTo<PartOfSpeech, covariant $this>
+     */
+    public function partOfSpeech(): BelongsTo
+    {
+        return $this->belongsTo(PartOfSpeech::class);
+    }
+
+    /**
      * Defines the relationship between an article and its author.
      * Each article is created by exactly one user (author). This relationship is crucial for tracking article ownership and attribution.
      *
@@ -132,6 +147,21 @@ final class Article extends Model implements AuditableContract
         return $this->belongsToMany(Label::class)
             ->withPivot('created_at')
             ->withTimestamps();
+    }
+
+    /**
+     * Establishes the one-to-many relationship between dictionary articles and their associated notes.
+     * This relationship allows articles to maintain multiple textual annotations, providing additional context, clarifications, or editorial comments.
+     * Each note is directly linked to its parent article through a foreign key constraint, ensuring referential integrity in the database.
+     *
+     * The relationship enables efficient access to an article's notes through Laravel's Eloquent ORM, supporting both eager and lazy loading patterns.
+     * This implementation facilitates common operations like retrieving all notes for an article, adding new notes, and managing existing annotations within the dictionary entry context.
+     *
+     * @return HasMany<Note, covariant $this> The relationship instance managing the article's notes
+     */
+    public function notes(): HasMany
+    {
+        return $this->hasMany(Note::class);
     }
 
     /**

@@ -8,6 +8,7 @@ use Filament\Infolists\Components\Tabs;
 use Filament\Infolists\Components\Tabs\Tab;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
+use Illuminate\Support\HtmlString;
 
 final readonly class WordInfolist
 {
@@ -35,15 +36,23 @@ final readonly class WordInfolist
                     ->label('Index')
                     ->translateLabel()
                     ->badge()
-                    ->columnSpan(2),
+                    ->columnSpan(3),
                 TextEntry::make('state')
                     ->label('Artikel status')
                     ->badge()
                     ->translateLabel()
-                    ->columnSpan(2),
+                    ->columnSpan(3),
                 TextEntry::make('word')
                     ->label('Woord')
-                    ->columnSpan(2)
+                    ->columnSpan(3)
+                    ->translateLabel(),
+                TextEntry::make('keywords')
+                    ->label('Kernwoorden')
+                    ->translateLabel()
+                    ->columnSpan(3),
+                TextEntry::make('partOfSpeech.name')
+                    ->label('Woordsoort')
+                    ->columnSpan(3)
                     ->translateLabel(),
                 TextEntry::make('characteristics')
                     ->label('Kenmerken')
@@ -61,10 +70,12 @@ final readonly class WordInfolist
                     ->columnSpan(12),
                 TextEntry::make('description')
                     ->label('Beschrijving')
-                    ->columnSpan(5),
+                    ->formatStateUsing(fn (string $state): HtmlString => new HtmlString($state))
+                    ->columnSpan(12),
                 TextEntry::make('example')
                     ->label('Voorbeeld')
-                    ->columnSpan(7),
+                    ->formatStateUsing(fn (string $state): HtmlString => new HtmlString($state))
+                    ->columnSpan(12),
             ]);
     }
 

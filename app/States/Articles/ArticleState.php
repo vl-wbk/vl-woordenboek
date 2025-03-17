@@ -26,7 +26,7 @@ class ArticleState implements ArticleStateContract
 
     public function transitionToEditing(): void
     {
-        throw new LogicException('The method transitionTOEditing() is not allowed in the current state.');
+        throw new LogicException('The method tran   sitionTOEditing() is not allowed in the current state.');
     }
 
     public function transitionToReleased(): void

@@ -2,17 +2,21 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Definitions;
+namespace App\Http\Controllers\Web\Articles;
 
 use App\Actions\Articles\UpdateArticle;
+use App\Http\Controllers\Web\Articles\DictionaryArticleController;
 use App\Http\Requests\Articles\UpdateArticleRequest;
 use App\Models\Region;
 use App\Models\Article;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
+use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Middleware;
+use Spatie\RouteAttributes\Attributes\Patch;
 
 /**
- * UpdateDefinitionController manages the display and processing of word definition updates.
+ * RequestArticleChangeController manages the display and processing of word definition updates.
  *
  * This controller provides methods for:
  *
@@ -23,9 +27,10 @@ use Illuminate\Http\RedirectResponse;
  * It also leverages form request validation to ensure data integrity.
  * Optionally, authorization can be implemented to restrict access to the update functionality.
  *
- * @package App\Http\Controllers\Definitions
+ * @package App\Http\Controllers\Web\Articles
  */
-final readonly class UpdateDefinitionController
+#[Middleware(middleware: ['auth'])]
+final readonly class RequestArticleChangeController
 {
     /**
      * Display the form for editing a specific word's definition.
@@ -34,6 +39,7 @@ final readonly class UpdateDefinitionController
      * @param  Article $word  The Article model instance to be edited (injected via route model binding).
      * @return Renderable     The view for editing the definition.
      */
+    #[Get(uri: '/artikel/{word}/aanpassen', name: 'definitions.update')]
     public function edit(Article $word): Renderable
     {
         return view('definitions.update', [
@@ -53,10 +59,11 @@ final readonly class UpdateDefinitionController
      * @param  Article              $word                   The Article model instance to be updated (injected via route model binding).
      * @return RedirectResponse                             Redirects to the dictionary article detail page after a successful update.
      */
+    #[Patch(uri: '/artikel/{word}/aanpassen', name: 'article.update')]
     public function update(UpdateArticleRequest $updateArticleRequest, UpdateArticle $updateArticle, Article $word): RedirectResponse
     {
         $updateArticle($word, $updateArticleRequest->getData());
 
-        return redirect()->action(DefinitionInformationController::class, $word);
+        return redirect()->action(DictionaryArticleController::class, $word);
     }
 }

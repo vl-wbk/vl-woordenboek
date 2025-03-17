@@ -103,24 +103,34 @@ final class ArticlesRelationManager extends RelationManager
     protected function getTableLayout(): array
     {
         return [
-            Tables\Columns\TextColumn::make('author.name')
+            TextColumn::make('author.name')
                 ->label('Ingevoegd door')
                 ->searchable()
+                ->placeholder('onbekend')
                 ->icon('heroicon-o-user-circle')
-                ->iconColor('primary'),
+                ->iconColor('primary')
+                ->toggleable(),
             TextColumn::make('word')
                 ->searchable()
                 ->weight(FontWeight::SemiBold)
                 ->color('primary')
-                ->label('Titel'),
-            TextColumn::make('description')
-                ->label('Beschrijving')
-                ->searchable()
+                ->label('Lemma'),
+            TextColumn::make('partOfSpeech.name')
+                ->label('woordsoort')
                 ->sortable(),
-            Tables\Columns\TextColumn::make('pivot.created_at')
-                ->label('Gekoppeld op')
+            TextColumn::make('characteristics')
+                ->label('kenmerken')
+                ->sortable(),
+            TextColumn::make('created_at')
+                ->label('Toegevoegd op')
+                ->sortable()
                 ->date()
-                ->searchable(),
+                ->toggleable(isToggledHiddenByDefault: true),
+            TextColumn::make('updated_at')
+                ->label('Laast gewijzigd')
+                ->sortable()
+                ->date()
+                ->toggleable(isToggledHiddenByDefault: true),
         ];
     }
 }

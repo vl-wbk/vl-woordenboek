@@ -1,8 +1,11 @@
 <?php
 
+use App\Enums\ArticleStates;
+use App\Enums\LanguageStatus;
 use App\Models\Region;
 use App\Models\User;
 use App\Models\Article;
+use App\Models\PartOfSpeech;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,14 +22,16 @@ return new class extends Migration
             $table->string('index', 1)
                 ->comment('The index column is used in the word index of the application.')
                 ->virtualAs("UPPER(LEFT(word, 1))");
-            $table->smallInteger('state');
+            $table->smallInteger('state')->default(ArticleStates::New->value);
+            $table->foreignIdFor(PartOfSpeech::class)->nullable()->references('id')->on('part_of_speeches')->nullOnDelete();
             $table->foreignIdFor(User::class, 'author_id')->nullable()->references('id')->on('users')->nullOnDelete();
             $table->foreignIdFor(User::class, 'editor_id')->nullable()->references('id')->on('users')->nullOnDelete();
             $table->string('word');
-            $table->smallInteger('status');
-            $table->string('description');
-            $table->text('example');
-            $table->text('characteristics');
+            $table->smallInteger('status')->default(LanguageStatus::Onbekend->value);
+            $table->string('description')->nullable();
+            $table->text('keywords')->nullable();
+            $table->text('example')->nullable();
+            $table->text('characteristics')->nullable();
             $table->timestamps();
         });
 

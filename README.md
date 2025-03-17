@@ -51,7 +51,7 @@ We verwachten van alle brijdragers dat ze anderen met respect behandelen en same
 
 ## 📜 Licentie
 
-Dit project is gelicenseerd onder de MIT-licentie. Zie het bestand [LICENSE]() voor meer informlatie.
+Dit project is gelicenseerd onder de MIT-licentie. Zie het bestand [LICENSE](/LICENSE) voor meer informlatie.
 
 ## 📞 Contact & Community
 

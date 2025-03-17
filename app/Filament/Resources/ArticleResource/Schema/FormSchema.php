@@ -21,43 +21,45 @@ final readonly class FormSchema
     }
 
     /**
-     * @return array<int, Components\Select|Components\TextInput|Components\Textarea>
+     * @return array<int, Components\Select|Components\TextInput|Components\Textarea|Components\RichEditor>
      */
     public static function getDetailSchema(): array
     {
         return [
-            Components\Select::make('author_id')
-                ->relationship(name: 'author', titleAttribute: 'name', modifyQueryUsing: fn (Builder $query): Builder => $query->where('user_type', '!=', UserTypes::Normal))
-                ->searchable()
-                ->default(auth()->id())
-                ->columnSpan(3)
-                ->preload()
-                ->label('Auteur')
-                ->required()
-                ->native(false),
             Components\TextInput::make('word')
                 ->label('Woord')
                 ->columnSpan(3)
                 ->required()
                 ->maxLength(255),
+            Components\Select::make('partOfSpeech')
+                ->label('Woordsoort')
+                ->columnSpan(3)
+                ->relationship(titleAttribute: 'name')
+                ->optionsLimit(4)
+                ->searchable()
+                ->preload(),
             Components\TextInput::make('characteristics')
                 ->label('Kenmerken')
                 ->columnSpan(6)
                 ->required()
                 ->maxLength(255),
-            Components\Textarea::make('description')
+            Components\TextInput::make('keywords')
+                ->label('Kernwoorden')
+                ->translateLabel()
+                ->placeholder('Kernwoord 1, Kernwoord 2, Kernwoord 3, etc...')
+                ->columnSpanFull(),
+            Components\RichEditor::make('description')
                 ->label('Beschrijving')
                 ->columnSpan(12)
-                ->cols(2)
+                ->toolbarButtons(['bold', 'italic', 'link', 'redo', 'strike', 'underline', 'undo'])
                 ->placeholder('De beschrijving van het woord dat je wenst toe te voegen.')
                 ->required(),
-            Components\Textarea::make('example')
+            Components\RichEditor::make('example')
                 ->label('Voorbeeld')
+                ->toolbarButtons(['bold', 'italic', 'link', 'redo', 'strike', 'underline', 'undo'])
                 ->placeholder('Probeer zo helder mogelijk te zijn')
-                ->cols(2)
                 ->columnSpan(12)
-                ->required()
-                ->maxLength(255),
+                ->required(),
         ];
     }
 
