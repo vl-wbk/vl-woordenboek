@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->rememberToken();
             $table->timestamp('last_seen_at')->nullable();
+            $table->timestamp('banned_at')->nullable();
             $table->timestamps();
         });
 

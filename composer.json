@@ -8,6 +8,7 @@
     "require": {
         "php": "^8.2",
         "archtechx/enums": "^1.1",
+        "cybercog/laravel-ban": "^4.10",
         "dutchcodingcompany/filament-developer-logins": "^1.6",
         "eightynine/filament-advanced-widgets": "^3.0",
         "filament/filament": "^3.2.64",
