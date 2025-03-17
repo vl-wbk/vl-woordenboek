@@ -45,6 +45,6 @@ return [
     |
     */
 
-    'redirect_url' => null,
+    'redirect_url' => 'account-deactivatie',
 
 ];

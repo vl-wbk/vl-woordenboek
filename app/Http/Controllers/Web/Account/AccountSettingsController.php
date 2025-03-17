@@ -28,7 +28,7 @@ final readonly class AccountSettingsController
      *
      * @return Renderable  The view containing account settings forms
      */
-    #[Get(uri: 'account-instellingen', name:'profile.settings', middleware: ['auth'])]
+    #[Get(uri: 'account-instellingen', name:'profile.settings', middleware: ['auth', 'forbid-banned-user'])]
     public function __invoke(): Renderable
     {
         return view('account.settings', [
