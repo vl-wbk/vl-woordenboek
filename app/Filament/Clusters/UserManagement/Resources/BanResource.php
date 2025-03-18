@@ -34,8 +34,7 @@ final class BanResource extends Resource
             ->description('Overzicht van alle gedeactiveerde gebruiker accounts. Wanneer een deactivering verloopt zal deze automatisch terug geactiveerd worden in het systeem.')
             ->columns(self::getTableColumnLayout())
             ->filters(self::getRegisteredTableFilters())
-            ->actions(self::getTableActions())
-            ->bulkActions(self::getTableBulkActions());
+            ->actions(self::getTableActions());
     }
 
     public static function getPages(): array

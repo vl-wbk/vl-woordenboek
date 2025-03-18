@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\User;
 use App\UserTypes;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * UserPOlicy enforces authorization rules for user management operations.
@@ -52,6 +53,14 @@ final readonly class UserPolicy
 
     public function reactivate(User $user, User $model): bool
     {
+        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer])
+            && $user->isNot($model)
+            && $model->isBanned();
+    }
+
+    public function updateDeactivation(User $user, User $model): bool
+    {
+
         return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer])
             && $user->isNot($model)
             && $model->isBanned();
