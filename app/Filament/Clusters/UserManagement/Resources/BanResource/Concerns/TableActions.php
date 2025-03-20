@@ -24,6 +24,18 @@ use Illuminate\Support\Facades\Gate;
  */
 trait TableActions
 {
+    /**
+     * Configures the available actions for each ban record in the table.
+     *
+     * This method sets up two core actions:
+     * The edit action (pencil icon) allows moderators to modify ban details through a modal interface.
+     * The unban action (red button) enables immediate account reactivation when appropriate.
+     *
+     * Both actions use Gate checks to ensure proper authorization, and display Dutch tooltips for clarity.
+     * We deliberately hide the text labels to maintain a clean, icon-based interface.
+     *
+     * @return array<int, EditBanAction|UnbanAction> Array of configured table actions
+     */
     public static function getTableActions(): array
     {
         return [

@@ -19,7 +19,7 @@ use Filament\Resources\Pages\ListRecords;
  * To support our moderation team, we've included direct access to comprehensive documentation right from the page header.
  * This ensures our guidelines and procedures are always within reach moderation activities.
  *
- * @see \App\Filament\Clusters\UserManagement\Resources\BanResource
+ * @package \App\Filament\Clusters\UserManagement\Resources\BanResource
  */
 final class ListBans extends ListRecords
 {
