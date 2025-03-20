@@ -36,9 +36,9 @@ final class EditBanAction extends Action
      * It's used by Filament's event system and general action handling.
      * While you probaly won't need to change this, it's good to know it's here if you need to reference this action elsewhere in the code.
      *
-     * @return string|null
+     * @return string
      */
-    public static function getDefaultName(): ?string
+    public static function getDefaultName(): string
     {
         return 'edit_ban';
     }

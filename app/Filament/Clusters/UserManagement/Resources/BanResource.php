@@ -52,6 +52,8 @@ final class BanResource extends Resource
     /**
      * This resource belongs to the broader user management family.
      * By specifying the UserManagement cluster, we ensure this resource appears alongside other user-related features in the admin panel.
+     *
+     * {@inheritDoc}
      */
     protected static ?string $cluster = UserManagement::class;
 
@@ -82,7 +84,7 @@ final class BanResource extends Resource
      * If you need to add more pages (like detailed views or custom forms), this is where you'd register them.
      * The routing is handled automatically by Filament's resource system.
      *
-     * @return array
+     * @return array<string, \Filament\Resources\Pages\PageRegistration>
      */
     public static function getPages(): array
     {

@@ -32,8 +32,6 @@ final class UnbanAction extends Action
     /**
      * Provides the Dutch translation key for our action's name.
      * This appears in various places throughout the admin panel to maintain language consistency.
-     *
-     * @var string
      */
     public static function getDefaultName(): string
     {
@@ -46,8 +44,6 @@ final class UnbanAction extends Action
      *
      * The action uses a warning color scheme with an unlock icon to indicate its purpose.
      * When triggered, it shows a confirmation dialog in Dutch before proceeding with the account reactivation.
-     *
-     * @var void
      */
     protected function setUp(): void
     {
@@ -64,6 +60,7 @@ final class UnbanAction extends Action
             $this->process(static function (User|Ban $record): void {
                 match (true) {
                     $record instanceof User => $record->unban(),
+                    /** @phpstan-ignore-next-line */
                     $record instanceof Ban => $record->bannable->unban(),
                 };
             });

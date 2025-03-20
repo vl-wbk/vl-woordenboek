@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\UserResource\Actions;
 
+use App\Models\User;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Actions\Action;
@@ -34,10 +35,8 @@ final class BanAction extends Action
      * Provides the translation key for our action's name.
      * We use a simple Dutch string here since our entire interface is in Dutch.
      * This appears in various places throughout the admin panel.
-     *
-     * @var string|null
      */
-    public static function getDefaultName(): ?string
+    public static function getDefaultName(): string
     {
         return trans('Deactiveer');
     }
@@ -48,8 +47,6 @@ final class BanAction extends Action
      *
      * We use a danger color scheme and shield-lock icon to indicate the serious nature of this action.
      * The form requires explicit confirmation before proceeding with the deactivation.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -67,8 +64,10 @@ final class BanAction extends Action
         );
 
         $this->action(function (): void {
-            /** @todo Make use of an Dataobject in this data storage handling. */
-            $result = $this->process(static fn (array $data, Model $record) => $record->ban([
+            /**
+             * @todo Make use of an Dataobject in this data storage handling.
+             */
+            $result = $this->process(static fn (array $data, User $record) => $record->ban([
                 'comment' => $data['comment'],
                 'expired_at' => $data['expired_at'],
             ]));

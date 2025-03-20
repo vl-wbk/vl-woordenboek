@@ -98,7 +98,6 @@ final readonly class UserPolicy
      */
     public function updateDeactivation(User $user, User $model): bool
     {
-
         return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer])
             && $user->isNot($model)
             && $model->isBanned();
