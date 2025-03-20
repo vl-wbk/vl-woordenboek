@@ -43,7 +43,7 @@ enum LanguageStatus: int implements HasLabel, HasDescription
             self::StandaardBelgischNederlands => 'Een officieel erkend woord dat specifiek is voor het Belgisch Nederlands, voorkomt in Belgische woordenboeken en algemeen aanvaard is in België.',
             self::KandidaatBelgischNederlands => 'Een woord dat frequent gebruikt wordt in België maar (nog) niet officieel erkend is als standaardtaal, mogelijk op weg naar erkenning.',
             self::Onbekend => 'Een woord waarvan de status nog niet bepaald is of waarover onvoldoende informatie beschikbaar is',
-            self::GeenStandaardTaal => '	Een woord dat niet tot de standaardtaal behoort, zoals dialect of streektaal, en niet algemeen aanvaard is in formele contexten.',
+            self::GeenStandaardTaal => 'Een woord dat niet tot de standaardtaal behoort, zoals dialect of streektaal, en niet algemeen aanvaard is in formele contexten.',
         };
     }
 }

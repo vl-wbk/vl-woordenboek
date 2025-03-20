@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bb9593e9fd9f1fcf059ac445db6d6056",
+    "content-hash": "dbf2e3470a95e9427a77601d13675005",
     "packages": [
         {
             "name": "amphp/amp",
@@ -1258,6 +1258,89 @@
                 }
             ],
             "time": "2024-02-09T16:56:22+00:00"
+        },
+        {
+            "name": "cybercog/laravel-ban",
+            "version": "4.10.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cybercog/laravel-ban.git",
+                "reference": "d569469a947671c0316a7ea1bbd471223dff23e7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cybercog/laravel-ban/zipball/d569469a947671c0316a7ea1bbd471223dff23e7",
+                "reference": "d569469a947671c0316a7ea1bbd471223dff23e7",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^9.0|^10.0|^11.0|^12.0",
+                "illuminate/events": "^9.0|^10.0|^11.0|^12.0",
+                "illuminate/support": "^9.0|^10.0|^11.0|^12.0",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "orchestra/testbench": "^7.0|^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^9.6|^10.5|^11.5.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Cog\\Laravel\\Ban\\Providers\\BanServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Cog\\Laravel\\Ban\\": "src/",
+                    "Cog\\Contracts\\Ban\\": "contracts/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anton Komarev",
+                    "email": "anton@komarev.com",
+                    "homepage": "https://komarev.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel Ban simplify blocking and banning Eloquent models.",
+            "homepage": "https://komarev.com/sources/laravel-ban",
+            "keywords": [
+                "Justice",
+                "arrest",
+                "ban",
+                "block",
+                "cog",
+                "cybercog",
+                "eloquent",
+                "forbid",
+                "jail",
+                "laravel",
+                "restrict",
+                "trait",
+                "user"
+            ],
+            "support": {
+                "docs": "https://github.com/cybercog/laravel-ban/wiki",
+                "email": "open@cybercog.su",
+                "issues": "https://github.com/cybercog/laravel-ban/issues",
+                "source": "https://github.com/cybercog/laravel-ban",
+                "wiki": "https://github.com/cybercog/laravel-ban/wiki"
+            },
+            "funding": [
+                {
+                    "url": "https://paypal.me/antonkomarev",
+                    "type": "custom"
+                }
+            ],
+            "time": "2025-02-22T11:00:47+00:00"
         },
         {
             "name": "danharrin/date-format-converter",

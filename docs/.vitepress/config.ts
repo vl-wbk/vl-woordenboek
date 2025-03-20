@@ -10,6 +10,13 @@ export default defineConfig({
         // https://vitepress.dev/reference/default-theme-config
         sidebar: [
             {
+                text: 'Gebruikers',
+                collapsed: true,
+                items: [
+                    { text: 'Deactivatie', link: '/users/deactivation' },
+                ]
+            },
+            {
                 text: 'Artikelen',
                 collapsed: true,
                 items: [

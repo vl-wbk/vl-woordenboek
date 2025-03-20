@@ -29,7 +29,7 @@ use Spatie\RouteAttributes\Attributes\Patch;
  *
  * @package App\Http\Controllers\Web\Articles
  */
-#[Middleware(middleware: ['auth'])]
+#[Middleware(middleware: ['auth', 'forbid-banned-user'])]
 final readonly class RequestArticleChangeController
 {
     /**

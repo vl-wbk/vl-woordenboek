@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use Cog\Laravel\Ban\Http\Middleware\ForbidBannedUser;
 use DutchCodingCompany\FilamentDeveloperLogins\FilamentDeveloperLoginsPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -82,6 +83,7 @@ final class AdminPanelProvider extends PanelProvider
                     ->enabled(Config::boolean('app.debug', false))
                     ->users($this->defaultLoginsDuringDevelopment())
                 ])
+            ->middleware([ForbidBannedUser::class])
             ->authMiddleware([
                 Authenticate::class,
             ]);

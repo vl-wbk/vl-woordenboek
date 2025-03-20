@@ -30,7 +30,7 @@ final readonly class DeleteAccountController
      * @param  DeleteAccount         $deleteAccount         The account deletion action
      * @return RedirectResponse                             Redirects to the homepage after deletion.
      */
-    #[Post(uri: '/account-verwijderen', name: 'account.delete', middleware: ['auth'])]
+    #[Post(uri: '/account-verwijderen', name: 'account.delete', middleware: ['auth', 'forbid-banned-user'])]
     public function __invoke(DeleteAccountRequest $deleteAccountRequest, DeleteAccount $deleteAccount): RedirectResponse
     {
         $deleteAccount($deleteAccountRequest);
