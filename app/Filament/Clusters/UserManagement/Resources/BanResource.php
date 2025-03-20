@@ -17,7 +17,6 @@ use Filament\Tables\Table;
 final class BanResource extends Resource
 {
     use Concerns\TableSchemeLayout;
-    use Concerns\TableFiltersRegistration;
     use Concerns\TableActions;
 
     protected static ?string $pluralLabel = 'Deactiveringen';
@@ -37,7 +36,6 @@ final class BanResource extends Resource
             ->emptyStateHeading('Geen deactiveringen gevonden')
             ->emptyStateDescription('Het lijkt erop dat er momenteel geen gebruikers zijn gedactiveerd in het Vlaams Woordenboek')
             ->columns(self::getTableColumnLayout())
-            ->filters(self::getRegisteredTableFilters())
             ->actions(self::getTableActions());
     }
 
