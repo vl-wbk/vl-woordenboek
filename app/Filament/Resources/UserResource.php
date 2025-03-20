@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Filament\Clusters\UserManagement;
+use App\Filament\Resources\UserResource\Actions;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use App\UserTypes;
-use Filament\Forms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -20,6 +21,7 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Gate;
 
 final class UserResource extends Resource
 {
@@ -30,6 +32,9 @@ final class UserResource extends Resource
     protected static ?string $modelLabel = 'gebruiker';
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
+
+    /** {@inheritDoc} */
+    protected static ?string $cluster = UserManagement::class;
 
     public static function form(Form $form): Form
     {
@@ -71,9 +76,11 @@ final class UserResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
+                    ->iconColor('danger')
+                    ->icon(fn (User $user): ?string  => $user->isBanned() ? 'tabler-shield-lock' : null)
                     ->label('Naam')
                     ->weight(FontWeight::Bold)
-                    ->color('primary')
+                    ->color(fn (User $user): string => $user->isBanned() ? 'danger' : 'primary')
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('user_type')
@@ -102,6 +109,12 @@ final class UserResource extends Resource
                 ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make(),
+
+                    // Custom actions for activating/deactivating user accounts in the application platform.
+                    Actions\BanAction::make()->visible(fn (User $user): bool => Gate::allows('deactivate', $user)),
+                    Actions\UnbanAction::make()->authorize(fn (User $user): bool => Gate::allows('reactivate', $user)),
+
+                    // Default delete actions
                     Tables\Actions\DeleteAction::make(),
                 ])
             ])

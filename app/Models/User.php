@@ -14,6 +14,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\WelcomeNotification\ReceivesWelcomeNotification;
 use Overtrue\LaravelLike\Traits\Liker;
+use Cog\Contracts\Ban\Bannable as BannableInterface;
+use Cog\Laravel\Ban\Traits\Bannable;
 
 /**
  * User represents an authenticated account in the 'Vlaams woordenboek application'.
@@ -22,27 +24,29 @@ use Overtrue\LaravelLike\Traits\Liker;
  * It supports role-based access control through user types, welcome notifications for new users,
  * and interaction tracking thrpough the "likes" system.
  *
- * @property int          $id Unique identifier for the user
- * @property string       $firstname User's first name
- * @property string       $lastname User's last name
- * @property string       $email User's email address for authentication
- * @property UserTypes    $user_type The assigned role group
- * @property string       $password Hashed password for authentication
- * @property Carbon|null  $last_seen_at Timestamp of last activity
- * @property Carbon|null  $email_verified_at Timestamp of email verification
- * @property string|null  $remember_token Token for "remember me" functionality
- * @property Carbon       $created_at Timestamp of account creation
- * @property Carbon       $updated_at Timestamp of last update
+ * @property int          $id                 Unique identifier for the user
+ * @property string       $firstname          User's first name
+ * @property string       $lastname           User's last name
+ * @property string       $email              User's email address for authentication
+ * @property UserTypes    $user_type          The assigned role group
+ * @property string       $password           Hashed password for authentication
+ * @property Carbon|null  $last_seen_at       Timestamp of last activity
+ * @property Carbon|null  $email_verified_at  Timestamp of email verification
+ * @property string|null  $remember_token     Token for "remember me" functionality
+ * @property Carbon|null  $banned_at          Timestamp from when the user account has been banned.
+ * @property Carbon       $created_at         Timestamp of account creation
+ * @property Carbon       $updated_at         Timestamp of last update
  *
  * @package App\Models
  */
-final class User extends Authenticatable implements FilamentUser
+final class User extends Authenticatable implements FilamentUser, BannableInterface
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory;
     use ReceivesWelcomeNotification;
     use Notifiable;
     use Liker;
+    use Bannable;
 
     /**
      * Sepcifies which attributes can be mass assigned when creating or updating user records.
