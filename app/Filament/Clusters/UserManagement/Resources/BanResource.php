@@ -12,13 +12,20 @@ use Filament\Resources\Resource;
 use Filament\Tables\Table;
 
 /**
- * Filament resource implementation for managing user account deactivation
+ * Filament resource implementation for managing user account deactivations.
+ *
+ * Integrates with cybercog/ban for persistent ban storage and lifecycle management.
+ * Implements a trait-based architecture for table configurations,  utilizing Filament's table builder API for the administrative interface.
+ * Supports temporary and permanent bans with automated expiration handling through Laravel's task scheduling.
+ *
+ * @package App\Filament\Clusters\UserManagement\Resources
  */
 final class BanResource extends Resource
 {
     use Concerns\TableSchemeLayout;
     use Concerns\TableActions;
 
+    
     protected static ?string $pluralLabel = 'Deactiveringen';
 
     protected static ?string $model = Ban::class;

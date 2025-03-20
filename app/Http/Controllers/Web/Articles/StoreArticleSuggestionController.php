@@ -31,7 +31,7 @@ final readonly class StoreArticleSuggestionController
      *
      * @return Renderable  The form view for creating new dictionary entries
      */
-    #[Get(uri: 'woordenboek-artikel/insturen', name: 'definitions.create')]
+    #[Get(uri: 'woordenboek-artikelen/insturen', name: 'definitions.create')]
     public function create(): Renderable
     {
         return view('definitions.create', [
@@ -50,7 +50,7 @@ final readonly class StoreArticleSuggestionController
      * @param  StoreArticleSuggestion $storeArticleSuggestion   The action that uis responsible for storing the dictionary article.
      * @return RedirectResponse                                 Redirects to search interface after submission.
      */
-    #[Post(uri: 'woordenboek-artikel/insturen', name: 'definitions.store')]
+    #[Post(uri: 'woordenboek-artikelen/insturen', name: 'definitions.store')]
     public function store(StoreSuggestionRequest $storeSuggestionRequest, StoreArticleSuggestion $storeArticleSuggestion): RedirectResponse
     {
         $storeArticleSuggestion->execute($storeSuggestionRequest->getData());
