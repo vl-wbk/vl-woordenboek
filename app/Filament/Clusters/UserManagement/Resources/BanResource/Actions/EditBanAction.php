@@ -62,6 +62,7 @@ final class EditBanAction extends Action
                 ->label('Reden tot deactivering')
                 ->nullable(),
             DateTimePicker::make('expired_at')
+                ->required()
                 ->label('Verloopt op'),
         ];
     }

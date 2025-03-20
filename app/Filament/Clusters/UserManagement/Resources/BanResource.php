@@ -9,15 +9,16 @@ use App\Filament\Clusters\UserManagement\Resources\BanResource\Concerns;
 use App\Filament\Clusters\UserManagement\Resources\BanResource\Pages;
 use Cog\Laravel\Ban\Models\Ban;
 use Filament\Resources\Resource;
-use Filament\Tables;
 use Filament\Tables\Table;
 
+/**
+ * Filament resource implementation for managing user account deactivation
+ */
 final class BanResource extends Resource
 {
     use Concerns\TableSchemeLayout;
     use Concerns\TableFiltersRegistration;
     use Concerns\TableActions;
-    use Concerns\TableBulkActions;
 
     protected static ?string $pluralLabel = 'Deactiveringen';
 
@@ -32,6 +33,9 @@ final class BanResource extends Resource
         return $table
             ->heading('Gedeactiveerde gebruikeraccounts')
             ->description('Overzicht van alle gedeactiveerde gebruiker accounts. Wanneer een deactivering verloopt zal deze automatisch terug geactiveerd worden in het systeem.')
+            ->emptyStateIcon(self::$navigationIcon)
+            ->emptyStateHeading('Geen deactiveringen gevonden')
+            ->emptyStateDescription('Het lijkt erop dat er momenteel geen gebruikers zijn gedactiveerd in het Vlaams Woordenboek')
             ->columns(self::getTableColumnLayout())
             ->filters(self::getRegisteredTableFilters())
             ->actions(self::getTableActions());
