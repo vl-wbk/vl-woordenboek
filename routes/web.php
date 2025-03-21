@@ -13,7 +13,3 @@ Route::group(['middleware' => ['web', WelcomesNewUsers::class]], function (): vo
     Route::get('welkom/{user}', [MyWelcomeController::class, 'showWelcomeForm'])->name('welcome');
     Route::post('welkom/{user}', [MyWelcomeController::class, 'savePassword']);
 });
-
-Route::get('/docs', function (): string {
-    return File::get(public_path() . '/docs/index.html');
-});
