@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Builders;
 
+use App\Enums\ArticleStates;
 use App\Enums\Visibility;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -19,9 +20,9 @@ final class ArticlesBuilder extends Builder
         return $this->where('visibility', Visibility::Published);
     }
 
-    public function setVisibility(Visibility $visibility): self
+    public function transitionState(ArticleStates $articleState, Visibility $visibility = Visibility::Draft): self
     {
-        $this->update(['visibility' => $visibility]);
+        $this->model->update(['state' => $articleState, 'visibility' => $visibility]);
 
         return $this;
     }
