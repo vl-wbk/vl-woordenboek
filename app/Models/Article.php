@@ -12,6 +12,7 @@ use App\Enums\LanguageStatus;
 use App\Enums\Visibility;
 use App\Models\Relations\BelongsToEditor;
 use App\Models\Relations\BelongsToManyRegions;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -168,7 +169,7 @@ final class Article extends Model implements AuditableContract
         return $this->hasMany(Note::class);
     }
 
-    public function newEloquentBuilder($query)
+    public function newEloquentBuilder($query): Builder
     {
         return new ArticlesBuilder($query);
     }
