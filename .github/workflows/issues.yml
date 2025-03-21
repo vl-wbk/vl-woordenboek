@@ -1,0 +1,12 @@
+name: Ask the community for help resolving an issue
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  issues: write
+
+jobs:
+  help-wanted:
+    uses: vl-wbk/.github/.github/workflows/issues.yml@main
