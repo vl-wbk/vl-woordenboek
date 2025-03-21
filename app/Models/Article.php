@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Builders\ArticlesBuilder;
 use App\States\Articles;
 use App\Contracts\States\ArticleStateContract;
 use App\Enums\ArticleStates;
 use App\Enums\LanguageStatus;
+use App\Enums\Visibility;
 use App\Models\Relations\BelongsToEditor;
 use App\Models\Relations\BelongsToManyRegions;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -30,6 +32,7 @@ use Kenepa\ResourceLock\Models\Concerns\HasLocks;
  *
  * @property int            $id                 The unique identifier for the article
  * @property string         $word               The dictionary word being defined
+ * @property Visibility     $visibility         THe visibility status of the dictionary article.
  * @property ArticleStates  $state              The current state of the article in its lifecycle
  * @property string|null    $keywords           The keywords that are attached to the article
  * @property string         $description        The detailed explanation of the word
@@ -60,7 +63,7 @@ final class Article extends Model implements AuditableContract
      *
      * @var list<string>
      */
-    protected $fillable = ['word', 'state', 'description', 'keywords', 'author_id', 'status', 'example', 'characteristics'];
+    protected $fillable = ['word', 'visibility', 'state', 'description', 'keywords', 'author_id', 'status', 'example', 'characteristics'];
 
     /**
      * Attributes excluded from the audit trail.
@@ -78,6 +81,7 @@ final class Article extends Model implements AuditableContract
      */
     protected $attributes = [
         'state' => ArticleStates::New,
+        'visibility' => Visibility::Draft,
         'status' => LanguageStatus::Onbekend,
     ];
 
@@ -164,6 +168,11 @@ final class Article extends Model implements AuditableContract
         return $this->hasMany(Note::class);
     }
 
+    public function newEloquentBuilder($query)
+    {
+        return new ArticlesBuilder($query);
+    }
+
     /**
      * Configures attribute casting for proper type handling.
      * Ensures that state and status fields are properly cast to their respective enum types when retrieved from the database.
@@ -174,6 +183,7 @@ final class Article extends Model implements AuditableContract
     {
         return [
             'state' => ArticleStates::class,
+            'visibility' => Visibility::class,
             'status' => LanguageStatus::class,
         ];
     }
