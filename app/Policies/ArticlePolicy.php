@@ -47,7 +47,7 @@ final readonly class ArticlePolicy
      */
     public function sendForApproval(User $user, Article $article): bool
     {
-        return $article->state->in(enums: [ArticleStates::New, ArticleStates::Draft])
+        return $article->state->in(enums: [ArticleStates::Draft])
             && $user->user_type->notIn(enums: [UserTypes::Normal]);
     }
 
