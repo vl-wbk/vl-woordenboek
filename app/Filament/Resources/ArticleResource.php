@@ -17,6 +17,7 @@ use Filament\Support\Enums\IconSize;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Cache;
 
 /**
@@ -140,6 +141,8 @@ final class ArticleResource extends Resource
             ->emptyStateIcon(self::$navigationIcon)
             ->emptyStateHeading('Geen artikelen gevonden')
             ->emptyStateDescription("Momenteel konden we geen artikelen (lemma's) vinden met de matchende criteria. Kom later nog eens terug.")
+            ->paginated([10, 25, 50, 75])
+            ->modifyQueryUsing(fn (Builder $query): Builder => self::selectDatabaseColumns($query))
             ->columns([
                 TextColumn::make('author.name')
                     ->label('Ingevoegd door')
@@ -180,6 +183,18 @@ final class ArticleResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    /**
+     * Selects specific database columns for the article listing table.
+     * This optimizes the query by only retrieving necessary fields.
+     *
+     * @param  Builder<Article> $builder  The query builder instance
+     * @return Builder<Article>           The modified query builder
+     */
+    private static function selectDatabaseColumns(Builder $builder): Builder
+    {
+        return $builder->addSelect('id', 'characteristics', 'part_of_speech_id', 'word', 'state', 'author_id', 'created_at', 'updated_at');
     }
 
     /**
