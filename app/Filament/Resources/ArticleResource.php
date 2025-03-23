@@ -17,7 +17,9 @@ use Filament\Support\Enums\IconSize;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
 /**
@@ -195,6 +197,36 @@ final class ArticleResource extends Resource
     private static function selectDatabaseColumns(Builder $builder): Builder
     {
         return $builder->addSelect('id', 'characteristics', 'part_of_speech_id', 'word', 'state', 'author_id', 'created_at', 'updated_at');
+    }
+
+    public static function getGlobalSearchResultTitle(Model $record): string|Htmlable
+    {
+        return $record->word;
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['word', 'id', 'keywords'];
+    }
+
+    /**
+     * Defines what additional information should appear below the title in global search results.
+     *
+     * For each article, we show:
+     * - The word's unique ID number (for reference)
+     * - Any characteristics/properties of the word
+     *
+     * This helps users quickly identify if they've found the right word entry.
+     *
+     * @param  Model $record         The article record being displayed
+     * @return array<string, mixed>  Key-value pairs of labels and their values
+     */
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            'woord ID' => $record->id,
+            'kenmerken' => $record->characteristics,
+        ];
     }
 
     /**
