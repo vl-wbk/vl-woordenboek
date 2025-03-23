@@ -199,11 +199,30 @@ final class ArticleResource extends Resource
         return $builder->addSelect('id', 'characteristics', 'part_of_speech_id', 'word', 'state', 'author_id', 'created_at', 'updated_at');
     }
 
+    /**
+     * Determines what text should be shown as the main title in global search results.
+     * In this case, we display the word (lemma) itself as the primary identifier.
+     * 
+     * For example: If searching for "duusterzot", the result will show "duusterzot" as the title.
+     *
+     * @param  Model $record    The article record being displayed in search results
+     * @return string|Htmlable  The word/lemma to display as the search result title
+     */
     public static function getGlobalSearchResultTitle(Model $record): string|Htmlable
     {
         return $record->word;
     }
 
+    /**
+     * Specifies which database columns should be included in the global search.
+     * 
+     * This makes articles findable by:
+     * - their word/lemma
+     * - their ID number
+     * - any keywords associated with them
+     *
+     * @return array<string> List of searchable column names
+     */
     public static function getGloballySearchableAttributes(): array
     {
         return ['word', 'id', 'keywords'];
