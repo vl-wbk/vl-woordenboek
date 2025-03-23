@@ -28,8 +28,8 @@ return new class extends Migration
             $table->foreignIdFor(User::class, 'editor_id')->nullable()->references('id')->on('users')->nullOnDelete();
             $table->string('word');
             $table->smallInteger('status')->default(LanguageStatus::Onbekend->value);
-            $table->string('description')->nullable();
-            $table->text('keywords')->nullable();
+            $table->text('description')->nullable();
+            $table->string('keywords')->nullable();
             $table->text('example')->nullable();
             $table->text('characteristics')->nullable();
             $table->timestamps();
