@@ -74,7 +74,6 @@ return new class extends Migration
                 ->text('characteristics')
                 ->comment('Additional textual characteristics or attributes to the word')
                 ->nullable();
-
             $table
                 ->timestamp('created_at')
                 ->nullable()

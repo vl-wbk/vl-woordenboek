@@ -14,17 +14,53 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('labels', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->unique();
-            $table->text('description')->nullable();
-            $table->timestamps();
+            $table
+                ->comment('Stores labels with optional descriptions and timestamps for tracking creation and updates.');
+            $table
+                ->id()
+                ->comment('Primary key for the label.');
+            $table
+                ->string('name')
+                ->comment('The unique name of the label.')
+                ->unique();
+            $table
+                ->text('description')
+                ->comment('Optional description providing details about the label.')
+                ->nullable();
+            $table
+                ->timestamp('created_at')
+                ->nullable()
+                ->comment('Timestamp indicating when the label was created.');
+            $table
+                ->timestamp('updated_at')
+                ->nullable()
+                ->comment('Timestamp indicating the last update to the label.');
         });
 
         Schema::create('article_label', function (Blueprint $table): void {
-            $table->id();
-            $table->foreignIdFor(Label::class)->constrained('labels', 'id')->cascadeOnDelete();
-            $table->foreignIdFor(Article::class)->constrained('articles', 'id')->cascadeOnDelete();
-            $table->timestamps();
+            $table
+                ->comment('Links labels to articles, allowing articles to have multiple labels for categorization.');
+            $table
+                ->id()
+                ->comment('Primary key for the label-article relationship.');
+            $table
+                ->foreignIdFor(Label::class)
+                ->comment('Foreign key referencing the associated label.')
+                ->constrained('labels', 'id')
+                ->cascadeOnDelete();
+            $table
+                ->foreignIdFor(Article::class)
+                ->comment('Foreign key referencing the associated article.')
+                ->constrained('articles', 'id')
+                ->cascadeOnDelete();
+            $table
+                ->timestamp('created_at')
+                ->nullable()
+                ->comment('Timestamp indicating when the relationship was created.');
+            $table
+                ->timestamp('updated_at')
+                ->nullable()
+                ->comment('Timestamp indicating the last update to the relationship.');
         });
     }
 
