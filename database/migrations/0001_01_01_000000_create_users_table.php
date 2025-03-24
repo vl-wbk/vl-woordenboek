@@ -34,12 +34,32 @@ return new class extends Migration
         });
 
         Schema::create('sessions', function (Blueprint $table) {
-            $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
-            $table->string('ip_address', 45)->nullable();
-            $table->text('user_agent')->nullable();
-            $table->longText('payload');
-            $table->integer('last_activity')->index();
+            $table
+                ->comment('Stores user session data, including user details, IP address, user agent, and activity log information.');
+            $table
+                ->string('id')
+                ->comment('Unique session identifier.')
+                ->primary();
+            $table
+                ->foreignId('user_id')
+                ->comment('Foreign key referencing the user associated with the session.')
+                ->nullable()
+                ->index();
+            $table
+                ->string('ip_address', 45)
+                ->comment('IP address from which the session originated.')
+                ->nullable();
+            $table
+                ->text('user_agent')
+                ->comment('User agent string identifying the client or browser used in the session.')
+                ->nullable();
+            $table
+                ->longText('payload')
+                ->comment('Additional session data (e.g., actions, events, or metadata).');
+            $table
+                ->integer('last_activity')
+                ->index()
+                ->comment('Timestamp (in UNIX format) indicating the last activity in the session.');
         });
     }
 
