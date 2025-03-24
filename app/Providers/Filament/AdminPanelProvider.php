@@ -4,6 +4,7 @@ namespace App\Providers\Filament;
 
 use Cog\Laravel\Ban\Http\Middleware\ForbidBannedUser;
 use DutchCodingCompany\FilamentDeveloperLogins\FilamentDeveloperLoginsPlugin;
+use Filament\FontProviders\BunnyFontProvider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -35,8 +36,10 @@ final class AdminPanelProvider extends PanelProvider
             ->brandName('VL. woordenboek')
             ->maxContentWidth(MaxWidth::Full)
             ->topNavigation()
+            ->font('Nunito', BunnyFontProvider::class)
             ->login()
             ->passwordReset()
+            ->databaseNotifications()
             ->colors([
                 'danger' => Color::Red,
                 'gray' => Color::Zinc,
