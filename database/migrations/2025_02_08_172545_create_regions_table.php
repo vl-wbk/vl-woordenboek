@@ -12,9 +12,22 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('regions', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->timestamps();
+            $table
+                ->comment('Stores geographical or administrative regions for categorization and reference.');
+            $table
+                ->id()
+                ->comment('Primary key for the region.');
+            $table
+                ->string('name')
+                ->comment('Name of the region');
+            $table
+                ->timestamp('created_at')
+                ->nullable()
+                ->comment('Timestamp indicating when the region was created.');
+            $table
+                ->timestamp('updated_at')
+                ->nullable()
+                ->comment('Timestamp indicating the last update to the region.');
         });
     }
 
