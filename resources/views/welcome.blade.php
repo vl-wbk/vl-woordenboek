@@ -35,7 +35,7 @@
                                         </small>
                                     </div>
 
-                                    <p class="mb-2">{{ $result->description }}</p>
+                                    <p class="mb-2">{{ strip_tags($result->description) }}</p>
 
                                     @if ($result->author)
                                         <small class="text-muted">Ingestuurd door: <strong>{{ $result->author->name }}</strong></small>

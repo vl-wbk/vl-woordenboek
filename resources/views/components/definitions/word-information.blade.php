@@ -24,7 +24,7 @@
                 <strong class="color-green">Regios:</strong></br>
             </p>
 
-            <ul class="list-unstyled border-bottom mb- pb-2">
+            <ul class="list-unstyled border-bottom mb-0 pb-2">
                 @forelse ($word->regions as $region)
                     <li>
                         <x-heroicon-o-map class="icon me-1"/> {{ $region->name }}
@@ -34,10 +34,13 @@
                 @endforelse
             </ul>
 
-            <p class="border-bottom mb-0 py-2">
+            <p class="pt-2 mb-0">
                 <strong class="color-green">Beschrijving:</strong></br>
-                {{ str($word->description)->sanitizeHtml() }}
             </p>
+
+            <div class="info-section pb-2 border-bottom">
+                {!! str($word->description)->sanitizeHtml() !!}
+            </div>
 
             <p class="pt-2 mb-0">
                 <strong class="color-green">Voorbeeld:</strong>
