@@ -202,20 +202,20 @@ final class ArticleResource extends Resource
     /**
      * Determines what text should be shown as the main title in global search results.
      * In this case, we display the word (lemma) itself as the primary identifier.
-     * 
+     *
      * For example: If searching for "duusterzot", the result will show "duusterzot" as the title.
      *
-     * @param  Model $record    The article record being displayed in search results
-     * @return string|Htmlable  The word/lemma to display as the search result title
+     * @param   Article $record    The article record being displayed in search results
+     * @return  string             The word/lemma to display as the search result title
      */
-    public static function getGlobalSearchResultTitle(Model $record): string|Htmlable
+    public static function getGlobalSearchResultTitle(Model $record): string
     {
         return $record->word;
     }
 
     /**
      * Specifies which database columns should be included in the global search.
-     * 
+     *
      * This makes articles findable by:
      * - their word/lemma
      * - their ID number
@@ -237,7 +237,7 @@ final class ArticleResource extends Resource
      *
      * This helps users quickly identify if they've found the right word entry.
      *
-     * @param  Model $record         The article record being displayed
+     * @param  Article $record       The article record being displayed
      * @return array<string, mixed>  Key-value pairs of labels and their values
      */
     public static function getGlobalSearchResultDetails(Model $record): array

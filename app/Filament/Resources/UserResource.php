@@ -222,7 +222,7 @@ final class UserResource extends Resource
      *
      * Each route is carefully named in Dutch, matching our interface language.
      *
-     * @return array<string, class-string> The route definitions for user management
+     * @return array<string, \Filament\Resources\Pages\PageRegistration> The route definitions for user management
      */
     public static function getPages(): array
     {
