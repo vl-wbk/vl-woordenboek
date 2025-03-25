@@ -26,10 +26,10 @@ return new class extends Migration
             $table->foreignIdFor(PartOfSpeech::class)->nullable()->references('id')->on('part_of_speeches')->nullOnDelete();
             $table->foreignIdFor(User::class, 'author_id')->nullable()->references('id')->on('users')->nullOnDelete();
             $table->foreignIdFor(User::class, 'editor_id')->nullable()->references('id')->on('users')->nullOnDelete();
-            $table->string('word');
+            $table->string('word')->fulltext();
             $table->smallInteger('status')->default(LanguageStatus::Onbekend->value);
             $table->text('description')->nullable();
-            $table->string('keywords')->nullable();
+            $table->string('keywords')->nullable()->fulltext();
             $table->text('example')->nullable();
             $table->text('characteristics')->nullable();
             $table->timestamps();
