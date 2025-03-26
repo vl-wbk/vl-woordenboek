@@ -63,7 +63,7 @@ final readonly class LabelPolicy
     /**
      * Determines whether a user can attach labels to articles.
      *
-     * Label attachment permissions extend to chief editors in addition to administrators and developers.
+     * Label attachment permissions extend to (chief) editors in addition to administrators and developers.
      * This broader access enables content organization while maintaining appropriate oversight of the categorization process.
      *
      * @param  User $user  The eloquent instance from the currently authenticated user.
@@ -71,13 +71,13 @@ final readonly class LabelPolicy
      */
     public function attach(User $user): bool
     {
-        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer, UserTypes::EditorInChief]);
+        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Editor, UserTypes::Developer, UserTypes::EditorInChief]);
     }
 
     /**
      * Determines whether a user can detach labels from articles.
      *
-     * Similar to attachment permissions, label detachment is available to chief editors, administrators, and developers.
+     * Similar to attachment permissions, label detachment is available to (chief) editors, administrators, and developers.
      * This allows for flexible content organization while ensuring proper oversight of taxonomy management.
      *
      * @param  User $user  The eloquent instance from the currently authenticated user.
@@ -85,6 +85,6 @@ final readonly class LabelPolicy
      */
     public function detach(User $user, Label $label): bool
     {
-        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer, UserTypes::EditorInChief]);
+        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer, UserTypes::Editor, UserTypes::EditorInChief]);
     }
 }
