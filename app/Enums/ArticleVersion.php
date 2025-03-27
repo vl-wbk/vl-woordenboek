@@ -18,7 +18,7 @@ enum ArticleVersion: string implements HasLabel, HasDescription, HasColor
     case Lanoye = 'v3';
     case Vanhauwaert = 'v4';
 
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return $this->value;
     }

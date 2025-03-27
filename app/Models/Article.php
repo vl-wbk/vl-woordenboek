@@ -31,7 +31,7 @@ use Kenepa\ResourceLock\Models\Concerns\HasLocks;
  *
  * @property int            $id                 The unique identifier for the article
  * @property string         $word               The dictionary word being defined
- * @property ArticeVerion   $version            The version indicator of the dictionary article.
+ * @property ArticeVersion  $version            The version indicator of the dictionary article.
  * @property ArticleStates  $state              The current state of the article in its lifecycle
  * @property string|null    $keywords           The keywords that are attached to the article
  * @property string         $description        The detailed explanation of the word
