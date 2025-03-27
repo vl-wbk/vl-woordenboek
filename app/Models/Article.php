@@ -9,6 +9,7 @@ use App\Contracts\States\ArticleStateContract;
 use App\Enums\ArticleStates;
 use App\Enums\ArticleVersion;
 use App\Enums\LanguageStatus;
+use App\Enums\Visibility;
 use App\Models\Relations\BelongsToEditor;
 use App\Models\Relations\BelongsToManyRegions;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -31,6 +32,7 @@ use Kenepa\ResourceLock\Models\Concerns\HasLocks;
  *
  * @property int            $id                 The unique identifier for the article
  * @property string         $word               The dictionary word being defined
+ * @property bool           $publication        The boolean field that handles the publication of the article.
  * @property ArticeVersion  $version            The version indicator of the dictionary article.
  * @property ArticleStates  $state              The current state of the article in its lifecycle
  * @property string|null    $keywords           The keywords that are attached to the article
@@ -62,7 +64,7 @@ final class Article extends Model implements AuditableContract
      *
      * @var list<string>
      */
-    protected $fillable = ['word', 'state', 'description', 'keywords', 'author_id', 'status', 'example', 'characteristics'];
+    protected $fillable = ['word', 'publication', 'version', 'state', 'editor_id', 'description', 'keywords', 'author_id', 'status', 'example', 'characteristics'];
 
     /**
      * Attributes excluded from the audit trail.
@@ -74,7 +76,6 @@ final class Article extends Model implements AuditableContract
 
     /**
      * Default values for new article instances.
-     * Every new article starts in 'New' state with unknown language status.
      *
      * @var array<string, object|int|string>
      */
@@ -82,6 +83,7 @@ final class Article extends Model implements AuditableContract
         'state' => ArticleStates::New,
         'version' => ArticleVersion::Spit,
         'status' => LanguageStatus::Onbekend,
+        'publication' => Visibility::Hidden,
     ];
 
     /**
@@ -169,7 +171,7 @@ final class Article extends Model implements AuditableContract
 
     /**
      * Configures attribute casting for proper type handling.
-     * Ensures that state and status fields are properly cast to their respective enum types when retrieved from the database.
+     * Ensures that state, version, publication and status fields are properly cast to their respective enum types when retrieved from the database.
      *
      * @return array<string, string>
      */
@@ -179,6 +181,7 @@ final class Article extends Model implements AuditableContract
             'state' => ArticleStates::class,
             'version' => ArticleVersion::class,
             'status' => LanguageStatus::class,
+            'publication' => Visibility::class,
         ];
     }
 }
