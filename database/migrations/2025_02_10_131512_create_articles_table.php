@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\ArticleStates;
+use App\Enums\ArticleVersion;
 use App\Enums\LanguageStatus;
 use App\Models\Region;
 use App\Models\User;
@@ -19,6 +20,7 @@ return new class extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
+            $table->string('version', 10)->nullable()->default(ArticleVersion::Claus);
             $table->string('index', 1)
                 ->comment('The index column is used in the word index of the application.')
                 ->virtualAs("UPPER(LEFT(word, 1))");

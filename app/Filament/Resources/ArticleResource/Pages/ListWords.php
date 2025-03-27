@@ -43,23 +43,6 @@ final class ListWords extends ListRecords
     protected static string $resource = ArticleResource::class;
 
     /**
-     * Header Action Configuration
-     *
-     * Establishes the primary actions available in the page header section.
-     * Currently implements a single create action, visually represented by a plus icon.
-     * This action serves as the entry point for adding new dictionary entries into the system.
-     *
-     * @return array<Actions\CreateAction>
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\CreateAction::make()
-                ->icon('heroicon-o-plus'),
-        ];
-    }
-
-    /**
      * Page Initialization Handler
      *
      * Performs the initial setup of the page state during component mounting.

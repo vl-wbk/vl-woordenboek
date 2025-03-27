@@ -7,6 +7,7 @@ namespace App\Models;
 use App\States\Articles;
 use App\Contracts\States\ArticleStateContract;
 use App\Enums\ArticleStates;
+use App\Enums\ArticleVersion;
 use App\Enums\LanguageStatus;
 use App\Models\Relations\BelongsToEditor;
 use App\Models\Relations\BelongsToManyRegions;
@@ -30,6 +31,7 @@ use Kenepa\ResourceLock\Models\Concerns\HasLocks;
  *
  * @property int            $id                 The unique identifier for the article
  * @property string         $word               The dictionary word being defined
+ * @property string|null    $version            The version indicator of the dictionary article.
  * @property ArticleStates  $state              The current state of the article in its lifecycle
  * @property string|null    $keywords           The keywords that are attached to the article
  * @property string         $description        The detailed explanation of the word
@@ -78,6 +80,7 @@ final class Article extends Model implements AuditableContract
      */
     protected $attributes = [
         'state' => ArticleStates::New,
+        'version' => ArticleVersion::Spit,
         'status' => LanguageStatus::Onbekend,
     ];
 
@@ -174,6 +177,7 @@ final class Article extends Model implements AuditableContract
     {
         return [
             'state' => ArticleStates::class,
+            'version' => ArticleVersion::class,
             'status' => LanguageStatus::class,
         ];
     }
