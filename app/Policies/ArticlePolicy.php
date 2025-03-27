@@ -31,14 +31,24 @@ final readonly class ArticlePolicy
      */
     public function update(User $user, Article $article): bool
     {
-        return $article->state->in(enums: [ArticleStates::New, ArticleStates::Draft, ArticleStates::Archived])
-            && $user->user_type->notIn(enums: [UserTypes::Normal]);
+        // Allow updates only for articles in New, Draft
+        if ($article->state->notIn(enums: [ArticleStates::New, ArticleStates::Draft])) {
+            return false;
+        }
+
+        // If no editor is assigned, allow any user that matches the access-backend policy to update.
+        if ($article->editor()->doesntExist()) {
+            return true;
+        };
+
+        // Only the assigned editor can update the article.
+        return $article->editor()->is($user);
     }
 
     /**
      * Determines whether a user can submit an article for publication review.
      *
-     * Submisseion is allowed for New or Draft articles, but retricted form normal users to ensure proper editorial workflow.
+     * Submisseion is allowed for Draft articles, but retricted form normal users to ensure proper editorial workflow.
      * This gate controls entry into the formal review process.
      *
      * @param  User     $user     The user attempting to submit the article
@@ -47,8 +57,12 @@ final readonly class ArticlePolicy
      */
     public function sendForApproval(User $user, Article $article): bool
     {
-        return $article->state->in(enums: [ArticleStates::Draft])
-            && $user->user_type->notIn(enums: [UserTypes::Normal]);
+        if ($article->state->is(enum: ArticleStates::Draft)) {
+            return $article->editor()->exists()
+                && $article->editor()->is($user);
+        }
+
+        return false;
     }
 
     /**
@@ -95,8 +109,8 @@ final readonly class ArticlePolicy
      */
     public function archiveArticle(User $user, Article $article): bool
     {
-        return $article->state->in(enums: [ArticleStates::Published, ArticleStates::Approval])
-            && $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::EditorInChief]);
+        return $article->state->in(enums: [ArticleStates::Draft, ArticleStates::Published, ArticleStates::Approval])
+            && $user->user_type->isNot(enum: UserTypes::Normal);
     }
 
     /**
