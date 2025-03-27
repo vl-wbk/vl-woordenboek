@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+use ArchTech\Enums\Comparable;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasDescription;
-use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
 
 enum ArticleVersion: string implements HasLabel, HasDescription, HasColor
 {
+    use Comparable;
+
     case Claus = 'v1';
     case Spit = 'v2';
     case Lanoye = 'v3';

@@ -5,6 +5,12 @@
 @endsection
 
 @section ('content')
+    @if ($word->version->is(enum: \App\Enums\ArticleVersion::Claus))
+        <div class="alert alert-danger border-0 shadow-sm fade show" role="alert">
+            <strong class="me-1"><x-heroicon-s-bell-alert class="icon"/> Opgepast:</strong> {{ $word->version->getDescription() }}
+        </div>
+    @endif
+
     <div class="card bg-white border-0 shadow-sm">
         <div class="card-body">
             <h1 class="text-gold">{{ $word->word }}</h1>
@@ -52,7 +58,6 @@
             <livewire:likewords :word=$word />
         </div>
     </div>
-
 @endsection
 
 @section ('additional-sidenav-components')
