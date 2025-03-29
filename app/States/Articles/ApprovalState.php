@@ -44,8 +44,8 @@ final class ApprovalState extends ArticleState
      * This transition is used when an editor decides the article should not be published but should be retained for reference.
      * Archived articles can be restored later if circumstances change.
      */
-    public function transitionToArchived(): void
+    public function transitionToArchived(?string $archivingReason = null): void
     {
-        $this->article->update(attributes: ['state' => ArticleStates::Archived]);
+        $this->article->archive($archivingReason);
     }
 }
