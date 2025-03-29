@@ -129,6 +129,7 @@ final readonly class ArticlePolicy
             return true;
         }
 
-        return $article->state->in(enums: []);
+        return false;
+        // return $article->state->in(enums: []);
     }
 }
