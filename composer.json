@@ -9,6 +9,7 @@
         "php": "^8.2",
         "archtechx/enums": "^1.1",
         "cybercog/laravel-ban": "^4.10",
+        "devonab/filament-easy-footer": "^1.1",
         "dutchcodingcompany/filament-developer-logins": "^1.6",
         "eightynine/filament-advanced-widgets": "^3.0",
         "filament/filament": "^3.2.64",
