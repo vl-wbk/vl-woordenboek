@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\States\Articles;
 
-use App\Enums\ArticleStates;
-
 /**
  * ArchivedState represents the archived status of a dictionary article.
  *
@@ -25,6 +23,6 @@ final class ArchivedState extends ArticleState
      */
     public function transitionToReleased(): void
     {
-        $this->article->update(attributes: ['state' => ArticleStates::Published]);
+        $this->article->unarchive();
     }
 }

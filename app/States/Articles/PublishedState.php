@@ -8,8 +8,8 @@ use App\Enums\ArticleStates;
 
 final class PublishedState extends ArticleState
 {
-    public function transitionToArchived(): void
+    public function transitionToArchived(?string $archivingReason = null): void
     {
-        $this->article->update(attributes: ['state' => ArticleStates::Archived]);
+        $this->article->archive($archivingReason);
     }
 }

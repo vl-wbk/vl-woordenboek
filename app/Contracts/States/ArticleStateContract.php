@@ -10,5 +10,5 @@ interface ArticleStateContract
 
     public function transitionToReleased(): void;
 
-    public function transitionToArchived(): void;
+    public function transitionToArchived(?string $archivingReason = null): void;
 }

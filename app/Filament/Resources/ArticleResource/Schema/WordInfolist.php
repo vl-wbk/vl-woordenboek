@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\ArticleResource\Schema;
 
+use App\Enums\ArticleStates;
+use App\Models\Article;
 use Filament\Infolists\Components\Tabs;
 use Filament\Infolists\Components\Tabs\Tab;
 use Filament\Infolists\Components\TextEntry;
@@ -22,8 +24,34 @@ final readonly class WordInfolist
                 ->tabs([
                     self::lemmaInformationTab(),
                     self::editInformationTab(),
+                    self::archiveInformationTab()
                 ])
         ]);
+    }
+
+    private static function archiveInformationTab(): Tab
+    {
+        return Tab::make('Archiverings informatie')
+            ->visible(fn (Article $article): bool => $article->state->is(ArticleStates::Archived))
+            ->icon('heroicon-o-archive-box')
+            ->columns(12)
+            ->schema([
+                TextEntry::make('archiever.name')
+                    ->label('Gearchiveerd door')
+                    ->icon('heroicon-o-user-circle')
+                    ->iconColor('primary')
+                    ->columnSpan(3),
+                TextEntry::make('archived_at')
+                    ->label('Gearchiveerd op')
+                    ->icon('heroicon-o-clock')
+                    ->iconColor('primary')
+                    ->columnSpan(3)
+                    ->date(),
+                TextEntry::make('archiving_reason')
+                    ->label('Beweegredenen')
+                    ->columnSpan(6)
+                    ->placeholder('- geen beweegredenen opgegeven')
+            ]);
     }
 
     private static function lemmaInformationTab(): Tab
