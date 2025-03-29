@@ -19,7 +19,7 @@ class ArticleState implements ArticleStateContract
         throw new LogicException('The method transitionToApproved() is not allowed on the current state.');
     }
 
-    public function transitionToArchived(): void
+    public function transitionToArchived(?string $archivingReason = null): void
     {
         throw new LogicException('The method transitionToArchived() is not alllowed in the current state.');
     }

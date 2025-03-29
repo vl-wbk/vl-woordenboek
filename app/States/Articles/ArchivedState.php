@@ -4,27 +4,31 @@ declare(strict_types=1);
 
 namespace App\States\Articles;
 
-use App\Enums\ArticleStates;
-
 /**
- * ArchivedState represents the archived status of a dictionary article.
+ * Represents the archived state of a dictionary article.
  *
- * This state indicates that an article has been temporarily removed from public view but remains in the system for historical reference or potential future restoration.
- * Articles in this state can be transitioned back to published status if needed, providing flexibility in content management while maintaining data integrity.
+ * This state is used to indicate that an article has been temporarily removed from public visibility.
+ * While archived, the article remains in the system for historical reference or potential future restoration.
+ * This state provides flexibility in content management by allowing articles to be archived without permanent deletion.
+ *
+ * Articles in this state can be transitioned back to a published state if needed, ensuring that no data is lost
+ * and that content can be restored when it becomes relevant again.
  *
  * @package App\States\Articles
  */
 final class ArchivedState extends ArticleState
 {
     /**
-     * Transitions an archived article back to published status.
+     * Transitions the article from the archived state back to the published state.
      *
-     * This method enables content restoration by changing the article's state from archived to published.
-     * This transition might be used when previously archived content becomes relevant again or when an article was archived by mistake.
-     * The change is immediately persisted to the database through the article model.
+     * This method is used to restore an article that was previously archived. It changes the article's state
+     * to "published" and ensures that the change is persisted to the database. This functionality is useful
+     * when archived content becomes relevant again or when an article was archived by mistake.
+     *
+     * @return void
      */
     public function transitionToReleased(): void
     {
-        $this->article->update(attributes: ['state' => ArticleStates::Published]);
+        $this->article->unarchive();
     }
 }

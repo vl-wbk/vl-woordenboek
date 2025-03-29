@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Enums\ArticleStates;
 use App\Filament\Clusters\Articles;
 use App\Filament\Resources\ArticleResource\Schema\WordInfolist;
 use App\Filament\Resources\ArticleResource\Pages;
@@ -125,7 +126,7 @@ final class ArticleResource extends Resource
                 ->iconColor('primary')
                 ->iconSize(IconSize::Medium)
                 ->description('Gegevens omtrent de regio en status van het lemma gebruik')
-                ->schema(FormSchema::getStatusAndRegionDetails())
+                ->schema(FormSchema::getStatusAndRegionDetails()),
         ]);
     }
 

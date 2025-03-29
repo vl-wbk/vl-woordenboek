@@ -4,14 +4,42 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\ArticleResource\Schema;
 
+use App\Enums\ArticleStates;
+use App\Models\Article;
 use Filament\Infolists\Components\Tabs;
 use Filament\Infolists\Components\Tabs\Tab;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Illuminate\Support\HtmlString;
 
+/**
+ * WordInfolist is responsible for defining the schema of the detailed information display for articles.
+ *
+ * This class provides a structured layout for presenting article-related data in a user-friendly and organized way.
+ * It uses Filament's Infolist component to create a tabbed interface, where each tab focuses on a specific aspect of the article, such as general information, editing history, or archiving details.
+ *
+ * The class is designed to be immutable (`readonly`) and stateless, ensuring that the schema remains consistent and reusable across different parts of the application.
+ *
+ * Key Features:
+ * - Tabbed interface for organizing article information
+ * - Dynamic visibility for tabs based on article state
+ * - Integration with Filament's Infolist components for a clean and responsive UI
+ * - Support for translating labels and formatting data for better readability
+ *
+ * @package App\Filament\Resources\ArticleResource\Schema
+ */
 final readonly class WordInfolist
 {
+    /**
+     * Creates and configures the schema for the article's detailed information display.
+     *
+     * This method initializes the Infolist schema and defines the layout using tabs.
+     * Each tab is responsible for displaying a specific set of information about the article, such as its general details, editing history, or archiving information.
+     * The schema is dynamically generated based on the article's state and other attributes.
+     *
+     * @param  Infolist $infolist  The Filament Infolist instance to configure
+     * @return Infolist            The configured Infolist instance
+     */
     public static function make(Infolist $infolist): Infolist
     {
         $infolist->getRecord()->loadCount('audits');
@@ -22,10 +50,53 @@ final readonly class WordInfolist
                 ->tabs([
                     self::lemmaInformationTab(),
                     self::editInformationTab(),
+                    self::archiveInformationTab()
                 ])
         ]);
     }
 
+    /**
+     * Defines the "Archiving Information" tab for articles.
+     *
+     * This tab is only visible when the article is in the "Archived" state.
+     * It provides details about the archiving process, including the user who archived the article, the date it was archived, and the reason for archiving.
+     * This information is critical for tracking the history and accountability of archived articles.
+     *
+     * @return Tab The configured tab for archiving information
+     */
+    private static function archiveInformationTab(): Tab
+    {
+        return Tab::make('Archiverings informatie')
+            ->visible(fn (Article $article): bool => $article->state->is(ArticleStates::Archived))
+            ->icon('heroicon-o-archive-box')
+            ->columns(12)
+            ->schema([
+                TextEntry::make('archiever.name')
+                    ->label('Gearchiveerd door')
+                    ->icon('heroicon-o-user-circle')
+                    ->iconColor('primary')
+                    ->columnSpan(3),
+                TextEntry::make('archived_at')
+                    ->label('Gearchiveerd op')
+                    ->icon('heroicon-o-clock')
+                    ->iconColor('primary')
+                    ->columnSpan(3)
+                    ->date(),
+                TextEntry::make('archiving_reason')
+                    ->label('Beweegredenen')
+                    ->columnSpan(6)
+                    ->placeholder('- geen beweegredenen opgegeven')
+            ]);
+    }
+
+    /**
+     * Defines the "Lemma Information" tab for articles.
+     *
+     * This tab displays general information about the article, such as its index, state, word, keywords, part of speech, characteristics, status, regions, description, and example usage.
+     * It provides a comprehensive overview of the article's core details.
+     *
+     * @return Tab The configured tab for lemma information
+     */
     private static function lemmaInformationTab(): Tab
     {
         return Tab::make('Lemma informatie')
