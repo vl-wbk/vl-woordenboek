@@ -168,11 +168,28 @@ final class Article extends Model implements AuditableContract
         return $this->hasMany(Note::class);
     }
 
+    /**
+     * Defines the relationship between an article and the user who archived it.
+     *
+     * This "belongs to" relationship links the article to the user who performed the archiving action.
+     * It is used to track accountability and provide historical context for archived articles.
+     *
+     * @return BelongsTo<User, covariant $this>
+     */
     public function archiever(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Overrides the default Eloquent builder with a custom ArticleBuilder.
+     *
+     * This method ensures that all queries for the Article model use the custom builder,
+     * which includes additional methods for managing article states (e.g., archiving and unarchiving).
+     *
+     * @param \Illuminate\Database\Query\Builder $query  The base query builder instance
+     * @return ArticleBuilder                            The custom builder instance
+     */
     public function newEloquentBuilder($query): ArticleBuilder
     {
         return new ArticleBuilder($query);
