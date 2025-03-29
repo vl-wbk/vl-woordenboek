@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\ArticleResource\Actions\States;
 
+use App\Models\Article;
 use Filament\Actions\Action;
+use Filament\Forms\Components\Textarea;
 
 /**
  * ArchiveAction provides the interface for archiving dictionary articles.
@@ -57,9 +59,16 @@ final class ArchiveArticle extends Action
         $this->modalIcon($this->actionIcon);
         $this->modalHeading('Artikel archiveren');
         $this->modalDescription('Indien u het artikel in het archief stopt. Zal deze echter een beperkte zichtbaarheid hebben. En niet raadplaagbaar zijn voor eind gebruikers');
+        $this->form([
+            Textarea::make('archiving_reason')
+                ->rows(4)
+                ->label('Archiverings redenen')
+                ->placeholder('Beschrijf kort waarom het artikel gearchiveerd word')
+                ->maxLength(350)
+        ]);
 
-        $this->action(function (): void {
-            $this->record->articleStatus()->transitionToArchived();
+        $this->action(function (array $data, Article $article): void {
+            $article->articleStatus()->transitionToArchived($data['archiving_reason']);
             $this->success();
         });
     }
