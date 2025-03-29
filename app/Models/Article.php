@@ -188,7 +188,7 @@ final class Article extends Model implements AuditableContract
      * which includes additional methods for managing article states (e.g., archiving and unarchiving).
      *
      * @param \Illuminate\Database\Query\Builder $query  The base query builder instance
-     * @return ArticleBuilder                            The custom builder instance
+     * @return ArticleBuilder<self>                      The custom builder instance
      */
     public function newEloquentBuilder($query): ArticleBuilder
     {

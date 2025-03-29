@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\DB;
  * This class extends Laravel's Eloquent Builder to include methods for managing the lifecycle of articles, specifically archiving and unarchiving them.
  * It encapsulates the logic for these operations, ensuring that state transitions are handled consistently and securely within database transactions.
  *
+ * @template TModelClass of \App\Models\Article
+ * @extends Builder<\App\Models\Article>
+ *
  * @package App\Builders
  */
 final class ArticleBuilder extends Builder
