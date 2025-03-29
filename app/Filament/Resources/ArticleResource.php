@@ -8,6 +8,7 @@ use App\Enums\ArticleVersion;
 use App\Filament\Clusters\Articles;
 use App\Filament\Resources\ArticleResource\Schema\WordInfolist;
 use App\Filament\Resources\ArticleResource\Pages;
+use App\Filament\Resources\ArticleResource\Pages\ViewWord;
 use App\Filament\Resources\ArticleResource\Schema\FormSchema;
 use App\Models\Article;
 use Filament\Forms\Form;
@@ -160,6 +161,7 @@ final class ArticleResource extends Resource
             ->emptyStateHeading('Geen artikelen gevonden')
             ->emptyStateDescription("Momenteel konden we geen artikelen (lemma's) vinden met de matchende criteria. Kom later nog eens terug.")
             ->paginated([10, 25, 50, 75])
+            ->recordUrl(fn (Article $article): string => ViewWord::getUrl(['record' => $article]))
             ->modifyQueryUsing(fn (Builder $query): Builder => self::selectDatabaseColumns($query))
             ->columns([
                 TextColumn::make('author.name')
