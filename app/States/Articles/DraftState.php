@@ -12,4 +12,9 @@ final class DraftState extends ArticleState
     {
         $this->article->update(attributes: ['state' => ArticleStates::Approval]);
     }
+
+    public function transitionToReleased(): void
+    {
+        
+    }
 }
