@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use Cog\Laravel\Ban\Http\Middleware\ForbidBannedUser;
+use Devonab\FilamentEasyFooter\EasyFooterPlugin;
 use DutchCodingCompany\FilamentDeveloperLogins\FilamentDeveloperLoginsPlugin;
 use Filament\FontProviders\BunnyFontProvider;
 use Filament\Http\Middleware\Authenticate;
@@ -82,6 +83,12 @@ final class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 ResourceLockPlugin::make(),
+                EasyFooterPlugin::make()
+                    ->withGithub()
+                    ->withLoadTime()
+                    ->withLinks([
+                        ['title' => 'Voorwaarden', 'url' => url('voorwaarden')],
+                    ]),
                 FilamentDeveloperLoginsPlugin::make()
                     ->enabled(Config::boolean('app.debug', false))
                     ->users($this->defaultLoginsDuringDevelopment())
