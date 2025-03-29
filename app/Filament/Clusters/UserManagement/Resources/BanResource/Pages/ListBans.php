@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\UserManagement\Resources\BanResource\Pages;
 
+use App\Features\DocumentationButtons;
 use App\Filament\Clusters\UserManagement\Resources\BanResource;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\ListRecords;
+use Laravel\Pennant\Feature;
 
 /**
  * This page class servers as the cental hub for managing account deactivations in the Flemish Dictionary.
@@ -44,7 +46,8 @@ final class ListBans extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Action::make('Documentatie')
+            Action::make('Documfentatie')
+                ->visible(Feature::active(DocumentationButtons::class))
                 ->color('gray')
                 ->icon('tabler-book')
                 ->url('https://www.google.com')
