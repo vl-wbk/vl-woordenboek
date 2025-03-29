@@ -68,11 +68,7 @@ final class Article extends Model implements AuditableContract
      *
      * @var list<string>
      */
-<<<<<<< HEAD
-    protected $fillable = ['word', 'publication', 'version', 'state', 'editor_id', 'description', 'keywords', 'author_id', 'status', 'example', 'characteristics'];
-=======
     protected $guarded = ['id'];
->>>>>>> migratie-afslag
 
     /**
      * Attributes excluded from the audit trail.
