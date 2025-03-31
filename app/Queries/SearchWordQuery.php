@@ -11,7 +11,7 @@ final readonly class SearchWordQuery
     public function execute(?string $searchTerm = null): mixed
     {
         return Article::query()
-            ->whereFullText('word', $searchTerm)
+            ->whereFullText('word', $searchTerm, ['mode' => 'boolean'])
             ->orWhereFulltext('keywords', $searchTerm)
             ->paginate()
             ->withQueryString();
