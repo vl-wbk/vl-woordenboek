@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\ArticleResource\Schema;
 
+use App\Enums\ArticleStates;
 use App\Enums\LanguageStatus;
 use App\UserTypes;
 use Filament\Forms\Components\Actions\Action;
@@ -26,14 +27,24 @@ final readonly class FormSchema
     public static function getDetailSchema(): array
     {
         return [
+            Components\Select::make('state')
+                ->label('Artikel status')
+                ->required()
+                ->columnSpan(2)
+                ->disabledOn('edit')
+                ->default(ArticleStates::New->value)
+                ->options([
+                    ArticleStates::New->value => ArticleStates::New->getLabel(),
+                    ArticleStates::Draft->value => ArticleStates::Draft->getLabel(),
+                ]),
             Components\TextInput::make('word')
                 ->label('Woord')
-                ->columnSpan(3)
+                ->columnSpan(2)
                 ->required()
                 ->maxLength(255),
             Components\Select::make('partOfSpeech')
                 ->label('Woordsoort')
-                ->columnSpan(3)
+                ->columnSpan(2)
                 ->relationship(titleAttribute: 'name')
                 ->optionsLimit(4)
                 ->searchable()
