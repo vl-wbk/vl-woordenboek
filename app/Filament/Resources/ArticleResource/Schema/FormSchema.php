@@ -59,9 +59,15 @@ final readonly class FormSchema
                 ->translateLabel()
                 ->placeholder('Kernwoord 1, Kernwoord 2, Kernwoord 3, etc...')
                 ->columnSpanFull(),
+            Components\Select::make('labels')
+                ->relationship(titleAttribute: 'name')
+                ->multiple()
+                ->preload()
+                ->native(false)
+                ->columnSpanFull(),
             Components\RichEditor::make('description')
                 ->label('Beschrijving')
-                ->columnSpan(12)
+                ->columnSpanFull()
                 ->toolbarButtons(['bold', 'italic', 'link', 'redo', 'strike', 'underline', 'undo'])
                 ->placeholder('De beschrijving van het woord dat je wenst toe te voegen.')
                 ->required(),
@@ -69,7 +75,7 @@ final readonly class FormSchema
                 ->label('Voorbeeld')
                 ->toolbarButtons(['bold', 'italic', 'link', 'redo', 'strike', 'underline', 'undo'])
                 ->placeholder('Probeer zo helder mogelijk te zijn')
-                ->columnSpan(12)
+                ->columnSpanFull()
                 ->required(),
         ];
     }
