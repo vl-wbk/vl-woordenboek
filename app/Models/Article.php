@@ -186,6 +186,11 @@ final class Article extends Model implements AuditableContract
         return $this->belongsTo(User::class);
     }
 
+    public function reports(): HasMany
+    {
+        return $this->hasMany(ArticleReport::class);
+    }
+
     /**
      * Overrides the default Eloquent builder with a custom ArticleBuilder.
      *

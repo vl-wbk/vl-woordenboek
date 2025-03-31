@@ -121,3 +121,17 @@ textarea.form-control {
 p {
     margin-bottom: 0;
 }
+
+// Modals
+
+.modal-header-reporting {
+    background-color: oklch(0.936 0.032 17.717);
+
+    & h1.modal-title {
+        color: oklch(0.704 0.191 22.216);
+    }
+}
+
+.modal-footer-reporting {
+    background-color: oklch(0.97 0 0);
+}

@@ -13,15 +13,25 @@
 
     <div class="card bg-white border-0 shadow-sm">
         <div class="card-body">
-            <h1 class="text-gold">
-                {{ $word->word }}
+            <div class="d-flex justify-content-between">
+                <div class="float-start">
+                    <h1 class="text-gold float-start">{{ $word->word }}</h1>
+                </div>
 
-                {{-- Report problem  --}}
-                <button type="button" class="btn btn-outline-danger btn-sm float-end" data-bs-toggle="modal" data-bs-target="#reportModal">
-                    Probleem melden
-                  </button>
-                {{-- END report modal --}}
-            </h1>
+                <div class="float-end">
+                    @auth {{-- Report problem  --}}
+                        @if (session()->has('status'))
+                            <div class="alert py-1 px-2 alert-success alert-dismissible fade show border-0 shadow-sm">
+                                <x-heroicon-o-clipboard-document-check class="icon me-1"/> {{ session('status') }}
+                            </div>
+                        @else
+                            <button type="button" class="btn btn-outline-danger btn-sm float-end" data-bs-toggle="modal" data-bs-target="#reportModal">
+                                <x-tabler-file-alert class="icon me-1"/> Probleem melden
+                            </button>
+                        @endif
+                    @endif {{-- END report modal --}}
+                </div>
+            </div>
 
             <ul class="list-unstyled mb-0 text-muted-bottom">
                 <li class="mb-1">
@@ -35,8 +45,11 @@
             </ul>
         </div>
 
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">{!! str($word->description)->sanitizeHtml() !!}</li>
+        <ul class="list-group border-top list-group-flush">
+            <li class="list-group-item">
+                <div class="fw-bold color-green">Beschrijving</div>
+                {!! str($word->description)->sanitizeHtml() !!}
+            </li>
             <li class="list-group-item">
                 <div class="fw-bold color-green">Voorbeeld</div>
                 {!! str($word->example)->sanitizeHtml() !!}
@@ -54,31 +67,14 @@
                     @endforelse
                 </ul>
             </li>
-          </ul>
+        </ul>
 
         <div class="card-footer border-top bg-white">
             <livewire:likewords :word=$word />
         </div>
     </div>
 
-    {{-- report modal --}}
-    <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              ...
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-          </div>
-        </div>
-      </div>
+    <livewire:reportarticlemodal :article=$word />
 @endsection
 
 @section ('additional-sidenav-components')
