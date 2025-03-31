@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\ArticleResource\Pages;
 
+use App\Enums\ArticleStates;
 use App\Filament\Resources\ArticleResource;
 use App\Filament\Resources\ArticleResource\Schema\FormSchema;
 use Filament\Forms\Components\Wizard;
@@ -66,17 +67,25 @@ final class CreateWord extends CreateRecord
     }
 
     /**
-     * Post-Creation handles
+     * Handles post-creation logic for word entries.
      *
-     * Executes automatically after successful word creation. This method handles the crucial
-     * task of establishing ownership by creating a relationship between the newly created
-     * word entry and the currently authenticated user. This association ensures proper
-     * attribution and maintains data integrity within the dictionary system.
+     * This method is automatically executed after a new word entry is successfully created.
+     * It establishes ownership and editorial responsibility by associating the newly created
+     * word with the currently authenticated user. This ensures proper attribution and maintains
+     * data integrity within the dictionary system.
+     *
+     * If the word is created in the "Draft" state, the authenticated user is also assigned
+     * as the editor of the word. This assignment helps track editorial responsibility for
+     * draft entries, ensuring accountability during the editing process.
      *
      * @return void
      */
     public function afterCreate(): void
     {
+        if ($this->record->state->is(ArticleStates::Draft)) {
+            $this->record->editor()->associate(auth()->user())->save();
+        }
+
         $this->record->author()->associate(auth()->user())->save();
     }
 
