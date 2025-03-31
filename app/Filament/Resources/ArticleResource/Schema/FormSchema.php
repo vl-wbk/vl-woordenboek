@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\ArticleResource\Schema;
 
+use App\Enums\ArticleStates;
 use App\Enums\LanguageStatus;
 use App\UserTypes;
 use Filament\Forms\Components\Actions\Action;
@@ -26,14 +27,24 @@ final readonly class FormSchema
     public static function getDetailSchema(): array
     {
         return [
+            Components\Select::make('state')
+                ->label('Artikel status')
+                ->required()
+                ->columnSpan(2)
+                ->disabledOn('edit')
+                ->default(ArticleStates::New->value)
+                ->options([
+                    ArticleStates::New->value => ArticleStates::New->getLabel(),
+                    ArticleStates::Draft->value => ArticleStates::Draft->getLabel(),
+                ]),
             Components\TextInput::make('word')
                 ->label('Woord')
-                ->columnSpan(3)
+                ->columnSpan(2)
                 ->required()
                 ->maxLength(255),
             Components\Select::make('partOfSpeech')
                 ->label('Woordsoort')
-                ->columnSpan(3)
+                ->columnSpan(2)
                 ->relationship(titleAttribute: 'name')
                 ->optionsLimit(4)
                 ->searchable()
@@ -48,9 +59,15 @@ final readonly class FormSchema
                 ->translateLabel()
                 ->placeholder('Kernwoord 1, Kernwoord 2, Kernwoord 3, etc...')
                 ->columnSpanFull(),
+            Components\Select::make('labels')
+                ->relationship(titleAttribute: 'name')
+                ->multiple()
+                ->preload()
+                ->native(false)
+                ->columnSpanFull(),
             Components\RichEditor::make('description')
                 ->label('Beschrijving')
-                ->columnSpan(12)
+                ->columnSpanFull()
                 ->toolbarButtons(['bold', 'italic', 'link', 'redo', 'strike', 'underline', 'undo'])
                 ->placeholder('De beschrijving van het woord dat je wenst toe te voegen.')
                 ->required(),
@@ -58,7 +75,7 @@ final readonly class FormSchema
                 ->label('Voorbeeld')
                 ->toolbarButtons(['bold', 'italic', 'link', 'redo', 'strike', 'underline', 'undo'])
                 ->placeholder('Probeer zo helder mogelijk te zijn')
-                ->columnSpan(12)
+                ->columnSpanFull()
                 ->required(),
         ];
     }
