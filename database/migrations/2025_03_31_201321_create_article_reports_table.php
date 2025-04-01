@@ -16,9 +16,13 @@ return new class extends Migration
         Schema::create('article_reports', function (Blueprint $table) {
             $table->id();
             $table->unsignedSmallInteger('state');
+            $table->foreignIdFor(User::class, 'assignee_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(User::class, 'author_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(Article::class)->constrained()->cascadeOnDelete();
             $table->text('description');
+            $table->timestamp('assigned_at')->nullable();
+            $table->timestamp('closed_at')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

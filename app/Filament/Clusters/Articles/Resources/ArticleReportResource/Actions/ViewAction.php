@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\ArticleReportResource\Actions;
 
-use App\Filament\Clusters\Articles\Resources\ArticleReportResource;
 use App\Models\ArticleReport;
 use App\States\Reporting\Status;
 use Filament\Actions\DeleteAction;
@@ -29,11 +28,11 @@ final class ViewAction extends Action
         $this->modalIconColor('highlight');
         $this->modalWidth(MaxWidth::SixExtraLarge);
         $this->modalHeading('Melding informatie');
-        $this->infolist([TextEntry::make('description')->hiddenlabel()->columnSpanFull()]);
+        $this->infolist([TextEntry::make('description')->label('Melding')->columnSpanFull()]);
 
         $this->modalDescription(function (ArticleReport $articleReport): string {
-            return trans(':user heeft op :date de volgende melding ingestuurd voor het woord :article.', [
-                'user' => $this->record->author->name, 'date' => $articleReport->created_at->format('d/m/Y'), 'article' => $articleReport->article->word
+            return trans(':user heeft op :date de volgende melding ingestuurd.', [
+                'user' => $this->record->author->name, 'date' => $articleReport->created_at->format('d/m/Y')
             ]);
         });
 
@@ -47,6 +46,7 @@ final class ViewAction extends Action
                     ->icon(Status::Closed->getIcon()),
 
                 DeleteAction::make()
+                    ->icon('heroicon-o-trash')
             ]);
     }
 }
