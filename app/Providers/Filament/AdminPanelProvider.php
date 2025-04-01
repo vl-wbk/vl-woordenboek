@@ -41,13 +41,19 @@ final class AdminPanelProvider extends PanelProvider
             ->login()
             ->passwordReset()
             ->databaseNotifications()
-            ->colors([
-                'danger' => Color::Red,
-                'gray' => Color::Zinc,
-                'info' => Color::Blue,
-                'primary' => Color::Amber,
-                'success' => Color::Green,
-                'warning' => Color::Amber,
+            ->colors( [
+                'primary' => '#2D6A4F', // Deep Evergreen (Main Accent, Rich & Grounded)
+                'secondary' => '#52796F', // Moss Green (Subtle Secondary Highlights)
+                'background' => '#F1F5E1', // Soft Lichen (Natural, Warm Background)
+                'surface' => '#FFFFFF', // Birch White (For Cards, Modals, Panels)
+                'text' => '#2B3A2F', // Dark Cypress (Highly Readable, No Eye Strain)
+                'muted' => '#8D9A83', // Sage Green (For Subtle UI Elements)
+                'border' => '#A3B18A', // Soft Olive (Delicate Dividers & Separators)
+                'highlight' => '#B08968', // Earthy Bark (Important Accents, Buttons)
+                'success' => '#3A5A40', // Forest Fern (Encouraging, Trustworthy Green)
+                'warning' => '#D4A373', // Warm Amber (Gentle, Organic Warnings)
+                'danger' => '#A53838', // Redwood (Strong but Natural Error Feedback)
+                'shadow' => '#1E2F23', // Deep Pine (For Depth & Contrast)
             ])
             ->userMenuItems([
                 MenuItem::make()
