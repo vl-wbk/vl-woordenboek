@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 final class ArticleReport extends Model
 {
     use BelongsToAuthor;
-    use SoftDeletes;
 
     protected $guarded = ['id'];
 

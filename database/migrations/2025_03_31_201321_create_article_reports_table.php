@@ -22,7 +22,6 @@ return new class extends Migration
             $table->text('description');
             $table->timestamp('assigned_at')->nullable();
             $table->timestamp('closed_at')->nullable();
-            $table->softDeletes();
             $table->timestamps();
         });
     }
