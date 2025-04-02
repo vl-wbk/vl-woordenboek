@@ -40,4 +40,9 @@ final class ListArticleReports extends ListRecords
      * @var string
      */
     protected static string $resource = ArticleReportResource::class;
+
+    protected function getHeaderWidgets(): array
+    {
+        return ArticleReportResource::getWidgets();
+    }
 }
