@@ -11,6 +11,7 @@ use App\Filament\Clusters\Articles\Resources\ArticleReportResource\Schema\TableC
 use App\Filament\Resources\ArticleResource\Pages\ViewWord;
 use App\Models\ArticleReport;
 use App\Models\User;
+use App\States\Reporting\Status;
 use Filament\Infolists\Components\Actions\Action;
 use Filament\Infolists\Components\Fieldset;
 use Filament\Infolists\Components\Section;
@@ -19,7 +20,11 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconSize;
+use Filament\Support\Enums\MaxWidth;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Cache;
 
 /**
@@ -139,7 +144,18 @@ final class ArticleReportResource extends Resource
             ->emptyStateDescription('Het lijk erop dat erm omenteel geen openstaande meldingen zijn die gerelateerd zijn aan de atikelen van het Vlaams Woordenboek.')
             ->columns(SchemaTableColumnSchema::make())
             ->actions(TableActionsConfiguration::rowActions())
-            ->bulkActions(TableActionsConfiguration::bulkActions());
+            ->bulkActions(TableActionsConfiguration::bulkActions())
+            ->filtersFormWidth(MaxWidth::Medium)
+            ->filters([
+                SelectFilter::make('state')
+                    ->options(Status::class)
+                    ->label('Status')
+                    ->multiple()
+                    ->default([Status::Open->value, Status::InProgress->value]),
+                Filter::make('assigned')
+                    ->label('Toegewezen aan mij')
+                    ->query(fn (Builder $query): Builder => $query->where('assignee_id', auth()->id())),
+            ]);
     }
 
     /**
