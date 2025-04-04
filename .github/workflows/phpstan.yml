@@ -1,4 +1,4 @@
-name: PHPStan
+name: "Wijzigingen geven geen nieuwe static analyses errors"
 
 on: [push]
 

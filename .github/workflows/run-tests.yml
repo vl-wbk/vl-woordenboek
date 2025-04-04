@@ -1,4 +1,4 @@
-name: "Run tests to ensure the code doesn't have unexpected errors in production"
+name: "De unit-test slagen in mijn pull request/push "
 
 on: [push, pull_request]
 
