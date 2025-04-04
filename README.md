@@ -1,9 +1,5 @@
 # VL Woordenboek 
 
-[![codecov](https://codecov.io/github/vl-wbk/vl-woordenboek/graph/badge.svg?token=4T1WY9L3KB)](https://codecov.io/github/vl-wbk/vl-woordenboek)
-[![Unit testing](https://github.com/vl-wbk/vl-woordenboek/actions/workflows/run-tests.yml/badge.svg)](https://github.com/vl-wbk/vl-woordenboek/actions/workflows/run-tests.yml)
-[![Static analyses](https://github.com/vl-wbk/vl-woordenboek/actions/workflows/phpstan.yml/badge.svg)](https://github.com/vl-wbk/vl-woordenboek/actions/workflows/phpstan.yml)
-
 Een open-source woordenboek voor Vlaamse woorden en uitdrukkingen.
 
 ## 📖 Over dit project 
