@@ -27,7 +27,7 @@
         <ul class="inline-list text-muted mb-0 p-0">
             <li class="list-inline-item">
                 <x-heroicon-o-users class="icon me-1"/>
-                <span class="fw-bold">Gebruikersgroep:</span>  {{ $user->user_type->value }}
+                <span class="fw-bold">Gebruikersgroep:</span>  {{ $user->user_type->getLabel() }}
             </li>
 
             <li class="list-inline-item">|</li>
