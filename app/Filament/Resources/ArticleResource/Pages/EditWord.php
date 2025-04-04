@@ -6,6 +6,7 @@ namespace App\Filament\Resources\ArticleResource\Pages;
 
 use App\Enums\ArticleStates;
 use App\Filament\Resources\ArticleResource;
+use App\Filament\Resources\ArticleResource\Actions\RemoveEditorAction;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Resources\Pages\EditRecord\Concerns\HasWizard;
@@ -48,6 +49,7 @@ final class EditWord extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            RemoveEditorAction::make(),
             Actions\DeleteAction::make()
                 ->icon('heroicon-o-trash'),
         ];
