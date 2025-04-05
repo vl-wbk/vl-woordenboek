@@ -103,12 +103,15 @@ final class EditBanAction extends Action
     public function formSchema(): array
     {
         return [
-            Textarea::make('comment')
-                ->label('Reden tot deactivering')
-                ->nullable(),
             DateTimePicker::make('expired_at')
                 ->required()
                 ->label('Verloopt op'),
+            Textarea::make('comment')
+                ->label('Reden tot deactivering')
+                ->placeholder('Korte beargumentering')
+                ->autofocus()
+                ->rows(4)
+                ->nullable(),
         ];
     }
 }
