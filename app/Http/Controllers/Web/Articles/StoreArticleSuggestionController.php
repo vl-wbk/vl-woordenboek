@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Web\Articles;
 
 use App\Actions\Articles\StoreArticleSuggestion;
 use App\Http\Requests\Articles\StoreSuggestionRequest;
+use App\Models\PartOfSpeech;
 use App\Models\Region;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
@@ -35,7 +36,8 @@ final readonly class StoreArticleSuggestionController
     public function create(): Renderable
     {
         return view('definitions.create', [
-            'regions' => Region::query()->pluck('name', 'id')
+            'regions' => Region::query()->pluck('name', 'id'),
+            'partOfSpeeches' => PartOfSpeech::query()->pluck('name', 'id'),
         ]);
     }
 

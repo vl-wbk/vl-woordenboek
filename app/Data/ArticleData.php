@@ -18,5 +18,6 @@ final class ArticleData extends Data
         #[MapInputName('voorbeeld')]    public string $example,
         #[MapInputName('regio')]        public array $regions = [],
         #[MapInputName('kenmerken')]    public ?string $characteristics = null,
+        #[MapInputName('woordsoort')]   public ?int $part_of_speech_id = null,
     ) {}
 }
