@@ -33,4 +33,9 @@ class ArticleState implements ArticleStateContract
     {
         throw new LogicException('The method transitionToReleased() is not allowed on the current state.');
     }
+
+    public function transitionToSuggestion(): bool
+    {
+        throw new LogicException('The method transitionToSuggestion() is not allowed on the current state.');
+    }
 }

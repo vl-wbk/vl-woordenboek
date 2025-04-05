@@ -29,6 +29,8 @@ final class RemoveEditorAction extends Action
         $this->label('Loskoppelen');
         $this->icon(self::$navigationIcon);
         $this->color('danger');
+        $this->authorize('detachEditor', $this->record);
+
 
         $this->requiresConfirmation();
         $this->modalWidth(MaxWidth::Large);
@@ -37,6 +39,9 @@ final class RemoveEditorAction extends Action
         $this->modalHeading($this->getCustomUserBasedModalHeading());
         $this->modalDescription($this->getCustomUserBasedModalDescription());
         $this->modalSubmitActionLabel('Ja, ik ben zeker');
+
+        $this->successNotificationTitle('De redacteur is losgekoppeld van het artikel');
+        $this->failureNotificationTitle('We konden de redacteur niet loskoppelen van het artikel');
 
         $this->action(function (): void {
             if ($this->process(fn (): bool => $this->record->articleStatus()->transitionToSuggestion())) {

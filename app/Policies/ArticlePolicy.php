@@ -83,6 +83,15 @@ final readonly class ArticlePolicy
             && $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::EditorInChief]);
     }
 
+    public function detachEditor(User $user, Article $article): bool
+    {
+        if ($article->state->isNot(enum: ArticleStates::Draft)) {
+            return false;
+        }
+
+        return $article->editor()->is($user) || $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer]);
+    }
+
     /**
      * Determines whether a user can archive an article.
      *
