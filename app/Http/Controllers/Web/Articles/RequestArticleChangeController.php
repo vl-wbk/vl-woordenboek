@@ -9,6 +9,7 @@ use App\Http\Controllers\Web\Articles\DictionaryArticleController;
 use App\Http\Requests\Articles\UpdateArticleRequest;
 use App\Models\Region;
 use App\Models\Article;
+use App\Models\PartOfSpeech;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Spatie\RouteAttributes\Attributes\Get;
@@ -34,7 +35,7 @@ final readonly class RequestArticleChangeController
 {
     /**
      * Display the form for editing a specific word's definition.
-     * Retrieves available regions for a dropdown and the Article model instance.
+     * This method retrieves available regions and parts of speech for dropdown selection, and passes them along with the Article model instance to the edit view.
      *
      * @param  Article $word  The Article model instance to be edited (injected via route model binding).
      * @return Renderable     The view for editing the definition.
@@ -44,6 +45,7 @@ final readonly class RequestArticleChangeController
     {
         return view('definitions.update', [
             'regions' => Region::query()->pluck('name', 'id'),
+            'partOfSpeeches' => PartOfSpeech::query()->pluck('name', 'id'),
             'word' => $word
         ]);
     }
