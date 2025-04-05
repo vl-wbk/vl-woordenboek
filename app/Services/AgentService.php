@@ -8,7 +8,7 @@ use Detection\MobileDetect;
 /**
  * @copyright Originally created by Jens Segers: https://github.com/jenssegers/agent
  */
-class Agent extends MobileDetect
+class AgentService extends MobileDetect
 {
     /**
      * List of additional operating systems.
@@ -106,9 +106,10 @@ class Agent extends MobileDetect
     /**
      * Match a detection rule and return the matched key.
      *
+     * @param array<string, string> $rules
      * @return string|null
      */
-    protected function findDetectionRulesAgainstUserAgent(array $rules)
+    protected function findDetectionRulesAgainstUserAgent(array $rules): ?string
     {
         $userAgent = $this->getUserAgent();
 
@@ -148,7 +149,7 @@ class Agent extends MobileDetect
     /**
      * Merge multiple rules into one array.
      *
-     * @param  array  $all
+     * @param  array<mixed>  $all
      * @return array<string, string>
      */
     protected function mergeRules(...$all)
