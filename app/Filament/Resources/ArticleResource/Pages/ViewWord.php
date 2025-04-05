@@ -41,7 +41,7 @@ final class ViewWord extends ViewRecord
      * Each action is configured with an icon, color, and other properties to ensure consistency in the user interface.
      * This modular approach allows developers to easily customize which actions are available and how they behave.
      *
-     * @return array The set of configured header actions.
+     * @return array<int, mixed> The set of configured header actions.
      */
     protected function getHeaderActions(): array
     {
