@@ -19,6 +19,7 @@
         "laravel/framework": "^12.0",
         "laravel/pennant": "^1.16",
         "laravel/tinker": "^2.10.1",
+        "mobiledetect/mobiledetectlib": "^4.8",
         "overtrue/laravel-like": "^5.3",
         "owen-it/laravel-auditing": "^14.0",
         "secondnetwork/blade-tabler-icons": "^3.29",
