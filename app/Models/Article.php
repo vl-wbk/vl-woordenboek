@@ -8,7 +8,6 @@ use App\Builders\ArticleBuilder;
 use App\States\Articles;
 use App\Contracts\States\ArticleStateContract;
 use App\Enums\ArticleStates;
-use App\Enums\ArticleVersion;
 use App\Enums\LanguageStatus;
 use App\Enums\Visibility;
 use App\Models\Relations\BelongsToEditor;
@@ -31,23 +30,19 @@ use Kenepa\ResourceLock\Models\Concerns\HasLocks;
  * and includes auditing capabilities to track changes. The model supports relationships with authors,
  * editors, regions, and definitions while also providing likeability features.
  *
- * @property int             $id                 The unique identifier for the article
- * @property string          $word               The dictionary word being defined
- * @property bool            $publication        The boolean field that handles the publication of the article.
- * @property ArticleVersion  $version            The version indicator of the dictionary article.
- * @property ArticleStates   $state              The current state of the article in its lifecycle
- * @property string|null     $keywords           The keywords that are attached to the article
- * @property string          $description        The detailed explanation of the word
- * @property int             $author_id          The ID of the user who created the article
- * @property LanguageStatus  $status             The current language validation status
- * @property string|null     $example            Optional usage example of the word
- * @property string|null     $characteristics    Additional word characteristics
- * @property int|null        $editor_id          The ID of the assigned editor
- * @property int|null        $part_of_speech_id  The unique ID of the part of speech information.
- * @property string |null    $archiving_reason   The reason why the article has been archived.
- * @property \Carbon\Carbon  $archived_at        Timestamp for when the article is archived at
- * @property \Carbon\Carbon  $created_at         Timestamp of when the article was created
- * @property \Carbon\Carbon  $updated_at         Timestamp of the last update
+ * @property int            $id                 The unique identifier for the article
+ * @property string         $word               The dictionary word being defined
+ * @property ArticleStates  $state              The current state of the article in its lifecycle
+ * @property string|null    $keywords           The keywords that are attached to the article
+ * @property string         $description        The detailed explanation of the word
+ * @property int            $author_id          The ID of the user who created the article
+ * @property LanguageStatus $status             The current language validation status
+ * @property string|null    $example            Optional usage example of the word
+ * @property string|null    $characteristics    Additional word characteristics
+ * @property int|null       $editor_id          The ID of the assigned editor
+ * @property int|null       $part_of_speech_id  The unique ID of the part of speech information.
+ * @property \Carbon\Carbon $created_at         Timestamp of when the article was created
+ * @property \Carbon\Carbon $updated_at         Timestamp of the last update
  *
  * @package App\Models
  */
@@ -85,7 +80,6 @@ final class Article extends Model implements AuditableContract
      */
     protected $attributes = [
         'state' => ArticleStates::New,
-        'version' => ArticleVersion::Spit,
         'status' => LanguageStatus::Onbekend,
         'publication' => Visibility::Hidden,
     ];
@@ -215,7 +209,6 @@ final class Article extends Model implements AuditableContract
     {
         return [
             'state' => ArticleStates::class,
-            'version' => ArticleVersion::class,
             'status' => LanguageStatus::class,
             'publication' => Visibility::class,
         ];

@@ -1,7 +1,6 @@
 <?php
 
 use App\Enums\ArticleStates;
-use App\Enums\ArticleVersion;
 use App\Enums\LanguageStatus;
 use App\Enums\Visibility;
 use App\Models\Region;
@@ -21,8 +20,6 @@ return new class extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
-            $table->boolean('publication')->default(Visibility::Visible->value)->comment('Visible becasue of the databasem migration for the old database');
-            $table->string('version', 10)->nullable()->default(ArticleVersion::Claus->value);
             $table->string('index', 1)
                 ->comment('The index column is used in the word index of the application.')
                 ->virtualAs("UPPER(LEFT(word, 1))");

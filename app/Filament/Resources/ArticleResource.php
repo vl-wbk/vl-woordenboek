@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use App\Enums\ArticleVersion;
 use App\Filament\Clusters\Articles;
 use App\Filament\Resources\ArticleResource\Schema\WordInfolist;
 use App\Filament\Resources\ArticleResource\Pages;
@@ -17,9 +16,7 @@ use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconSize;
 use Filament\Tables;
-use Filament\Tables\Actions;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -143,19 +140,6 @@ final class ArticleResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->heading("Woordenboekartikelen")
-            ->description('
-                Deze tabel biedt een overzicht van woordenboekartikelen, met informatie over de trefwoorden, hun definities, woordsoorten en eventuele aanvullende details zoals etymologie of voorbeeldzinnen.
-                Gebruik de filter om specifieke versies van de artikelen te selecteren en te vergelijken.
-            ')
-            ->headerActions([
-                // FIX: Voor deze functionaliteit moet nog een feature flag worden toegevoegd
-                Actions\Action::make('Help')
-                    ->icon('heroicon-o-lifebuoy'),
-                Actions\CreateAction::make()
-                    ->color('gray')
-                    ->icon('heroicon-o-plus')
-            ])
             ->emptyStateIcon(self::$navigationIcon)
             ->emptyStateHeading('Geen artikelen gevonden')
             ->emptyStateDescription("Momenteel konden we geen artikelen (lemma's) vinden met de matchende criteria. Kom later nog eens terug.")
@@ -192,12 +176,6 @@ final class ArticleResource extends Resource
                     ->date()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->filters([
-                    SelectFilter::make('version')
-                        ->label('Woordenboek versie')
-                        ->options(ArticleVersion::class)
-                        ->default(ArticleVersion::Spit->value)
-                ])
             ->actions([
                 Tables\Actions\ViewAction::make()->hiddenLabel(),
                 Tables\Actions\EditAction::make()->hiddenLabel(),
