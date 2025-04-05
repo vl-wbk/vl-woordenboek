@@ -83,6 +83,23 @@ final readonly class ArticlePolicy
             && $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::EditorInChief]);
     }
 
+    /**
+     * Determines whether the provided user has permission to detach the editor from the article.
+     *
+     * This method ensures that an editor can only be detached when the article is in a Draft state.
+     * The reasoning is that changes to the editor assignment should only be allowed before the article is finalized.
+     *
+     * The method returns true if either:
+     *
+     * - The user attempting the detach is the same as the article's currently assigned editor, allowing a user to remove themselves.
+     * - The user belongs to a higher-privileged role (Administrators or Developers), which enables them to manage editor assignments for any article.
+     *
+     * If the article is not in Draft state, the detach action is disallowed.
+     *
+     * @param  User    $user     The user attempting to detach the editor.
+     * @param  Article $article  The article from which the editor is to be detached.
+     * @return bool              True if the user is authorized to perform the detach; otherwise, false.
+     */
     public function detachEditor(User $user, Article $article): bool
     {
         if ($article->state->isNot(enum: ArticleStates::Draft)) {

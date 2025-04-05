@@ -40,11 +40,18 @@ final class EditWord extends EditRecord
     protected static string $resource = ArticleResource::class;
 
     /**
-     * Configures available actions in the page header.
-     * Currently provides a delete action with a trash icon, allowing administrators to remove articles when necessary.
-     * The action is positioned in the header for consistent placement and easy access.
+     * Configures header actions for the editing page.
      *
-     * @return array<int, Actions\Action>
+     * The header actions are displayed at the top of the page and provide quick access to common operations.
+     * In this case, the actions include:
+     *
+     * - RemoveEditorAction: Enables the removal of the assigned editor from the article.
+     * - DeleteAction: Allows the article to be deleted using an icon styled as a trash can.
+     *
+     * This modular configuration ensures that these actions are prominent and easily accessible,
+     * while also allowing future developers to add or modify actions as requirements evolve.
+     *
+     * @return array<int, Actions\Action> The set of actions displayed in the header.
      */
     protected function getHeaderActions(): array
     {
