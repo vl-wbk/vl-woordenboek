@@ -17,5 +17,6 @@
     "laravel-vite-plugin": "^1.2.0",
     "sass": "^1.56.1",
     "tailwindcss": "^4.0.0"
-  }
+  },
+  "version": "0.1.0"
 }

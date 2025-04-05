@@ -40,7 +40,7 @@ final class MaintenanceModeNotificationCommand extends Command
             ->text("On which date u wish to perform the maintenance?", required: true, name: 'maintenanceDate')
             ->text('On what time u wish to start with the maintance?', required: true, name: 'start')
             ->text('On what time u plan to complete the maintance?', required: true, name: 'end')
-            ->confirm('All te filled in fields are correct and iwish to proceed?')
+            ->confirm('All te filled in fields are correct and i wish to proceed?')
             ->submit();
 
         $this->sendOutMaintenanceNotifications($responses);

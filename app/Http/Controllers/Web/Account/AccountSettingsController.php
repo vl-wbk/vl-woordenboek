@@ -4,35 +4,47 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Web\Account;
 
+use App\Http\Requests\Account\DeleteBrowserSessionsRequest;
+use App\Services\BrowserSessionService;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\RedirectResponse;
+use Spatie\RouteAttributes\Attributes\Delete;
 use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Middleware;
+use Spatie\RouteAttributes\Attributes\Prefix;
 
-/**
- * AccountSettingsController manages user account configuration interface.
- *
- * This invokable controller provides access to the account settings page where users can modify their profile information and security settings.
- * The controller integrates with Laravel Fortify for handling profile updates and password changes securely.
- *
- * @package App\Http\Controllers\Web\Account
- */
+#[Prefix('instellingen')]
+#[Middleware(['auth', 'forbid-banned-user'])]
 final readonly class AccountSettingsController
 {
-    /**
-     * Displays the account settings page.
-     *
-     * Renders the settings interface where users can update their profile information and manage security preferences.
-     * The page includes forms for password changes and profile updates, which are processed by dedicated Fortify action classes.
-     *
-     * @see \App\Actions\Fortify\UpdateUserPassword
-     * @see \App\Actions\Fortify\UpdateUserProfileInformation
-     *
-     * @return Renderable  The view containing account settings forms
-     */
-    #[Get(uri: 'account-instellingen', name:'profile.settings', middleware: ['auth', 'forbid-banned-user'])]
-    public function __invoke(): Renderable
+    public function __construct(
+        private readonly BrowserSessionService $browserSessionService
+    ) {}
+
+    #[Get(uri: 'account-informatie', name: 'profile.settings')]
+    public function information(): Renderable
     {
-        return view('account.settings', [
+        return view('account.settings-information', data: [
             'user' => auth()->user()
         ]);
+    }
+
+    #[Get(uri: 'account-beveiliging', name: 'profile.settings.security')]
+    public function security(): Renderable
+    {
+        return view('account.settings-security', data: [
+            'user' => auth()->user(),
+            'sessions' => $this->browserSessionService->getSessionProperty(),
+        ]);
+    }
+
+    #[Delete(uri: 'browser-sessies-verwijderen', name: 'profile.delete-browser-sessions')]
+    public function deleteBrowserSessions(DeleteBrowserSessionsRequest $deleteBrowserSessionsRequest): RedirectResponse
+    {
+        $this->browserSessionService->logoutOtherBrowserSessions(
+            password: $deleteBrowserSessionsRequest->get('password')
+        );
+
+        return back();
     }
 }
