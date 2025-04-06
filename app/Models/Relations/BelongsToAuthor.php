@@ -34,7 +34,7 @@ trait BelongsToAuthor
      * This method establishes the inverse one-to-many relationship, indicating that this model belongs to a single User instance, which is designated as the author.
      * This relationship allows for easy retrieval of the author's information associated with the model.
      *
-     * @return BelongsTo A BelongsTo relationship instance, linking this model to the User model as the author.
+     * @return BelongsTo<User, covariant $this> A BelongsTo relationship instance, linking this model to the User model as the author.
      */
     public function author(): BelongsTo
     {

@@ -52,7 +52,7 @@ final class ArticleReportingChartWidget extends AdvancedChartWidget
      * Determines how many columns the widget should span in the layout.
      * Accepts an integer value, 'full' for taking up the entire row, or an array for responsive behavior (e.g., different spans for small, medium, and large screens).
      *
-     * @var int|string|array
+     * {@inheritDoc}
      */
     protected int|string|array $columnSpan = 'full';
 
@@ -134,9 +134,10 @@ final class ArticleReportingChartWidget extends AdvancedChartWidget
      * Closed) is provided, it automatically determines the appropriate date column ('assigned_at'
      * or 'closed_at') and aggregates the data per the specified period (defaulting to 'perWeek').
      *
-     * @param  Status|string $type  The type of report data to retrieve. Use Status enums for specific types.
-     * @param  string $perPeriod    The period of aggregation (e.g., 'perWeek').
-     * @return Collection           A collection of TrendValue objects containing aggregated data.
+     * @param  Status|string  $type             The type of report data to retrieve. Use Status enums for specific types.
+     * @param  string         $perPeriod        The period of aggregation (e.g., 'perWeek').
+     *
+     * @return Collection<string, TrendValue>   A collection of TrendValue objects containing aggregated data.
      */
     private function getReportData(Status|string $type = 'all', string $perPeriod = 'perWeek'): Collection
     {
@@ -162,7 +163,8 @@ final class ArticleReportingChartWidget extends AdvancedChartWidget
      * @param  Carbon       $startDate   The starting date for the trend data.
      * @param  Carbon       $endDate     The ending date for the trend data.
      * @param  string       $perPeriod   The grouping period (e.g., 'perWeek').
-     * @return Collection                A collection of TrendValue objects representing the aggregated count data.
+     *
+     * @return Collection<string, TrendValue>  A collection of TrendValue objects representing the aggregated count data.
      */
     private function getTrendData(?string $dateColumn, Carbon $startDate, Carbon $endDate, string $perPeriod): Collection
     {
@@ -182,9 +184,9 @@ final class ArticleReportingChartWidget extends AdvancedChartWidget
      * Generates the heading for the widget.
      * The heading is typically used to provide a quick summary of the report count, formatted as a translatable string.
      *
-     * @return string|Htmlable|null A string or Htmlable instance representing the widget heading.
+     * @return string A string  representing the widget heading.
      */
-    public function getHeading(): string|Htmlable|null
+    public function getHeading(): string
     {
         return trans(':amount meldingen', ['amount' => ArticleReport::query()->count()]);
     }

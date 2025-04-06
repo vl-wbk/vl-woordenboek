@@ -17,6 +17,8 @@ use Filament\Actions\Concerns\CanCustomizeProcess;
  * This action is integrated into the Filament admin panel and provides a user-friendly interface for managing article reports.
  * It includes visual indicators, such as an icon and label, and displays success or failure notifications based on the outcome of the closure process.
  *
+ * @property \App\Models\ArticleReport $record  The database entity from the article report.
+ *
  * @package App\Filament\Clusters\Articles\Resources\ArticleReportResource\Actions
  */
 final class CloseArticleReportAction extends Action
@@ -29,9 +31,9 @@ final class CloseArticleReportAction extends Action
      * The default name is used to identify the action within the Filament admin panel.
      * In this case, the name is set to "close-report."
      *
-     * @return string|null The default name of the action.
+     * @return string The default name of the action.
      */
-    public static function getDefaultName(): ?string
+    public static function getDefaultName(): string
     {
         return 'close-report';
     }

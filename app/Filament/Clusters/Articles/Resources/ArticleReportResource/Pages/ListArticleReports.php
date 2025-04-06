@@ -41,6 +41,18 @@ final class ListArticleReports extends ListRecords
      */
     protected static string $resource = ArticleReportResource::class;
 
+    /**
+     * Retrieves the widgets to be displayed in the header section of the list view.
+     *
+     * This method delegates to ArticleReportResource::getWidgets() to maintain consistency in widget configuration across the application.
+     * The widgets returned typically include the ArticleReportingChartWidget, which provides visual analytics for report trends and patterns.
+     *
+     * Future developers should note that any changes to the available widgets should be made
+     * in the ArticleReportResource class rather than here, as this ensures centralized
+     * widget management.
+     *
+     * @return array<class-string> An array of widget classes to be rendered in the header
+     */
     protected function getHeaderWidgets(): array
     {
         return ArticleReportResource::getWidgets();

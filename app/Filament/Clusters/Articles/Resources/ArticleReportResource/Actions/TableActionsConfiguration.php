@@ -19,6 +19,12 @@ use Filament\Tables\Actions\Action;
  */
 final readonly class TableActionsConfiguration
 {
+    /**
+     * Returns the actions displayed in the table header.
+     * Currently provides a help action with a gray lifebuoy icon, offering access to documentation or guidance for administrators managing reports.
+     *
+     * @return array<Action> The configured header actions
+     */
     public static function headerActions(): array
     {
         return [
@@ -46,7 +52,7 @@ final readonly class TableActionsConfiguration
      * Defines the actions available for individual rows in the table.
      * Row actions are specific to each record in the table. For example, the "View" and "Delete" actions allow users to view the details of a report or delete it.
      *
-     * @return array<Tables\Actions\Action> An array of configured row actions.
+     * @return array<Tables\Actions\BulkActionGroup> An array of configured row actions.
      */
     public static function bulkActions(): array
     {

@@ -18,13 +18,14 @@ final readonly class StoreArticleReport
             $reportData = $storeReportRequest->getData();
             $articleReport = $this->newArticleReportInstance($article, $reportData);
 
+            /** @phpstan-ignore-next-line */
             tap($articleReport, function (ArticleReport $articleReport): void {
                 $articleReport->setCurrentUserAsAuthor();
             });
         });
     }
 
-    private function newArticleReportInstance(Article $article, ArticleReportData $articleReportData): ArticleReport
+    private function newArticleReportInstance(Article $article, ArticleReportData $articleReportData): ArticleReport|bool
     {
         return $article->reports()->save(
             model: new ArticleReport(attributes: $articleReportData->toArray())

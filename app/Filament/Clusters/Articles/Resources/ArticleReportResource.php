@@ -80,7 +80,7 @@ final class ArticleReportResource extends Resource
      * Specifies the cluster to which this resource belongs.
      * The cluster groups related resources together for better organization in the admin panel.
      *
-     * @var string|null
+     * {@inheritDoc}
      */
     protected static ?string $cluster = Articles::class;
 
@@ -199,6 +199,18 @@ final class ArticleReportResource extends Resource
         ];
     }
 
+    /**
+     * Defines the widgets that appear on the ArticleReportResource dashboard.
+     *
+     * This method configures which widgets are available when viewing article reports.
+     * Currently, it includes the ArticleReportingChartWidget, which provides visual analytics and reporting trends through charts and graphs.
+     * This widget helps administrators track and analyze report patterns over time.
+     *
+     * Future developers can add additional widgets to this array to extend the dashboard's functionality.
+     * Each widget should be related to article reporting and provide valuable insights or tools for report management.
+     *
+     * @return array<class-string> An array of widget class names that will be rendered on the dashboard
+     */
     public static function getWidgets(): array
     {
         return [

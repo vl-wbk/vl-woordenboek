@@ -23,6 +23,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * Additionally, this model provides a foundation for future extensions, such as implementing an "Archived" state for reports.
  *
+ * @property int $id                            Unique identifier for the report.
+ * @property Status $state                      Current status of the report (e.g., pending, reviewed, resolved).
+ * @property int $assignee_id                   ID of the user assigned to review the report.
+ * @property ?int $author_id                    ID of the user who submitted the report.
+ * @property ?int $article_id                   ID of the article being reported.
+ * @property string $description                Detailed description of the reported issue.
+ * @property \Carbon\Carbon|null $assigned_at   Date and time when the report was assigned for review.
+ * @property \Carbon\Carbon|null $closed_at     Date and time when the report was resolved/closed.
+ * @property \Carbon\Carbon|null $created_at    Date and time when the report was submitted.
+ * @property \Carbon\Carbon|null $updated_at    Date and time when the report was last updated.
+ *
  * @package App\Models
  */
 final class ArticleReport extends Model
@@ -45,7 +56,7 @@ final class ArticleReport extends Model
      * When a new report is created, the `state` attribute is initialized to `Status::Open`.
      * This ensures that all new reports start in the "Open" state, awaiting action from administrators or moderators.
      *
-     * @var array<string, mixed> The default attribute values.
+     * @var array<string, Status> The default attribute values.
      */
     protected $attributes = [
         'state' => Status::Open,
@@ -57,7 +68,7 @@ final class ArticleReport extends Model
      * Each report is linked to a single article, allowing the system to track which article the report is related to.
      * This relationship is essential for providing context about the report and enabling administrators to address issues with specific articles.
      *
-     * @return BelongsTo The relationship instance linking the report to its article.
+     * @return BelongsTo<Article, covariant $this> The relationship instance linking the report to its article.
      */
     public function article(): BelongsTo
     {
@@ -70,7 +81,7 @@ final class ArticleReport extends Model
      * Each report can be assigned to a single user, who is responsible for handling the report.
      * This relationship tracks the assignee for accountability and ensures that reports are addressed by the appropriate user.
      *
-     * @return BelongsTo The relationship instance linking the report to its assignee.
+     * @return BelongsTo<User, covariant $this> The relationship instance linking the report to its assignee.
      */
     public function assignee(): BelongsTo
     {

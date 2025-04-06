@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Gate;
  * The action is integrated into the Filament admin panel and provides a user-friendly interface for managing article reports.
  * It includes visual indicators, such as an icon and label, and displays success or failure notifications based on the outcome of the assignment process.
  *
+ * @property \App\Models\ArticleReport $record  The database entity from the article report.
+ *
  * @package App\Filament\Clusters\Articles\Resources\ArticleReportResource\Actions
  */
 final class AssignArticleReportAction extends Action
@@ -30,9 +32,9 @@ final class AssignArticleReportAction extends Action
      * The default name is used to identify the action within the Filament admin panel.
      * In this case, the name is set to "melding-behandelen" (Dutch for "handle report").
      *
-     * @return string|null The default name of the action.
+     * @return string The default name of the action.
      */
-    public static function getDefaultName(): ?string
+    public static function getDefaultName(): string
     {
         return 'melding-behandelen';
     }

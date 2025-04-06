@@ -181,6 +181,15 @@ final class Article extends Model implements AuditableContract
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Retrieves all reports associated with this article.
+     *
+     * The `reports` method establishes a one-to-many relationship between an article and its related report records.
+     * Every time a user or system flags an article—whether for feedback, issue reporting, or another purpose a corresponding record is created in the ArticleReport model.
+     * This method makes it easy to access all such reports, which can then be used for analytics, audits, or user notifications.
+     *
+     * @return HasMany<ArticleReport, covariant $this>
+     */
     public function reports(): HasMany
     {
         return $this->hasMany(ArticleReport::class);
