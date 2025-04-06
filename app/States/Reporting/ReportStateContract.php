@@ -25,7 +25,7 @@ interface ReportStateContract
      *
      * @return bool True if the transition was successful, false otherwise.
      */
-    public function transitionToInProgress(): void;
+    public function transitionToInProgress(): bool;
 
     /**
      * Transitions the report to the "Closed" state.

@@ -41,7 +41,7 @@ class ReportState implements ReportStateContract
      * @throws StateTransitionException  Always thrown to indicate the transition is not allowed.
      * @return bool                      This method does not return a value as it always throws an exception.
      */
-    public function transitionToClosed(): void
+    public function transitionToClosed(): bool
     {
         throw new StateTransitionException('Cannot transition to the closed state on the current state');
     }

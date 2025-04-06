@@ -87,7 +87,8 @@ final readonly class ArticleReportPolicy
     public function markAsClosed(User $user, ArticleReport $articleReport): bool
     {
         return $articleReport->assignee()->exists()
-            && $articleReport->assignee()->is($user);
+            && $articleReport->assignee()->is($user)
+            && $articleReport->state->is(enum: Status::InProgress);
     }
 
     /**

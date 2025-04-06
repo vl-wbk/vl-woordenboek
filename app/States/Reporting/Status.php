@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\States\Reporting;
 
+use ArchTech\Enums\Comparable;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
@@ -19,6 +20,8 @@ use Filament\Support\Contracts\HasLabel;
  */
 enum Status: int implements HasLabel, HasColor, HasIcon
 {
+    use Comparable;
+
     /**
      * The "Open" state indicates that the report has been created but has not yet been addressed.
      * Reports in this state are awaiting action and are visible to administrators or moderators for further processing.
