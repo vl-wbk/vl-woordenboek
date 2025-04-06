@@ -199,6 +199,13 @@ final class ArticleReportResource extends Resource
         ];
     }
 
+    public static function getWidgets(): array
+    {
+        return [
+            \App\Filament\Clusters\Articles\Resources\ArticleReportResource\Widgets\ArticleReportingChartWidget::class,
+        ];
+    }
+
     /**
      * Configures the fieldset for follow-up details.
      * This fieldset displays information about the report's status, assignee, and timestamps for assignment and closure.
