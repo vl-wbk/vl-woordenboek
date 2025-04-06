@@ -5,54 +5,50 @@ declare(strict_types=1);
 namespace App\Filament\Resources\ArticleResource\Pages;
 
 use App\Filament\Resources\ArticleResource;
-use App\Filament\Resources\ArticleResource\Actions\RemoveEditorAction;
 use App\Filament\Resources\ArticleResource\Actions\States as ArticleStateActions;
 use Filament\Actions as FilamentActions;
 use Filament\Resources\Pages\ViewRecord;
 
 /**
- * ViewWord is the page used to display a detailed view of a single article in the admin panel.
+ * Represents the page for viewing a single article in the admin panel.
  *
- * This class extends Filament's ViewRecord to present all relevant data about an article.
- * It defines a series of header actions that allow administrators to manage the article,
- * including editing, publishing, handling publishing proposals, archiving, rejection, removing
- * the assigned editor, and deletion. These actions are arranged in a header bar for quick access.
+ * The `ViewWord` class extends Filament's `ViewRecord` class to provide a detailed view of an article's data.
+ * It is part of the `ArticleResource` and integrates various actions for managing the article's state and lifecycle.
  *
- * Future developers will find this class useful as a centralized point for customizing article management actions.
- * New actions can easily be added or existing ones modified, thanks to the clear structure built on Filament's standard components.
+ * This page is designed for administrators and moderators to review article details and perform actions such as editing, publishing, archiving, or deleting the article.
+ * The available actions are displayed in the page header for quick access.
  *
- * @package App\Filament\Resources\ArticleRepository\Pages
+ * @package App\Filament\Resources\ArticleResource\Pages
  */
 final class ViewWord extends ViewRecord
 {
     /**
      * Specifies the resource associated with this page.
-     * This links the page to the ArticleResource, which defines how articles are handled throughout the admin panel.
+     *
+     * This property links the `ViewWord` page to the `ArticleResource`, ensuring that
+     * the correct resource configuration is used for displaying and managing articles.
      *
      * @var string
      */
     protected static string $resource = ArticleResource::class;
 
     /**
-     * Returns an array of header actions for article management.
+     * Defines the actions displayed in the page header.
      *
-     * The actions defined here enable various operations including editing, publishing, accepting or rejecting proposals, archiving, removing an editor, and deletion.
+     * The header actions provide tools for managing the article, including editing, publishing, archiving, and deleting.
+     * These actions are configured to include icons and colors for better visual representation in the admin panel.
      *
-     * Each action is configured with an icon, color, and other properties to ensure consistency in the user interface.
-     * This modular approach allows developers to easily customize which actions are available and how they behave.
-     *
-     * @return array<int, mixed> The set of configured header actions.
+     * @return array<FilamentActions\Action> An array of configured header actions.
      */
     protected function getHeaderActions(): array
     {
         return [
-                FilamentActions\EditAction::make()->icon('heroicon-o-pencil-square')->color('gray'),
-                ArticleStateActions\PublishArticleAction::make(),
-                ArticleStateActions\AcceptPublishingProposal::make(),
-                ArticleStateActions\ArchiveArticle::make(),
-                ArticleStateActions\RejectPublishingAction::make(),
-                RemoveEditorAction::make(),
-                FilamentActions\DeleteAction::make()->icon('heroicon-o-trash'),
+            FilamentActions\EditAction::make()->icon('heroicon-o-pencil-square')->color('gray'),
+            ArticleStateActions\PublishArticleAction::make(),
+            ArticleStateActions\AcceptPublishingProposal::make(),
+            ArticleStateActions\ArchiveArticle::make(),
+            ArticleStateActions\RejectPublishingAction::make(),
+            FilamentActions\DeleteAction::make()->icon('heroicon-o-trash'),
         ];
     }
 }
