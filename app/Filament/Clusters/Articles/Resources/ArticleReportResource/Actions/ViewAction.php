@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\ArticleReportResource\Actions;
 
-use App\Filament\Clusters\Articles\Resources\ArticleReportResource;
 use App\Models\ArticleReport;
 use App\States\Reporting\Status;
 use Filament\Actions\DeleteAction;
