@@ -263,7 +263,7 @@ final class ArticleResource extends Resource
 
     /**
      * Defines the routes for the resource's pages.
-     * The pages include listing, creating, vieuwing, and editing articles.
+     * The pages include listing, creating, viewing, and editing articles.
      *
      * @return array<string, \Filament\Resources\Pages\PageRegistration>  An associative array mapping page keys to their routes.
      */
