@@ -85,6 +85,9 @@ final class RejectPublishingAction extends Action
         ';
     }
 
+    /**
+     * @return array<int, Textarea>
+     */
     private function getModalForm(): array
     {
         return [
