@@ -19,9 +19,10 @@ interface ArticleStateContract
      * This method should implement the logic required to allow the article to be edited,
      * possibly triggering necessary events or validations to prepare the article for modifications.
      *
+     * @param  string|null $reason Optional explanation for why the article is being moved to editing
      * @return void
      */
-    public function transitionToEditing(): void;
+    public function transitionToEditing(?string $reason = null): bool;
 
     /**
      * Transitions the article into an "Approved" state.
