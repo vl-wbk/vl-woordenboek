@@ -85,7 +85,7 @@
                     @guest
                         @if (Route::has('filament.admin.auth.login'))
                             <li class="nav-item">
-                                <a class="nav-link {{ active('login') }}" href="{{ route('filament.admin.auth.login') }}">
+                                <a class="nav-link {{ active('login') }}" href="{{ route('login') }}">
                                     <x-tabler-login-2 class="icon me-1" /> {{ __('Login') }}
                                 </a>
                             </li>
