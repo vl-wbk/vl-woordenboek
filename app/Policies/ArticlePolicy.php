@@ -80,7 +80,11 @@ final readonly class ArticlePolicy
             return false;
         }
 
+<<<<<<< HEAD
         return $article->state->is(ArticleStates::Approval) && $editorRelation->exists() && $editorRelation->isNot($user);
+=======
+        return $editorRelation->exists() && $editorRelation->isNot($user);
+>>>>>>> 51bc3f6ce34c9f22f601771cb16464533232350d
     }
 
     /**
@@ -109,7 +113,11 @@ final readonly class ArticlePolicy
             return false;
         }
 
+<<<<<<< HEAD
         return $article->state->is(ArticleStates::Approval) && $editorRelation->exists() && $editorRelation->isNot($user);
+=======
+        return $editorRelation->exists() && $editorRelation->isNot($user);
+>>>>>>> 51bc3f6ce34c9f22f601771cb16464533232350d
     }
 
     /**
