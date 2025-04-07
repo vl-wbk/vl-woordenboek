@@ -15,8 +15,11 @@ final class DictionaryArticleSeeder extends Seeder
     public function run(): void
     {
         $jsonDataFile = File::get(database_path('data/test-artikelen.json'));
+
+        /** var stdClass[] $articles */
         $articles = json_decode($jsonDataFile);
 
+        /** @phpstan-ignore-next-line */
         collect($articles)->each(function (stdClass $article): void {
             Article::create(attributes: [
                 'word' => $article->word,

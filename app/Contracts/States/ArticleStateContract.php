@@ -20,7 +20,7 @@ interface ArticleStateContract
      * possibly triggering necessary events or validations to prepare the article for modifications.
      *
      * @param  string|null $reason Optional explanation for why the article is being moved to editing
-     * @return void
+     * @return bool
      */
     public function transitionToEditing(?string $reason = null): bool;
 
