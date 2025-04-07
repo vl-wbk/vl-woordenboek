@@ -5,9 +5,8 @@
 
 * Afkeuren van artikelen vereist nu een redevoering ([#115](https://github.com/vl-wbk/vl-woordenboek/issues/115)) ([97db122](https://github.com/vl-wbk/vl-woordenboek/commit/97db122fe735a345fbc2d818e4ed95025902e827))
 * Implementeren van 4 eyes principe bij het goedkeuren/afkeuren van artikelen ([#114](https://github.com/vl-wbk/vl-woordenboek/issues/114)) ([8a19b3b](https://github.com/vl-wbk/vl-woordenboek/commit/8a19b3b8250c1a8b3ceed6a112a7cf399ca3fdd9))
-* redacteur loskoppelen van lemma mogelijk maken([#110](https://github.com/vl-wbk/vl-woordenboek/issues/110)) ([11f1c24](https://github.com/vl-wbk/vl-woordenboek/commit/11f1c24b9bd110862d0f918134cd20fe4d72d320))
+* Redacteur loskoppelen van lemma mogelijk maken([#110](https://github.com/vl-wbk/vl-woordenboek/issues/110)) ([11f1c24](https://github.com/vl-wbk/vl-woordenboek/commit/11f1c24b9bd110862d0f918134cd20fe4d72d320))
 * Verwijderen van het lege dashboard ([#70](https://github.com/vl-wbk/vl-woordenboek/issues/70)) ([15c16c3](https://github.com/vl-wbk/vl-woordenboek/commit/15c16c33c94b83fc00f36d25f065e1fa5c761efb))
-* Verwijderen van het lege dashboard ([#70](https://github.com/vl-wbk/vl-woordenboek/issues/70)) ([43ce0a0](https://github.com/vl-wbk/vl-woordenboek/commit/43ce0a073279e3afbc0900a3b2c34a3fbcc75caf))
 
 
 ### Features
@@ -23,8 +22,7 @@
 
 ### Features
 
-* Implementatie autho changelog actie ([45062a7](https://github.com/vl-wbk/vl-woordenboek/commit/45062a72e1263ca87a15b1292e44e6d7ec80b787))
-* Implementatie autho changelog actie ([5e4161e](https://github.com/vl-wbk/vl-woordenboek/commit/5e4161e3af38ae7debfe83fde9b7f47dda1ca1d9))
+* Implementatie auto changelog actie ([45062a7](https://github.com/vl-wbk/vl-woordenboek/commit/45062a72e1263ca87a15b1292e44e6d7ec80b787))
 
 
 
