@@ -49,7 +49,7 @@ class ArticleState implements ArticleStateContract
      * {@inheritDoc}
      * @throws LogicException Always, indicating that this transition is not allowed in the current state.
      */
-    public function transitionToEditing(): void
+    public function transitionToEditing(?string $reason = null): bool
     {
         throw new LogicException('The method tran   sitionTOEditing() is not allowed in the current state.');
     }

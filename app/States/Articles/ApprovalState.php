@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\States\Articles;
 
 use App\Enums\ArticleStates;
+use App\Models\Note;
+use Illuminate\Support\Facades\DB;
 
 /**
  * ApprovalState represents an article awaiting editorial review in the Vlaams Woordenboek.
@@ -22,9 +24,18 @@ final class ApprovalState extends ArticleState
      * This transition is typically used when the reviewing editor determines that the article needs further refinement before it can be published.
      * The article returns to a draft state where authors can make the requested changes.
      */
-    public function transitionToEditing(): void
+    public function transitionToEditing(?string $reason = null): bool
     {
-        $this->article->update(attributes: ['state' => ArticleStates::Draft]);
+        return DB::transaction(function () use ($reason): bool {
+            if (! $this->article->update(attributes: ['state' => ArticleStates::Draft])) {
+                return false;
+            }
+
+            $note = new Note(attributes: ['title' => 'Voorstellen tot wijziging', 'author_id' => auth()->id(), 'body' => $reason]);
+            $this->article->notes()->save(model: $note);
+
+            return true;
+        });
     }
 
     /**
