@@ -29,10 +29,28 @@
                 @endif
             </div>
 
-            <div class="form-group">
-                <label for="kenmerken" class="col-form-label">Kenmerken</label>
-                <input type="text" name="kenmerken" value=" {{ old('kenmerken') }}" id="kenmerkenHelpText" class="form-control">
-                <x-forms.help-text field="kenmerkenHelpText" icon="true" text="Je kunt hier woordkenmerken aangeven, zoals het lidwoord, geslacht en meervoud van een zelfstandig naamwoord. Bijvoorbeeld: de ~ (v.), ~sen."/>
+            <div class="row">
+                <div class="form-group col-4">
+                    <label for="woordsoort" class="col-form-label">Woordsoort</label>
+
+                    <select name="woordsoort" id="woordsoort" class="form-select">
+                        <option value="">-- selecteer woordsoort --</option>
+
+                        @foreach ($partOfSpeeches as $partOfSpeech => $value)
+                            <option value="{{ $partOfSpeech }}" @selected(old('woordsoort') == $partOfSpeech)>
+                                {{ $value }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    <x-forms.help-text field="kenmerkenHelpText" icon="true" text="Wat voor woord is het? Bv. zn, ww, bn."/>
+                </div>
+
+                <div class="form-group col-8">
+                    <label for="kenmerken" class="col-form-label">Kenmerken</label>
+                    <input type="text" name="kenmerken" value=" {{ old('kenmerken') }}" id="kenmerkenHelpText" class="form-control">
+                    <x-forms.help-text field="kenmerkenHelpText" icon="true" text="Lidwoord, geslacht en meervoud – bv. de ~ (v.), ~sen."/>
+                </div>
             </div>
 
             <div class="form-group">
@@ -40,7 +58,7 @@
                 <textarea name="beschrijving" class="form-control @error('beschrijving') is-invalid @enderror" id="beschrijvingHelpText" cols="4">{{ old('beschrijving') }}</textarea>
 
                 @if ($errors->has('beschrijving'))
-                    <x-forms.validation-error field="kenmerken"/>
+                    <x-forms.validation-error field="beschrijving"/>
                 @else
                     <x-forms.help-text icon="true" field="beschrijvingHelpText" text="Beschrijf de term in Algemeen Beschaafd Vlaams en beperk je tot één betekenis per beschrijving. Voeg andere betekenissen apart toe."/>
                 @endif

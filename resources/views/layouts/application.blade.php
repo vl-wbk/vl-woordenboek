@@ -33,7 +33,7 @@
                 <ul class="navbar-nav me-auto">
                     @if (Auth::check() && auth()->user()->can('access-backend'))
                         <li class="nav-item">
-                            <a href="{{ route('filament.admin.pages.dashboard') }}" class="nav-link">
+                            <a href="{{ url('admin') }}" class="nav-link">
                                 <x-heroicon-s-arrows-right-left class="icon me-1"/> Beheersconsole
                             </a>
                         </li>

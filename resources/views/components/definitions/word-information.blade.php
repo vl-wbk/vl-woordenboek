@@ -7,52 +7,68 @@
 @section ('content')
     <div class="card bg-white border-0 shadow-sm">
         <div class="card-body">
-            <h1 class="text-gold">{{ $word->word }}</h1>
+            <div class="d-flex justify-content-between">
+                <div class="float-start">
+                    <h1 class="text-gold float-start">{{ $word->word }}</h1>
+                </div>
 
-            <ul class="list-unstyled mb-0 text-muted border-bottom pb-2">
-                <li>
+                <div class="float-end">
+                    @auth {{-- Report problem  --}}
+                        @if (session()->has('status'))
+                            <div class="alert py-1 px-2 alert-success alert-dismissible fade show border-0 shadow-sm">
+                                <x-heroicon-o-clipboard-document-check class="icon me-1"/> {{ session('status') }}
+                            </div>
+                        @else
+                            <button type="button" class="btn btn-outline-danger btn-sm float-end" data-bs-toggle="modal" data-bs-target="#reportModal">
+                                <x-tabler-file-alert class="icon me-1"/> Probleem melden
+                            </button>
+                        @endif
+                    @endif {{-- END report modal --}}
+                </div>
+            </div>
+
+            <ul class="list-unstyled mb-0 text-muted-bottom">
+                <li class="mb-1">
                     @if ($word->partOfSpeech)
-                    <span class="badge text-bg-secondary me-1">{{ $word->partOfSpeech->name }}</span>
+                        <span class="badge text-bg-secondary me-1">{{ $word->partOfSpeech->name }}</span>
                     @endif
 
                     {{ $word->characteristics }}
                 </li>
                 <li>{{ $word->status->getLabel() }}</li>
             </ul>
-
-            <p class="mb-0 py-2">
-                <strong class="color-green">Regios:</strong></br>
-            </p>
-
-            <ul class="list-unstyled border-bottom mb- pb-2">
-                @forelse ($word->regions as $region)
-                    <li>
-                        <x-heroicon-o-map class="icon me-1"/> {{ $region->name }}
-                    </li>
-                @empty
-                    <li>- Geen regio voor het woord gevonden</li>
-                @endforelse
-            </ul>
-
-            <p class="border-bottom mb-0 py-2">
-                <strong class="color-green">Beschrijving:</strong></br>
-                {{ str($word->description)->sanitizeHtml() }}
-            </p>
-
-            <p class="pt-2 mb-0">
-                <strong class="color-green">Voorbeeld:</strong>
-            </p>
-
-            <div class="info-section">
-                {!! str($word->example)->sanitizeHtml() !!}
-            </div>
         </div>
 
-        <div class="card-footer bg-white">
+        <ul class="list-group border-top list-group-flush">
+            <li class="list-group-item">
+                <div class="fw-bold color-green">Beschrijving</div>
+                {!! str($word->description)->sanitizeHtml() !!}
+            </li>
+            <li class="list-group-item">
+                <div class="fw-bold color-green">Voorbeeld</div>
+                {!! str($word->example)->sanitizeHtml() !!}
+            </li>
+            <li class="list-group-item">
+                <div class="fw-bold color-green">Regios</div>
+
+                <ul class="list-unstyled mb-0">
+                    @forelse ($word->regions as $region)
+                        <li>
+                            <x-heroicon-o-map class="icon me-1"/> {{ $region->name }}
+                        </li>
+                    @empty
+                        <li>- Geen regio voor het woord gevonden</li>
+                    @endforelse
+                </ul>
+            </li>
+        </ul>
+
+        <div class="card-footer border-top bg-white">
             <livewire:likewords :word=$word />
         </div>
     </div>
 
+    <livewire:reportarticlemodal :article=$word />
 @endsection
 
 @section ('additional-sidenav-components')

@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Web\Articles;
 
 use App\Actions\Articles\StoreArticleSuggestion;
 use App\Http\Requests\Articles\StoreSuggestionRequest;
+use App\Models\PartOfSpeech;
 use App\Models\Region;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
@@ -26,16 +27,17 @@ final readonly class StoreArticleSuggestionController
     /**
      * Displays the article submission form.
      *
-     * Prepares the creation view by loading all available regions for the dropdown selection.
-     * The regions are provided in a format suitable for form select elements, woth region names as labels and IDs as values.
+     * Prepares the creation view by loading all available regions and parts of speech for dropdown selection.
+     * The regions and parts of speech are provided in a format suitable for form select elements, with their names as labels and IDs as values.
      *
-     * @return Renderable  The form view for creating new dictionary entries
+     * @return Renderable The form view for creating new dictionary entries.
      */
     #[Get(uri: 'woordenboek-artikelen/insturen', name: 'definitions.create')]
     public function create(): Renderable
     {
         return view('definitions.create', [
-            'regions' => Region::query()->pluck('name', 'id')
+            'regions' => Region::query()->pluck('name', 'id'),
+            'partOfSpeeches' => PartOfSpeech::query()->pluck('name', 'id'),
         ]);
     }
 
