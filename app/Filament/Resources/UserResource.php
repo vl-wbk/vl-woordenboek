@@ -7,7 +7,6 @@ namespace App\Filament\Resources;
 use App\Filament\Clusters\UserManagement;
 use App\Filament\Resources\UserResource\Actions;
 use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use App\UserTypes;
 use Filament\Forms\Components\Section;
@@ -36,8 +35,6 @@ use Illuminate\Support\Facades\Gate;
  *
  * Security was a top priority in our design. Every sensitive action requires proper permissions, and we keep detailed logs of important changes.
  * If someone tries something they shouldn't, our system will politely decline. We've also built in tools for account suspension, just in case they're needed.
- *
- * @package App\Filament\Resources
  */
 final class UserResource extends Resource
 {
@@ -46,8 +43,6 @@ final class UserResource extends Resource
      *
      * Every time you create a new account, update someone's email, or make any other user-related changes, this line of code makes it happen.
      * Think of it as the bridge between what you see on screen and where the data lives in our database.
-     *
-     * @var string|null
      */
     protected static ?string $model = User::class;
 
@@ -55,8 +50,6 @@ final class UserResource extends Resource
      * Throughout our interface, when we talk about multiple users, we say "gebruikers".
      * You'll see this word in headers, navigation menus, and messages.
      * For example, when you're looking at the user list, you might see "25 gebruikers gevonden" or "Gebruikers beheren".
-     *
-     * @var string|null
      */
     protected static ?string $pluralModelLabel = 'gebruikers';
 
@@ -64,16 +57,12 @@ final class UserResource extends Resource
      * When referring to just one user, we use "gebruiker".
      * This appears in messages like "Gebruiker toevoegen" or "Gebruiker bijwerken". Keeping everything in
      * Dutch helps our administrators feel at home in the interface.
-     *
-     * @var string|null
      */
     protected static ?string $modelLabel = 'gebruiker';
 
     /**
      * In the navigation menu, we use a simple users icon to mark this section.
      * We chose this particular icon because it's universally recognized and immediately tells administrators they're in the user management area.
-     *
-     * @var string|null
      */
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
@@ -99,8 +88,8 @@ final class UserResource extends Resource
      *
      * Everything is labeled in Dutch, maintaining our commitment to a fully localized interface.
      *
-     * @param  Form $form   The Filament form builder instance
-     * @return Form         The configured form ready for display
+     * @param  Form  $form  The Filament form builder instance
+     * @return Form The configured form ready for display
      */
     public static function form(Form $form): Form
     {
@@ -132,8 +121,8 @@ final class UserResource extends Resource
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->email()
-                            ->columnSpan(12)
-                    ])
+                            ->columnSpan(12),
+                    ]),
             ]);
     }
 
@@ -151,8 +140,8 @@ final class UserResource extends Resource
      * Security is built right in - actions like banning users are only visible
      * to administrators with the right permissions.
      *
-     * @param  Table $table  The Filament table builder instance
-     * @return Table         The fully configured table ready for display
+     * @param  Table  $table  The Filament table builder instance
+     * @return Table The fully configured table ready for display
      */
     public static function table(Table $table): Table
     {
@@ -160,7 +149,7 @@ final class UserResource extends Resource
             ->columns([
                 TextColumn::make('name')
                     ->iconColor('danger')
-                    ->icon(fn (User $user): ?string  => $user->isBanned() ? 'tabler-shield-lock' : null)
+                    ->icon(fn (User $user): ?string => $user->isBanned() ? 'tabler-shield-lock' : null)
                     ->label('Naam')
                     ->weight(FontWeight::Bold)
                     ->color(fn (User $user): string => $user->isBanned() ? 'danger' : 'primary')
@@ -172,7 +161,7 @@ final class UserResource extends Resource
                 TextColumn::make('email')
                     ->label('E-mail adres')
                     ->searchable()
-                    ->url(fn (User $user): string => 'mailto:' . $user->email),
+                    ->url(fn (User $user): string => 'mailto:'.$user->email),
                 TextColumn::make('last_seen_at')
                     ->placeholder('-')
                     ->sortable()
@@ -180,7 +169,7 @@ final class UserResource extends Resource
                     ->label('Laatste aanmelding'),
                 TextColumn::make('created_at')
                     ->sortable()
-                    ->label('Registratie tijdstip')
+                    ->label('Registratie tijdstip'),
             ])
             ->filters([
                 SelectFilter::make('user_type')
@@ -199,7 +188,7 @@ final class UserResource extends Resource
 
                     // Default delete actions
                     Tables\Actions\DeleteAction::make(),
-                ])
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

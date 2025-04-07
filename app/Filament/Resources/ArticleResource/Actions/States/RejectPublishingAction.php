@@ -8,7 +8,6 @@ use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Forms\Components\Textarea;
 use Filament\Support\Enums\MaxWidth;
-use Illuminate\Contracts\Support\Htmlable;
 
 /**
  * RejectPublishingAction handles the rejection of articles submitted for publication.
@@ -18,8 +17,6 @@ use Illuminate\Contracts\Support\Htmlable;
  * The action uses clear visual indicators through red coloring and X-mark iconography to signify its negative nature.
  *
  * @property \App\Models\Article $record The articles being rejected for publication.
- *
- * @package App\Filament\Resources\ArticleResource\Actions\States
  */
 final class RejectPublishingAction extends Action
 {
@@ -30,15 +27,6 @@ final class RejectPublishingAction extends Action
      * Uses the X-mark icon from Heroicons to maintain consistency with the application's visual language whulde clearly indicating a negative action.
      */
     protected string $actionIcon = 'heroicon-o-x-mark';
-
-    /**
-     * Provides the default name for the action in Dutch, maintaining consistency with the application's primary language interface.
-     * This text appears in rejection buttons throughout the editorial interface.
-     */
-    public static function getDefaultName(): string
-    {
-        return trans('Publicatie afwijzen');
-    }
 
     /**
      * Configures the action's behavior and visual presentation.
@@ -70,11 +58,21 @@ final class RejectPublishingAction extends Action
         $this->action(function (array $data): void {
             if ($this->process(fn () => $this->record->articleStatus()->transitionToEditing($data['reason']))) {
                 $this->success();
+
                 return;
             }
 
             $this->failure();
         });
+    }
+
+    /**
+     * Provides the default name for the action in Dutch, maintaining consistency with the application's primary language interface.
+     * This text appears in rejection buttons throughout the editorial interface.
+     */
+    public static function getDefaultName(): string
+    {
+        return trans('Publicatie afwijzen');
     }
 
     public function getModalDescription(): string

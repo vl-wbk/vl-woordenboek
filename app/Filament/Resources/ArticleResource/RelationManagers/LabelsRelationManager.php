@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\ArticleResource\RelationManagers;
 
-use App\Models\Label;
-use Illuminate\Support\Str;
 use App\Filament\Clusters\Articles\Resources\LabelResource;
 use App\Filament\Resources\ArticleResource\Pages\ViewWord;
+use App\Models\Label;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Enums\MaxWidth;
@@ -16,6 +15,7 @@ use Filament\Tables\Actions\AttachAction;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * Class LabelsRelationManager
@@ -29,24 +29,31 @@ use Illuminate\Database\Eloquent\Model;
  *
  * This relation manager is only accessible form the "ViewRecord" page to ensure labels are managed
  * Within the context of viewing an article.
- *
- * @package App\Filament\Resources\ArticleResource\RelatyionManagers
  */
 final class LabelsRelationManager extends RelationManager
 {
     /**
      * Defines the relationship name for the labels on the article model.
-     *
-     * @var string
      */
     protected static string $relationship = 'labels';
+
+    /**
+     * Controls whether the label realtionship is visible on a specific page.
+     * It ensures that labels are only shown when viewing an article through the 'ViewWord' page.
+     *
+     * @param  Model  $ownerRecord  The related article model.
+     * @param  string  $pageClass  The class-strintg of the current Filament page of the dictionary article.
+     */
+    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
+    {
+        return $pageClass === ViewWord::class;
+    }
 
     /**
      * Returns the form configuration for creating and editing labels.
      * The form setup is delegated to LabelResource to maintain consistency across the application.
      *
-     * @param  Form $form  The filament form instance.
-     * @return Form
+     * @param  Form  $form  The filament form instance.
      */
     public function form(Form $form): Form
     {
@@ -56,8 +63,6 @@ final class LabelsRelationManager extends RelationManager
     /**
      * Determines if the relation manager should be read-only.
      * Returns false, aloowing users to modify label assignments on the edit section of the dictionary article.
-     *
-     * @return boolean
      */
     public function isReadOnly(): bool
     {
@@ -65,25 +70,11 @@ final class LabelsRelationManager extends RelationManager
     }
 
     /**
-     * Controls whether the label realtionship is visible on a specific page.
-     * It ensures that labels are only shown when viewing an article through the 'ViewWord' page.
-     *
-     * @param  Model   $ownerRecord  The related article model.
-     * @param  string  $pageClass    The class-strintg of the current Filament page of the dictionary article.
-     * @return bool
-     */
-    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
-    {
-        return $pageClass === ViewWord::class;
-    }
-
-    /**
      * Defines the table configuration for displaying labels associated with an article.
      * The table includes columns for label name, description, and the date of attachment,
      * along with actions to manage labels  such as viewing, creating and detaching them.
      *
-     * @param  Table $table  The Filament table instance.
-     * @return Table
+     * @param  Table  $table  The Filament table instance.
      */
     public function table(Table $table): Table
     {
@@ -111,7 +102,7 @@ final class LabelsRelationManager extends RelationManager
             ])
             ->headerActions([
                 $this->getCreateAction(),
-                $this->getHeaderAttachAction()
+                $this->getHeaderAttachAction(),
             ])
             ->actions([
                 Tables\Actions\DetachAction::make(),
@@ -126,8 +117,6 @@ final class LabelsRelationManager extends RelationManager
     /**
      * Configures the action for creating a new label.
      * This action opens a modal allowing users to define a ne label, which will be automatically atteched to the article upon creation.
-     *
-     * @return CreateAction
      */
     private function getCreateAction(): CreateAction
     {
@@ -142,8 +131,6 @@ final class LabelsRelationManager extends RelationManager
     /**
      * Configures the action for attaching an existing label.
      * This action allows users to select and attach multiple labels to an article, presented in a larger modal for better usability.
-     *
-     * @return AttachAction
      */
     private function getHeaderAttachAction(): AttachAction
     {

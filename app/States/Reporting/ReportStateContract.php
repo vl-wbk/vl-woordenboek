@@ -12,8 +12,6 @@ namespace App\States\Reporting;
  *
  * Implementing classes are expected to define the logic for transitioning a report to the "In Progress" and "Closed" states.
  * These transitions are critical for maintaining the integrity of the report's lifecycle and ensuring that state changes are handled appropriately.
- *
- * @package App\States\Reporting
  */
 interface ReportStateContract
 {

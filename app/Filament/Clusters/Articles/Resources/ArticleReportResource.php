@@ -39,40 +39,30 @@ use Illuminate\Support\Facades\Cache;
  * - Navigation badges and routes for accessing the resource's pages.
  *
  * The resource is part of the `Articles` cluster and centralizes the logic for managing article reports, ensuring consistency and maintainability.
- *
- * @package App\Filament\Clusters\Articles\Resources
  */
 final class ArticleReportResource extends Resource
 {
     /**
      * Specifies the model associated with this resource.
      * This property links the `ArticleReportResource` to the `ArticleReport` model, ensuring that the resource operates on the correct data.
-     *
-     * @var string|null
      */
     protected static ?string $model = ArticleReport::class;
 
     /**
      * Specifies the icon used for the resource in the navigation menu.
      * The icon visually represents the resource in the admin panel's navigation.
-     *
-     * @var string|null
      */
     protected static ?string $navigationIcon = 'heroicon-o-flag';
 
     /**
      * Specifies the singular label for the resource.
      * This label is used in the admin panel to refer to a single instance of the resource.
-     *
-     * @var string|null
      */
     protected static ?string $modelLabel = 'melding';
 
     /**
      * Specifies the plural label for the resource.
      * This label is used in the admin panel to refer to multiple instances of the resource.
-     *
-     * @var string|null
      */
     protected static ?string $pluralModelLabel = 'Meldingen';
 
@@ -90,8 +80,8 @@ final class ArticleReportResource extends Resource
      * The infolist includes sections and fieldsets that display general information about the report, follow-up details, and user feedback.
      * It also provides header actions for viewing related user and article information.
      *
-     * @param  Infolist $infolist  The infolist instance to configure.
-     * @return Infolist            The configured infolist instance.
+     * @param  Infolist  $infolist  The infolist instance to configure.
+     * @return Infolist The configured infolist instance.
      */
     public static function infolist(Infolist $infolist): Infolist
     {
@@ -113,14 +103,14 @@ final class ArticleReportResource extends Resource
                             ->url(fn (ArticleReport $articleReport): string => ViewWord::getUrl(['record' => $articleReport->article])),
                     ])
                     ->description(fn (ArticleReport $articleReport): string => trans(':user heeft op :date de volgende melding ingestuurd.', [
-                        'user' => $articleReport->author->name, 'date' => $articleReport->created_at->format('d/m/Y')
+                        'user' => $articleReport->author->name, 'date' => $articleReport->created_at->format('d/m/Y'),
                     ]))
                     ->icon('tabler-message-user')
                     ->iconSize(IconSize::Medium)
                     ->iconColor('highlight')
                     ->compact()
                     ->columns(12)
-                    ->schema(components: [self::followUpFieldset(), self::feedbackFieldset()])
+                    ->schema(components: [self::followUpFieldset(), self::feedbackFieldset()]),
             ]);
     }
 
@@ -130,8 +120,8 @@ final class ArticleReportResource extends Resource
      * The table includes columns, actions, and bulk actions for managing reports.
      * It also provides an empty state message when no reports are available.
      *
-     * @param  Table $table  The table instance to configure.
-     * @return Table         The configured table instance.
+     * @param  Table  $table  The table instance to configure.
+     * @return Table The configured table instance.
      */
     public static function table(Table $table): Table
     {
@@ -156,18 +146,6 @@ final class ArticleReportResource extends Resource
                     ->label('Toegewezen aan mij')
                     ->query(fn (Builder $query): Builder => $query->where('assignee_id', auth()->id())),
             ]);
-    }
-
-    /**
-     * Provides a description for the table.
-     * This description explains the purpose of the table and its role in displaying user-submitted reports.
-     *
-     * @param ArticleReport $articleReport The report instance.
-     * @return string The table description.
-     */
-    private static function tableDescription(ArticleReport $articleReport): string
-    {
-        return trans('Soms kan het zijn dat er een foutje sluipt in een woordenboek artikel en gebruikers deze melden. Deze table is een overzicht van alle meldingen die zijn uitgevoerd door een gebruiker.');
     }
 
     /**
@@ -214,8 +192,20 @@ final class ArticleReportResource extends Resource
     public static function getWidgets(): array
     {
         return [
-            \App\Filament\Clusters\Articles\Resources\ArticleReportResource\Widgets\ArticleReportingChartWidget::class,
+            ArticleReportResource\Widgets\ArticleReportingChartWidget::class,
         ];
+    }
+
+    /**
+     * Provides a description for the table.
+     * This description explains the purpose of the table and its role in displaying user-submitted reports.
+     *
+     * @param  ArticleReport  $articleReport  The report instance.
+     * @return string The table description.
+     */
+    private static function tableDescription(ArticleReport $articleReport): string
+    {
+        return trans('Soms kan het zijn dat er een foutje sluipt in een woordenboek artikel en gebruikers deze melden. Deze table is een overzicht van alle meldingen die zijn uitgevoerd door een gebruiker.');
     }
 
     /**
@@ -268,8 +258,8 @@ final class ArticleReportResource extends Resource
         return Fieldset::make('Door de gebruiker gegeven feedback')
             ->schema(components: [
                 TextEntry::make('description')
-                ->columnSpan(12)
-                ->hiddenLabel()
+                    ->columnSpan(12)
+                    ->hiddenLabel(),
             ]);
     }
 }

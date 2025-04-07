@@ -21,8 +21,6 @@ use App\UserTypes;
  *
  * This policy plays a critical role in maintaining accountability and ensuring that only authorized users
  * can manage article reports, which may include sensitive or important information about dictionary content.
- *
- * @package App\Policies
  */
 final readonly class ArticleReportPolicy
 {
@@ -32,10 +30,10 @@ final readonly class ArticleReportPolicy
      * This method denies access to all actions for users with the "Editor" role.
      * If no global rule applies, it defers to the specific policy methods for further authorization checks.
      *
-     * @param  User $user  The user attempting to perform an action.
-     * @return bool|null   Returns `false` to deny access, or `null` to defer to specific methods.
+     * @param  User  $user  The user attempting to perform an action.
+     * @return bool|null Returns `false` to deny access, or `null` to defer to specific methods.
      */
-    public function before(User $user): bool|null
+    public function before(User $user): ?bool
     {
         if ($user->user_type->is(enum: UserTypes::Editor)) {
             return false;
@@ -50,8 +48,8 @@ final readonly class ArticleReportPolicy
      * This method allows all authenticated users to access the list of reports.
      * It is a permissive rule that grants access to the `viewAny` action for all users.
      *
-     * @param  User $user  The user attempting to view the list of article reports.
-     * @return bool        Always returns `true`, allowing access.
+     * @param  User  $user  The user attempting to view the list of article reports.
+     * @return bool Always returns `true`, allowing access.
      */
     public function viewAny(User $user): bool
     {
@@ -64,9 +62,9 @@ final readonly class ArticleReportPolicy
      * This action is allowed only if the article report does not already have an assignee and is in the "Open" state.
      * These conditions ensure that only unassigned and open reports can be marked as "In Progress."
      *
-     * @param  User $user                    The user attempting to mark the report as "In Progress."
-     * @param  ArticleReport $articleReport  The article report being updated.
-     * @return bool                          Returns `true` if the report can be marked as "In Progress," otherwise `false`.
+     * @param  User  $user  The user attempting to mark the report as "In Progress."
+     * @param  ArticleReport  $articleReport  The article report being updated.
+     * @return bool Returns `true` if the report can be marked as "In Progress," otherwise `false`.
      */
     public function markInProgress(User $user, ArticleReport $articleReport): bool
     {
@@ -80,9 +78,9 @@ final readonly class ArticleReportPolicy
      * This action is permitted only if the article report has an assignee and the assignee is the currently authenticated user.
      * This ensures that only the assigned user can close the report, maintaining accountability.
      *
-     * @param  User $user                    The user attempting to mark the report as "Closed."
-     * @param  ArticleReport $articleReport  The article report being updated.
-     * @return bool                          Returns `true` if the report can be marked as "Closed," otherwise `false`.
+     * @param  User  $user  The user attempting to mark the report as "Closed."
+     * @param  ArticleReport  $articleReport  The article report being updated.
+     * @return bool Returns `true` if the report can be marked as "Closed," otherwise `false`.
      */
     public function markAsClosed(User $user, ArticleReport $articleReport): bool
     {
@@ -97,9 +95,9 @@ final readonly class ArticleReportPolicy
      * This method allows all authenticated users to delete article reports.
      * It is a permissive rule that grants access to the `delete` action for all users.
      *
-     * @param  User $user                    The user attempting to delete the article report.
-     * @param  ArticleReport $articleReport  The article report being deleted.
-     * @return bool                          Always returns `true`, allowing access.
+     * @param  User  $user  The user attempting to delete the article report.
+     * @param  ArticleReport  $articleReport  The article report being deleted.
+     * @return bool Always returns `true`, allowing access.
      */
     public function delete(User $user, ArticleReport $articleReport): bool
     {

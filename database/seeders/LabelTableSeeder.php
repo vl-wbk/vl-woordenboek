@@ -15,8 +15,6 @@ use stdClass;
  * This seeder reads label definitions from a JSON data file and creates corresponding database records.
  * The JSON structure provides a maintainable way to define the dictionary's initial categorization system, keeping taxonomy data separate from the seeding logic.
  * Each label entry in the JSON file includes a name and optional description which are used to create Label model instances.
- *
- * @package Database\Seeders
  */
 final class LabelTableSeeder extends Seeder
 {

@@ -15,10 +15,8 @@ use Filament\Support\Contracts\HasLabel;
  * This enum defines three states: "Open," "In Progress," and "Closed." Each state is associated
  * with a label, icon, and color for consistent representation in the user interface.
  * It integrates with Filament's UI contracts and uses the `Comparable` trait for state comparisons.
- *
- * @package App\States\Reporting
  */
-enum Status: int implements HasLabel, HasColor, HasIcon
+enum Status: int implements HasColor, HasIcon, HasLabel
 {
     use Comparable;
 
@@ -52,7 +50,7 @@ enum Status: int implements HasLabel, HasColor, HasIcon
      */
     public function getLabel(): string
     {
-        $label =  match($this) {
+        $label = match ($this) {
             self::Open => 'onbehandeld',
             self::InProgress => 'in behandeling',
             self::Closed => 'behandeld',
@@ -71,7 +69,7 @@ enum Status: int implements HasLabel, HasColor, HasIcon
      */
     public function getIcon(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Open => 'tabler-circle-dashed-x',
             self::InProgress => 'tabler-circle-dashed',
             self::Closed => 'tabler-circle-dashed-check',
@@ -84,11 +82,11 @@ enum Status: int implements HasLabel, HasColor, HasIcon
      * This method defines a color for each state, which can be used to style the user interface consistently.
      * For example, the "Open" state is associated with the color "danger" (red), the "In Progress" state is associated with the color "warning" (yellow), and the "Closed" state is associated with the color "success" (green).
      *
-     * @return string  The color associated with the current state.
+     * @return string The color associated with the current state.
      */
     public function getColor(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Open => 'danger',
             self::InProgress => 'warning',
             self::Closed => 'success',

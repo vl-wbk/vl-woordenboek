@@ -7,8 +7,8 @@ namespace App\Http\Controllers\Web\Articles;
 use App\Actions\Articles\StoreArticleReport;
 use App\Http\Requests\Articles\StoreReportRequest;
 use App\Models\Article;
-use Spatie\RouteAttributes\Attributes\Post;
 use Spatie\RouteAttributes\Attributes\Middleware;
+use Spatie\RouteAttributes\Attributes\Post;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 #[Middleware(middleware: ['auth', 'forbid-banned-user'])]

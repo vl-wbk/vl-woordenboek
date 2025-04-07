@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use Closure;
@@ -8,7 +10,7 @@ use Detection\MobileDetect;
 /**
  * @copyright Originally created by Jens Segers: https://github.com/jenssegers/agent
  */
-class AgentService extends MobileDetect
+final class AgentService extends MobileDetect
 {
     /**
      * List of additional operating systems.
@@ -106,8 +108,7 @@ class AgentService extends MobileDetect
     /**
      * Match a detection rule and return the matched key.
      *
-     * @param array<string, string> $rules
-     * @return string|null
+     * @param  array<string, string>  $rules
      */
     protected function findDetectionRulesAgainstUserAgent(array $rules): ?string
     {
@@ -129,8 +130,7 @@ class AgentService extends MobileDetect
     /**
      * Retrieve from the given key from the cache or resolve the value.
      *
-     * @param  string  $key
-     * @param  \Closure():mixed  $callback
+     * @param  Closure():mixed  $callback
      * @return mixed
      */
     protected function retrieveUsingCacheOrResolve(string $key, Closure $callback)

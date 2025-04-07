@@ -6,10 +6,9 @@ namespace App\Filament\Resources\UserResource\Actions;
 
 use App\Models\User;
 use Filament\Actions\Concerns\CanCustomizeProcess;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Actions\Action;
-use Illuminate\Database\Eloquent\Model;
-use Filament\Forms\Components\DateTimePicker;
 
 /**
  * This action handles the process of deactivating user accounts in our Flemish dictionary community.
@@ -24,22 +23,10 @@ use Filament\Forms\Components\DateTimePicker;
  * @see \App\Policies\UserPolicy For permission handling
  * @see \Cog\Laravel\Ban\Traits\Bannable For the ban implementation
  * @see https://github.com/Gerenuk-LTD/filament-banhammer/blob/main/src/Resources/Actions/BanAction.php
- *
- * @package App\Filament\Resources\UserResource\Actions
  */
 final class BanAction extends Action
 {
     use CanCustomizeProcess;
-
-    /**
-     * Provides the translation key for our action's name.
-     * We use a simple Dutch string here since our entire interface is in Dutch.
-     * This appears in various places throughout the admin panel.
-     */
-    public static function getDefaultName(): string
-    {
-        return trans('Deactiveer');
-    }
 
     /**
      * This is where we configure how our action looks and behaves.
@@ -77,11 +64,22 @@ final class BanAction extends Action
 
             if (! $result) {
                 $this->failure();
+
                 return;
             }
 
             $this->success();
         });
+    }
+
+    /**
+     * Provides the translation key for our action's name.
+     * We use a simple Dutch string here since our entire interface is in Dutch.
+     * This appears in various places throughout the admin panel.
+     */
+    public static function getDefaultName(): string
+    {
+        return trans('Deactiveer');
     }
 
     /**

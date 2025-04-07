@@ -20,8 +20,6 @@ use Laravel\Pennant\Feature;
  *
  * To support our moderation team, we've included direct access to comprehensive documentation right from the page header.
  * This ensures our guidelines and procedures are always within reach moderation activities.
- *
- * @package \App\Filament\Clusters\UserManagement\Resources\BanResource
  */
 final class ListBans extends ListRecords
 {
@@ -29,8 +27,6 @@ final class ListBans extends ListRecords
      * Defines which resource this listing page belongs to.
      * The BanResource proàvides all necessary configurations for fisplaying and managing bans.
      * This connection ensures that any changes made to the resource's table schema or octions are automatically reflected in this listing page.
-     *
-     * @var string
      */
     protected static string $resource = BanResource::class;
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Cog\Laravel\Ban\Http\Middleware\ForbidBannedUser;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;

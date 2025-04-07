@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\DB;
  *
  * This state indicates that the article has been submitted for review and requires editorial approval before publication.
  * The state provides multiple transition paths to support various editorial decisions: returning to draft for further editing, approving for publication, or archiving if deemed unsuitable.
- *
- * @package App\States\Articles
  */
 final class ApprovalState extends ArticleState
 {

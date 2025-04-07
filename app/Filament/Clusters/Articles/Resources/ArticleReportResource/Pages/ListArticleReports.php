@@ -26,8 +26,6 @@ use Filament\Resources\Pages\ListRecords;
  * Technical Details:
  * - The `$resource` property links this page to the `ArticleReportResource` class, ensuring that the correct model and configuration are used for the list view.
  * - Inherits functionality from Filament's `ListRecords` class, including pagination, search, and filtering.
- *
- * @package App\Filament\Clusters\Articles\Resources\ArticleReportResource\Pages
  */
 final class ListArticleReports extends ListRecords
 {
@@ -36,8 +34,6 @@ final class ListArticleReports extends ListRecords
      *
      * This property specifies the Filament resource that this page is designed to display records for.
      * It ensures that the page displays and manages records of the correct type.
-     *
-     * @var string
      */
     protected static string $resource = ArticleReportResource::class;
 

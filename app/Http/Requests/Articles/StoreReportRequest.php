@@ -16,8 +16,6 @@ use Spatie\LaravelData\WithData;
  *
  * By separating the data transformation and validation logic from business logic, this class helps maintain cleaner code and promotes easier updates.
  * Open-source contributors and future developers will find that this design choice enhances maintainability and scalability.
- *
- * @package App\Http\Requests\Articles
  */
 final class StoreReportRequest extends FormRequest
 {

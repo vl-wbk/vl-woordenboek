@@ -14,9 +14,7 @@ use Filament\Forms\Components\Textarea;
  * This action handles the process of moving articles to an archived state, where they remain in the system but are hidden from end users.
  * The action includes confirmation dialogs and permission checks to ensure proper usage.
  *
- * @property \App\Models\Article $record The dictionary arcticle being archived
- *
- * @package App\Filament\Resources\ArticleResource\Actions\State
+ * @property Article $record The dictionary arcticle being archived
  */
 final class ArchiveArticle extends Action
 {
@@ -25,15 +23,6 @@ final class ArchiveArticle extends Action
      * Uses the archive box icon from Heroicons to maintain consistency with the application's visual language.
      */
     protected string $actionIcon = 'heroicon-o-archive-box';
-
-    /**
-     * Provides the localized name for the archive action.
-     * The translation key is processed through laravel's translation system to support multiple languages whule maintaining Dutch as the primary nterface language
-     */
-    public static function getDefaultName(): string
-    {
-        return trans('Artikel archiveren');
-    }
 
     /**
      * Configures the action's behavior and appearance.
@@ -64,12 +53,21 @@ final class ArchiveArticle extends Action
                 ->rows(4)
                 ->label('Archiverings redenen')
                 ->placeholder('Beschrijf kort waarom het artikel gearchiveerd word')
-                ->maxLength(350)
+                ->maxLength(350),
         ]);
 
         $this->action(function (array $data, Article $article): void {
             $article->articleStatus()->transitionToArchived($data['archiving_reason']);
             $this->success();
         });
+    }
+
+    /**
+     * Provides the localized name for the archive action.
+     * The translation key is processed through laravel's translation system to support multiple languages whule maintaining Dutch as the primary nterface language
+     */
+    public static function getDefaultName(): string
+    {
+        return trans('Artikel archiveren');
     }
 }

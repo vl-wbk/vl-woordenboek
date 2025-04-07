@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use App\Enums\ArticleStates;
 use App\Filament\Clusters\Articles;
-use App\Filament\Resources\ArticleResource\Schema\WordInfolist;
 use App\Filament\Resources\ArticleResource\Pages;
 use App\Filament\Resources\ArticleResource\Schema\FormSchema;
+use App\Filament\Resources\ArticleResource\Schema\WordInfolist;
 use App\Models\Article;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
@@ -34,38 +33,28 @@ use Illuminate\Support\Facades\Cache;
  *
  * Labels can be linked to articles through the relation manager, and the navigation badge dynamically displays
  * the number of available articles using caching.
- *
- * @package App\Filament\Resources
  */
 final class ArticleResource extends Resource
 {
     /**
      * The Eloquent model that this resource represents.
-     *
-     * @var string|null
      */
     protected static ?string $model = Article::class;
 
     /**
      * The navigation icon used in the admin panel menu.
-     *
-     * @var string|null
      */
     protected static ?string $navigationIcon = 'heroicon-o-language';
 
     /**
      * The singular label for the model.
-     *
-     * @var string|null
      */
     protected static ?string $modelLabel = 'Artikel';
 
     /**
      * The plural model label for the model.
-     *
-     * @var string|null
      */
-    protected static ?string $pluralModelLabel = "Artikelen";
+    protected static ?string $pluralModelLabel = 'Artikelen';
 
     /**
      * The cluster used for grouping related resources.
@@ -78,7 +67,7 @@ final class ArticleResource extends Resource
      * Configures the infolist used to display article details.
      *
      * @param  Infolist  $infolist  The Filament infolist instance.
-     * @return Infolist             The configured infolist.
+     * @return Infolist The configured infolist.
      */
     public static function infolist(Infolist $infolist): Infolist
     {
@@ -88,13 +77,13 @@ final class ArticleResource extends Resource
     /**
      * Returns an array of relation manager classes that define related resources.
      *
-     * @return array<int, class-string>  The relation manager classes.
+     * @return array<int, class-string> The relation manager classes.
      */
     public static function getRelations(): array
     {
         return [
-            \App\Filament\Resources\ArticleResource\RelationManagers\LabelsRelationManager::class,
-            \App\Filament\Resources\ArticleResource\RelationManagers\NotesRelationManager::class,
+            ArticleResource\RelationManagers\LabelsRelationManager::class,
+            ArticleResource\RelationManagers\NotesRelationManager::class,
         ];
     }
 
@@ -103,8 +92,8 @@ final class ArticleResource extends Resource
      * The form consists of sections for general information and regional status,
      * each configured with an icon, description, and specific field schema.
      *
-     * @param  Form $form  The Filament form instance.
-     * @return Form        The configured form.
+     * @param  Form  $form  The Filament form instance.
+     * @return Form The configured form.
      */
     public static function form(Form $form): Form
     {
@@ -134,8 +123,8 @@ final class ArticleResource extends Resource
      * The table includes columns for author, article (lemma), description, creation date and last updated date.
      * It also configures invidual and builk actions for managing articles.
      *
-     * @param  Table $table  The Filament table instance.
-     * @return Table         The configured table.
+     * @param  Table  $table  The Filament table instance.
+     * @return Table The configured table.
      */
     public static function table(Table $table): Table
     {
@@ -188,25 +177,13 @@ final class ArticleResource extends Resource
     }
 
     /**
-     * Selects specific database columns for the article listing table.
-     * This optimizes the query by only retrieving necessary fields.
-     *
-     * @param  Builder<Article> $builder  The query builder instance
-     * @return Builder<Article>           The modified query builder
-     */
-    private static function selectDatabaseColumns(Builder $builder): Builder
-    {
-        return $builder->addSelect('id', 'characteristics', 'part_of_speech_id', 'word', 'state', 'author_id', 'created_at', 'updated_at');
-    }
-
-    /**
      * Determines what text should be shown as the main title in global search results.
      * In this case, we display the word (lemma) itself as the primary identifier.
      *
      * For example: If searching for "duusterzot", the result will show "duusterzot" as the title.
      *
-     * @param   Article $record    The article record being displayed in search results
-     * @return  string             The word/lemma to display as the search result title
+     * @param  Article  $record  The article record being displayed in search results
+     * @return string The word/lemma to display as the search result title
      */
     public static function getGlobalSearchResultTitle(Model $record): string
     {
@@ -237,8 +214,8 @@ final class ArticleResource extends Resource
      *
      * This helps users quickly identify if they've found the right word entry.
      *
-     * @param  Article $record       The article record being displayed
-     * @return array<string, mixed>  Key-value pairs of labels and their values
+     * @param  Article  $record  The article record being displayed
+     * @return array<string, mixed> Key-value pairs of labels and their values
      */
     public static function getGlobalSearchResultDetails(Model $record): array
     {
@@ -252,7 +229,7 @@ final class ArticleResource extends Resource
      * Retrieves the navigation badge count for the articles.
      * This count is cached to reduce database queries and improve performance.
      *
-     * @return string|null  THe navigation badge displaying the numbver or articles.
+     * @return string|null THe navigation badge displaying the numbver or articles.
      */
     public static function getNavigationBadge(): ?string
     {
@@ -265,7 +242,7 @@ final class ArticleResource extends Resource
      * Defines the routes for the resource's pages.
      * The pages include listing, creating, viewing, and editing articles.
      *
-     * @return array<string, \Filament\Resources\Pages\PageRegistration>  An associative array mapping page keys to their routes.
+     * @return array<string, \Filament\Resources\Pages\PageRegistration> An associative array mapping page keys to their routes.
      */
     public static function getPages(): array
     {
@@ -275,5 +252,17 @@ final class ArticleResource extends Resource
             'view' => Pages\ViewWord::route('/{record}'),
             'edit' => Pages\EditWord::route('/{record}/edit'),
         ];
+    }
+
+    /**
+     * Selects specific database columns for the article listing table.
+     * This optimizes the query by only retrieving necessary fields.
+     *
+     * @param  Builder<Article>  $builder  The query builder instance
+     * @return Builder<Article> The modified query builder
+     */
+    private static function selectDatabaseColumns(Builder $builder): Builder
+    {
+        return $builder->addSelect('id', 'characteristics', 'part_of_speech_id', 'word', 'state', 'author_id', 'created_at', 'updated_at');
     }
 }

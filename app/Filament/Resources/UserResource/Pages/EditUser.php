@@ -13,8 +13,6 @@ use Filament\Resources\Pages\EditRecord;
  *
  * This page component handles the modification of existing user records through a form-based interface.
  * It extends Filament's EditRecord to provide a standardized editing experience while maintaining the application's design patterns and Dutch-language interface elements.
- *
- * @package App\Filament\Resources\UserResource\Pages
  */
 final class EditUser extends EditRecord
 {

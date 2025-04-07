@@ -19,8 +19,6 @@ use Filament\Support\Enums\MaxWidth;
  * or if it fails.
  *
  * @property \App\Models\Article $record The dictionary article being submitted for publication
- *
- * @package App\Filament\Resources\ArticleResource\Actions
  */
 final class RemoveEditorAction extends Action
 {
@@ -29,21 +27,8 @@ final class RemoveEditorAction extends Action
     /**
      * Icon used for navigation and in the confirmation modal.
      * To maintain consistency in the UI.
-     *
-     * @var string
      */
     protected static string $navigationIcon = 'tabler-link-minus';
-
-    /**
-     * Returns the default name for this action.
-     * This name is used by the Filament system to identify the action within the navigation and user interface.
-     *
-     * @return string The default action name.
-     */
-    public static function getDefaultName(): string
-    {
-        return 'remove-editor';
-    }
 
     /**
      * Sets up the configuration for the RemoveEditorAction.
@@ -54,8 +39,6 @@ final class RemoveEditorAction extends Action
      * based on whether the authenticated user is removing themselves or another editor. Custom notification titles for success and failure are also provided.
      *
      * Finally, when executed, the action triggers a state transition on the article to set it to a suggestion state.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -65,7 +48,6 @@ final class RemoveEditorAction extends Action
         $this->icon(self::$navigationIcon);
         $this->color('danger');
         $this->authorize('detachEditor', $this->record);
-
 
         $this->requiresConfirmation();
         $this->modalWidth(MaxWidth::Large);
@@ -81,11 +63,23 @@ final class RemoveEditorAction extends Action
         $this->action(function (): void {
             if ($this->process(fn (): bool => $this->record->articleStatus()->transitionToSuggestion())) {
                 $this->success();
+
                 return;
             }
 
             $this->failure();
         });
+    }
+
+    /**
+     * Returns the default name for this action.
+     * This name is used by the Filament system to identify the action within the navigation and user interface.
+     *
+     * @return string The default action name.
+     */
+    public static function getDefaultName(): string
+    {
+        return 'remove-editor';
     }
 
     /**

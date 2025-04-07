@@ -12,8 +12,6 @@ use Illuminate\Support\Facades\Auth;
  *
  * This action class orchestrates the secure deletion of a user account, including proper session cleanup and authentication state management.
  * It executes all necessary steps in the correct order to ensure no orphaned data or session artifacts remain.
- *
- * @package App\Actions\Account
  */
 final readonly class DeleteAccount
 {
@@ -24,8 +22,7 @@ final readonly class DeleteAccount
      * After logout, it permanently removes the user record from the database.
      * Finally, it performs the security cleanup by invalidating the session and regenerating the CSRF token to prevent any potential security vulnerabilities.
      *
-     * @param  DeleteAccountRequest $deleteAccountRequest  The validated delection request.
-     * @return void
+     * @param  DeleteAccountRequest  $deleteAccountRequest  The validated delection request.
      */
     public function __invoke(DeleteAccountRequest $deleteAccountRequest): void
     {

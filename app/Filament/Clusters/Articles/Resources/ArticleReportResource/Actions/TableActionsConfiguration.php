@@ -14,8 +14,6 @@ use Filament\Tables\Actions\Action;
  * These actions are used to provide administrators and moderators with tools to manage article reports efficiently within the Filament admin panel.
  *
  * This class centralizes the configuration of table actions, ensuring consistency and maintainability across the resource.
- *
- * @package App\Filament\Clusters\Articles\Resources\ArticleReportResource\Actions
  */
 final readonly class TableActionsConfiguration
 {
@@ -30,7 +28,7 @@ final readonly class TableActionsConfiguration
         return [
             Action::make('Help')
                 ->icon('heroicon-o-lifebuoy')
-                ->color('gray')
+                ->color('gray'),
         ];
     }
 

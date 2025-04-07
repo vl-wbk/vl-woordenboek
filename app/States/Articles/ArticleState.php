@@ -18,10 +18,8 @@ use LogicException;
  * By default, if a transition is not supported by the current state, a clear exception message is provided.
  *
  * @property Article $article The article whose state is being managed.
- *
- * @package App\States\Articles
  */
-class ArticleState implements ArticleStateContract
+final class ArticleState implements ArticleStateContract
 {
     public function __construct(
         public readonly Article $article,
@@ -29,6 +27,7 @@ class ArticleState implements ArticleStateContract
 
     /**
      * {@inheritDoc}
+     *
      * @throws LogicException Always, indicating that this transition is not allowed in the current state.
      */
     public function transitionToApproved(): void
@@ -38,6 +37,7 @@ class ArticleState implements ArticleStateContract
 
     /**
      * {@inheritDoc}
+     *
      * @throws LogicException Always, indicating that this transition is not allowed in the current state.
      */
     public function transitionToArchived(?string $archivingReason = null): void
@@ -47,6 +47,7 @@ class ArticleState implements ArticleStateContract
 
     /**
      * {@inheritDoc}
+     *
      * @throws LogicException Always, indicating that this transition is not allowed in the current state.
      */
     public function transitionToEditing(?string $reason = null): bool
@@ -56,6 +57,7 @@ class ArticleState implements ArticleStateContract
 
     /**
      * {@inheritDoc}
+     *
      * @throws LogicException Always, indicating that this transition is not allowed in the current state.
      */
     public function transitionToReleased(): void
@@ -65,6 +67,7 @@ class ArticleState implements ArticleStateContract
 
     /**
      * {@inheritDoc}
+     *
      * @throws LogicException Always, indicating that this transition is not allowed in the current state.
      */
     public function transitionToSuggestion(): bool

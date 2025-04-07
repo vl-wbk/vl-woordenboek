@@ -24,9 +24,7 @@ use Filament\Resources\Pages\CreateRecord\Concerns\HasWizard;
  * collects geographical context and publication status information. This separation helps
  * organize the data entry process in a logical and user-friendly manner.
  *
- * @property \App\Models\Article $record  The database entity from the created dictionary article.
- *
- * @package App\Filament\Resources\ArticleResource\Pages
+ * @property \App\Models\Article $record The database entity from the created dictionary article.
  */
 final class CreateWord extends CreateRecord
 {
@@ -35,8 +33,6 @@ final class CreateWord extends CreateRecord
     /**
      * The resource class associated with this form handler.
      * Connects this form to the ArticleResource for proper data management.
-     *
-     * @var string
      */
     protected static string $resource = ArticleResource::class;
 
@@ -49,8 +45,8 @@ final class CreateWord extends CreateRecord
      * action buttons for cancellation and submission, and step skipping capabilities.
      * The form uses a fluid layout without container constraints for maximum flexibility.
      *
-     * @param  Form $form  The base form instance to be enhanced with wizard functionality
-     * @return Form        The fully configured form with wizard implementation
+     * @param  Form  $form  The base form instance to be enhanced with wizard functionality
+     * @return Form The fully configured form with wizard implementation
      */
     public function form(Form $form): Form
     {
@@ -61,7 +57,7 @@ final class CreateWord extends CreateRecord
                     ->cancelAction($this->getCancelFormAction())
                     ->submitAction($this->getSubmitFormAction())
                     ->skippable($this->hasSkippableSteps())
-                    ->contained(false)
+                    ->contained(false),
             ])->columns(null);
     }
 
@@ -72,8 +68,6 @@ final class CreateWord extends CreateRecord
      * task of establishing ownership by creating a relationship between the newly created
      * word entry and the currently authenticated user. This association ensures proper
      * attribution and maintains data integrity within the dictionary system.
-     *
-     * @return void
      */
     public function afterCreate(): void
     {

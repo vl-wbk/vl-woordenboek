@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Policies;
 
 use App\Enums\ArticleStates;
-use App\Models\User;
 use App\Models\Article;
+use App\Models\User;
 use App\UserTypes;
 
 /**
@@ -14,8 +14,6 @@ use App\UserTypes;
  *
  * This policy class defines access control for all article-related operations, implementing a state-based permission system that considers both users's role and article's current state.
  * The policy ensures proper workflow progression while maintaining content quality and editorial oversight.
- *
- * @package App\Policies
  */
 final readonly class ArticlePolicy
 {
@@ -25,9 +23,9 @@ final readonly class ArticlePolicy
      * Updates are permitted for articles in New, Draft, or Archived states, but restricted from normal users to maintain editorial quality.
      * This ensures that only qualified editors can modify dictionary content.
      *
-     * @param  User     $user     The user attempting the update
+     * @param  User  $user  The user attempting the update
      * @param  Article  $article  The article that is being updated
-     * @return bool               True if the user has permission to update, false otherwise
+     * @return bool True if the user has permission to update, false otherwise
      */
     public function update(User $user, Article $article): bool
     {
@@ -41,9 +39,9 @@ final readonly class ArticlePolicy
      * Submisseion is allowed for New or Draft articles, but retricted form normal users to ensure proper editorial workflow.
      * This gate controls entry into the formal review process.
      *
-     * @param  User     $user     The user attempting to submit the article
+     * @param  User  $user  The user attempting to submit the article
      * @param  Article  $article  The article that is being submitted
-     * @return bool               True if the user has permission to submit, false otherwise
+     * @return bool True if the user has permission to submit, false otherwise
      */
     public function sendForApproval(User $user, Article $article): bool
     {
@@ -65,9 +63,9 @@ final readonly class ArticlePolicy
      * This ensures that rejection decisions are made with appropriate oversight
      * and maintains separation between article editing and approval processes.
      *
-     * @param  User     $user     The user attempting to reject the article
+     * @param  User  $user  The user attempting to reject the article
      * @param  Article  $article  The article being considered for rejection
-     * @return bool              True if the user has permission to reject, false otherwise
+     * @return bool True if the user has permission to reject, false otherwise
      */
     public function rejectPublication(User $user, Article $article): bool
     {
@@ -94,9 +92,9 @@ final readonly class ArticlePolicy
      * This policy ensures proper oversight of content publication by requiring review from someone other than the original editor.
      * This helps maintain quality standards and prevents self-publication of content.
      *
-     * @param  User     $user     The user attempting to publish the article
+     * @param  User  $user  The user attempting to publish the article
      * @param  Article  $article  The article to be published
-     * @return bool               True if publication is allowed, false otherwise
+     * @return bool True if publication is allowed, false otherwise
      */
     public function publishArticle(User $user, Article $article): bool
     {
@@ -125,9 +123,9 @@ final readonly class ArticlePolicy
      *
      * If the article is not in Draft state, the detach action is disallowed.
      *
-     * @param  User    $user     The user attempting to detach the editor.
-     * @param  Article $article  The article from which the editor is to be detached.
-     * @return bool              True if the user is authorized to perform the detach; otherwise, false.
+     * @param  User  $user  The user attempting to detach the editor.
+     * @param  Article  $article  The article from which the editor is to be detached.
+     * @return bool True if the user is authorized to perform the detach; otherwise, false.
      */
     public function detachEditor(User $user, Article $article): bool
     {
@@ -144,9 +142,9 @@ final readonly class ArticlePolicy
      * Archival permissions are granted to administrators and chief editors for Published or Approval-state articles.
      * This allows senior editors to manage content visibility while preserving article history.
      *
-     * @param  User     $user     The user that iàs attempting to archive the article.
+     * @param  User  $user  The user that iàs attempting to archive the article.
      * @param  Article  $article  The article that is being archived
-     * @return bool               True if the user has permission to archive, false otherwise
+     * @return bool True if the user has permission to archive, false otherwise
      */
     public function archiveArticle(User $user, Article $article): bool
     {
@@ -160,9 +158,9 @@ final readonly class ArticlePolicy
      * Deletion is highly restricted, limited to administrators and chief editors, and only possible for articles in New or Draft states.
      * This prevents accidental removal of published content while allowing cleanup of incomplete entries.
      *
-     * @param  User     $user     The user attempting to delete the article
+     * @param  User  $user  The user attempting to delete the article
      * @param  Article  $article  The article being deleted by the user.
-     * @return bool               True if the user has permission to delete, false otherwise
+     * @return bool True if the user has permission to delete, false otherwise
      */
     public function delete(User $user, Article $article): bool
     {

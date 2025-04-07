@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\Resources\ArticleResource\Pages;
 
 use App\Enums\ArticleStates;
-use App\Models\Article;
 use App\Filament\Resources\ArticleResource;
+use App\Models\Article;
 use Filament\Actions;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
@@ -26,8 +26,6 @@ use Illuminate\Support\Facades\Cache;
  * This streamlined workflow enables efficient content management while maintaining clear visibility of the editorial process.
  *
  * @property string $activeTab The currently selected article state tab
- *
- * @package App\Filament\Resources\ArticleResource\Pages
  */
 final class ListWords extends ListRecords
 {
@@ -41,23 +39,6 @@ final class ListWords extends ListRecords
      * The ArticleResource drives the behavior of this tabbed interface, determining how dictionary entries are displayed, filtered, and interacted with throughout the editorial workflow.
      */
     protected static string $resource = ArticleResource::class;
-
-    /**
-     * Header Action Configuration
-     *
-     * Establishes the primary actions available in the page header section.
-     * Currently implements a single create action, visually represented by a plus icon.
-     * This action serves as the entry point for adding new dictionary entries into the system.
-     *
-     * @return array<Actions\CreateAction>
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\CreateAction::make()
-                ->icon('heroicon-o-plus'),
-        ];
-    }
 
     /**
      * Page Initialization Handler
@@ -100,10 +81,27 @@ final class ListWords extends ListRecords
                 ->label($status->getLabel())
                 ->icon($status->getIcon())
                 ->badgeColor($status->getColor())
-                ->query(fn(Builder $query) => $query->where('state', $status))
-                ->badge(Cache::flexible($status->value . '_articles_count', [10, 20], function () use ($status) {
+                ->query(fn (Builder $query) => $query->where('state', $status))
+                ->badge(Cache::flexible($status->value.'_articles_count', [10, 20], function () use ($status) {
                     return Article::query()->where('state', $status)->count();
                 })))
             ->toArray();
+    }
+
+    /**
+     * Header Action Configuration
+     *
+     * Establishes the primary actions available in the page header section.
+     * Currently implements a single create action, visually represented by a plus icon.
+     * This action serves as the entry point for adding new dictionary entries into the system.
+     *
+     * @return array<Actions\CreateAction>
+     */
+    protected function getHeaderActions(): array
+    {
+        return [
+            Actions\CreateAction::make()
+                ->icon('heroicon-o-plus'),
+        ];
     }
 }

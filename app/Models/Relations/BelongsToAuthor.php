@@ -23,8 +23,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * Integration:
  * To utilize this trait, simply include it in your Eloquent model: `use BelongsToAuthor;`
- *
- * @package App\Models\Relations
  */
 trait BelongsToAuthor
 {
@@ -46,8 +44,6 @@ trait BelongsToAuthor
      *
      * This method fetches the currently logged-in user's instance from the authentication context and assigns them as the author of this model using the `setAuthor` method.
      * This is commonly used during the creation or modification of a model when the user performing the action is considered the author.
-     *
-     * @return void
      */
     public function setCurrentUserAsAuthor(): void
     {
@@ -61,8 +57,7 @@ trait BelongsToAuthor
      * It then immediately saves the current model to the database, ensuring that the author relationship is stored.
      * This method should be used when explicitly assigning a specific user as the author, rather than relying on the currently authenticated user.
      *
-     * @param  User $user  The User model instance to be associated as the author.
-     * @return void
+     * @param  User  $user  The User model instance to be associated as the author.
      */
     public function setAuthor(User $user): void
     {

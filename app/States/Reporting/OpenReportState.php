@@ -15,8 +15,6 @@ use Illuminate\Support\Facades\DB;
  * The `transitionToInProgress` method is overridden to handle the assignment of the report to the currently authenticated user.
  * This operation updates the report's state to "In Progress", assigns the current user as the assignee, and records the assignment timestamp.
  * The operation is performed within a database transaction to ensure data consistency.
- *
- * @package App\States\Reporting
  */
 final class OpenReportState extends ReportState
 {

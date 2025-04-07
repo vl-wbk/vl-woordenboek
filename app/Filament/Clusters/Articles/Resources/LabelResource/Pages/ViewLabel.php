@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\Clusters\Articles\Resources\LabelResource\Pages;
 
 use App\Filament\Clusters\Articles\Resources\LabelResource;
-use Filament\Resources\Pages\ViewRecord;
 use Filament\Actions;
+use Filament\Resources\Pages\ViewRecord;
 use Filament\Support\Enums\MaxWidth;
 
 final class ViewLabel extends ViewRecord

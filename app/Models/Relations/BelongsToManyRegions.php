@@ -18,8 +18,7 @@ trait BelongsToManyRegions
     }
 
     /**
-     * @param  array<int, string> $regions
-     * @return void
+     * @param  array<int, string>  $regions
      */
     public function syncRegions(array $regions): void
     {

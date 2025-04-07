@@ -14,8 +14,6 @@ use Spatie\RouteAttributes\Attributes\Post;
  *
  * This single-action controller processes requests from users wanting to delete their accounts from the Vlaams Woordenboek platform.
  * It uses route attributes for configuration and enforces authentication through middleware to ensure only logged-in users can delete their accounts.
- *
- * @package App\Http\Controllers\Web\Account
  */
 final readonly class DeleteAccountController
 {
@@ -27,8 +25,8 @@ final readonly class DeleteAccountController
      * The method is protected by authentication middleware and validates the request through a form request class.
      *
      * @param  DeleteAccountRequest  $deleteAccountRequest  The validated request data
-     * @param  DeleteAccount         $deleteAccount         The account deletion action
-     * @return RedirectResponse                             Redirects to the homepage after deletion.
+     * @param  DeleteAccount  $deleteAccount  The account deletion action
+     * @return RedirectResponse Redirects to the homepage after deletion.
      */
     #[Post(uri: '/account-verwijderen', name: 'account.delete', middleware: ['auth', 'forbid-banned-user'])]
     public function __invoke(DeleteAccountRequest $deleteAccountRequest, DeleteAccount $deleteAccount): RedirectResponse

@@ -17,26 +17,11 @@ use Filament\Actions\Concerns\CanCustomizeProcess;
  * This action is integrated into the Filament admin panel and provides a user-friendly interface for managing article reports.
  * It includes visual indicators, such as an icon and label, and displays success or failure notifications based on the outcome of the closure process.
  *
- * @property \App\Models\ArticleReport $record  The database entity from the article report.
- *
- * @package App\Filament\Clusters\Articles\Resources\ArticleReportResource\Actions
+ * @property \App\Models\ArticleReport $record The database entity from the article report.
  */
 final class CloseArticleReportAction extends Action
 {
     use CanCustomizeProcess;
-
-    /**
-     * Returns the default name for the action.
-     *
-     * The default name is used to identify the action within the Filament admin panel.
-     * In this case, the name is set to "close-report."
-     *
-     * @return string The default name of the action.
-     */
-    public static function getDefaultName(): string
-    {
-        return 'close-report';
-    }
 
     /**
      * Configures the action's behavior and appearance.
@@ -47,8 +32,6 @@ final class CloseArticleReportAction extends Action
      * - The icon is dynamically retrieved from the "Closed" state.
      * - The authorization ensures that only users with the "markAsClosed" permission can perform the action.
      * - Success and failure notifications are displayed based on the outcome of the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -65,10 +48,24 @@ final class CloseArticleReportAction extends Action
         $this->action(function (): void {
             if ($this->process(fn (): bool => $this->record->status()->transitionToClosed())) {
                 $this->success();
+
                 return;
             }
 
             $this->failure();
         });
+    }
+
+    /**
+     * Returns the default name for the action.
+     *
+     * The default name is used to identify the action within the Filament admin panel.
+     * In this case, the name is set to "close-report."
+     *
+     * @return string The default name of the action.
+     */
+    public static function getDefaultName(): string
+    {
+        return 'close-report';
     }
 }

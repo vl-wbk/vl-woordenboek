@@ -19,24 +19,13 @@ use Illuminate\Database\Eloquent\Model;
  *
  * The interface shows a warning-colored unlock icon to indicate its purpose, and requires explicit confirmation before proceeding with the reactivation to prevent accidental clicks.
  *
- * @see \App\Models\User For the user model implementation
- * @see \Cog\Laravel\Ban\Models\Ban For the ban record structure
+ * @see User For the user model implementation
+ * @see Ban For the ban record structure
  * @see https://github.com/Gerenuk-LTD/filament-banhammer/blob/main/src/Resources/Actions/UnbanAction.php
- *
- * @package App\Filament\Resources\UserResource\Actions
  */
 final class UnbanAction extends Action
 {
     use CanCustomizeProcess;
-
-    /**
-     * Provides the Dutch translation key for our action's name.
-     * This appears in various places throughout the admin panel to maintain language consistency.
-     */
-    public static function getDefaultName(): string
-    {
-        return trans('reactiveer');
-    }
 
     /**
      * Configures the action's appearance and behavior.
@@ -68,5 +57,14 @@ final class UnbanAction extends Action
             $this->successNotificationTitle('De gebruiker is terug geactiveerd in het platform');
             $this->success();
         });
+    }
+
+    /**
+     * Provides the Dutch translation key for our action's name.
+     * This appears in various places throughout the admin panel to maintain language consistency.
+     */
+    public static function getDefaultName(): string
+    {
+        return trans('reactiveer');
     }
 }

@@ -9,7 +9,7 @@ use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
 
-enum ArticleStates: int implements HasLabel, HasIcon, HasColor
+enum ArticleStates: int implements HasColor, HasIcon, HasLabel
 {
     use Comparable;
 

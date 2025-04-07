@@ -7,13 +7,13 @@ namespace App\Filament\Resources\ArticleResource\Pages;
 use App\Enums\ArticleStates;
 use App\Filament\Resources\ArticleResource;
 use App\Filament\Resources\ArticleResource\Actions\RemoveEditorAction;
+use App\Filament\Resources\ArticleResource\Schema\FormSchema;
 use Filament\Actions;
+use Filament\Forms\Components\Wizard;
+use Filament\Forms\Form;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Resources\Pages\EditRecord\Concerns\HasWizard;
 use Kenepa\ResourceLock\Resources\Pages\Concerns\UsesResourceLock;
-use App\Filament\Resources\ArticleResource\Schema\FormSchema;
-use Filament\Forms\Form;
-use Filament\Forms\Components\Wizard;
 
 /**
  * EditWord provides a wizard-based interface for editing dictionary articles in the Vlaams Woordenboek.
@@ -23,21 +23,49 @@ use Filament\Forms\Components\Wizard;
  * The interface guides editors through a structured process to ensure consistent and complete article updates.
  *
  * @property \App\Models\Article $record The dictioniry article entity from the database
- *
- * @package App\Filament\Resources\ArticleResource\Pages
  */
 final class EditWord extends EditRecord
 {
-    use UsesResourceLock;
     use HasWizard;
+    use UsesResourceLock;
 
     /**
      * The resource class this page component belongs to, establishing the connection between this editing interface and the ArticleResource management system.
      * This relationship enables proper routing and resource handling throughout the application.
-     *
-     * @var string
      */
     protected static string $resource = ArticleResource::class;
+
+    /**
+     * Constructs the form interface using a wizard component for a guided editing experience.
+     * The wizard provides intuitive navigation between steps, with cancel and submit actions clearly presented.
+     * The interface supports optional step skipping and uses a full-width layout for optimal content presentation.
+     * The form inherits base functionality while adding specialized behavior for dictionary article editing.
+     *
+     * @param  Form  $form  The Filament form instance that needs to be configured.
+     * @return Form The configured Filament form instance.
+     */
+    public function form(Form $form): Form
+    {
+        return parent::form($form)
+            ->schema([
+                Wizard::make($this->getSteps())
+                    ->startOnStep($this->getStartStep())
+                    ->cancelAction($this->getCancelFormAction())
+                    ->submitAction($this->getSubmitFormAction())
+                    ->skippable($this->hasSkippableSteps())
+                    ->contained(false),
+            ])->columns(null);
+    }
+
+    public function mutateFormDataBeforeSave(array $data): array
+    {
+        if ($this->record->state === ArticleStates::New || $this->record->state === ArticleStates::Archived) {
+            $data['state'] = ArticleStates::Draft;
+            $data['editor_id'] = auth()->id();
+        }
+
+        return $data;
+    }
 
     /**
      * Configures header actions for the editing page.
@@ -63,28 +91,6 @@ final class EditWord extends EditRecord
     }
 
     /**
-     * Constructs the form interface using a wizard component for a guided editing experience.
-     * The wizard provides intuitive navigation between steps, with cancel and submit actions clearly presented.
-     * The interface supports optional step skipping and uses a full-width layout for optimal content presentation.
-     * The form inherits base functionality while adding specialized behavior for dictionary article editing.
-     *
-     * @param  Form $form  The Filament form instance that needs to be configured.
-     * @return Form        The configured Filament form instance.
-     */
-    public function form(Form $form): Form
-    {
-        return parent::form($form)
-            ->schema([
-                Wizard::make($this->getSteps())
-                    ->startOnStep($this->getStartStep())
-                    ->cancelAction($this->getCancelFormAction())
-                    ->submitAction($this->getSubmitFormAction())
-                    ->skippable($this->hasSkippableSteps())
-                    ->contained(false)
-            ])->columns(null);
-    }
-
-    /**
      * Defines the structure and content of the wizard steps used in article editing.
      * The first step focuses on general information with language settings, while the second step handles geographic coverage and publication status.
      * Each step utilizes dedicated schema configurations from FormSchema to maintain consistency and facilitate future modifications to the form structure.
@@ -103,15 +109,5 @@ final class EditWord extends EditRecord
                 ->columns(12)
                 ->schema([FormSchema::sectionConfiguration()->schema(FormSchema::getStatusAndRegionDetails())]),
         ];
-    }
-
-    public function mutateFormDataBeforeSave(array $data): array
-    {
-        if ($this->record->state === ArticleStates::New || $this->record->state === ArticleStates::Archived) {
-            $data['state'] = ArticleStates::Draft;
-            $data['editor_id'] = auth()->id();
-        }
-
-        return $data;
     }
 }

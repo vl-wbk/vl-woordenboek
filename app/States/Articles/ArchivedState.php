@@ -13,8 +13,6 @@ namespace App\States\Articles;
  *
  * Articles in this state can be transitioned back to a published state if needed, ensuring that no data is lost
  * and that content can be restored when it becomes relevant again.
- *
- * @package App\States\Articles
  */
 final class ArchivedState extends ArticleState
 {
@@ -24,8 +22,6 @@ final class ArchivedState extends ArticleState
      * This method is used to restore an article that was previously archived. It changes the article's state
      * to "published" and ensures that the change is persisted to the database. This functionality is useful
      * when archived content becomes relevant again or when an article was archived by mistake.
-     *
-     * @return void
      */
     public function transitionToReleased(): void
     {

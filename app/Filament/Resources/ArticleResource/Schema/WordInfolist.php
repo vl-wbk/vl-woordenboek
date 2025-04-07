@@ -25,8 +25,6 @@ use Illuminate\Support\HtmlString;
  * - Dynamic visibility for tabs based on article state
  * - Integration with Filament's Infolist components for a clean and responsive UI
  * - Support for translating labels and formatting data for better readability
- *
- * @package App\Filament\Resources\ArticleResource\Schema
  */
 final readonly class WordInfolist
 {
@@ -37,8 +35,8 @@ final readonly class WordInfolist
      * Each tab is responsible for displaying a specific set of information about the article, such as its general details, editing history, or archiving information.
      * The schema is dynamically generated based on the article's state and other attributes.
      *
-     * @param  Infolist $infolist  The Filament Infolist instance to configure
-     * @return Infolist            The configured Infolist instance
+     * @param  Infolist  $infolist  The Filament Infolist instance to configure
+     * @return Infolist The configured Infolist instance
      */
     public static function make(Infolist $infolist): Infolist
     {
@@ -50,8 +48,8 @@ final readonly class WordInfolist
                 ->tabs([
                     self::lemmaInformationTab(),
                     self::editInformationTab(),
-                    self::archiveInformationTab()
-                ])
+                    self::archiveInformationTab(),
+                ]),
         ]);
     }
 
@@ -85,7 +83,7 @@ final readonly class WordInfolist
                 TextEntry::make('archiving_reason')
                     ->label('Beweegredenen')
                     ->columnSpan(6)
-                    ->placeholder('- geen beweegredenen opgegeven')
+                    ->placeholder('- geen beweegredenen opgegeven'),
             ]);
     }
 
@@ -179,7 +177,7 @@ final readonly class WordInfolist
                     ->icon('heroicon-o-clock')
                     ->iconColor('primary')
                     ->date()
-                    ->columnSpan(3)
+                    ->columnSpan(3),
             ]);
     }
 }

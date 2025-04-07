@@ -19,8 +19,6 @@ use Illuminate\Support\Facades\Gate;
  * Each action visibility is dynamically determined based on user permissions.
  *
  * @see \App\Policies\UserPOlicy  For the underlying authorization rules.
- *
- * @package App\Filament\Clusters\UserManagement\Resources\BanResource\Concerns
  */
 trait TableActions
 {

@@ -16,16 +16,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * Data integrity is maintained through mass assignment protection, where the 'id' primary key is guarded while allowing efficient mass assignment of other attributes.
  * The model captures essential metadata including creation and modification timestamps.
  *
- * @property int                 $id          Unique identifier from the note.
- * @property int                 $author_id   Reference to the note's author unique identifier in the users table
- * @property string              $title       Heading of the note
- * @property string              $body        Main context text of the note
- * @property \Carbon\Carbon|null $created_at  The timestamp of note creation
- * @property \Carbon\Carbon|null $updated_at  The timestamp of last modification
+ * @property int $id Unique identifier from the note.
+ * @property int $author_id Reference to the note's author unique identifier in the users table
+ * @property string $title Heading of the note
+ * @property string $body Main context text of the note
+ * @property \Carbon\Carbon|null $created_at The timestamp of note creation
+ * @property \Carbon\Carbon|null $updated_at The timestamp of last modification
  *
  * @method author()  Relationship method to access the note's author
- *
- * @package App\Models
  */
 final class Note extends Model
 {

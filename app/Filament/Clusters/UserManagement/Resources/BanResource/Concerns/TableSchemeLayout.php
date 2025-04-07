@@ -17,8 +17,6 @@ use Filament\Tables\Columns;
  * The table presents essential information including:
  * The affected user's name, the person who initiated the ban, the reason for the deactivation, expiration date, and various timestamps.
  * Many columns are toggleable to allow administrators to customize their view based on their current needs.
- *
- * @package App\Filament\Clusters\UserManagement\Resources\BanResource\Concerns
  */
 trait TableSchemeLayout
 {

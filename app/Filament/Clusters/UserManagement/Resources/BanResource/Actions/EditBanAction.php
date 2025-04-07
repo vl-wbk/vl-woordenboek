@@ -24,24 +24,10 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @see \App\Policies\UserPolicy  For authorization rules regaring the action
  * @see https://github.com/Gerenuk-LTD/filament-banhammer/blob/main/src/Resources/Actions/EditBanAction.php
- *
- * @package App\Filament\Clusters\UserManagement\Resources\BanResource\Actions
  */
 final class EditBanAction extends Action
 {
     use CanCustomizeProcess;
-
-    /**
-     * This method provides the internal identifier for our action.
-     * It's used by Filament's event system and general action handling.
-     * While you probaly won't need to change this, it's good to know it's here if you need to reference this action elsewhere in the code.
-     *
-     * @return string
-     */
-    public static function getDefaultName(): string
-    {
-        return 'edit_ban';
-    }
 
     /**
      * The setUp method is where we configure everything about our action's behavior.
@@ -52,8 +38,6 @@ final class EditBanAction extends Action
      *
      * The form submission process updates the ban record and shows appropriate feedback messages in Dutch.
      * We've made sure to handle both success and failure cases gracefully.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -86,6 +70,16 @@ final class EditBanAction extends Action
 
             $this->success();
         });
+    }
+
+    /**
+     * This method provides the internal identifier for our action.
+     * It's used by Filament's event system and general action handling.
+     * While you probaly won't need to change this, it's good to know it's here if you need to reference this action elsewhere in the code.
+     */
+    public static function getDefaultName(): string
+    {
+        return 'edit_ban';
     }
 
     /**

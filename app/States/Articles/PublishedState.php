@@ -13,8 +13,6 @@ namespace App\States\Articles;
  *
  * The `PublishedState` class is part of the state pattern implementation for managing the lifecycle of articles.
  * It encapsulates the behavior and transitions specific to the "Published" state, ensuring that state-specific logic is centralized and easy to maintain.
- *
- * @package App\States\Articles
  */
 final class PublishedState extends ArticleState
 {
@@ -26,8 +24,7 @@ final class PublishedState extends ArticleState
      *
      * Archiving an article removes it from public visibility while retaining it in the system for historical reference or potential future restoration.
      *
-     * @param  string|null $archivingReason The reason for archiving the article (optional).
-     * @return void
+     * @param  string|null  $archivingReason  The reason for archiving the article (optional).
      */
     public function transitionToArchived(?string $archivingReason = null): void
     {

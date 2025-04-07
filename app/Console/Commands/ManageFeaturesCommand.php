@@ -25,8 +25,6 @@ use Laravel\Pennant\Feature;
  * - Disables feature flags globally for all users.
  * - Checks the current status of a feature flag.
  * - Resolves feature class names dynamically to ensure proper namespace handling.
- *
- * @package App\Console\Commands
  */
 final class ManageFeaturesCommand extends Command
 {
@@ -56,18 +54,17 @@ final class ManageFeaturesCommand extends Command
      *
      * If the feature class does not exist, an error message is displayed, and the command terminates.
      * After performing the action, the feature cache is flushed to ensure the changes take effect immediately.
-     *
-     * @return void
      */
     public function handle(): void
     {
-        $action = $this->argument("action");
+        $action = $this->argument('action');
         $feature = $this->argument('feature');
 
         $fullyQualifiedFeatureClass = $this->resolveFeatureClass($feature);
 
-        if ( ! class_exists($fullyQualifiedFeatureClass)) {
+        if (! class_exists($fullyQualifiedFeatureClass)) {
             $this->error("The feature class '{$fullyQualifiedFeatureClass}' does not exist.");
+
             return;
         }
 
@@ -88,8 +85,7 @@ final class ManageFeaturesCommand extends Command
      * It uses Laravel Pennant's `activateForEveryone` method to ensure the feature is enabled globally.
      * A success message is displayed upon completion.
      *
-     * @param  string $feature  The fully qualified class name of the feature to enable.
-     * @return void
+     * @param  string  $feature  The fully qualified class name of the feature to enable.
      */
     protected function enableFeature(string $feature, ?string $scope = null): void
     {
@@ -104,8 +100,7 @@ final class ManageFeaturesCommand extends Command
      * It uses Laravel Pennant's `deactivateForEveryone` method to ensure the feature is disabled globally.
      * A success message is displayed upon completion.
      *
-     * @param string $feature The fully qualified class name of the feature to disable.
-     * @return void
+     * @param  string  $feature  The fully qualified class name of the feature to disable.
      */
     protected function disableFeature(string $feature): void
     {
@@ -119,8 +114,7 @@ final class ManageFeaturesCommand extends Command
      * This method determines whether the specified feature flag is currently active or inactive.
      * It uses Laravel Pennant's `active` method to check the feature's status and displays the result as a message.
      *
-     * @param  string $feature  The fully qualified class name of the feature to check.
-     * @return void
+     * @param  string  $feature  The fully qualified class name of the feature to check.
      */
     protected function featureStatus(string $feature): void
     {
@@ -138,8 +132,8 @@ final class ManageFeaturesCommand extends Command
      * If the provided feature name does not already include the namespace, it prepends the default namespace (`App\Features\`) to the feature name.
      * The feature name is also converted to StudlyCase to match class naming conventions.
      *
-     * @param  string $featureClass  The feature name provided by the user.
-     * @return string                The fully qualified class name of the feature.
+     * @param  string  $featureClass  The feature name provided by the user.
+     * @return string The fully qualified class name of the feature.
      */
     private function resolveFeatureClass(string $featureClass): string
     {
@@ -147,6 +141,6 @@ final class ManageFeaturesCommand extends Command
 
         return Str::startsWith($featureClass, $featureNamespace)
             ? $featureClass
-            : $featureNamespace . Str::studly($featureClass);
+            : $featureNamespace.Str::studly($featureClass);
     }
 }

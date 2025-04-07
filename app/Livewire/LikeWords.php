@@ -13,10 +13,8 @@ use Livewire\Component;
  *
  * This Livewire component handles real-time interaction for liking and unliking articles in the Vlaams Woordenboek.
  * It provides seamless user interaction without page refreshes and maintains an accurate count of article likes.
- *
- * @package App\Livewire
  */
-class LikeWords extends Component
+final class LikeWords extends Component
 {
     /**
      * The article being liked or unliked.
@@ -32,7 +30,7 @@ class LikeWords extends Component
      * This lifecycle hook sets up the component with the article that will be the target of like/unlike actions.
      * It runs when the component is first instantiated on the page.
      *
-     * @param Article $article The article to be liked/unliked
+     * @param  Article  $article  The article to be liked/unliked
      */
     public function mount(Article $article): void
     {
@@ -73,7 +71,7 @@ class LikeWords extends Component
     {
         return view('livewire.like-words', [
             'article' => $this->article,
-            'upvotes' => $this->article->likers()->count()
+            'upvotes' => $this->article->likers()->count(),
         ]);
     }
 }

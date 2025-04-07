@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers\Filament;
 
 use Cog\Laravel\Ban\Http\Middleware\ForbidBannedUser;
@@ -55,7 +57,7 @@ final class AdminPanelProvider extends PanelProvider
                 MenuItem::make()
                     ->label('Account instellingen')
                     ->url(fn (): string => route('profile.settings'))
-                    ->icon('heroicon-o-adjustments-horizontal')
+                    ->icon('heroicon-o-adjustments-horizontal'),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
@@ -82,8 +84,8 @@ final class AdminPanelProvider extends PanelProvider
                     ]),
                 FilamentDeveloperLoginsPlugin::make()
                     ->enabled(Config::boolean('app.debug', false))
-                    ->users($this->defaultLoginsDuringDevelopment())
-                ])
+                    ->users($this->defaultLoginsDuringDevelopment()),
+            ])
             ->middleware([ForbidBannedUser::class])
             ->authMiddleware([
                 Authenticate::class,

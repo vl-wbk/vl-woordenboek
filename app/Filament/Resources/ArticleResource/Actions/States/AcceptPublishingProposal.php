@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\ArticleResource\Actions\States;
 
-
 use Filament\Actions\Action;
 
 /**
@@ -16,20 +15,9 @@ use Filament\Actions\Action;
  * to clearly indicate its purpose as a positive, confirmatory action.
  *
  * @property \App\Models\Article $record The article being approved for publication
- *
- * @package
  */
 final class AcceptPublishingProposal extends Action
 {
-    /**
-     * Provides the default name for the action in Dutch, maintaining consistency with the application's primary language interface.
-     * This text appears in approval buttons throughout the editorial interface.
-     */
-    public static function getDefaultName(): string
-    {
-        return trans('artikel publiceren');
-    }
-
     /**
      * Configures the action's behavior and visual presentation.
      *
@@ -49,5 +37,14 @@ final class AcceptPublishingProposal extends Action
             $this->record->articleStatus()->transitionToReleased();
             $this->success();
         });
+    }
+
+    /**
+     * Provides the default name for the action in Dutch, maintaining consistency with the application's primary language interface.
+     * This text appears in approval buttons throughout the editorial interface.
+     */
+    public static function getDefaultName(): string
+    {
+        return trans('artikel publiceren');
     }
 }

@@ -18,26 +18,11 @@ use Illuminate\Support\Facades\Gate;
  * The action is integrated into the Filament admin panel and provides a user-friendly interface for managing article reports.
  * It includes visual indicators, such as an icon and label, and displays success or failure notifications based on the outcome of the assignment process.
  *
- * @property \App\Models\ArticleReport $record  The database entity from the article report.
- *
- * @package App\Filament\Clusters\Articles\Resources\ArticleReportResource\Actions
+ * @property \App\Models\ArticleReport $record The database entity from the article report.
  */
 final class AssignArticleReportAction extends Action
 {
     use CanCustomizeProcess;
-
-    /**
-     * Returns the default name for the action.
-     *
-     * The default name is used to identify the action within the Filament admin panel.
-     * In this case, the name is set to "melding-behandelen" (Dutch for "handle report").
-     *
-     * @return string The default name of the action.
-     */
-    public static function getDefaultName(): string
-    {
-        return 'melding-behandelen';
-    }
 
     /**
      * Configures the action's behavior and appearance.
@@ -48,8 +33,6 @@ final class AssignArticleReportAction extends Action
      * - The icon is dynamically retrieved from the "In Progress" state.
      * - The visibility is determined by the user's authorization to mark the report as "In Progress."
      * - Success and failure notifications are displayed based on the outcome of the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -63,14 +46,27 @@ final class AssignArticleReportAction extends Action
         $this->successNotificationTitle('Je bent toegewezen aan de artikel melding');
         $this->failureNotificationTitle('Helaas konden we je niet toewijzen aan de melding');
 
-
         $this->action(function (): void {
             if ($this->process(fn (): bool => $this->record->status()->transitionToInProgress())) {
                 $this->success();
+
                 return;
             }
 
             $this->failure();
         });
+    }
+
+    /**
+     * Returns the default name for the action.
+     *
+     * The default name is used to identify the action within the Filament admin panel.
+     * In this case, the name is set to "melding-behandelen" (Dutch for "handle report").
+     *
+     * @return string The default name of the action.
+     */
+    public static function getDefaultName(): string
+    {
+        return 'melding-behandelen';
     }
 }

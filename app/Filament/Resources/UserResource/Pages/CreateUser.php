@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Filament\Resources\UserResource\Pages;
 
 use App\Filament\Resources\UserResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
 /**
@@ -15,7 +14,6 @@ use Filament\Resources\Pages\CreateRecord;
  * It extends Filament's CreateRecord to provide a standardized creation experience while integrating with the application's notification system for welcoming new users.
  *
  * @property \App\Models\User $record The entity from the created user in the application.
- * @package App\Filament\Resources\UserResource\Pages
  */
 final class CreateUser extends CreateRecord
 {

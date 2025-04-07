@@ -5,21 +5,21 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Builders\ArticleBuilder;
-use App\States\Articles;
 use App\Contracts\States\ArticleStateContract;
 use App\Enums\ArticleStates;
 use App\Enums\LanguageStatus;
 use App\Models\Relations\BelongsToEditor;
 use App\Models\Relations\BelongsToManyRegions;
+use App\States\Articles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Kenepa\ResourceLock\Models\Concerns\HasLocks;
 use Overtrue\LaravelLike\Traits\Likeable;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
-use Kenepa\ResourceLock\Models\Concerns\HasLocks;
 
 /**
  * Article represents a dictionary entry in the Vlaams Woordenboek application.
@@ -29,33 +29,32 @@ use Kenepa\ResourceLock\Models\Concerns\HasLocks;
  * and includes auditing capabilities to track changes. The model supports relationships with authors,
  * editors, regions, and definitions while also providing likeability features.
  *
- * @property int            $id                 The unique identifier for the article
- * @property string         $word               The dictionary word being defined
- * @property ArticleStates  $state              The current state of the article in its lifecycle
- * @property string|null    $keywords           The keywords that are attached to the article
- * @property string         $description        The detailed explanation of the word
- * @property int            $author_id          The ID of the user who created the article
- * @property LanguageStatus $status             The current language validation status
- * @property string|null    $example            Optional usage example of the word
- * @property string|null    $characteristics    Additional word characteristics
- * @property int|null       $editor_id          The ID of the assigned editor
- * @property int|null       $part_of_speech_id  The unique ID of the part of speech information.
- * @property string |null   $archiving_reason   The reason why the article has been archived.
- * @property \Carbon\Carbon $archived_at        Timestamp for when the article is archived at
- * @property \Carbon\Carbon $created_at         Timestamp of when the article was created
- * @property \Carbon\Carbon $updated_at         Timestamp of the last update
- *
- * @package App\Models
+ * @property int $id The unique identifier for the article
+ * @property string $word The dictionary word being defined
+ * @property ArticleStates $state The current state of the article in its lifecycle
+ * @property string|null $keywords The keywords that are attached to the article
+ * @property string $description The detailed explanation of the word
+ * @property int $author_id The ID of the user who created the article
+ * @property LanguageStatus $status The current language validation status
+ * @property string|null $example Optional usage example of the word
+ * @property string|null $characteristics Additional word characteristics
+ * @property int|null $editor_id The ID of the assigned editor
+ * @property int|null $part_of_speech_id The unique ID of the part of speech information.
+ * @property string |null $archiving_reason The reason why the article has been archived.
+ * @property \Carbon\Carbon $archived_at Timestamp for when the article is archived at
+ * @property \Carbon\Carbon $created_at Timestamp of when the article was created
+ * @property \Carbon\Carbon $updated_at Timestamp of the last update
  */
 final class Article extends Model implements AuditableContract
 {
+    use Auditable;
+
+    use BelongsToEditor;
+    use BelongsToManyRegions;
     /** @use HasFactory<\Database\Factories\ArticleFactory> */
     use HasFactory;
-    use BelongsToManyRegions;
-    use BelongsToEditor;
-    use Auditable;
-    use Likeable;
     use HasLocks;
+    use Likeable;
 
     /**
      * Specifies attributes that are protected from mass assignment.
@@ -98,7 +97,7 @@ final class Article extends Model implements AuditableContract
      */
     public function articleStatus(): ArticleStateContract
     {
-        return match($this->state) {
+        return match ($this->state) {
             ArticleStates::New => new Articles\NewState($this),
             ArticleStates::Draft => new Articles\DraftState($this),
             ArticleStates::Approval => new Articles\ApprovalState($this),
@@ -201,8 +200,8 @@ final class Article extends Model implements AuditableContract
      * This method ensures that all queries for the Article model use the custom builder,
      * which includes additional methods for managing article states (e.g., archiving and unarchiving).
      *
-     * @param \Illuminate\Database\Query\Builder $query  The base query builder instance
-     * @return ArticleBuilder<self>                      The custom builder instance
+     * @param  \Illuminate\Database\Query\Builder  $query  The base query builder instance
+     * @return ArticleBuilder<self> The custom builder instance
      */
     public function newEloquentBuilder($query): ArticleBuilder
     {

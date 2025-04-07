@@ -14,8 +14,6 @@ use Spatie\RouteAttributes\Attributes\Get;
  * This invokable controller handles the display of user profile pages in the Vlaams Woordenboek platform.
  * It leverages Laravel's route model binding to automatically resolve user instances from URL parameters, providing
  *  a clean interface for viewing user-specific information.
- *
- * @package App\Http\Controllers\Web\Account
  */
 final readonly class AccountInformationController
 {
@@ -27,8 +25,8 @@ final readonly class AccountInformationController
      * model binding automatically resolves the {user} parameter to a full
      * User model instance.
      *
-     * @param  User $user  The user whose profile is being viewed
-     * @return Renderable  The view containing profile information
+     * @param  User  $user  The user whose profile is being viewed
+     * @return Renderable The view containing profile information
      */
     #[Get(uri: '/profile/{user}', name: 'profile')]
     public function __invoke(User $user): Renderable

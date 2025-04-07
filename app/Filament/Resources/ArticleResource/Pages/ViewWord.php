@@ -17,8 +17,6 @@ use Filament\Resources\Pages\ViewRecord;
  *
  * This page is designed for administrators and moderators to review article details and perform actions such as editing, publishing, archiving, or deleting the article.
  * The available actions are displayed in the page header for quick access.
- *
- * @package App\Filament\Resources\ArticleResource\Pages
  */
 final class ViewWord extends ViewRecord
 {
@@ -27,8 +25,6 @@ final class ViewWord extends ViewRecord
      *
      * This property links the `ViewWord` page to the `ArticleResource`, ensuring that
      * the correct resource configuration is used for displaying and managing articles.
-     *
-     * @var string
      */
     protected static string $resource = ArticleResource::class;
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     /*
      *  Automatic registration of routes will only happen if this setting is `true`
@@ -14,7 +16,7 @@ return [
      */
     'directories' => [
         app_path('Http/Controllers/Web') => [
-            'middleware' => ['web']
+            'middleware' => ['web'],
         ],
     ],
 

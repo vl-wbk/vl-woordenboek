@@ -6,15 +6,12 @@ namespace App\Filament\Resources\ArticleResource\Schema;
 
 use App\Enums\ArticleStates;
 use App\Enums\LanguageStatus;
-use App\UserTypes;
-use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components;
 use Filament\Forms\Components\Section;
-use Illuminate\Database\Eloquent\Builder;
 
 final readonly class FormSchema
 {
-    public static function sectionConfiguration(string $sectionTitle = null): Section
+    public static function sectionConfiguration(?string $sectionTitle = null): Section
     {
         return Section::make($sectionTitle)
             ->compact()
@@ -98,7 +95,7 @@ final readonly class FormSchema
                 ->required(),
             Components\Radio::make('status')
                 ->columnSpanFull()
-                ->options(LanguageStatus::class)
+                ->options(LanguageStatus::class),
         ];
     }
 }

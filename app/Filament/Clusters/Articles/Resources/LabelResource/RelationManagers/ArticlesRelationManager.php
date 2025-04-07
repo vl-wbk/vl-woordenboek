@@ -15,24 +15,18 @@ use Filament\Tables\Table;
  *
  * This relation manager provides a dedicated interface for viewing and managing articles associated with specific labels.
  * It implements a table-based view with comprehensive search, sort, and bulk management capabilities.
- *
- * @package App\Filament\Clusters\Articles\Resources\LabelResource\RelationManagers
  */
 final class ArticlesRelationManager extends RelationManager
 {
     /**
      * Defines the relationship name in the database schema.
      * This corresponds to the articles relationship method in the Label model.
-     *
-     * @var string
      */
     protected static string $relationship = 'articles';
 
     /**
      * Controls whether the relationship can be modified through the interface.
      * Currently set to allow full read-write access for label-article associations.
-     *
-     * @return bool
      */
     public function isReadOnly(): bool
     {
@@ -45,8 +39,8 @@ final class ArticlesRelationManager extends RelationManager
      * Creates a comprehensive view of all articles associated with a label, featuring clear headings, descriptive empty states, and intuitive column layouts.
      * The interface provides contextual information about each article while maintaining efficient space usage.
      *
-     * @param  Table $table  The Filament table instance.
-     * @return Table         The configured table instance.
+     * @param  Table  $table  The Filament table instance.
+     * @return Table The configured table instance.
      */
     public function table(Table $table): Table
     {
@@ -71,7 +65,7 @@ final class ArticlesRelationManager extends RelationManager
     protected function getTableActions(): array
     {
         return [
-            Tables\Actions\DetachAction::make()
+            Tables\Actions\DetachAction::make(),
         ];
     }
 
@@ -98,7 +92,7 @@ final class ArticlesRelationManager extends RelationManager
      * - Description preview
      * - Relationsup creation timestamp
      *
-     * @return array<mixed>  The configured table layout.
+     * @return array<mixed> The configured table layout.
      */
     protected function getTableLayout(): array
     {

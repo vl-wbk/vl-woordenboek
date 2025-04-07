@@ -20,8 +20,6 @@ use Filament\Tables\Columns\TextColumn;
  * The final column tracks when the report was submitted, showing the creation date in a formatted style and allowing chronological sorting of entries.
  * The class is marked as final and readonly to ensure immutability of the schema configuration, helping maintain consistency in how reports are displayed throughout the application.
  * Future developers can modify this schema to adjust column properties or introduce new columns while keeping the display logic centralized in this single location.
- *
- * @package App\Filament\Clusters\Articles\Resources\ArticleReportResource\Schema
  */
 final readonly class TableColumnSchema
 {

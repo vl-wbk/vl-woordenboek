@@ -20,12 +20,10 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * We keep things simple here each region has a name, and it can be connected to various linguistic features through a flexible polymorphic relationship.
  * This means we can link regions not just to words, but to any linguistic feature we might want to track in the future.
  *
- * @property int             $id            The unique identifier for the geographical region in the tabase.
- * @property string          $name          The nbame for the geographical region
- * @property \Carbon\Carbon  $created_at    Timestamp that indicates when the region has been created
- * @property \Carbon\Carbon  $updated_at    Timestamp that indicates when the region has been updated for the last time.
- *
- * @package App\Models
+ * @property int $id The unique identifier for the geographical region in the tabase.
+ * @property string $name The nbame for the geographical region
+ * @property \Carbon\Carbon $created_at Timestamp that indicates when the region has been created
+ * @property \Carbon\Carbon $updated_at Timestamp that indicates when the region has been updated for the last time.
  */
 final class Region extends Model
 {

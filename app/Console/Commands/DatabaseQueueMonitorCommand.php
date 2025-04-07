@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 final class DatabaseQueueMonitorCommand extends Command
 {
     protected $signature = 'queue:db-monitor';
+
     protected $description = 'Check if our database queue is still running';
 
     public function handle(): void
@@ -21,7 +22,7 @@ final class DatabaseQueueMonitorCommand extends Command
          */
         $records = DB::table('jobs')->where('created_at', '<', Carbon::now()->subMinutes(5)->getTimestamp())->get();
 
-        if ( ! $records->isEmpty()) {
+        if (! $records->isEmpty()) {
             report('Queue jobs table should be emptied by now but it is not! Please check your queue worker.');
             $this->warn('Queue jobs table should be emptied by now but it is not! Please check your queue worker.');
 

@@ -7,8 +7,8 @@ namespace App\Filament\Clusters\Articles\Resources\ArticleReportResource\Pages;
 use App\Filament\Clusters\Articles\Resources\ArticleReportResource;
 use App\Filament\Clusters\Articles\Resources\ArticleReportResource\Actions\AssignArticleReportAction;
 use App\Filament\Clusters\Articles\Resources\ArticleReportResource\Actions\CloseArticleReportAction;
-use Filament\Resources\Pages\ViewRecord;
 use Filament\Actions;
+use Filament\Resources\Pages\ViewRecord;
 
 /**
  * Represents the page for viewing a single article report in the admin panel.
@@ -18,8 +18,6 @@ use Filament\Actions;
  *
  * This page is designed for administrators and moderators to review the details of a report and take actions such as assigning the report to themselves, closing the report, or deleting it.
  * The available actions are displayed in the page header for quick access.
- *
- * @package App\Filament\Clusters\Articles\Resources\ArticleReportResource\Pages
  */
 final class ViewArticleReport extends ViewRecord
 {
@@ -29,8 +27,6 @@ final class ViewArticleReport extends ViewRecord
      * This property links the `ViewArticleReport` page to the `ArticleReportResource`,
      * ensuring that the correct resource configuration is used for displaying and managing
      * article reports.
-     *
-     * @var string
      */
     protected static string $resource = ArticleReportResource::class;
 

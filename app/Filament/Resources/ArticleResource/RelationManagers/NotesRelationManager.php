@@ -25,26 +25,33 @@ use Illuminate\Database\Eloquent\Model;
  * It provides a comprehensive interface within the Filament admin panel for managing notes, including creation, viewing, editing, and deletion capabilities.
  *
  * This manager is specifically designed to work within the context of dictionary articles, appearing on the ViewRecord page to maintain proper context and user experience.
- *
- * @package App\Filmanent\Resources\Articleresource\RelationManagers
  */
 final class NotesRelationManager extends RelationManager
 {
     /**
      * Defines the relationship name that corresponds to the notes() method in the Article model.
      * This connection is essential for maintaining the link between articles and their notes.
-     *
-     * @var string
      */
     protected static string $relationship = 'notes';
 
     /**
      * Szets the display title in the admin interface to "Notities" (Dutch for notes).
      * This localization choice reflects the application's primary language setting.
-     *
-     * @var string|null
      */
     protected static ?string $title = 'Notities';
+
+    /**
+     * Controles the visibility of the notes interface.
+     * This method ensures notes are only accessible when viewing dictionary articles through the ViewRecord page, maintaining proper context and preventing access from inappropriate locations.
+     *
+     * @param  Model  $ownerRecord  The current article being viewed
+     * @param  string  $pageClass  The active page class name
+     * @return bool True when accessed from ViewRecord, false otherwise
+     */
+    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
+    {
+        return $pageClass === ViewWord::class;
+    }
 
     /**
      * Constructs the form interface for note creation and editing.
@@ -52,8 +59,8 @@ final class NotesRelationManager extends RelationManager
      * Users must provide both a title and body content.
      * The title field occupies 7 columns for optimal visual balance, while the body textarea spans the full width to accommodate longer content.
      *
-     * @param  Form $form  The Filament form builder instance
-     * @return Form        Thee fully configured form ready for display
+     * @param  Form  $form  The Filament form builder instance
+     * @return Form Thee fully configured form ready for display
      */
     public function form(Form $form): Form
     {
@@ -71,7 +78,7 @@ final class NotesRelationManager extends RelationManager
                     ->label('Notitie')
                     ->translateLabel()
                     ->rows(4)
-                    ->columnSpanFull()
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -79,7 +86,7 @@ final class NotesRelationManager extends RelationManager
      * Determines the read-only state of the notes.
      * Currently configured to always allow editing, this method can be enhanced to implement more sophisticted permission locic based on user roles or other business rules.
      *
-     * @return bool  Crrently always returns false to enable full editing capabilities.
+     * @return bool Crrently always returns false to enable full editing capabilities.
      */
     public function isReadOnly(): bool
     {
@@ -91,8 +98,8 @@ final class NotesRelationManager extends RelationManager
      * The infolist provides a clean, full-width display of the note's content without uncessary labels or decorations.
      * This presentation choice emphasizes readability and content focus.
      *
-     * @param  Infolist $infolist The Filament infolist builder instance.
-     * @return Infolist           The configured display layout
+     * @param  Infolist  $infolist  The Filament infolist builder instance.
+     * @return Infolist The configured display layout
      */
     public function infolist(Infolist $infolist): Infolist
     {
@@ -107,20 +114,6 @@ final class NotesRelationManager extends RelationManager
     }
 
     /**
-     * Controles the visibility of the notes interface.
-     * This method ensures notes are only accessible when viewing dictionary articles through the ViewRecord page, maintaining proper context and preventing access from inappropriate locations.
-     *
-     * @param Model  $ownerRecord  The current article being viewed
-     * @param string $pageClass    The active page class name
-     * @return bool                True when accessed from ViewRecord, false otherwise
-     */
-    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
-    {
-        return $pageClass === ViewWord::class;
-    }
-
-
-    /**
      * Configures and builds the main table interface for managing notes.
      * This table serves as the central hub for interacting with notes attached to dictionary articles.
      * It features a clear Dutch-language heading "Notities" and provides a descriptive overview text explaining the table's purpose to users.
@@ -131,8 +124,8 @@ final class NotesRelationManager extends RelationManager
      * actions enable note creation. Users can perform individual actions like viewing, editing, or deleting
      * notes, as well as bulk operations on multiple selections.
      *
-     * @param  Table $table  The Filament table builder instance.
-     * @return Table         The fully configured table interface
+     * @param  Table  $table  The Filament table builder instance.
+     * @return Table The fully configured table interface
      */
     public function table(Table $table): Table
     {
@@ -159,7 +152,7 @@ final class NotesRelationManager extends RelationManager
      * Each note's title serves as the modal heading, creating a clear hierarchy of information.
      * The modal also displays valuable contextual information about the note's creation, including the author's name and the formatted creation date in Belgian date format (d/m/Y).
      *
-     * @return ViewAction  The configured view action ready for integration into the table interface.
+     * @return ViewAction The configured view action ready for integration into the table interface.
      */
     private function getViewAction(): ViewAction
     {
@@ -167,8 +160,8 @@ final class NotesRelationManager extends RelationManager
             ->hiddenLabel()
             ->modalIcon('heroicon-o-document-text')
             ->modalIconColor('gray')
-            ->modalHeading(fn(Note $note): string => $note->title)
-            ->modalDescription(fn(Note $note): string => trans('Aangemaakt door :author op :date',['author' => $note->author->name, 'date' => $note->created_at->format('d/m/Y')]));
+            ->modalHeading(fn (Note $note): string => $note->title)
+            ->modalDescription(fn (Note $note): string => trans('Aangemaakt door :author op :date', ['author' => $note->author->name, 'date' => $note->created_at->format('d/m/Y')]));
     }
 
     /**
@@ -178,7 +171,7 @@ final class NotesRelationManager extends RelationManager
      * The interface uses clear, action-oriented language in the modal heading and confirmation button to ensure users understand the consequences of their action.
      * The label remains hidden in the table view to maintain a clean interface while preserving functionality.
      *
-     * @return DeleteAction  The configured delete action with full safety measures
+     * @return DeleteAction The configured delete action with full safety measures
      */
     private function getDeleteAction(): DeleteAction
     {
@@ -256,6 +249,7 @@ final class NotesRelationManager extends RelationManager
                 ->modalWidth(MaxWidth::ThreeExtraLarge)
                 ->mutateFormDataUsing(function (array $data): array {
                     $data['author_id'] = auth()->id();
+
                     return $data;
                 }),
         ];

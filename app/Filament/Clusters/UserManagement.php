@@ -16,32 +16,24 @@ use Filament\Clusters\Cluster;
  *
  * When extending this cluster, remember that all child resources will inherit these navigation settings.
  * It's a great place to add new user management features while keeping everything neatly organized.
- *
- * @package App\Filament\Clusters
  */
 final class UserManagement extends Cluster
 {
     /**
      * The icon shown in the navigation menu.
      * We use the Heroicon users outline variant to represent this user management section visually.
-     *
-     * @var string|null
      */
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
     /**
      * The Dutch label displayed in the navigation menu.
      * This keeps our interface language consistent throughout the application.
-     *
-     * @var string|null
      */
     protected static ?string $navigationLabel = 'Gebruikersbeheer';
 
     /**
      * The Dutch text shown in the breadcrumb trail.
      * This helps administrators understand their current location in the admin interface.
-     *
-     * @var string|null
      */
     protected static ?string $clusterBreadcrumb = 'Gebruikersbeheer';
 }

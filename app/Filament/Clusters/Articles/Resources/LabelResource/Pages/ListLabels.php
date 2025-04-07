@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Clusters\Articles\Resources\LabelResource\Pages;
 
 use App\Filament\Clusters\Articles\Resources\LabelResource;
@@ -7,7 +9,7 @@ use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Support\Enums\MaxWidth;
 
-class ListLabels extends ListRecords
+final class ListLabels extends ListRecords
 {
     protected static string $resource = LabelResource::class;
 

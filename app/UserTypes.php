@@ -14,10 +14,8 @@ use Filament\Support\Contracts\HasLabel;
  *
  * This enum implements Filament's visual contracts to provide consistent styling and representation across the application interface.
  * Each user type corresponds to specific permissions and capabilities within the system, creating a clear hierarchical structure for content management and administration.
- *
- * @package App
  */
-enum UserTypes: int implements HasLabel, HasColor, HasIcon
+enum UserTypes: int implements HasColor, HasIcon, HasLabel
 {
     use Comparable;
 
@@ -57,7 +55,7 @@ enum UserTypes: int implements HasLabel, HasColor, HasIcon
      */
     public function getLabel(): string
     {
-        $usertype = match($this) {
+        $usertype = match ($this) {
             self::Normal => 'Invoerder',
             self::Editor => 'Redacteur',
             self::EditorInChief => 'Eindredacteur',
@@ -77,7 +75,7 @@ enum UserTypes: int implements HasLabel, HasColor, HasIcon
      */
     public function getIcon(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Developer => 'heroicon-o-code-bracket',
             self::Administrators => 'heroicon-o-key',
             self::Editor, self::EditorInChief => 'heroicon-o-pencil',
@@ -97,7 +95,7 @@ enum UserTypes: int implements HasLabel, HasColor, HasIcon
      */
     public function getColor(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Developer, self::Administrators => 'danger',
             self::Editor, self::EditorInChief => 'gray',
             self::Normal => 'success',

@@ -14,20 +14,9 @@ use Filament\Actions\Action;
  * The action maintains visual consistency through standarized icons and color schemes while supporting the Dutch-language interface requirements.
  *
  * @property \App\Models\Article $record The dictionary article being submitted for publication
- *
- * @package App\Filament\Resources\ArticleResource\Actions\States;
  */
 final class PublishArticleAction extends Action
 {
-    /**
-     * Provides the default name for the action in Dutch, maintaining consistency with the application's primary language interface.
-     * This text appears in buttons and navigation elements throughout the system.
-     */
-    public static function getDefaultName(): string
-    {
-        return 'insturen voor publicatie';
-    }
-
     /**
      * Configures the action's behavior and visual presentation.
      *
@@ -54,5 +43,14 @@ final class PublishArticleAction extends Action
             $this->record->articleStatus()->transitionToApproved();
             $this->success();
         });
+    }
+
+    /**
+     * Provides the default name for the action in Dutch, maintaining consistency with the application's primary language interface.
+     * This text appears in buttons and navigation elements throughout the system.
+     */
+    public static function getDefaultName(): string
+    {
+        return 'insturen voor publicatie';
     }
 }

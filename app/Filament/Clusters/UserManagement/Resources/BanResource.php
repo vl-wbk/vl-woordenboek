@@ -17,35 +17,27 @@ use Filament\Tables\Table;
  * Integrates with cybercog/ban for persistent ban storage and lifecycle management.
  * Implements a trait-based architecture for table configurations,  utilizing Filament's table builder API for the administrative interface.
  * Supports temporary and permanent bans with automated expiration handling through Laravel's task scheduling.
- *
- * @package App\Filament\Clusters\UserManagement\Resources
  */
 final class BanResource extends Resource
 {
-    use Concerns\TableSchemeLayout;
     use Concerns\TableActions;
+    use Concerns\TableSchemeLayout;
 
     /**
      * We use a dutch interface label throughout the admin panel.
      * This friendly term "Deactiveringen" appears in navigation menus and headers to maintain consistency with our Dutch-speaking community.
-     *
-     * @var string|null
      */
     protected static ?string $pluralLabel = 'Deactiveringen';
 
     /**
      * Behind the scenes, we're utilizing the Ban model from the laravel-ban package.
      * This model handles all the complexities of ban management, including timestamps, expiration handling, and ban metadata.
-     *
-     * @var string|null
      */
     protected static ?string $model = Ban::class;
 
     /**
      * For visual recognition, we use a shield-lock icon from the Tabler icon set.
      * This icon perfectly represents the security aspect of account deactivations while maintaining a clean, professional look.
-     *
-     * @var string|null
      */
     protected static ?string $navigationIcon = 'tabler-shield-lock';
 
@@ -64,8 +56,8 @@ final class BanResource extends Resource
      * You'll notice we've separated concerns into traits for the table layout, filters, and actions.
      * This makes it easier to maintain and extend each aspect independently.
      *
-     * @param  Table $table  Laravel Filament's table instance used for configuring the instance.
-     * @return Table         The configured table instance
+     * @param  Table  $table  Laravel Filament's table instance used for configuring the instance.
+     * @return Table The configured table instance
      */
     public static function table(Table $table): Table
     {

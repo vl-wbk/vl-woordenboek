@@ -15,9 +15,8 @@ use Illuminate\Support\Facades\DB;
  * It encapsulates the logic for these operations, ensuring that state transitions are handled consistently and securely within database transactions.
  *
  * @template TModelClass of \App\Models\Article
- * @extends Builder<\App\Models\Article>
  *
- * @package App\Builders
+ * @extends Builder<\App\Models\Article>
  */
 final class ArticleBuilder extends Builder
 {
@@ -27,8 +26,7 @@ final class ArticleBuilder extends Builder
      * This method transitions the article's state to "Archived" and records the archiving reason, the timestamp of the action, and the user who performed it.
      * The operation is wrapped in a database transaction to ensure data consistency.
      *
-     * @param string|null $archivingReason The reason for archiving the article (optional).
-     * @return void
+     * @param  string|null  $archivingReason  The reason for archiving the article (optional).
      */
     public function archive(?string $archivingReason = null): void
     {
@@ -43,8 +41,6 @@ final class ArticleBuilder extends Builder
      *
      * This method transitions the article's state back to "Published" and clear any archiving-related data, such as the archiving reason and timestamp.
      * The operation is wrapped in a database transaction to ensure data consistency.
-     *
-     * @return void
      */
     public function unarchive(): void
     {

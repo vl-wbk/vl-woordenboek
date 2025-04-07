@@ -37,7 +37,7 @@ final class MaintenanceModeNotificationCommand extends Command
         $this->abortIfApplicationIsAlreadyInMaintenance();
 
         $responses = form()
-            ->text("On which date u wish to perform the maintenance?", required: true, name: 'maintenanceDate')
+            ->text('On which date u wish to perform the maintenance?', required: true, name: 'maintenanceDate')
             ->text('On what time u wish to start with the maintance?', required: true, name: 'start')
             ->text('On what time u plan to complete the maintance?', required: true, name: 'end')
             ->confirm('All te filled in fields are correct and i wish to proceed?')
@@ -50,13 +50,13 @@ final class MaintenanceModeNotificationCommand extends Command
     {
         if (app()->isDownForMaintenance()) {
             warning("Can't send out any down maintenance notifications to the users because the application is already in maintenance mode.");
+
             return;
         }
     }
 
     /**
-     * @param array<mixed> $responses
-     * @return void
+     * @param  array<mixed>  $responses
      */
     protected function sendOutMaintenanceNotifications(array $responses): void
     {

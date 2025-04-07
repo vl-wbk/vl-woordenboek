@@ -15,12 +15,9 @@ use Illuminate\Support\Facades\DB;
  * The `transitionToClosed` method is overridden to provide the specific logic for closing a report.
  * This operation is performed within a database transaction to ensure data consistency.
  * When the transition is successful, the report's state is updated to "Closed," and the `closed_at` timestamp is recorded.
- *
- * @package App\States\Reporting
  */
 final class ReportInProgressState extends ReportState
 {
-
     /**
      * Transitions the report from the "In Progress" state to the "Closed" state.
      *

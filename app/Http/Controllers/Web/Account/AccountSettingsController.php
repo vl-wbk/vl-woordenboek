@@ -25,7 +25,7 @@ final readonly class AccountSettingsController
     public function information(): Renderable
     {
         return view('account.settings-information', data: [
-            'user' => auth()->user()
+            'user' => auth()->user(),
         ]);
     }
 

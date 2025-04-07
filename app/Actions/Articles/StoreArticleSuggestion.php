@@ -22,8 +22,6 @@ use Illuminate\Support\Facades\DB;
  * Future developers extending or using this class should note that any modifications to the suggestion
  * process should maintain transactional integrity, ensuring that a failure in any step will roll back the
  * entire process.
- *
- * @package App\Actions\Articles
  */
 final readonly class StoreArticleSuggestion
 {
@@ -45,8 +43,7 @@ final readonly class StoreArticleSuggestion
      * All these operations are wrapped within a database transaction. This design ensures that if any step fails, the
      * transaction will roll back, keeping the database in a consistent state.
      *
-     * @param SuggestionData $suggestionData The data transfer object carrying all details for the new article suggestion.
-     * @return void
+     * @param  SuggestionData  $suggestionData  The data transfer object carrying all details for the new article suggestion.
      */
     public function execute(SuggestionData $suggestionData): void
     {

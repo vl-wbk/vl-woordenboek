@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Relations\BelongsToAuthor;
-use App\States\Reporting\Status;
-use App\States\Reporting\ReportStateContract;
 use App\States\Reporting;
+use App\States\Reporting\ReportStateContract;
+use App\States\Reporting\Status;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -23,18 +23,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * Additionally, this model provides a foundation for future extensions, such as implementing an "Archived" state for reports.
  *
- * @property int $id                            Unique identifier for the report.
- * @property Status $state                      Current status of the report (e.g., pending, reviewed, resolved).
- * @property int $assignee_id                   ID of the user assigned to review the report.
- * @property ?int $author_id                    ID of the user who submitted the report.
- * @property ?int $article_id                   ID of the article being reported.
- * @property string $description                Detailed description of the reported issue.
- * @property \Carbon\Carbon|null $assigned_at   Date and time when the report was assigned for review.
- * @property \Carbon\Carbon|null $closed_at     Date and time when the report was resolved/closed.
- * @property \Carbon\Carbon|null $created_at    Date and time when the report was submitted.
- * @property \Carbon\Carbon|null $updated_at    Date and time when the report was last updated.
- *
- * @package App\Models
+ * @property int $id Unique identifier for the report.
+ * @property Status $state Current status of the report (e.g., pending, reviewed, resolved).
+ * @property int $assignee_id ID of the user assigned to review the report.
+ * @property ?int $author_id ID of the user who submitted the report.
+ * @property ?int $article_id ID of the article being reported.
+ * @property string $description Detailed description of the reported issue.
+ * @property \Carbon\Carbon|null $assigned_at Date and time when the report was assigned for review.
+ * @property \Carbon\Carbon|null $closed_at Date and time when the report was resolved/closed.
+ * @property \Carbon\Carbon|null $created_at Date and time when the report was submitted.
+ * @property \Carbon\Carbon|null $updated_at Date and time when the report was last updated.
  */
 final class ArticleReport extends Model
 {
@@ -101,7 +99,7 @@ final class ArticleReport extends Model
      */
     public function status(): ReportStateContract
     {
-        return match($this->state) {
+        return match ($this->state) {
             Status::Open => new Reporting\OpenReportState($this),
             Status::InProgress => new Reporting\ReportInProgressState($this),
             Status::Closed => new Reporting\ClosedReportState($this),

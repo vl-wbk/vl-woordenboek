@@ -22,8 +22,6 @@ trait BelongsToEditor
      *
      * This method associates the currently authenticated user with the model's editor relationship.
      * It also saves the user model.
-     *
-     * @return self
      */
     public function setCurrentUserAsEditor(): self
     {

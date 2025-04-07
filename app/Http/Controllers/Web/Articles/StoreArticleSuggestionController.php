@@ -19,8 +19,6 @@ use Spatie\RouteAttributes\Attributes\Post;
  * This controller handles both the display of the submîssion form and the processing of new article submissions.
  * It integrates the attribute-based routing system for clean route definitions.
  * The workflow supports a streamlines proces for contributring new words to the Vlaams Woordenboek
- *
- * @package App\Http\Controllers\Web\Articles
  */
 final readonly class StoreArticleSuggestionController
 {
@@ -48,9 +46,9 @@ final readonly class StoreArticleSuggestionController
      * After validation through the form request, it delegates the storage operation to a dedicated action class.
      * Upon successful creation, redirects to the search interface where users can find their newly submitted entry.
      *
-     * @param  StoreSuggestionRequest $storeSuggestionRequest   The form request that validates the request data?
-     * @param  StoreArticleSuggestion $storeArticleSuggestion   The action that uis responsible for storing the dictionary article.
-     * @return RedirectResponse                                 Redirects to search interface after submission.
+     * @param  StoreSuggestionRequest  $storeSuggestionRequest  The form request that validates the request data?
+     * @param  StoreArticleSuggestion  $storeArticleSuggestion  The action that uis responsible for storing the dictionary article.
+     * @return RedirectResponse Redirects to search interface after submission.
      */
     #[Post(uri: 'woordenboek-artikelen/insturen', name: 'definitions.store')]
     public function store(StoreSuggestionRequest $storeSuggestionRequest, StoreArticleSuggestion $storeArticleSuggestion): RedirectResponse

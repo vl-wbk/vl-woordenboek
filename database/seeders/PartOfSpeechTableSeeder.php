@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Models\PartOfSpeech;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
+use JsonException;
 
 /**
  * Part of Speech Table Seeder
@@ -19,8 +19,6 @@ use Illuminate\Support\Facades\File;
  * The source data is maintained in a JSON file within the database/data directory.
  * This file contains the official Flemish grammatical terminology used in linguistic classification.
  * By centralizing these definitions, we maintain consistency in how words are categorized throughout the dictionary system.
- *
- * @package Database\Seeders
  */
 final class PartOfSpeechTableSeeder extends Seeder
 {
@@ -36,9 +34,7 @@ final class PartOfSpeechTableSeeder extends Seeder
      * their usage.
      *
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
-     * @throws \JsonException
-     *
-     * @return void
+     * @throws JsonException
      */
     public function run(): void
     {

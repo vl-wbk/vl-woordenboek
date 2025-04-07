@@ -18,8 +18,6 @@ use Symfony\Component\HttpFoundation\Response;
  * The page is only accessible to banned users who are logged in.
  *
  * @see \App\Policies\UserPolicy For the ban state handling
- *
- * @package App\Http\Controllers\Web\Account
  */
 final readonly class BanController
 {

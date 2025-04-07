@@ -29,8 +29,6 @@ use Illuminate\Support\Str;
  * This Filament resource handles all label management functionality within the system. Labels are used
  * to categorize and organize dictionary articles, making them easier to find and manage. The resource
  * provides a complete interface for administrators to create, view, edit, and delete labels.
- *
- * @package App\Filament\Clusters\Articles\Resources
  */
 final class LabelResource extends Resource
 {
@@ -38,8 +36,6 @@ final class LabelResource extends Resource
      * The underlying Eloquent model that represents labels in our database. This model handles all
      * database interactions and relationships with other models in the system. The Label model
      * contains the core business logic for label management.
-     *
-     * @var string|null
      */
     protected static ?string $model = Label::class;
 
@@ -47,8 +43,6 @@ final class LabelResource extends Resource
      * The visual representation of this resource in the navigation menu. We use Heroicons for consistent
      * styling across the application. The tag icon was chosen as it best represents the labeling concept.
      * See https://heroicons.com for the complete icon set.
-     *
-     * @var string|null
      */
     protected static ?string $navigationIcon = 'heroicon-o-tag';
 
@@ -67,8 +61,8 @@ final class LabelResource extends Resource
      * system to ensure proper layout across different screen sizes. Required fields are clearly marked,
      * and helpful placeholder text guides users through the input process.
      *
-     * @param  Form $form  The Filament form builder instance used to construct the interface
-     * @return Form        The fully configured form ready for rendering
+     * @param  Form  $form  The Filament form builder instance used to construct the interface
+     * @return Form The fully configured form ready for rendering
      */
     public static function form(Form $form): Form
     {
@@ -85,7 +79,7 @@ final class LabelResource extends Resource
                     ->label('Beschrijving')
                     ->rows(4)
                     ->placeholder('Beschrijf zo goed mogelijk wat het label inhoud. (Optioneel)')
-                    ->columnSpanFull()
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -96,8 +90,8 @@ final class LabelResource extends Resource
      * It presents the label's core attributes including name, timestamps, and description in a visually appealing format with consistent styling.
      * The interface uses the Filament design system, incorporating icons and responsive column layouts to ensure optimal presentation across different screen sizes.
      *
-     * @param  Infolist $infolist   The Filament infolist builder instance
-     * @return Infolist             The configured infolist ready for rendering
+     * @param  Infolist  $infolist  The Filament infolist builder instance
+     * @return Infolist The configured infolist ready for rendering
      */
     public static function infolist(Infolist $infolist): Infolist
     {
@@ -128,7 +122,7 @@ final class LabelResource extends Resource
                         TextEntry::make('description')
                             ->label('Beschrijving')
                             ->columnSpanFull()
-                            ->placeholder('Geen label beschrijving geregistreed')
+                            ->placeholder('Geen label beschrijving geregistreed'),
                     ]),
             ]);
     }
@@ -142,8 +136,8 @@ final class LabelResource extends Resource
      * The interface includes real-time updates for article counts and optimized performance through
      * strategic database queries. Modal dialogs ensure safe deletion with clear warning messages.
      *
-     * @param  Table $table  The Filament table builder instance
-     * @return Table         The fully configured table interface
+     * @param  Table  $table  The Filament table builder instance
+     * @return Table The fully configured table interface
      */
     public static function table(Table $table): Table
     {
@@ -169,7 +163,7 @@ final class LabelResource extends Resource
                 TextColumn::make('created_at')
                     ->label('Aangemaakt op')
                     ->sortable()
-                    ->date()
+                    ->date(),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()
@@ -220,7 +214,7 @@ final class LabelResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\ArticlesRelationManager::class
+            RelationManagers\ArticlesRelationManager::class,
         ];
     }
 

@@ -26,8 +26,6 @@ final class ReportArticleModal extends Component
 {
     /**
      * The article to be reported.
-     *
-     * @var Article
      */
     public Article $article;
 
@@ -35,8 +33,7 @@ final class ReportArticleModal extends Component
      * Initializes the component with the given article.
      * This method sets up the ReportArticleModal by storing the Article instance so that it can be used in the view.
      *
-     * @param  Article $article The article being reported.
-     * @return void
+     * @param  Article  $article  The article being reported.
      */
     public function mount(Article $article): void
     {
@@ -55,7 +52,7 @@ final class ReportArticleModal extends Component
     public function render(): Renderable
     {
         return view('livewire.report-article-modal', data: [
-            'article' => $this->article
+            'article' => $this->article,
         ]);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 arch('All files in the casts directory extend `CastsAttributes`')
     ->expect('App\Casts')
     ->toExtend('Illuminate\Contracts\Database\Eloquent\CastsAttributes');
