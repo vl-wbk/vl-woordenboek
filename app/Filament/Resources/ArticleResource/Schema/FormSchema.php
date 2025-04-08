@@ -105,4 +105,19 @@ final readonly class FormSchema
                 ->options(LanguageStatus::class)
         ];
     }
+
+    public static function getSourceSchema(): array
+    {
+        return [
+            Components\KeyValue::make('sources')
+                ->label('Geraadpleegde bronnen')
+                ->reorderable()
+                ->keyLabel('Naam')
+                ->keyPlaceholder('- naam van de bron')
+                ->valueLabel('Url / Artikel')
+                ->valuePlaceholder('https://woordenlijst.org/')
+                ->addActionLabel('Nieuwe bron toevoegen')
+                ->columnSpanFull()
+        ];
+    }
 }

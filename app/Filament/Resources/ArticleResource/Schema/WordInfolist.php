@@ -6,6 +6,7 @@ namespace App\Filament\Resources\ArticleResource\Schema;
 
 use App\Enums\ArticleStates;
 use App\Models\Article;
+use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Infolists\Components\Tabs;
 use Filament\Infolists\Components\Tabs\Tab;
 use Filament\Infolists\Components\TextEntry;
@@ -49,6 +50,7 @@ final readonly class WordInfolist
                 ->columnSpan(12)
                 ->tabs([
                     self::lemmaInformationTab(),
+                    self::sourcesInformationTab(),
                     self::editInformationTab(),
                     self::archiveInformationTab()
                 ])
@@ -86,6 +88,21 @@ final readonly class WordInfolist
                     ->label('Beweegredenen')
                     ->columnSpan(6)
                     ->placeholder('- geen beweegredenen opgegeven')
+            ]);
+    }
+
+    private static function sourcesInformationTab(): Tab
+    {
+        return Tab::make('Bron vermeldingen')
+            ->icon('heroicon-o-book-open')
+            ->columns(12)
+            ->visible(fn (Article $article): bool => ! is_null($article->sources) && json_encode(count($article->sources)) > 0)
+            ->schema([
+                KeyValueEntry::make('sources')
+                    ->hiddenLabel()
+                    ->keyLabel('Naam')
+                    ->valueLabel('Url / Artikel')
+                    ->columnSpanFull()
             ]);
     }
 

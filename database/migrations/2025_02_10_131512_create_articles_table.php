@@ -35,6 +35,7 @@ return new class extends Migration
             $table->text('example')->nullable();
             $table->text('characteristics')->nullable();
             $table->string('archiving_reason', 350)->nullable();
+            $table->json('sources')->nullable();
             $table->timestamp('archived_at')->nullable();
             $table->timestamps();
         });

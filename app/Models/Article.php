@@ -220,6 +220,7 @@ final class Article extends Model implements AuditableContract
         return [
             'state' => ArticleStates::class,
             'status' => LanguageStatus::class,
+            'sources' => 'array',
         ];
     }
 }
