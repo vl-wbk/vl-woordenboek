@@ -106,6 +106,9 @@ final readonly class FormSchema
         ];
     }
 
+    /**
+     * @return array<int, \Filament\Forms\Components\KeyValue>
+     */
     public static function getSourceSchema(): array
     {
         return [

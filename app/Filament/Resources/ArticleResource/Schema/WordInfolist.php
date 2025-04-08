@@ -96,6 +96,7 @@ final readonly class WordInfolist
         return Tab::make('Bron vermeldingen')
             ->icon('heroicon-o-book-open')
             ->columns(12)
+            /** @phpstan-ignore-next-line */
             ->visible(fn (Article $article): bool => ! is_null($article->sources) && json_encode(count($article->sources)) > 0)
             ->schema([
                 KeyValueEntry::make('sources')
