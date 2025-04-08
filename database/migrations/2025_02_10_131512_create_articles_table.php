@@ -29,6 +29,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class, 'archiever_id')->nullable()->constrained();
             $table->string('word')->fulltext();
             $table->smallInteger('status')->default(LanguageStatus::Onbekend->value);
+            $table->string('image_url')->nullable();
             $table->text('description')->nullable();
             $table->string('keywords')->nullable()->fulltext();
             $table->text('example')->nullable();

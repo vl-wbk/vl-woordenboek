@@ -42,7 +42,14 @@
         <ul class="list-group border-top list-group-flush">
             <li class="list-group-item">
                 <div class="fw-bold color-green">Beschrijving</div>
-                {!! str($word->description)->sanitizeHtml() !!}
+                @if ($word->image_url)
+                    <div class="mt-2">
+                        <img src="{{ $word->image_url }}" class="rounded shadow-sm me-2" height="64" width="64" />
+                        <span class="align-top">{!! str($word->description)->sanitizeHtml() !!}</span>
+                    </div>
+                @else
+                    {!! str($word->description)->sanitizeHtml() !!}
+                @endif
             </li>
             <li class="list-group-item">
                 <div class="fw-bold color-green">Voorbeeld</div>

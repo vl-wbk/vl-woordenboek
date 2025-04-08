@@ -65,6 +65,10 @@ final readonly class FormSchema
                 ->preload()
                 ->native(false)
                 ->columnSpanFull(),
+            Components\TextInput::make('image_url')
+                ->label('Afbeelding')
+                ->columnSpan(12)
+                ->maxLength(255),
             Components\RichEditor::make('description')
                 ->label('Beschrijving')
                 ->columnSpanFull()
