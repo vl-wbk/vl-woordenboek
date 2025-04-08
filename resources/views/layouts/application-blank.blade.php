@@ -77,6 +77,12 @@
                     </li>
 
                     <li class="nav-item">
+                        <a href="https://www.forum.chimpy.be" class="nav-link" target="_blank"">
+                            <x-heroicon-o-chat-bubble-left-right class="icon me-1"/> Forum
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
                         <a href="" class="nav-link">
                             <x-heroicon-s-envelope class="icon me-1" /> Contact
                         </a>
