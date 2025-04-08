@@ -30,6 +30,8 @@ final readonly class DictionaryArticleController
     #[Get(uri: '/woordenboek-artikel/{word}', name: 'word-information.show')]
     public function __invoke(Article $word): Renderable
     {
+        $word->increment('views', 1); // Increment the view counter for thearticle by one. Because the user decided to view the article.
+
         return view('definitions.show', compact('word'));
     }
 }

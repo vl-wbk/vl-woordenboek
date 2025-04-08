@@ -28,6 +28,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class, 'editor_id')->nullable()->references('id')->on('users')->nullOnDelete();
             $table->foreignIdFor(User::class, 'archiever_id')->nullable()->constrained();
             $table->string('word')->fulltext();
+            $table->integer('views')->default('0');
             $table->smallInteger('status')->default(LanguageStatus::Onbekend->value);
             $table->string('image_url')->nullable();
             $table->text('description')->nullable();
