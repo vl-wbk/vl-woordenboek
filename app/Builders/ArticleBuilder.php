@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Builders;
 
 use App\Enums\ArticleStates;
+use App\Enums\Visibility;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
@@ -52,5 +53,12 @@ final class ArticleBuilder extends Builder
             $this->model->update(attributes: ['state' => ArticleStates::Published, 'archiving_reason' => null, 'archived_at' => null]);
             $this->model->archiever()->associate(null)->save();
         });
+    }
+
+    public function setVisibility(Visibility $visibility): self
+    {
+        $this->model->update(['visibility' => $visibility]);
+
+        return $this;
     }
 }
