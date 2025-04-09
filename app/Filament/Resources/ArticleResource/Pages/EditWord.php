@@ -12,6 +12,7 @@ use Filament\Resources\Pages\EditRecord;
 use Filament\Resources\Pages\EditRecord\Concerns\HasWizard;
 use Kenepa\ResourceLock\Resources\Pages\Concerns\UsesResourceLock;
 use App\Filament\Resources\ArticleResource\Schema\FormSchema;
+use App\States\Articles\ArticleState;
 use Filament\Forms\Form;
 use Filament\Forms\Components\Wizard;
 
@@ -109,11 +110,24 @@ final class EditWord extends EditRecord
         ];
     }
 
+    /**
+ * Modifies the form data before saving it to the database.
+ *
+ * When the form is submitted, this method is invoked to perform any necessary pre-save adjustments.
+ * In this implementation, the method checks the current state of the article and, if the article's state is 'New', it initiates a transition to the 'Editing' state.
+ * This transition is handled by the article's state management system  (through the articleStatus() method), which encapsulates the business rules associated with state changes.
+ * After performing the state transition, the method returns the form data array unaltered, allowing the save operation to proceed.
+ *
+ * Future developers should note that this hook provides a convenient point to inject additional data modifications or  side effects required before the article is persisted.
+ * Any further adjustments to the article lifecycle can be added within this method.
+ *
+ * @param  array<string, string>  $data  The form data to be saved.
+ * @return array<string, string>         The (possibly modified) form data.
+ */
     public function mutateFormDataBeforeSave(array $data): array
     {
-        if ($this->record->state === ArticleStates::New || $this->record->state === ArticleStates::Archived) {
-            $data['state'] = ArticleStates::Draft;
-            $data['editor_id'] = auth()->id();
+        if ($this->record->state->is(enum: ArticleStates::New)) {
+            $this->record->articleStatus()->transitionToEditing();
         }
 
         return $data;
