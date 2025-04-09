@@ -121,8 +121,8 @@ final class EditWord extends EditRecord
  * Future developers should note that this hook provides a convenient point to inject additional data modifications or  side effects required before the article is persisted.
  * Any further adjustments to the article lifecycle can be added within this method.
  *
- * @param  array  $data  The form data to be saved.
- * @return array         The (possibly modified) form data.
+ * @param  array<string, string>  $data  The form data to be saved.
+ * @return array<string, string>         The (possibly modified) form data.
  */
     public function mutateFormDataBeforeSave(array $data): array
     {
