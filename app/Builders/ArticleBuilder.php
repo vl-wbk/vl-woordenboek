@@ -55,6 +55,9 @@ final class ArticleBuilder extends Builder
         });
     }
 
+    /**
+     * @return self<\App\Models\Article>
+     */
     public function setVisibility(Visibility $visibility): self
     {
         $this->model->update(['visibility' => $visibility]);
