@@ -56,4 +56,14 @@ final class ArticleBuilder extends Builder
             $this->model->archiever()->associate(null)->save();
         });
     }
+
+    public function isHidden(): bool
+    {
+        return is_null($this->model->published_at);
+    }
+
+    public function isPublished(): bool
+    {
+        return ! $this->isHidden();
+    }
 }
