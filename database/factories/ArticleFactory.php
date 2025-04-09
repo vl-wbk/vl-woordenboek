@@ -30,6 +30,7 @@ class ArticleFactory extends Factory
             'status' => LanguageStatus::Onbekend,
             'image_url' => fake()->url(),
             'description' => fake()->paragraph(),
+            /** @phpstan-ignore-next-line */
             'keywords' => implode(',', fake()->words(3)),
             'example' => fake()->sentence,
             'characteristics' => fake()->paragraph,
