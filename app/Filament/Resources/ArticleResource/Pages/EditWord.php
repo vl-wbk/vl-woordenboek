@@ -128,7 +128,7 @@ final class EditWord extends EditRecord
  */
     public function mutateFormDataBeforeSave(array $data): array
     {
-        if ($this->record->state->is(enum: ArticleStates::New)) {
+        if ($this->record->state->is(enum: ArticleStates::New) && $this->record->editor()->doesntExist()) {
             $this->record->articleStatus()->transitionToEditing();
         }
 
