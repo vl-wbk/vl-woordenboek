@@ -106,6 +106,10 @@ final class CreateWord extends CreateRecord
                 ->icon('heroicon-o-map')
                 ->columns(12)
                 ->schema([FormSchema::sectionConfiguration()->schema(FormSchema::getStatusAndRegionDetails())]),
+            Wizard\Step::make(trans('Bronnen'))
+                ->icon('heroicon-o-book-open')
+                ->columns('12')
+                ->schema([FormSchema::sectionConfiguration()->schema(FormSchema::getSourceSchema())])
         ];
     }
 }
