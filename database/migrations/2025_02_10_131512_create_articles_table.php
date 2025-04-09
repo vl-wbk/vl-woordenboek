@@ -26,6 +26,14 @@ return new class extends Migration
             $table->foreignIdFor(PartOfSpeech::class)->nullable()->references('id')->on('part_of_speeches')->nullOnDelete();
             $table->foreignIdFor(User::class, 'author_id')->nullable()->references('id')->on('users')->nullOnDelete();
             $table->foreignIdFor(User::class, 'editor_id')->nullable()->references('id')->on('users')->nullOnDelete();
+
+            $table->foreignIdFor(User::class, 'publisher_id')
+                ->nullable()
+                ->comment('The person who approved the article for publishing it into the dictionary')
+                ->references('id')
+                ->on('users')
+                ->nullOnDelete();
+
             $table->foreignIdFor(User::class, 'archiever_id')->nullable()->constrained();
             $table->string('word')->fulltext();
             $table->integer('views')->default('0');
@@ -38,6 +46,7 @@ return new class extends Migration
             $table->string('archiving_reason', 350)->nullable();
             $table->json('sources')->nullable();
             $table->timestamp('archived_at')->nullable();
+            $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });
 

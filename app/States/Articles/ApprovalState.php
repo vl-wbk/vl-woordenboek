@@ -44,9 +44,16 @@ final class ApprovalState extends ArticleState
      * This transition occurs when an editor determines the article meets all quality standards and is ready for public viewing.
      * The article becomes visible to all users once published.
      */
-    public function transitionToReleased(): void
+    public function transitionToReleased(): bool
     {
-        $this->article->update(attributes: ['state' => ArticleStates::Published]);
+        return DB::transaction(function (): bool {
+            return $this->article
+                ->setCurrentUserAsPublisher()
+                ->update(attributes: [
+                    'state' => ArticleStates::Published,
+                    'published_at' => now(),
+                ]);
+        });
     }
 
     /**
