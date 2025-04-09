@@ -37,7 +37,6 @@ use Kenepa\ResourceLock\Models\Concerns\HasLocks;
  * @property string         $description        The detailed explanation of the word
  * @property int            $author_id          The ID of the user who created the article
  * @property LanguageStatus $status             The current language validation status
- * @property Visibility     $visibility         The visibility indicator for the dictionary article
  * @property string|null    $example            Optional usage example of the word
  * @property string|null    $characteristics    Additional word characteristics
  * @property int|null       $editor_id          The ID of the assigned editor
@@ -85,7 +84,6 @@ final class Article extends Model implements AuditableContract
     protected $attributes = [
         'state' => ArticleStates::New,
         'status' => LanguageStatus::Onbekend,
-        'visibility' => Visibility::Intern,
     ];
 
     /**
@@ -223,7 +221,6 @@ final class Article extends Model implements AuditableContract
         return [
             'state' => ArticleStates::class,
             'status' => LanguageStatus::class,
-            'visibility' => Visibility::class,
             'sources' => 'array',
         ];
     }

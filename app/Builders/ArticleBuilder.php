@@ -8,6 +8,7 @@ use App\Enums\ArticleStates;
 use App\Enums\Visibility;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
+use JetBrains\PhpStorm\Deprecated;
 
 /**
  * ArticleBuilder provides custom query and state management functionality for articles.
@@ -47,21 +48,12 @@ final class ArticleBuilder extends Builder
      *
      * @return void
      */
+    #[Deprecated('Should be refzactored to a general publish action in the ArticleBuilder')]
     public function unarchive(): void
     {
         DB::transaction(function (): void {
             $this->model->update(attributes: ['state' => ArticleStates::Published, 'archiving_reason' => null, 'archived_at' => null]);
             $this->model->archiever()->associate(null)->save();
         });
-    }
-
-    /**
-     * @return self<\App\Models\Article>
-     */
-    public function setVisibility(Visibility $visibility): self
-    {
-        $this->model->update(['visibility' => $visibility]);
-
-        return $this;
     }
 }
