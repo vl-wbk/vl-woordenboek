@@ -7,6 +7,7 @@ namespace App\Filament\Resources\ArticleResource\Pages;
 use App\Enums\ArticleStates;
 use App\Filament\Resources\ArticleResource;
 use App\Filament\Resources\ArticleResource\Actions\RemoveEditorAction;
+use App\Filament\Resources\ArticleResource\Actions\States\PublishArticleAction;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Resources\Pages\EditRecord\Concerns\HasWizard;
@@ -58,6 +59,7 @@ final class EditWord extends EditRecord
     {
         return [
             RemoveEditorAction::make(),
+            PublishArticleAction::make(),
             Actions\DeleteAction::make()
                 ->icon('heroicon-o-trash'),
         ];
