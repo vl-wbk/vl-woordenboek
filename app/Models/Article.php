@@ -9,7 +9,6 @@ use App\States\Articles;
 use App\Contracts\States\ArticleStateContract;
 use App\Enums\ArticleStates;
 use App\Enums\LanguageStatus;
-use App\Enums\Visibility;
 use App\Models\Relations\BelongsToEditor;
 use App\Models\Relations\BelongsToManyRegions;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
