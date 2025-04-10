@@ -8,6 +8,7 @@ use App\Builders\ArticleBuilder;
 use App\States\Articles;
 use App\Contracts\States\ArticleStateContract;
 use App\Enums\ArticleStates;
+use App\Enums\DataOrigin;
 use App\Enums\LanguageStatus;
 use App\Models\Relations\BelongsToEditor;
 use App\Models\Relations\BelongsToManyRegions;
@@ -81,6 +82,7 @@ final class Article extends Model implements AuditableContract
      * @var array<string, object|int|string>
      */
     protected $attributes = [
+        'origin' => DataOrigin::Suggestion,
         'state' => ArticleStates::New,
         'status' => LanguageStatus::Onbekend,
     ];
@@ -219,6 +221,7 @@ final class Article extends Model implements AuditableContract
     protected function casts(): array
     {
         return [
+            'origin' => DataOrigin::class,
             'state' => ArticleStates::class,
             'status' => LanguageStatus::class,
             'sources' => 'array',
