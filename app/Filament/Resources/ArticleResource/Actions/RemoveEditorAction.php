@@ -95,6 +95,7 @@ final class RemoveEditorAction extends Action
     {
         return match ($article->origin) {
             DataOrigin::External => $article->articleStatus()->transitionToExternalData(),
+            /** @phpstan-ignore-next-line */
             DataOrigin::Suggestion => $this->record->articleStatus()->transitionToSuggestion(),
             default => throw new LogicException('Could not found the correct origin to transtion'),
         };
