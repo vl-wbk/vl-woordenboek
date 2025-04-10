@@ -64,4 +64,6 @@ interface ArticleStateContract
      * @return bool True if the transition is successful; otherwise, false.
      */
     public function transitionToSuggestion(): bool;
+
+    public function transitionToExternalData(): bool;
 }

@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\ArticleResource\Actions;
 
+use App\Enums\DataOrigin;
+use App\Models\Article;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Support\Enums\MaxWidth;
+use LogicException;
 
 /**
  * RemoveEditorAction is used to detach the editor from an article.
@@ -79,13 +82,23 @@ final class RemoveEditorAction extends Action
         $this->failureNotificationTitle('We konden de redacteur niet loskoppelen van het artikel');
 
         $this->action(function (): void {
-            if ($this->process(fn (): bool => $this->record->articleStatus()->transitionToSuggestion())) {
+            if ($this->process(fn (): bool => $this->transitionBackBasedOnOrigin($this->record))) {
                 $this->success();
                 return;
             }
 
             $this->failure();
         });
+    }
+
+    private function transitionBackBasedOnOrigin(Article $article): bool
+    {
+        return match ($article->origin) {
+            DataOrigin::External => $article->articleStatus()->transitionToExternalData(),
+            /** @phpstan-ignore-next-line */
+            DataOrigin::Suggestion => $this->record->articleStatus()->transitionToSuggestion(),
+            default => throw new LogicException('Could not found the correct origin to transtion'),
+        };
     }
 
     /**

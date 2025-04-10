@@ -71,4 +71,9 @@ class ArticleState implements ArticleStateContract
     {
         throw new LogicException('The method transitionToSuggestion() is not allowed on the current state.');
     }
+
+    public function transitionToExternalData(): bool
+    {
+        throw new LogicException('The method transitionToExternalData() is not allowed on the current state.');
+    }
 }
