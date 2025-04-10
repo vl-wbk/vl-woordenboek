@@ -99,6 +99,7 @@ final class Article extends Model implements AuditableContract
     public function articleStatus(): ArticleStateContract
     {
         return match($this->state) {
+            ArticleStates::ExternalData => new Articles\ExternalDataState($this),
             ArticleStates::New => new Articles\NewState($this),
             ArticleStates::Draft => new Articles\DraftState($this),
             ArticleStates::Approval => new Articles\ApprovalState($this),
