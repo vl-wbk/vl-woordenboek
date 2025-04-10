@@ -18,6 +18,22 @@ trait BelongsToEditor
     }
 
     /**
+     * @return BelongsTo<User, covariant $this>
+     */
+    public function publisher(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function setCurrentUserAsPublisher(): self
+    {
+        $this->publisher()->associate(auth()->user())->save();
+
+        return $this;
+    }
+
+
+    /**
      * Set the currently authenticated iser as the editor for the model.
      *
      * This method associates the currently authenticated user with the model's editor relationship.

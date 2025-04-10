@@ -40,9 +40,9 @@ interface ArticleStateContract
      * This method finalizes the publication process of the article, making it available to the end users.
      * Implementers might include additional logic such as logging or triggering notifications when the release occurs.
      *
-     * @return void
+     * @return bool
      */
-    public function transitionToReleased(): void;
+    public function transitionToReleased(): bool;
 
     /**
      * Transitions the article into an "Archived" state.
@@ -64,4 +64,6 @@ interface ArticleStateContract
      * @return bool True if the transition is successful; otherwise, false.
      */
     public function transitionToSuggestion(): bool;
+
+    public function transitionToExternalData(): bool;
 }

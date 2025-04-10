@@ -58,7 +58,7 @@ class ArticleState implements ArticleStateContract
      * {@inheritDoc}
      * @throws LogicException Always, indicating that this transition is not allowed in the current state.
      */
-    public function transitionToReleased(): void
+    public function transitionToReleased(): bool
     {
         throw new LogicException('The method transitionToReleased() is not allowed on the current state.');
     }
@@ -70,5 +70,10 @@ class ArticleState implements ArticleStateContract
     public function transitionToSuggestion(): bool
     {
         throw new LogicException('The method transitionToSuggestion() is not allowed on the current state.');
+    }
+
+    public function transitionToExternalData(): bool
+    {
+        throw new LogicException('The method transitionToExternalData() is not allowed on the current state.');
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\States\Articles;
 
+use Illuminate\Support\Facades\DB;
+
 /**
  * Represents the archived state of a dictionary article.
  *
@@ -25,10 +27,14 @@ final class ArchivedState extends ArticleState
      * to "published" and ensures that the change is persisted to the database. This functionality is useful
      * when archived content becomes relevant again or when an article was archived by mistake.
      *
-     * @return void
+     * @return bool
      */
-    public function transitionToReleased(): void
+    public function transitionToReleased(): bool
     {
-        $this->article->unarchive();
+        return DB::transaction(function (): bool {
+            $this->article->unarchive();
+
+            return true;
+        });
     }
 }
