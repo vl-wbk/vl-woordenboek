@@ -7,6 +7,7 @@ use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
@@ -47,7 +48,10 @@ final class FortifyServiceProvider extends ServiceProvider
     {
         Fortify::loginView('auth.login');
         Fortify::registerView('auth.register');
-        // Fortify::resetPasswordView();
-        // Fortify::requestPasswordResetLinkView();
+        Fortify::requestPasswordResetLinkView('auth.passwords.forgot');
+
+        Fortify::resetPasswordView(function (Request $request): Renderable {
+            return view('auth.passwords.reset', ['request' => $request]);
+        });
     }
 }
