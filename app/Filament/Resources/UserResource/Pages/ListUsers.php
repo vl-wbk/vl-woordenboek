@@ -17,21 +17,4 @@ final class ListUsers extends ListRecords
      * @package App\Filament\Resources\UserResource/Pages
      */
     protected static string $resource = UserResource::class;
-
-    /**
-     * Configuring the actions available in the page header.
-     *
-     * Provides a user creation action witrh Dutch language labels and appropriate inconography.
-     * Thus user-plus icon visually reinforces the action's purpose while maintaining consistency with the application's visual language.
-     *
-     * @return array<int, Actions\CreateAction>
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\CreateAction::make()
-                ->label('Gebruiker toevoegen')
-                ->icon('heroicon-o-user-plus'),
-        ];
-    }
 }
