@@ -17,4 +17,9 @@ final class ListUsers extends ListRecords
      * @package App\Filament\Resources\UserResource/Pages
      */
     protected static string $resource = UserResource::class;
+
+    protected function getHeaderWidgets(): array
+    {
+        return UserResource::getWidgets();
+    }
 }

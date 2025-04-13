@@ -9,6 +9,7 @@ use App\Filament\Resources\UserResource\Actions;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Filament\Resources\UserResource\Schema\InfolistSchema;
+use App\Filament\Resources\UserResource\Widgets\UserRegistrationChartWidget;
 use App\Models\User;
 use App\UserTypes;
 use Filament\Actions\DeleteAction;
@@ -144,6 +145,13 @@ final class UserResource extends Resource
                             ->columnSpan(12)
                     ])
             ]);
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            UserRegistrationChartWidget::class,
+        ];
     }
 
     public static function infolist(Infolist $infolist): Infolist
