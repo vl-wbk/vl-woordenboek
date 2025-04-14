@@ -79,7 +79,7 @@ final readonly class ArticlePolicy
 
         if (
             $article->state->isNot(enum: ArticleStates::Approval)
-            && $user->user_type->notIn(enums: [UserTypes::EditorInChief, UserTypes::Administrators, UserTypes::Developer])
+            && $user->user_type->in(enums: [UserTypes::EditorInChief, UserTypes::Administrators, UserTypes::Developer])
         ) {
             return false;
         }
@@ -108,7 +108,7 @@ final readonly class ArticlePolicy
 
         if (
             $article->state->notIn(enums: [ArticleStates::Approval, ArticleStates::Archived]) &&
-            $user->user_type->notIn(enums: [UserTypes::EditorInChief, UserTypes::Administrators, UserTypes::Developer])
+            $user->user_type->in(enums: [UserTypes::EditorInChief, UserTypes::Administrators, UserTypes::Developer])
         ) {
             return false;
         }
