@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace App\Filament\Resources;
 
 use App\Filament\Clusters\UserManagement;
-use App\Filament\Clusters\UserManagement\Resources\UserResource\RelationManagers\SuggestionsRelationManager;
+use App\Filament\Clusters\UserManagement\Resources\UserResource\RelationManagers;
 use App\Filament\Resources\UserResource\Actions;
 use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
 use App\Filament\Resources\UserResource\Schema\InfolistSchema;
 use App\Filament\Resources\UserResource\Widgets\UserRegistrationChartWidget;
 use App\Models\User;
@@ -22,6 +21,7 @@ use Filament\Infolists\Components\Section as InfolistSection;
 use Filament\Infolists\Components\Tabs;
 use Filament\Infolists\Components\Tabs\Tab;
 use Filament\Infolists\Infolist;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconSize;
@@ -158,7 +158,8 @@ final class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            SuggestionsRelationManager::class,
+            RelationManagers\SuggestionsRelationManager::class,
+            RelationManagers\ReportsRelationManager::class,
         ];
     }
 
