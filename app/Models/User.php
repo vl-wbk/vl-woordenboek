@@ -82,9 +82,30 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
         return $this->can('access-backend');
     }
 
+    /**
+    * Returns all article suggestions submitted by this user.
+    *
+    * Each suggested article is linked back to the user via the 'author_id' field.
+    * Use this relationship to fetch or query the suggestions made by the user.
+    *
+    * @return HasMany A collection of Article instances representing the user's suggestions.
+    */
     public function suggestions(): HasMany
     {
         return $this->hasMany(Article::class, 'author_id');
+    }
+
+    /**
+     * Returns all article reports submitted by this user.
+     *
+     * Each report is associated with the user who submitted it using the 'author_id' field.
+     * Use this relationship to access any reports related to articles made by the user.
+     *
+     * @return HasMany A collection of ArticleReport instances representing the user's reports.
+     */
+    public function reports(): HasMany
+    {
+        return $this->hasMany(ArticleReport::class, 'author_id');
     }
 
     /**
