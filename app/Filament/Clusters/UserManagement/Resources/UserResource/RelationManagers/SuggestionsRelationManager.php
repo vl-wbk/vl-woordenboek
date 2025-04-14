@@ -18,6 +18,8 @@ use Illuminate\Database\Eloquent\Model;
  *
  * This RelationManager displays suggestions on user detail pages (ViewUser) using a custom table layout.
  * It defines the relationship key, table headings, empty state messages, column layouts, and row actions.
+ *
+ * @package App\Filament\Clusters\UserManagement\Resources\UserResource\RelationManagers;
  */
 final class SuggestionsRelationManager extends RelationManager
 {
@@ -28,6 +30,18 @@ final class SuggestionsRelationManager extends RelationManager
      * The value 'suggestions' corresponds to the name of the relationship method defined on the User model.
      */
     protected static string $relationship = 'suggestions';
+
+    /**
+     * The title to be displayed for this suggestions relation in the UI.
+     * This helps users quickly identify the section dedicated to suggestions.
+     */
+    protected static ?string $title = 'Suggesties';
+
+    /**
+     * The badge color used to display the number of suggestions.
+     * A gray badge indicates a neutral or standard state.
+     */
+    protected static ?string $badgeColor = 'gray';
 
     /**
      * Determines whether the suggestions relation view is allowed for a given record.
@@ -41,6 +55,25 @@ final class SuggestionsRelationManager extends RelationManager
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
     {
         return new $pageClass instanceof ViewUser;
+    }
+
+    /**
+     * Returns a badge string representing the count of related suggestions.
+     *
+     * If the owner record has one or more suggestions (i.e. the query count is greater than zero),
+     * this method will return the count cast to a string. If there are no suggestions, it returns null.
+     *
+     * @param Model  $ownerRecord  The record that owns the suggestions.
+     * @param string $pageClass    The current page's class (unused in this method).
+     * @return string|null         The count of suggestions as a string, or null if there are none.
+     */
+    public static function getBadge(Model $ownerRecord, string $pageClass): ?string
+    {
+        if ($ownerRecord->query()->count() > 0) {
+            return (string) $ownerRecord->query()->count();
+        }
+
+        return null;
     }
 
     /**
