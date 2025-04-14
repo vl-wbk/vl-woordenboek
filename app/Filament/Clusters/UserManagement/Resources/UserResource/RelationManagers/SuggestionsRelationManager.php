@@ -77,8 +77,7 @@ final class SuggestionsRelationManager extends RelationManager
      */
     public static function getBadge(Model $ownerRecord, string $pageClass): ?string
     {
-        dd($ownerRecord);
-        $recordCount = $ownerRecord->query()->count();
+        $recordCount = $ownerRecord->suggestions()->count();
 
         if ($recordCount > 0) {
             return (string) $recordCount;
