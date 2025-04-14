@@ -31,7 +31,7 @@ final readonly class FormSchema
                 ->label('Artikel status')
                 ->required()
                 ->columnSpan(2)
-                ->disabledOn('edit')
+                ->hiddenOn('edit')
                 ->default(ArticleStates::New->value)
                 ->options([
                     ArticleStates::New->value => ArticleStates::New->getLabel(),
