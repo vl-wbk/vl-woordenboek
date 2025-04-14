@@ -44,6 +44,14 @@ final class SuggestionsRelationManager extends RelationManager
     protected static ?string $badgeColor = 'gray';
 
     /**
+     * The icon representing this suggestions relation in the user interface.
+     *
+     * This icon is displayed alongside the relation title in Filament's UI to visually denote the suggestions section.
+     * It uses the 'heroicon-o-document-text' icon, which is part of the Heroicons set, to maintain a consistent look and feel.
+     */
+    protected static ?string $icon = 'heroicon-o-document-text';
+
+    /**
      * Determines whether the suggestions relation view is allowed for a given record.
      * Access is restricted to pages that are an instance of ViewUser.
      * This ensures that the suggestions are only displayed in the context of a user detail view.
@@ -69,8 +77,11 @@ final class SuggestionsRelationManager extends RelationManager
      */
     public static function getBadge(Model $ownerRecord, string $pageClass): ?string
     {
-        if ($ownerRecord->query()->count() > 0) {
-            return (string) $ownerRecord->query()->count();
+        dd($ownerRecord);
+        $recordCount = $ownerRecord->query()->count();
+
+        if ($recordCount > 0) {
+            return (string) $recordCount;
         }
 
         return null;
