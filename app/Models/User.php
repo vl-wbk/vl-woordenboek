@@ -16,6 +16,7 @@ use Spatie\WelcomeNotification\ReceivesWelcomeNotification;
 use Overtrue\LaravelLike\Traits\Liker;
 use Cog\Contracts\Ban\Bannable as BannableInterface;
 use Cog\Laravel\Ban\Traits\Bannable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * User represents an authenticated account in the 'Vlaams woordenboek application'.
@@ -79,6 +80,11 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->can('access-backend');
+    }
+
+    public function suggestions(): HasMany
+    {
+        return $this->hasMany(Article::class, 'author_id');
     }
 
     /**

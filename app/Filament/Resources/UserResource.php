@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources;
 
 use App\Filament\Clusters\UserManagement;
+use App\Filament\Clusters\UserManagement\Resources\UserResource\RelationManagers\SuggestionsRelationManager;
 use App\Filament\Resources\UserResource\Actions;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
@@ -151,6 +152,13 @@ final class UserResource extends Resource
     {
         return [
             UserRegistrationChartWidget::class,
+        ];
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            SuggestionsRelationManager::class,
         ];
     }
 

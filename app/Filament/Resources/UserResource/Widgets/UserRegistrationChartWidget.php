@@ -10,8 +10,6 @@ use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 use Illuminate\Contracts\Support\Htmlable;
 
-use function Ramsey\Uuid\v1;
-
 final class UserRegistrationChartWidget extends AdvancedChartWidget
 {
     /**
