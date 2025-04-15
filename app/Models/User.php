@@ -16,6 +16,7 @@ use Spatie\WelcomeNotification\ReceivesWelcomeNotification;
 use Overtrue\LaravelLike\Traits\Liker;
 use Cog\Contracts\Ban\Bannable as BannableInterface;
 use Cog\Laravel\Ban\Traits\Bannable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * User represents an authenticated account in the 'Vlaams woordenboek application'.
@@ -36,6 +37,8 @@ use Cog\Laravel\Ban\Traits\Bannable;
  * @property Carbon|null  $banned_at          Timestamp from when the user account has been banned.
  * @property Carbon       $created_at         Timestamp of account creation
  * @property Carbon       $updated_at         Timestamp of last update
+ *
+ * @method bans()
  *
  * @package App\Models
  */
@@ -79,6 +82,32 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->can('access-backend');
+    }
+
+    /**
+    * Returns all article suggestions submitted by this user.
+    *
+    * Each suggested article is linked back to the user via the 'author_id' field.
+    * Use this relationship to fetch or query the suggestions made by the user.
+    *
+    * @return HasMany<Article, covariant $this> A collection of Article instances representing the user's suggestions.
+    */
+    public function suggestions(): HasMany
+    {
+        return $this->hasMany(Article::class, 'author_id');
+    }
+
+    /**
+     * Returns all article reports submitted by this user.
+     *
+     * Each report is associated with the user who submitted it using the 'author_id' field.
+     * Use this relationship to access any reports related to articles made by the user.
+     *
+     * @return HasMany<ArticleReport, covariant $this> A collection of ArticleReport instances representing the user's reports.
+     */
+    public function reports(): HasMany
+    {
+        return $this->hasMany(ArticleReport::class, 'author_id');
     }
 
     /**
