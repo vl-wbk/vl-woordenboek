@@ -10,6 +10,12 @@
                 </div>
 
                 <div class="card-body bg-white rounded-start rounded-end">
+                    @if (session('status'))
+                        <div class="alert alert-success border-0 py-2" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 

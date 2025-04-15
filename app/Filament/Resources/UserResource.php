@@ -5,19 +5,26 @@ declare(strict_types=1);
 namespace App\Filament\Resources;
 
 use App\Filament\Clusters\UserManagement;
+use App\Filament\Clusters\UserManagement\Resources\UserResource\RelationManagers;
 use App\Filament\Resources\UserResource\Actions;
 use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
+use App\Filament\Resources\UserResource\Schema\InfolistSchema;
+use App\Filament\Resources\UserResource\Widgets\UserRegistrationChartWidget;
 use App\Models\User;
 use App\UserTypes;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Tabs;
+use Filament\Infolists\Components\Tabs\Tab;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -137,6 +144,42 @@ final class UserResource extends Resource
             ]);
     }
 
+    public static function getWidgets(): array
+    {
+        /** @phpstan-ignore-next-line */
+        return [
+            UserRegistrationChartWidget::class,
+        ];
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            RelationManagers\SuggestionsRelationManager::class,
+            RelationManagers\ReportsRelationManager::class,
+        ];
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Tabs::make('tabs')
+                    ->columnSpan(12)
+                    ->tabs([
+                        Tab::make('Algemene informatie')
+                            ->columns(12)
+                            ->icon('heroicon-o-identification')
+                            ->schema(InfolistSchema::renderGeneralInformation()),
+                        Tab::make('Deactiverings informatie')
+                            ->columns(12)
+                            ->visible(fn (User $user): bool => $user->isBanned())
+                            ->icon('heroicon-o-lock-closed')
+                            ->schema(InfolistSchema::renderDeactivationInformation())
+                    ])
+            ]);
+    }
+
     /**
      * Our user overview table - the command center for user management.
      *
@@ -157,6 +200,18 @@ final class UserResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->heading('Gebruikersbeheer')
+            ->description('In dit overzicht zie je alle geregistreerde gebruikers van het systeem. Je kunt hier gebruikersgegevens bekijken, accounts bewerken, rollen toewijzen of gebruikers verwijderen. Gebruik de zoek- en filteropties om snel de juiste gebruiker te vinden.')
+            ->headerActions([
+                Action::make('documentation-reference')
+                    ->color('gray')
+                    ->icon('heroicon-o-book-open')
+                    ->label('Help'),
+                CreateAction::make()
+                    ->label('Gebruiker toevoegen')
+                    ->icon('heroicon-o-user-plus')
+            ])
+            ->recordUrl(fn (User $user): string => self::getUrl('view', ['record' => $user]))
             ->columns([
                 TextColumn::make('name')
                     ->iconColor('danger')
@@ -229,6 +284,7 @@ final class UserResource extends Resource
         return [
             'index' => Pages\ListUsers::route('/'),
             'create' => Pages\CreateUser::route('/create'),
+            'view' => Pages\ViewUser::route('/{record}'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }
