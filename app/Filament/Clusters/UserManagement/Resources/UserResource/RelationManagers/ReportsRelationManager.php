@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\UserManagement\Resources\UserResource\RelationManagers;
 
+use App\Models\User;
 use App\Filament\Clusters\Articles\Resources\ArticleReportResource;
 use App\Filament\Resources\UserResource\Pages\ViewUser;
 use App\Models\ArticleReport;
@@ -74,9 +75,9 @@ final class ReportsRelationManager extends RelationManager
      * If the user has one or more reports (i.e., the query count is greater than zero),
      * this method will return the count as a string. If there are no reports, it returns null.
      *
-     * @param Model  $ownerRecord  The record that owns the reports.
-     * @param string $pageClass    The current page's class (unused in this method).
-     * @return string|null         The count of reports as a string, or null if there are none.
+     * @param  User   $ownerRecord  The record that owns the reports.
+     * @param  string $pageClass    The current page's class (unused in this method).
+     * @return string|null          The count of reports as a string, or null if there are none.
      */
     public static function getBadge(Model $ownerRecord, string $pageClass): ?string
     {
@@ -128,7 +129,7 @@ final class ReportsRelationManager extends RelationManager
      * based on specific criteria, such as report status or submission date. Currently, no filters
      * are implemented, but this method is designed to be extended in the future to support such functionality.
      *
-     * @return array An array of filter implementations (currently empty).
+     * @return array<\Filament\Tables\Filters\BaseFilter> An array of filter implementations (currently empty).
      */
     private function getFilterImplementations(): array
     {
@@ -148,7 +149,7 @@ final class ReportsRelationManager extends RelationManager
      * These columns are designed to provide a clear and concise overview of the reports, with support for sorting and searching where applicable.
      * This layout ensures that administrators or moderators can quickly find and review the information they need.
      *
-     * @return array An array of configured TextColumn instances.
+     * @return array<int, Tables\Columns\TextColumn> An array of configured TextColumn instances.
      */
     private function getTableColumnSchemaLayout(): array
     {
@@ -185,7 +186,7 @@ final class ReportsRelationManager extends RelationManager
      *
      * This method is designed to be extended in the future to include additional actions, such as editing or deleting reports.
      *
-     * @return array An array of row action definitions.
+     * @return array<mixed> An array of row action definitions.
      */
     private function getTableActionRegistrations(): array
     {

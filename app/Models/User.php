@@ -38,6 +38,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property Carbon       $created_at         Timestamp of account creation
  * @property Carbon       $updated_at         Timestamp of last update
  *
+ * @method bans()
+ *
  * @package App\Models
  */
 final class User extends Authenticatable implements FilamentUser, BannableInterface
@@ -88,7 +90,7 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
     * Each suggested article is linked back to the user via the 'author_id' field.
     * Use this relationship to fetch or query the suggestions made by the user.
     *
-    * @return HasMany A collection of Article instances representing the user's suggestions.
+    * @return HasMany<Article, covariant $this> A collection of Article instances representing the user's suggestions.
     */
     public function suggestions(): HasMany
     {
@@ -101,7 +103,7 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
      * Each report is associated with the user who submitted it using the 'author_id' field.
      * Use this relationship to access any reports related to articles made by the user.
      *
-     * @return HasMany A collection of ArticleReport instances representing the user's reports.
+     * @return HasMany<ArticleReport, covariant $this> A collection of ArticleReport instances representing the user's reports.
      */
     public function reports(): HasMany
     {

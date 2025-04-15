@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\UserManagement\Resources\UserResource\RelationManagers;
 
+use App\Models\User;
 use App\Filament\Resources\ArticleResource;
 use App\Filament\Resources\UserResource\Pages\ViewUser;
 use App\Models\Article;
@@ -71,9 +72,9 @@ final class SuggestionsRelationManager extends RelationManager
      * If the owner record has one or more suggestions (i.e. the query count is greater than zero),
      * this method will return the count cast to a string. If there are no suggestions, it returns null.
      *
-     * @param Model  $ownerRecord  The record that owns the suggestions.
-     * @param string $pageClass    The current page's class (unused in this method).
-     * @return string|null         The count of suggestions as a string, or null if there are none.
+     * @param  User   $ownerRecord  The record that owns the suggestions.
+     * @param  string $pageClass    The current page's class (unused in this method).
+     * @return string|null          The count of suggestions as a string, or null if there are none.
      */
     public static function getBadge(Model $ownerRecord, string $pageClass): ?string
     {
@@ -114,7 +115,7 @@ final class SuggestionsRelationManager extends RelationManager
      * TextColumn class and is configured to display specific fields such as the unique identifier, the state of the suggestion, the lemma, the part of speech, any characteristics, and the date the suggestion was submitted.
      * The columns support sorting, searching, and visual enhancements such as badges and color styling.
      *
-     * @return array An array of TextColumn instances defining the layout of the suggestions table.
+     * @return array<\Filament\Tables\Columns\Column|\Filament\Tables\Columns\ColumnGroup|\Filament\Tables\Columns\Layout\Component> An array of TextColumn instances defining the layout of the suggestions table.
      */
     public function getTableColumnSchemaLayout(): array
     {
@@ -149,7 +150,7 @@ final class SuggestionsRelationManager extends RelationManager
      * The action defined here allows the user to view more detailed information about a suggestion.
      * It constructs a URL to the suggestion detail view provided by the ArticleResource, ensuring that users can easily access extended information about a particular suggestion.
      *
-     * @return array  An array of action definitions that will be attached to each row in the table.
+     * @return array<mixed>  An array of action definitions that will be attached to each row in the table.
      */
     public function getTableActionDefinitions(): array
     {

@@ -12,19 +12,15 @@ use App\Filament\Resources\UserResource\Schema\InfolistSchema;
 use App\Filament\Resources\UserResource\Widgets\UserRegistrationChartWidget;
 use App\Models\User;
 use App\UserTypes;
-use Filament\Actions\DeleteAction;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Filament\Infolists\Components\Section as InfolistSection;
 use Filament\Infolists\Components\Tabs;
 use Filament\Infolists\Components\Tabs\Tab;
 use Filament\Infolists\Infolist;
-use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
-use Filament\Support\Enums\IconSize;
 use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ActionGroup;
@@ -150,6 +146,7 @@ final class UserResource extends Resource
 
     public static function getWidgets(): array
     {
+        /** @phpstan-ignore-next-line */
         return [
             UserRegistrationChartWidget::class,
         ];
