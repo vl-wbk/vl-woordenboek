@@ -27,7 +27,7 @@ final class ReportsRelationManager extends RelationManager
 
     public static function getBadge(Model $ownerRecord, string $pageClass): ?string
     {
-        $recordCount = $ownerRecord->query()->count();
+        $recordCount = $ownerRecord->reports()->count();
 
         if ($recordCount > 0) {
             return (string) $recordCount;
@@ -39,14 +39,32 @@ final class ReportsRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
+            ->heading('Ingezonden meldingen')
+            ->description('Hier zie je de meldingen die de gebruiker heeft ingediend over het woordenboek, zoals opmerkingen, fouten of aanvullingen. Deze meldingen geven inzicht in feedback en eventuele aandachtspunten die de gebruiker signaleert. Gebruik deze informatie voor gerichte opvolging en om kansen te ontdekken voor verdere verbetering of samenwerking.')
             ->emptyStateIcon(self::$icon)
             ->emptyStateHeading('Geen meldingen gevonden')
             ->emptyStateDescription('Nog geen gebruikersmeldingen beschikbaar. Als deze gebruiker feedback geeft over het woordenboek zoals fouten, aanvullingen of opmerkingen verschijnen die hier.')
-            ->columns([
-                Tables\Columns\TextColumn::make('id'),
-            ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-            ]);
+            ->columns($this->getTableColumnSchemaLayout())
+            ->filters($this->getFilterImplementations())
+            ->actions($this->getTableActionRegistrations());
+    }
+
+    private function getFilterImplementations(): array
+    {
+        return [];
+    }
+
+    private function getTableColumnSchemaLayout(): array
+    {
+        return [
+            Tables\Columns\TextColumn::make('id'),
+        ];
+    }
+
+    private function getTableActionRegistrations(): array
+    {
+        return [
+            Tables\Actions\ViewAction::make(),
+        ];
     }
 }
