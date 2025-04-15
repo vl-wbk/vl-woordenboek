@@ -27,16 +27,39 @@ use Filament\Support\Contracts\HasLabel;
  * This design ensures that article state management is consistent, type-safe, and seamlessly integrated with the Filament UI,
  * facilitating a clear and maintainable approach to tracking an article’s progress through its lifecycle.
  *
+ * @implements HasLabel Provides a human-readable label for each state.
+ * @implements HasIcon  Provides an icon for each state, enhancing visual representation.
+ * @implements HasColor Provides a color associated with each state, for visual cues.
+ *
  * @package App\Enums
  */
 enum ArticleStates: int implements HasLabel, HasIcon, HasColor
 {
     use Comparable;
 
+    /**
+     * The article is a new suggestion, meaning it has been recently submitted and requires review.
+     */
     case New = 0;
+
+    /**
+     * The article is a draft, indicating it's a work in progress and not yet ready for publication.
+     */
     case Draft = 1;
+
+    /**
+     * The article is awaiting approval from an editor or administrator before it can be published.
+     */
     case Approval = 2;
+
+    /**
+     * The article has been published and is publicly visible on the website.
+     */
     case Published = 3;
+
+    /**
+     * The article has been archived, meaning it's no longer actively displayed but is kept for historical or reference purposes.
+     */
     case Archived = 4;
     case ExternalData = 5;
 
