@@ -87,7 +87,9 @@ final class SuggestionsRelationManager extends RelationManager
     }
 
     /**
-     * Configures the table that displays the suggestions. The table is set with a heading, a detailed description, and empty state messages to guide the user.
+     * Configures the table that displays the suggestions.
+     *
+     * The table is set with a heading, a detailed description, and empty state messages to guide the user.
      * It also specifies the labels for individual suggestion records in both singular and plural form.
      * In addition, the table layout is customized by invoking helper methods that return the column schema layout and the action definitions.
      *
@@ -153,7 +155,6 @@ final class SuggestionsRelationManager extends RelationManager
     {
         return [
             Tables\Actions\ViewAction::make()
-                ->label('Bekijk')
                 ->url(fn (Article $article): string => ArticleResource::getUrl('view', ['record' => $article]))
         ];
     }
