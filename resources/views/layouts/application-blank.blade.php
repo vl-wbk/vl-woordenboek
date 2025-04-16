@@ -111,7 +111,7 @@
                         @endif
                     @else
                         <li class="nav-item">
-                            <a href="{{ route('profile', auth()->user()) }}" class="nav-link">
+                            <a href="{{ route('profile.settings.security') }}" class="nav-link">
                                 <x-heroicon-s-user-circle class="icon me-1" /> {{ Auth::user()->name }}
                             </a>
                         </li>
