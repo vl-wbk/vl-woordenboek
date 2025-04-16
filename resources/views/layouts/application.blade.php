@@ -1,3 +1,5 @@
+@inject('volunteerSettings', 'App\Settings\VolunteerSettings')
+
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-100">
 <head>
@@ -10,8 +12,9 @@
     <title>{{ config('app.name', 'Laravel') }} | {{  $title ?? null }}</title>
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
@@ -140,7 +143,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="card border-0 bg-white shadow-sm">
                             <div class="card-body">
                                 <h5 class="card-title fw-bold">Index</h5>
@@ -176,16 +179,41 @@
                         </div>
 
                         @yield('additional-sidenav-components')
+
+                        @if ($volunteerSettings->pageActive)
+                            <hr>
+
+                            <div class="card border-0 bg-white shadow-sm">
+                                <div class="card-body">
+                                    <h5 class="card-title fst-italic fw-bold color-green">
+                                        We hebben je steun nodig!
+                                    </h5>
+
+                                    <h6 class="card-subtitle mb-2 text-body-secondary">Uw bijdrage, onze toekomst.</h6>
+
+                                    <p class="card-text lh-small">
+                                        Zin om je steentje bij te dragen aan het Vlaams woordenboek van morgen? We zijn op zoek naar enthousiaste vrijwilligers om dit waardevolle project verder uit te bouwen en toegankelijk te houden voor iedereen!
+                                    </p>
+                                </div>
+
+                                <div class="card-footer bg-white">
+                                    <a href="{{ route('support.volunteers') }}" class="btn shadow-sm btn-sm btn-submit">
+                                        <x-tabler-pointer-heart class="icon me-1" /> Vrijwilligers info
+                                    </a>
+
+                                </div>
+                            </div>
+                        @endif
                     </div>
 
-                    <div class="col-md-9">
+                    <div class="col-md-8">
                         @yield('content')
                     </div>
                 </div>
             </div>
         </main>
 
-        <footer class="footer mt-auto py-3 bg-body-tertiary">
+        <footer class="footer mt-auto py-3 bg-transparent">
             <div class="container">
                 <span class="fw-bold text-body-secondary">
                     &copy; {{ date('Y') }}, {{ config('app.name', 'Laravel') }}

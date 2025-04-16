@@ -13,6 +13,7 @@
         "dutchcodingcompany/filament-developer-logins": "^1.6",
         "eightynine/filament-advanced-widgets": "^3.0",
         "filament/filament": "^3.2.64",
+        "filament/spatie-laravel-settings-plugin": "^3.3",
         "flowframe/laravel-trend": "^0.4.0",
         "garygreen/pretty-routes": "^1.0",
         "kenepa/resource-lock": "^2.1.3",

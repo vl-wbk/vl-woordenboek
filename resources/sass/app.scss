@@ -7,6 +7,13 @@
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
 
+body {
+    background-image: url('../img/app-background.png');
+    font-family: "Special Elite", system-ui;
+    font-weight: 400;
+    font-style: normal;
+}
+
 // Icons
 
 .icon-thin {
@@ -25,7 +32,9 @@
 .icon-xl {
     font-size: 4rem;
 }
-
+.bg-sidenav {
+    background-color: oklch(92.8% 0.006 264.531);
+}
 
 .icon-filled {
     fill: currentColor;
