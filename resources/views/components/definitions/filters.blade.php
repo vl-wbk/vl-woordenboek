@@ -17,7 +17,10 @@
                 <li class="list-inline-item text-muted">|</li>
 
                 <li class="list-inline-item">
-                    <a href="{{ request()->fullUrlWithQuery(['sort' => '-published_at']) }}">Publicatie</a>
+                    @if (request()->fullUrl() === request()->fullUrlWithQuery(['sort' => '-published_at']))
+                        <a href="{{ request()->fullUrlWithQuery(['sort' => 'null']) }}">Publicatie</a>
+                    @else
+                    @endif
                 </li>
 
                 <li class="list-inline-item text-muted">|</li>
