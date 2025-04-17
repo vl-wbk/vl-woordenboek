@@ -12,10 +12,10 @@ final readonly class SearchWordQuery
     public function execute(?string $searchTerm = null): mixed
     {
         return QueryBuilder::for(Article::class)
-            ->allowedSorts(['published_at', 'word'])
+            ->allowedSorts(['published_at', 'views'])
             ->where('word', 'like', "%{$searchTerm}%")
             ->orWhere('word', 'like', "%{$searchTerm}%")
-            ->paginate()
+            ->paginate(6)
             ->appends(request()->query());
     }
 }

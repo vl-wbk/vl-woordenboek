@@ -17,9 +17,14 @@
                 <li class="list-inline-item text-muted">|</li>
 
                 <li class="list-inline-item">
-                    @if (request()->fullUrl() === request()->fullUrlWithQuery(['sort' => '-published_at']))
-                        <a href="{{ request()->fullUrlWithQuery(['sort' => 'null']) }}">Publicatie</a>
-                    @else
+                    @if (request()->has('sort'))
+                        <a href="{{ request()->fullUrlWithoutQuery(['sort']) }}">
+                            <x-tabler-sort-ascending-letters class="icon color-green me-1"/> Publicatie
+                        </a>
+                    @else {{-- The order is descrinding --}}
+                        <a href="{{ request()->fullUrlWithQuery(['sort' => '-published_at']) }}">
+                            <x-tabler-sort-descending-letters class="icon color-green me-1"/> Publicatie
+                        </a>
                     @endif
                 </li>
 
