@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\View\Components\Account;
 
 use App\Models\User;
-use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 

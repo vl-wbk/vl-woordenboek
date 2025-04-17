@@ -13,6 +13,7 @@
         "dutchcodingcompany/filament-developer-logins": "^1.6",
         "eightynine/filament-advanced-widgets": "^3.0",
         "filament/filament": "^3.2.64",
+        "filament/spatie-laravel-settings-plugin": "^3.3",
         "flowframe/laravel-trend": "^0.4.0",
         "garygreen/pretty-routes": "^1.0",
         "kenepa/resource-lock": "^2.1.3",
@@ -25,6 +26,7 @@
         "owen-it/laravel-auditing": "^14.0",
         "secondnetwork/blade-tabler-icons": "^3.29",
         "spatie/laravel-data": "^4.13",
+        "spatie/laravel-query-builder": "^6.3",
         "spatie/laravel-route-attributes": "^1.25",
         "spatie/laravel-welcome-notification": "^2.4",
         "watson/active": "^7.1"
@@ -34,6 +36,7 @@
         "fakerphp/faker": "^1.23",
         "jetbrains/phpstorm-attributes": "^1.2",
         "larastan/larastan": "^3.1",
+        "laravel-lang/lang": "^15.19",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.41",
@@ -62,7 +65,8 @@
             "@php artisan filament:upgrade"
         ],
         "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+            "@php artisan lang:update"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""

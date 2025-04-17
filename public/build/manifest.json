@@ -1,4 +1,8 @@
 {
+  "resources/img/app-background.png": {
+    "file": "assets/app-background-DxddqnsV.png",
+    "src": "resources/img/app-background.png"
+  },
   "resources/js/app.js": {
     "file": "assets/app-D-03kJxt.js",
     "name": "app",
@@ -6,7 +10,7 @@
     "isEntry": true
   },
   "resources/sass/app.scss": {
-    "file": "assets/app-t_kD8afY.css",
+    "file": "assets/app-C8Z3u9EI.css",
     "src": "resources/sass/app.scss",
     "isEntry": true
   }
