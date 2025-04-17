@@ -33,7 +33,8 @@ final readonly class SearchController
     public function __invoke(Request $request, SearchWordQuery $searchWordQuery): Renderable
     {
         return view('welcome', [
-            'results' => $searchWordQuery->execute($request->get('zoekterm'))
+            'results' => $searchWordQuery->execute($request->get('zoekterm')),
+            'termPresent' => $request->has('zoekterm'),
         ]);
     }
 }
