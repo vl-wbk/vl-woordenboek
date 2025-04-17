@@ -122,7 +122,7 @@
                             Op basis van de suggestie ingestuurd door <span class="color-green">Jan met de pet</span>
                         </p>
 
-                        <a href="" class="card-link text-decoration-none">
+                        <a href="{{ route('word-information.show', \App\Models\Article::first()) }}" class="card-link text-decoration-none">
                             <x-heroicon-o-eye class="icon color-green"/> bekijk
                         </a>
 
