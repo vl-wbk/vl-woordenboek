@@ -22,7 +22,7 @@
                 @auth
                     <div class="btn-toolbar float-end" role="toolbar" aria-label="Toolbar with filters and functionalities">
                         <div class="btn-group me-3 shadow-sm">
-                            <livewire:likewords :article="$word"/>
+                            <livewire:like-words :article="$word"/>
                             <a href="#" class="btn border-0 btn-light">
                                 <x-heroicon-o-bookmark class="icon color-green"/> bewaren
                             </a>
