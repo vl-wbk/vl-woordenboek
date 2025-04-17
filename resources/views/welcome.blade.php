@@ -39,7 +39,7 @@
             <div class="col-md-12">
                 <div class="card bg-white border-0 shadow-sm">
                     <div class="card-header color-green fw-bold bg-white">
-                        Artikel zoeken in het woordenboek
+                        Zoek een artikel in ons woordenboek met {{ $articleCount }} termen
                     </div>
                     <div class="card-body">
                         <form action="{{ route('search.results') }}" method="GET">
@@ -85,11 +85,11 @@
 
                 {{-- Blankslate for when the user starts using the application. --}}
                 @includeWhen(! $termPresent, 'components.definitions.blankslates.new-visit')
-                @includeWhen($termPresent && $results->total() === 0, 'components.definitions.blankslates.no-results')
+                @includeWhen($termPresent && (request('zoekterm') === null || $results->total() === 0), 'components.definitions.blankslates.no-results')
 
                 {{-- When Search term and results are present --}}
-                @includeWhen($termPresent && $results->total() > 0, 'components.definitions.results', ['results' => $results])
-                @includeWhen($termPresent && $results->total() > 0, 'components.definitions.pagination', ['results' => $results])
+                @includeWhen($termPresent && $results->total() > 0 && request('zoekterm') !== null, 'components.definitions.results', ['results' => $results])
+                @includeWhen($termPresent && (request('zoekterm') !== null || $results->total() === 0), 'components.definitions.pagination', ['results' => $results])
             </div>
         </div>
     </div> {{-- END results & sidebar --}}

@@ -1,7 +1,11 @@
 <div class="row">
     <div class="col-12">
         <div class="float-start mb-2">
-            <span class="fw-bold">{{ $results }}</span> resultaten
+            @if (request('zoekterm') === null)
+                <span class="fw-bold">0</span> resultaten
+            @else
+                <span class="fw-bold">{{ $results }}</span> resultaten
+            @endif
         </div>
 
         <div class="float-end mb-2">

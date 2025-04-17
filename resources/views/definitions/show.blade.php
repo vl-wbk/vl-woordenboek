@@ -5,27 +5,36 @@
         <div class="row">
             <div class="col-12">
                 <div class="float-start">
-                    <h3 class="color-green">Artikel informatie</h3>
+                    <h3 class="color-green">
+                        <a href="{{ url()->previous() }}" class="color-green text-decoration-none">
+                            <x-heroicon-o-arrow-uturn-left class="icon icon-back-to-results"/>
+                        </a>
+
+                        <span class="text-muted">/</span>Artikelinformatie
+                    </h3>
+
                     <span class="text-danger">
                         <x-heroicon-s-bell-alert class="icon"/>
                         Dit artikel werd nog niet redactioneel bewerkt en daarom kan de kwaliteit ontoereikend zijn
                     </span>
                 </div>
 
-                <div class="btn-toolbar float-end" role="toolbar" aria-label="Toolbar with filters and functionalities">
-                    <div class="btn-group me-3 shadow-sm">
-                        <livewire:likewords :article="$word"/>
-                        <a href="#" class="btn border-0 btn-light">
-                            <x-heroicon-o-bookmark class="icon color-green"/> bewaren
-                        </a>
-                    </div>
+                @auth
+                    <div class="btn-toolbar float-end" role="toolbar" aria-label="Toolbar with filters and functionalities">
+                        <div class="btn-group me-3 shadow-sm">
+                            <livewire:likewords :article="$word"/>
+                            <a href="#" class="btn border-0 btn-light">
+                                <x-heroicon-o-bookmark class="icon color-green"/> bewaren
+                            </a>
+                        </div>
 
-                    <div class="btn-group shadow-sm" role="group">
-                        <a href="{{ route('definitions.create') }}" class="btn border-0 btn-danger">
-                            <x-heroicon-s-document-plus class="icon"/> rapporteren
-                        </a>
+                        <div class="btn-group shadow-sm" role="group">
+                            <button type="button" class="btn btn-danger btn-sm float-end" data-bs-toggle="modal" data-bs-target="#reportModal">
+                                <x-tabler-file-alert class="icon"/> rapporteren
+                            </button>
+                        </div>
                     </div>
-                </div>
+                @endauth
             </div>
         </div>
     </div>
@@ -134,4 +143,6 @@
             </div>
         </div>
     </div>
+
+    <livewire:reportarticlemodal :article=$word />
 @endsection

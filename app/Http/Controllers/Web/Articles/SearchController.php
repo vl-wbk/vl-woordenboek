@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web\Articles;
 
+use App\Models\Article;
 use App\Queries\SearchWordQuery;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
@@ -33,6 +34,7 @@ final readonly class SearchController
     public function __invoke(Request $request, SearchWordQuery $searchWordQuery): Renderable
     {
         return view('welcome', [
+            'articleCount' => Article::query()->count(),
             'results' => $searchWordQuery->execute($request->get('zoekterm')),
             'termPresent' => $request->has('zoekterm'),
         ]);
