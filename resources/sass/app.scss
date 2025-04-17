@@ -143,6 +143,11 @@ p {
     margin-bottom: 0;
 }
 
+.volunteers-description > p,
+.disclaimer-description > p {
+    margin-bottom: 1rem;
+}
+
 // Modals
 .modal-header-reporting {
     background-color: oklch(0.936 0.032 17.717);

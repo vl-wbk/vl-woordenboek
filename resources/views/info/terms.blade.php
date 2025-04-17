@@ -8,7 +8,7 @@
             </div>
             <div class="col-12 py-3">
                 <div class="card bg-white border-0 shadow-sm">
-                    <div class="card-body">
+                    <div class="card-body disclaimer-description">
                         <p>
                             De Algemene Voorwaarden geven aan hoe deze website werkt, er wordt uitgelegd hoe we aan onze inhoud komen en hoe we omgaan met
                             privacy, en geeft duidelijke verplichtingen die u, als gebruiker van deze site, moet aanvaarden zodat we u verder toegang tot deze
@@ -205,12 +205,12 @@
 
                         <h3 class="color-green">Overeenkomst</h3>
 
-                        <p class="mb-0">De Algemene voorwaarden bevatten de volledige overeenkomst tussen u, de gebruiker, en het Vlaams woordenboek en bepaalt uw gebruik
+                        <p>De Algemene voorwaarden bevatten de volledige overeenkomst tussen u, de gebruiker, en het Vlaams woordenboek en bepaalt uw gebruik
                             van de Service. De Belgische wetgeving bepaalt de Algemene Voorwaarden en de relatie tussen de gebruiker en het Vlaams woordenboek.
                             Door deze Website te gebruiken aanvaardt u, de gebruiker, om exclusieve jurisdictie op te geven bij de rechtbank in Antwerpen,
                             België, indien een juridisch dispuut zich zou voordoen.</p>
 
-                            <p>Om vastgestelde inbreuken van de Algemene Voorwaarden te rapporteren, contacteert u het Vlaams woordenboek direct via de
+                            <p class="mb-0">Om vastgestelde inbreuken van de Algemene Voorwaarden te rapporteren, contacteert u het Vlaams woordenboek direct via de
                             contactgegevens zoals vermeld op de Website.
                         </p>
                     </div>

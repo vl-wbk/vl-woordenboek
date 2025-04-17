@@ -8,7 +8,9 @@
                     <div class="card-body">
                         <h2 class="color-green">{{ $pageSettings->pageTitle }}</h2>
 
-                        {!! str($pageSettings->pageContent)->markdown()->sanitizeHtml() !!}
+                        <div class="volunteers-description">
+                            {!! str($pageSettings->pageContent)->markdown()->sanitizeHtml() !!}
+                        </div>
 
                         <hr>
 
