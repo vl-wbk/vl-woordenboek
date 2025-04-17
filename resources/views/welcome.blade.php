@@ -12,15 +12,17 @@
                 <div class="float-end">
                     <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with filters and functionalities">
                         <div class="btn-group me-3 shadow-sm">
-                            <a href="#" class="btn border-0 btn-light active" aria-current="page">
-                                <x-heroicon-o-magnifying-glass-circle class="icon color-green"/> opzoeking
-                            </a>
-                            <a href="#" class="btn border-0 btn-light">
-                                <x-heroicon-o-bookmark class="icon color-green"/> bewaarde woorden
-                            </a>
-                            <a href="#" class="btn border-0 btn-light">
-                                <x-heroicon-o-list-bullet class="icon color-green"/> mijn suggesties
-                            </a>
+                            @auth
+                                <a href="#" class="btn border-0 btn-light active" aria-current="page">
+                                    <x-heroicon-o-magnifying-glass-circle class="icon color-green"/> opzoeking
+                                </a>
+                                <a href="#" class="btn border-0 btn-light">
+                                    <x-heroicon-o-bookmark class="icon color-green"/> bewaarde woorden
+                                </a>
+                                <a href="#" class="btn border-0 btn-light">
+                                    <x-heroicon-o-list-bullet class="icon color-green"/> mijn suggesties
+                                </a>
+                            @endauth
                         </div>
 
                         <div class="btn-group shadow-sm" role="group">
@@ -89,6 +91,8 @@
 
                 {{-- When Search term and results are present --}}
                 @includeWhen($termPresent && $results->total() > 0 && request('zoekterm') !== null, 'components.definitions.results', ['results' => $results])
+
+                {{-- Indien men vraagt waarom hier dat paginatie zinnetje wel vertroond word. Antwoord gewoon dat alleen god wist wat ik aan het doen was --}}
                 @includeWhen($termPresent && (request('zoekterm') !== null || $results->total() === 0), 'components.definitions.pagination', ['results' => $results])
             </div>
         </div>
