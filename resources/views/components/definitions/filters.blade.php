@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-12">
         <div class="float-start mb-2">
-            <span class="fw-bold">{{ $results }}</span> artikelen gevonden
+            <span class="fw-bold">{{ $results }}</span> resultaten
         </div>
 
         <div class="float-end mb-2">
@@ -11,19 +11,27 @@
                 </li>
 
                 <li class="list-inline-item">
-                    <a href="{{ route('search.results', ['zoekterm' => request()->get('zoekterm')]) }}">Standaard</a>
+                    @if (request('sort') === '-alfabetisch')
+                        <a href="{{ request()->fullUrlWithoutQuery(['sort']) }}">
+                            <x-tabler-sort-ascending-letters class="icon color-green me-1"/> Alfabetische volgorde
+                        </a>
+                    @else
+                        <a href="{{ request()->fullUrlWithQuery(['sort' => '-alfabetisch']) }}">
+                            <x-tabler-sort-descending-letters class="icon color-green me-1"/> Alfabetische volgorde
+                        </a>
+                    @endif
                 </li>
 
                 <li class="list-inline-item text-muted">|</li>
 
                 <li class="list-inline-item">
-                    @if (request()->has('sort'))
+                    @if (request('sort') === '-publicatie')
                         <a href="{{ request()->fullUrlWithoutQuery(['sort']) }}">
-                            <x-tabler-sort-ascending-letters class="icon color-green me-1"/> Publicatie
+                            <x-tabler-sort-ascending-letters class="icon color-green me-1"/> Publicatiedatum
                         </a>
                     @else {{-- The order is descrinding --}}
-                        <a href="{{ request()->fullUrlWithQuery(['sort' => '-published_at']) }}">
-                            <x-tabler-sort-descending-letters class="icon color-green me-1"/> Publicatie
+                        <a href="{{ request()->fullUrlWithQuery(['sort' => '-publicatie']) }}">
+                            <x-tabler-sort-descending-letters class="icon color-green me-1"/> Publicatiedatum
                         </a>
                     @endif
                 </li>
@@ -31,7 +39,15 @@
                 <li class="list-inline-item text-muted">|</li>
 
                 <li class="list-inline-item active">
-                    <a href="">Weergaves</a>
+                    @if (request('sort') === '-weergaves')
+                        <a href="{{ request()->fullUrlWithoutQuery(['sort']) }}">
+                            <x-tabler-sort-ascending-letters class="icon color-green me-1"/> Weergaves
+                        </a>
+                    @else
+                        <a href="{{ request()->fullUrlWithQuery(['sort' => '-weergaves']) }}">
+                            <x-tabler-sort-descending-letters class="icon color-green me-1"/> Weergaves
+                        </a>
+                    @endif
                 </li>
             </ul>
         </div>
