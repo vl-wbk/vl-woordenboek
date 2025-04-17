@@ -10,10 +10,22 @@ use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
 
 /**
- * Enum representing the possible states of an article within the application.
+ * ArticleStates defines the possible lifecycle states of an article.
  *
- * This enum provides a structured way to manage the different stages an article can go through, from initial suggestion to being archived.
- * It implements the `HasLabel`, `HasIcon`, and `HasColor` interfaces from the Filament package, allowing for easy integration with Filament admin panels and other UI components.
+ * This enumeration assigns specific integer values to each state an article can be in, such as "New" for a suggestion,
+ * "Draft" for an in-progress article, "Approval" for articles awaiting review, "Published" for released content,
+ * "Archived" for outdated entries, and "ExternalData" for articles based on external information.
+ *
+ * By implementing HasLabel, HasIcon, and HasColor interfaces, this enum provides Filament-compatible methods that return a
+ * human-readable Dutch label, an associated icon, and a display color for each state. The getLabel() method uses a match
+ * expression to map each state to its Dutch label. The getColor() method returns a uniform color ("gray") for all states, and
+ * the getIcon() method returns the same document text icon for every state.
+ *
+ * The Comparable trait is included to enable direct comparisons between state instances, which is essential for enforcing
+ * business rules and ordering the articles based on their state.
+ *
+ * This design ensures that article state management is consistent, type-safe, and seamlessly integrated with the Filament UI,
+ * facilitating a clear and maintainable approach to tracking an article’s progress through its lifecycle.
  *
  * @implements HasLabel Provides a human-readable label for each state.
  * @implements HasIcon  Provides an icon for each state, enhancing visual representation.
@@ -49,12 +61,13 @@ enum ArticleStates: int implements HasLabel, HasIcon, HasColor
      * The article has been archived, meaning it's no longer actively displayed but is kept for historical or reference purposes.
      */
     case Archived = 4;
+    case ExternalData = 5;
 
     /**
      * Returns the human-readable Dutch label for each state.
-     * These labels are used in the user interface to clearly communicate the state of an article to users.
+     * For each possible state, this method returns an appropriate label that can be used in user interfaces to describe the article's current status.
      *
-     * @return string The Dutch label for the article state. Example: 'Suggestie' for the New state.
+     * @return string The label corresponding to the state.
      */
     public function getLabel(): string
     {
@@ -64,15 +77,15 @@ enum ArticleStates: int implements HasLabel, HasIcon, HasColor
             self::Approval => 'In afwachting',
             self::Published => 'Publicatie',
             self::Archived => 'Gearchiveerd',
+            self::ExternalData => 'Externe data',
         };
     }
 
     /**
-     * Returns the color associated with the article state.
-     * This color can be used to visually highlight articles based on their status in the UI.
+     * Returns the display color associated with the state.
+     * All states currently return the same color, which supports a uniform appearance in the user interface components that utilize this enum.
      *
-     * @return string The color name (e.g., 'gray').  Currently, all states use 'gray'.
-     *                Consider customizing this to provide more informative visual cues.
+     * @return string The color value (in this case, "gray").
      */
     public function getColor(): string
     {
@@ -80,12 +93,10 @@ enum ArticleStates: int implements HasLabel, HasIcon, HasColor
     }
 
     /**
-     * Returns the icon associated with the article state.
-     * Icons provide a visual representation of the article's status, making it easier for users to quickly understand the state of an article.
+     * Returns the icon associated with the state.
+     * The icon is used by Filament components to visually represent the article state in the UI.
      *
-     * @return string The Heroicon name (e.g., 'heroicon-o-document-text').
-     *                Currently, all states use the same icon.  Consider using
-     *                different icons for different states to improve usability.
+     * @return string The identifier of the icon (here, a document-text icon).
      */
     public function getIcon(): string
     {

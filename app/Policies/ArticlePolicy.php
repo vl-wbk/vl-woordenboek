@@ -31,6 +31,10 @@ final readonly class ArticlePolicy
      */
     public function update(User $user, Article $article): bool
     {
+        if (ArticleStates::Approval && $user->user_type->in([UserTypes::EditorInChief, UserTypes::Administrators, UserTypes::Developer])) {
+            return true;
+        }
+
         return $article->state->in(enums: [ArticleStates::New, ArticleStates::Draft, ArticleStates::Archived])
             && $user->user_type->notIn(enums: [UserTypes::Normal]);
     }
@@ -75,7 +79,7 @@ final readonly class ArticlePolicy
 
         if (
             $article->state->isNot(enum: ArticleStates::Approval)
-            && $user->user_type->notIn(enums: [UserTypes::EditorInChief, UserTypes::Administrators, UserTypes::Developer])
+            && $user->user_type->in(enums: [UserTypes::EditorInChief, UserTypes::Administrators, UserTypes::Developer])
         ) {
             return false;
         }
@@ -104,7 +108,7 @@ final readonly class ArticlePolicy
 
         if (
             $article->state->notIn(enums: [ArticleStates::Approval, ArticleStates::Archived]) &&
-            $user->user_type->notIn(enums: [UserTypes::EditorInChief, UserTypes::Administrators, UserTypes::Developer])
+            $user->user_type->in(enums: [UserTypes::EditorInChief, UserTypes::Administrators, UserTypes::Developer])
         ) {
             return false;
         }

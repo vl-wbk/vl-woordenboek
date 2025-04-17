@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\ArticleStates;
+use App\Enums\DataOrigin;
 use App\Enums\LanguageStatus;
 use App\Models\Region;
 use App\Models\User;
@@ -22,10 +23,19 @@ return new class extends Migration
             $table->string('index', 1)
                 ->comment('The index column is used in the word index of the application.')
                 ->virtualAs("UPPER(LEFT(word, 1))");
-            $table->smallInteger('state')->default(ArticleStates::New->value);
+            $table->unsignedSmallInteger('origin')->default(DataOrigin::External->value);
+            $table->smallInteger('state')->default(ArticleStates::ExternalData->value);
             $table->foreignIdFor(PartOfSpeech::class)->nullable()->references('id')->on('part_of_speeches')->nullOnDelete();
             $table->foreignIdFor(User::class, 'author_id')->nullable()->references('id')->on('users')->nullOnDelete();
             $table->foreignIdFor(User::class, 'editor_id')->nullable()->references('id')->on('users')->nullOnDelete();
+
+            $table->foreignIdFor(User::class, 'publisher_id')
+                ->nullable()
+                ->comment('The person who approved the article for publishing it into the dictionary')
+                ->references('id')
+                ->on('users')
+                ->nullOnDelete();
+
             $table->foreignIdFor(User::class, 'archiever_id')->nullable()->constrained();
             $table->string('word')->fulltext();
             $table->integer('views')->default('0');
@@ -38,6 +48,7 @@ return new class extends Migration
             $table->string('archiving_reason', 350)->nullable();
             $table->json('sources')->nullable();
             $table->timestamp('archived_at')->nullable();
+            $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });
 

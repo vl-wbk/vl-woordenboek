@@ -8,6 +8,7 @@ use App\Builders\ArticleBuilder;
 use App\States\Articles;
 use App\Contracts\States\ArticleStateContract;
 use App\Enums\ArticleStates;
+use App\Enums\DataOrigin;
 use App\Enums\LanguageStatus;
 use App\Models\Relations\BelongsToEditor;
 use App\Models\Relations\BelongsToManyRegions;
@@ -36,6 +37,7 @@ use Kenepa\ResourceLock\Models\Concerns\HasLocks;
  * @property string         $description        The detailed explanation of the word
  * @property int            $author_id          The ID of the user who created the article
  * @property LanguageStatus $status             The current language validation status
+ * @property DataOrigin      $origin             The origin of the data where the dictionary article is based on.
  * @property string|null    $example            Optional usage example of the word
  * @property string|null    $characteristics    Additional word characteristics
  * @property int|null       $editor_id          The ID of the assigned editor
@@ -81,6 +83,7 @@ final class Article extends Model implements AuditableContract
      * @var array<string, object|int|string>
      */
     protected $attributes = [
+        'origin' => DataOrigin::Suggestion,
         'state' => ArticleStates::New,
         'status' => LanguageStatus::Onbekend,
     ];
@@ -99,6 +102,7 @@ final class Article extends Model implements AuditableContract
     public function articleStatus(): ArticleStateContract
     {
         return match($this->state) {
+            ArticleStates::ExternalData => new Articles\ExternalDataState($this),
             ArticleStates::New => new Articles\NewState($this),
             ArticleStates::Draft => new Articles\DraftState($this),
             ArticleStates::Approval => new Articles\ApprovalState($this),
@@ -218,6 +222,7 @@ final class Article extends Model implements AuditableContract
     protected function casts(): array
     {
         return [
+            'origin' => DataOrigin::class,
             'state' => ArticleStates::class,
             'status' => LanguageStatus::class,
             'sources' => 'array',
