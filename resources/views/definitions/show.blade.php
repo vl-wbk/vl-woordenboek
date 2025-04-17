@@ -144,5 +144,5 @@
         </div>
     </div>
 
-    <livewire:reportarticlemodal :article=$word />
+    <livewire:report-article-modal :article=$word />
 @endsection
