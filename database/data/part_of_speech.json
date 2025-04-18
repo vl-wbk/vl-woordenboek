@@ -1,20 +1,7 @@
 [
     { "value": "zn", "name": "zelfstandig naam woord" },
-    { "value": "znw", "name": "zelfstandig naamwoord (verouderd)" },
-    { "value": "ev", "name": "enkelvoud" },
-    { "value": "mv", "name": "meervoud" },
-    { "value": "m", "name": "mannelijk" },
-    { "value": "v", "name": "vrouwelijk" },
-    { "value": "o", "name": "onzijdig" },
-    { "value": "bn", "name": "bijvoegelijk naamwoord" },
-    { "value": "bvnw", "name": "bijvoegelijk naamwoord (verouderd)" },
-    { "value": "verg", "name": "vergrotende trap" },
-    { "value": "overtr", "name": "overtreffende trap" },
+    { "value": "bn", "name": "bijvoeglijk naamwoord" },
     { "value": "ww", "name": "werkwoord" },
-    { "value": "inf", "name": "infinitief" },
-    { "value": "pv", "name": "persoonsvorm" },
-    { "value": "vd", "name": "voltooid deelwoord" },
-    { "value": "od", "name": "onvoltooid deelwoord" },
     { "value": "vn", "name": "voornaamwoord" },
     { "value": "pers vnw", "name": "persoonlijk voornaamwoord" },
     { "value": "bez vnw", "name": "bezittelijk voornaamwoord" },
@@ -25,7 +12,7 @@
     { "value": "onbep vnw", "name": "onbepaald voornaamwoord" },
     { "value": "tw", "name": "telwoord" },
     { "value": "hoofd tw", "name": "hoofdtelwoord" },
-    { "value": "rang tw", "name": "rang telwoord" },
+    { "value": "rang tw", "name": "rangtelwoord" },
     { "value": "lw", "name": "lidwoord" },
     { "value": "blw", "name": "bepaald lidwoord" },
     { "value": "onblw", "name": "onbepaald lidwoord" },
@@ -34,5 +21,7 @@
     { "value": "neven vw", "name": "nevenschikkend voegwoord" },
     { "value": "onder vw", "name": "onderschikkend voegwoord" },
     { "value": "vz", "name": "voorzetsel" },
-    { "value": "tw", "name": "tussenwerpsel" }
+    { "value": "tw", "name": "tussenwerpsel" },
+    { "value": "en",  "name": "eigennaam" }
+
 ]
