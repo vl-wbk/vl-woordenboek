@@ -33,6 +33,7 @@ final class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->brandName('VL. woordenboek')
+            ->favicon(asset('favicon/favicon-32x32.png'))
             ->maxContentWidth(MaxWidth::Full)
             ->topNavigation()
             ->font('Nunito', BunnyFontProvider::class)
