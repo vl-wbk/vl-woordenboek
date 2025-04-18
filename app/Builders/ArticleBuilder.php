@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Builders;
 
+use App\Contracts\Eloquent\HandlesRelationManipulationInterface;
 use App\Enums\ArticleStates;
 use App\Enums\Visibility;
+use App\Models\Concerns\HandlesRelationManipulation;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use JetBrains\PhpStorm\Deprecated;
@@ -21,8 +23,11 @@ use JetBrains\PhpStorm\Deprecated;
  *
  * @package App\Builders
  */
-final class ArticleBuilder extends Builder
+final class ArticleBuilder extends Builder implements HandlesRelationManipulationInterface
 {
+    use HandlesRelationManipulation;
+
+
     /**
      * Archives the current article with an optional reason.
      *
@@ -36,7 +41,7 @@ final class ArticleBuilder extends Builder
     {
         DB::transaction(function () use ($archivingReason): void {
             $this->model->update(attributes: ['state' => ArticleStates::Archived, 'archiving_reason' => $archivingReason, 'published_at' => null, 'archived_at' => now()]);
-            $this->model->archiever()->associate(auth()->user())->save();
+            $this->associate($this->model, 'archiever', auth()->user());
         });
     }
 
@@ -48,12 +53,12 @@ final class ArticleBuilder extends Builder
      *
      * @return void
      */
-    #[Deprecated('Should be refzactored to a general publish action in the ArticleBuilder')]
+    #[Deprecated('Should be refactored to a general publish action in the ArticleBuilder')]
     public function unarchive(): void
     {
         DB::transaction(function (): void {
             $this->model->update(attributes: ['state' => ArticleStates::Published, 'archiving_reason' => null, 'published_at' => now(), 'archived_at' => null]);
-            $this->model->archiever()->associate(null)->save();
+            $this->dissociate($this->record, 'achiever');
         });
     }
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Relations;
 
+use App\Models\Concerns\HandlesRelationManipulation;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -23,6 +24,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * Integration:
  * To utilize this trait, simply include it in your Eloquent model: `use BelongsToAuthor;`
+ *
+ * @todo Refactor in order to support the HandlesRelationManipulation trait
  *
  * @package App\Models\Relations
  */
