@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\ArticleResource\Pages;
 
-use App\Contracts\Eloquent\HandlesRelationManipulationInterface;
 use App\Filament\Resources\ArticleResource;
 use App\Filament\Resources\ArticleResource\Schema\FormSchema;
-use App\Models\Concerns\HandlesRelationManipulation;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\CreateRecord;
@@ -30,10 +28,9 @@ use Filament\Resources\Pages\CreateRecord\Concerns\HasWizard;
  *
  * @package App\Filament\Resources\ArticleResource\Pages
  */
-final class CreateWord extends CreateRecord implements HandlesRelationManipulationInterface
+final class CreateWord extends CreateRecord
 {
     use HasWizard;
-    use HandlesRelationManipulation;
 
     /**
      * The resource class associated with this form handler.
@@ -80,7 +77,7 @@ final class CreateWord extends CreateRecord implements HandlesRelationManipulati
      */
     public function afterCreate(): void
     {
-        $this->associate($this->record, 'author', auth()->user());
+        $this->record->author()->associate(auth()->user())->save();
     }
 
     /**
