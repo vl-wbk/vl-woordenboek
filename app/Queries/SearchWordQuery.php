@@ -20,6 +20,9 @@ final readonly class SearchWordQuery
             ->appends(request()->query());
     }
 
+    /**
+     * @return array<int, AllowedSort>
+     */
     private function getAllowedSorts(): array
     {
         return [
