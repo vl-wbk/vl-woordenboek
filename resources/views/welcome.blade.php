@@ -9,29 +9,7 @@
                     <h3 class="color-green">Raadpleging woordenboek</h3>
                 </div>
 
-                <div class="float-end">
-                    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with filters and functionalities">
-                        <div class="btn-group me-3 shadow-sm">
-                            @auth
-                                <a href="#" class="btn border-0 btn-light active" aria-current="page">
-                                    <x-heroicon-o-magnifying-glass-circle class="icon color-green"/> opzoeking
-                                </a>
-                                <a href="#" class="btn border-0 btn-light">
-                                    <x-heroicon-o-bookmark class="icon color-green"/> bewaarde woorden
-                                </a>
-                                <a href="#" class="btn border-0 btn-light">
-                                    <x-heroicon-o-list-bullet class="icon color-green"/> mijn suggesties
-                                </a>
-                            @endauth
-                        </div>
-
-                        <div class="btn-group shadow-sm" role="group">
-                            <a href="{{ route('definitions.create') }}" class="btn border-0 btn-submit">
-                                <x-heroicon-s-document-plus class="icon"/> suggestie indienen
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                <x-articles.overview-toolbar/>
             </div>
         </div>
     </div>

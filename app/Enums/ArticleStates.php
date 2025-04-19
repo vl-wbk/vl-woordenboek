@@ -89,7 +89,13 @@ enum ArticleStates: int implements HasLabel, HasIcon, HasColor
      */
     public function getColor(): string
     {
-        return 'gray';
+        return match($this)  {
+            self::New, self::ExternalData => 'gray',
+            self::Draft => 'warning',
+            self::Approval => 'priamry',
+            self::Published => 'success',
+            self::Archived => 'danger',
+        };
     }
 
     /**

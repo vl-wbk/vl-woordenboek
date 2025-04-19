@@ -59,7 +59,7 @@ final readonly class StoreArticleSuggestion implements HandlesRelationManipulati
             $this->sync($suggestion, 'regions', $suggestionData->regions);
 
             if (! is_null($suggestionData->creator_id)) {
-                $this->associate($suggestion, 'author', $suggestionData->creator_id);
+                $suggestion->author()->associate($suggestionData->creator_id)->save();
             }
         });
     }
