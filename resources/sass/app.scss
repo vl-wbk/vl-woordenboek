@@ -136,7 +136,7 @@ textarea.form-control {
 }
 
 .color-green {
-    color: #127453
+    color: #127453 !important;
 }
 
 p {
@@ -159,4 +159,36 @@ p {
 
 .modal-footer-reporting {
     background-color: oklch(0.97 0 0);
+}
+
+// Badges - Suggestions overview
+
+.badge-gray {
+    background-color: oklch(96.7% 0.001 286.375);
+    border: 1px solid oklch(87.1% 0.006 286.286);
+    color: oklch(44.2% 0.017 285.786);
+}
+
+.badge-warning {
+    background-color: oklch(98% 0.016 73.684);
+    border: 1px solid oklch(75% 0.183 55.934);
+    color: oklch(75% 0.183 55.934);
+}
+
+.badge-primary {
+    background-color: oklch(94.3% 0.029 294.588);
+    border: 1px solid oklch(60.6% 0.25 292.717);
+    color: oklch(60.6% 0.25 292.717);
+}
+
+.badge-success {
+    background-color: oklch(96.2% 0.044 156.743);
+    border: 1px solid oklch(79.2% 0.209 151.711);
+    color: oklch(79.2% 0.209 151.711);
+}
+
+.badge-danger {
+    background-color: oklch(97.1% 0.013 17.38);
+    border: 1px solid oklch(44.4% 0.177 26.899);
+    color: oklch(44.4% 0.177 26.899);
 }

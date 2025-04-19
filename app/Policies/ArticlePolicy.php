@@ -31,7 +31,7 @@ final readonly class ArticlePolicy
      */
     public function update(User $user, Article $article): bool
     {
-        if (ArticleStates::Approval && $user->user_type->in([UserTypes::EditorInChief, UserTypes::Administrators, UserTypes::Developer])) {
+        if ($article->state->is(ArticleStates::Approval) && $user->user_type->in([UserTypes::EditorInChief, UserTypes::Administrators, UserTypes::Developer])) {
             return true;
         }
 

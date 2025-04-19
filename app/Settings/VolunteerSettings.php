@@ -11,6 +11,10 @@ final class VolunteerSettings extends Settings
     public bool $pageActive = false;
     public ?string $pageTitle = null;
     public ?string $pageContent = null;
+
+    /**
+     * @var array<empty>
+     */
     public array $positions = [];
 
     public static function group(): string
