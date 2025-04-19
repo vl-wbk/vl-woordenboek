@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="float-start">
-                    <h2 class="color-green">Mijn suggesties</h2>
+                    <h3 class="color-green">Mijn suggesties</h3>
                 </div>
 
                 <x-articles.overview-toolbar/>

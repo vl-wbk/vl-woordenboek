@@ -27,10 +27,6 @@ use Filament\Support\Contracts\HasLabel;
  * This design ensures that article state management is consistent, type-safe, and seamlessly integrated with the Filament UI,
  * facilitating a clear and maintainable approach to tracking an article’s progress through its lifecycle.
  *
- * @implements HasLabel Provides a human-readable label for each state.
- * @implements HasIcon  Provides an icon for each state, enhancing visual representation.
- * @implements HasColor Provides a color associated with each state, for visual cues.
- *
  * @package App\Enums
  */
 enum ArticleStates: int implements HasLabel, HasIcon, HasColor
@@ -61,6 +57,7 @@ enum ArticleStates: int implements HasLabel, HasIcon, HasColor
      * The article has been archived, meaning it's no longer actively displayed but is kept for historical or reference purposes.
      */
     case Archived = 4;
+
     case ExternalData = 5;
 
     /**

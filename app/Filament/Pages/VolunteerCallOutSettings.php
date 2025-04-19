@@ -66,6 +66,9 @@ final class VolunteerCallOutSettings extends SettingsPage
             ]);
     }
 
+    /**
+     * @return array<int, TextInput|MarkdownEditor|Toggle>
+     */
     private function pageSettingsFormDefinition(): array
     {
         return [
@@ -81,6 +84,9 @@ final class VolunteerCallOutSettings extends SettingsPage
         ];
     }
 
+    /**
+     * @return array<int, CheckboxList>
+     */
     private function volunteerOpeningsForm(): array
     {
         return [

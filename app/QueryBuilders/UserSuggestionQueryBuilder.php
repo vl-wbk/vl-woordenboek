@@ -6,10 +6,14 @@ namespace App\QueryBuilders;
 
 use App\Enums\ArticleStates;
 use App\Models\Article;
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
+/**
+ * @extends QueryBuilder<Article>
+ */
 final class UserSuggestionQueryBuilder extends QueryBuilder
 {
     public function __construct(Request $request)
@@ -18,13 +22,16 @@ final class UserSuggestionQueryBuilder extends QueryBuilder
         parent::__construct($suggestionQuery);
     }
 
-    private function suggestionQuery(Request $request)
+    /**
+     * @phpstan-ignore-next-line
+     */
+    private function suggestionQuery(Request $request): Builder|Relation
     {
         return Article::query()
             ->where('author_id', auth()->id())
             ->when($this->needsToApplyFilter('inProgress'), fn (Builder $builder): Builder => $this->onlyInProgressSuggestions($builder))
-            ->when($this->needsToApplyFilter('done'), fn (Builder $builder) => $this->onlyProcessedSuggestions($builder))
-            ->when($this->needsToApplyFilter('new'), fn (Builder $builder) => $this->onlyNewSuggestions($builder))
+            ->when($this->needsToApplyFilter('done'), fn (Builder $builder): Builder => $this->onlyProcessedSuggestions($builder))
+            ->when($this->needsToApplyFilter('new'), fn (Builder $builder): Builder => $this->onlyNewSuggestions($builder))
 
             // Search between the suggestions
             ->where(function ($query) use ($request) {
@@ -37,8 +44,8 @@ final class UserSuggestionQueryBuilder extends QueryBuilder
      * Applies a filter to only include new suggestions.
      * This method filters the query to only include articles with the 'New' state.
      *
-     * @param  Builder  $builder  The Eloquent query builder instance.
-     * @return Builder            The Eloquent query builder instance with the filter applied.
+     * @param Builder<Article>  $builder  The Eloquent query builder instance.
+    * @return Builder<Article>            The Eloquent query builder instance with the filter applied.
      */
     private function onlyNewSuggestions(Builder $builder): Builder
     {
@@ -49,8 +56,8 @@ final class UserSuggestionQueryBuilder extends QueryBuilder
      * Applies a filter to only include in-progress suggestions.
      * This method filters the query to only include articles with the 'Approval' or 'Draft' state.
      *
-     * @param  Builder $builder  The Eloquent query builder instance.
-     * @return Builder           The Eloquent query builder instance with the filter applied.
+     * @param  Builder<Article> $builder  The Eloquent query builder instance.
+     * @return Builder<Article>           The Eloquent query builder instance with the filter applied.
      */
     private function onlyInProgressSuggestions(Builder $builder): Builder
     {
@@ -64,8 +71,8 @@ final class UserSuggestionQueryBuilder extends QueryBuilder
      * Applies a filter to only include processed suggestions.
      * This method filters the query to only include articles with the 'Approval' or 'Draft' state.
      *
-     * @param  Builder $builder  The Eloquent query builder instance.
-     * @return Builder           The Eloquent query builder instance with the filter applied.
+     * @param  Builder<Article> $builder  The Eloquent query builder instance.
+     * @return Builder<Article>           The Eloquent query builder instance with the filter applied.
      */
     private function onlyProcessedSuggestions(Builder $builder): Builder
     {
