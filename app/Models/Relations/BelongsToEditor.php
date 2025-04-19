@@ -7,10 +7,6 @@ namespace App\Models\Relations;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/**
- * @todo Document this class
- * @todo Refactor this trait in order to- support The HandlesRelationManipulation trait.
- */
 trait BelongsToEditor
 {
     /**
