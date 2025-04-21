@@ -8,7 +8,7 @@
             @endif
         </div>
 
-        <div class="float-end mb-2">
+        <div class="float-end mb-2 d-sm-none d-md-block">
             <ul class="list-inline mb-0">
                 <li class="list-inline-item fw-bold text-muted">
                     Sorteer op:
