@@ -11,10 +11,14 @@ use Illuminate\View\Component;
 
 final class OverviewToolbar extends Component
 {
-    public function render(): Renderable
+    public function render(): ?Renderable
     {
-        return view('components.articles.overview-toolbar',[
-            'suggestionCount' => auth()->user()->suggestions()->count(),
-        ]);
+        if (auth()->check()) {
+            return view('components.articles.overview-toolbar',[
+                'suggestionCount' => auth()->user()->suggestions()->count(),
+            ]);
+        }
+
+        return null;
     }
 }
