@@ -9,11 +9,11 @@
         </div>
 
         <div class="row py-4">
-            <div class="col-3">
+            <div class="col-lg-3 col-sm-12">
                 @include('account.components.sidebar')
             </div>
 
-            <div class="col-9">
+            <div class="col-lg-9 col-sm-12">
                 <div class="row">
                     <div class="col-12">
                         <form method="POST" action="{{ route('user-profile-information.update') }}" class="card bg-white border-0 shadow-sm">

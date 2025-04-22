@@ -1,4 +1,4 @@
-<div class="list-group shadow-sm">
+<div class="list-group mb-sm-3 shadow-sm">
     <a href="{{ route('profile.settings') }}" class="list-group-item border-0 border-bottom list-group-item-action {{ active('profile.settings') }}">
         <x-heroicon-o-user-circle class="icon text-gold me-1"/> algemene informatie
     </a>
