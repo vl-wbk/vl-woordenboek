@@ -24,10 +24,10 @@
                     <div class="card-body">
                         <form action="{{ route('search.results') }}" method="GET">
                             <div class="row g-3">
-                                <div class="col-10">
+                                <div class="col-lg-10 col-sm-8">
                                     <input type="text" class="form-control" name="zoekterm" value="{{ request()->get('zoekterm') }}" placeholder="Zoekterm" aria-label="searchterm">
                                 </div>
-                                <div class="col-2">
+                                <div class="col-lg-2 col-sm-4">
                                     <button type="submit" class="btn w-100 btn-submit">
                                         <x-heroicon-o-magnifying-glass class="icon me-1"/> Zoeken
                                     </button>
@@ -42,8 +42,8 @@
 
     <div class="container"> {{-- Results & sidebar --}}
         <div class="row mt-4">
-            <div class="col-md-4">
-                <div class="card bg-callout-card shadow-sm border-0 card-body">
+            <div class="col-lg-4 col-sm-12">
+                <div class="card bg-callout-card shadow-sm border-0 card-body mb-sm-4">
                     <h5 class="card-title fw-bold fst-italic">Helpende handen gezocht!</h5>
                     <h6 class="card-subtitle mb-2">Uw inzet, onze kracht</h6>
 
@@ -60,7 +60,7 @@
                 </div>
             </div>
 
-            <div class="col-md-8">
+            <div class="col-lg-8 col-sm-12">
                 @includeWhen($termPresent, 'components.definitions.filters', ['results' => $results->total()])
 
                 {{-- Blankslate for when the user starts using the application. --}}

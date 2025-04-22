@@ -6,45 +6,31 @@
             <div class="col-12">
                 <div class="float-start">
                     <h3 class="color-green">
-                        <a href="{{ url()->previous() }}" class="color-green text-decoration-none">
+                        <a href="{{ url()->previous() }}" class="text-muted text-decoration-none">
                             <x-heroicon-o-arrow-uturn-left class="icon icon-back-to-results"/>
                         </a>
 
                         <span class="text-muted">/</span>Artikelinformatie
                     </h3>
-
-                    <span class="text-danger">
-                        <x-heroicon-s-bell-alert class="icon"/>
-                        Dit artikel werd nog niet redactioneel bewerkt en daarom kan de kwaliteit ontoereikend zijn
-                    </span>
                 </div>
 
-                @auth
-                    <div class="btn-toolbar float-end" role="toolbar" aria-label="Toolbar with filters and functionalities">
-                        <div class="btn-group me-3 shadow-sm">
-                            <livewire:like-words :article="$word"/>
-                            <a href="#" class="btn border-0 btn-light">
-                                <x-heroicon-o-bookmark class="icon color-green"/> bewaren
-                            </a>
-                        </div>
+                <x-articles.article-information-toolbar :word=$word />
+            </div>
 
-                        <div class="btn-group shadow-sm" role="group">
-                            <button type="button" class="btn btn-danger btn-sm float-end" data-bs-toggle="modal" data-bs-target="#reportModal">
-                                <x-tabler-file-alert class="icon"/> rapporteren
-                            </button>
-                        </div>
-                    </div>
-                @endauth
+            <div class="col-12">
+                <div class="alert alert-info shadow-sm border-0 p-2 mt-3" role="alert">
+                        <strong><x-heroicon-s-bell-alert class="icon"/> DISCLAIMER:</strong> Dit artikel werd nog niet redactioneel bewerkt en daarom kan de kwaliteit ontoereikend zijn
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="container mt-4">
+    <div class="container">
         <div class="row">
-            <div class="col-8">
+            <div class="col-lg-8 col-sm-12">
                 <div class="card card-body shadow-sm border-0">
                     <div>
-                        <h4 class="text-gold float-start">{{ $word->word }}</h4>
+                        <h4 class="text-gold float-start">{{ ucfirst($word->word) }}</h4>
                         <span class="float-end color-green">{{ $word->status->getLabel() }}</span>
                     </div>
 
@@ -118,8 +104,8 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
-                <div class="card bg-sidenav shadow-sm border-0 card-body">
+            <div class="col-lg-4 col-sm-12">
+                <div class="card bg-sidenav shadow-sm border-0 mt-sm-4 mt-lg-0 card-body">
                     <h5 class="card-title fw-bold color-green border-dark-subtle border-bottom">Redactie informatie</h5>
 
                     <dl class="row mt-2">
