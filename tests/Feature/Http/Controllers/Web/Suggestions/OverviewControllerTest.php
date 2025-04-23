@@ -17,9 +17,24 @@ test('It can successfully display the page when the user is authenticated and ha
     actingAs($user)->get(route('suggestions:index'))->assertSuccessful();
 });
 
-test('It can successfully display the page when the user is authenticated and has no suggestions')->todo();
-test('It can successfully display the page when the search term is present')->todo();
-test('It can successfully display the page when the user wants in new suggestions')->todo();
+test('It can successfully display the page when the user is authenticated and has no suggestions', function (): void {
+    $user = User::factory()->create();
+    actingAs($user)->get(route('suggestions:index'))->assertSuccessful();
+});
+
+test('It can successfully display the page when the search term is present', function (): void {
+    Article::factory(6)->create();
+    $user = User::factory()->create();
+
+    actingAs($user)->get(route('suggestions:index', ['zoekterm' => 'searchTerm']))->assertSuccessful();
+});
+
+test('It can successfully display the page when the user wants in new suggestions', function (): void {
+    Article::factory(6)->create();
+    $user = User::factory()->create();
+
+    actingAs($user)->get(route('suggestions:index'), ['filter' => 'new'])->assertSuccessful();
+});
 test('It can successfully display the page when the user wants his suggestions that are in progress')->todo();
 test('it can successfully display the page when the user wants his suggesions that are finalized')->todo();
 
