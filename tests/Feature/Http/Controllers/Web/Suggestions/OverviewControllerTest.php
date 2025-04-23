@@ -35,6 +35,18 @@ test('It can successfully display the page when the user wants in new suggestion
 
     actingAs($user)->get(route('suggestions:index', ['filter' => 'new']))->assertSuccessful();
 });
-test('It can successfully display the page when the user wants his suggestions that are in progress')->todo();
-test('it can successfully display the page when the user wants his suggesions that are finalized')->todo();
+
+test('It can successfully display the page when the user wants his suggestions that are in progress', function (): void {
+    Article::factory(6)->create();
+    $user = User::factory()->create();
+
+    actingAs($user)->get(route('suggestions:index', ['filter' => 'inProgress']))->assertSuccessful();
+});
+
+test('it can successfully display the page when the user wants his suggesions that are finalized', function (): void {
+    Article::factory(6)->create();
+    $user = User::factory()->create();
+
+    actingAs($user)->get(route('suggestions:index', ['filter' => 'done']))->assertSuccessful();
+});
 
