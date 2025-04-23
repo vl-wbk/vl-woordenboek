@@ -3,6 +3,7 @@
 use App\Filament\Resources\UserResource\Pages\CreateUser;
 use App\Filament\Resources\UserResource\Pages\EditUser;
 use App\Filament\Resources\UserResource\Pages\ListUsers;
+use App\Filament\Resources\UserResource\Pages\ViewUser;
 use Filament\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use App\Models\User;
@@ -28,6 +29,11 @@ it('can render the edit page', function (): void {
 
     livewire(EditUser::class, ['record' => $record->getRouteKey()])
         ->assertSuccessful();
+});
+
+it('can display the user information', function (): void {
+    $record = User::factory()->create();
+    livewire(ViewUser::class, ['record' => $record->getRouteKey()])->assertSuccessful();
 });
 
 it('has the following table columns', function(string $column): void {
