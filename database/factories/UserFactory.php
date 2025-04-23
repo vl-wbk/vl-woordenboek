@@ -48,4 +48,19 @@ class UserFactory extends Factory
     {
         return $this->state(fn (): array => ['user_type' => UserTypes::Developer]);
     }
+
+    public function administor(): Factory
+    {
+        return $this->state(fn (): array => ['user_type' => UserTypes::Administrators]);
+    }
+
+    public function editor(): Factory
+    {
+        return $this->state(fn (): array => ['user_type' => UserTypes::Editor]);
+    }
+
+    public function editorInChief(): Factory
+    {
+        return $this->state(fn (): array => ['user_type' => UserTypes::EditorInChief]);
+    }
 }

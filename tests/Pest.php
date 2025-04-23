@@ -44,8 +44,26 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function actingAsDeveloper()
+function actingAsDeveloper(): void
 {
     $user = User::factory()->developer()->create();
+    actingAs($user);
+}
+
+function actingAsAdministrator(): void
+{
+    $user = User::factory()->administrator()->create();
+    actingAs($user);
+}
+
+function actingAsEditor(): void
+{
+    $user = User::factory()->editor()->create();
+    actingAs($user);
+}
+
+function actingAsEditorInChief(): void
+{
+    $user = User::factory()->editorInChief()->create();
     actingAs($user);
 }
