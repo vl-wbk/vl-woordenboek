@@ -33,7 +33,7 @@ test('It can successfully display the page when the user wants in new suggestion
     Article::factory(6)->create();
     $user = User::factory()->create();
 
-    actingAs($user)->get(route('suggestions:index'), ['filter' => 'new'])->assertSuccessful();
+    actingAs($user)->get(route('suggestions:index', ['filter' => 'new']))->assertSuccessful();
 });
 test('It can successfully display the page when the user wants his suggestions that are in progress')->todo();
 test('it can successfully display the page when the user wants his suggesions that are finalized')->todo();
