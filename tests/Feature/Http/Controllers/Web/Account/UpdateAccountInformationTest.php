@@ -42,7 +42,10 @@ test('authenticated users can change their account information settings', functi
     $this->assertDatabaseHas('users', $data);
 });
 
-test('that the first name is required')->todo();
-test('that the last name is required')->todo();
-test('that the email address is required')->todo();
+test('that the first name is required', function (string $field): void {
+    $user = User::factory()->create();
+
+    actingAs($user)->put($this->updateSettingsEndpoint, data:  [])
+        ->assertSessionHasErrorsIn('updateProfileInformation', $field);
+})->with(['email', 'firstname', 'lastname']);
 
