@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\User;
+use function Pest\Laravel\actingAs;
+
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -41,7 +44,8 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function actingAsDeveloper()
 {
-    // ..
+    $user = User::factory()->developer()->create();
+    actingAs($user);
 }
