@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Enums\ArticleStates;
 use App\Enums\LanguageStatus;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,8 +24,6 @@ class ArticleFactory extends Factory
             'part_of_speech_id' => null,
             'author_id' => null,
             'editor_id' => null,
-            'publisher_id' => null,
-            'archiever_id' => null,
             'word' => fake()->word(),
             'views' => fake()->numberBetween(0, 1000),
             'status' => LanguageStatus::Onbekend,
@@ -36,10 +35,22 @@ class ArticleFactory extends Factory
             'characteristics' => fake()->paragraph,
             'archiving_reason' => fake()->sentence,
             'sources' => json_encode([fake()->url, fake()->url]),
-            'archived_at' => fake()->dateTimeBetween('-1 year', 'now'),
-            'published_at' => null,
             'created_at' => now(),
             'updated_at' => now(),
         ];
+    }
+
+    public function archived(): Factory
+    {
+        return $this->state(function (array $attributes): array {
+            return ['state' => ArticleStates::Archived, 'archived_at' => now(), 'archiever_id' => User::factory()->create()->id];
+        });
+    }
+
+    public function published(): Factory
+    {
+        return $this->state(function (array $attributes): array {
+            return ['state' => ArticleStates::Published, 'published_at' => now(), 'publisher_id' => User::factory()->create()->id];
+        });
     }
 }
