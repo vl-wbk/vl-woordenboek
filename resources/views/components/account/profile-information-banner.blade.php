@@ -42,7 +42,7 @@
 
                 <li class="list-inline-item">
                     <x-heroicon-o-clock class="icon me-1"/>
-                    <span class="fw-bold">Laast gezien:</span> {{ $user->last_seen_at->format('d/m/Y') }}
+                    <span class="fw-bold">Laast gezien:</span> {{ optional($user->last_seen_at)->format('d/m/Y') ?? '-' }}
                 </li>
 
                 <li class="list-inline-item">|</li>

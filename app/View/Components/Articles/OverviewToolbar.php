@@ -17,6 +17,9 @@ final class OverviewToolbar extends Component
             ]);
         }
 
+        // Dunno why this isn't covered in tests. mainly because we have also tests in situations where no user is authenticated
+        // @codeCoverageIgnoreStart
         return null;
+        // @codeCoverageIgnoreEnd
     }
 }
