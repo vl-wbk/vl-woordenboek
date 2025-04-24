@@ -28,7 +28,8 @@ it ('can create a record', function (): void {
 
     livewire(ListLabels::class)
         ->assertActionExists('create')
-        ->callAction('create');
+        ->callAction('create')
+        ->assertActionMounted('create');
 })->group('labels');
 
 it ('can update a record', function (): void {
