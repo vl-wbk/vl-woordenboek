@@ -14,8 +14,11 @@ final readonly class SearchWordQuery
     {
         return QueryBuilder::for(Article::class)
             ->allowedSorts($this->getAllowedSorts())
-            ->where('word', 'like', "%{$searchTerm}%")
-            ->orWhere('word', 'like', "%{$searchTerm}%")
+            ->whereNotNull('published_at')
+            ->where(function ($query) use ($searchTerm) {
+                $query->where('word', 'like', "%{$searchTerm}%")
+                    ->orWhere('word', 'like', "%{$searchTerm}%");
+            })
             ->paginate(6)
             ->appends(request()->query());
     }
