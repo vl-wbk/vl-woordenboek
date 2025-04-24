@@ -33,7 +33,6 @@ class ArticleFactory extends Factory
             'keywords' => implode(',', fake()->words(3)),
             'example' => fake()->sentence,
             'characteristics' => fake()->paragraph,
-            'archiving_reason' => fake()->sentence,
             'sources' => json_encode([fake()->url, fake()->url]),
             'created_at' => now(),
             'updated_at' => now(),
@@ -43,7 +42,7 @@ class ArticleFactory extends Factory
     public function archived(): Factory
     {
         return $this->state(function (array $attributes): array {
-            return ['state' => ArticleStates::Archived, 'archived_at' => now(), 'archiever_id' => User::factory()->create()->id];
+            return ['state' => ArticleStates::Archived, 'archived_at' => now(), 'archiving_reason' => fake()->sentence, 'archiever_id' => User::factory()->create()->id];
         });
     }
 
