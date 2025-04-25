@@ -3,7 +3,11 @@
 use App\Models\Article;
 
 if (! function_exists('formatUserContent')) {
-    function formatUserContent(string $text): string {
+    function formatUserContent(?string $text = null): string {
+        if (empty($text)) {
+            return '';
+        }
+
         return preg_replace_callback('/\[(.*?)\]/', function ($matches): string  {
             $term = $matches[1];
 
