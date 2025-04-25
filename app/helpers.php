@@ -10,9 +10,15 @@ if (! function_exists('formatUserContent')) {
 
         return preg_replace_callback('/\[(.*?)\]/', function ($matches): string  {
             $term = $matches[1];
+            $lookup = Article::where('word', $term)->whereNotNull('published_at');
 
-            if ($record = Article::where('word', $term)->first()) {
-                $url = route('word-information.show', $record); // Assuming you have a route named 'term_definitions_path'
+            if ($lookup->count() > 0) {
+                if ($lookup->count() === 1) {
+                    $url = route('word-information.show', $lookup->first());
+                } else {
+                    $url = route('search.results', ['zoekterm' => $term]);
+                }
+
                 return '<a href="' . $url . '">' . $matches[1] . '</a>'; // Escape again for display in the link text
             } else {
                 return "[{$matches[1]}]";
