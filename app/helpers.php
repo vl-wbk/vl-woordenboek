@@ -4,7 +4,7 @@ use App\Models\Article;
 
 if (! function_exists('formatUserContent')) {
     function formatUserContent(string $text) {
-        return preg_replace_callback('/\[(.*?)\]/', function ($matches) {
+        return preg_replace_callback('/\[(.*?)\]/', function ($matches): string  {
             $term = $matches[1];
 
             if ($record = Article::where('word', $term)->first()) {
