@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use App\UserTypes;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -44,21 +45,33 @@ class UserFactory extends Factory
         ]);
     }
 
+    /**
+     * @return Factory<User>
+     */
     public function developer(): Factory
     {
         return $this->state(fn (): array => ['user_type' => UserTypes::Developer]);
     }
 
+    /**
+     * @return Factory<User>
+     */
     public function administor(): Factory
     {
         return $this->state(fn (): array => ['user_type' => UserTypes::Administrators]);
     }
 
+    /**
+     * @return Factory<User>
+     */
     public function editor(): Factory
     {
         return $this->state(fn (): array => ['user_type' => UserTypes::Editor]);
     }
 
+    /**
+     * @return Factory<User>
+     */
     public function editorInChief(): Factory
     {
         return $this->state(fn (): array => ['user_type' => UserTypes::EditorInChief]);
