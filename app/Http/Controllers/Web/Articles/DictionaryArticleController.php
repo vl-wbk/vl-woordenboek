@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Web\Articles;
 
 use App\Models\Article;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\Response;
 use Spatie\RouteAttributes\Attributes\Get;
 
 /**
@@ -30,6 +31,8 @@ final readonly class DictionaryArticleController
     #[Get(uri: '/woordenboek-artikel/{word}', name: 'word-information.show')]
     public function __invoke(Article $word): Renderable
     {
+        abort_if($word->isHidden(), Response::HTTP_NOT_FOUND);
+
         $word->increment('views', 1); // Increment the view counter for thearticle by one. Because the user decided to view the article.
 
         return view('definitions.show', compact('word'));
