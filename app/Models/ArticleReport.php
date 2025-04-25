@@ -8,6 +8,7 @@ use App\Models\Relations\BelongsToAuthor;
 use App\States\Reporting\Status;
 use App\States\Reporting\ReportStateContract;
 use App\States\Reporting;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -38,6 +39,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 final class ArticleReport extends Model
 {
+    /** @use HasFactory<\Database\Factories\ArticleReportFactory> */
+    use HasFactory;
     use BelongsToAuthor;
 
     /**

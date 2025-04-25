@@ -7,6 +7,7 @@ namespace App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManag
 use App\Filament\Clusters\Articles\Resources\ArticleReportResource;
 use App\Filament\Clusters\Articles\Resources\ArticleReportResource\Actions\TableActionsConfiguration;
 use App\Filament\Clusters\Articles\Resources\ArticleReportResource\Schema\TableColumnSchema;
+use App\Filament\Resources\ArticleResource\Pages\ViewWord;
 use App\Models\ArticleReport;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Enums\MaxWidth;
@@ -14,6 +15,7 @@ use Filament\Tables;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 final class ReportsRelationManager extends RelationManager
 {
@@ -24,6 +26,11 @@ final class ReportsRelationManager extends RelationManager
     public function isReadOnly(): bool
     {
         return false;
+    }
+
+    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
+    {
+        return new $pageClass instanceof ViewWord;
     }
 
     public function table(Table $table): Table
