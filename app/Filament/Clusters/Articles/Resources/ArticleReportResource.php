@@ -141,21 +141,12 @@ final class ArticleReportResource extends Resource
             ->headerActions(TableActionsConfiguration::headerActions())
             ->emptyStateIcon(self::$navigationIcon)
             ->emptyStateHeading('Geen meldingen gevonden')
-            ->emptyStateDescription('Het lijk erop dat erm omenteel geen openstaande meldingen zijn die gerelateerd zijn aan de atikelen van het Vlaams Woordenboek.')
+            ->emptyStateDescription('Het lijk erop dat er momenteel geen openstaande meldingen zijn die gerelateerd zijn aan de atikelen van het Vlaams Woordenboek.')
             ->columns(SchemaTableColumnSchema::make())
             ->actions(TableActionsConfiguration::rowActions())
             ->bulkActions(TableActionsConfiguration::bulkActions())
             ->filtersFormWidth(MaxWidth::Medium)
-            ->filters([
-                SelectFilter::make('state')
-                    ->options(Status::class)
-                    ->label('Status')
-                    ->multiple()
-                    ->default([Status::Open->value, Status::InProgress->value]),
-                Filter::make('assigned')
-                    ->label('Toegewezen aan mij')
-                    ->query(fn (Builder $query): Builder => $query->where('assignee_id', auth()->id())),
-            ]);
+            ->filters(self::getTableFilters());
     }
 
     /**
@@ -168,6 +159,20 @@ final class ArticleReportResource extends Resource
     private static function tableDescription(ArticleReport $articleReport): string
     {
         return trans('Soms kan het zijn dat er een foutje sluipt in een woordenboek artikel en gebruikers deze melden. Deze table is een overzicht van alle meldingen die zijn uitgevoerd door een gebruiker.');
+    }
+
+    public static function getTableFilters(): array
+    {
+        return [
+            SelectFilter::make('state')
+                ->options(Status::class)
+                ->label('Status')
+                ->multiple()
+                ->default([Status::Open->value, Status::InProgress->value]),
+            Filter::make('assigned')
+                ->label('Toegewezen aan mij')
+                ->query(fn (Builder $query): Builder => $query->where('assignee_id', auth()->id())),
+        ];
     }
 
     /**
