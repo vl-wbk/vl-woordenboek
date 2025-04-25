@@ -161,6 +161,9 @@ final class ArticleReportResource extends Resource
         return trans('Soms kan het zijn dat er een foutje sluipt in een woordenboek artikel en gebruikers deze melden. Deze table is een overzicht van alle meldingen die zijn uitgevoerd door een gebruiker.');
     }
 
+    /**
+     * @return array<int, SelectFilter|Filter>
+     */
     public static function getTableFilters(): array
     {
         return [

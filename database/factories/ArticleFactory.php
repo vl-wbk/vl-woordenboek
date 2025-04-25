@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Article;
 use App\Enums\ArticleStates;
 use App\Enums\LanguageStatus;
 use App\Models\User;
@@ -39,6 +40,9 @@ class ArticleFactory extends Factory
         ];
     }
 
+    /**
+     * @return Factory<Article>
+     */
     public function archived(): Factory
     {
         return $this->state(function (array $attributes): array {
@@ -46,6 +50,9 @@ class ArticleFactory extends Factory
         });
     }
 
+    /**
+     * @return Factory<Article>
+     */
     public function published(): Factory
     {
         return $this->state(function (array $attributes): array {
