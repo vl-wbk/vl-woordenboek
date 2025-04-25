@@ -45,7 +45,7 @@
                     </ul>
 
                     <div class="mt-2 text-muted">
-                        {!! str($word->description)->sanitizeHtml() !!}
+                        {!! formatUserContent(str($word->description)->sanitizeHtml()) !!}
                     </div>
                 </div>
 
