@@ -1,4 +1,4 @@
-@extends ('layouts.application-blank')
+@extends ('layouts.application-blank', ['title' => $word->word])
 
 @section ('content')
     <div class="container">
