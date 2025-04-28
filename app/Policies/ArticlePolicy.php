@@ -7,6 +7,7 @@ namespace App\Policies;
 use App\Enums\ArticleStates;
 use App\Models\User;
 use App\Models\Article;
+use App\States\Articles\ArticleState;
 use App\UserTypes;
 
 /**
@@ -35,7 +36,7 @@ final readonly class ArticlePolicy
             return true;
         }
 
-        return $article->state->in(enums: [ArticleStates::New, ArticleStates::Draft, ArticleStates::Archived])
+        return $article->state->in(enums: [ArticleStates::New, ArticleStates::ExternalData, ArticleStates::Draft, ArticleStates::Archived])
             && $user->user_type->notIn(enums: [UserTypes::Normal]);
     }
 
@@ -171,6 +172,6 @@ final readonly class ArticlePolicy
     public function delete(User $user, Article $article): bool
     {
         return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::EditorInChief])
-            && $article->state->in(enums: [ArticleStates::New, ArticleStates::Draft]);
+            && $article->state->in(enums: [ArticleStates::New, ArticleStates::Draft, ArticleStates::ExternalData]);
     }
 }
