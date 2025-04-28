@@ -45,7 +45,7 @@
                     </ul>
 
                     <div class="mt-2 text-muted">
-                        {!! str($word->description)->sanitizeHtml() !!}
+                        {!! formatUserContent(str($word->description)->sanitizeHtml()) !!}
                     </div>
                 </div>
 
@@ -75,7 +75,7 @@
                     <div class="card-body">
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="example-tab-pane" role="tabpanel" aria-labelledby="example-tab" tabindex="0">
-                                {!! str($word->example)->sanitizeHtml() !!}
+                                {!! formatUserContent(str($word->example)->sanitizeHtml()) !!}
                             </div>
 
                             <div class="tab-pane fade show" id="region-tab-pane" role="tabpanel" aria-labelledby="region-tab" tabindex="0">

@@ -11,6 +11,7 @@ return [
     'alpha'                  => ':Attribute mag alleen letters bevatten.',
     'alpha_dash'             => ':Attribute mag alleen letters, nummers, underscores (_) en streepjes (-) bevatten.',
     'alpha_num'              => ':Attribute mag alleen letters en nummers bevatten.',
+    'any_of'                 => 'The :attribute field is invalid.',
     'array'                  => ':Attribute moet geselecteerde elementen bevatten.',
     'ascii'                  => 'De :attribute mag alleen alfanumerieke tekens en symbolen van één byte bevatten.',
     'before'                 => ':Attribute moet een datum vóór :date zijn.',
