@@ -27,6 +27,7 @@ final class DictionaryArticleSeeder extends Seeder
                 'example' => $article->example,
                 'characteristics' => $article->properties,
                 'created_at' => $article->updated_at,
+                'published_at' => $article->updated_at,
                 'updated_at' => $article->updated_at,
             ]);
         });
