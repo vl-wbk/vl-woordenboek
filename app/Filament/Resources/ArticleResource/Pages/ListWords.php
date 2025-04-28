@@ -4,14 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\ArticleResource\Pages;
 
-use App\Enums\ArticleStates;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets\ArticleRegistrationChart;
-use App\Models\Article;
 use App\Filament\Resources\ArticleResource;
-use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
-use Illuminate\Contracts\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Cache;
 
 /**
  * Dictionary Article Management Interface
@@ -58,40 +53,5 @@ final class ListWords extends ListRecords
     {
         parent::mount();
         $this->activeTab = (string) session('currentArticleTab', $this->getDefaultActiveTab());
-    }
-
-    /**
-     * Tab Selection Update Handler
-     *
-     * Manages state changes when users switch between different article state tabs.
-     * The selected tab preference is preserved in the session storage, ensuring consistent navigation across page reloads and browser sessions.
-     */
-    public function updatedActiveTab(): void
-    {
-        parent::updatedActiveTab();
-        session(['currentArticleTab' => $this->activeTab]);
-    }
-
-    /**
-     * Tab Configuration Generator
-     *
-     * Constructs the complete tab interface configuration by processing each possible article state.
-     * For every state, it generates a tab component enriched with visual indicators including state-specific labels, icons, and color-coded badges.
-     * The badge values are cached with flexible expiration times to optimize performance while maintaining reasonable data freshness.
-     *
-     * @return array<Tab>
-     */
-    public function getTabs(): array
-    {
-        return collect(ArticleStates::cases())
-            ->map(fn (ArticleStates $status) => Tab::make()
-                ->label($status->getLabel())
-                ->icon($status->getIcon())
-                ->badgeColor($status->getColor())
-                ->query(fn(Builder $query) => $query->where('state', $status))
-                ->badge(Cache::flexible($status->value . '_articles_count', [10, 20], function () use ($status) {
-                    return Article::query()->where('state', $status)->count();
-                })))
-            ->toArray();
     }
 }

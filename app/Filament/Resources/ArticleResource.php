@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Enums\ArticleStates;
 use App\Filament\Clusters\Articles;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets\ArticleRegistrationChart;
 use App\Filament\Resources\ArticleResource\Schema\WordInfolist;
@@ -19,6 +20,8 @@ use Filament\Support\Enums\IconSize;
 use Filament\Tables;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -171,10 +174,13 @@ final class ArticleResource extends Resource
                 TextColumn::make('author.name')
                     ->label('Ingevoegd door')
                     ->searchable()
-                    ->placeholder('onbekend')
+                    ->placeholder('onbekende gebruiker')
                     ->icon('heroicon-o-user-circle')
                     ->iconColor('primary')
                     ->toggleable(),
+                TextColumn::make('state')
+                    ->label('Status')
+                    ->badge(),
                 TextColumn::make('word')
                     ->searchable()
                     ->weight(FontWeight::SemiBold)
@@ -182,9 +188,12 @@ final class ArticleResource extends Resource
                     ->label('Lemma'),
                 TextColumn::make('partOfSpeech.name')
                     ->label('woordsoort')
-                    ->sortable(),
+                    ->sortable()
+                    ->placeholder('-')
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('characteristics')
                     ->label('kenmerken')
+                    ->placeholder('-')
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->label('Toegevoegd op')
@@ -201,6 +210,16 @@ final class ArticleResource extends Resource
                 Tables\Actions\ViewAction::make()->hiddenLabel(),
                 Tables\Actions\EditAction::make()->hiddenLabel(),
                 Tables\Actions\DeleteAction::make()->hiddenLabel(),
+            ])
+            ->filters([
+                SelectFilter::make('state')
+                    ->label('status')
+                    ->multiple()
+                    ->options(ArticleStates::class)
+                    ->default([ArticleStates::New->value]),
+                Filter::make('assigned')
+                    ->label('Toegewezen aan mij')
+                    ->query(fn (Builder $query): Builder => $query->where('editor_id', auth()->id())),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
