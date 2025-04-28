@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\ArticleResource\Pages;
 
 use App\Enums\ArticleStates;
+use App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets\ArticleRegistrationChart;
 use App\Models\Article;
 use App\Filament\Resources\ArticleResource;
 use Filament\Actions;
@@ -57,6 +58,11 @@ final class ListWords extends ListRecords
             Actions\CreateAction::make()
                 ->icon('heroicon-o-plus'),
         ];
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [ArticleRegistrationChart::class];
     }
 
     /**

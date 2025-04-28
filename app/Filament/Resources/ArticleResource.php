@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use App\Enums\ArticleStates;
 use App\Filament\Clusters\Articles;
+use App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets\ArticleRegistrationChart;
 use App\Filament\Resources\ArticleResource\Schema\WordInfolist;
 use App\Filament\Resources\ArticleResource\Pages;
 use App\Filament\Resources\ArticleResource\Schema\FormSchema;
@@ -96,6 +96,13 @@ final class ArticleResource extends Resource
             \App\Filament\Resources\ArticleResource\RelationManagers\LabelsRelationManager::class,
             \App\Filament\Resources\ArticleResource\RelationManagers\NotesRelationManager::class,
             \App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\ReportsRelationManager::class,
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            ArticleRegistrationChart::class,
         ];
     }
 
