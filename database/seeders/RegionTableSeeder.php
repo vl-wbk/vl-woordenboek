@@ -18,7 +18,7 @@ class RegionTableSeeder extends Seeder
         $regions = json_decode($jsonDataFile);
 
         foreach ($regions as $region => $value) {
-            Region::create(['name' => $value->name]);
+            Region::create(['id' => $value->id, 'name' => $value->name]);
         }
     }
 }

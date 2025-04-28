@@ -44,7 +44,7 @@ final class Region extends Model
      *
      * @var list<string>
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['id', 'name'];
 
     /**
      * The linguistic connection - where geography meets language.
