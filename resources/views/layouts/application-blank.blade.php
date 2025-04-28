@@ -49,7 +49,7 @@
                     @endif
 
                     <li class="nav-item">
-                        <a href="" class="nav-link">
+                        <a href="{{ route('word-information.random') }}" class="nav-link">
                             <x-heroicon-s-language class="icon me-1" /> Random woord
                         </a>
                     </li>
