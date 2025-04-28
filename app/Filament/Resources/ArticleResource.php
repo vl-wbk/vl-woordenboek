@@ -10,12 +10,14 @@ use App\Filament\Resources\ArticleResource\Schema\WordInfolist;
 use App\Filament\Resources\ArticleResource\Pages;
 use App\Filament\Resources\ArticleResource\Schema\FormSchema;
 use App\Models\Article;
+use Filament\Tables\Actions\Action;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconSize;
 use Filament\Tables;
+use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -148,6 +150,18 @@ final class ArticleResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->headerActions([
+                Action::make('docs')
+                    ->label('Help')
+                    ->icon('heroicon-o-lifebuoy')
+                    ->color('gray')
+                    ->url('https://www.google.com')
+                    ->openUrlInNewTab(),
+                CreateAction::make()
+                    ->icon('heroicon-o-document-plus')
+            ])
+            ->heading('Woordenboek artikelen')
+            ->description('Een overzicht van alle artikelen die geregistreerd staan In het Vlaams Woordenboek gebruik de filters om de woorden te verkrijgen per status.')
             ->emptyStateIcon(self::$navigationIcon)
             ->emptyStateHeading('Geen artikelen gevonden')
             ->emptyStateDescription("Momenteel konden we geen artikelen (lemma's) vinden met de matchende criteria. Kom later nog eens terug.")

@@ -8,7 +8,6 @@ use App\Enums\ArticleStates;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets\ArticleRegistrationChart;
 use App\Models\Article;
 use App\Filament\Resources\ArticleResource;
-use Filament\Actions;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Contracts\Database\Eloquent\Builder;
@@ -42,23 +41,6 @@ final class ListWords extends ListRecords
      * The ArticleResource drives the behavior of this tabbed interface, determining how dictionary entries are displayed, filtered, and interacted with throughout the editorial workflow.
      */
     protected static string $resource = ArticleResource::class;
-
-    /**
-     * Header Action Configuration
-     *
-     * Establishes the primary actions available in the page header section.
-     * Currently implements a single create action, visually represented by a plus icon.
-     * This action serves as the entry point for adding new dictionary entries into the system.
-     *
-     * @return array<Actions\CreateAction>
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\CreateAction::make()
-                ->icon('heroicon-o-plus'),
-        ];
-    }
 
     protected function getHeaderWidgets(): array
     {
