@@ -19,14 +19,16 @@ if (! function_exists('formatUserContent')) {
             $term = $matches[1]; // Extract the term from the brackets.
 
             // Query the Article model for published articles matching the term.
-            $lookup = Article::query()
-                ->where('word', $term)
-                ->whereNotNull('published_at');
+            $lookup = collect(
+                Article::query()
+                    ->select(['id', 'word', 'published_at'])
+                    ->where('word', $term)
+                    ->whereNotNull('published_at')
+                    ->get()
+            );
 
-            $articleCount = $lookup->count(); // Count the number of matching published articles.
-
-            if ($articleCount > 0) { // Generate the appropriate link based on the number of matches.
-                $url = ($articleCount === 1)
+            if ($lookup->count() > 0) { // Generate the appropriate link based on the number of matches.
+                $url = ($lookup->count() === 1)
                     ? route('word-information.show', $lookup->first())  // If only one article matches, link directly to its information page.
                     : route('search.results', ['zoekterm' => $term]); // If multiple articles match, link to a search results page for the term.
 
