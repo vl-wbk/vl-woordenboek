@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Filament\Clusters\Articles\Resources\LabelResource\RelationManagers;
 
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
+use Filament\Tables\Actions\AttachAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -51,6 +53,15 @@ final class ArticlesRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
+            ->headerActions([
+                AttachAction::make('test')
+                    ->modalHeading('Artikel koppelen')
+                    ->modalIcon('heroicon-o-link')
+                    ->modalIconColor('primary')
+                    ->icon('heroicon-o-link')
+                    ->modalDescription('Door de rijke omvang van het woordenboek kan het even duren vooraleer huet woord gevonden.')
+                    ->modalAlignment(Alignment::Center)
+            ])
             ->heading('Artikelen')
             ->description('Alle artikelen vanuit het woordenboek dat gekoppeld zijn aan het gereleateerde label')
             ->emptyStateIcon('heroicon-o-book-open')
