@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\LabelResource\RelationManagers;
 
+use App\Filament\Resources\ArticleResource;
+use App\Models\Article;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\FontWeight;
@@ -82,6 +84,9 @@ final class ArticlesRelationManager extends RelationManager
     protected function getTableActions(): array
     {
         return [
+            Tables\Actions\ViewAction::make()
+                ->url(fn (Article $article): string => ArticleResource::getUrl('view', ['record' => $article])),
+
             Tables\Actions\DetachAction::make()
         ];
     }
