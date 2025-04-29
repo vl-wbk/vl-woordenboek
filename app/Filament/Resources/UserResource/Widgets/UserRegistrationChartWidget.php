@@ -12,6 +12,8 @@ use Illuminate\Contracts\Support\Htmlable;
 
 final class UserRegistrationChartWidget extends AdvancedChartWidget
 {
+    public ?string $filter = 'perWeek';
+
     /**
      * The maximum height of the chart.
      * This CSS value ensures that the chart does not exceed a defined vertical space, helping to maintain a uniform layout in the admin panel.
@@ -69,6 +71,15 @@ final class UserRegistrationChartWidget extends AdvancedChartWidget
         ],
     ];
 
+    protected function getFilters(): ?array
+    {
+        return [
+            'perDay' => 'Op dagelijkse basis',
+            'perWeek' => 'Op weekbasis',
+            'perMonth' => 'Op maandbasis',
+        ];
+    }
+
     /**
      * Returns the heading for the widget.
      *
@@ -111,7 +122,7 @@ final class UserRegistrationChartWidget extends AdvancedChartWidget
     {
         $chartData = Trend::model(User::class)
             ->between(start: now()->subYear(), end: now())
-            ->perWeek()
+            ->{$this->filter}()
             ->count();
 
         return [
@@ -133,6 +144,6 @@ final class UserRegistrationChartWidget extends AdvancedChartWidget
      */
     protected function getType(): string
     {
-        return 'line';
+        return 'bar';
     }
 }
