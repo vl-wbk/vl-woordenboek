@@ -73,8 +73,10 @@ final class VolunteerCallOutSettings extends SettingsPage
     {
         return [
             TextInput::make('pageTitle')
+                ->label('Pagina titel')
                 ->columnSpan(9),
             MarkdownEditor::make('pageContent')
+                ->label('Pagina inhoud')
                 ->columnSpanFull()
                 ->disableToolbarButtons(['attachFiles', 'codeBlock', 'table']),
             Toggle::make('pageActive')
