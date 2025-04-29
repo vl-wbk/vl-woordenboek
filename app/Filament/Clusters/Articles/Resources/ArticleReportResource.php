@@ -138,7 +138,7 @@ final class ArticleReportResource extends Resource
     {
         return $table
             ->heading(self::$pluralModelLabel)
-            ->description(fn (ArticleReport $articleReport): string => self::tableDescription($articleReport))
+            ->description(self::tableDescription())
             ->headerActions(TableActionsConfiguration::headerActions())
             ->emptyStateIcon(self::$navigationIcon)
             ->emptyStateHeading('Geen meldingen gevonden')
@@ -154,10 +154,9 @@ final class ArticleReportResource extends Resource
      * Provides a description for the table.
      * This description explains the purpose of the table and its role in displaying user-submitted reports.
      *
-     * @param ArticleReport $articleReport The report instance.
      * @return string The table description.
      */
-    private static function tableDescription(ArticleReport $articleReport): string
+    private static function tableDescription(): string
     {
         return trans('Soms kan het zijn dat er een foutje sluipt in een woordenboek artikel en gebruikers deze melden. Deze table is een overzicht van alle meldingen die zijn uitgevoerd door een gebruiker.');
     }
