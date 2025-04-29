@@ -9,6 +9,7 @@ use App\Filament\Clusters\Articles\Resources\ArticleReportResource\Actions\Table
 use App\Filament\Clusters\Articles\Resources\ArticleReportResource\Pages;
 use App\Filament\Clusters\Articles\Resources\ArticleReportResource\Schema\TableColumnSchema as SchemaTableColumnSchema;
 use App\Filament\Resources\ArticleResource\Pages\ViewWord;
+use App\Filament\Resources\UserResource;
 use App\Models\ArticleReport;
 use App\Models\User;
 use App\States\Reporting\Status;
@@ -105,7 +106,7 @@ final class ArticleReportResource extends Resource
                             ->label('bekijk melder')
                             ->icon('tabler-user-search')
                             ->color('gray')
-                            ->url('https://wwww.google.com'),
+                            ->url(fn (ArticleReport $articleReport): string => UserResource::getUrl('view', ['record' => $articleReport->author])),
                         Action::make('article-information')
                             ->label('bekijk artikel')
                             ->icon('tabler-eye-search')
@@ -276,8 +277,8 @@ final class ArticleReportResource extends Resource
         return Fieldset::make('Door de gebruiker gegeven feedback')
             ->schema(components: [
                 TextEntry::make('description')
-                ->columnSpan(12)
-                ->hiddenLabel()
+                    ->columnSpan(12)
+                    ->hiddenLabel()
             ]);
     }
 }
