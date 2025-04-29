@@ -10,29 +10,74 @@ use App\Enums\VolunteerPositions;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\MarkdownEditor;
-use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Infolists\Components\TextEntry;
 use Filament\Pages\SettingsPage;
 use Filament\Support\Enums\IconSize;
 
+/**
+ * Class VolunteerCallOutSettings
+ *
+ * This Filament Settings Page provides a user interface for managing the volunteer call-out section of the application.
+ * It allows administrators to configure the content, visibility, and available positions for volunteers.
+ *
+ * It leverages the `spatie/laravel-settings` package to store and retrieve the configuration values.
+ *
+ * @package App\Filament\Pages
+ */
 final class VolunteerCallOutSettings extends SettingsPage
 {
+    /**
+     * Defines the icon used to represent this settings page in the Filament admin panel navigation menu.
+     * This helps users visually identify the page within the admin interface. Uses a Heroicon name.
+     *
+     * @var string|null
+     */
     protected static ?string $navigationIcon = 'heroicon-o-megaphone';
 
+    /**
+     * Specifies the Filament cluster that this settings page belongs to. Clusters are used to
+     * group related settings pages together, providing a more organized admin interface.
+     *
+     * @var string|null
+     */
     protected static ?string $cluster = Settings::class;
 
+    /**
+     * Defines the settings class associated with this page.
+     * This class determines which settings can be configured and managed through this Filament page.
+     *
+     * @var string
+     */
     protected static string $settings = VolunteerSettings::class;
 
+    /**
+     * Sets the label used for this settings page in the Filament admin panel navigation menu.
+     * This is the human-readable name that users will see in the menu.
+     *
+     * @var string|null
+     */
     protected static ?string $navigationLabel = 'Oproep voor vrijwilligers';
 
+    /**
+     * Defines the title displayed at the top of this settings page in the Filament admin panel.
+     * This provides context and helps users understand the purpose of the page.
+     *
+     * @var string|null
+     */
     protected static ?string $title = 'Oproep voor vrijwilligers';
 
+    /**
+     * Configures the form used to display and edit the volunteer call-out settings.
+     *
+     * This method defines the form schema, which includes sections for page configuration and volunteer positions.
+     * It uses Filament form components to create a user-friendly interface for managing these settings.
+     *
+     * @param  Form $form  The Filament form builder instance.
+     * @return Form        The configured Filament form instance.
+     */
     public function form(Form $form): Form
     {
         return $form
@@ -67,7 +112,10 @@ final class VolunteerCallOutSettings extends SettingsPage
     }
 
     /**
-     * @return array<int, TextInput|MarkdownEditor|Toggle>
+     * Defines the form schema for the page settings section.
+     * This method creates an array of Filament form components used to configure the title, content, and visibility of the volunteer call-out page.
+     *
+     * @return array<int, TextInput|MarkdownEditor|Toggle> An array of Filament form components.
      */
     private function pageSettingsFormDefinition(): array
     {
@@ -87,7 +135,12 @@ final class VolunteerCallOutSettings extends SettingsPage
     }
 
     /**
-     * @return array<int, CheckboxList>
+     * Defines the form schema for the volunteer openings section.
+     *
+     * This method creates an array of Filament form components used to manage the available volunteer positions.
+     * It uses a CheckboxList to allow administrators to select multiple positions.
+     *
+     * @return array<int, CheckboxList>  An array containing a single CheckboxList component.
      */
     private function volunteerOpeningsForm(): array
     {
