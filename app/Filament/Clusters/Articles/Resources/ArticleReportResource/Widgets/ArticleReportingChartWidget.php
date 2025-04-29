@@ -24,6 +24,8 @@ use Illuminate\Support\Collection;
  */
 final class ArticleReportingChartWidget extends AdvancedChartWidget
 {
+    public ?string $filter = 'perWeek';
+
     /**
      * The label displayed above the chart.
      * This label offers a concise explanation of the data being visualized.
@@ -127,6 +129,15 @@ final class ArticleReportingChartWidget extends AdvancedChartWidget
         ];
     }
 
+    protected function getFilters(): ?array
+    {
+        return [
+            'perDay' => 'Op dagelijkse basis',
+            'perWeek' => 'Op weekbasis',
+            'perMonth' => 'Op maandbasis',
+        ];
+    }
+
     /**
      * Retrieves aggregated report data for a specified report status and time period.
      *
@@ -139,7 +150,7 @@ final class ArticleReportingChartWidget extends AdvancedChartWidget
      *
      * @return Collection<string, TrendValue>   A collection of TrendValue objects containing aggregated data.
      */
-    private function getReportData(Status|string $type = 'all', string $perPeriod = 'perWeek'): Collection
+    private function getReportData(Status|string $type = 'all'): Collection
     {
         $startDate = now()->subYear();
         $endDate = now();
@@ -150,7 +161,7 @@ final class ArticleReportingChartWidget extends AdvancedChartWidget
             default => null,
         };
 
-        return $this->getTrendData($dateColumn, $startDate, $endDate, $perPeriod);
+        return $this->getTrendData($dateColumn, $startDate, $endDate, $this->filter);
     }
 
     /**
@@ -177,7 +188,7 @@ final class ArticleReportingChartWidget extends AdvancedChartWidget
         return $trend
             ->between(start: $startDate, end: $endDate)
             ->{$perPeriod}()
-            ->count();;
+            ->count();
     }
 
     /**
