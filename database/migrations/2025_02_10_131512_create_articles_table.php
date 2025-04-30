@@ -47,6 +47,7 @@ return new class extends Migration
             $table->text('characteristics')->nullable();
             $table->string('archiving_reason', 350)->nullable();
             $table->json('sources')->nullable();
+            $table->text('disclaimer');
             $table->timestamp('archived_at')->nullable();
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
