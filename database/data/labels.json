@@ -6,5 +6,25 @@
     {
         "name": "aanstootgevend",
         "description": "Taal evolueert samen met de maatschappelijke ontwikkelingen. Woorden en uitdrukkingen, zowel historische als actuele, die kunnen refereren naar gender, etniciteit of seksuele oriëntatie en die in de huidige tijd als kwetsend of beledigend ervaren worden of kunnen worden, labelen we met ‘aanstootgevend’. Door deze label te gebruiken nemen we geen enkel standpunt in hieromtrent, maar registreren objectief de maatschappelijke gevoeligheden in de taal."
+    },
+    {
+        "name": "cultuur",
+        "description": "citaten, bekende mensen, bekende televisieprogramma's, bekende regels uit liedjesteksten, alles wat met Vlaamse cultuur te maken heeft."
+    },
+    {
+        "name": "muziek",
+        "description": "namen van bekende muzikanten, iconische regels uit liedjesteksten"
+    },
+    {
+        "name": "citaat",
+        "description": "Iconische citaten uit televisieprogramma's, interviews, actualiteit, liedjes, literatuur"
+    },
+    {
+        "name": "Bekende Vlaming",
+        "description": "Bekende muzikanten, sportmensen, mediafiguren, acteurs, ..."
+    },
+    {
+        "name": "televisie",
+        "description": "Bekende televisieprogramma's en -series, citaten uit die programma's en acteurs"
     }
 ]
