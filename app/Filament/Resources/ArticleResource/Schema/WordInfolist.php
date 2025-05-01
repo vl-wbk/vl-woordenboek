@@ -5,7 +5,11 @@ declare(strict_types=1);
 namespace App\Filament\Resources\ArticleResource\Schema;
 
 use App\Enums\ArticleStates;
+use App\Filament\Clusters\Articles\Resources\ArticleResource\Actions\DisclaimerToolbarActions;
 use App\Models\Article;
+use Filament\Infolists\Components\Actions\Action;
+use Filament\Support\Enums\IconSize;
+use App\Filament\Resources\ArticleResource;
 use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Infolists\Components\Tabs;
 use Filament\Infolists\Components\Tabs\Tab;
@@ -141,6 +145,10 @@ final readonly class WordInfolist
             ->visible(fn (Article $article): bool => $article->isPublished())
             ->columns(12)
             ->schema([
+                TextEntry::make('disclaimer.message')
+                    ->columnSpanFull()
+                    ->placeholder('- er is momenteel geen disclaimer actief voor dit artikel')
+                    ->hintActions(DisclaimerToolbarActions::register()),
                 TextEntry::make('publisher.name')
                     ->label('Gepubliceerd door')
                     ->icon('heroicon-o-user-circle')

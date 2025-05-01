@@ -215,8 +215,7 @@ final class ArticleResource extends Resource
                 SelectFilter::make('state')
                     ->label('status')
                     ->multiple()
-                    ->options(ArticleStates::class)
-                    ->default([ArticleStates::New->value]),
+                    ->options(ArticleStates::class),
                 Filter::make('assigned')
                     ->label('Toegewezen aan mij')
                     ->query(fn (Builder $query): Builder => $query->where('editor_id', auth()->id())),

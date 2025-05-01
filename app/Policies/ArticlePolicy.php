@@ -143,6 +143,16 @@ final readonly class ArticlePolicy
         return $article->editor()->is($user) || $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer]);
     }
 
+    public function attachDisclaimer(User $user, Article $article): bool
+    {
+        return $article->disclaimer()->doesntExist() && $user->user_type->notIn([UserTypes::Normal, UserTypes::Editor]);
+    }
+
+    public function detachDisclaimer(User $user, Article $article): bool
+    {
+        return $article->disclaimer()->exists() && $user->user_type->notIn([UserTypes::Normal, UserTypes::Editor]);
+    }
+
     /**
      * Determines whether a user can archive an article.
      *

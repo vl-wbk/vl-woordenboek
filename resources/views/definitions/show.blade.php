@@ -17,17 +17,17 @@
                 <x-articles.article-information-toolbar :word=$word />
             </div>
 
-            @if ($word->disclaimer)
+            @if ($word->disclaimer()->exists())
                 <div class="col-12">
-                    <div class="alert alert-info shadow-sm border-0 p-2 mt-3" role="alert">
-                            <strong><x-heroicon-s-bell-alert class="icon"/> DISCLAIMER:</strong> {{ $word->disclaimer }}
+                    <div class="{{ $word->disclaimer->type->getFrontendAlertClass() }} shadow-sm border-0 py-2 px-3 mt-3" role="alert">
+                            <strong>DISCLAIMER:</strong> {{ $word->disclaimer->message }}
                     </div>
                 </div>
             @endif
         </div>
     </div>
 
-    <div class="container">
+    <div class="container @if ($word->disclaimer()->doesntExist()) mt-3 @endif">
         <div class="row">
             <div class="col-lg-8 col-sm-12">
                 <div class="card card-body shadow-sm border-0">

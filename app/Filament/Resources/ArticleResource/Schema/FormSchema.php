@@ -72,12 +72,12 @@ final readonly class FormSchema
             Components\RichEditor::make('description')
                 ->label('Beschrijving')
                 ->columnSpanFull()
-                ->toolbarButtons(['bold', 'italic', 'link', 'redo', 'strike', 'underline', 'undo'])
+                ->toolbarButtons(['bold', 'italic', 'redo', 'strike', 'underline', 'undo'])
                 ->placeholder('De beschrijving van het woord dat je wenst toe te voegen.')
                 ->required(),
             Components\RichEditor::make('example')
                 ->label('Voorbeeld')
-                ->toolbarButtons(['bold', 'italic', 'link', 'redo', 'strike', 'underline', 'undo'])
+                ->toolbarButtons(['bold', 'italic', 'redo', 'strike', 'underline', 'undo'])
                 ->placeholder('Probeer zo helder mogelijk te zijn')
                 ->columnSpanFull()
                 ->required(),

@@ -157,6 +157,11 @@ final class Article extends Model implements AuditableContract
             ->withTimestamps();
     }
 
+    public function disclaimer(): BelongsTo
+    {
+        return $this->belongsTo(Disclaimer::class);
+    }
+
     /**
      * Establishes the one-to-many relationship between dictionary articles and their associated notes.
      * This relationship allows articles to maintain multiple textual annotations, providing additional context, clarifications, or editorial comments.
