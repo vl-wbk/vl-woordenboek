@@ -1,4 +1,4 @@
-@extends('layouts.application-blank', ['wachtwoord vergeten'])
+@extends('layouts.application-blank', ['title' => 'wachtwoord vergeten'])
 
 @section('content')
 <div class="container">

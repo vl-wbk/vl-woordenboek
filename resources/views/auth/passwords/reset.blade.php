@@ -1,4 +1,4 @@
-@extends('layouts.application-blank', ['wachtwoord resetten'])
+@extends('layouts.application-blank', ['title' => 'wachtwoord resetten'])
 
 @section('content')
 <div class="container">
