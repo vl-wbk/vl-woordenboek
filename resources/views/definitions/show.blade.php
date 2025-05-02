@@ -11,6 +11,7 @@
     <meta property="og:article:published_time" content="{{ now()->parse($word->published_at)->toDatetimeString() }}"/>
     <meta property="og:article:modified_time" content="{{ now()->parse($word->updated_at)->toDatetimestring() }}"/>
     <meta property="og:article:author" content="{{ $word->editor->name ?? '' }}"/>
+    <meta property="og:section" content="Linguistiek">
 @endsection
 
 @section ('content')
