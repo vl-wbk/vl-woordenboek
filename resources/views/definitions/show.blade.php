@@ -1,7 +1,7 @@
 @extends ('layouts.application-blank', ['title' => $word->word])
 
 @section ('openGraph')
-    <meta property="og:title" content="{{ config('app.name', 'Laravel') }}"/>
+    <meta property="og:title" content="{{ $word->word }} - {{ config('app.name', 'Laravel') }}"/>
     <meta property="og:type" content="article"/>
     <meta property="og:url" content="{{ request()->fullUrl() }}"/>
     <meta property="og:description" content="{{ $word->description }}"/>
