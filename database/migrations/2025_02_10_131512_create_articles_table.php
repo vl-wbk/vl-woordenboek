@@ -20,9 +20,6 @@ return new class extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
-            $table->string('index', 1)
-                ->comment('The index column is used in the word index of the application.')
-                ->virtualAs("UPPER(LEFT(word, 1))");
             $table->unsignedSmallInteger('origin')->default(DataOrigin::External->value);
             $table->smallInteger('state')->default(ArticleStates::ExternalData->value);
             $table->foreignIdFor(PartOfSpeech::class)->nullable()->references('id')->on('part_of_speeches')->nullOnDelete();

@@ -13,7 +13,7 @@ final class DisclaimerTableSeeder extends Seeder
 {
     public function run(): void
     {
-        $jsonDataFile = File::get(database_path('data/regions.json'));
+        $jsonDataFile = File::get(database_path('data/disclaimers.json'));
         $regions = json_decode($jsonDataFile);
 
         foreach ($regions as $region => $value) {
