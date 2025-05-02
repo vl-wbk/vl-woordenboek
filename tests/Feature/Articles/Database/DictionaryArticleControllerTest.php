@@ -6,14 +6,14 @@ use App\Models\User;
 use function Pest\Laravel\get;
 use function Pest\Laravel\actingAs;
 
-it('an unauthenticated user can wiew the dictionary article', function (): void {
-    $article = Article::factory()->create();
+it('an unauthenticated user can view the dictionary article', function (): void {
+    $article = Article::factory()->create(['published_at' => now()]);
     $user = User::factory()->create();
 
-    get(route('word-information.show', ['word' => $article->getRouteKey()]))
+    get(route('word-information.show', ['word' => $article]))
         ->assertSuccessful();
 
-    actingAs($user)->get(route('word-information.show', ['word' => $article->getRouteKey()]))
+    actingAs($user)->get(route('word-information.show', ['word' => $article]))
         ->assertSuccessful();
 });
 
