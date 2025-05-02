@@ -1,5 +1,16 @@
 @extends ('layouts.application-blank', ['title' => $word->word])
 
+@section ('openGraph')
+    <meta property="og:title" content="{{ config('app.name', 'Laravel') }}"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:url" content="{{ request()->fullUrl() }}"/>
+    <meta property="og:image" content="{{ asset('/img/app-logo.jpg') }}"/>
+    <meta propery="og:local" content="{{ str_replace('_', '-', app()->getLocale()) }}"/>
+    <meta property="og:article:published_time" content="{{ now()->parse($word->published_at)->toDatetimeString() }}"/>
+    <meta property="og:article:modified_time" content="{{ now()->parse($word->updated_at)->toDatetimestring() }}"/>
+    <meta property="og:article:author" content="{{ $word->editor->name ?? '' }}"/>
+@endsection
+
 @section ('content')
     <div class="container">
         <div class="row">
