@@ -4,7 +4,9 @@
     <meta property="og:title" content="{{ config('app.name', 'Laravel') }}"/>
     <meta property="og:type" content="article"/>
     <meta property="og:url" content="{{ request()->fullUrl() }}"/>
+    <meta property="og:description" coàntent="{{ $word->description }}"/>
     <meta property="og:image" content="{{ asset('/img/app-logo.jpg') }}"/>
+    <meta property="og:image_alt" content="Logo van het Vlaams woordenboek"/>
     <meta propery="og:local" content="{{ str_replace('_', '-', app()->getLocale()) }}"/>
     <meta property="og:article:published_time" content="{{ now()->parse($word->published_at)->toDatetimeString() }}"/>
     <meta property="og:article:modified_time" content="{{ now()->parse($word->updated_at)->toDatetimestring() }}"/>
