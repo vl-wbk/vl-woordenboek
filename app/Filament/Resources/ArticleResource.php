@@ -158,7 +158,7 @@ final class ArticleResource extends Resource
                     ->label('Help')
                     ->icon('heroicon-o-lifebuoy')
                     ->color('gray')
-                    ->url('https://www.google.com')
+                    ->url('https://vl-wbk.github.io/documentatie-portaal/artikelen/')
                     ->openUrlInNewTab(),
                 CreateAction::make()
                     ->icon('heroicon-o-document-plus')
