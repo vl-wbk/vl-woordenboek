@@ -10,6 +10,7 @@ use App\Models\PartOfSpeech;
 use App\Models\Region;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\RateLimiter;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Post;
 
@@ -55,6 +56,13 @@ final readonly class StoreArticleSuggestionController
     #[Post(uri: 'woordenboek-artikelen/insturen', name: 'definitions.store')]
     public function store(StoreSuggestionRequest $storeSuggestionRequest, StoreArticleSuggestion $storeArticleSuggestion): RedirectResponse
     {
+        if (RateLimiter::tooManyAttempts('submission:' . $storeSuggestionRequest->ip(), maxAttempts: 15)) {
+            flash('Het lijkt erop dat je te veel suggesties probeerd toe te voegen op een te korte tijd. Probeer het later nog eens', 'alert-danger');
+            return back();
+        }
+
+        RateLimiter::increment('submission:' . $storeSuggestionRequest->ip(), amount: 1);
+
         $storeArticleSuggestion->execute($storeSuggestionRequest->getData());
 
         return redirect()->action(SearchController::class);

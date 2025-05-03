@@ -26,6 +26,7 @@
         "owen-it/laravel-auditing": "^14.0",
         "secondnetwork/blade-tabler-icons": "^3.29",
         "spatie/laravel-data": "^4.13",
+        "spatie/laravel-flash": "^1.10",
         "spatie/laravel-query-builder": "^6.3",
         "spatie/laravel-route-attributes": "^1.25",
         "spatie/laravel-welcome-notification": "^2.4",
