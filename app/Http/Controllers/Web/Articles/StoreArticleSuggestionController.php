@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Web\Articles;
 
 use App\Actions\Articles\StoreArticleSuggestion;
+use App\Concerns\RateLimitSubmission;
 use App\Http\Requests\Articles\StoreSuggestionRequest;
 use App\Models\PartOfSpeech;
 use App\Models\Region;
@@ -23,8 +24,10 @@ use Spatie\RouteAttributes\Attributes\Post;
  *
  * @package App\Http\Controllers\Web\Articles
  */
-final readonly class StoreArticleSuggestionController
+final class StoreArticleSuggestionController
 {
+    use RateLimitSubmission;
+
     /**
      * Displays the article submission form.
      *
@@ -56,15 +59,11 @@ final readonly class StoreArticleSuggestionController
     #[Post(uri: 'woordenboek-artikelen/insturen', name: 'definitions.store')]
     public function store(StoreSuggestionRequest $storeSuggestionRequest, StoreArticleSuggestion $storeArticleSuggestion): RedirectResponse
     {
-        if (RateLimiter::tooManyAttempts('submission:' . $storeSuggestionRequest->ip(), maxAttempts: 15)) {
-            flash('Het lijkt erop dat je te veel suggesties probeerd toe te voegen op een te korte tijd. Probeer het later nog eens', 'alert-danger');
-            return back();
-        }
+        return $this->attemptSubmissionWithRateLimiting($storeSuggestionRequest, 'submission', function () use ($storeArticleSuggestion, $storeSuggestionRequest): RedirectResponse {
+            $storeArticleSuggestion->execute($storeSuggestionRequest->getData());
+            flash('We hebben uw suggestie goed ontvangen. Onze redactie zal er spoedig naar kijken.', 'alert-success');
 
-        RateLimiter::increment('submission:' . $storeSuggestionRequest->ip(), amount: 1);
-
-        $storeArticleSuggestion->execute($storeSuggestionRequest->getData());
-
-        return redirect()->action(SearchController::class);
+            return redirect()->action([StoreArticleSuggestionController::class, 'create']);
+        });
     }
 }
