@@ -87,7 +87,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="" class="nav-link">
+                        <a href="mailto:contact@vlaamswoordenboek.be" class="nav-link">
                             <x-heroicon-s-envelope class="icon me-1" /> Contact
                         </a>
                     </li>
