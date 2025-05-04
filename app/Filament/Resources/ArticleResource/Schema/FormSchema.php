@@ -75,6 +75,7 @@ final readonly class FormSchema
                 ->toolbarButtons(['bold', 'italic', 'redo', 'strike', 'underline', 'undo'])
                 ->placeholder('De beschrijving van het woord dat je wenst toe te voegen.')
                 ->helperText('Deze rich editor ondersteund enkel Markdown')
+                ->maxHeight('200px')
                 ->required(),
             Components\MarkdownEditor::make('example')
                 ->label('Voorbeeld')
@@ -82,6 +83,7 @@ final readonly class FormSchema
                 ->placeholder('Probeer zo helder mogelijk te zijn')
                 ->helperText('Deze rich editor ondersteund enkel Markdown')
                 ->columnSpanFull()
+                ->maxHeight('200px')
                 ->required()
         ];
     }
