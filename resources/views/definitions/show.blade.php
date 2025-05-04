@@ -64,7 +64,9 @@
                     </ul>
 
                     <div class="mt-2 text-muted">
-                        {!! formatUserContent(str($word->description)->sanitizeHtml()) !!}
+                        <div class="markdown-text">
+                            {!! formatUserContent(str($word->description)->markdown()) !!}
+                        </div>
                     </div>
                 </div>
 
@@ -94,7 +96,9 @@
                     <div class="card-body">
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="example-tab-pane" role="tabpanel" aria-labelledby="example-tab" tabindex="0">
-                                {!! formatUserContent(str($word->example)->sanitizeHtml()) !!}
+                                <div class="markdown-text">
+                                    {!! formatUserContent(str($word->example)->markdown()) !!}
+                                </div>
                             </div>
 
                             <div class="tab-pane fade show" id="region-tab-pane" role="tabpanel" aria-labelledby="region-tab" tabindex="0">

@@ -69,30 +69,18 @@ final readonly class FormSchema
                 ->label('Afbeelding')
                 ->columnSpan(12)
                 ->maxLength(255),
-            Components\RichEditor::make('description')
+            Components\MarkdownEditor::make('description')
                 ->label('Beschrijving')
                 ->columnSpanFull()
                 ->toolbarButtons(['bold', 'italic', 'redo', 'strike', 'underline', 'undo'])
                 ->placeholder('De beschrijving van het woord dat je wenst toe te voegen.')
-                ->formatStateUsing(function (string $state) {
-                    if (isset($state)) {
-                        $state = nl2br($state);
-                    }
-                    return $state;
-                })
                 ->required(),
-            Components\RichEditor::make('example')
+            Components\MarkdownEditor::make('example')
                 ->label('Voorbeeld')
                 ->toolbarButtons(['bold', 'italic', 'redo', 'strike', 'underline', 'undo'])
                 ->placeholder('Probeer zo helder mogelijk te zijn')
                 ->columnSpanFull()
                 ->required()
-                ->formatStateUsing(function (string $state) {
-                    if (isset($state)) {
-                        $state = nl2br($state);
-                    }
-                    return $state;
-                }),
         ];
     }
 

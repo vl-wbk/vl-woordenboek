@@ -57,6 +57,14 @@ body {
     color: #748d26;
 }
 
+.markdown-text > p {
+    margin-bottom: 1rem;
+}
+
+.markdown-text > p:last-of-type {
+    margin-bottom: 0rem;
+}
+
 .icon {
     width: 1em;
     height: 1em;
