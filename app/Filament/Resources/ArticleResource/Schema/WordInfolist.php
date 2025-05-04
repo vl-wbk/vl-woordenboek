@@ -231,13 +231,14 @@ final readonly class WordInfolist
                     ->columnSpan(12),
                 TextEntry::make('description')
                     ->label('Beschrijving')
-                    ->formatStateUsing(fn (string $state): HtmlString => new HtmlString($state))
                     ->html()
+                    //->formatStateUsing(fn (string $state): HtmlString => new HtmlString($state))
+
                     ->columnSpan(12),
                 TextEntry::make('example')
                     ->label('Voorbeeld')
                     ->html()
-                    ->formatStateUsing(fn (string $state): HtmlString => new HtmlString($state))
+                    //->formatStateUsing(fn (string $state): HtmlString => new HtmlString($state))
                     ->columnSpan(12),
             ]);
     }
