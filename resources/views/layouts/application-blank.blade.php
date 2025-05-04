@@ -79,7 +79,7 @@
                                 <x-tabler-gavel class="icon text-muted me-1" /> Disclaimer
                             </a>
 
-                            <a class="dropdown-item">
+                            <a class="dropdown-item" href="https://vl-wbk.github.io/documentatie-portaal/" target="_blank">
                                 <x-tabler-book-2 class="icon text-muted me-1" /> Gebruikershandleiding
                             </a>
                         </div>
