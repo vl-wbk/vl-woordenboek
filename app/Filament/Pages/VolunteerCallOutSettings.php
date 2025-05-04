@@ -7,6 +7,7 @@ namespace App\Filament\Pages;
 use App\Filament\Clusters\Settings;
 use App\Settings\VolunteerSettings;
 use App\Enums\VolunteerPositions;
+use App\UserTypes;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\MarkdownEditor;
@@ -68,6 +69,8 @@ final class VolunteerCallOutSettings extends SettingsPage
      * @var string|null
      */
     protected static ?string $title = 'Oproep voor vrijwilligers';
+
+    protected static ?string $navigationGroup = "Pagina's";
 
     /**
      * Configures the form used to display and edit the volunteer call-out settings.
@@ -150,5 +153,10 @@ final class VolunteerCallOutSettings extends SettingsPage
                 ->options(VolunteerPositions::class)
                 ->columns(3)
         ];
+    }
+
+    public static function canAccess(): bool
+    {
+        return auth()->user()->user_type->in([UserTypes::Administrators, UserTypes::Developer]);
     }
 }

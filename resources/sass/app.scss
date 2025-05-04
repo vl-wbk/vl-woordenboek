@@ -156,6 +156,10 @@ p {
     margin-bottom: 1rem;
 }
 
+.volunteers-description > p:last-of-type {
+    margin-bottom: 0rem;
+}
+
 // Modals
 .modal-header-reporting {
     background-color: oklch(0.936 0.032 17.717);

@@ -68,16 +68,16 @@
                             <x-heroicon-s-information-circle class="icon me-1" /> Info
                         </a>
 
-                        <div class="dropdown-menu bg-white shadow-sm dropdown-menu">
-                            <a class="dropdown-item">
-                                <x-tabler-info-square-rounded class="icon text-muted me-1" /> Project informatie
-                            </a>
+                        <div class="dropdown-menu bg-white shadow-sm border-0 dropdown-menu">
+                            @if (app(\App\Settings\ProjectInformationSettings::class)->pageActive)
+                                <a href="{{ route('project-information')}}" class="dropdown-item">
+                                    <x-tabler-info-square-rounded class="icon text-muted me-1" /> Project informatie
+                                </a>
+                            @endif
 
                             <a href="{{ route('terms-of-service') }}" class="dropdown-item">
                                 <x-tabler-gavel class="icon text-muted me-1" /> Disclaimer
                             </a>
-
-                            <div class="dropdown-divider"></div>
 
                             <a class="dropdown-item">
                                 <x-tabler-book-2 class="icon text-muted me-1" /> Gebruikershandleiding
