@@ -89,7 +89,7 @@ enum ArticleStates: int implements HasLabel, HasIcon, HasColor
         return match($this)  {
             self::New, self::ExternalData => 'gray',
             self::Draft => 'warning',
-            self::Approval => 'priamry',
+            self::Approval => 'primary',
             self::Published => 'success',
             self::Archived => 'danger',
         };
