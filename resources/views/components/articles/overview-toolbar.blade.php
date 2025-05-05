@@ -6,8 +6,12 @@
                     <a href="{{ route('home') }}" class="btn border-0 btn-light {{ active(['home', 'search.results']) }}" aria-current="page">
                         <x-heroicon-o-magnifying-glass-circle class="icon color-green"/> opzoeking
                     </a>
-                    <a href="#" class="btn border-0 btn-light">
+                    <a href="{{ route('bookmarks:index') }}" class="btn border-0 btn-light">
                         <x-heroicon-o-bookmark class="icon color-green"/> bewaarde woorden
+
+                        @if ($bookmarkCount > 0)
+                            <span class="badge rounded-pill bg-dark text-white ms-1">{{ $bookmarkCount }}</span>
+                        @endif
                     </a>
                     <a href="{{ route('suggestions:index') }}" class="btn border-0 btn-light {{ active('suggestions:index') }}">
                         <x-heroicon-o-list-bullet class="icon color-green"/> mijn suggesties
@@ -39,8 +43,12 @@
                 </a>
             </li>
             <li>
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="{{ route('bookmarks:index') }}">
                     <x-heroicon-o-bookmark class="icon text-muted me-1"/> bewaarde woorden
+
+                    @if ($bookmarkCount > 0)
+                        <span class="fst-italic">{{ $bookmarkCount }}</span>
+                    @endif
                 </a>
             </li>
             <li>

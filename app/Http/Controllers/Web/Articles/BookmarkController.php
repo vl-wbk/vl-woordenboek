@@ -14,6 +14,14 @@ use Spatie\RouteAttributes\Attributes\Middleware;
 #[Middleware(middleware: ['auth', 'forbid-banned-user'])]
 final readonly class BookmarkController
 {
+    #[Get(uri: 'bookmarks', name: 'bookmarks:index')]
+    public function index(): Renderable
+    {
+        return view('definitions.bookmarks', data: [
+            'results' => auth()->user()->bookmarks()->paginate(),
+        ]);
+    }
+
     #[Get(uri: 'bookmark/{article}', name: 'bookmark:create')]
     public function store(Request $request, Article $article): RedirectResponse
     {
@@ -31,6 +39,6 @@ final readonly class BookmarkController
             $request->user()->bookmarks()->detach($article);
         }
 
-        return redirect()->action(DictionaryArticleController::class, $article);
+        return back();
     }
 }
