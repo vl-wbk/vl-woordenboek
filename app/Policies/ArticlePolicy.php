@@ -57,37 +57,6 @@ final readonly class ArticlePolicy
     }
 
     /**
-     * Determines whether a user can reject an article that was submitted for publication.
-     *
-     * This policy enforces two key requirements for rejection:
-     * - The article must be in the Approval state, indicating it has been submitted for review
-     * - Only administrators and chief editors have the authority to reject articles
-     *
-     * Additionally, the policy implements a four-eyes principle:
-     * - The article must have an assigned editor
-     * - The user rejecting cannot be the same person as the assigned editor
-     *
-     * This ensures that rejection decisions are made with appropriate oversight
-     * and maintains separation between article editing and approval processes.
-     *
-     * @param  User     $user     The user attempting to reject the article
-     * @param  Article  $article  The article being considered for rejection
-     * @return bool              True if the user has permission to reject, false otherwise
-     */
-    public function rejectPublication(User $user, Article $article): bool
-    {
-        if ($article->state->isNot(enum: ArticleStates::Approval)) {
-            return false;
-        }
-
-        if ($user->user_type->notIn(enums: [UserTypes::EditorInChief, UserTypes::Developer, UserTypes::Administrators])) {
-            return false;
-        }
-
-        return $article->editor()->exists() && $article->editor()->isNot($user);
-    }
-
-    /**
      * Determines whether a user can publish an article.
      *
      * Publication is only allowed when:
@@ -102,9 +71,9 @@ final readonly class ArticlePolicy
      * @param  Article  $article  The article to be published
      * @return bool               True if publication is allowed, false otherwise
      */
-    public function publishArticle(User $user, Article $article): bool
+    public function publish(User $user, Article $article): bool
     {
-        if ($article->state->notIn(enums: [ArticleStates::Approval, ArticleStates::Archived])) {
+        if ($article->state->isNot(enum: ArticleStates::Approval)) {
             return false;
         }
 
@@ -164,7 +133,12 @@ final readonly class ArticlePolicy
     public function archiveArticle(User $user, Article $article): bool
     {
         return $article->state->in(enums: [ArticleStates::Published, ArticleStates::Approval])
-            && $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::EditorInChief]);
+            && $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer, UserTypes::EditorInChief]);
+    }
+
+    public function unarchive(User $user, Article $article): bool
+    {
+        return $article->state->is(ArticleStates::Archived) && $user->user_type->notIn([UserTypes::Normal, UserTypes::Editor]);
     }
 
     /**

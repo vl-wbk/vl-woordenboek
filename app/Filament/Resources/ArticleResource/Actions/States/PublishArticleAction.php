@@ -39,6 +39,8 @@ final class PublishArticleAction extends Action
     {
         parent::setUp();
 
+        $this->authorize('sendForApproval', $this->record);
+
         $this->icon('heroicon-o-paper-airplane');
         $this->color('gray');
 
@@ -47,7 +49,6 @@ final class PublishArticleAction extends Action
         $this->modalHeading(fn (): string => trans('Artikel insturen voor publicatie.'));
         $this->modalDescription('Nadat u het artikel instuurt voor nazicht zal hij/zij het artikel nakijken en mogelijks goedkeuren voor publictatie');
         $this->modalSubmitActionLabel('Insturen');
-        $this->authorize('sendForApproval', $this->record);
         $this->modalIcon('heroicon-o-paper-airplane');
 
         $this->action(function (): void {
