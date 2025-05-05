@@ -16,6 +16,7 @@ use Spatie\WelcomeNotification\ReceivesWelcomeNotification;
 use Overtrue\LaravelLike\Traits\Liker;
 use Cog\Contracts\Ban\Bannable as BannableInterface;
 use Cog\Laravel\Ban\Traits\Bannable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -112,6 +113,11 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
     public function reports(): HasMany
     {
         return $this->hasMany(ArticleReport::class, 'author_id');
+    }
+
+    public function bookmarks(): BelongsToMany
+    {
+        return $this->belongsToMany(Article::class, table: 'article_bookmarks');
     }
 
     /**

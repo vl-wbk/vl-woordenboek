@@ -2,14 +2,20 @@
     <div class="btn-group me-2 shadow-sm">
         <livewire:like-words :article="$word" />
 
-        <a href="#" class="btn border-0 btn-light">
-            <x-heroicon-o-bookmark class="icon color-green" /> bewaren
-        </a>
+        @if (! auth()->user()->bookmarks->contains($word))
+            <a href="{{ route('bookmark:create', $word) }}" class="btn border-0 btn-light">
+                <x-heroicon-o-bookmark class="icon color-green" /> bewaren
+            </a>
+        @else
+            <a href="{{ route('bookmark:remove', $word) }}" class="btn border-0 btn-light">
+                <x-heroicon-o-bookmark-slash class="icon text-danger" /> vergeten
+            </a>
+        @endif
     </div>
 
     <div class="btn-group shadow-sm" role="group">
         @if ($isNormalUser)
-            <button type="button" class="btn btn-danger btn-sm float-end" data-bs-toggle="modal data-bs-target="#reportModal">
+            <button type="button" class="btn btn-danger btn-sm float-end" data-bs-toggle="modal" data-bs-target="#reportModal">
                 <x-tabler-file-alert class="icon" /> rapporteren
             </button>
         @else {{--  User is editor, EditorInChief, Administror, Webmaster --}}
@@ -45,9 +51,15 @@
 
     <ul class="dropdown-menu shadow-sm dropdown-menu-end">
         <li>
-            <a href="" class="dropdown-item">
-                <x-heroicon-o-bookmark class="icon text-muted me-1" /> Bewaren
-            </a>
+            @if (! auth()->user()->bookmarks->contains($word))
+                <a href="{{ route('bookmark:create', $word) }}" class="dropdown-item">
+                    <x-heroicon-o-bookmark class="icon text-muted me-1" /> Bewaren
+                </a>
+            @else
+                <a href="{{ route('bookmark:remove', $word) }}" class="dropdown-item">
+                    <x-heroicon-o-bookmark-slash class="icon text-danger me-1" /> Vergeten
+                </a>
+            @endif
         </li>
 
         <li class="dropdown-divider"></li>

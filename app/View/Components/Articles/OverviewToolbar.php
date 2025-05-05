@@ -12,6 +12,7 @@ final class OverviewToolbar extends Component
     public function render(): ?Renderable
     {
         return view('components.articles.overview-toolbar',[
+            'bookmarkCount' => auth()->user()?->bookmarks()->count() ?? 0,
             'suggestionCount' => auth()->user()?->suggestions()->count() ?? 0,
         ]);
     }
