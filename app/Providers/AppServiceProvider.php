@@ -20,6 +20,7 @@ final class AppServiceProvider extends ServiceProvider
         Model::preventLazyLoading();
 
         $this->registerGlobalPolicyCheck();
+        $this->registerLaravelTelescope();
     }
 
     private function registerGlobalPolicyCheck(): void
@@ -27,5 +28,13 @@ final class AppServiceProvider extends ServiceProvider
         Gate::define('access-backend', function (User $user): bool {
             return $user->user_type->isNot(enum: UserTypes::Normal);
         });
+    }
+
+    private function registerLaravelTelescope(): void
+    {
+        if ($this->app->environment('local') && class_exists(\Laravel\Telescope\TelescopeServiceProvider::class)) {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+            $this->app->register(TelescopeServiceProvider::class);
+        }
     }
 }

@@ -27,7 +27,7 @@ final class AcceptPublishingProposal extends Action
      */
     public static function getDefaultName(): string
     {
-        return trans('artikel publiceren');
+        return trans('Goedkeuren');
     }
 
     /**
@@ -43,7 +43,7 @@ final class AcceptPublishingProposal extends Action
 
         $this->color('success');
         $this->icon('heroicon-o-check');
-        $this->authorize('publish-article', $this->record);
+        $this->authorize('publish', $this->record);
 
         $this->action(function (): void {
             $this->record->articleStatus()->transitionToReleased();

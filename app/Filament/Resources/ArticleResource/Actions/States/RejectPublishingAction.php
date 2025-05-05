@@ -37,7 +37,7 @@ final class RejectPublishingAction extends Action
      */
     public static function getDefaultName(): string
     {
-        return trans('Publicatie afwijzen');
+        return trans('Afwijzen');
     }
 
     /**
@@ -53,7 +53,7 @@ final class RejectPublishingAction extends Action
 
         $this->color('danger');
         $this->icon($this->actionIcon);
-        $this->authorize('reject-publication', $this->record);
+        $this->authorize('publish', $this->record);
 
         // Confirmation config
         $this->requiresConfirmation();
