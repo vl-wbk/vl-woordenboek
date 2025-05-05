@@ -8,6 +8,8 @@ use App\Filament\Clusters\UserManagement;
 use App\Filament\Clusters\UserManagement\Resources\BanResource\Concerns;
 use App\Filament\Clusters\UserManagement\Resources\BanResource\Pages;
 use Cog\Laravel\Ban\Models\Ban;
+use Filament\Infolists\Components;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 
@@ -56,6 +58,34 @@ final class BanResource extends Resource
      * {@inheritDoc}
      */
     protected static ?string $cluster = UserManagement::class;
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->columns(12)
+            ->schema([
+                Components\TextEntry::make('bannable.name')
+                    ->columnSpan(4)
+                    ->label('Gebruiker')
+                    ->icon('heroicon-o-user-circle')
+                    ->iconColor('primary'),
+                Components\TextEntry::make('bannable.created_at')
+                    ->columnSpan(4)
+                    ->label('Gedeactiveerd op')
+                    ->icon('heroicon-o-clock')
+                    ->iconColor('primary'),
+                Components\TextEntry::make('expired_at')
+                    ->columnSpan(4)
+                    ->label('Reactiverings datum')
+                    ->icon('heroicon-o-clock')
+                    ->iconColor('primary')
+                    ->default('tot nader order'),
+                Components\TextEntry::make('comment')
+                    ->columnSpanFull()
+                    ->label('Reden tot deactivering')
+                    ->default('Geen reden tot deactivering opgegegeven'),
+            ]);
+    }
 
     /**
      * Here's where we set up the main interface for managing bans.

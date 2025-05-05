@@ -7,6 +7,7 @@ namespace App\Filament\Clusters\UserManagement\Resources\BanResource\Concerns;
 use App\Filament\Clusters\UserManagement\Resources\BanResource\Actions\EditBanAction;
 use App\Filament\Resources\UserResource\Actions\UnbanAction;
 use Cog\Laravel\Ban\Models\Ban;
+use Filament\Tables\Actions\ViewAction;
 use Illuminate\Support\Facades\Gate;
 
 /**
@@ -39,6 +40,13 @@ trait TableActions
     public static function getTableActions(): array
     {
         return [
+            ViewAction::make()
+                ->hiddenLabel()
+                ->modalHeading('Deactivering van een gebruiker bekijken.')
+                ->modalDescription('Alle geregistreerde gegevens omtrent de deactivering van de gebruiker.')
+                ->modalIcon('heroicon-o-eye')
+                ->modalIconColor('primary'),
+
             EditBanAction::make()
                 ->visible(fn (Ban $ban): bool => Gate::allows('update-deactivation', $ban->bannable))
                 ->hiddenLabel()
