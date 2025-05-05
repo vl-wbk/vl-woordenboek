@@ -35,7 +35,7 @@ final readonly class BanController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    #[Get(uri: 'account-deactivatie', name: 'user.banned', middleware: ['auth', 'forbid-banned-user'])]
+    #[Get(uri: 'account-deactivatie', name: 'user.banned', middleware: ['auth'])]
     public function show(): Renderable
     {
         abort_if(auth()->user()->isNotBanned(), Response::HTTP_NOT_FOUND);
