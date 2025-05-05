@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Web\Articles;
 
 use App\Models\Article;
+use App\Models\User;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,11 +16,20 @@ use Spatie\RouteAttributes\Attributes\Middleware;
 #[Middleware(middleware: ['auth', 'forbid-banned-user'])]
 final readonly class BookmarkController
 {
+    /**
+     * @todo PLace the search query in its own separate function logic.
+     */
     #[Get(uri: 'bookmarks', name: 'bookmarks:index')]
-    public function index(): Renderable
+    public function index(Request $request): Renderable
     {
+        $searchTerm = $request->get('zoekterm');
+        $searchQuery = auth()->user()->bookmarks()
+            ->where(function (Builder $query) use ($searchTerm) {
+                $query->where('word', 'like', "%{$searchTerm}%")->orWhere('description', 'like', "%{$searchTerm}%");
+            })->paginate();
+
         return view('definitions.bookmarks', data: [
-            'results' => auth()->user()->bookmarks()->paginate(),
+            'results' => $searchQuery,
         ]);
     }
 
