@@ -76,16 +76,15 @@ final readonly class ArticlePolicy
      */
     public function rejectPublication(User $user, Article $article): bool
     {
-        $editorRelation = $article->editor();
-
-        if (
-            $article->state->isNot(enum: ArticleStates::Approval)
-            && $user->user_type->in(enums: [UserTypes::EditorInChief, UserTypes::Administrators, UserTypes::Developer])
-        ) {
+        if ($article->state->isNot(enum: ArticleStates::Approval)) {
             return false;
         }
 
-        return $article->state->is(ArticleStates::Approval) && $editorRelation->exists() && $editorRelation->isNot($user);
+        if ($user->user_type->notIn(enums: [UserTypes::EditorInChief, UserTypes::Developer, UserTypes::Administrators])) {
+            return false;
+        }
+
+        return $article->editor()->exists() && $article->editor()->isNot($user);
     }
 
     /**
@@ -105,16 +104,15 @@ final readonly class ArticlePolicy
      */
     public function publishArticle(User $user, Article $article): bool
     {
-        $editorRelation = $article->editor();
-
-        if (
-            $article->state->notIn(enums: [ArticleStates::Approval, ArticleStates::Archived]) &&
-            $user->user_type->in(enums: [UserTypes::EditorInChief, UserTypes::Administrators, UserTypes::Developer])
-        ) {
+        if ($article->state->notIn(enums: [ArticleStates::Approval, ArticleStates::Archived])) {
             return false;
         }
 
-        return $article->state->is(ArticleStates::Approval) && $editorRelation->exists() && $editorRelation->isNot($user);
+        if ($user->user_type->notIn(enums: [UserTypes::EditorInChief, UserTypes::Developer, UserTypes::Administrators])) {
+            return false;
+        }
+
+        return $article->editor()->exists() && $article->editor()->isNot($user);
     }
 
     /**
