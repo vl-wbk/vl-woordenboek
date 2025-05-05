@@ -133,7 +133,12 @@ final readonly class ArticlePolicy
     public function archiveArticle(User $user, Article $article): bool
     {
         return $article->state->in(enums: [ArticleStates::Published, ArticleStates::Approval])
-            && $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::EditorInChief]);
+            && $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer, UserTypes::EditorInChief]);
+    }
+
+    public function unarchive(User $user, Article $article): bool
+    {
+        return $article->state->is(ArticleStates::Archived) && $user->user_type->notIn([UserTypes::Normal, UserTypes::Editor]);
     }
 
     /**

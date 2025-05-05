@@ -58,6 +58,7 @@ final class ViewWord extends ViewRecord
             ->authorize('publish', $this->record)
             ->button(),
 
+            ArticleStateActions\UnarchiveAction::make(),
             FilamentActions\DeleteAction::make()->icon('heroicon-o-trash'),
         ];
     }
