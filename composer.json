@@ -25,6 +25,7 @@
         "overtrue/laravel-like": "^5.3",
         "owen-it/laravel-auditing": "^14.0",
         "secondnetwork/blade-tabler-icons": "^3.29",
+        "spatie/laravel-backup": "^9.3",
         "spatie/laravel-data": "^4.13",
         "spatie/laravel-flash": "^1.10",
         "spatie/laravel-query-builder": "^6.3",
