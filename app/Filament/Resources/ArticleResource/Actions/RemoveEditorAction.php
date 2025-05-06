@@ -72,6 +72,7 @@ final class RemoveEditorAction extends Action
 
         $this->requiresConfirmation();
         $this->modalWidth(MaxWidth::Large);
+
         $this->modalCloseButton(false);
         $this->modalIcon(self::$navigationIcon);
         $this->modalHeading($this->getCustomUserBasedModalHeading());

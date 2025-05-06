@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\States\Articles;
 
+use App\Enums\ArticleStates;
+use Illuminate\Support\Facades\DB;
+
 /**
  * Represents the "Published" state of a dictionary article.
  *
@@ -32,5 +35,17 @@ final class PublishedState extends ArticleState
     public function transitionToArchived(?string $archivingReason = null): void
     {
         $this->article->archive($archivingReason);
+    }
+
+    public function transitionToEditing(?string $reason = null): bool
+    {
+        return DB::transaction(function () use ($reason): bool {
+            $this->article->update(attributes: ['state' => ArticleStates::Draft, 'published_at' => null]);
+            $this->article->publisher()->dissociate($this->article->publisher);
+
+            $this->article->attachNote(title: 'Ongedaan maken van de publicatie voor het artikel', note: $reason);
+
+            return true;
+        });
     }
 }

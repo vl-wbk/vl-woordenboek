@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\States\Articles;
 
 use App\Enums\ArticleStates;
-use App\Models\Note;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -27,12 +26,8 @@ final class ApprovalState extends ArticleState
     public function transitionToEditing(?string $reason = null): bool
     {
         return DB::transaction(function () use ($reason): bool {
-            if (! $this->article->update(attributes: ['state' => ArticleStates::Draft])) {
-                return false;
-            }
-
-            $note = new Note(attributes: ['title' => 'Voorstellen tot wijziging', 'author_id' => auth()->id(), 'body' => $reason]);
-            $this->article->notes()->save(model: $note);
+            $this->article->update(attributes: ['state' => ArticleStates::Draft]);
+            $this->article->attachNote(title: 'Voorstellen tot wijziging', note: $reason);
 
             return true;
         });
