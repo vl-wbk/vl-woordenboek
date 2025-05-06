@@ -6,6 +6,7 @@ namespace App\Builders;
 
 use App\Enums\ArticleStates;
 use App\Enums\Visibility;
+use App\Models\Note;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use JetBrains\PhpStorm\Deprecated;
@@ -55,6 +56,14 @@ final class ArticleBuilder extends Builder
             $this->model->update(attributes: ['state' => ArticleStates::Published, 'archiving_reason' => null, 'published_at' => now(), 'archived_at' => null]);
             $this->model->archiever()->associate(null)->save();
         });
+    }
+
+    public function attachNote(string $title, ?string $note = null): self
+    {
+        $note = new Note(attributes: ['title' => $title, 'author_id' => auth()->id(), 'body' => $note]);
+        $this->model->notes()->save(model: $note);
+
+        return $this;
     }
 
     public function isHidden(): bool

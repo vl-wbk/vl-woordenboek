@@ -32,7 +32,9 @@ final readonly class ArticlePolicy
      */
     public function update(User $user, Article $article): bool
     {
-        if ($article->state->is(ArticleStates::Approval) && $user->user_type->in([UserTypes::EditorInChief, UserTypes::Administrators, UserTypes::Developer])) {
+        $isPublishedOrAwaitinApproval = ($article->isPublished() || $article->state->is(ArticleStates::Approval)) ;
+
+        if ($isPublishedOrAwaitinApproval && $user->user_type->in([UserTypes::EditorInChief, UserTypes::Administrators, UserTypes::Developer])) {
             return true;
         }
 
@@ -82,6 +84,11 @@ final readonly class ArticlePolicy
         }
 
         return $article->editor()->exists() && $article->editor()->isNot($user);
+    }
+
+    public function unpublish(User $user, Article $article): bool
+    {
+        return $article->isPublished() && $user->user_type->in(enums: [UserTypes::Developer, UserTypes::Administrators]);
     }
 
     /**

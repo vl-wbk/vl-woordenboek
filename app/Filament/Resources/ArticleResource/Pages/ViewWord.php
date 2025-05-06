@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\ArticleResource\Pages;
 
 use App\Filament\Resources\ArticleResource;
+use App\Filament\Resources\ArticleResource\Actions\RevokePublication;
 use App\Filament\Resources\ArticleResource\Actions\States as ArticleStateActions;
 use Filament\Actions as FilamentActions;
 use Filament\Actions\ActionGroup;
@@ -51,11 +52,12 @@ final class ViewWord extends ViewRecord
             ActionGroup::make([
                 ArticleStateActions\AcceptPublishingProposal::make(),
                 ArticleStateActions\RejectPublishingAction::make(),
+                RevokePublication::make(),
             ])
             ->color('gray')
             ->icon('tabler-world-upload')
             ->label('Publicatie')
-            ->authorize('publish', $this->record)
+            ->authorizeAny(['publish', 'unpublish'], $this->record)
             ->button(),
 
             ArticleStateActions\UnarchiveAction::make(),
