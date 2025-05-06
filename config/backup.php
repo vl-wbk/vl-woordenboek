@@ -209,7 +209,7 @@ return [
         'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
 
         'mail' => [
-            'to' => env('BACKUP_MAIL', 'ict@vlaamswoordenboek.be'),
+            'to' => env('DB_BACKUP_MAIL', 'ict@vlaamswoordenboek.be'),
 
             'from' => [
                 'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
