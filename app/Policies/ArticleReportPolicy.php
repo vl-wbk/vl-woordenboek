@@ -37,7 +37,7 @@ final readonly class ArticleReportPolicy
      */
     public function before(User $user): bool|null
     {
-        if ($user->user_type->is(enum: UserTypes::Editor)) {
+        if ($user->user_type->is(enum: UserTypes::Normal)) {
             return false;
         }
 
