@@ -6,15 +6,29 @@ namespace App\Filament\Resources\ArticleResource\Schema;
 
 use App\Enums\ArticleStates;
 use App\Enums\LanguageStatus;
-use App\UserTypes;
-use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components;
 use Filament\Forms\Components\Section;
-use Illuminate\Database\Eloquent\Builder;
 
+/**
+ * Class FormSchema
+ *
+ * This class defines the form schema for the ArticleResource in Filament.
+ * It provides reusable methods for generating form sections and individual form components, promoting consistency and reducing code duplication.
+ *
+ * @package App\Filament\Resources\ArticleResource\Schema
+ */
 final readonly class FormSchema
 {
-    public static function sectionConfiguration(string $sectionTitle = null): Section
+    /**
+     * Creates a configured Section component for Filament forms.
+     *
+     * This method generates a Section component with predefined styling and layout settings.
+     * It can be used to group related form fields together visually and logically.
+     *
+     * @param  string|null $sectionTitle  The title to display for the section (optional).
+     * @return Section                    The configured Section component.
+     */
+    public static function sectionConfiguration(?string $sectionTitle = null): Section
     {
         return Section::make($sectionTitle)
             ->compact()
@@ -22,7 +36,13 @@ final readonly class FormSchema
     }
 
     /**
-     * @return array<int, Components\Select|Components\TextInput|Components\Textarea|Components\RichEditor>
+     * Returns an array defining the schema for the article details section.
+     *
+     * This method defines the form components used to capture the core
+     * information about an article, such as its state, word, part of speech,
+     * characteristics, keywords, labels, image URL, description, and example.
+     *
+     * @return array<int, Components\Select|Components\TextInput|Components\Textarea|Components\MarkdownEditor>
      */
     public static function getDetailSchema(): array
     {
@@ -89,6 +109,9 @@ final readonly class FormSchema
     }
 
     /**
+     * Returns an array defining the schema for the status and region details section.
+     * This method defines the form components used to capture the status and region information for an article.
+     *
      * @return array<int, Components\Select|Components\Radio>
      */
     public static function getStatusAndRegionDetails(): array
@@ -111,6 +134,9 @@ final readonly class FormSchema
     }
 
     /**
+     * Returns an array defining the schema for the sources section.
+     * This method defines the form components used to capture the sources consulted for an article.
+     *
      * @return array<int, \Filament\Forms\Components\KeyValue>
      */
     public static function getSourceSchema(): array

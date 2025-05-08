@@ -11,6 +11,7 @@ final class VolunteerSettings extends Settings
     public bool $pageActive = false;
     public ?string $pageTitle = null;
     public ?string $pageContent = null;
+    /** @phpstan-ignore-next-line */
     public array $positions = [];
 
     public static function group(): string

@@ -42,7 +42,7 @@ final class VolunteerCallOutSettings extends SettingsPage
      * Specifies the Filament cluster that this settings page belongs to. Clusters are used to
      * group related settings pages together, providing a more organized admin interface.
      *
-     * @var string|null
+     * {@inheritDoc}
      */
     protected static ?string $cluster = Settings::class;
 
@@ -70,6 +70,12 @@ final class VolunteerCallOutSettings extends SettingsPage
      */
     protected static ?string $title = 'Oproep voor vrijwilligers';
 
+    /**
+     * Defines the navigation group that this settings page belongs to in the Filament admin panel.
+     * This is used to organize the settings page within the navigation menu.
+     *
+     * @var string|null $navigationGroup
+     */
     protected static ?string $navigationGroup = "Pagina's";
 
     /**

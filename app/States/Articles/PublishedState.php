@@ -37,11 +37,24 @@ final class PublishedState extends ArticleState
         $this->article->archive($archivingReason);
     }
 
+    /**
+     * Transitions the article from the "published" state back to the "draft" state.
+     *
+     * This method is used to unpublish an article, effectively reverting it to a work in progress state.
+     * It performs the following actions within a database transaction to ensure data consistency:
+     *
+     * 1.  Updates the article's `state` attribute to `ArticleStates::Draft` and sets the `published_at` attribute to null.
+     * 2.  Dissociates the publisher (user who published the article) from the article.
+     * 3.  Attaches a note to the article recording the reason for unpublishing.
+     *
+     * @param  string|null $reason  The reason for transitioning the article back to the "Draft" state (optional). This reason will be recorded in the attached note.
+     * @return bool                 True if the transition was successful, false otherwise.
+     */
     public function transitionToEditing(?string $reason = null): bool
     {
         return DB::transaction(function () use ($reason): bool {
             $this->article->update(attributes: ['state' => ArticleStates::Draft, 'published_at' => null]);
-            $this->article->publisher()->dissociate($this->article->publisher);
+            $this->article->publisher()->dissociate();
 
             $this->article->attachNote(title: 'Ongedaan maken van de publicatie voor het artikel', note: $reason);
 

@@ -89,6 +89,12 @@ class ArticleRegistrationChart extends AdvancedChartWidget
         ],
     ];
 
+    /**
+     * Generates the data for the chart.
+     * This method fetches the chart information using the `fetchChartInformation()` method and formats it into an array suitable for the chart.js library.
+     *
+     * @return array<mixed>
+     */
     protected function getData(): array
     {
         $trendData = $this->fetchChartInformation();
@@ -101,11 +107,25 @@ class ArticleRegistrationChart extends AdvancedChartWidget
         ];
     }
 
+    /**
+     * Returns the type of chart to display.
+     *
+     * This method returns a string representing the type of chart to display.
+     * In this case, it returns 'bar' for a bar chart.
+     *
+     * @return string The type of chart to display.
+     */
     protected function getType(): string
     {
         return 'bar';
     }
 
+    /**
+     * Fetches the chart information from the database.
+     * This method uses the `flowframe/trend` package to generate a trend of article registrations over the past year, based on the selected filter.
+     *
+     * @return Collection<int, TrendValue> A collection of TrendValue objects representing the chart data.
+     */
     private function fetchChartInformation(): Collection
     {
         $startData = now()->subYear();
@@ -117,7 +137,15 @@ class ArticleRegistrationChart extends AdvancedChartWidget
             ->count();
     }
 
-    protected function getFilters(): ?array
+    /**
+     * Defines the available filters for the chart.
+     *
+     * This method returns an array of filters that allow users to change the granularity of the data displayed in the chart.
+     * The keys of the array are used internally to determine the data aggregation period, while the values are the human-readable labels displayed in the filter dropdown.
+     *
+     * @return array<string, string> An array of filters, where the key is the filter identifier and the value is the filter label.
+     */
+    protected function getFilters(): array
     {
         return [
             'perDay' => 'Op dagelijkse basis',
@@ -126,6 +154,14 @@ class ArticleRegistrationChart extends AdvancedChartWidget
         ];
     }
 
+    /**
+     * Returns the heading for the chart.
+     *
+     * This method returns a string representing the heading for the chart.
+     * The heading displays the total number of articles in the database, formatted with a thousands separator.
+     *
+     * @return string The heading for the chart.
+     */
     public function getHeading(): string
     {
         return trans(':amount artikelen', ['amount' => number_format(Article::count(), thousands_separator: '.')]);

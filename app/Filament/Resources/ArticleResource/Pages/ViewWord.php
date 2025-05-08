@@ -20,6 +20,8 @@ use Filament\Resources\Pages\ViewRecord;
  * This page is designed for administrators and moderators to review article details and perform actions such as editing, publishing, archiving, or deleting the article.
  * The available actions are displayed in the page header for quick access.
  *
+ * @property \App\Models\Article $record The database entity from the dictionary article
+ *
  * @package App\Filament\Resources\ArticleResource\Pages
  */
 final class ViewWord extends ViewRecord
@@ -40,7 +42,7 @@ final class ViewWord extends ViewRecord
      * The header actions provide tools for managing the article, including editing, publishing, archiving, and deleting.
      * These actions are configured to include icons and colors for better visual representation in the admin panel.
      *
-     * @return array<FilamentActions\Action> An array of configured header actions.
+     * @return array<FilamentActions\Action|ActionGroup> An array of configured header actions.
      */
     protected function getHeaderActions(): array
     {

@@ -157,6 +157,14 @@ final class Article extends Model implements AuditableContract
             ->withTimestamps();
     }
 
+    /**
+     * Defines the relationship between an article and its disclaimer.
+     *
+     * This method estailishes a "belongs to" relationship, indicating that each article can be associated with one disclaimer.
+     * This is useful for providing legal or informational disclaimers related to the article's content.
+     *
+     * @return BelongsTo<Disclaimer, covariant $this>
+     */
     public function disclaimer(): BelongsTo
     {
         return $this->belongsTo(Disclaimer::class);
