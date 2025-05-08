@@ -28,7 +28,7 @@ final readonly class DictionaryArticleController
      * @param  Article $word  The dictionary entry to display
      * @return Renderable     The view containing article details
      */
-    #[Get(uri: '/woordenboek-artikel/{word}', name: 'word-information.show')]
+    #[Get(uri: '/woordenboek-artikel/{word}', name: 'word-information.show', middleware: ['throttle:global'])]
     public function __invoke(Article $word): Renderable
     {
         abort_if($word->isHidden(), Response::HTTP_NOT_FOUND);

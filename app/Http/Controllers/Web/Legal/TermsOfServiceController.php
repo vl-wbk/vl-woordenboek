@@ -27,7 +27,7 @@ final readonly class TermsOfServiceController
      *
      * @return Renderable  The view containing terms of service content
      */
-    #[Get(uri: 'voorwaarden', name: 'terms-of-service')]
+    #[Get(uri: 'voorwaarden', name: 'terms-of-service', middleware: ['throttle:global'])]
     public function __invoke(): Renderable
     {
         return view('info.terms');

@@ -10,7 +10,7 @@ use Spatie\RouteAttributes\Attributes\Get;
 
 final readonly class VolunteersController
 {
-    #[Get(uri: 'ondersteuning/vrijwilligers', name: 'support.volunteers')]
+    #[Get(uri: 'ondersteuning/vrijwilligers', name: 'support.volunteers', middleware: ['throttle:global'])]
     public function __invoke(): Renderable
     {
         return view('info.volunteers-callout', [

@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Middleware;
 
-#[Middleware(middleware: ['auth', 'forbid-banned-user'])]
+#[Middleware(middleware: ['auth', 'forbid-banned-user', 'throttle:global'])]
 final readonly class BookmarkController
 {
     /**

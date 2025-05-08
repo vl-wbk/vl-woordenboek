@@ -11,7 +11,7 @@ use Spatie\RouteAttributes\Attributes\Get;
 
 final readonly class ProjectInformationController
 {
-    #[Get(uri: 'project-informatie', name: 'project-information')]
+    #[Get(uri: 'project-informatie', name: 'project-information', middleware: ['throttle:global'])]
     public function __invoke(): Renderable
     {
         $settings = app(ProjectInformationSettings::class);

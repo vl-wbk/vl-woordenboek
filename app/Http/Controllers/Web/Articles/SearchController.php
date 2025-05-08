@@ -29,8 +29,8 @@ final readonly class SearchController
      * @param  SearchWordQuery $searchWordQuery  The search query service
      * @return Renderable                        The view with optional search results
      */
-    #[Get(uri: '/', name: 'home')]
-    #[Get(uri: '/resultaten', name: 'search.results')]
+    #[Get(uri: '/', name: 'home', middleware: ['throttle:global'])]
+    #[Get(uri: '/resultaten', name: 'search.results', middleware: ['throttle:global'])]
     public function __invoke(Request $request, SearchWordQuery $searchWordQuery): Renderable
     {
         return view('welcome', [
