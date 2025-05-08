@@ -65,8 +65,8 @@
     <div class="container mt-4">
         <div class="card bg-white border-0 shadow-sm">
             <div class="card-header bg-white">
-                <h5 class="pt-2 fw-bold color-green mb-1">Gebruikersevolutie</h5>
-                <p class="mb-0 text-muted">Hoeveel account worden er aangemaakt op het Vlaams woordenboek?</p>
+                <h5 class="pt-2 fw-bold color-green mb-1">Artikelen evolutie</h5>
+                <p class="mb-0 text-muted">Hoeveel artikelen werden er aangemaakt op het Vlaams woordenboek en wat is ermee gebeurd?</p>
             </div>
             <div class="card-body">
                 <canvas id="articleEdits" style="max-height:250px;"></canvas>
