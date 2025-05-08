@@ -25,7 +25,7 @@ final readonly class RegionInformationController
      *
      * @return Renderable  The view containing regional information.
      */
-    #[Get(uri: 'regio-informatie', name: 'definitions.region-info')]
+    #[Get(uri: 'regio-informatie', name: 'definitions.region-info', middleware: ['throttle:global'])]
     public function __invoke(): Renderable
     {
         return view('region-information');

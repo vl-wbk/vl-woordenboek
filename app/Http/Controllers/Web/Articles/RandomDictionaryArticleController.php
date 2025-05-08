@@ -10,7 +10,7 @@ use Spatie\RouteAttributes\Attributes\Get;
 
 final readonly class RandomDictionaryArticleController
 {
-    #[Get(uri: '/willekeurig-woordenboek-artikel', name: 'word-information.random')]
+    #[Get(uri: '/willekeurig-woordenboek-artikel', name: 'word-information.random', middleware: ['throttle:global'])]
     public function __invoke(): Renderable
     {
         $article = Article::whereNotNull('published_at')->inRandomOrder()->first();

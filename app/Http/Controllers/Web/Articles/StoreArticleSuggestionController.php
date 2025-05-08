@@ -13,6 +13,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\RateLimiter;
 use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Middleware;
 use Spatie\RouteAttributes\Attributes\Post;
 
 /**
@@ -24,6 +25,7 @@ use Spatie\RouteAttributes\Attributes\Post;
  *
  * @package App\Http\Controllers\Web\Articles
  */
+#[Middleware(middleware: ['throttle:global'])]
 final class StoreArticleSuggestionController
 {
     use RateLimitSubmission;

@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 #[Middleware(middleware: ['auth', 'forbid-banned-user'])]
 final readonly class ReportController
 {
-    #[Post(uri: '/{article}/rapportering', name: 'article-report.create')]
+    #[Post(uri: '/{article}/rapportering', name: 'article-report.create', middleware: ['throttle:global'])]
     public function __invoke(StoreReportRequest $storeReportRequest, StoreArticleReport $storeArticleReport, Article $article): RedirectResponse
     {
         $storeArticleReport->execute($storeReportRequest, $article);

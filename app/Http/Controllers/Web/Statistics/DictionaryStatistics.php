@@ -12,7 +12,7 @@ use Spatie\RouteAttributes\Attributes\Get;
 
 final class DictionaryStatistics extends Controller
 {
-    #[Get(uri: 'statistieken', name: 'statistics')]
+    #[Get(uri: 'statistieken', name: 'statistics', middleware: ['throttle:global'])]
     public function __invoke(): Renderable
     {
         $statistics = new StatisticService();
