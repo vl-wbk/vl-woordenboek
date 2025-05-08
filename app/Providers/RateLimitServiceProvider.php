@@ -16,7 +16,7 @@ final class RateLimitServiceProvider extends ServiceProvider
     public function boot(): void
     {
         RateLimiter::for('global', static function (Request $request): Limit {
-            $limit = $request->user()?->user_type->not(UserTypes::Normal)
+            $limit = $request->user()?->user_type->isNot(UserTypes::Normal)
                 ? Limit::none()
                 : Limit::perHour(250);
 
