@@ -23,6 +23,8 @@ php artisan down --refresh=30 --with-secret
 {{ logMessage("INFO  Preventive MySQL back-up before the deployment ...") }}
 php artisan backup:run
 {{ logMessage("INFO  Pull the latest changes from the repository...") }}
+git add .
+git stash
 git pull origin {{ $branch }}
 {{ logMessage("INFO  Install the latest dependencies...") }}
 composer update --optimize-autoloader
