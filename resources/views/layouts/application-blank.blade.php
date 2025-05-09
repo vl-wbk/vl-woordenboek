@@ -170,8 +170,14 @@
                     </li>
 
                     <li class="list-inline-item">
-                        <a href="" class="footer-icon-color text-decoration-none">
-                            <x-tabler-brand-twitter class="icon" />
+                        <a href="https://www.facebook.com/vlaamswoordenboek" class="footer-icon-color text-decoration-none">
+                            <x-tabler-brand-facebook class="icon" />
+                        </a>
+                    </li>
+
+                    <li class="list-inline-item">
+                        <a href="https://discord.gg/eXsyvdgx" class="footer-icon-color text-decoration-none">
+                            <x-tabler-brand-discord class="icon" />
                         </a>
                     </li>
                 </ul>
