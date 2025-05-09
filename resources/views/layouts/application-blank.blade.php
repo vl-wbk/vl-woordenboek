@@ -44,7 +44,7 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav me-auto">
                     @auth
-                        @can('access-backend'))
+                        @can('access-backend')
                             <li class="nav-item">
                                 <a href="{{ url('admin') }}" class="nav-link">
                                     <x-heroicon-s-arrows-right-left class="icon me-1" /> Beheersconsole
