@@ -10,7 +10,7 @@
             </h5>
 
             <h6 class="card-subtitle mb-2 text-body-secondary">{{ $result->characteristics }}</h6>
-            <p class="card-text @if ($result->author()->doesntExist()) mb-2 @endif"> {{ str()->limit(strip_tags($result->description), 250) }}</p>
+            <p class="card-text @if ($result->author()->doesntExist()) mb-2 @endif"> {!! strip_tags(str($result->description)->limit(250)->markdown()->sanitizeHtml(), '<a>') !!}</p>
 
             @if ($result->author()->exists())
                 <p class="card-text fw-bold my-2">
