@@ -23,7 +23,7 @@ return new class extends Migration
         });
 
         Schema::table('articles', function (Blueprint $table): void {
-            $table->foreignIdFor(Disclaimer::class)->after('source')->nullable()->constrained()->nullOnDelete();
+            $table->foreignIdFor(Disclaimer::class)->after('sources')->nullable()->constrained()->nullOnDelete();
         });
     }
 
