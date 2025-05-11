@@ -163,4 +163,14 @@ final readonly class ArticlePolicy
         return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::EditorInChief])
             && $article->state->in(enums: [ArticleStates::New, ArticleStates::Draft, ArticleStates::ExternalData]);
     }
+
+    public function restore(User $user): bool
+    {
+        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer]);
+    }
+
+    public function restoreAny(User $user): bool
+    {
+        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer]);
+    }
 }

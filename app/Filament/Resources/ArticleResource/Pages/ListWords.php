@@ -49,17 +49,4 @@ final class ListWords extends ListRecords
     {
         return [ArticleRegistrationChart::class];
     }
-
-    /**
-     * Page Initialization Handler
-     *
-     * Performs the initial setup of the page state during component mounting.
-     * This process involves restoring any previously selected tab from the session storage.
-     * When no prior selection exists, the system falls back to a predefined default tab.
-     */
-    public function mount(): void
-    {
-        parent::mount();
-        $this->activeTab = (string) session('currentArticleTab', $this->getDefaultActiveTab());
-    }
 }

@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Overtrue\LaravelLike\Traits\Likeable;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
@@ -58,6 +59,7 @@ final class Article extends Model implements AuditableContract
     use Auditable;
     use Likeable;
     use HasLocks;
+    use SoftDeletes;
 
     /**
      * Specifies attributes that are protected from mass assignment.
