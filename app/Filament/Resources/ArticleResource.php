@@ -11,6 +11,7 @@ use App\Filament\Resources\ArticleResource\Schema\WordInfolist;
 use App\Filament\Resources\ArticleResource\Pages;
 use App\Filament\Resources\ArticleResource\Schema\FormSchema;
 use App\Models\Article;
+use App\UserTypes;
 use Filament\Tables\Actions\Action;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
@@ -244,10 +245,12 @@ final class ArticleResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
+        if (auth()->user()->user_type->in(enums: [UserTypes::Editor, UserTypes::EditorInChief])) {
+            return parent::getEloquentQuery();
+        }
+
         return parent::getEloquentQuery()
-            ->withoutGlobalScopes([
-                SoftDeletingScope::class,
-            ]);
+            ->withoutGlobalScopes([SoftDeletingScope::class,]);
     }
 
     /**

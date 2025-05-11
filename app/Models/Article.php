@@ -12,8 +12,10 @@ use App\Enums\DataOrigin;
 use App\Enums\LanguageStatus;
 use App\Models\Relations\BelongsToEditor;
 use App\Models\Relations\BelongsToManyRegions;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -60,6 +62,7 @@ final class Article extends Model implements AuditableContract
     use Likeable;
     use HasLocks;
     use SoftDeletes;
+    use Prunable;
 
     /**
      * Specifies attributes that are protected from mass assignment.
@@ -242,5 +245,10 @@ final class Article extends Model implements AuditableContract
             'status' => LanguageStatus::class,
             'sources' => 'array',
         ];
+    }
+
+    public function prunable(): Builder
+    {
+        return static::where('deleted_at', '<=', now()->subMonths(2));
     }
 }

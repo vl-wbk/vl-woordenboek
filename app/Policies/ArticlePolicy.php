@@ -160,7 +160,7 @@ final readonly class ArticlePolicy
      */
     public function delete(User $user, Article $article): bool
     {
-        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::EditorInChief])
+        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer])
             && $article->state->in(enums: [ArticleStates::New, ArticleStates::Draft, ArticleStates::ExternalData]);
     }
 
