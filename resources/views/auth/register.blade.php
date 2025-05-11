@@ -57,6 +57,20 @@
                             </div>
                         </div>
 
+                        <div class="row mb-3">
+                            <div class="col-md-6 offset-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input @error('agreement') is-invalid @enderror" type="checkbox" name="agreement" id="agreement" {{ old('agreement') ? 'checked' : '' }}>
+
+                                    <label class="form-check-label" for="agreement">
+                                        Ik ga akkoord met de <a href="{{ route('terms-of-service') }}" target="_blank">algemene voorwaarden</a>
+                                    </label>
+
+                                    <x-forms.validation-error field="agreement"/>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-submit">
