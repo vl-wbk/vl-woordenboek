@@ -47,6 +47,7 @@ use Kenepa\ResourceLock\Models\Concerns\HasLocks;
  * @property int|null       $part_of_speech_id  The unique ID of the part of speech information.
  * @property string |null   $archiving_reason   The reason why the article has been archived.
  * @property \Carbon\Carbon $archived_at        Timestamp for when the article is archived at
+ * @property \Carbon\Carbon $deleted_at         Timestamp for when the article is marked for deletion.
  * @property \Carbon\Carbon $created_at         Timestamp of when the article was created
  * @property \Carbon\Carbon $updated_at         Timestamp of the last update
  *
@@ -247,6 +248,14 @@ final class Article extends Model implements AuditableContract
         ];
     }
 
+    /**
+     * Defines the query for prunable records.
+     *
+     * This method configures the query to select soft-deleted articles that have been deleted for more then two months.
+     * These articles are considered prunable and can be permanently removed from the database.
+     *
+     * @return Builder The query builder instance for prunable articles.
+     */
     public function prunable(): Builder
     {
         return static::where('deleted_at', '<=', now()->subMonths(2));
