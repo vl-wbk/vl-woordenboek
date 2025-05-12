@@ -104,6 +104,14 @@ final class ArticleResource extends Resource
         ];
     }
 
+    /**
+     * Retrieves the widgets associated with the resource.
+     *
+     * This method returns an array of Filament widgets that should be displayed on the resource's pages. In this case,
+     * it returns the `ArticleRegistrationChart` widget, which displays a chart of article registrations.
+     *
+     * @return array<int, class-string> An array of widget class names.
+     */
     public static function getWidgets(): array
     {
         return [

@@ -29,7 +29,7 @@
 
 <body class="d-flex flex-column h-100">
     <nav class="navbar navbar-expand-md navbar-dark bg-navbar shadow-sm">
-        <div class="container">
+        <div class="{{ $containerSize ?? 'container-fluid' }}">
             <a class="navbar-brand" href="{{ url('/') }}">
                 {{ config('app.name', 'Laravel') }}
             </a>
@@ -43,13 +43,21 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav me-auto">
-                    @if (Auth::check() && auth()->user()->can('access-backend'))
+                    @auth
+                        @can('access-backend')
+                            <li class="nav-item">
+                                <a href="{{ url('admin') }}" class="nav-link">
+                                    <x-heroicon-s-arrows-right-left class="icon me-1" /> Beheersconsole
+                                </a>
+                            </li>
+                        @endcan
+
                         <li class="nav-item">
-                            <a href="{{ url('admin') }}" class="nav-link">
-                                <x-heroicon-s-arrows-right-left class="icon me-1" /> Beheersconsole
+                            <a href="{{ route('statistics') }}" class="nav-link">
+                                <x-heroicon-o-presentation-chart-line class="icon"/> Statistieken
                             </a>
                         </li>
-                    @endif
+                    @endauth
 
                     @if (\App\Models\Article::whereNotNull('published_at')->count() > 0)
                         <li class="nav-item">
@@ -141,7 +149,7 @@
     </main>
 
     <footer class="footer mt-auto py-3 bg-transparent">
-        <div class="container">
+        <div class="{{ $containerSize ?? 'container' }}">
             <span class="fw-bold text-body-secondary">
                 &copy; {{ date('Y') }}, {{ config('app.name', 'Laravel') }}
             </span>
@@ -162,8 +170,14 @@
                     </li>
 
                     <li class="list-inline-item">
-                        <a href="" class="footer-icon-color text-decoration-none">
-                            <x-tabler-brand-twitter class="icon" />
+                        <a href="https://www.facebook.com/vlaamswoordenboek" class="footer-icon-color text-decoration-none">
+                            <x-tabler-brand-facebook class="icon" />
+                        </a>
+                    </li>
+
+                    <li class="list-inline-item">
+                        <a href="https://discord.gg/eXsyvdgx" class="footer-icon-color text-decoration-none">
+                            <x-tabler-brand-discord class="icon" />
                         </a>
                     </li>
                 </ul>
@@ -171,6 +185,8 @@
         </div>
     </footer>
     </div>
+
+    @yield('scripts')
 </body>
 
 </html>

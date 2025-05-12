@@ -39,6 +39,7 @@
         "jetbrains/phpstorm-attributes": "^1.2",
         "larastan/larastan": "^3.1",
         "laravel-lang/lang": "^15.19",
+        "laravel/envoy": "^2.10",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.41",
@@ -51,9 +52,6 @@
         "phpunit/phpunit": "^11.5.3"
     },
     "autoload": {
-        "files": [
-            "app/helpers.php"
-        ],
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",

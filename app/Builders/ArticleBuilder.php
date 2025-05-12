@@ -58,6 +58,17 @@ final class ArticleBuilder extends Builder
         });
     }
 
+    /**
+     * Attaches a note to the article.
+     *
+     * This method creates a new note with the given title and body, associates
+     * it with the currently authenticated user as the author, and saves it to
+     * the article's notes relationship.
+     *
+     * @param  string       $title       The title of the note.
+     * @param  string|null  $note        The body of the note (optional).
+     * @return self<\App\Models\Article> Returns the current ArticleBuilder instance for method chaining.
+     */
     public function attachNote(string $title, ?string $note = null): self
     {
         $note = new Note(attributes: ['title' => $title, 'author_id' => auth()->id(), 'body' => $note]);
@@ -66,11 +77,25 @@ final class ArticleBuilder extends Builder
         return $this;
     }
 
+    /**
+     * Checks if the article is hidden.
+     * This method determines whether the article is currently hidden from public view by checking if the `published_at` attribute is null.
+     *
+     * @return bool True if the article is hidden, false otherwise.
+     */
     public function isHidden(): bool
     {
         return is_null($this->model->published_at);
     }
 
+    /**
+     * Checks if the article is published.
+     *
+     * This method determines whether the article is currently published and visible to the public.
+     * It returns the opposite of the `isHidden()` method.
+     *
+     * @return bool True if the article is published, false otherwise.
+     */
     public function isPublished(): bool
     {
         return ! $this->isHidden();

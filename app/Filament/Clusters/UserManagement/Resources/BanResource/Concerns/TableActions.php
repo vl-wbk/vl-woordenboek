@@ -35,7 +35,7 @@ trait TableActions
      * Both actions use Gate checks to ensure proper authorization, and display Dutch tooltips for clarity.
      * We deliberately hide the text labels to maintain a clean, icon-based interface.
      *
-     * @return array<int, EditBanAction|UnbanAction> Array of configured table actions
+     * @return array<int, EditBanAction|UnbanAction|ViewAction> Array of configured table actions
      */
     public static function getTableActions(): array
     {

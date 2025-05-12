@@ -65,7 +65,7 @@
 
                     <div class="mt-2 text-muted">
                         <div class="markdown-text">
-                            {!! formatUserContent(str($word->description)->markdown()->sanitizeHtml()) !!}
+                            {!! str($word->description)->markdown()->sanitizeHtml() !!}
                         </div>
                     </div>
                 </div>
@@ -97,7 +97,7 @@
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="example-tab-pane" role="tabpanel" aria-labelledby="example-tab" tabindex="0">
                                 <div class="markdown-text">
-                                    {!! formatUserContent(str($word->example)->markdown()->sanitizeHtml()) !!}
+                                    {!! str($word->example)->markdown()->sanitizeHtml() !!}
                                 </div>
                             </div>
 

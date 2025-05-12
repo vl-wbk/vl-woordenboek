@@ -4,8 +4,9 @@
         <h5 class="card-title fw-bold">Zin om te snuisteren in het Vlaams?</h5>
 
         <p class="card-text text-muted">
-            Typ een woord in dat je wil opzoeken, of kies een filter—zoals een streek, categorie of taalvariant.
-            We tonen je dan alle schone woorden die erbij passen. Geen inspiratie? Probeer eens iets alledaags of iets dat je onlangs hebt gehoord!
+            Typ een woord in dat je wil opzoeken. We tonen je dan alle schone woorden die erbij passen. Geen inspiratie?
+            Probeer eens iets alledaags of iets dat je onlangs hebt gehoord! Nadat je een zoekterm hebt ingegeven, tonen we je ook sorteeropties, zoals alfabetische volgorde,
+            publicatiedatum en aantal weergaves.
         </p>
     </div>
 </div>

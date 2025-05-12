@@ -14,6 +14,12 @@ use Filament\Support\Enums\MaxWidth;
 
 final readonly class DisclaimerToolbarActions
 {
+    /**
+     * Registers the attach and detach disclaimer actions.
+     * This method returns an array containing the definitions for the attach and detach disclaimer actions.
+     *
+     * @return array<int, Action> An array containing the attach and detach disclaimer actions.
+     */
     public static function register(): array
     {
         return [
@@ -22,6 +28,14 @@ final readonly class DisclaimerToolbarActions
         ];
     }
 
+    /**
+     * Defines the attach disclaimer action.
+     *
+     * This method creates a Filament Action that allows authorized users to attach a disclaimer to an article.
+     * The action presents a confirmation modal with a select field to choose the disclaimer to attach.
+     *
+     * @return Action The configured attach disclaimer action.
+     */
     private static function attachActionDefinition(): Action
     {
         return Action::make('attach')
@@ -43,6 +57,12 @@ final readonly class DisclaimerToolbarActions
             });
     }
 
+    /**
+     * Defines the detach disclaimer action.
+     * This method creates a Filament Action that allows authorized users to detach a disclaimer from an article.
+     *
+     * @return Action The configured detach disclaimer action.
+     */
     private static function detachActionDefinition(): Action
     {
         return Action::make('detach')

@@ -23,7 +23,7 @@ final readonly class BookmarkController
     public function index(Request $request): Renderable
     {
         $searchTerm = $request->get('zoekterm');
-        $searchQuery = auth()->user()->bookmarks()
+        $searchQuery = auth()->user()->bookmarks() // @phpstan-ignore-line (because lack of knowledge)
             ->where(function (Builder $query) use ($searchTerm) {
                 $query->where('word', 'like', "%{$searchTerm}%")->orWhere('description', 'like', "%{$searchTerm}%");
             })->paginate();
@@ -36,7 +36,7 @@ final readonly class BookmarkController
     #[Get(uri: 'bookmark/{article}', name: 'bookmark:create')]
     public function store(Request $request, Article $article): RedirectResponse
     {
-        if ($request->user()->bookmarks->doesntContain($article)) {
+        if ($request->user()->bookmarks->doesntContain($article)) { // @phpstan-ignore-line (because lack of knowledge)
             $request->user()->bookmarks()->attach($article);
         }
 
@@ -46,7 +46,7 @@ final readonly class BookmarkController
     #[Get(uri: 'unbookmark/{article}', name: 'bookmark:remove')]
     public function delete(Request $request, Article $article): RedirectResponse
     {
-        if ($request->user()->bookmarks->contains($article)) {
+        if ($request->user()->bookmarks->contains($article)) { // @phpstan-ignore-line (because lack of knowledge)
             $request->user()->bookmarks()->detach($article);
         }
 

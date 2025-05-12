@@ -26,6 +26,9 @@ class CreateNewUser implements CreatesNewUsers
             'achternaam' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique(User::class)],
             'password' => $this->passwordRules(),
+            'agreement' => ['accepted'],
+        ], [
+            'agreement.accepted' => 'De algemene voorwaarden moeten geaccepteerd worden alvorens een account aan te maken'
         ])->validate();
 
         return User::create($this->userRegistrationData($input)->toArray());

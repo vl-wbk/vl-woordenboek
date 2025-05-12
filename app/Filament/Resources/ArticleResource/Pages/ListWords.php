@@ -37,6 +37,14 @@ final class ListWords extends ListRecords
      */
     protected static string $resource = ArticleResource::class;
 
+    /**
+     * Retrieves the header widgets for the page.
+     *
+     * This method returns an array of Filament widgets that should be displayed in the header of the page.
+     * In this case, it returns the `ArticleRegistrationChart` widget, which displays a chart of article registrations.
+     *
+     * @return array<mixed>
+     */
     protected function getHeaderWidgets(): array
     {
         return [ArticleRegistrationChart::class];

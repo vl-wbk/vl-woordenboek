@@ -71,7 +71,15 @@ final class UserRegistrationChartWidget extends AdvancedChartWidget
         ],
     ];
 
-    protected function getFilters(): ?array
+    /**
+     * Defines the available filters for the chart.
+     *
+     * This method returns an array of filters that allow users to change the granularity of the data displayed in the chart.
+     * The keys of the array are used internally to determine the data aggregation period, while the values are the human-readable labels displayed in the filter dropdown.
+     *
+     * @return array<string, string> An array of filters, where the key is the filter identifier and the value is the filter label.
+     */
+    protected function getFilters(): array
     {
         return [
             'perDay' => 'Op dagelijkse basis',

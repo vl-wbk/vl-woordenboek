@@ -9,6 +9,10 @@
             <div class="col-12 py-3">
                 <div class="card bg-white border-0 shadow-sm">
                     <div class="card-body disclaimer-description">
+                        <p class="fw-bold">
+                            Versie 1.0, Publicatiedatum: 09/05/2025
+                        </p>
+
                         <p>
                             De Algemene Voorwaarden geven aan hoe deze website werkt, er wordt uitgelegd hoe we aan onze inhoud komen en hoe we omgaan met
                             privacy, en geeft duidelijke verplichtingen die u, als gebruiker van deze site, moet aanvaarden zodat we u verder toegang tot deze

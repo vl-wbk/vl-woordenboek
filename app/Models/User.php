@@ -54,7 +54,7 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
     use Bannable;
 
     /**
-     * Sepcifies which attributes can be mass assigned when creating or updating user records.
+     * Specifies which attributes can be mass assigned when creating or updating user records.
      * This provides a security layer against mass-assignment vulnerabilities by explicitly listing allowed fields.
      *
      * @var list<string>
@@ -116,6 +116,14 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
         return $this->hasMany(ArticleReport::class, 'author_id');
     }
 
+    /**
+     * Defines the relationship bewteen a user and their bookmarked articles.
+     *
+     * This method estabilishes a many-to-many relationship bewteen the User model and the Article model, using the 'article_bookmarks' pivot table.
+     * This allows a user to bookmark multiple articles, and an article to be bookmarked by multiple users.
+     *
+     * @return BelongsToMany<Article, covariant $this> A collection of Article instances that the user has bookmarked.
+     */
     public function bookmarks(): BelongsToMany
     {
         return $this->belongsToMany(Article::class, table: 'article_bookmarks');

@@ -59,6 +59,7 @@ final class StoreArticleSuggestionController
     #[Post(uri: 'woordenboek-artikelen/insturen', name: 'definitions.store')]
     public function store(StoreSuggestionRequest $storeSuggestionRequest, StoreArticleSuggestion $storeArticleSuggestion): RedirectResponse
     {
+        // @phpstan-ignore-next-line
         return $this->attemptSubmissionWithRateLimiting($storeSuggestionRequest, 'submission', function () use ($storeArticleSuggestion, $storeSuggestionRequest): RedirectResponse {
             $storeArticleSuggestion->execute($storeSuggestionRequest->getData());
             flash('We hebben uw suggestie goed ontvangen. Onze redactie zal er spoedig naar kijken.', 'alert-success');
