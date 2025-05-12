@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models;
+declare(strict_types=1);
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+namespace App\Models;
 
 use App\Notifications\WelcomeNotification;
 use App\UserTypes;
@@ -16,6 +16,7 @@ use Spatie\WelcomeNotification\ReceivesWelcomeNotification;
 use Overtrue\LaravelLike\Traits\Liker;
 use Cog\Contracts\Ban\Bannable as BannableInterface;
 use Cog\Laravel\Ban\Traits\Bannable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -43,7 +44,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @package App\Models
  */
-final class User extends Authenticatable implements FilamentUser, BannableInterface
+final class User extends Authenticatable implements FilamentUser, BannableInterface, MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory;
@@ -58,7 +59,7 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
      *
      * @var list<string>
      */
-    protected $fillable = ['firstname', 'lastname', 'email', 'user_type', 'password', 'last_seen_at'];
+    protected $fillable = ['firstname', 'lastname', 'email', 'user_type', 'password', 'last_seen_at', 'email_verified_at'];
 
     /**
      * Defines default values for new user instances.
