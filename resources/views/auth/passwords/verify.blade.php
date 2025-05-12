@@ -7,25 +7,23 @@
             <div class="card shadow-sm border-0 text-center bg-white">
                 @if (session('status') == 'verification-link-sent')
                     <div class="card-header bg-success text-white">
-                        <x-heroicon-o-check class="icon me-1"/> We hebben u juist een nieuwe verificatiemail gestuurd!
+                        <x-heroicon-o-check class="icon me-1"/> {{ __('We hebben je juist een nieuwe verificatiemail gestuurd!') }}
                     </div>
                 @endif
 
                 <div class="card-body p-4">
                     <x-heroicon-o-exclamation-triangle class="icon icon-blankslate text-danger pb-3"/>
 
-                    <h5 class="card-title fw-bold">Nog één kleinigheidje</h5>
+                    <h5 class="card-title fw-bold">{{ __('Nog één kleinigheidje') }}</h5>
 
                     <p class="card-text pb-3 text-muted">
-                        We hebben u bij het registreren al een mail gestuurd. klik op de link daarin om te tonen dat jij het echt zijt.
-                        Het is gewoon om misbruik en zever te vermijden.
-                        Eens dat in orde is, kunt ge stemmen, woorden toevoegen en alles gebruiken zoals het hoort met je account.
-                        Geen mail gezien? Kijk eens in uw spam of vraag een nieuwe op.
+                        {{ __('We hebben je bij het registreren al een mail gestuurd. Klik op de link daarin om te bevestigen dat jij het echt bent. Op die manier voorkomen we misbruik, spammers en andere onnozelaars.') }}
+                        {{ __('Zodra dat in orde is, kun je stemmen, suggesties geven, woorden bewaren en allerlei andere plezante dingen. Geen mail gezien? Kijk eens in je spamfolder of vraag een nieuwe mail met verificatielink op.') }}
                     </p>
 
                     <form class="d-inline" method="POST" action="{{ route('verification.send') }}">
                         @csrf
-                        <button type="submit" class="btn btn-submit">{{ __('Verificatie link verzenden') }}</button>.
+                        <button type="submit" class="btn btn-submit">{{ __('Nieuwe mail met link verzenden') }}</button>.
                     </form>
                 </div>
             </div>
