@@ -80,7 +80,7 @@ final class Article extends Model implements AuditableContract
      *
      * @var list<string>
      */
-    protected $auditExclude = ['editor_id'];
+    protected $auditExclude = ['views'];
 
     /**
      * Default values for new article instances.
