@@ -64,6 +64,7 @@ final class ViewWord extends ViewRecord
 
             ArticleStateActions\UnarchiveAction::make(),
             FilamentActions\DeleteAction::make()->icon('heroicon-o-trash'),
+            FilamentActions\RestoreAction::make()->icon('heroicon-m-arrow-uturn-left'),
         ];
     }
 }

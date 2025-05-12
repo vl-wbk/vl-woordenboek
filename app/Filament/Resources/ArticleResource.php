@@ -11,6 +11,7 @@ use App\Filament\Resources\ArticleResource\Schema\WordInfolist;
 use App\Filament\Resources\ArticleResource\Pages;
 use App\Filament\Resources\ArticleResource\Schema\FormSchema;
 use App\Models\Article;
+use App\UserTypes;
 use Filament\Tables\Actions\Action;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
@@ -22,10 +23,12 @@ use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 /**
  * Class ArticleResource
@@ -217,6 +220,7 @@ final class ArticleResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make()->hiddenLabel(),
                 Tables\Actions\EditAction::make()->hiddenLabel(),
+                Tables\Actions\RestoreAction::make()->hiddenLabel()->color('danger'),
                 Tables\Actions\DeleteAction::make()->hiddenLabel(),
             ])
             ->filters([
@@ -224,6 +228,9 @@ final class ArticleResource extends Resource
                     ->label('status')
                     ->multiple()
                     ->options(ArticleStates::class),
+                TrashedFilter::make()
+                    ->native(false)
+                    ->visible(fn (Article $article): bool => auth()->user()->canAny(['restore', 'restoreAny'], $article)),
                 Filter::make('assigned')
                     ->label('Toegewezen aan mij')
                     ->query(fn (Builder $query): Builder => $query->where('editor_id', auth()->id())),
@@ -231,8 +238,28 @@ final class ArticleResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ]);
+    }
+
+    /**
+     * Modifies the Eloquent query to exclude soft deleted articles for non-editor users.
+     *
+     * This method overrides the default Eloquent query to remove the global scope that automatically excludes soft-deleted records.
+     * This allows administrators and other privileged users to see soft-deleted articles in the list.
+     * Editor and EditorInChief users will see all records.
+     *
+     * @return Builder<Article> The modified Eloquent query builder.
+     */
+    public static function getEloquentQuery(): Builder
+    {
+        if (auth()->user()->user_type->in(enums: [UserTypes::Editor, UserTypes::EditorInChief])) {
+            return parent::getEloquentQuery();
+        }
+
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([SoftDeletingScope::class]);
     }
 
     /**
@@ -244,7 +271,7 @@ final class ArticleResource extends Resource
      */
     private static function selectDatabaseColumns(Builder $builder): Builder
     {
-        return $builder->addSelect('id', 'characteristics', 'part_of_speech_id', 'word', 'state', 'author_id', 'created_at', 'updated_at');
+        return $builder->addSelect('id', 'characteristics', 'part_of_speech_id', 'word', 'state', 'author_id', 'created_at', 'updated_at', 'deleted_at');
     }
 
     /**

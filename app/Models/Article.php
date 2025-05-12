@@ -12,11 +12,14 @@ use App\Enums\DataOrigin;
 use App\Enums\LanguageStatus;
 use App\Models\Relations\BelongsToEditor;
 use App\Models\Relations\BelongsToManyRegions;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Overtrue\LaravelLike\Traits\Likeable;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
@@ -44,6 +47,7 @@ use Kenepa\ResourceLock\Models\Concerns\HasLocks;
  * @property int|null       $part_of_speech_id  The unique ID of the part of speech information.
  * @property string |null   $archiving_reason   The reason why the article has been archived.
  * @property \Carbon\Carbon $archived_at        Timestamp for when the article is archived at
+ * @property \Carbon\Carbon $deleted_at         Timestamp for when the article is marked for deletion.
  * @property \Carbon\Carbon $created_at         Timestamp of when the article was created
  * @property \Carbon\Carbon $updated_at         Timestamp of the last update
  *
@@ -58,6 +62,8 @@ final class Article extends Model implements AuditableContract
     use Auditable;
     use Likeable;
     use HasLocks;
+    use SoftDeletes;
+    use Prunable;
 
     /**
      * Specifies attributes that are protected from mass assignment.
@@ -240,5 +246,18 @@ final class Article extends Model implements AuditableContract
             'status' => LanguageStatus::class,
             'sources' => 'array',
         ];
+    }
+
+    /**
+     * Defines the query for prunable records.
+     *
+     * This method configures the query to select soft-deleted articles that have been deleted for more then two months.
+     * These articles are considered prunable and can be permanently removed from the database.
+     *
+     * @return Builder The query builder instance for prunable articles.
+     */
+    public function prunable(): Builder
+    {
+        return static::where('deleted_at', '<=', now()->subMonths(2));
     }
 }

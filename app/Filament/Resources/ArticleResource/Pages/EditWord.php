@@ -62,6 +62,7 @@ final class EditWord extends EditRecord
             PublishArticleAction::make(),
             Actions\DeleteAction::make()
                 ->icon('heroicon-o-trash'),
+            Actions\RestoreAction::make()->icon('heroicon-m-arrow-uturn-left'),
         ];
     }
 
