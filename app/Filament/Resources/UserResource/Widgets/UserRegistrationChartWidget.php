@@ -133,11 +133,21 @@ final class UserRegistrationChartWidget extends AdvancedChartWidget
             ->{$this->filter}()
             ->count();
 
+        $registrationData = Trend::model(User::class)
+            ->between(start: now()->subYear(), end: now())
+            ->{$this->filter}()
+            ->dateColumn('email_verified_at')
+            ->count();
+
         return [
             'datasets' => [
                 [
                     'label' => 'Nieuwe registraties',
                     'data' => $chartData->map(fn (TrendValue $value) => $value->aggregate),
+                ],
+                [
+                    'label' => 'Aantal verificaties',
+                    'data' => $registrationData->map(fn (TrendValue $value) => $value->aggregate),
                 ],
             ],
             'labels' => $chartData->map(fn (TrendValue $value) => $value->date),
