@@ -14,7 +14,7 @@ use Spatie\RouteAttributes\Attributes\Middleware;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
 #[Prefix('instellingen')]
-#[Middleware(['auth', 'forbid-banned-user'])]
+#[Middleware(['auth', 'forbid-banned-user', 'verified'])]
 final readonly class AccountSettingsController
 {
     public function __construct(

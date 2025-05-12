@@ -26,7 +26,7 @@ final readonly class OverviewController
      * @param  Request $request  The incoming HTTP request.
      * @return Renderable        The rendered view of user suggestions.
      */
-    #[Get(uri: 'mijn-suggesties', name: 'suggestions:index', middleware: ['auth', 'forbid-banned-user'])]
+    #[Get(uri: 'mijn-suggesties', name: 'suggestions:index', middleware: ['auth', 'verified', 'forbid-banned-user'])]
     public function __invoke(Request $request): Renderable
     {
         $suggestionQuery = new UserSuggestionQueryBuilder($request);
