@@ -35,6 +35,8 @@ final class CreateUser extends CreateRecord
     public function afterCreate(): void
     {
         $expiresAt = now()->addDay();
+
+        $this->record->update(['email_verified_at' => now()]);
         $this->record->sendWelcomeNotification($expiresAt);
     }
 }

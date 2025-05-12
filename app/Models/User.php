@@ -59,7 +59,7 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
      *
      * @var list<string>
      */
-    protected $fillable = ['firstname', 'lastname', 'email', 'user_type', 'password', 'last_seen_at'];
+    protected $fillable = ['firstname', 'lastname', 'email', 'user_type', 'password', 'last_seen_at', 'email_verified_at'];
 
     /**
      * Defines default values for new user instances.
