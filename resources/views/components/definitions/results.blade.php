@@ -2,7 +2,7 @@
     <div class="card border-0 @if (! $loop->last) mb-3 @endif shadow-sm">
         <div class="card-body">
             <h5 class="card-title fw-bold color-green">
-                {{ ucfirst($result->word) }}
+                {{ $result->word }}
 
                 <small class="float-end fw-normal">
                     <x-heroicon-o-eye class="icon me-1"/> {{ $result->views }}

@@ -46,7 +46,7 @@
             <div class="col-lg-8 col-sm-12">
                 <div class="card card-body shadow-sm border-0">
                     <div>
-                        <h4 class="text-gold float-start">{{ ucfirst($word->word) }}</h4>
+                        <h4 class="text-gold float-start">{{ $word->word }}</h4>
 
                         @if (auth()->check() && auth()->user()->user_type->isNot(\App\UserTypes::Normal))
                             <span class="float-end color-green">{{ $word->state->getLabel() }}</span>
