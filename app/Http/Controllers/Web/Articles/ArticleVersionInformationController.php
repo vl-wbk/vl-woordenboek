@@ -14,7 +14,7 @@ use Spatie\RouteAttributes\Attributes\Get;
 final readonly class ArticleVersionInformationController
 {
     #[Get(uri: '/versie-informatie/{audit}', name: 'change:information', middleware: ['auth', 'forbid-banned-user', 'verified'])]
-    public function __invoke(Request $request Audit $audit): Renderable
+    public function __invoke(Request $request, Audit $audit): Renderable
     {
         abort_if($request->user()->user_type->isNot(UserTypes::Normal), Response::HTTP_NOT_FOUND);
 
