@@ -193,36 +193,31 @@ final readonly class WordInfolist
             ->icon('heroicon-o-information-circle')
             ->columns(12)
             ->schema([
-                TextEntry::make('index')
-                    ->label('Index')
-                    ->translateLabel()
-                    ->badge()
-                    ->columnSpan(3),
                 TextEntry::make('state')
                     ->label('Artikel status')
                     ->badge()
                     ->translateLabel()
-                    ->columnSpan(3),
+                    ->columnSpan(4),
                 TextEntry::make('word')
                     ->label('Woord')
-                    ->columnSpan(3)
+                    ->columnSpan(4)
                     ->translateLabel(),
                 TextEntry::make('keywords')
                     ->label('Kernwoorden')
                     ->translateLabel()
-                    ->columnSpan(3),
+                    ->columnSpan(4),
                 TextEntry::make('partOfSpeech.name')
                     ->label('Woordsoort')
-                    ->columnSpan(3)
+                    ->columnSpan(4)
                     ->translateLabel(),
                 TextEntry::make('characteristics')
                     ->label('Kenmerken')
-                    ->columnSpan(3)
+                    ->columnSpan(4)
                     ->translateLabel(),
                 TextEntry::make('status')
                     ->label('Status')
                     ->translateLabel()
-                    ->columnSpan(3),
+                    ->columnSpan(4),
                 TextEntry::make('regions.name')
                     ->label("Regio's")
                     ->badge()
