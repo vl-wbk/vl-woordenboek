@@ -48,6 +48,7 @@ final class FortifyServiceProvider extends ServiceProvider
     {
         Fortify::loginView('auth.login');
         Fortify::registerView('auth.register');
+        Fortify::verifyEmailView('auth.passwords.verify');
         Fortify::requestPasswordResetLinkView('auth.passwords.forgot');
 
         Fortify::resetPasswordView(function (Request $request): Renderable {

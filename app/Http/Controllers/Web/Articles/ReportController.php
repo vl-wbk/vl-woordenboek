@@ -11,7 +11,7 @@ use Spatie\RouteAttributes\Attributes\Post;
 use Spatie\RouteAttributes\Attributes\Middleware;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-#[Middleware(middleware: ['auth', 'forbid-banned-user'])]
+#[Middleware(middleware: ['auth', 'forbid-banned-user', 'verified'])]
 final readonly class ReportController
 {
     #[Post(uri: '/{article}/rapportering', name: 'article-report.create')]
