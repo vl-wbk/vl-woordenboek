@@ -43,7 +43,7 @@
                             @if ($errors->has('woord'))
                                 <x-forms.validation-error field="woord"/>
                             @else
-                                <x-forms.help-text field="woordHelptext" icon="true" text="Het woord, term of de uitspraak die hier wordt gedefinieerd. Gebruik liefst geen hoofdletters."/>
+                                <x-forms.help-text field="woordHelptext" icon="true" text="Het woord, de term of de uitdrukking die je voorstelt. Gebruik alleen hoofdletters als het echt nodig is (bijv. bij namen)"/>
                             @endif
                         </div>
 
@@ -78,7 +78,7 @@
                             @if ($errors->has('beschrijving'))
                                 <x-forms.validation-error field="beschrijving"/>
                             @else
-                                <x-forms.help-text icon="true" field="beschrijvingHelpText" text="Beschrijf de term in Algemeen Beschaafd Vlaams en beperk je tot één betekenis per beschrijving. Voeg andere betekenissen apart toe."/>
+                                <x-forms.help-text icon="true" field="beschrijvingHelpText" text="Beschrijf de gesuggereerde toevoeging in Algemeen (Belgisch-)Nederlands. Beperk je tot één betekenis per suggestie. Meerdere betekenissen? Dien dan extra suggesties in."/>
                             @endif
                         </div>
 
