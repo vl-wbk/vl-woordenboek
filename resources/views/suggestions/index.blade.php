@@ -161,8 +161,8 @@
                             <h5 class="card-title fw-bold">Geen suggesties gevonden</h5>
 
                             <p class="card-text text-muted">
-                                Oei!? Je hebt nog geen suggesties toegevoegd, of er is niks gevonden dat past bij je zoekterm of de filters die je gekozen hebt. <br>
-                                Probeer eens iets anders in te geven of pas je filters aan om meer resultaten te zien.
+                                Als je nog geen suggesties hebt toegevoegd, blijft dit lijstje natuurlijk leeg.<br>
+                                Je hebt wel een lijst suggesties, maar je opzoeking levert niks op? Kijk dan even of je zoekterm klopt, voer iets anders in of pas je filters aan om meer resultaten te zien.
                             </p>
                         </div>
                     </div>

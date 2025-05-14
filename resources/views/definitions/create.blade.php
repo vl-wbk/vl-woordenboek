@@ -30,14 +30,14 @@
                         <input type="hidden" name="creator" value="{{ optional(auth()->user())->id }}">
 
                         <p class="card-text mb-0">
-                            Elke gebruiker kan nieuwe termen en hun definities aanleveren bij het Vlaams Woordenboek. <br>
-                            Met het volgende formulier kunt ge nieuwe beschrijvingen van typisch vlaamse woorden, termen en uitspraken toevoegen aan onze databank.
+                            Elke bezoeker kan nieuwe suggesties met definities indienen bij het Vlaams Woordenboek. Die worden beoordeeld en bewerkt door een redacteur voor ze online verschijnen.<br>
+                            Met dit formulier kun je nieuwe typisch Vlaamse woorden, termen en uitdrukkingen voorstellen voor het woordenboek.
                         </p>
 
                         <hr class="my-2">
 
                         <div class="form-group">
-                            <label for="woord" class="col-form-label">Woord <span class="fw-bold text-danger">*</span></label>
+                            <label for="woord" class="col-form-label">Jouw suggestie <span class="fw-bold text-danger">*</span></label>
                             <input type="text" name="woord" id="woordHelptext" value="{{ old('woord') }}" class="form-control @error('woord') is-invalid @enderror">
 
                             @if ($errors->has('woord'))
@@ -61,7 +61,7 @@
                                     @endforeach
                                 </select>
 
-                                <x-forms.help-text field="kenmerkenHelpText" icon="true" text="Wat voor woord is het? Bv. zn, ww, bn."/>
+                                <x-forms.help-text field="kenmerkenHelpText" icon="true" text="Selecteer de woordsoort uit de keuzelijst"/>
                             </div>
 
                             <div class="form-group col-8">

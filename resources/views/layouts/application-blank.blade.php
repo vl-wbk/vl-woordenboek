@@ -62,7 +62,7 @@
                     @if (\App\Models\Article::whereNotNull('published_at')->count() > 0)
                         <li class="nav-item">
                             <a href="{{ route('word-information.random') }}" class="nav-link">
-                                <x-heroicon-s-language class="icon me-1" /> Random woord
+                                <x-heroicon-s-language class="icon me-1" /> Zo maar een woord
                             </a>
                         </li>
                     @endif

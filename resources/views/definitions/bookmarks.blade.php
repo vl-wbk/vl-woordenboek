@@ -93,8 +93,8 @@
                                     <h5 class="card-title fw-bold">Geen bewaarde woorden gevonden</h5>
 
                                     <p class="card-text text-muted">
-                                        Oei!? Je hebt nog geen woorden bewaard, of er is niks gevonden dat past bij je zoekterm die je ingevuyld hebt. <br>
-                                        Probeer eens iets anders in te geven bij je zoekformulier om meer resultaten te zien.
+                                        Als je nog geen hebt bewaard, blijft dit lijstje natuurlijk leeg.
+                                        Je hebt wel een lijst met bewaarde woorden, maar je opzoeking levert niks op? Kijk dan even of je zoekterm klopt, voer iets anders in of pas je filters aan om meer resultaten te zien.
                                     </p>
                                 </div>
                             </div>

@@ -5,7 +5,7 @@
     <div class="hero text-center my-4">
         <h1 class="display-5"><i class="bi bi-exclamation-diamond text-danger mx-3"></i></h1>
         <h1 class="display-5 fw-bold">Geen toegang</h1>
-        <p class="lead">De web pagina is niet toegankelijk met het aangemelde account op <em><span id="display-domain"></span></em>.</p>
+        <p class="lead">Met dit account heb je geen toegang tot de webpagina op <em><span id="display-domain"></span></em>.</p>
     </div>
 
     <div class="content">
@@ -15,15 +15,15 @@
                     <div class="card-body">
                         <h3>Wat is er gebeurd?</h3>
                         <p class="">
-                            Een administrator heeft ongewone activiteit waargenomen vanaf je account en of inbreuken van de algemene voorwaarden vastgesteld en daarop besloten om je account te deactiveren.
+                            Een beheerder heeft gemerkt dat er vanaf dit account inbreuken gebeurd zijn op de algemene voorwaarden of dat er ongewone activiteiten, zoals spamming, hebben plaatsgevonden. Daarom is je account gedeactiveerd.
                         </p>
 
                         <p>
-                            Indien je denkt dat dit een onterechte beslising en of misverstand is kan je altijd vragen aan de beheerders om deze beslissing ongedaan te maken. Dit kan doormiddel van de onderstaande knop.
+                            Als je denkt dat dit onterecht is of dat er een misverstand in het spel is, kun je de beheerders vragen om je account weer te activeren. Contacteer hen op via onderstaande knop.
                         </p>
 
-                        <a href="mailto:admin@chimpy.be" class="btn btn-outline-primary">
-                            Admins contacteren
+                        <a href="mailto:beheerders@vlaamswoordenboek.be" class="btn btn-outline-primary">
+                            Beheerders contacteren
                         </a>
                     </div>
                 </div>

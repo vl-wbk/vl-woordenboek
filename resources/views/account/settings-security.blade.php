@@ -24,7 +24,7 @@
                                 <div class="row g-3">
                                     <div class="col-12">
                                         <h5 class="card-title fw-bold color-green">Wachtwoord aanpassen</h5>
-                                        <h6 class="card-subtitle text-muted border-bottom pb-2">Zorg ervoor dat uw account een lang, willekeurig wachtwoord gebruikt om veilig te blijven</h6>
+                                        <h6 class="card-subtitle text-muted border-bottom pb-2">Gebruik een voldoende lang wachtwoord met willekeurige tekens voor je account.</h6>
                                     </div>
                                     <div class="col-12">
                                         <label for="currentPassword" class="form-label">Huidig wachtwoord <span class="fw-bold text-danger">*</span></label>
@@ -39,7 +39,7 @@
                                     </div>
 
                                     <div class="col-6">
-                                        <label for="passwordConfirmation" class="form-label">Wachtwoord bevestiging <span class="fw-bold text-danger">*</span></label>
+                                        <label for="passwordConfirmation" class="form-label">Bevestiging wachtwoord <span class="fw-bold text-danger">*</span></label>
                                         <input type="password" id="passwordConfirmation" class="form-control @error('password_confirmation', 'updatePassword') is-invalid @enderror" name="password_confirmation">
                                         <x-forms.validation-error field="password_confirmation" bag="updatePassword"/>
                                     </div>
@@ -64,7 +64,7 @@
                         <div class="card bg-white border-0 shadow-sm">
                             <div class="card-body">
                                 <h5 class="card-title fw-bold color-green">Aangemelde apparaten</h5>
-                                <h6 class="card-subtitle text-muted">Beheer en log uit uw actieve sessies op andere browsers en apparaten</h6>
+                                <h6 class="card-subtitle text-muted">Beheer je actieve sessies en log uit bij andere browsers en apparaten</h6>
 
                                 @if ($errors->any())
                                     <div class="alert alert-danger alert-dismissible fade show border-0 d-flex align-items-center mt-2 py-1 px-2 mb-0" role="alert" data-bs-dismiss="alert" aria-label="Close">

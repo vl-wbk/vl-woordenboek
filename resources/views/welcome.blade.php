@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="float-start">
-                    <h3 class="color-green">Raadpleging woordenboek</h3>
+                    <h3 class="color-green">Opzoeken in het woordenboek</h3>
                 </div>
 
                 <x-articles.overview-toolbar/>
@@ -45,11 +45,10 @@
             <div class="col-lg-4 col-sm-12">
                 <div class="card bg-callout-card shadow-sm border-0 card-body mb-sm-4">
                     <h5 class="card-title fw-bold fst-italic">Helpende handen gezocht!</h5>
-                    <h6 class="card-subtitle mb-2">Uw inzet, onze kracht</h6>
 
-                    <p class="card-text">
-                        Zin om je handen uit de mouwen te steken en mee te bouwen aan het Vlaams Woordenboek van morgen?
-                        We zijn op zoek naar enthousiaste vrijwilligers die mee het verschil willen maken!
+                    <p class="card-text mt-2">
+                        Goesting om een handje toe te steken bij het Vlaams Woordenboek?
+                        We zijn op zoek naar taalgevoelige vrijwilligers die de inhoud van deze site mee naar een hoger niveau willen tillen.
                     </p>
 
                     <p class="card-text">
