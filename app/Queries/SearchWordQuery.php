@@ -19,6 +19,7 @@ final readonly class SearchWordQuery
                 $query->where('word', 'like', "%{$searchTerm}%")
                     ->orWhere('word', 'like', "%{$searchTerm}%");
             })
+            ->orderBy('word')
             ->paginate(6)
             ->appends(request()->query());
     }
