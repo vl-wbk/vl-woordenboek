@@ -22,6 +22,7 @@
     { "value": "onder vw", "name": "onderschikkend voegwoord" },
     { "value": "vz", "name": "voorzetsel" },
     { "value": "tw", "name": "tussenwerpsel" },
-    { "value": "en",  "name": "eigennaam" }
-
+    { "value": "en",  "name": "eigennaam" },
+    { "value": "uitdr.", "name": "uitdrukking" },
+    { "value": "vaste comb.", "name": "vaste woordcombinatie" }
 ]
