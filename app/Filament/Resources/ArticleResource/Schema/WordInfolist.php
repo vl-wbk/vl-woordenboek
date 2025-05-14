@@ -268,7 +268,7 @@ final readonly class WordInfolist
                     ->iconColor('primary')
                     ->date()
                     ->columnSpan(4),
-                TextEntry::make('eidtor.name')
+                TextEntry::make('editor.name')
                     ->label('Redactie door')
                     ->icon('heroicon-o-user-circle')
                     ->iconColor('primary')

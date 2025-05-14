@@ -33,9 +33,10 @@ final class NewState extends ArticleState
     public function transitionToEditing(?string $reason = null): bool
     {
         return DB::transaction(function (): bool {
-            return $this->article
-                ->setCurrentUserAsEditor()
-                ->update(['state' => ArticleStates::Draft]);
+            $this->article->update(['state' => ArticleStates::Draft]);
+            $this->article->setCurrentUserAsEditor();
+
+            return true;
         });
     }
 }
