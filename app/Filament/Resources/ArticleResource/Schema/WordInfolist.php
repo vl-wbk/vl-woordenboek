@@ -153,6 +153,7 @@ final readonly class WordInfolist
                     ->label('Gepubliceerd door')
                     ->icon('heroicon-o-user-circle')
                     ->iconColor('primary')
+                    ->placeholder('- onbekend')
                     ->columnSpan(3),
                 TextEntry::make('views')
                     ->label('Aantal weergaves')
@@ -260,25 +261,31 @@ final readonly class WordInfolist
                     ->icon('heroicon-o-user-circle')
                     ->iconColor('primary')
                     ->placeholder('onbekend')
-                    ->columnSpan(3),
-                TextEntry::make('audits_count')
-                    ->label('Aantal bewerkingen')
-                    ->icon('heroicon-o-pencil-square')
-                    ->iconColor('primary')
-                    ->badge()
-                    ->columnSpan(3),
-                TextEntry::make('updated_at')
-                    ->label('Laast gewijzigd')
-                    ->icon('heroicon-o-clock')
-                    ->iconColor('primary')
-                    ->date()
-                    ->columnSpan(3),
+                    ->columnSpan(8),
                 TextEntry::make('created_at')
                     ->label('Toegevoegd op')
                     ->icon('heroicon-o-clock')
                     ->iconColor('primary')
                     ->date()
-                    ->columnSpan(3)
+                    ->columnSpan(4),
+                TextEntry::make('eidtor.name')
+                    ->label('Redactie door')
+                    ->icon('heroicon-o-user-circle')
+                    ->iconColor('primary')
+                    ->placeholder('- onbekend / niet toegewezen')
+                    ->columnSpan(4),
+                TextEntry::make('audits_count')
+                    ->label('Aantal bewerkingen')
+                    ->icon('heroicon-o-pencil-square')
+                    ->iconColor('primary')
+                    ->badge()
+                    ->columnSpan(4),
+                TextEntry::make('updated_at')
+                    ->label('Laast gewijzigd')
+                    ->icon('heroicon-o-clock')
+                    ->iconColor('primary')
+                    ->date()
+                    ->columnSpan(4),
             ]);
     }
 }
