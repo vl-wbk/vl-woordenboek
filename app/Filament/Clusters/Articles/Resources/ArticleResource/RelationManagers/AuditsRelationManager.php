@@ -19,6 +19,7 @@ final class AuditsRelationManager extends RelationManager
 
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
     {
+        /** @var \App\Models\Article $ownerRecord */
         return $ownerRecord->audits->count() > 0
             && new $pageClass() instanceof ViewWord
             && auth()->user()->user_type->isNot(UserTypes::Normal);

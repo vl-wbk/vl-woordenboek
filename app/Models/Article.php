@@ -258,6 +258,6 @@ final class Article extends Model implements AuditableContract
      */
     public function prunable(): Builder
     {
-        return static::where('deleted_at', '<=', now()->subMonths(2));
+        return static::where('deleted_at', '<=', now()->subDays(60));
     }
 }

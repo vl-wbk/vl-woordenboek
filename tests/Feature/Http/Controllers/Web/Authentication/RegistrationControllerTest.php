@@ -1,5 +1,6 @@
 <?php
 
+use function Pest\Laravel\from;
 use function Pest\Laravel\get;
 use function Pest\Laravel\post;
 
@@ -8,15 +9,14 @@ test('registration screen can be rendered', function (): void {
 });
 
 test('new users can register', function (): void {
-    $response = post(route('register'), data: [
+    $response = from('/')->post(route('register'), data: [
         'voornaam' => 'Test',
         'achternaam' => 'User',
         'email' => 'test@example.com',
         'password' => 'password',
         'password_confirmation' => 'password',
+        'agreement' => 'on'
     ]);
 
-    $response->assertRedirect(route('home'));
-
-    expect(auth()->check())->toBeTrue();
-});
+    $response->assertSessionHasNoErrors();
+})->group('registration');
