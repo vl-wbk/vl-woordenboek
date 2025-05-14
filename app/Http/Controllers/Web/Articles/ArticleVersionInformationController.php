@@ -16,7 +16,7 @@ final readonly class ArticleVersionInformationController
     #[Get(uri: '/versie-informatie/{audit}', name: 'change:information', middleware: ['auth', 'forbid-banned-user', 'verified'])]
     public function __invoke(Request $request, Audit $audit): Renderable
     {
-        abort_if($request->user()->user_type->isNot(UserTypes::Normal), Response::HTTP_NOT_FOUND);
+        abort_if($request->user()->user_type->is(UserTypes::Normal), Response::HTTP_NOT_FOUND);
 
         return view('versions.info', data: [
             'audit' => $audit
