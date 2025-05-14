@@ -58,5 +58,14 @@ final readonly class StoreArticleSuggestion
                 $suggestion->author()->associate($suggestionData->creator_id)->save();
             }
         });
+
+        flash($this->getFlashMessage(), 'alert-success');
+    }
+
+    private function getFlashMessage(): string
+    {
+        return auth()->check()
+            ? trans('We hebben je suggestie goed ontvangen en zullen er zo snel mogelijk naar kijken. Wil je weten wanneer je suggestie online komt? Registreer je dan als gebruiker, dan kun je de status opvolgen van elke suggestie die je hebt ingediend.')
+            : trans('We hebben je suggestie goed ontvangen en zullen er zo snel mogelijk naar kijken. Op je account kun je de status opvolgen van elke suggestie die je hebt ingediend.');
     }
 }

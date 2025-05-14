@@ -18,7 +18,8 @@
             <div class="col-md-12">
                 @if (flash()->message)
                     <div class="alert {{ flash()->class }} alert-dismissible fade show border-0 shadow-sm">
-                        <strong><x-heroicon-o-bell-alert class="icon me-1"/> Opgepast:</strong> {{ flash()->message }}
+                        <h6 class="alert-heading fw-bold"><x-heroicon-o-bell-alert class="icon icon-lg me-1"/> Gelukt!</h6>
+                        {{ flash()->message }}
                     </div>
                 @endif
 
