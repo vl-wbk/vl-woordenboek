@@ -96,10 +96,10 @@
                                 <x-forms.validation-error field="regio"/>
                             @else
                                 <span id="regioHelptext" class="form-text text-muted">
-                                    <x-tabler-info-circle class="icon icon-sm me-1"/> Indien het woord enkel in een lokaal dialect wordt gebruikt, geef dan ook de streek aan waar deze term wordt gebruikt.
+                                    <x-tabler-info-circle class="icon icon-sm me-1"/> Als dit woord of deze uitdrukking alleen in een bepaalde regio of een lokaal dialect wordt gebruikt, geef dan ook de juiste regio(‘s) aan.
                                     - <a href="{{ route('definitions.region-info') }}" target="_blank">Meer info over de regio's.</a> <br>
 
-                                    U kunt meerdere regio's aanklikken doormiddel van de CRTL toets in te drukken.
+                                    Wil je meer dan één regio aanduiden? Hou de CTRL-toets ingedrukt terwijl je een voor een op de regio’s klikt.
                                 </span>
                             @endif
                         </div>
@@ -107,13 +107,19 @@
                         <hr class="mb-1">
 
                         <div class="form-group">
-                            <label for="voorbeeld" class="col-form-label">Voorbeeld <span class="fw-bold text-danger">*</span></label>
+                            <label for="voorbeeld" class="col-form-label">Voorbeelden <span class="fw-bold text-danger">*</span></label>
                             <textarea name="voorbeeld" id="voorbeeldHelpText" class="form-control @error('voorbeeld') is-invalid @enderror" cols="6">{{ old('voorbeeld') }}</textarea>
 
                             @if ($errors->has('voorbeeld'))
                                 <x-forms.validation-error field="voorbeeld"/>
                             @else
-                                <x-forms.help-text icon="true" field="voorbeeldHelpText" text="Geef een voorbeeldzin in Algemeen Beschaafd Vlaams die de hierboven beschreven betekenis van het woord verduidelijkt."/>
+                                <small id="voorbeeld" class="form-text text-muted">
+                                    <x-tabler-info-circle class="icon icon-sm me-1"/>  Geef een voorbeeldzin in het Algemeen (Belgisch–)Nederlands waaruit de hierboven beschreven betekenis duidelijk wordt. Voeg zeker een bronvermelding toe.
+
+                                    <a href="">
+                                        meer info
+                                    </a>
+                                </small>
                             @endif
                         </div>
                     </form>
