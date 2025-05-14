@@ -65,7 +65,7 @@ final class PruneArticleNotification extends Notification implements ShouldQueue
         $mail = (new MailMessage)
             ->subject('Herinnering: Woordenboekartikelen worden binnen 2 dagen definitief verwijderd')
             ->greeting('Beste ' . $notifiable->name . ',')
-            ->line('De volgende woordenboekartikelen zijn eerder verwijderd en worden **binnen 2 dagen automatisch en permanent verwijderd**:')
+            ->line('De volgende woordenboekartikelen werden voorlopig verwijderd. **Binnen 2 dagen worden ze automatisch en permanent verwijderd**:')
             ->line('');
 
         foreach ($this->articles as $article) {
@@ -73,8 +73,8 @@ final class PruneArticleNotification extends Notification implements ShouldQueue
         }
 
         $mail->line('')
-            ->line('Als deze artikelen behouden moeten blijven, gelieve tijdig actie te ondernemen.')
-            ->line('Deze herinnering wordt slechts éénmalig verzonden.');
+            ->line("Als dit artikel of deze artikelen toch behouden moeten blijven, moet je nu actie ondernemen door ze bijvoorbeeld in 'kladversie' te zetten.")
+            ->line('Je krijgt deze herinnering maar één keer. ');
 
         return $mail;
     }
