@@ -7,6 +7,7 @@ namespace App\Filament\Resources\ArticleResource\Schema;
 use App\Enums\ArticleStates;
 use App\Enums\LanguageStatus;
 use Filament\Forms\Components;
+use Filament\Forms\Components\Component;
 use Filament\Forms\Components\Section;
 
 /**
@@ -87,8 +88,19 @@ final readonly class FormSchema
                 ->columnSpanFull(),
             Components\TextInput::make('image_url')
                 ->label('Afbeelding')
-                ->columnSpan(12)
+                ->columnSpan(6)
+                ->url()
+                ->prefixIcon('heroicon-m-globe-alt')
+                ->prefixIconColor('primary')
+                ->helperText(str('**Gelieve enkel afbeeldingen van wikipedia te gebruiken**')->inlineMarkdown()->toHtmlString())
                 ->maxLength(255),
+            Components\TextInput::make('image_alt')
+                ->label('Afbeelding alt tekst')
+                ->columnSpan(6)
+                ->maxLength(255)
+                ->placeholder('Beschrijf kort wat er op de afbeelding staat')
+                ->prefixIcon('heroicon-m-chat-bubble-bottom-center-text')
+                ->prefixIconColor('primary'),
             Components\MarkdownEditor::make('description')
                 ->label('Beschrijving')
                 ->columnSpanFull()
