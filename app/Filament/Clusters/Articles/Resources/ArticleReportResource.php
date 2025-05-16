@@ -48,32 +48,24 @@ final class ArticleReportResource extends Resource
     /**
      * Specifies the model associated with this resource.
      * This property links the `ArticleReportResource` to the `ArticleReport` model, ensuring that the resource operates on the correct data.
-     *
-     * @var string|null
      */
     protected static ?string $model = ArticleReport::class;
 
     /**
      * Specifies the icon used for the resource in the navigation menu.
      * The icon visually represents the resource in the admin panel's navigation.
-     *
-     * @var string|null
      */
     protected static ?string $navigationIcon = 'heroicon-o-flag';
 
     /**
      * Specifies the singular label for the resource.
      * This label is used in the admin panel to refer to a single instance of the resource.
-     *
-     * @var string|null
      */
     protected static ?string $modelLabel = 'melding';
 
     /**
      * Specifies the plural label for the resource.
      * This label is used in the admin panel to refer to multiple instances of the resource.
-     *
-     * @var string|null
      */
     protected static ?string $pluralModelLabel = 'Meldingen';
 
@@ -162,6 +154,7 @@ final class ArticleReportResource extends Resource
     }
 
     /**
+     * @todo provide docblock
      * @return array<int, SelectFilter|Filter>
      */
     public static function getTableFilters(): array
@@ -188,9 +181,7 @@ final class ArticleReportResource extends Resource
      */
     public static function getNavigationBadge(): ?string
     {
-        return Cache::flexible('report_count', [10, 60], function (): string {
-            return (string) self::$model::count();
-        });
+        return Cache::flexible('report_count', [10, 60], fn (): string => (string) self::$model::count());
     }
 
     /**

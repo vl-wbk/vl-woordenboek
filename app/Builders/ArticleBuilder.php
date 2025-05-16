@@ -31,7 +31,6 @@ final class ArticleBuilder extends Builder
      * The operation is wrapped in a database transaction to ensure data consistency.
      *
      * @param string|null $archivingReason The reason for archiving the article (optional).
-     * @return void
      */
     public function archive(?string $archivingReason = null): void
     {
@@ -46,8 +45,6 @@ final class ArticleBuilder extends Builder
      *
      * This method transitions the article's state back to "Published" and clear any archiving-related data, such as the archiving reason and timestamp.
      * The operation is wrapped in a database transaction to ensure data consistency.
-     *
-     * @return void
      */
     #[Deprecated('Should be refzactored to a general publish action in the ArticleBuilder')]
     public function unarchive(): void

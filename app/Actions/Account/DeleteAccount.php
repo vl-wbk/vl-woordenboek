@@ -25,7 +25,6 @@ final readonly class DeleteAccount
      * Finally, it performs the security cleanup by invalidating the session and regenerating the CSRF token to prevent any potential security vulnerabilities.
      *
      * @param  DeleteAccountRequest $deleteAccountRequest  The validated delection request.
-     * @return void
      */
     public function __invoke(DeleteAccountRequest $deleteAccountRequest): void
     {

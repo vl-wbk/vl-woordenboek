@@ -18,7 +18,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('articles', function (Blueprint $table) {
+        Schema::create('articles', function (Blueprint $table): void {
             $table->id();
             $table->unsignedSmallInteger('origin')->default(DataOrigin::External->value);
             $table->smallInteger('state')->default(ArticleStates::ExternalData->value);
@@ -51,7 +51,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('article_region', function (Blueprint $table) {
+        Schema::create('article_region', function (Blueprint $table): void {
             $table->id();
             $table->foreignIdFor(Region::class)->references('id')->on('regions')->cascadeOnDelete();
             $table->foreignIdFor(Article::class)->references('id')->on('articles')->cascadeOnDelete();

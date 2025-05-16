@@ -25,7 +25,6 @@ final readonly class LabelPolicy
      * This ensures that label modifications are carefully controlled and properly managed.
      *
      * @param  User $user  The eloquent instance from the currently authenticated user.
-     * @return bool
      */
     public function update(User $user): bool
     {
@@ -39,7 +38,6 @@ final readonly class LabelPolicy
      * This helps prevent accidental removal of important categorization structures.
      *
      * @param  User $user  The eloquent instance from the currently authenticated user.
-     * @return bool
      */
     public function delete(User $user): bool
     {
@@ -53,7 +51,6 @@ final readonly class LabelPolicy
      * This centralized control helps maintain a coherent categorization system.
      *
      * @param  User $user  The eloquent instance from the currently authenticated user.
-     * @return bool
      */
     public function create(User $user): bool
     {
@@ -67,7 +64,6 @@ final readonly class LabelPolicy
      * This broader access enables content organization while maintaining appropriate oversight of the categorization process.
      *
      * @param  User $user  The eloquent instance from the currently authenticated user.
-     * @return bool
      */
     public function attach(User $user): bool
     {
@@ -81,7 +77,6 @@ final readonly class LabelPolicy
      * This allows for flexible content organization while ensuring proper oversight of taxonomy management.
      *
      * @param  User $user  The eloquent instance from the currently authenticated user.
-     * @return bool
      */
     public function detach(User $user, Label $label): bool
     {

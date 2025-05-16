@@ -46,8 +46,6 @@ trait BelongsToAuthor
      *
      * This method fetches the currently logged-in user's instance from the authentication context and assigns them as the author of this model using the `setAuthor` method.
      * This is commonly used during the creation or modification of a model when the user performing the action is considered the author.
-     *
-     * @return void
      */
     public function setCurrentUserAsAuthor(): void
     {
@@ -62,7 +60,6 @@ trait BelongsToAuthor
      * This method should be used when explicitly assigning a specific user as the author, rather than relying on the currently authenticated user.
      *
      * @param  User $user  The User model instance to be associated as the author.
-     * @return void
      */
     public function setAuthor(User $user): void
     {

@@ -29,8 +29,6 @@ final class ListBans extends ListRecords
      * Defines which resource this listing page belongs to.
      * The BanResource proàvides all necessary configurations for fisplaying and managing bans.
      * This connection ensures that any changes made to the resource's table schema or octions are automatically reflected in this listing page.
-     *
-     * @var string
      */
     protected static string $resource = BanResource::class;
 

@@ -30,7 +30,6 @@ final class PublishedState extends ArticleState
      * Archiving an article removes it from public visibility while retaining it in the system for historical reference or potential future restoration.
      *
      * @param  string|null $archivingReason The reason for archiving the article (optional).
-     * @return void
      */
     public function transitionToArchived(?string $archivingReason = null): void
     {

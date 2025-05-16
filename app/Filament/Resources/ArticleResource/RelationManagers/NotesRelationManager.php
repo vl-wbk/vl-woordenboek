@@ -33,16 +33,12 @@ final class NotesRelationManager extends RelationManager
     /**
      * Defines the relationship name that corresponds to the notes() method in the Article model.
      * This connection is essential for maintaining the link between articles and their notes.
-     *
-     * @var string
      */
     protected static string $relationship = 'notes';
 
     /**
      * Szets the display title in the admin interface to "Notities" (Dutch for notes).
      * This localization choice reflects the application's primary language setting.
-     *
-     * @var string|null
      */
     protected static ?string $title = 'Notities';
 

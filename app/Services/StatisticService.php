@@ -179,7 +179,7 @@ final readonly class StatisticService
      */
     private function extractTrendValues(Collection $trendData): Collection
     {
-        return $trendData->map(fn (TrendValue $value) => $value->aggregate);
+        return $trendData->map(fn (TrendValue $value): mixed => $value->aggregate);
     }
 
     /**
@@ -191,6 +191,6 @@ final readonly class StatisticService
      */
     private function extractTrendLabels(Collection $trendData): Collection
     {
-        return $trendData->map(fn (TrendValue $value) => $value->date);
+        return $trendData->map(fn (TrendValue $value): string => $value->date);
     }
 }

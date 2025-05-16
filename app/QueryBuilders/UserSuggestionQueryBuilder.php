@@ -12,10 +12,14 @@ use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
+ * @todo document
  * @extends QueryBuilder<Article>
  */
 final class UserSuggestionQueryBuilder extends QueryBuilder
 {
+    /**
+     * @todo document
+     */
     public function __construct(Request $request)
     {
         $suggestionQuery = $this->suggestionQuery($request);
@@ -23,6 +27,7 @@ final class UserSuggestionQueryBuilder extends QueryBuilder
     }
 
     /**
+     * @todo document
      * @phpstan-ignore-next-line
      */
     private function suggestionQuery(Request $request): Builder|Relation
@@ -34,7 +39,7 @@ final class UserSuggestionQueryBuilder extends QueryBuilder
             ->when($this->needsToApplyFilter('new'), fn (Builder $builder): Builder => $this->onlyNewSuggestions($builder))
 
             // Search between the suggestions
-            ->where(function ($query) use ($request) {
+            ->where(function ($query) use ($request): void {
                 $query->where('word', 'like', "%{$request->get('zoekterm')}%")
                     ->orWhere('description', 'like', "%{$request->get('zoekterm')}%");
             });
@@ -45,7 +50,7 @@ final class UserSuggestionQueryBuilder extends QueryBuilder
      * This method filters the query to only include articles with the 'New' state.
      *
      * @param Builder<Article>  $builder  The Eloquent query builder instance.
-    * @return Builder<Article>            The Eloquent query builder instance with the filter applied.
+     * @return Builder<Article>           The Eloquent query builder instance with the filter applied.
      */
     private function onlyNewSuggestions(Builder $builder): Builder
     {

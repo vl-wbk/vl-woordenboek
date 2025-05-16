@@ -27,8 +27,6 @@ final class AuthorizationServiceProvider extends ServiceProvider
      *
      * This method is called during the application's boot process.
      * It's where we define the policy mappings using the `Gate::policy()` method.
-     *
-     * @return void
      */
     public function boot(): void
     {

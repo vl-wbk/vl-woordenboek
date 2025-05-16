@@ -30,24 +30,18 @@ final class BanResource extends Resource
     /**
      * We use a dutch interface label throughout the admin panel.
      * This friendly term "Deactiveringen" appears in navigation menus and headers to maintain consistency with our Dutch-speaking community.
-     *
-     * @var string|null
      */
     protected static ?string $pluralLabel = 'Deactiveringen';
 
     /**
      * Behind the scenes, we're utilizing the Ban model from the laravel-ban package.
      * This model handles all the complexities of ban management, including timestamps, expiration handling, and ban metadata.
-     *
-     * @var string|null
      */
     protected static ?string $model = Ban::class;
 
     /**
      * For visual recognition, we use a shield-lock icon from the Tabler icon set.
      * This icon perfectly represents the security aspect of account deactivations while maintaining a clean, professional look.
-     *
-     * @var string|null
      */
     protected static ?string $navigationIcon = 'tabler-shield-lock';
 

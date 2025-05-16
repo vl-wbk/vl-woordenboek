@@ -86,6 +86,7 @@ final readonly class ArticlePolicy
         return $article->editor()->exists() && $article->editor()->isNot($user);
     }
 
+    /** @todo document */
     public function unpublish(User $user, Article $article): bool
     {
         return $article->isPublished() && $user->user_type->in(enums: [UserTypes::Developer, UserTypes::Administrators]);
@@ -114,14 +115,20 @@ final readonly class ArticlePolicy
             return false;
         }
 
-        return $article->editor()->is($user) || $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer]);
+        if ($article->editor()->is($user)) {
+            return true;
+        }
+
+        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer]);
     }
 
+    /** @todo document */
     public function attachDisclaimer(User $user, Article $article): bool
     {
         return $article->disclaimer()->doesntExist() && $user->user_type->notIn([UserTypes::Normal, UserTypes::Editor]);
     }
 
+    /** @todo document */
     public function detachDisclaimer(User $user, Article $article): bool
     {
         return $article->disclaimer()->exists() && $user->user_type->notIn([UserTypes::Normal, UserTypes::Editor]);
@@ -143,6 +150,7 @@ final readonly class ArticlePolicy
             && $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer, UserTypes::EditorInChief]);
     }
 
+    /** @todo document */
     public function unarchive(User $user, Article $article): bool
     {
         return $article->state->is(ArticleStates::Archived) && $user->user_type->notIn([UserTypes::Normal, UserTypes::Editor]);
@@ -164,11 +172,13 @@ final readonly class ArticlePolicy
             && $article->state->in(enums: [ArticleStates::New, ArticleStates::Draft, ArticleStates::ExternalData, ArticleStates::Archived]);
     }
 
+    /** @todo document */
     public function restore(User $user): bool
     {
         return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer]);
     }
 
+    /** @todo document */
     public function restoreAny(User $user): bool
     {
         return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer]);

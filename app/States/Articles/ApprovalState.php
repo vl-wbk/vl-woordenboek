@@ -41,14 +41,10 @@ final class ApprovalState extends ArticleState
      */
     public function transitionToReleased(): bool
     {
-        return DB::transaction(function (): bool {
-            return $this->article
-                ->setCurrentUserAsPublisher()
-                ->update(attributes: [
-                    'state' => ArticleStates::Published,
-                    'published_at' => now(),
-                ]);
-        });
+        return DB::transaction(fn (): bool  => $this->article
+            ->setCurrentUserAsPublisher()
+            ->update(attributes: ['state' => ArticleStates::Published, 'published_at' => now()])
+        );
     }
 
     /**

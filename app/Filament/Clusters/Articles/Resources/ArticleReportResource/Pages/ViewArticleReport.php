@@ -29,8 +29,6 @@ final class ViewArticleReport extends ViewRecord
      * This property links the `ViewArticleReport` page to the `ArticleReportResource`,
      * ensuring that the correct resource configuration is used for displaying and managing
      * article reports.
-     *
-     * @var string
      */
     protected static string $resource = ArticleReportResource::class;
 

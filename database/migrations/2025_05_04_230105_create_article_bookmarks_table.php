@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('article_bookmarks', function (Blueprint $table) {
+        Schema::create('article_bookmarks', function (Blueprint $table): void {
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Article::class)->constrained()->cascadeOnDelete();
             $table->timestamps();

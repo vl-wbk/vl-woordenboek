@@ -41,22 +41,20 @@ class ArticleFactory extends Factory
     }
 
     /**
+     * @todo document
      * @return Factory<Article>
      */
     public function archived(): Factory
     {
-        return $this->state(function (array $attributes): array {
-            return ['state' => ArticleStates::Archived, 'archived_at' => now(), 'archiving_reason' => fake()->sentence, 'archiever_id' => User::factory()->create()->id];
-        });
+        return $this->state(fn (): array => ['state' => ArticleStates::Archived, 'archived_at' => now(), 'archiving_reason' => fake()->sentence, 'archiever_id' => User::factory()->create()->id]);
     }
 
     /**
+     * @todo document
      * @return Factory<Article>
      */
     public function published(): Factory
     {
-        return $this->state(function (array $attributes): array {
-            return ['state' => ArticleStates::Published, 'published_at' => now(), 'publisher_id' => User::factory()->create()->id];
-        });
+        return $this->state(fn (): array => ['state' => ArticleStates::Published, 'published_at' => now(), 'publisher_id' => User::factory()->create()->id]);
     }
 }

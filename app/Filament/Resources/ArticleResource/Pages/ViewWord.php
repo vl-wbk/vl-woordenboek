@@ -31,8 +31,6 @@ final class ViewWord extends ViewRecord
      *
      * This property links the `ViewWord` page to the `ArticleResource`, ensuring that
      * the correct resource configuration is used for displaying and managing articles.
-     *
-     * @var string
      */
     protected static string $resource = ArticleResource::class;
 

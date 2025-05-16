@@ -19,12 +19,10 @@ class CreateBansTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up(): void
     {
-        Schema::create('bans', function (Blueprint $table) {
+        Schema::create('bans', function (Blueprint $table): void {
             $table->increments('id');
             $table->morphs('bannable');
             $table->nullableMorphs('created_by');
@@ -39,8 +37,6 @@ class CreateBansTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down(): void
     {

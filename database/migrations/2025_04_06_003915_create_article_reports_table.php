@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('article_reports', function (Blueprint $table) {
+        Schema::create('article_reports', function (Blueprint $table): void {
             $table->id();
             $table->unsignedSmallInteger('state');
             $table->foreignIdFor(User::class, 'assignee_id')->nullable()->constrained()->nullOnDelete();

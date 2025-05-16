@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('disclaimers', function (Blueprint $table) {
+        Schema::create('disclaimers', function (Blueprint $table): void {
             $table->id();
             $table->smallInteger('type');
             $table->string('name');

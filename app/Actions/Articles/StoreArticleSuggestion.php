@@ -46,7 +46,6 @@ final readonly class StoreArticleSuggestion
      * transaction will roll back, keeping the database in a consistent state.
      *
      * @param SuggestionData $suggestionData The data transfer object carrying all details for the new article suggestion.
-     * @return void
      */
     public function execute(SuggestionData $suggestionData): void
     {
@@ -62,6 +61,7 @@ final readonly class StoreArticleSuggestion
         flash($this->getFlashMessage(), 'alert-success');
     }
 
+    /** @todo document */
     private function getFlashMessage(): string
     {
         return auth()->check()

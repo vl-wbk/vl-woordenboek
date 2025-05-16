@@ -26,21 +26,18 @@ final class DraftState extends ArticleState
     /**
      * Transitions an article from Draft to Approval state.
      * This method updates the article's state to ArticleStates::Approval.
-     *
-     * @return void
      */
     public function transitionToApproved(): void
     {
         $this->article->update(attributes: ['state' => ArticleStates::Approval]);
     }
 
+    /** @todo document */
     public function transitionToExternalData(): bool
     {
-        return DB::transaction(function (): bool {
-            return $this->article->update(attributes: [
-                'state' => ArticleStates::ExternalData, 'editor_id' => null
-            ]);
-        });
+        return DB::transaction(fn (): bool => $this->article->update(attributes: [
+            'state' => ArticleStates::ExternalData, 'editor_id' => null
+        ]));
     }
 
     /**
@@ -53,10 +50,8 @@ final class DraftState extends ArticleState
      */
     public function transitionToSuggestion(): bool
     {
-        return DB::transaction(function (): bool {
-            return $this->article->update(attributes: [
-                'state' => ArticleStates::New, 'editor_id' => null
-            ]);
-        });
+        return DB::transaction(fn (): bool => $this->article->update(attributes: [
+            'state' => ArticleStates::New, 'editor_id' => null
+        ]));
     }
 }

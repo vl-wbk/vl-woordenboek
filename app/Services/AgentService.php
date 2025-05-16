@@ -57,40 +57,30 @@ class AgentService extends MobileDetect
 
     /**
      * Get the platform name from the User Agent.
-     *
-     * @return string|null
      */
-    public function platform()
+    public function platform(): ?string
     {
-        return $this->retrieveUsingCacheOrResolve('jetstream.platform', function () {
-            return $this->findDetectionRulesAgainstUserAgent(
-                $this->mergeRules(MobileDetect::getOperatingSystems(), static::$additionalOperatingSystems)
-            );
-        });
+        return $this->retrieveUsingCacheOrResolve('jetstream.platform', fn (): ?string => $this->findDetectionRulesAgainstUserAgent(
+            $this->mergeRules(MobileDetect::getOperatingSystems(), static::$additionalOperatingSystems)
+        ));
     }
 
     /**
      * Get the browser name from the User Agent.
-     *
-     * @return string|null
      */
-    public function browser()
+    public function browser(): ?string
     {
-        return $this->retrieveUsingCacheOrResolve('jetstream.browser', function () {
-            return $this->findDetectionRulesAgainstUserAgent(
-                $this->mergeRules(static::$additionalBrowsers, MobileDetect::getBrowsers())
-            );
-        });
+        return $this->retrieveUsingCacheOrResolve('jetstream.browser', fn (): ?string => $this->findDetectionRulesAgainstUserAgent(
+            $this->mergeRules(static::$additionalBrowsers, MobileDetect::getBrowsers())
+        ));
     }
 
     /**
      * Determine if the device is a desktop computer.
-     *
-     * @return bool
      */
-    public function isDesktop()
+    public function isDesktop(): bool
     {
-        return $this->retrieveUsingCacheOrResolve('jetstream.desktop', function () {
+        return $this->retrieveUsingCacheOrResolve('jetstream.desktop', function (): bool {
             // Check specifically for cloudfront headers if the useragent === 'Amazon CloudFront'
             if (
                 $this->getUserAgent() === static::$cloudFrontUA
@@ -107,7 +97,6 @@ class AgentService extends MobileDetect
      * Match a detection rule and return the matched key.
      *
      * @param array<string, string> $rules
-     * @return string|null
      */
     protected function findDetectionRulesAgainstUserAgent(array $rules): ?string
     {
@@ -129,11 +118,9 @@ class AgentService extends MobileDetect
     /**
      * Retrieve from the given key from the cache or resolve the value.
      *
-     * @param  string  $key
      * @param  \Closure():mixed  $callback
-     * @return mixed
      */
-    protected function retrieveUsingCacheOrResolve(string $key, Closure $callback)
+    protected function retrieveUsingCacheOrResolve(string $key, Closure $callback): mixed
     {
         $cacheKey = $this->createCacheKey($key);
 
@@ -141,7 +128,7 @@ class AgentService extends MobileDetect
             return $cacheItem;
         }
 
-        return tap(call_user_func($callback), function ($result) use ($cacheKey) {
+        return tap(call_user_func($callback), function ($result) use ($cacheKey): void {
             $this->store[$cacheKey] = $result;
         });
     }
@@ -152,7 +139,7 @@ class AgentService extends MobileDetect
      * @param  array<mixed>  $all
      * @return array<string, string>
      */
-    protected function mergeRules(...$all)
+    protected function mergeRules(...$all): array
     {
         $merged = [];
 

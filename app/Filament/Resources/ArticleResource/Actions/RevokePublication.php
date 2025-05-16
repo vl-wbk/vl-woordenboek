@@ -41,8 +41,6 @@ final class RevokePublication extends Action
      *
      * This method sets up the action's properties, such as its authorization requirements, icon, color, confirmation modal, form, and success/failure notifications.
      * It also defines the action's logic, which transitions the article to the "editing" state.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

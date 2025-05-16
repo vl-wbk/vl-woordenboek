@@ -8,7 +8,7 @@ use Illuminate\Support\Lottery;
 
 final readonly class DocumentationButtons
 {
-    public function resolve(mixed $scope): mixed
+    public function resolve(): mixed
     {
         return true;
     }

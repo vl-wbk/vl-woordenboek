@@ -35,8 +35,6 @@ final class EditBanAction extends Action
      * This method provides the internal identifier for our action.
      * It's used by Filament's event system and general action handling.
      * While you probaly won't need to change this, it's good to know it's here if you need to reference this action elsewhere in the code.
-     *
-     * @return string
      */
     public static function getDefaultName(): string
     {
@@ -52,8 +50,6 @@ final class EditBanAction extends Action
      *
      * The form submission process updates the ban record and shows appropriate feedback messages in Dutch.
      * We've made sure to handle both success and failure cases gracefully.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

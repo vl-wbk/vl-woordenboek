@@ -32,8 +32,6 @@ final class RemoveEditorAction extends Action
     /**
      * Icon used for navigation and in the confirmation modal.
      * To maintain consistency in the UI.
-     *
-     * @var string
      */
     protected static string $navigationIcon = 'tabler-link-minus';
 
@@ -57,8 +55,6 @@ final class RemoveEditorAction extends Action
      * based on whether the authenticated user is removing themselves or another editor. Custom notification titles for success and failure are also provided.
      *
      * Finally, when executed, the action triggers a state transition on the article to set it to a suggestion state.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

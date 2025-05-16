@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('resource_locks', function (Blueprint $table) {
+        Schema::create('resource_locks', function (Blueprint $table): void {
             $table->id();
             $table->timestamps();
             $table->foreignId('user_id')->constrained();

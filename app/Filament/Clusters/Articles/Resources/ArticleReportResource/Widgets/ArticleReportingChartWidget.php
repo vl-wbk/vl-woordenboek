@@ -29,24 +29,18 @@ final class ArticleReportingChartWidget extends AdvancedChartWidget
     /**
      * The label displayed above the chart.
      * This label offers a concise explanation of the data being visualized.
-     *
-     * @var string|null
      */
     protected static ?string $label = 'De statistiek omtrent de meldingen in het afgelopen jaar.';
 
     /**
      * The maximum height of the chart.
      * This CSS value ensures that the chart does not exceed a defined vertical space, helping to maintain a uniform layout in the admin panel.
-     *
-     * @var string|null
      */
     protected static ?string $maxHeight = '150px';
 
     /**
      * The minimum height of the chart.
      * This ensures that the chart remains visible even if the content area is small.
-     *
-     * @var string|null
      */
     protected static ?string $minHeight = '150px';
 
@@ -61,24 +55,18 @@ final class ArticleReportingChartWidget extends AdvancedChartWidget
     /**
      * The color of the icon in the widget header.
      * Typically a standard color (e.g., 'warning', 'primary') from the Filament palette.
-     *
-     * @var string|null
      */
     protected static ?string $iconColor = 'warning';
 
     /**
      * The icon displayed in the widget header.
      * Uses icon names from icon libraries like Heroicons or Tabler.
-     *
-     * @var string|null
      */
     protected static ?string $icon = 'tabler-messages';
 
     /**
      * The background color for the icon in the widget header.
      * This option enhances the icon's visibility and matches the overall visual theme.
-     *
-     * @var string|null
      */
     protected static ?string $iconBackgroundColor = 'warning';
 
@@ -121,11 +109,11 @@ final class ArticleReportingChartWidget extends AdvancedChartWidget
 
         return [
             'datasets' => [
-                ['backgroundColor' => '#A53838', 'borderColor' => '#A53838', 'label' => 'Aantal nieuwe meldingen', 'data' => $createdReports->map(fn (TrendValue $value) => $value->aggregate)],
-                ['backgroundColor' => '#D4A373', 'borderColor' => '#D4A373', 'label' => 'Aantal toegewezen meldingen', 'data' => $assignedReports->map(fn (TrendValue $value) => $value->aggregate)],
-                ['backgroundColor' => '#3A5A40', 'borderColor' => '#3A5A40', 'label' => 'Aantal meldingen gesloten', 'data' => $closedReports->map(fn (TrendValue $value) => $value->aggregate)],
+                ['backgroundColor' => '#A53838', 'borderColor' => '#A53838', 'label' => 'Aantal nieuwe meldingen', 'data' => $createdReports->map(fn (TrendValue $value): mixed => $value->aggregate)],
+                ['backgroundColor' => '#D4A373', 'borderColor' => '#D4A373', 'label' => 'Aantal toegewezen meldingen', 'data' => $assignedReports->map(fn (TrendValue $value): mixed => $value->aggregate)],
+                ['backgroundColor' => '#3A5A40', 'borderColor' => '#3A5A40', 'label' => 'Aantal meldingen gesloten', 'data' => $closedReports->map(fn (TrendValue $value): mixed => $value->aggregate)],
             ],
-            'labels' => $createdReports->map(fn (TrendValue $value) => $value->date),
+            'labels' => $createdReports->map(fn (TrendValue $value): string => $value->date),
         ];
     }
 

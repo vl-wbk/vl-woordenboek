@@ -7,9 +7,11 @@ namespace App\Models\Relations;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/** @todo Document this method */
 trait BelongsToEditor
 {
     /**
+     * @todo document
      * @return BelongsTo<User, covariant $this>
      */
     public function editor(): BelongsTo
@@ -18,6 +20,7 @@ trait BelongsToEditor
     }
 
     /**
+     * @todo document
      * @return BelongsTo<User, covariant $this>
      */
     public function publisher(): BelongsTo
@@ -25,6 +28,7 @@ trait BelongsToEditor
         return $this->belongsTo(User::class);
     }
 
+    /** @todo Document this method */
     public function setCurrentUserAsPublisher(): self
     {
         $this->publisher()->associate(auth()->user())->save();
@@ -32,14 +36,11 @@ trait BelongsToEditor
         return $this;
     }
 
-
     /**
      * Set the currently authenticated iser as the editor for the model.
      *
      * This method associates the currently authenticated user with the model's editor relationship.
      * It also saves the user model.
-     *
-     * @return self
      */
     public function setCurrentUserAsEditor(): self
     {

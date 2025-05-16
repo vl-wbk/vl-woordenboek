@@ -33,8 +33,6 @@ final class VolunteerCallOutSettings extends SettingsPage
     /**
      * Defines the icon used to represent this settings page in the Filament admin panel navigation menu.
      * This helps users visually identify the page within the admin interface. Uses a Heroicon name.
-     *
-     * @var string|null
      */
     protected static ?string $navigationIcon = 'heroicon-o-megaphone';
 
@@ -49,32 +47,24 @@ final class VolunteerCallOutSettings extends SettingsPage
     /**
      * Defines the settings class associated with this page.
      * This class determines which settings can be configured and managed through this Filament page.
-     *
-     * @var string
      */
     protected static string $settings = VolunteerSettings::class;
 
     /**
      * Sets the label used for this settings page in the Filament admin panel navigation menu.
      * This is the human-readable name that users will see in the menu.
-     *
-     * @var string|null
      */
     protected static ?string $navigationLabel = 'Oproep voor vrijwilligers';
 
     /**
      * Defines the title displayed at the top of this settings page in the Filament admin panel.
      * This provides context and helps users understand the purpose of the page.
-     *
-     * @var string|null
      */
     protected static ?string $title = 'Oproep voor vrijwilligers';
 
     /**
      * Defines the navigation group that this settings page belongs to in the Filament admin panel.
      * This is used to organize the settings page within the navigation menu.
-     *
-     * @var string|null $navigationGroup
      */
     protected static ?string $navigationGroup = "Pagina's";
 
@@ -105,7 +95,7 @@ final class VolunteerCallOutSettings extends SettingsPage
                             ->url(route('support.volunteers'))
                             ->openUrlInNewTab()
                             ->color('gray')
-                            ->visible(fn (VolunteerSettings $volunteerSettings) => $volunteerSettings->pageActive)
+                            ->visible(fn (VolunteerSettings $volunteerSettings): bool => $volunteerSettings->pageActive)
 
                     ])
                     ->schema($this->pageSettingsFormDefinition()),
