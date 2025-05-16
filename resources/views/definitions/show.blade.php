@@ -68,7 +68,7 @@
                             <div class="flex-shrink-0 me-3">
                                 <img
                                     src="{{ $word->image_url ?? 'https://placehold.co/100x100?text=ongeldige+afbeelding&font=roboto' }}"
-                                    alt="{{ $word->image_alt ?? trans('Helaas kunnen we afbeelden voor het artikel :article niet beschrijven', ['article' => $article->word]) }}"
+                                    alt="{{ $word->image_alt ?? trans('Helaas kunnen we afbeelden voor het artikel :article niet beschrijven', ['article' => $word->word]) }}"
                                     class="rounded border-0 shadow-sm"
                                     style="height: 100px; border: 0 !important; width: 100px;"
                                 />
