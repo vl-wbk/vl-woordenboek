@@ -5,32 +5,42 @@ on:
     pull_request: null
 
 jobs:
-    rector:
-        runs-on: ubuntu-latest
-        if: github.event.pull_request.head.repo.full_name == 'vl-wbk/vl-woordenboek'
-        steps:
-            -
-                if: github.event.pull_request.head.repo.full_name == github.repository
-                uses: actions/checkout@v4
-                with:
-                    # Must be used to trigger workflow after push
-                    token: ${{ secrets.ACCESS_TOKEN }}
+  rector:
+    runs-on: ubuntu-latest
 
-            -
-                uses: shivammathur/setup-php@v2
-                with:
-                    php-version: 8.2
-                    coverage: none
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-            -   uses: "ramsey/composer-install@v3"
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.3
+        extensions: mbstring, xml, tokenizer, curl, json
+        tools: composer
+        coverage: none
 
-            -   run: vendor/bin/rector --ansi
-            # @todo apply coding standard if used
+    - name: Cache Composer dependencies
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-composer-
 
-            -
-                # commit only to core contributors who have repository access
-                uses: stefanzweifel/git-auto-commit-action@v5
-                with:
-                    commit_message: '[rector] Rector fixes'
-                    commit_author: 'GitHub Action <actions@github.com>'
-                    commit_user_email: 'action@github.com'
+    - name: Install dependencies
+      run: composer install --no-progress --no-suggest --prefer-dist
+
+    - name: Cache Rector cache
+      uses: actions/cache@v3
+      with:
+        path: storage/rector
+        key: ${{ runner.os }}-rector-${{ hashFiles('**/rector.php') }}
+        restore-keys: ${{ runner.os }}-rector-
+
+    - name: Run Rector
+      run: |
+        vendor/bin/rector process --ansi
+
+    - name: Validate Rector changes
+      run: |
+        git diff --exit-code
