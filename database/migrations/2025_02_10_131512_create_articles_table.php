@@ -38,6 +38,7 @@ return new class extends Migration
             $table->integer('views')->default('0');
             $table->smallInteger('status')->default(LanguageStatus::Onbekend->value);
             $table->string('image_url')->nullable();
+            $table->string('image_alt')->nullable();
             $table->text('description')->nullable();
             $table->string('keywords')->nullable()->fulltext();
             $table->text('example')->nullable();

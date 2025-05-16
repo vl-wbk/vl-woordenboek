@@ -40,7 +40,7 @@ use Kenepa\ResourceLock\Models\Concerns\HasLocks;
  * @property string         $description        The detailed explanation of the word
  * @property int            $author_id          The ID of the user who created the article
  * @property LanguageStatus $status             The current language validation status
- * @property DataOrigin      $origin             The origin of the data where the dictionary article is based on.
+ * @property DataOrigin     $origin             The origin of the data where the dictionary article is based on.
  * @property string|null    $example            Optional usage example of the word
  * @property string|null    $characteristics    Additional word characteristics
  * @property int|null       $editor_id          The ID of the assigned editor
