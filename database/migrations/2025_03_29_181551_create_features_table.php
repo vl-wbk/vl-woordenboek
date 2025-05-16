@@ -8,12 +8,10 @@ return new class extends PennantMigration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('features', function (Blueprint $table) {
+        Schema::create('features', function (Blueprint $table): void {
             $table->id();
             $table->string('name');
             $table->string('scope');
@@ -26,10 +24,8 @@ return new class extends PennantMigration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('features');
     }

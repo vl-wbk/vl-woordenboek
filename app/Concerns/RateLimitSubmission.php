@@ -22,16 +22,12 @@ trait RateLimitSubmission
     /**
      * The maximum number of submission attempts allowed for unauthenticated (guest) users.
      * This value is used to prevent anonymous users from overwhelming the system with excessive submissions.
-     *
-     * @var int
      */
     protected int $guestMaxSubmissionAttempts = 15;
 
     /**
      * The maximum number of submission attempts allowed for authenticated (logged-in) users.
      * This value is typically higher than the guest limit, as authenticated users are generally considered more trustworthy.
-     *
-     * @var int
      */
     protected int $loggedInMaxSubmissionAttempts = 45;
 

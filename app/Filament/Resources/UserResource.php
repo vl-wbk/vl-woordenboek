@@ -53,8 +53,6 @@ final class UserResource extends Resource
      *
      * Every time you create a new account, update someone's email, or make any other user-related changes, this line of code makes it happen.
      * Think of it as the bridge between what you see on screen and where the data lives in our database.
-     *
-     * @var string|null
      */
     protected static ?string $model = User::class;
 
@@ -62,8 +60,6 @@ final class UserResource extends Resource
      * Throughout our interface, when we talk about multiple users, we say "gebruikers".
      * You'll see this word in headers, navigation menus, and messages.
      * For example, when you're looking at the user list, you might see "25 gebruikers gevonden" or "Gebruikers beheren".
-     *
-     * @var string|null
      */
     protected static ?string $pluralModelLabel = 'gebruikers';
 
@@ -71,16 +67,12 @@ final class UserResource extends Resource
      * When referring to just one user, we use "gebruiker".
      * This appears in messages like "Gebruiker toevoegen" or "Gebruiker bijwerken". Keeping everything in
      * Dutch helps our administrators feel at home in the interface.
-     *
-     * @var string|null
      */
     protected static ?string $modelLabel = 'gebruiker';
 
     /**
      * In the navigation menu, we use a simple users icon to mark this section.
      * We chose this particular icon because it's universally recognized and immediately tells administrators they're in the user management area.
-     *
-     * @var string|null
      */
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
@@ -144,6 +136,9 @@ final class UserResource extends Resource
             ]);
     }
 
+    /**
+     * @todo document this method
+     */
     public static function getWidgets(): array
     {
         /** @phpstan-ignore-next-line */
@@ -152,6 +147,9 @@ final class UserResource extends Resource
         ];
     }
 
+    /**
+     * @todo Document this method
+     */
     public static function getRelations(): array
     {
         return [
@@ -160,6 +158,9 @@ final class UserResource extends Resource
         ];
     }
 
+    /**
+     * @todo Documênt this method
+     */
     public static function infolist(Infolist $infolist): Infolist
     {
         return $infolist

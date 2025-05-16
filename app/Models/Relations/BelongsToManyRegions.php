@@ -7,9 +7,13 @@ namespace App\Models\Relations;
 use App\Models\Region;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * @todo document this trait
+ */
 trait BelongsToManyRegions
 {
     /**
+     * @todo document this method
      * @return BelongsToMany<Region, covariant $this>
      */
     public function regions(): BelongsToMany
@@ -18,8 +22,8 @@ trait BelongsToManyRegions
     }
 
     /**
+     * @todo Document this method
      * @param  array<int, string> $regions
-     * @return void
      */
     public function syncRegions(array $regions): void
     {

@@ -11,8 +11,10 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 
+/** @todo document */
 final class AppServiceProvider extends ServiceProvider
 {
+    /** @todo document */
     public function boot(): void
     {
         Paginator::useBootstrapFive();
@@ -23,13 +25,13 @@ final class AppServiceProvider extends ServiceProvider
         $this->registerLaravelTelescope();
     }
 
+    /** @todo document */
     private function registerGlobalPolicyCheck(): void
     {
-        Gate::define('access-backend', function (User $user): bool {
-            return $user->user_type->isNot(enum: UserTypes::Normal) && $user->hasVerifiedEmail();
-        });
+        Gate::define('access-backend', fn (User $user): bool => $user->user_type->isNot(enum: UserTypes::Normal) && $user->hasVerifiedEmail());
     }
 
+    /** @todo document */
     private function registerLaravelTelescope(): void
     {
         if ($this->app->environment('local') && class_exists(\Laravel\Telescope\TelescopeServiceProvider::class)) {

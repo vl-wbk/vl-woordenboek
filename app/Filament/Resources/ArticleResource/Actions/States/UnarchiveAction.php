@@ -48,8 +48,6 @@ final class UnarchiveAction extends Action
      * requirements, color, icon, confirmation modal, and success/failure
      * notifications. It also defines the action's logic, which transitions
      * the article to the "released" state.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

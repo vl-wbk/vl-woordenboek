@@ -27,16 +27,12 @@ final class ArticlesRelationManager extends RelationManager
     /**
      * Defines the relationship name in the database schema.
      * This corresponds to the articles relationship method in the Label model.
-     *
-     * @var string
      */
     protected static string $relationship = 'articles';
 
     /**
      * Controls whether the relationship can be modified through the interface.
      * Currently set to allow full read-write access for label-article associations.
-     *
-     * @return bool
      */
     public function isReadOnly(): bool
     {
@@ -97,7 +93,7 @@ final class ArticlesRelationManager extends RelationManager
      *
      * @return array<mixed>
      */
-    protected function getBulkActions(): array
+    private function getBulkActions(): array
     {
         return [
             Tables\Actions\DetachBulkAction::make(),
@@ -116,7 +112,7 @@ final class ArticlesRelationManager extends RelationManager
      *
      * @return array<mixed>  The configured table layout.
      */
-    protected function getTableLayout(): array
+    private function getTableLayout(): array
     {
         return [
             TextColumn::make('author.name')

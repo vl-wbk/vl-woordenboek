@@ -48,8 +48,6 @@ final class AssignArticleReportAction extends Action
      * - The icon is dynamically retrieved from the "In Progress" state.
      * - The visibility is determined by the user's authorization to mark the report as "In Progress."
      * - Success and failure notifications are displayed based on the outcome of the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

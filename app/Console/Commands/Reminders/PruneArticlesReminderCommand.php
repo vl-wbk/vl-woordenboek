@@ -27,25 +27,19 @@ final class PruneArticlesReminderCommand extends Command
     /**
      * Defines how long an article remains in the soft-deleted state before becoming eligible for permanent deletion. After this many days,
      * the article will be flagged for pruning from the database.
-     *
-     * @var int $pruneAfterDays
      */
-    private static $pruneAfterDays = 60;
+    private static int $pruneAfterDays = 60;
 
     /**
      * Determines how many days before the scheduled pruning date the system should send reminder notifications.
      * This buffer period gives administrators and developers time to review and potentially restore articles before their permanent deletion.
-     *
-     * @var int $reminderDaysBeforePrune
      */
-    private static $reminderDaysBeforePrune = 2;
+    private static int $reminderDaysBeforePrune = 2;
 
     /**
      * The handle method serves as the central coordinator for the reminder process.
      * It begins by gathering articles that need attention, then ensures notifications are sent to the appropriate staff members.
      * The method also maintains proper record-keeping by marking reminders as sent and provides feedback about the operation's results through console output.
-     *
-     * @return void
      */
     public function handle(): void
     {
@@ -89,7 +83,6 @@ final class PruneArticlesReminderCommand extends Command
      * This timestamp is used in future queries to determine which articles still need reminders.
      *
      * @param  Collection<int, Article> $articles  The collection of articles that needed to be marked.
-     * @return void
      */
     private function markRemindersSent(Collection $articles): void
     {
@@ -105,13 +98,12 @@ final class PruneArticlesReminderCommand extends Command
      * Each eligible user receives a single notification containing information about all relevant articles.
      *
      * @param  Collection<int, Article> $articles  THe collection of articles that are marked for deletion
-     * @return void
      */
     private function notifyRelevantUsers(Collection $articles): void
     {
         User::where('user_type', UserTypes::Administrators)
             ->orWhere('user_type', UserTypes::Developer)
-            ->each(function (User $user) use ($articles) {
+            ->each(function (User $user) use ($articles): void {
                 $user->notify(new PruneArticleNotification($articles));
             });
     }

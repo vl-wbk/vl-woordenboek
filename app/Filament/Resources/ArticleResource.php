@@ -49,35 +49,29 @@ final class ArticleResource extends Resource
 {
     /**
      * The Eloquent model that this resource represents.
-     *
-     * @var string|null
      */
     protected static ?string $model = Article::class;
 
     /**
      * The navigation icon used in the admin panel menu.
-     *
-     * @var string|null
      */
     protected static ?string $navigationIcon = 'heroicon-o-language';
 
     /**
      * The singular label for the model.
-     *
-     * @var string|null
+
      */
     protected static ?string $modelLabel = 'Artikel';
 
     /**
      * The plural model label for the model.
-     *
-     * @var string|null
      */
     protected static ?string $pluralModelLabel = "Artikelen";
 
     /**
      * The cluster used for grouping related resources.
      *
+     * @todo Check if we can use inheritDoc here
      * @var class-string<\Filament\Clusters\Cluster>|null
      */
     protected static ?string $cluster = Articles::class;
@@ -332,9 +326,7 @@ final class ArticleResource extends Resource
      */
     public static function getNavigationBadge(): ?string
     {
-        return Cache::flexible('lemma_count', [10, 60], function (): string {
-            return (string) self::$model::count();
-        });
+        return Cache::flexible('lemma_count', [10, 60], fn (): string => (string) self::$model::count());
     }
 
     /**

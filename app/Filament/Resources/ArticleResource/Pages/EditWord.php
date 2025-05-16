@@ -36,8 +36,6 @@ final class EditWord extends EditRecord
     /**
      * The resource class this page component belongs to, establishing the connection between this editing interface and the ArticleResource management system.
      * This relationship enables proper routing and resource handling throughout the application.
-     *
-     * @var string
      */
     protected static string $resource = ArticleResource::class;
 
@@ -136,6 +134,9 @@ final class EditWord extends EditRecord
         return $data;
     }
 
+    /**
+     * @todo Document this method
+     */
     protected function getRedirectUrl(): ?string
     {
         return static::getResource()::getUrl('view', [

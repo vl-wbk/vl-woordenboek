@@ -27,14 +27,12 @@ final class StoreSuggestionRequest extends FormRequest
 
     /**
      * The data class to use for automatic data conversion.
-     *
-     * @var string
      */
     protected string $dataClass = SuggestionData::class;
 
     /**
      * Get the validation rules that apply to the request.
-     * 
+     *
      * This method defines the validation rules for each field in the suggestion submission form.
      * It ensures that required fields are present and that data types and lengths are appropriate.
      *

@@ -143,14 +143,14 @@ final class UserRegistrationChartWidget extends AdvancedChartWidget
             'datasets' => [
                 [
                     'label' => 'Nieuwe registraties',
-                    'data' => $chartData->map(fn (TrendValue $value) => $value->aggregate),
+                    'data' => $chartData->map(fn (TrendValue $value): mixed => $value->aggregate),
                 ],
                 [
                     'label' => 'Aantal verificaties',
-                    'data' => $registrationData->map(fn (TrendValue $value) => $value->aggregate),
+                    'data' => $registrationData->map(fn (TrendValue $value): mixed => $value->aggregate),
                 ],
             ],
-            'labels' => $chartData->map(fn (TrendValue $value) => $value->date),
+            'labels' => $chartData->map(fn (TrendValue $value): string => $value->date),
         ];
     }
 

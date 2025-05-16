@@ -63,7 +63,7 @@ final class StoreArticleSuggestionController
         return $this->attemptSubmissionWithRateLimiting($storeSuggestionRequest, 'submission', function () use ($storeArticleSuggestion, $storeSuggestionRequest): RedirectResponse {
             $storeArticleSuggestion->execute($storeSuggestionRequest->getData());
 
-            return redirect()->action([StoreArticleSuggestionController::class, 'create']);
+            return redirect()->route('definitions.create');
         });
     }
 }

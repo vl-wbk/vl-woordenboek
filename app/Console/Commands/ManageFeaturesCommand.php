@@ -56,8 +56,6 @@ final class ManageFeaturesCommand extends Command
      *
      * If the feature class does not exist, an error message is displayed, and the command terminates.
      * After performing the action, the feature cache is flushed to ensure the changes take effect immediately.
-     *
-     * @return void
      */
     public function handle(): void
     {
@@ -89,9 +87,8 @@ final class ManageFeaturesCommand extends Command
      * A success message is displayed upon completion.
      *
      * @param  string $feature  The fully qualified class name of the feature to enable.
-     * @return void
      */
-    protected function enableFeature(string $feature, ?string $scope = null): void
+    private function enableFeature(string $feature): void
     {
         Feature::activateForEveryone($feature);
         $this->info("Feature '{$feature}' enabled globally.");
@@ -105,9 +102,8 @@ final class ManageFeaturesCommand extends Command
      * A success message is displayed upon completion.
      *
      * @param string $feature The fully qualified class name of the feature to disable.
-     * @return void
      */
-    protected function disableFeature(string $feature): void
+    private function disableFeature(string $feature): void
     {
         Feature::deactivateForEveryone($feature);
         $this->info("Feature '{$feature}' disabled globally.");
@@ -120,9 +116,8 @@ final class ManageFeaturesCommand extends Command
      * It uses Laravel Pennant's `active` method to check the feature's status and displays the result as a message.
      *
      * @param  string $feature  The fully qualified class name of the feature to check.
-     * @return void
      */
-    protected function featureStatus(string $feature): void
+    private function featureStatus(string $feature): void
     {
         if (Feature::active($feature)) {
             $this->info("Feature '{$feature}' is active.");

@@ -36,8 +36,6 @@ final class ListArticleReports extends ListRecords
      *
      * This property specifies the Filament resource that this page is designed to display records for.
      * It ensures that the page displays and manages records of the correct type.
-     *
-     * @var string
      */
     protected static string $resource = ArticleReportResource::class;
 

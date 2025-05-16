@@ -35,6 +35,8 @@ final readonly class DictionaryArticleController
 
         $word->increment('views', 1); // Increment the view counter for thearticle by one. Because the user decided to view the article.
 
-        return view('definitions.show', compact('word'));
+        return view('definitions.show', data: [
+            'word' => $word,
+        ]);
     }
 }

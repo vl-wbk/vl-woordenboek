@@ -26,8 +26,6 @@ final class ReportArticleModal extends Component
 {
     /**
      * The article to be reported.
-     *
-     * @var Article
      */
     public Article $article;
 
@@ -36,7 +34,6 @@ final class ReportArticleModal extends Component
      * This method sets up the ReportArticleModal by storing the Article instance so that it can be used in the view.
      *
      * @param  Article $article The article being reported.
-     * @return void
      */
     public function mount(Article $article): void
     {

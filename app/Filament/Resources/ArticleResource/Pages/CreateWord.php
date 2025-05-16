@@ -35,8 +35,6 @@ final class CreateWord extends CreateRecord
     /**
      * The resource class associated with this form handler.
      * Connects this form to the ArticleResource for proper data management.
-     *
-     * @var string
      */
     protected static string $resource = ArticleResource::class;
 
@@ -72,8 +70,6 @@ final class CreateWord extends CreateRecord
      * task of establishing ownership by creating a relationship between the newly created
      * word entry and the currently authenticated user. This association ensures proper
      * attribution and maintains data integrity within the dictionary system.
-     *
-     * @return void
      */
     public function afterCreate(): void
     {

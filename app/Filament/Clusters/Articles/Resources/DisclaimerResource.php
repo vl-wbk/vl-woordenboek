@@ -205,8 +205,6 @@ final class DisclaimerResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return Cache::flexible('disclaimer_count', [10, 60], function (): string {
-            return (string) self::$model::count();
-        });
+        return Cache::flexible('disclaimer_count', [10, 60], fn (): string => (string) self::$model::count());
     }
 }

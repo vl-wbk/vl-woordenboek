@@ -47,8 +47,6 @@ final class CloseArticleReportAction extends Action
      * - The icon is dynamically retrieved from the "Closed" state.
      * - The authorization ensures that only users with the "markAsClosed" permission can perform the action.
      * - Success and failure notifications are displayed based on the outcome of the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

@@ -27,8 +27,6 @@ final class ProjectInformationSettings extends SettingsPage
 {
     /**
      * Defines the icon used to represent this settings page in the Filament admin panel navigation menu. Uses a Tabler icon.
-     *
-     * @var string|null
      */
     protected static ?string $navigationIcon = 'tabler-file-info';
 
@@ -41,22 +39,16 @@ final class ProjectInformationSettings extends SettingsPage
 
     /**
      * Defines the settings class associated with this page.
-     *
-     * @var string
      */
     protected static string $settings = SettingsProjectInformationSettings::class;
 
     /**
      * Defines the navigation group that this settings page belongs to in the Filament admin panel.
-     *
-     * @var string|null
      */
     protected static ?string $navigationGroup = "Pagina's";
 
     /**
      * Defines the title displayed at the top of this settings page in the Filament admin panel.
-     *
-     * @var string|null
      */
     protected static ?string $title = 'Project informatie';
 

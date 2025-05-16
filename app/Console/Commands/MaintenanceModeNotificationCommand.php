@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Collection;
 use function Laravel\Prompts\form;
 use function Laravel\Prompts\warning;
 
+/** @todo document */
 final class MaintenanceModeNotificationCommand extends Command
 {
     /**
@@ -46,7 +47,10 @@ final class MaintenanceModeNotificationCommand extends Command
         $this->sendOutMaintenanceNotifications($responses);
     }
 
-    protected function abortIfApplicationIsAlreadyInMaintenance(): void
+    /**
+     * @todo document
+     */
+    private function abortIfApplicationIsAlreadyInMaintenance(): void
     {
         if (app()->isDownForMaintenance()) {
             warning("Can't send out any down maintenance notifications to the users because the application is already in maintenance mode.");
@@ -55,10 +59,10 @@ final class MaintenanceModeNotificationCommand extends Command
     }
 
     /**
+     * @todo document
      * @param array<mixed> $responses
-     * @return void
      */
-    protected function sendOutMaintenanceNotifications(array $responses): void
+    private function sendOutMaintenanceNotifications(array $responses): void
     {
         $this->getUsers()->each(function (User $user) use ($responses): void {
             $languageKeys = ['date' => $responses['maintenanceDate'], 'start' => $responses['start'], 'end' => $responses['end']];
@@ -72,9 +76,10 @@ final class MaintenanceModeNotificationCommand extends Command
     }
 
     /**
+     * @todo document
      * @return Collection<int, User>
      */
-    protected function getUsers(): Collection
+    private function getUsers(): Collection
     {
         return User::query()->whereNot('user_type', UserTypes::Normal)->get();
     }

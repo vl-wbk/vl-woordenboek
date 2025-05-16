@@ -26,8 +26,6 @@ final class ArchivedState extends ArticleState
      * This method is used to restore an article that was previously archived. It changes the article's state
      * to "published" and ensures that the change is persisted to the database. This functionality is useful
      * when archived content becomes relevant again or when an article was archived by mistake.
-     *
-     * @return bool
      */
     public function transitionToReleased(): bool
     {

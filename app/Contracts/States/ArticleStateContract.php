@@ -20,7 +20,6 @@ interface ArticleStateContract
      * possibly triggering necessary events or validations to prepare the article for modifications.
      *
      * @param  string|null $reason Optional explanation for why the article is being moved to editing
-     * @return bool
      */
     public function transitionToEditing(?string $reason = null): bool;
 
@@ -29,8 +28,6 @@ interface ArticleStateContract
      *
      * Upon successful approval, this method should mark the article as ready for further processing
      * or publication, ensuring all approval criteria have been met.
-     *
-     * @return void
      */
     public function transitionToApproved(): void;
 
@@ -39,8 +36,6 @@ interface ArticleStateContract
      *
      * This method finalizes the publication process of the article, making it available to the end users.
      * Implementers might include additional logic such as logging or triggering notifications when the release occurs.
-     *
-     * @return bool
      */
     public function transitionToReleased(): bool;
 
@@ -51,7 +46,6 @@ interface ArticleStateContract
      * describes the reason for archiving, which can be used for auditing or user feedback purposes.
      *
      * @param string|null $archivingReason An optional reason explaining why the article is archived.
-     * @return void
      */
     public function transitionToArchived(?string $archivingReason = null): void;
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\UserResource\Actions;
 
 use App\Models\User;
+use Cog\Contracts\Ban\Ban;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Actions\Action;
@@ -67,7 +68,7 @@ final class BanAction extends Action
             /**
              * @todo Make use of an Dataobject in this data storage handling.
              */
-            $result = $this->process(static fn (array $data, User $record) => $record->ban([
+            $result = $this->process(static fn (array $data, User $record): Ban => $record->ban([
                 'comment' => $data['comment'],
                 'expired_at' => $data['expired_at'],
             ]));

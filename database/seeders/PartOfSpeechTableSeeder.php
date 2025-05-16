@@ -37,15 +37,13 @@ final class PartOfSpeechTableSeeder extends Seeder
      *
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      * @throws \JsonException
-     *
-     * @return void
      */
     public function run(): void
     {
         $jsonDataFile = File::get(database_path('data/part_of_speech.json'));
         $parts = json_decode($jsonDataFile);
 
-        foreach ($parts as $region => $value) {
+        foreach ($parts as $value) {
             PartOfSpeech::create(['name' => $value->name, 'value' => $value->value]);
         }
     }

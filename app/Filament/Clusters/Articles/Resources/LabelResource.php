@@ -38,8 +38,6 @@ final class LabelResource extends Resource
      * The underlying Eloquent model that represents labels in our database. This model handles all
      * database interactions and relationships with other models in the system. The Label model
      * contains the core business logic for label management.
-     *
-     * @var string|null
      */
     protected static ?string $model = Label::class;
 
@@ -47,8 +45,6 @@ final class LabelResource extends Resource
      * The visual representation of this resource in the navigation menu. We use Heroicons for consistent
      * styling across the application. The tag icon was chosen as it best represents the labeling concept.
      * See https://heroicons.com for the complete icon set.
-     *
-     * @var string|null
      */
     protected static ?string $navigationIcon = 'heroicon-o-tag';
 
