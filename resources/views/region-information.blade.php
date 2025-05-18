@@ -91,20 +91,41 @@
             .then(geojsonData => {
                 // Data fetched successfully, add it to the map
                 if (geojsonData && geojsonData.type === "FeatureCollection") {
+                    function getColor(d) {
+                        return d == 3 ? '#059669' :
+                            d == 4  ? '#4F46E5' :
+                            d == 5  ? '#7C3AED' :
+                            d == 6  ? '#FC4E2A' :
+                            d == 7   ? '#FD8D3C' :
+                            d == 8   ? '#93C5FD' :
+                            d == 9   ? '#831843' :
+                            d == 10 ? '#5C4033' :
+                            d == 11 ? '	#5E5820' :
+                            d == 12 ? '	#3A4C7A' :
+                            d == 13 ? '	#519' :
+                            d == 14 ? '	#475' :
+                            d == 15 ? '	#F40' :
+                            d == 16 ? '#5E3' :
+                            d == 17 ? '#033' :
+                            d == 18 ? '#000' :
+                            d == 19 ? '	#580F1A' :
+                                        '#FFEDA0';
+}
+
                      var geojsonLayer = L.geoJSON(geojsonData, {
                         // Optional: Style the polygon
                         style: function (feature) {
                             return {
-                                color: '#ca8a04', // Border color (blue)
+                                color: getColor(feature.properties.region_id), // Border color (blue)
                                 weight: 1,         // Border thickness
                                 opacity: 1,      // Border opacity
-                                fillColor: '#eab308', // Fill color (blue)
+                                fillColor: getColor(feature.properties.region_id), // Fill color (blue)
                                 fillOpacity: 0.1   // Fill opacity
                             };
                         },
                         // Optional: Add popups or other interactions
                         onEachFeature: function (feature, layer) {
-                                layer.bindPopup("<strong>Gemeente(s):</strong><br>" + feature.properties.name + "<br><br><strong>Taalkundige regio: </strong><br>" + feature.properties.region)
+                                layer.bindPopup("<strong>Gemeente(s):</strong><br>" + feature.properties.name + "<br><br><strong>Taalkundige regio: </strong><br>" + feature.properties.region_name)
 
 
                         }

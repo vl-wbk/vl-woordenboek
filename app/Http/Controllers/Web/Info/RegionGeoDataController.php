@@ -16,7 +16,8 @@ final readonly class RegionGeoDataController
     public function __invoke(): JsonResponse
     {
         $geoFeatures = RegionGeoData::query()
-            ->select('name', 'postal', DB::raw('ST_AsGeoJSON(geometry) as geometry_geojson'))
+            ->with('region')
+            ->select('name', 'region_id', 'postal', DB::raw('ST_AsGeoJSON(geometry) as geometry_geojson'))
             ->get();
 
         $featureCollection = [
@@ -29,6 +30,8 @@ final readonly class RegionGeoDataController
                 "type" => "Feature",
                 "properties" => [
                     "name" => $feature->name,
+                    'region_id' => $feature->region_id,
+                    'region_name' => $feature->region->name,
                     "postal" => $feature->postal,
                 ],
                 "geometry" => json_decode($feature->geometry_geojson),
