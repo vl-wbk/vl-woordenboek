@@ -5,23 +5,22 @@
         <div class="row">
             <div class="col-12">
                 <div class="card bg-white border-0 shadow-sm">
+                    <div id="map" style="height: 400px;" class="card-header border-bottom-0"></div>
                     <div class="card-body">
                         <h4 class="fw-bold card-title pb-1 text-gold border-bottom">Vlaamse provincies en regio's</h4>
 
-                        <p class="card-text">
+                        <p class="card-text mb-2">
                             Het online Vlaamse woordenboek wil op de eerste plaats een verzameling bouwen van "Algemeen Beschaafd Vlaamse" woorden, woorden die door zo goed als elke Vlaming worden begrepen.
                             Het Vlaamse is echter sterk versnippeld in een grote varieteit aan dialecten.
                             Dialecttermen nemen een belangrijke taak op in het dagelijks gesproken Vlaams, en krijgen daarom ook hun plaats in het online Vlaams woordenboek.
-                            ls ge als gebruiker een Vlaamse termin in onze databank steekt, kunt ge bij uw beschrijving aangeven uit welke streek de dialectterm afkomstig is.
+                            als ge als gebruiker een Vlaamse termin in onze databank steekt, kunt ge bij uw beschrijving aangeven uit welke streek de dialectterm afkomstig is.
                         </p>
 
-                        <p class="card-text mb-0">
-                            De onderstaande kaarten geven de regio's weer die in het Vlaams woordenboek worden onderscheiden
+                        <p class="card-text mb-2">
+                            De bovenstaande interactieve kaart geeft elke gemeente in Vlaanderen aan. Indien u het woord ergens hebt gehoord of niet weet uit welke regio het komt. Kun je de gemeente opzoeken in de kaart om meer info te vinden omtrent de regio.
                         </p>
 
-                        <img src="{{ asset('img/vlaamse_provincies_en_regios.png') }}" class="img-fluid my-3" alt="Kaartje met een oerzicht van Vlaamse provincies en Regios">
-
-                        <p class="card-text">
+                        <p class="card-text mb-2">
                             Er zijn 5 overheersende Vlaamse dialecten, wier streken van oorsprong sterk overeenkomen met de provinciegrenzen; West-Vlaams, Oost-Vlaams, Antwerps, Brabants en Limburgs.
                         </p>
 
@@ -51,4 +50,97 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+ <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+<style>
+    .leaflet-tile { border-color: transparent; }
+.leaflet-container path.leaflet-interactive:focus:not(:focus-visible) {
+  outline: 0;
+}
+</style>
+
+<script>
+        // Initialize the map
+        var map = L.map('map', {
+}).setView([50.8503, 4.3517], 10); // Set initial view (approx. Brussels center)
+
+        // Add a base tile layer (e.g., OpenStreetMap)
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        // URL of your Laravel API endpoint
+        const geoApiUrl = '/api/geo-data'; // Adjust if your API path is different
+
+        // Fetch the GeoJSON data from the backend
+        fetch(geoApiUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json(); // Parse the JSON response
+            })
+            .then(geojsonData => {
+                // Data fetched successfully, add it to the map
+                if (geojsonData && geojsonData.type === "FeatureCollection") {
+                    function getColor(d) {
+                        return d == 3 ? '#059669' :
+                            d == 4  ? '#4F46E5' :
+                            d == 5  ? '#7C3AED' :
+                            d == 6  ? '#FC4E2A' :
+                            d == 7   ? '#FD8D3C' :
+                            d == 8   ? '#93C5FD' :
+                            d == 9   ? '#831843' :
+                            d == 10 ? '#5C4033' :
+                            d == 11 ? '	#5E5820' :
+                            d == 12 ? '	#3A4C7A' :
+                            d == 13 ? '	#519' :
+                            d == 14 ? '	#475' :
+                            d == 15 ? '	#F40' :
+                            d == 16 ? '#5E3' :
+                            d == 17 ? '#033' :
+                            d == 18 ? '#000' :
+                            d == 19 ? '	#580F1A' :
+                                        '#FFEDA0';
+}
+
+                     var geojsonLayer = L.geoJSON(geojsonData, {
+                        // Optional: Style the polygon
+                        style: function (feature) {
+                            return {
+                                color: getColor(feature.properties.region_id), // Border color (blue)
+                                weight: 1,         // Border thickness
+                                opacity: 1,      // Border opacity
+                                fillColor: getColor(feature.properties.region_id), // Fill color (blue)
+                                fillOpacity: 0.1   // Fill opacity
+                            };
+                        },
+                        // Optional: Add popups or other interactions
+                        onEachFeature: function (feature, layer) {
+                                layer.bindPopup("<strong>Gemeente(s):</strong><br>" + feature.properties.name + "<br><br><strong>Taalkundige regio: </strong><br>" + feature.properties.region_name)
+
+
+                        }
+                    }).addTo(map);
+
+                    // Optional: Fit the map view to the bounds of the GeoJSON layer
+                    map.fitBounds(geojsonLayer.getBounds());
+
+                } else {
+                     console.error("Invalid GeoJSON data received:", geojsonData);
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching geo data:", error);
+            });
+
+    </script>
 @endsection
