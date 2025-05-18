@@ -5,10 +5,6 @@ $server = 'chimpy.be -p 26';
 $applicationDir = 'domains/vl-woordenboek';
 $userAndServer = 'mg119947@'. $server;
 
-// Discord webhooks
-$grammaticusWebhook = 'https://discord.com/api/webhooks/1370211861252800693/Uoj8fVsuv1MB_l1fPY8UfDdRlC5v9z6iVs97aqOznCiN32GgJELdolPWyi5FOrsJcjod';
-$taalTechnicusWebhook = 'https://discord.com/api/webhooks/1370211851744579614/bd3eXnWlbyau_Si3k4OFvIJ_rz9L9jdykNXOKwm3HrWXd0ij1gB0EeTVTYt1z64_b9lC';
-
 function logMessage($message) {
 return "echo '\033[32m" .$message. "\033[0m';\n";
 }
