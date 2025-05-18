@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Region::class)->nullable()->constrained()->nullOnDelete();
             $table->string('postal');
-            $table->name('name');
+            $table->string('name');
             $table->geometry('geometry', 4326);
             $table->timestamps();
         });
