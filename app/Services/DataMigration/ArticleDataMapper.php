@@ -39,6 +39,7 @@ final readonly class ArticleDataMapper
 
         return [
             'origin' => DataOrigin::External, // Indicates the data source is external.
+            'region_id' => $articleData->regio,
             'state' => ArticleStates::ExternalData, // Sets the article state to external data.
             'word' => $articleData->word, // The word or term for the article.
             'views' => $articleData->rating ?? 0, // The number of views or rating, defaults to 0.
@@ -65,6 +66,7 @@ final readonly class ArticleDataMapper
     private function validateRequiredFields(stdClass $articleData): void
     {
         $requiredFields = ['word', 'description', 'example', 'properties', 'updated_at'];
+
         foreach ($requiredFields as $field) {
             if (!isset($articleData->$field)) {
                 throw new RuntimeException("Missing required field '{$field}' for article. Raw data: " . json_encode($articleData));
