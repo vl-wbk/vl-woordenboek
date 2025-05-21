@@ -34,7 +34,7 @@ final readonly class RegionGeoDataController
                     'region_name' => $feature->region->name,
                     "postal" => $feature->postal,
                 ],
-                "geometry" => json_decode($feature->geometry_geojson),
+                "geometry" => json_decode((string) $feature->geometry_geojson),
             ];
         }
 

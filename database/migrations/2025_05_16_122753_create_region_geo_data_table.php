@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('region_geo_data', function (Blueprint $table) {
+        Schema::create('region_geo_data', function (Blueprint $table): void {
             $table->id();
             $table->foreignIdFor(Region::class)->nullable()->constrained()->nullOnDelete();
             $table->string('postal');
