@@ -34,33 +34,33 @@ final readonly class StatisticService
      * Retrieves the total number of article views.
      * This method calculates the sum of the 'views' column across all articles in the database.
      *
-     * @return int The total number of article views.
+     * @return string The total number of article views.
      */
-    public function getArticleViews(): int
+    public function getArticleViews(): string
     {
-        return (int) Article::sum('views');
+        return toHumanReadableNumber(number: (float) Article::sum('views'));
     }
 
     /**
      * Retrieves the total count of articles.
      * This method queries the database to count the total number of articles.
      *
-     * @return int The total count of articles.
+     * @return string The total count of articles.
      */
-    public function getArticleCount(): int
+    public function getArticleCount(): string
     {
-        return Article::count();
+        return toHumanReadableNumber(number: Article::count());
     }
 
     /**
      * Retrieves the total count of edits made to articles.
      * This method queries the audit table to count the total number of edits (audit records) made to articles.
      *
-     * @return int The total count of edits made to articles.
+     * @return string The total count of edits made to articles.
      */
-    public function getEditCount(): int
+    public function getEditCount(): string
     {
-        return Audit::count();
+        return toHumanReadableNumber(number: Audit::count());
     }
 
     /**
@@ -69,9 +69,9 @@ final readonly class StatisticService
      *
      * @return int The total count of registered users.
      */
-    public function getUserCount(): int
+    public function getUserCount(): string
     {
-        return User::count();
+        return toHumanReadableNumber(number: User::count());
     }
 
     /**
@@ -80,11 +80,11 @@ final readonly class StatisticService
      * This method queries the database to count the number of users whose 'user_type' is not 'Normal'.
      * This is used to determine the number of volunteers and administrators in the system.
      *
-     * @return int The count of non-'Normal' users.
+     * @return string The count of non-'Normal' users.
      */
-    public function getVolunteerCount(): int
+    public function getVolunteerCount(): string
     {
-        return User::whereNot('user_type', UserTypes::Normal)->count();
+        return toHumanReadableNumber(number: User::whereNot('user_type', UserTypes::Normal)->count());
     }
 
     /**
