@@ -7,6 +7,7 @@ namespace App\Jobs\DataMigration;
 use App\Models\Article;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Queue\Middleware\Skip;
 
 /**
  * Job to convert hard returns in article content to standardized line endings.
@@ -28,7 +29,7 @@ final class ConvertHardReturns implements ShouldQueue
      *
      * @var int
      */
-    public $tries = 5;
+    public $tries = 3;
 
     /**
      * Create a new job instance.
@@ -42,6 +43,21 @@ final class ConvertHardReturns implements ShouldQueue
         protected Article $article
     ) {}
 
+    public function middleware(): array
+    {
+        $exampleMatches = 0;
+        $descriptionMatches = 0;
+
+        preg_match_all("/\r\n|\r/", $this->article->example, $exampleMatches);
+        preg_match_all("/\r\n|\r/", $this->article->description, $descriptionMatches);
+
+        $exampleMatches = count($exampleMatches[0]);
+        $descriptionMatches = count($descriptionMatches[0]);
+
+        return [
+            Skip::when(condition : fn(): bool => $exampleMatches === 0 && $descriptionMatches === 0),
+        ];
+    }
     /**
      * Handle the job execution.
      *

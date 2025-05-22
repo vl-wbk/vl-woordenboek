@@ -7,14 +7,39 @@ namespace App\Jobs\DataMigration;
 use App\Models\Article;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Queue\Middleware\Skip;
 
 final class StandarizeInternalHyperlinks implements ShouldQueue
 {
     use Queueable;
 
+    /**
+     * The number of times the job may be attempted.
+     *
+     * @var int
+     */
+    public $tries = 3;
+
     public function __construct(
         private Article $article
-    ) {}
+    ) {
+    }
+
+    public function middleware(): array
+    {
+        $exampleMatches = 0;
+        $descriptionMatches = 0;
+
+        preg_match_all("/\[(.*?)\](?!\()/", $this->article->example, $exampleMatches);
+        preg_match_all("/\[(.*?)\](?!\()/", $this->article->description, $descriptionMatches);
+
+        $exampleMatches = count($exampleMatches[0]);
+        $descriptionMatches = count($descriptionMatches[0]);
+
+        return [
+            Skip::when(condition : fn(): bool => $exampleMatches === 0 && $descriptionMatches === 0),
+        ];
+    }
 
     public function handle(): void
     {

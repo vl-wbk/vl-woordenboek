@@ -46,7 +46,9 @@ final readonly class ArticleProcessor
             Bus::chain([
                 new ConvertHardReturns($article),
                 new StandarizeInternalHyperlinks($article),
-            ])->dispatch();
+            ])
+            ->onQueue('data-migration')
+            ->dispatch();
         } catch (Throwable $th) { // Throw an exception if the job dispatching fails
             throw new RuntimeException("Failed to dispatch jobs for article #{$article->id} - '{$article->word}': {$th->getMessage()}", 0, $th);
         }
