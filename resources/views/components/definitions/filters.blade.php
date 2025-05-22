@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-12">
-        <div class="float-start mb-2">
+        <div class="float-start mb-3">
             @if (request('zoekterm') === null)
                 <span class="fw-bold">0</span> resultaten
             @else
@@ -8,7 +8,7 @@
             @endif
         </div>
 
-        <div class="float-end mb-2 d-sm-none d-md-block">
+        <div class="float-end mb-3 d-sm-none d-md-block">
             <ul class="list-inline mb-0">
                 <li class="list-inline-item fw-bold text-muted">
                     Sorteer op:

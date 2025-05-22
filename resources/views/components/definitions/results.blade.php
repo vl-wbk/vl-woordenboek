@@ -1,6 +1,6 @@
 @foreach($results as $result)
     <div class="card border-0 @if (! $loop->last) mb-3 @endif shadow-sm">
-        <div class="card-body">
+        <div class="card-header bg-white">
             <h5 class="card-title fw-bold color-green">
                 {{ $result->word }}
 
@@ -9,15 +9,18 @@
                 </small>
             </h5>
 
-            <h6 class="card-subtitle mb-2 text-body-secondary">{{ $result->characteristics }}</h6>
-            <p class="card-text @if ($result->author()->doesntExist()) mb-2 @endif"> {!! strip_tags(str($result->description)->limit(250)->markdown()->sanitizeHtml(), '<a>') !!}</p>
+            <h6 class="card-subtitle mb-0 text-body-secondary">{{ $result->characteristics }}</h6>
+        </div>
+        <div class="card-body bg-white">
+            <p class="card-text"> {!! str($result->description)->words(25)->markdown()->sanitizeHtml() !!}</p>
 
             @if ($result->author()->exists())
                 <p class="card-text fw-bold my-2">
                     Op basis van de suggestie ingestuurd door <span class="color-green">{{ $result->author->name }}</span>
                 </p>
             @endif
-
+        </div>
+        <div class="card-footer bg-white">
             <a href="{{ route('word-information.show', $result) }}" class="card-link text-decoration-none">
                 <x-heroicon-o-eye class="icon color-green"/> bekijk
             </a>
