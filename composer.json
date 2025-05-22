@@ -54,6 +54,9 @@
         "rector/rector": "^2.0"
     },
     "autoload": {
+        "files": [
+            "app/Helpers.php"
+        ],
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
@@ -89,6 +92,7 @@
         ],
         "test:types": "phpstan analyse --memory-limit=2G",
         "test": [
+            "@php artisan config:clear --ansi",
             "@test:types"
         ]
     },
