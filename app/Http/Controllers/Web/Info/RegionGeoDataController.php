@@ -15,6 +15,7 @@ final readonly class RegionGeoDataController
     #[Get(uri: '/api/geo-data')]
     public function __invoke(): JsonResponse
     {
+        /** @phpstan-ignore-next-line */
         $geoFeatures = RegionGeoData::query()
             ->with('region')
             ->select('name', 'region_id', 'postal', DB::raw('ST_AsGeoJSON(geometry) as geometry_geojson'))
@@ -34,6 +35,7 @@ final readonly class RegionGeoDataController
                     'region_name' => $feature->region->name,
                     "postal" => $feature->postal,
                 ],
+                /** @phpstan-ignore-next-line */
                 "geometry" => json_decode((string) $feature->geometry_geojson),
             ];
         }
