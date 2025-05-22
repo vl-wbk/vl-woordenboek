@@ -67,7 +67,7 @@ final readonly class StatisticService
      * Retrieves the total count of registered users.
      * This method queries the database to count the total number of registered users.
      *
-     * @return int The total count of registered users.
+     * @return string The total count of registered users.
      */
     public function getUserCount(): string
     {
