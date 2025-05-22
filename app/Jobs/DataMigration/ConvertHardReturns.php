@@ -24,6 +24,13 @@ final class ConvertHardReturns implements ShouldQueue
     use Queueable;
 
     /**
+     * The number of times the job may be attempted.
+     *
+     * @var int
+     */
+    public $tries = 5;
+
+    /**
      * Create a new job instance.
      *
      * This constructor initializes the job with the article to be processed.

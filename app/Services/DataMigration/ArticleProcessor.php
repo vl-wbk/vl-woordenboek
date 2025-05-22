@@ -6,8 +6,8 @@ namespace App\Services\DataMigration;
 
 use App\Jobs\DataMigration\ConvertHardReturns;
 use App\Jobs\DataMigration\StandarizeInternalHyperlinks;
-use App\Jobs\DataMigration\StandarizeLingusticRegion;
 use App\Models\Article;
+use DragonCode\Support\Facades\Helpers\Arr;
 use Illuminate\Support\Facades\Bus;
 use RuntimeException;
 use Throwable;
@@ -36,7 +36,8 @@ final readonly class ArticleProcessor
     public function process(array $articleData): Article
     {
         try { // To create the article in the database.
-            $article = Article::create($articleData);
+            $article = Article::create(Arr::except($articleData, 'region'));
+            $article->regions()->sync([$articleData['region']]);
         } catch (\Throwable $th) { // Throw an exception if article creation fails
             throw new RuntimeException("Failed to create article '{$articleData['word']}': {$th->getMessage()}", 0, $th);
         }
@@ -44,7 +45,6 @@ final readonly class ArticleProcessor
         try { // To dispatch a chain of jibs to process the article's content standarization.
             Bus::chain([
                 new ConvertHardReturns($article),
-                new StandarizeLingusticRegion($article),
                 new StandarizeInternalHyperlinks($article),
             ])->dispatch();
         } catch (Throwable $th) { // Throw an exception if the job dispatching fails

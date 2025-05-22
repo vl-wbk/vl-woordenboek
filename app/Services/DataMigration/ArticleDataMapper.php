@@ -19,8 +19,41 @@ use stdClass;
  *
  * @package App\Services
  */
-final readonly class ArticleDataMapper
+final class ArticleDataMapper
 {
+    private static array $regionMappingLookup = [
+        '0' => 2,  // Gans Vlaanderen -> Gans Vlaanderen (target_id: 02)
+        '1' => 1,  // Standaard Nederlands -> Onbekend (target_id: 01)
+        '2' => 1,  // Onbekend -> Onbekend (target_id: 01)
+        '100' => 4,  // West-Vlaanderen -> Binnen-West-Vlaanderen (target_id: 04)
+        '110' => 9,  // Vlaamse Kust -> Noord-West-Vlaanderen (target_id: 09)
+        '120' => 16, // Westhoek -> Westelijk West-Vlaanderen (target_id: 16)
+        '130' => 9,  // Brugge -> Noord-West-Vlaanderen (target_id: 09)
+        '140' => 4,  // Brugs Ommeland -> Binnen-West-Vlaanderen (target_id: 04)
+        '150' => 4,  // Leiestreek -> Binnen-West-Vlaanderen (target_id: 04)
+        '200' => 12, // Oost-Vlaanderen -> Oost-Vlaanderen (target_id: 12)
+        '210' => 18, // Meetjesland -> West-Vlaanderen>Oost-Vlaanderen (target_id: 18)
+        '220' => 12, // Gent -> Oost-Vlaanderen (target_id: 12)
+        '230' => 12, // Vlaamse Ardennen -> Oost-Vlaanderen (target_id: 12)
+        '240' => 15, // Waasland -> Waasland (target_id: 15)
+        '250' => 19, // Scheldeland -> Zuid-Brabant (target_id: 19)
+        '300' => 7,  // Antwerpen -> Kempen (target_id: 07)
+        '310' => 8,  // Antwerpen -> Noordwest-Brabant (target_id: 08)
+        '320' => 7,  // Mechelen -> Kempen (target_id: 07)
+        '330' => 7,  // Antwerpse Kempen -> Kempen (target_id: 07)
+        '400' => 19, // Vlaams Brabant -> Zuid-Brabant (target_id: 19)
+        '410' => 19, // Brussel -> Zuid-Brabant (target_id: 19)
+        '420' => 19, // Groene Gordel -> Zuid-Brabant (target_id: 19)
+        '430' => 19, // Leuven -> Zuid-Brabant (target_id: 19)
+        '440' => 19, // Hageland -> Zuid-Brabant (target_id: 19)
+        '500' => 5,  // Limburg -> Centraal Limburg en Maasland (target_id: 05)
+        '510' => 17, // Limburgse Kempen -> West-Limburg (target_id: 17)
+        '520' => 17, // Mijnstreek -> West-Limburg (target_id: 17)
+        '530' => 14, // Haspengouw -> Truierland (target_id: 14)
+        '540' => 5,  // Maasland -> Centraal Limburg en Maasland (target_id: 05)
+        '550' => 10, // Voerstreek -> Oost-Limburg (target_id: 10)
+    ];
+
     /**
      * Maps raw article data to an array format suitable for database insertion.
      *
@@ -39,7 +72,7 @@ final readonly class ArticleDataMapper
 
         return [
             'origin' => DataOrigin::External, // Indicates the data source is external.
-            'region_id' => $articleData->regio,
+            'region' => $this->convertLinguisticRegion($articleData->regio),
             'state' => ArticleStates::ExternalData, // Sets the article state to external data.
             'word' => $articleData->word, // The word or term for the article.
             'views' => $articleData->rating ?? 0, // The number of views or rating, defaults to 0.
@@ -72,5 +105,10 @@ final readonly class ArticleDataMapper
                 throw new RuntimeException("Missing required field '{$field}' for article. Raw data: " . json_encode($articleData));
             }
         }
+    }
+
+    private function convertLinguisticRegion(int $region): int
+    {
+        return self::$regionMappingLookup[$region] ?? 0;
     }
 }
