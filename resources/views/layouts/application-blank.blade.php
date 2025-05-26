@@ -159,6 +159,14 @@
             <span class="float-end">
                 <ul class="list-inline mb-0">
                     <li class="list-inline-item">
+                        <a href="{{ route('feedback:create') }}" class="text-decoration-none">
+                            Feedback insturen
+                        </a>
+                    </li>
+
+                    <li class="list-inline-item text-muted">|</li>
+
+                    <li class="list-inline-item">
                         <a href="https://github.com/Tjoosten/vl-woordenboek"
                             class="footer-icon-color text-decoration-none">
                             <x-tabler-brand-github class="icon" />
