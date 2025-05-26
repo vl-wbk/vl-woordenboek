@@ -15,43 +15,52 @@
                         <div class="row">
                             <div class="form-group col-6 mb-3">
                                 <label for="name" class="col-form-label">Voor + achternaam <span class="fw-bold text-danger">*</span></label>
-                                <input type="text" name="naam" id="name" value="{{ old('naam') }}" class="form-control">
+                                <input type="text" name="naam" id="name" value="{{ old('naam') }}" class="form-control @error('naam') is-invalid @enderror">
+                                <x-forms.validation-error field="naam"/>
                             </div>
 
                             <div class="form-group col-6 mb-3">
                                 <label for="emailAddress" class="col-form-label">Email adres</label>
-                                <input type="email" class="form-control" value="{{ old('email') }}" id="emailHelpText">
+                                <input type="email" class="form-control" id="emailHelpText" value="{{ old('email') }}">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-6 mb-3">
-                                <label for="firstTimeVisitor" class="col-form-label">Was dit de eerste keer dat je het Vlaams Woordenboek bezocht? <span class="fw-bold text-danger">*</span></label>
+                                <label for="firstTimeVisitor" class="col-form-label">Dit was de eerste keer dat ik het Vlaams Woordenboek bezocht. <span class="fw-bold text-danger">*</span></label>
 
                                 <div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="eerste_bezoek" id="inlineRadio1" value="1">
-                                        <label class="form-check-label" for="inlineRadio1">Ja</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="eerste_bezoek" id="inlineRadio2" value="0" >
-                                        <label class="form-check-label" for="inlineRadio2">Nee</label>
-                                    </div>
+                                    @foreach ($radioButtons::cases() as $radioButton)
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input @error('eerste_bezoek') is-invalid @enderror" type="radio" name="eerste_bezoek" id="inlineRadio1" value="{{ $radioButton->value }}" @checked(old('eerste_bezoek', null) === $radioButton->value)>
+                                            <label class="form-check-label" for="inlineRadio1">{{  $radioButton->getLabel() }}</label>
+                                        </div>
+                                    @endforeach
+
+                                    @error('eerste_bezoek')
+                                        <div class="invalid-feedback fw-bold d-block" role="alert">
+                                            {{ __('Dit moet ingevuld zijn alvorens de feedback te kunnen verzenden') }}
+                                        </div>
+                                    @enderror
                                 </div>
                             </div>
 
                             <div class="form-group col-6 mb-3">
-                                <label for="yoda" class="col-form-label">Kon je makkelijk vinden wat je zocht? <span class="fw-bold text-danger">*</span></label>
+                                <label for="yoda" class="col-form-label">Ik kon makkelijk vinden wat ik zocht. <span class="fw-bold text-danger">*</span></label>
 
                                 <div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="resultaten_gevonden" id="inlineRadio1" value="1" @checked(old('resultaten_gevonden', null) === '1')>
-                                        <label class="form-check-label" for="inlineRadio1">Ja</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="resultaten_gevonden" id="inlineRadio2" value="0" @checked(old('resultaten_gevonden', null) === '0')>
-                                        <label class="form-check-label" for="inlineRadio2">Nee</label>
-                                    </div>
+                                    @foreach ($radioButtons::cases() as $radioButton)
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input @error('resultaten_gevonden') is-invalid @enderror" type="radio" name="resultaten_gevonden" id="inlineRadio1" value="{{ $radioButton->value }}" @checked(old('resultaten_gevonden', null) === $radioButton->value)>
+                                            <label class="form-check-label" for="inlineRadio1">{{  $radioButton->getLabel() }}</label>
+                                        </div>
+                                    @endforeach
+
+                                    @error('resultaten_gevonden')
+                                        <div class="invalid-feedback fw-bold d-block" role="alert">
+                                            {{ __('Dit moet ingevuld zijn alvorens de feedback te kunnen verzenden') }}
+                                        </div>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -66,9 +75,16 @@
                             </div>
                         </div>
 
-                        <div class="form-group col-12">
+                        <div class="form-group col-12 mb-3">
                             <label for="suggestion" class="col-form-label">Ik heb nog andere opmerkingen of andere suggesties omtrent hoe het Vlaams Woordenboek verbeterd kan worden.</label>
                             <textarea name="extra_informatie" class="form-control" id="suggestion" rows="4">{{ old('extra_informatie') }}</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-check form-switch mb-0">
+                                <input class="form-check-input" type="checkbox" name="contact" role="switch" value="1">
+                                <label class="form-check-label ms-1" for="switchCheckCheckedDisabled">De beheerders van het Vlaams woordenboek mogen contact opnemen met me indien zij dat nodig achten.</label>
+                            </div>
                         </div>
                     </form>
 
@@ -77,7 +93,7 @@
                             Verzenden
                         </button>
                         <button type="reset" form="suggestionForm" class="btn btn-sm btn-link">
-                            reset
+                            Reset
                         </button>
                     </div>
                 </div>

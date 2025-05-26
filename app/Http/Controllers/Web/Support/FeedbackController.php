@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Web\Support;
 
+use App\Enums\FeedbackTrueFalse;
+use App\Http\Requests\Support\StoreFeedbackRequest;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -17,12 +19,14 @@ final readonly class FeedbackController
     {
         return view('support.feedback', data: [
             'user' => Auth::user(),
+            'radioButtons' => FeedbackTrueFalse::class,
         ]);
     }
 
     #[Post(uri: 'feedback', name: 'feedback:store')]
-    public function store(): RedirectResponse
+    public function store(StoreFeedbackRequest $storeFeedbackRequest): RedirectResponse
     {
+        dd($storeFeedbackRequest->all());
         return back();
     }
 }
