@@ -4,12 +4,18 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Support;
 
+use App\Data\FeedbackSubmissionData;
 use App\Enums\FeedbackTrueFalse;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
+use Spatie\LaravelData\WithData;
 
 final class StoreFeedbackRequest extends FormRequest
 {
+    use WithData;
+
+    protected string $dataClass = FeedbackSubmissionData::class;
+
     /**
      * Get the validation rules that apply to the request.
      *
