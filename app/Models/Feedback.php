@@ -39,7 +39,11 @@ final class Feedback extends Model
     /**
      * Get the user who submitted this feedback.
      *
-     * 
+     * This relationship connects the feedback entry to the user who created it.
+     * This relationship may be null for anonymous feedback submissions.
+     * When accessed, this will lead the socciated User model with all it attrbiutes.
+     *
+     *
      * @return BelongsTo<User, covariant $this>
      */
     public function author(): BelongsTo

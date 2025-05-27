@@ -15,7 +15,7 @@ use Spatie\RouteAttributes\Attributes\Post;
 
 final readonly class FeedbackController
 {
-    #[Get(uri: 'feedback', name: 'feedback:create', middleware: 'auth:sanctum')]
+    #[Get(uri: 'feedback', name: 'feedback:create')]
     public function create(): Renderable
     {
         return view('support.feedback', data: [
