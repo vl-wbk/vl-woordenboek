@@ -28,7 +28,7 @@ final readonly class FeedbackController
     public function store(StoreFeedbackRequest $storeFeedbackRequest, StoreFeedbackSubmission $storeFeedbackSubmission): RedirectResponse
     {
         $storeFeedbackSubmission->execute($storeFeedbackRequest->getData());
-        flash(text: "We hebben uw feedback opgeslagen. We gaan er ASAP mee aan de slag", class: 'alert alert-danger');
+        flash(text: "We hebben uw feedback opgeslagen. We gaan er ASAP mee aan de slag", class: 'alert alert-success');
 
         return back();
     }

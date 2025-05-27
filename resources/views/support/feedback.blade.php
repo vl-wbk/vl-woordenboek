@@ -14,6 +14,12 @@
                     <form action="{{ route('feedback:store') }}" method="POST" id="suggestionForm" class="card-body">
                         @csrf
 
+                        @if (flash()->message)
+                            <div class="shadow-sm border-0 py-2 px-3 {{ flash()->class }}" role="alert">
+                                {{  flash()->message }}
+                            </div>
+                        @endif
+
                         <div class="row">
                             <div class="form-group col-6 mb-3">
                                 <label for="name" class="col-form-label">Voor + achternaam <span
