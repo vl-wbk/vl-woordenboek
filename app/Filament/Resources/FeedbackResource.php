@@ -10,7 +10,10 @@ use App\Models\Feedback;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -30,10 +33,32 @@ final class FeedbackResource extends Resource
             ->emptyStateHeading('Geen feedback ontvangen')
             ->emptyStateDescription('Momenteel is er nog geen feedback ingestuurd door gebruikers van het Vlmaams woordenboek. Kom later nog eens terug.')
             ->columns([
-                //
+                TextColumn::make('name')
+                    ->label('Ingestuurd door')
+                    ->weight(FontWeight::SemiBold)
+                    ->color('primary')
+                    ->searchable(),
+                TextColumn::make('email')
+                    ->searchable()
+                    ->placeholder('- niet opgegeven'),
+                IconColumn::make('contact_allowed')
+                    ->label('Contact toegelaten')
+                    ->boolean(),
+                TextColumn::make('first_time_visit')
+                    ->label('Eerste bezoek')
+                    ->badge()
+                    ->sortable(),
+                TextColumn::make('results_found_easily')
+                    ->label('Resultaten gevonden?')
+                    ->badge(),
+                TextColumn::make('created_at')
+                    ->label('Ingestuurd op')
+                    ->sortable()
+                    ->date()
+
             ])
-            ->filters([
-                //
+            ->actions([
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
