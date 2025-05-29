@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class, 'author_id')->nullable()->constrained()->nullOnDelete();
             $table->string('name');
             $table->string('email')->nullable();
+            $table->boolean('status')->nullable();
             $table->string('first_time_visit');
             $table->string('results_found_easily');
             $table->text('visit_reason')->nullable();

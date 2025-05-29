@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\FeedbackTrueFalse;
+use App\Enums\FeedbackStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -19,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string             $name                     The first and last name of the user who submitted the feedback
  * @property FeedbackTrueFalse  $first_time_visit         Indicates if this the user's first visit
  * @property FeedbackTrueFalse  $results_found_easily     Indicates if the user found they were looking for
+ * @property FeedbackStatus     $status                   The current status from the feedback submission.
  * @property ?string            $email                    Optional email address for follow-up contact
  * @property ?string            $visit_reason             The user's reason for visiting the website
  * @property ?string            $search_additional_info   Additional information about what the user was searching for
@@ -37,6 +39,11 @@ final class Feedback extends Model
      */
     protected $guarded = ['id', 'author_id'];
 
+    /** @todo Document this variable */
+    protected $attributes = [
+        'status' => FeedbackStatus::Unprocessed,
+    ];
+
     /**
      * Get the user who submitted this feedback.
      *
@@ -51,9 +58,15 @@ final class Feedback extends Model
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * @todo Document this
+     * @return array
+     */
     protected function casts(): array
     {
         return [
+            'status' => 'boolean',
+            'contact_allowed' => 'boolean',
             'first_time_visit' => FeedbackTrueFalse::class,
             'results_found_easily' => FeedbackTrueFalse::class,
         ];
