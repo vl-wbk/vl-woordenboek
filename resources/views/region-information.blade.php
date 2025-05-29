@@ -7,43 +7,47 @@
                 <div class="card bg-white border-0 shadow-sm">
                     <div id="map" style="height: 400px;" class="card-header border-bottom-0"></div>
                     <div class="card-body">
-                        <h4 class="fw-bold card-title pb-1 text-gold border-bottom">Vlaamse provincies en regio's</h4>
+                        <h4 class="fw-bold card-title pb-1 text-gold border-bottom">De Vlaamse dialectregio’s</h4>
 
                         <p class="card-text mb-2">
-                            Het online Vlaamse woordenboek wil op de eerste plaats een verzameling bouwen van "Algemeen Beschaafd Vlaamse" woorden, woorden die door zo goed als elke Vlaming worden begrepen.
-                            Het Vlaamse is echter sterk versnippeld in een grote varieteit aan dialecten.
-                            Dialecttermen nemen een belangrijke taak op in het dagelijks gesproken Vlaams, en krijgen daarom ook hun plaats in het online Vlaams woordenboek.
-                            als ge als gebruiker een Vlaamse termin in onze databank steekt, kunt ge bij uw beschrijving aangeven uit welke streek de dialectterm afkomstig is.
+                            Het online Vlaamse woordenboek is in de eerste plaats een verzameling van woorden die algemeen bekend zijn in Vlaanderen.
+                            De meeste ervan krijgen het label ‘Belgisch-Nederlands’ (in woordenboeken als Van Dale) of ‘standaardtaal in België’ (op Taaladvies.net en bij Team Taaladvies van de Vlaamse overheid).
+                            Andere worden vooral in gesproken taal gebruikt of worden ondanks hun ruime verspreiding toch niet als ‘standaardtaal’ beschouwd.
                         </p>
 
                         <p class="card-text mb-2">
-                            De bovenstaande interactieve kaart geeft elke gemeente in Vlaanderen aan. Indien u het woord ergens hebt gehoord of niet weet uit welke regio het komt. Kun je de gemeente opzoeken in de kaart om meer info te vinden omtrent de regio.
-                        </p>
-
-                        <p class="card-text mb-2">
-                            Er zijn 5 overheersende Vlaamse dialecten, wier streken van oorsprong sterk overeenkomen met de provinciegrenzen; West-Vlaams, Oost-Vlaams, Antwerps, Brabants en Limburgs.
+                            Maar er zijn ook heel wat woorden waarvan gebruikers denken dat ze algemeen zijn, terwijl ze maar in een deel van Vlaanderen voorkomen.
+                            En er zijn er waarvan algemeen geweten is dat hun gebruik geografisch beperkt is, maar die te mooi zijn om te laten liggen.
+                            Hoewel het Vlaams Woordenboek geen dialectwoordenboek is in de strikte zin van het woord, verdienen ook die woorden een plaatsje in het woordenboek.
+                            Die woorden krijgen een of meerdere regiolabels, zodat gebruikers weten in welke regio die woorden thuishoren. De lijst met regiolabels, gebaseerd op een indeling uit de dialectologie, staat hieronder.
+                            Als je op de interactieve kaart hierboven op een gemeente klikt, weet je meteen tot welke regio die hoort.
                         </p>
 
                         <p class="card-text">
-                            Daarnaast zijn er binnen elke provincie lokale regio's met hun eigen dialect.
-                            Twee naburige dorpen kunnen sterke verschillen in hun dialect vertonen.
-                            Om het woordenboek echter niet te overladen met keuzemogelijkheden, beperken we de classificatie tot dialecten, zoals gesproken in hun overeenkomstige toeristische regio's van Vlaanderen.
-                            De volgende regio's zijn opgenomen in het Vlaams woordenboek.
+                            Hoewel we dus ook dialectwoorden opnemen, blijven die de uitzondering op de regel. We willen nog eens benadrukken dat het Vlaams Woordenboek géén dialectwoordenboek is.
+                            Hoe mooi en rijk we onze dialectwoordenschat ook vinden, hiervoor bestaan er al tal van andere bronnen.
+                            Veel dorpen en steden hebben intussen een eigen woordenboek en een groot deel daarvan zijn online te vinden in de Woordenbank van het <a href="https://www.dialectloket.be/woord/woordenbank-van-de-nederlandse-dialecten/">Dialectloket</a>.
+                            Een andere interessante site is de Database van de Zuidelijk Nederlandse Dialecten van het Instituut voor de <a href="https://ivdnt.org/woordenboeken/dsdd/">Nederlandse taal</a>.
+                            Op <a href="https://www.mijnwoordenboek.nl/dialecten/">https://www.mijnwoordenboek.nl/dialecten/</a> ten slotte kun je zelf een bijdrage leveren.
                         </p>
 
                         <hr>
 
+                        <h5 class="fw-bold card-title pb-1 text-gold">Regiolijst</h5>
+
                         <dl class="row mb-0">
-                            <dt class="col-sm-4">Provincie West-Vlaanderen</dt>
-                            <dd class="col-sm-8">Kust-West-Vlaams, Westhoeks, Centraal West-Vlaams, Kortijk-Ieper, West-Oost-Vlaamse overgangszone</dd>
-                            <dt class="col-sm-4">Provincie Oost-Vlaanderen</dt>
-                            <dd class="col-sm-8">Oost-Vlaams (centraal), Waasland, Denderstreek, Vlaams-Brabantse overgangszone, Gents</dd>
-                            <dt class="col-sm-4">Provincie Vlaams-Brabant</dt>
-                            <dd class="col-sm-8">Pajottenlands, Kleinbrabants, Brussels, (Centaal-)Brabants, Hagelands, Brabantse-Limburgse overgangszone (Diest - Tienen - Sint-Truiden)</dd>
-                            <dt class="col-sm-4">Provincie Antwerpen</dt>
-                            <dd class="col-sm-8">Noorderkempens, Zuiderkempens (incl. Tessenderlo - Kwaadmechelen - Ham), Antwerps (westen van de provincie), Antwerps (stad)</dd>
-                            <dt class="col-sm-4">Provincie Limburg</dt>
-                            <dd class="col-sm-8">Lommel, Noord-Limburgs, Centraal-Limburgs, Tongerlands, Truierlands, Maaslands, Citétaal (Genk) </dd>
+                            <dt class="col-sm-4">Provincie West-Vlaanderen:</dt>
+                            <dd class="col-sm-8">Westelijk West-Vlaanderen, Noord-West-Vlaanderen, Binnen-West-Vlaanderen</dd>
+                            <dt class="col-sm-4">Provincie Oost-Vlaanderen:</dt>
+                            <dd class="col-sm-8">Oost-Vlaanderen, Waasland, (een stuk) Zuid-Brabant</dd>
+                            <dt class="col-sm-4">Provincie Antwerpen:</dt>
+                            <dd class="col-sm-8">Noordwest-Brabant, Kempen, Oost-Noord-Brabant</dd>
+                            <dt class="col-sm-4">Provincie Vlaams-Brabant:</dt>
+                            <dd class="col-sm-8">Zuid-Brabant, Geteland</dd>
+                            <dt class="col-sm-4">Provincie Limburg:</dt>
+                            <dd class="col-sm-8">West-Limburg, Truierland, Beringerland, Centraal Limburg en Maasland, Oost-Limburg</dd>
+                            <dt class="col-sm-4">Overgangsregio(s):</dt>
+                            <dd class="col-sm-8">West-Vlaanderen>Oost-Vlaanderen, Oost-Vlaanderen>Brabant</dd>
                         </dl>
                     </div>
                 </div>
