@@ -18,7 +18,7 @@ enum FeedbackTrueFalse: string implements HasLabel, HasColor, HasIcon
         return $this->value;
     }
 
-    public function getColor(): string|array|null
+    public function getColor(): string
     {
         return match($this) {
             self::true => 'success',

@@ -12,6 +12,9 @@ use Spatie\LaravelData\WithData;
 
 final class StoreFeedbackRequest extends FormRequest
 {
+    /**
+     * @use WithData<FeedbackSubmissionData>
+     */
     use WithData;
 
     protected string $dataClass = FeedbackSubmissionData::class;

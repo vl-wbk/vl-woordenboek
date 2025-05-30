@@ -89,6 +89,7 @@ final class FeedbackResource extends Resource
 
     public static function getWidgets(): array
     {
+        /** @phpstan-ignore-next-line */
         return [
             \App\Filament\Resources\FeedbackResource\Widgets\FeedbackStatisticsWidget::class,
         ];

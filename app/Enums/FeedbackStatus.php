@@ -14,7 +14,7 @@ enum FeedbackStatus: int implements HasLabel
     case Unprocessed = 0;
     case Processed = 1;
 
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return match($this) {
             self::Unprocessed => 'onbehandeld',

@@ -35,7 +35,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 final class Feedback extends Model
 {
     /**
-     * @var list<sttring>
+     * @var list<string>
      */
     protected $guarded = ['id', 'author_id'];
 
@@ -60,7 +60,7 @@ final class Feedback extends Model
 
     /**
      * @todo Document this
-     * @return array
+     * @return array<string, string>
      */
     protected function casts(): array
     {
