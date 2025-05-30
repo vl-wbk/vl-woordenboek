@@ -30,7 +30,7 @@ final class StandarizeInternalHyperlinks implements ShouldQueue
         $exampleMatches = 0;
         $descriptionMatches = 0;
 
-        preg_match_all("/\[(.*?)\](?!\()/", $this->article->example, $exampleMatches);
+        preg_match_all("/\[(.*?)\](?!\()/", (string) $this->article->example, $exampleMatches);
         preg_match_all("/\[(.*?)\](?!\()/", $this->article->description, $descriptionMatches);
 
         $exampleMatches = count($exampleMatches[0]);
@@ -46,15 +46,15 @@ final class StandarizeInternalHyperlinks implements ShouldQueue
         $uniqueTerms = collect();
 
         if ($this->article->example) {
-            preg_match_all('/\[(.*?)\](?!\()/', $this->article->example, $matches);
-            if (!empty($matches[1])) {
+            preg_match_all('/\[(.*?)\](?!\()/', (string) $this->article->example, $matches);
+            if (isset($matches[1]) && $matches[1] !== []) {
                 $uniqueTerms = $uniqueTerms->merge($matches[1]);
             }
         }
         if ($this->article->description) {
             preg_match_all('/\[(.*?)\](?!\()/', $this->article->description, $matches);
 
-            if (!empty($matches[1])) {
+            if (isset($matches[1]) && $matches[1] !== []) {
                 $uniqueTerms = $uniqueTerms->merge($matches[1]);
             }
         }
@@ -71,8 +71,8 @@ final class StandarizeInternalHyperlinks implements ShouldQueue
             ->whereNotNull('published_at')
             ->get();
 
-        $lookupData = $lookupArticles->groupBy('word')->map(function ($items) {
-            $publishedItems = $items->filter(fn($item) => $item->published_at !== null);
+        $lookupData = $lookupArticles->groupBy('word')->map(function ($items): array {
+            $publishedItems = $items->filter(fn($item): bool => $item->published_at !== null);
 
             return [
                 'count' => $publishedItems->count(),
@@ -80,8 +80,8 @@ final class StandarizeInternalHyperlinks implements ShouldQueue
             ];
         })->toArray();
 
-        $updatedExample = $this->formatMarkdownLinks($this->article->example, $lookupData);
-        $updatedDescription = $this->formatMarkdownLinks($this->article->description, $lookupData);
+        $updatedExample = $this->formatMarkdownLinks($lookupData, $this->article->example);
+        $updatedDescription = $this->formatMarkdownLinks($lookupData, $this->article->description);
 
         if ($this->article->example !== $updatedExample || $this->article->description !== $updatedDescription) {
             $this->article->updateQuietly(attributes: [
@@ -91,13 +91,13 @@ final class StandarizeInternalHyperlinks implements ShouldQueue
         }
     }
 
-    private function formatMarkdownLinks(?string $text = null, array $lookupData): string
+    private function formatMarkdownLinks(array $lookupData, ?string $text = null): string
     {
         if (is_null($text)) {
             return '';
         }
 
-        return preg_replace_callback('/\[(.*?)\](?!\()/', function ($matches) use ($lookupData): string {
+        return preg_replace_callback('/\[(.*?)\](?!\()/', function (array $matches) use ($lookupData): string {
             $term = $matches[1];
 
             $lookup = $lookupData[$term] ?? null;

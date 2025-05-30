@@ -17,7 +17,7 @@ final class MigrateArticleCommand extends Command
     private static string $sourceFile = 'imports/data-dump.json';
 
     public function __construct(
-        private ArticleImporterFactory $articleImporterFactory
+        private readonly ArticleImporterFactory $articleImporterFactory
     ) {
         parent::__construct();
     }

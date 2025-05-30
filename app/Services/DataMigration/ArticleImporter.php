@@ -38,9 +38,9 @@ final class ArticleImporter
      * @param ArticleProcessor   $articleProcessor  Handles database operations
      */
     public function __construct(
-        private JsonFileStreamer $jsonFileStreamer,
-        private ArticleDataMapper $dataMapper,
-        private ArticleProcessor $articleProcessor,
+        private readonly JsonFileStreamer $jsonFileStreamer,
+        private readonly ArticleDataMapper $dataMapper,
+        private readonly ArticleProcessor $articleProcessor,
     ) {}
 
     /**
@@ -71,7 +71,7 @@ final class ArticleImporter
                 if (!$item instanceof stdClass) {
                     $message = "Skipping malformed item (not an object).";
                     $this->logWarning($message, ['item_data' => $item]);
-                    if ($warningCallback) {
+                    if ($warningCallback instanceof \Closure) {
                         $warningCallback($message);
                     }
                     continue;
@@ -135,7 +135,6 @@ final class ArticleImporter
      *
      * @param  string                $message  The warning message to log
      * @param  array<string, mixed>  $context  Additional context data for the log
-     * @return void
      */
     private function logWarning(string $message, array $context = []): void
     {
@@ -148,7 +147,6 @@ final class ArticleImporter
      *
      * @param  string $message                The error message to log
      * @param  array<string, mixed> $context  Additional context data for the log
-     * @return void
      */
     private function logError(string $message, array $context = []): void
     {
