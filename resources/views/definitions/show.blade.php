@@ -20,7 +20,7 @@
             <div class="col-12">
                 <div class="float-start">
                     <h3 class="color-green">
-                        <a href="{{ url()->previous() }}" class="text-muted text-decoration-none">
+                        <a href="{{ route('home') }}" class="text-muted text-decoration-none">
                             <x-heroicon-o-arrow-uturn-left class="icon icon-back-to-results"/>
                         </a>
 

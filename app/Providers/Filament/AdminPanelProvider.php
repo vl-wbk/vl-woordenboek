@@ -36,7 +36,7 @@ final class AdminPanelProvider extends PanelProvider
             ->favicon(asset('favicon/favicon-32x32.png'))
             ->maxContentWidth(MaxWidth::Full)
             ->topNavigation()
-            ->font('Nunito', BunnyFontProvider::class)
+            ->font("Tilt Neon")
             ->login()
             ->passwordReset()
             ->databaseNotifications()

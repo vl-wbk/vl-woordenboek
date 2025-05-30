@@ -68,6 +68,7 @@ final class ArticleImporter
         try {
             /** @var stdClass $item */
             foreach ($streamItems as $item) {
+                /** @phpstan-ignore-next-line */
                 if (!$item instanceof stdClass) {
                     $message = "Skipping malformed item (not an object).";
                     $this->logWarning($message, ['item_data' => $item]);
