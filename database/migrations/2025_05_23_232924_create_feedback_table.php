@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('results_found_easily');
             $table->text('visit_reason')->nullable();
             $table->text('search_additional_info')->nullable();
+            $table->text('additional_info')->nullable();
             $table->boolean('contact_allowed')->default(false);
             $table->timestamps();
         });

@@ -69,7 +69,19 @@ final class FeedbackResource extends Resource
                         IconEntry::make('contact_allowed')
                             ->label('Mag gecontacteerd worden')
                             ->boolean()
-                            ->columnSpan(4)
+                            ->columnSpan(4),
+                        TextEntry::make('visit_reason')
+                            ->label('Reden van het bezoek aan het Vlaams woordenboek')
+                            ->columnSpan(12)
+                            ->placeholder('- Niet opgegeven'),
+                        TextEntry::make('search_additional_info')
+                            ->label('Wat er volgens de gebruiker beter kon tijdens het zoeken naar artikelen')
+                            ->columnSpanFull()
+                            ->placeholder('- Niet opgegeven'),
+                        TextEntry::make('additional_info')
+                            ->label('Extra info / Suggestie(s) van de gebruiker')
+                            ->columnSpanFull()
+                            ->placeholder('- Niet ingevuld')
                     ])
             ]);
     }
