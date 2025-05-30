@@ -29,6 +29,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Cache;
 
 final class FeedbackResource extends Resource
 {
@@ -86,10 +87,23 @@ final class FeedbackResource extends Resource
             ]);
     }
 
+    public static function getWidgets(): array
+    {
+        return [
+            \App\Filament\Resources\FeedbackResource\Widgets\FeedbackStatisticsWidget::class,
+        ];
+    }
+
     public static function table(Table $table): Table
     {
         return $table
             ->heading('Ingezonden feedback')
+            ->headerActions([
+                ActionsAction::make('documentation')
+                    ->color('primary')
+                    ->label('Documentatie')
+                    ->url('https://www.google.com', shouldOpenInNewTab: true)
+            ])
             ->description('Een overzicht van alle feedback of bugs die zijn ingezonden door gebruikers van het Vlaams Woordenboek')
             ->emptyStateIcon(self::$navigationIcon)
             ->emptyStateHeading('Geen feedback ontvangen')
@@ -166,5 +180,15 @@ final class FeedbackResource extends Resource
         return [
             'index' => Pages\ListFeedback::route('/'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        $feedbackCount = Cache::flexible('feedback_count', [10, 60], function (): string  {
+            return (string) self::$model::count();
+        });
+
+    // Return the count if it's greater than 0, otherwise return null
+    return $feedbackCount > 0 ? $feedbackCount : null;
     }
 }

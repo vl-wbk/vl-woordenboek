@@ -11,4 +11,9 @@ use Filament\Resources\Pages\ListRecords;
 final class ListFeedback extends ListRecords
 {
     protected static string $resource = FeedbackResource::class;
+
+    protected function getHeaderWidgets(): array
+    {
+        return FeedbackResource::getWidgets();
+    }
 }
