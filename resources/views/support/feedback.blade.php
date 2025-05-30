@@ -102,7 +102,7 @@
                             <div class="form-check form-switch mb-0">
                                 <input class="form-check-input" type="checkbox" name="contact" role="switch"
                                     value="1">
-                                <label class="form-check-label ms-1" for="switchCheckCheckedDisabled">Het beheer van het Vlaams Woordenboek mag me contacteren als dat nodig is.</label>
+                                <label class="form-check-label ms-1" for="switchCheckCheckedDisabled">Het beheer van het Vlaams Woordenboek mag me contacteren als dat nodig is. '(Indien ja: geef een mailadres op)</label>
                             </div>
                         </div>
                     </form>
