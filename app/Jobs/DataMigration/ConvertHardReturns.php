@@ -43,6 +43,9 @@ final class ConvertHardReturns implements ShouldQueue
         protected Article $article
     ) {}
 
+    /**
+     * @return array<int, Skip>
+     */
     public function middleware(): array
     {
         $exampleMatches = 0;

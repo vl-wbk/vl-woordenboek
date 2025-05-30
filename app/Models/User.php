@@ -19,6 +19,7 @@ use Cog\Laravel\Ban\Traits\Bannable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Laravel\Sanctum\HasApiTokens;
 
 /**
  * User represents an authenticated account in the 'Vlaams woordenboek application'.
@@ -52,6 +53,7 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
     use Notifiable;
     use Liker;
     use Bannable;
+    use HasApiTokens;
 
     /**
      * Specifies which attributes can be mass assigned when creating or updating user records.

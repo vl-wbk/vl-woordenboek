@@ -21,6 +21,9 @@ use stdClass;
  */
 final class ArticleDataMapper
 {
+    /**
+     * @var array<int, int>
+     */
     private static array $regionMappingLookup = [
         '0' => 2,  // Gans Vlaanderen -> Gans Vlaanderen (target_id: 02)
         '1' => 1,  // Standaard Nederlands -> Onbekend (target_id: 01)
@@ -62,7 +65,7 @@ final class ArticleDataMapper
      * array that matches the application's database schema.
      *
      * @param stdClass $articleData  The raw article data to be mapped.
-     * @return array                 The mapped article data, ready for database insertion.
+     * @return array<string, mixed>  The mapped article data, ready for database insertion.
      *
      * @throws RuntimeException If any required fields are missing from the raw data.
      */

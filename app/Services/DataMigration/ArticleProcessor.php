@@ -28,8 +28,8 @@ final readonly class ArticleProcessor
      * This method creates an article in the database using the provided data and dispatches a chain of jobs to process the article's content.
      * If any errors occur during article creation or job dispatching, they are caught and rethrown as RuntimeExceptions with detailed error messages.
      *
-     * @param  array $articleData  The data for the article to be created. This should include all required fields for the `Article` model.
-     * @return Article             The created article instance.
+     * @param  array<mixed> $articleData  The data for the article to be created. This should include all required fields for the `Article` model.
+     * @return Article                           The created article instance.
      *
      * @throws RuntimeException If the article creation fails or if the jobs cannot be dispatched.
      */
