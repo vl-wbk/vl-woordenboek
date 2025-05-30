@@ -21,7 +21,7 @@
 
                         <div class="row">
                             <div class="form-group col-6 mb-3">
-                                <label for="name" class="col-form-label">Voor- achternaam <span
+                                <label for="name" class="col-form-label">Voor- en achternaam <span
                                         class="fw-bold text-danger">*</span></label>
                                 <input type="text" name="naam" id="name" value="{{ old('naam', auth()->user()?->name) }}"
                                     class="form-control @error('naam') is-invalid @enderror">
@@ -29,7 +29,7 @@
                             </div>
 
                             <div class="form-group col-6 mb-3">
-                                <label for="emailAddress" class="col-form-label">E-mail adres</label>
+                                <label for="emailAddress" class="col-form-label">E-mailadres</label>
                                 <input type="email" name="email" class="form-control" id="emailHelpText"
                                     value="{{ old('email') }}">
                             </div>
