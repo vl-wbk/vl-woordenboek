@@ -39,7 +39,7 @@ final readonly class SearchWordQuery
             ->whereNotNull('published_at')
             ->where(function ($query) use ($searchTerm): void {
                 $query->where('word', 'like', "%{$searchTerm}%")
-                    ->orWhere('description', 'like', "%{$searchTerm}%")
+                    //->orWhere('description', 'like', "%{$searchTerm}%")
                     ->orWhere('keywords', 'like', "%{$searchTerm}%");
             })
             ->orderBy('word')
