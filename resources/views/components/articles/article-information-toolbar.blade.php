@@ -15,12 +15,12 @@
 
     <div class="btn-group shadow-sm" role="group">
         @if ($isNormalUser)
-            <button type="button" class="btn btn-danger btn-sm float-end" data-bs-toggle="modal" data-bs-target="#reportModal">
+            <button type="button" class="btn btn-danger float-end" data-bs-toggle="modal" data-bs-target="#reportModal">
                 <x-tabler-file-alert class="icon" /> rapporteren
             </button>
         @else {{--  User is editor, EditorInChief, Administror, Webmaster --}}
             <div class="dropdown">
-                <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <x-heroicon-o-cog-8-tooth class="icon color-green"/> Acties
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm">
