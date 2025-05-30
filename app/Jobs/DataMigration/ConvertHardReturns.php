@@ -48,7 +48,7 @@ final class ConvertHardReturns implements ShouldQueue
         $exampleMatches = 0;
         $descriptionMatches = 0;
 
-        preg_match_all("/\r\n|\r/", $this->article->example, $exampleMatches);
+        preg_match_all("/\r\n|\r/", (string) $this->article->example, $exampleMatches);
         preg_match_all("/\r\n|\r/", $this->article->description, $descriptionMatches);
 
         $exampleMatches = count($exampleMatches[0]);
