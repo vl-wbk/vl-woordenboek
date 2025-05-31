@@ -15,8 +15,8 @@
 
     <div class="btn-group shadow-sm" role="group">
         @if ($isNormalUser)
-            <button type="button" class="btn btn-danger float-end" data-bs-toggle="modal" data-bs-target="#reportModal">
-                <x-tabler-file-alert class="icon" /> rapporteren
+            <button type="button" class="btn btn-light float-end" data-bs-toggle="modal" data-bs-target="#reportModal">
+                <x-tabler-file-alert class="icon color-green" /> Iets te melden?
             </button>
         @else {{--  User is editor, EditorInChief, Administror, Webmaster --}}
             <div class="dropdown">
@@ -26,7 +26,7 @@
                 <ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm">
                     <li>
                         <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#reportModal">
-                            <x-heroicon-o-magnifying-glass-circle class="icon text-muted me-1" /> Rapporteren
+                            <x-heroicon-o-magnifying-glass-circle class="icon text-muted me-1" /> Iets te melden?
                         </a>
                     </li>
 
@@ -44,12 +44,12 @@
 </div>
 
 <div class="d-none d-sm-block d-md-none btn-group float-end">
-    <button type="button" class="btn btn-danger btn-submit shadow-sm dropdown-toggle" data-bs-toggle="dropdown"
+    <button type="button" class="btn btn-danger shadow-sm dropdown-toggle" data-bs-toggle="dropdown"
         aria-expanded="false">
         <x-heroicon-o-list-bullet class="icon me-1" /> Acties
     </button>
 
-    <ul class="dropdown-menu shadow-sm dropdown-menu-end">
+    <ul class="dropdown-menu shadow-sm border-0 shadow-sm dropdown-menu-end">
         <li>
             @if (! auth()->user()->bookmarks->contains($word))
                 <a href="{{ route('bookmark:create', $word) }}" class="dropdown-item">
@@ -73,8 +73,8 @@
         @endcan
 
         <li>
-            <a class="dropdown-item text-danger" href="#" data-bs-toggle="modal" data-bs-target="#reportModal">
-                <x-heroicon-o-magnifying-glass-circle class="icon me-1" /> Rapporteren
+            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#reportModal">
+                <x-heroicon-o-magnifying-glass-circle class="icon me-1" /> Iets te melden?
             </a>
         </li>
     </ul>
