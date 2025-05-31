@@ -9,6 +9,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\Middleware\Skip;
 
+/**
+ * @todo Document this class
+ */
 final class StandarizeInternalHyperlinks implements ShouldQueue
 {
     use Queueable;
@@ -25,6 +28,9 @@ final class StandarizeInternalHyperlinks implements ShouldQueue
     ) {
     }
 
+    /**
+     * @return array<int, Skip>
+     */
     public function middleware(): array
     {
         $exampleMatches = 0;
@@ -47,6 +53,8 @@ final class StandarizeInternalHyperlinks implements ShouldQueue
 
         if ($this->article->example) {
             preg_match_all('/\[(.*?)\](?!\()/', (string) $this->article->example, $matches);
+
+            /** @phpstan-ignore-next-line */
             if (isset($matches[1]) && $matches[1] !== []) {
                 $uniqueTerms = $uniqueTerms->merge($matches[1]);
             }
@@ -54,6 +62,7 @@ final class StandarizeInternalHyperlinks implements ShouldQueue
         if ($this->article->description) {
             preg_match_all('/\[(.*?)\](?!\()/', $this->article->description, $matches);
 
+            /** @phpstan-ignore-next-line */
             if (isset($matches[1]) && $matches[1] !== []) {
                 $uniqueTerms = $uniqueTerms->merge($matches[1]);
             }
@@ -91,6 +100,9 @@ final class StandarizeInternalHyperlinks implements ShouldQueue
         }
     }
 
+    /**
+     * @param array<mixed> $lookupData
+     */
     private function formatMarkdownLinks(array $lookupData, ?string $text = null): string
     {
         if (is_null($text)) {

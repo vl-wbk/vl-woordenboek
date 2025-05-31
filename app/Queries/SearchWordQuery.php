@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Queries;
 
 use App\Models\Article;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -29,18 +31,22 @@ final readonly class SearchWordQuery
      * The search is case-insensitive and matches partial words.
      * Results are sorted alphabetically by default and paginated for better performance and user expierence
      *
-     * @param  string|null $searchTerm  Words or phrases to search for the in the articles
-     * @return mixed                    Paginated collection of matching articles with query parameters preserved
+     * @param  Request $request  The instance that holds all the request information
+     * @return mixed             Paginated collection of matching articles with query parameters preserved
      */
-    public function execute(?string $searchTerm = null): mixed
+    public function execute(Request $request): mixed
     {
+        $searchTerm = $request->get('zoekterm');
+        $includeDescription = $request->boolean('uitgebreid');
+
         return QueryBuilder::for(Article::class)
             ->allowedSorts($this->getAllowedSorts())
             ->whereNotNull('published_at')
-            ->where(function ($query) use ($searchTerm): void {
+            ->where(function ($query) use ($searchTerm, $includeDescription): void {
                 $query->where('word', 'like', "%{$searchTerm}%")
-                    ->orWhere('description', 'like', "%{$searchTerm}%")
-                    ->orWhere('keywords', 'like', "%{$searchTerm}%");
+                    ->orWhere('keywords', 'like', "%{$searchTerm}%")
+
+                    ->when($includeDescription, fn(Builder $builder): Builder => $builder->orWhere('description', 'like', "%{$searchTerm}%"));
             })
             ->orderBy('word')
             ->paginate(6)
