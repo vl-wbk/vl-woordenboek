@@ -147,7 +147,7 @@
         </div>
     </nav>
     <div class="alert alert-warning border-0 mb-0 rounded-0 shadow-sm py-2" role="alert">
-        <strong><x-heroicon-s-exclamation-triangle class="icon me-1"/> Mededeling:</strong> U bekijkt een publieke beta van het nieuw Vlaams woordenboek. Voor de recente info kan uw het <a href="https://www.vlaamswoordenboek.be/" class="alert-link">oude systeem</a> raadplegen.
+        <strong><x-heroicon-s-exclamation-triangle class="icon me-1"/> Mededeling:</strong> U bekijkt een publieke beta van het nieuw Vlaams woordenboek. Voor de recente info kan u het <a href="https://www.vlaamswoordenboek.be/" class="alert-link">oude systeem</a> raadplegen.
     </div>
 
     <main class="py-4 flex-shrink-0">
