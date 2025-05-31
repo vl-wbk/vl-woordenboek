@@ -2,6 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use CharrafiMed\GlobalSearchModal\GlobalSearchModalPlugin;
+use CharrafiMed\GlobalSearchModal\Livewire\GlobalSearchModal;
 use Cog\Laravel\Ban\Http\Middleware\ForbidBannedUser;
 use Devonab\FilamentEasyFooter\EasyFooterPlugin;
 use DutchCodingCompany\FilamentDeveloperLogins\FilamentDeveloperLoginsPlugin;
@@ -75,6 +77,13 @@ final class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 ResourceLockPlugin::make(),
+                GlobalSearchModalPlugin::make()
+                ->searchItemTree(false)
+                ->expandedUrlTarget(enabled: false)
+                ->highlightQueryStyles([
+                    'background-color' => 'yellow',
+                    'font-weight' => 'bold',
+                ]),
                 EasyFooterPlugin::make()
                     ->withGithub()
                     ->withLoadTime()
