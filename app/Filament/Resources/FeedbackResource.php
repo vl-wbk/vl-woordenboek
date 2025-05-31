@@ -185,9 +185,7 @@ final class FeedbackResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        $feedbackCount = Cache::flexible('feedback_count', [10, 60], function (): string  {
-            return (string) self::$model::count();
-        });
+        $feedbackCount = Cache::flexible('feedback_count', [10, 60], fn(): string => (string) self::$model::count());
 
     // Return the count if it's greater than 0, otherwise return null
     return $feedbackCount > 0 ? $feedbackCount : null;
