@@ -35,7 +35,7 @@ final readonly class SearchController
     {
         return view('welcome', [
             'articleCount' => Article::query()->whereNotNull('published_at')->count(),
-            'results' => $searchWordQuery->execute($request->get('zoekterm')),
+            'results' => $searchWordQuery->execute($request),
             'termPresent' => $request->has('zoekterm'),
         ]);
     }
