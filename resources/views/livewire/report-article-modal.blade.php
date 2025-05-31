@@ -22,8 +22,8 @@
                         <input class="form-control" disabled value="{{ $article->word }}" id="exampleInputEmail1">
                     </div>
                     <div class="mb-0">
-                        <label for="description" class="form-label">Wat je wenst te melden <span class="fw-bold text-danger">*</span></label>
-                        <textarea name="melding" id="description" class="form-control" placeholder="beschrijf kort en duidelijk wat je wenst te melding en of je voorbeeldzin." rows="4"></textarea>
+                        <label for="description" class="form-label">Wat wil je melden? <span class="fw-bold text-danger">*</span></label>
+                        <textarea name="melding" id="description" class="form-control" placeholder="Beschrijf kort en duidelijk wat je wil melden. Heb je een extra voorbeeldzin? Die kun je hier ook droppen." rows="4"></textarea>
                     </div>
                 </div>
 
