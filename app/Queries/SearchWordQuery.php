@@ -46,9 +46,7 @@ final readonly class SearchWordQuery
                 $query->where('word', 'like', "%{$searchTerm}%")
                     ->orWhere('keywords', 'like', "%{$searchTerm}%")
 
-                    ->when($includeDescription, function (Builder $builder) use ($searchTerm): Builder {
-                        return $builder->orWhere('description', 'like', "%{$searchTerm}%");
-                    });
+                    ->when($includeDescription, fn(Builder $builder): Builder => $builder->orWhere('description', 'like', "%{$searchTerm}%"));
             })
             ->orderBy('word')
             ->paginate(6)
