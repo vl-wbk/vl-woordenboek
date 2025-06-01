@@ -73,12 +73,12 @@ final readonly class SearchWordQuery
 
         // Determine the formatted search pattern based on the 'zoekpatroon' (search pattern) value provided in the request.
         // This uses a match expression for concise conditional logic.
-        // No default case needed here as the enum values are exhaustive and controlled.
         $pattern = match($request->get('zoekpatroon')) {
             SearchPatterns::Contains->value => "%{$searchTerm}%",   // If the pattern is 'Contains', wrap the search term with '%' wildcards.
             SearchPatterns::StartsWith->value => "{$searchTerm}%",  // If the pattern is 'StartsWith', append a '%' wildcard to the search term.
             SearchPatterns::Endswith->value => "%{$searchTerm}",    // If the pattern is 'Endswith', prepend a '%' wildcard to the search term.
             SearchPatterns::Exact->value => $searchTerm,            // If the pattern is 'Exact', use the search term as is (no wildcards).
+            default => "%{$searchTerm}%",
         };
 
         // Return an array containing both the generated pattern and the appropriate SQL operator.
