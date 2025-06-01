@@ -156,7 +156,7 @@
     </div>
     {{-- EINDE --}}
 
-    <main class="py-4 flex-shrink-0">
+    <main class="{{ $paddingContent ?? 'py-4' }} flex-shrink-0">
         @yield('content')
     </main>
 
