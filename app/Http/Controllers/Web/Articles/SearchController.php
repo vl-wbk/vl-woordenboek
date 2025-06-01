@@ -6,6 +6,7 @@ use App\Models\Article;
 use App\Queries\SearchWordQuery;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
+use App\Enums\Articles\SearchPatterns;
 use Spatie\RouteAttributes\Attributes\Get;
 
 /**
@@ -34,6 +35,7 @@ final readonly class SearchController
     public function __invoke(Request $request, SearchWordQuery $searchWordQuery): Renderable
     {
         return view('welcome', [
+            'searchPatterns' => SearchPatterns::cases(),
             'articleCount' => Article::query()->whereNotNull('published_at')->count(),
             'results' => $searchWordQuery->execute($request),
             'termPresent' => $request->has('zoekterm'),

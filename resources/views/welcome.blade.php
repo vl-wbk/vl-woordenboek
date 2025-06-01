@@ -24,20 +24,31 @@
                     <div class="card-body">
                         <form action="{{ route('search.results') }}" method="GET">
                             <div class="row g-3">
-                                <div class="col-lg-10 col-sm-8">
-                                    <input type="text" class="form-control" name="zoekterm" value="{{ request()->get('zoekterm') }}" placeholder="Zoekterm" aria-label="searchterm">
+                                <div class="col-lg-2">
+                                    <select name="zoekpatroon" class="form-select">
+                                        @foreach ($searchPatterns as $searchPattern)
+                                            <option value="{{ $searchPattern->value }}" @selected(old('zoekpatroon', request()->get('zoekpatroon')) === $searchPattern->value)>
+                                                {{ $searchPattern->getLabel() }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
 
-                                    <div class="form-check mt-2 mb-0">
-                                        <input class="form-check-input" name="uitgebreid" type="checkbox" id="checkChecked" value="1" @checked(request()->boolean('uitgebreid') === true)>
-                                        <label class="form-check-label" for="checkChecked">
-                                            Ik wens ook uitgebreid te zoeken in de beschrijving
-                                        </label>
-                                    </div>
+                                <div class="col-lg-8 col-sm-8">
+                                    <input type="text" class="form-control" name="zoekterm" value="{{ request()->get('zoekterm') }}" placeholder="Zoekterm" aria-label="searchterm">
                                 </div>
                                 <div class="col-lg-2 col-sm-4">
                                     <button type="submit" class="btn w-100 btn-submit">
                                         <x-heroicon-o-magnifying-glass class="icon me-1"/> Zoeken
                                     </button>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-check mb-0">
+                                        <input class="form-check-input" name="uitgebreid" type="checkbox" id="checkChecked" value="1" @checked(request()->boolean('uitgebreid') === true)>
+                                        <label class="form-check-label" for="checkChecked">
+                                            Ik wens ook uitgebreid te zoeken in de beschrijving
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </form>
