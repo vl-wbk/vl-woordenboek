@@ -12,13 +12,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table): void {
             $table->ulid('id')->primary();
             $table->string('name')->unique();
             $table->timestamps();
         });
 
-        Schema::create('blogs', function (Blueprint $table) {
+        Schema::create('blogs', function (Blueprint $table): void {
             $table->ulid('id')->primary();
             $table->foreignIdFor(User::class, 'author_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignUlid('category_id')->nullable()->constrained()->nullOnDelete();
@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('content');
             $table->string('views');
+            $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });
     }

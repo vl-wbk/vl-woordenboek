@@ -40,10 +40,22 @@ final readonly class TableSchema
                 ->badge()
                 ->sortable(),
 
+            Columns\TextColumn::make('views')
+                ->label('weergaves')
+                ->translateLabel()
+                ->sortable(),
+
             Columns\TextColumn::make('title')
                 ->label('titel')
                 ->translateLabel()
                 ->searchable(),
+
+            Columns\TextColumn::make('published_at')
+                ->label('laatst gewijzigd')
+                ->translateLabel()
+                ->placeholder('-')
+                ->sortable()
+                ->date()
         ];
     }
 }
