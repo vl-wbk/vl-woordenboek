@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\Filament\Clusters\Blog\Resources\BlogResource\Enums;
 
 use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
 
-enum Status: int implements HasLabel, HasColor
+enum Status: int implements HasLabel, HasColor, HasIcon
 {
     case Draft = 0;
     case Published = 1;
@@ -30,6 +31,15 @@ enum Status: int implements HasLabel, HasColor
             self::Draft => 'warning',
             self::Published => 'success',
             self::Archived => 'info',
+        };
+    }
+
+    public function getIcon(): string
+    {
+        return match($this) {
+            self::Draft => 'heroicon-o-pencil-square',
+            self::Published => 'heroicon-o-globe-europe-africa',
+            self::Archived => 'heroicon-o-archive-box',
         };
     }
 }

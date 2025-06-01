@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources\BlogResource\Schema;
 
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns;
 
 /**
@@ -26,8 +27,22 @@ final readonly class TableSchema
     {
         return [
             Columns\TextColumn::make('author.name')
-                ->label('Auteur')
-                ->sortable()
+                ->icon('heroicon-o-user-circle')
+                ->iconColor('primary')
+                ->weight(FontWeight::SemiBold)
+                ->label('auteur')
+                ->translateLabel()
+                ->searchable(),
+
+            Columns\TextColumn::make('status')
+                ->label('status')
+                ->translateLabel()
+                ->badge()
+                ->sortable(),
+
+            Columns\TextColumn::make('title')
+                ->label('titel')
+                ->translateLabel()
                 ->searchable(),
         ];
     }
