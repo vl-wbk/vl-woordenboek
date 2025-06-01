@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources\BlogResource\Schema;
 
+use App\Filament\Clusters\Blog\Resources\BlogResource\Enums\Status;
+use Filament\Forms\Components;
 use Filament\Forms\Form;
+use Filament\Support\Enums\IconSize;
 
 /**
  * Class FormSchema
@@ -34,6 +37,29 @@ final readonly class FormSchema
      */
     public static function getComponents(Form $form): Form
     {
-        return $form->schema([]);
+        return $form->schema([
+            Components\Section::make('Creatie van een nieuw nieuwsartikel')
+                ->description('Informeer de gebruiker omtrent de evolutie van het Vlaams Woordenboek of de vlaamse taal')
+                ->icon('heroicon-o-pencil-square')
+                ->iconColor('primary')
+                ->iconSize(IconSize::Medium)
+                ->compact()
+                ->columns(12)
+                ->compact()
+                ->schema(self::getFormComponents())
+        ]);
+    }
+
+    private static function getFormComponents(): array
+    {
+        return [
+            Components\Select::make('status')
+                ->label('Artikel status')
+                ->required()
+                ->options(Status::class)
+                ->columnSpan(3)
+                ->default(Status::Draft->value)
+                ->native(false),
+        ];
     }
 }

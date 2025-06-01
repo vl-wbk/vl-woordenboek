@@ -47,7 +47,9 @@ final readonly class ResourceActionDefinitions
     {
         return [
             Actions\ActionGroup::make(actions: [
+                Actions\ViewAction::make(),
                 Actions\EditAction::make(),
+                Actions\DeleteAction::make(),
             ])
         ];
     }

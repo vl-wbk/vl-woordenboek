@@ -50,8 +50,8 @@ final readonly class TableSchema
                 ->translateLabel()
                 ->searchable(),
 
-            Columns\TextColumn::make('published_at')
-                ->label('laatst gewijzigd')
+            Columns\TextColumn::make('updated_at')
+                ->label('Laatste wijziging')
                 ->translateLabel()
                 ->placeholder('-')
                 ->sortable()
