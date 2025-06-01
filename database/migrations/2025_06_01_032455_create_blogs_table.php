@@ -22,7 +22,7 @@ return new class extends Migration
             $table->ulid('id')->primary();
             $table->foreignIdFor(User::class, 'author_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignUlid('category_id')->nullable()->constrained()->nullOnDelete();
-            $table->string('status')->nullable();
+            $table->smallInteger('status')->nullable();
             $table->string('title');
             $table->string('content');
             $table->string('views');
