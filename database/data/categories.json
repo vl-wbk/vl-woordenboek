@@ -1,0 +1,78 @@
+[
+  {
+    "name": "Woord van de Week",
+    "description": "Diepgaande analyses van specifieke Vlaamse woorden, hun oorsprong en gebruik."
+  },
+  {
+    "name": "Grammatica Guides",
+    "description": "Uitleg over typische Vlaamse grammaticale constructies of verschillen met het Standaardnederlands."
+  },
+  {
+    "name": "Uitspraak en Klankleer",
+    "description": "Hoe spreek je bepaalde Vlaamse klanken of woorden correct uit?"
+  },
+  {
+    "name": "Verwarrende Woorden",
+    "description": "Bespreking van homoniemen, synoniemen of woorden die vaak verkeerd worden gebruikt."
+  },
+  {
+    "name": "Nieuwspraak",
+    "description": "Recent toegevoegde of populaire Vlaamse woorden en uitdrukkingen."
+  },
+  {
+    "name": "Regionale Variaties",
+    "description": "Artikelen over dialecten binnen Vlaanderen (West-Vlaams, Antwerps, Limburgs, etc.)."
+  },
+  {
+    "name": "Vlaamse Uitdrukkingen",
+    "description": "De betekenis en herkomst van bekende Vlaamse spreekwoorden en gezegden."
+  },
+  {
+    "name": "Taal en Geschiedenis",
+    "description": "Hoe de Vlaamse taal is geëvolueerd door de eeuwen heen."
+  },
+  {
+    "name": "Literatuur en Taal",
+    "description": "Besprekingen van Vlaamse auteurs en hoe zij de taal gebruiken."
+  },
+  {
+    "name": "Vlaamse Tradities",
+    "description": "De rol van taal in typisch Vlaamse gebruiken en feesten."
+  },
+  {
+    "name": "Taaltips voor Nieuwkomers",
+    "description": "Handige adviezen voor mensen die Vlaams leren of in Vlaanderen wonen."
+  },
+  {
+    "name": "Etiquette en Taal",
+    "description": "Hoe je de juiste toon en woorden kiest in verschillende sociale situaties in Vlaanderen."
+  },
+  {
+    "name": "Vlaams in de Media",
+    "description": "Analyse van taalgebruik in Vlaamse films, series, muziek of reclames."
+  },
+  {
+    "name": "Frequente Fouten",
+    "description": "Veelvoorkomende taalfouten en hoe je ze vermijdt."
+  },
+  {
+    "name": "Zakelijk Vlaams",
+    "description": "Specifieke terminologie en conventies voor de zakelijke communicatie."
+  },
+  {
+    "name": "Woordenquiz",
+    "description": "Interactieve quizzen om de kennis van het Vlaams te testen."
+  },
+  {
+    "name": "Lezersvragen",
+    "description": "Beantwoorden van vragen van lezers over de Vlaamse taal."
+  },
+  {
+    "name": "Grappige Taalfeiten",
+    "description": "Leuke en onverwachte weetjes over het Vlaams."
+  },
+  {
+    "name": "Vlaamse Toponiemen",
+    "description": "De oorsprong van namen van Vlaamse steden, dorpen en streken."
+  }
+]

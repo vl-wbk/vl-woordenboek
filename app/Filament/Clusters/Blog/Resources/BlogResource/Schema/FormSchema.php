@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Clusters\Blog\Resources\BlogResource\Schema;
 
 use App\Filament\Clusters\Blog\Resources\BlogResource\Enums\Status;
+use App\Filament\Clusters\Blog\Resources\CategoryResource\Schema\FormSchema as SchemaFormSchema;
 use Filament\Forms\Components;
 use Filament\Forms\Form;
 use Filament\Support\Enums\IconSize;
@@ -57,9 +58,33 @@ final readonly class FormSchema
                 ->label('Artikel status')
                 ->required()
                 ->options(Status::class)
-                ->columnSpan(3)
+                ->columnSpan(2)
                 ->default(Status::Draft->value)
                 ->native(false),
+
+            Components\TextInput::make('title')
+                ->label('Titel')
+                ->required()
+                ->maxLength(255)
+                ->placeholder('Titel van uw nieuwsbericht')
+                ->columnSpan(7),
+
+            Components\Select::make('category_id')
+                ->label('Categorie')
+                ->translateLabel()
+                ->relationship(name: 'category', titleAttribute: 'name')
+                ->createOptionForm(SchemaFormSchema::getFormComponents())
+                ->native(false)
+                ->searchable()
+                ->preload()
+                ->columnSpan(3),
+
+            Components\MarkdownEditor::make('content')
+                ->label('Nieuwsbericht')
+                ->translateLabel()
+                ->required()
+                ->placeholder('De start van een mooi verhaal...')
+                ->columnSpanFull(),
         ];
     }
 }

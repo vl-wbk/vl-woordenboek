@@ -81,6 +81,10 @@ body {
     }
 }
 
+.border-green {
+    border-color: oklch(70.5% 0.015 286.067) !important;
+}
+
 // Footer
 
 .footer-icon-color {
@@ -109,6 +113,10 @@ body {
 }
 
 // Buttons
+
+.btn-rss {
+    @include button-variant(#f26522, #f26522);
+}
 
 .btn-search {
     @include button-variant(#f6eacb, #f6eacb, #127453);

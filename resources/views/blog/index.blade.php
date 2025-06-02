@@ -14,33 +14,36 @@
             <div class="row">
                 <!-- Blog entries-->
                 <div class="col-lg-8">
-                    <!-- Featured blog post-->
-                    <div class="card border-0 shadow-sm mb-4">
-                        <div class="card-body">
-                            <div class="small text-muted">January 1, 2023
-                                <span class="float-end">test | Leestijd: 3 minuten</span>
-                            </div>
-                            <h2 class="card-title">Featured Post Title</h2>
-                            <p class="card-text mb-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
+                    @forelse ($posts as $post)
+                        <div class="card border-0 shadow-sm mb-3">
+                            <div class="card-body">
+                                <div class="small text-muted">
+                                    {{ __('Gepubliceerd door :author op :date', ['author' => $post->author->name, 'date' => $post->created_at->locale('nl_BE')->isoFormat('DD MMMM YYYY HH:mm') ]) }}
 
-                            <span class="float-start">
-                                <a class="card-link" href="#!">Read more →</a>
-                            </span>
+                                    @if ($post->category()->exists())
+                                        <div class="float-end">
+                                        <span class="badge badge-primary">{{ $post->category->name }}</span>
+                                    </div>
+                                    @endif
+                                </div>
+                                <h3 class="card-title color-green mb-3">{{  $post->title }}</h3>
+                                <p class="card-text mb-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
+
+                                <span class="float-start">
+                                    <a class="card-link" href="#!">Lees verder →</a>
+                                </span>
+                            </div>
                         </div>
-                    </div>
+                    @empty
+                    @endforelse
+
+
                     <!-- Pagination-->
-                    <nav aria-label="Pagination">
-                        <hr class="my-0" />
-                        <ul class="pagination justify-content-center my-4">
-                            <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Newer</a></li>
-                            <li class="page-item active" aria-current="page"><a class="page-link" href="#!">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#!">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#!">3</a></li>
-                            <li class="page-item disabled"><a class="page-link" href="#!">...</a></li>
-                            <li class="page-item"><a class="page-link" href="#!">15</a></li>
-                            <li class="page-item"><a class="page-link" href="#!">Older</a></li>
-                        </ul>
-                    </nav>
+                    @if ($posts->hasPages())
+                        <hr class="mb-3">
+                        {{ $posts->links() }}
+                    @endif
+
                 </div>
                 <!-- Side widgets-->
                 <div class="col-lg-4">
@@ -54,14 +57,22 @@
                             </div>
                         </div>
                     </div>
+
                     <!-- Categories widget-->
-                    <div class="card border-0 shadow-sm mb-4">
-                        <div class="card-header border-bottom-0 color-green fw-bold bg-sidenav">Categorieen</div>
-                        <div class="card-body">
-                            <span class="badge badge-primary">Test</span>
-                            <span class="badge badge-primary">Test</span>
-                        </div>
+                    <h5 class="border-bottom pb-2 border-green color-green fw-bold">Categorieen</h4>
+
+                    <div class="border-bottom pb-2 border-green">
+                        @foreach ($categories as $category)
+                            <a href="" class="badge badge-primary shadow-sm text-decoration-none">
+                                {{ $category->name }} <span class="fst-italic fw-bold">({{ $category->posts->count() }})</span>
+                            </a>
+                        @endforeach
                     </div>
+
+                    <a href="{{  url('feed') }}" class="btn mt-2 w-100 text-white shadow-sm btn-rss">
+                        <x-heroicon-s-rss class="icon me-1"/> RSS Feed
+                    </a>
+
                 </div>
             </div>
         </div>

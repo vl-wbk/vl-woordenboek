@@ -27,6 +27,7 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @include('feed::links')
 </head>
 
 <body class="d-flex flex-column h-100">
@@ -97,6 +98,9 @@
                             <x-heroicon-o-chat-bubble-left-right class="icon me-1"/> Forum
                         </a>
                     </li>
+
+                    @if (\App\Models\Blog::count() > 0)
+                    @endif
 
                     <li class="nav-item">
                         <a href="mailto:contact@vlaamswoordenboek.be" class="nav-link">

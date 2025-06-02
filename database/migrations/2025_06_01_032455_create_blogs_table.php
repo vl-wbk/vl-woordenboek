@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table): void {
             $table->ulid('id')->primary();
             $table->string('name')->unique();
+            $table->string('description')->nullable();
             $table->timestamps();
         });
 
@@ -25,7 +26,7 @@ return new class extends Migration
             $table->smallInteger('status')->nullable();
             $table->string('title');
             $table->string('content');
-            $table->string('views');
+            $table->integer('views')->default(0);
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });
