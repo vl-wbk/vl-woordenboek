@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Filament\Clusters\Blog\Resources\BlogResource\Enums\Status;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
+use App\Services\ReadTimeCalculator;
 
 final class Blog extends Model implements Feedable
 {
@@ -41,6 +43,29 @@ final class Blog extends Model implements Feedable
         return [
             'status' => Status::class,
         ];
+    }
+
+    /**
+     * Get the estimated read time for the post.
+     * This will automatically be available as $post->read_time.
+     */
+    public function getReadTimeAttribute(): string
+    {
+        // Resolve the service from the container
+        $calculator = app(ReadTimeCalculator::class);
+
+        return $calculator->calculate($this->content);
+    }
+
+    /**
+     * Get the estimated read time for the post in raw minutes.
+     * This will automatically be available as $post->read_time_in_minutes.
+     */
+    public function getReadTimeInMinutesAttribute(): int
+    {
+        $calculator = app(ReadTimeCalculator::class);
+
+        return $calculator->calculateInMinutes($this->content);
     }
 
     public function toFeedItem(): FeedItem

@@ -31,6 +31,7 @@ final readonly class FormSchema
                 ->label('Beschrijving van de categorie')
                 ->placeholder('Beschrijf zo kort mogelijk waarover de categorie gaat')
                 ->translateLabel()
+                ->required()
                 ->rows(4)
                 ->columnSpan(12),
         ];

@@ -100,6 +100,11 @@
                     </li>
 
                     @if (\App\Models\Blog::count() > 0)
+                        <li class="nav-item">
+                            <a href="{{ route('news:index') }}" class="nav-link">
+                                <x-heroicon-s-newspaper class="icon"/> Artikelen
+                            </a>
+                        </li>
                     @endif
 
                     <li class="nav-item">

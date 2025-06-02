@@ -25,7 +25,7 @@ return new class extends Migration
             $table->foreignUlid('category_id')->nullable()->constrained()->nullOnDelete();
             $table->smallInteger('status')->nullable();
             $table->string('title');
-            $table->string('content');
+            $table->text('content');
             $table->integer('views')->default(0);
             $table->timestamp('published_at')->nullable();
             $table->timestamps();

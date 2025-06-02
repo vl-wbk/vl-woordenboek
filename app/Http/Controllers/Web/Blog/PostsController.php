@@ -4,22 +4,23 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Web\Blog;
 
-use App\Filament\Clusters\Blog\Resources\BlogResource\Enums\Status;
 use App\Models\Blog;
 use App\Models\Category;
+use App\Queries\SearchArticlesQuery;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
 use Symfony\Component\HttpFoundation\Response;
 
 final readonly class PostsController
 {
     #[Get(uri: '/nieuws', name: 'news:index')]
-    public function index(): Renderable
+    public function index(Request $request, SearchArticlesQuery $searchArticlesQuery): Renderable
     {
         abort_unless(Blog::count() > 0, Response::HTTP_NOT_FOUND);
 
         return view('blog.index', data: [
-            'posts' => Blog::query()->with(['category', 'author'])->where('status', Status::Published)->simplePaginate(6),
+            'posts' => $searchArticlesQuery->execute($request),
             'categories' => Category::with('posts')->get(),
         ]);
     }

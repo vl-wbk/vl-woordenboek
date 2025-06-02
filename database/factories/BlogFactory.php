@@ -23,7 +23,7 @@ final class BlogFactory extends Factory
             "author_id" => $this->withAuthor(),
             'views' => $this->faker->numberBetween(0, 1000),
             'title' => fake('nl_BE')->sentence(7),
-            'content' => fake('nl_BE')->sentences(asText: true)
+            'content' => fake('nl_BE')->sentences(250, asText: true)
         ];
     }
 
