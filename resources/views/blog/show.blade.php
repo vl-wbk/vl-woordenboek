@@ -12,12 +12,12 @@
                         <!-- Post categories-->
                         @if ($post->category()->exists())
                             @foreach ($post->category as $category)
-                                <a href="{{ route('categories:show', $category) }}" class="badge badge-warning shadow-sm text-decoration-none" href="#!">
+                                <a href="{{ route('categories:show', $category) }}" class="badge badge-primary shadow-sm text-decoration-none" href="#!">
                                     <x-heroicon-s-tag class="icon icon-sm me-1"/> Ongecategoriseerd
                                 </a>
                             @endforeach
                         @else  {{-- No ctageories are found so simply return the uncategorised label. --}}
-                            <span class="badge badge-warning shadow-sm text-decoration-none" href="#!">
+                            <span class="badge badge-primary shadow-sm text-decoration-none" href="#!">
                                 <x-heroicon-s-tag class="icon icon-sm me-1"/> Ongecategoriseerd
                             </span>
                         @endif
@@ -30,77 +30,119 @@
                 </article>
 
                 <!-- Comments section-->
-                <section class="mb-5">
+                <section class="pb-3">
                     <div class="card bg-light border-0 shadow-sm">
-                        <div class="card-header d-flex justify-content-between align-items-center border-bottom-0 fw-bold color-green bg-sidenav">
-                            <span>Reacties (0)</span>
+                        <div class="card-header bg-white d-flex justify-content-between align-items-center fw-bold">
+                            <span class="color-green">Reacties (2)</span>
 
-    <nav aria-label="Page navigation example">
-      <ul class="pagination mb-0"> <li class="page-item disabled">
-          <a class="page-link" href="#" tabindex="-1">Previous</a>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-          <a class="page-link" href="#">Next</a>
-        </li>
-      </ul>
-    </nav>
-  </div>
-                            <div class="card-body">
-                                <!-- Comment with nested comments-->
-                                <div class="d-flex mb-4">
-                                    <!-- Parent comment-->
-                                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                    <div class="ms-3">
-                                        <div class="fw-bold">Commenter Name</div>
-                                        If you're going to lead a space frontier, it has to be government; it'll never be private enterprise. Because the space frontier is dangerous, and it's expensive, and it has unquantified risks.
-                                    </div>
-                                </div>
-                                <!-- Comment with nested comments-->
-                                <div class="d-flex mb-4">
-                                    <!-- Parent comment-->
-                                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                    <div class="ms-3">
-                                        <div class="fw-bold">Commenter Name</div>
-                                        If you're going to lead a space frontier, it has to be government; it'll never be private enterprise. Because the space frontier is dangerous, and it's expensive, and it has unquantified risks.
-                                    </div>
-                                </div>
-                                <!-- Comment with nested comments-->
-                                <div class="d-flex mb-4">
-                                    <!-- Parent comment-->
-                                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                    <div class="ms-3">
-                                        <div class="fw-bold">Commenter Name</div>
-                                        If you're going to lead a space frontier, it has to be government; it'll never be private enterprise. Because the space frontier is dangerous, and it's expensive, and it has unquantified risks.
-                                    </div>
-                                </div>
-                                <!-- Comment with nested comments-->
-                                <div class="d-flex mb-4">
-                                    <!-- Parent comment-->
-                                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                    <div class="ms-3">
-                                        <div class="fw-bold">Commenter Name</div>
-                                        If you're going to lead a space frontier, it has to be government; it'll never be private enterprise. Because the space frontier is dangerous, and it's expensive, and it has unquantified risks.
-                                    </div>
-                                </div>
-                                <!-- Single comment-->
-                                <div class="d-flex">
-                                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                    <div class="ms-3">
-                                        <div class="fw-bold">Commenter Name</div>
-                                        When I look at the universe and all the ways the universe wants to kill us, I find it hard to reconcile that with statements of beneficence.
-                                    </div>
-                                </div>
-
-                                 <!-- Comment form-->
-                                <form class="mt-4 border-top">
-                                    <textarea class="form-control mt-2" rows="3" placeholder="Join the discussion and leave a comment!"></textarea>
-                                    <button type="submit" class="btn btn-sm btn-submit mt-3">ddd</button>
-                                </form>
-                            </div>
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination border-0 pagination-sm mb-0">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1">
+                                            <x-heroicon-o-chevron-double-left class="icon icon-sm"/> recentere reacties
+                                        </a>
+                                    </li
+                                    >
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">
+                                            oudere reacties <x-heroicon-o-chevron-double-right class="icon icon-sm"/>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
                         </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item bg-warning-subtle d-flex">
+                                    <div class="flex-shrink-0"><img class="rounded-circle shadow-sm" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                                    <div class="ms-3">
+                                        <div class="fw-bold">
+                                            Commenter Name
+
+                                            <span class="ms-1 badge float-end badge-warning fst-italic">
+                                                Gerapporteerde reactie - aandacht vereist
+                                            </span>
+                                        </div>
+
+                                        <span>When I look at the universe and all the ways the universe wants to kill us, I find it hard to reconcile that with statements of beneficence.</span>
+
+                                        <ul class="list-inline pt-2">
+                                            <li class="list-inline-item">
+                                                <a href="" class="text-decoration-none text-success">
+                                                    <x-heroicon-o-hand-thumb-up class="icon me-1"/> 0
+                                                </a>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <a href="" class="text-decoration-none text-danger">
+                                                    <x-heroicon-o-hand-thumb-down class="icon me-1"/> 0
+                                                </a>
+                                            </li>
+                                            <li class="list-inline-item float-end">
+                                                <a href="" class="text-success text-decoration-none">
+                                                    <x-heroicon-o-shield-check class="icon"/> behandeld
+                                                </a>
+
+                                                <span class="text-muted mx-1">|</span>
+
+                                                <a href="" class="text-decoration-none text-danger">
+                                                    <x-heroicon-o-trash class="icon"/>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item d-flex">
+                                    <div class="flex-shrink-0"><img class="rounded-circle shadow-sm" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                                    <div class="ms-3">
+                                        <div class="fw-bold">Commenter Name <span class=" ms-1 badge border-0 badge-gray">kernlid - ontwikkeling</span></div>
+                                        <span>Momenteel ervaren een doelgerichte spam actie tegen de commentaren van dit artikel. We werken aan een oplossing en houden jullie op de hoogte.</span>
+
+                                        <ul class="list-inline pt-2">
+                                            <li class="list-inline-item">
+                                                <a href="" class="text-decoration-none text-success">
+                                                    <x-heroicon-o-hand-thumb-up class="icon me-1"/> 0
+                                                </a>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <a href="" class="text-decoration-none text-danger">
+                                                    <x-heroicon-o-hand-thumb-down class="icon me-1"/> 0
+                                                </a>
+                                            </li>
+                                            <li class="list-inline-item float-end">
+                                                <a href="" class="text-danger text-decoration-none">
+                                                    <x-heroicon-o-shield-exclamation class="icon"/> rapporteren
+                                                </a>
+
+                                                <span class="text-muted mx-1">|</span>
+
+                                                <a href="" class="text-danger text-decoration-none">
+                                                    <x-heroicon-o-trash class="icon"/>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    {{-- Reaction form --}}
+                    <section class="mb-5 border-top border-green pt-3">
+                        <form class="card bg-white border-0 shadow-sm">
+                            <div class="card-body">
+                                <textarea class="form-control" rows="3" placeholder="Join the discussion and leave a comment!"></textarea>
+                            </div>
+
+                            <div class="card-footer border-top-0 bg-light">
+                                <button type="submit" class="btn btn-submit btn-sm">
+                                    <x-heroicon-s-chat-bubble-left-right class="icon me-1"/> Reageren
+                                </button>
+
+                                <button type="reset" class="btn btn-sm btn-link">
+                                    Reset
+                                </button>
+                            </div>
+                        </form>
                     </section>
                 </div>
 
