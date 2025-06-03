@@ -28,6 +28,11 @@ final readonly class PostsController
     #[Get(uri: '/nieuws/{blog}', name: 'news:show')]
     public function show(Blog $blog): Renderable
     {
-        dd('works');
+        $blog->increment('views');
+
+        return view('blog.show', data: [
+            'post' => $blog,
+            'categories' => Category::with('posts')->get(),
+        ]);
     }
 }

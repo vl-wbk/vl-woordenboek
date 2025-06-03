@@ -1,20 +1,32 @@
 @extends ('layouts.application-blank', ['title' => 'Nieuws', 'paddingContent' => 'py-0'])
 
 @section ('content')
-    <header class="py-5 bg-light border-border-0 mb-4">
+    <header class="py-5 bg-light border-border-0 mb-4 shadow-sm">
         <div class="container">
             <div class="text-center my-5">
                 @if (active('news:index'))
                     <h1 class="fw-bolder color-green">
                         <x-heroicon-o-newspaper class="icon icon-news-heading"/> Artikelen uit het Vlaams Woordenboek
                     </h1>
+                @elseif (active('categories:show'))
+                    <h1 class="fw-bolder color-green">
+                        <x-heroicon-o-tag class="icon icon-news-heading"/> {{ $category->name }}
+                    </h1>
                 @endif
 
                 <p class="lead mb-0">
                     @if (active('news:index'))
                         Blijf op de hoogte van recente toevoegingen, taalkundige inzichten en verrijkingen uit het Vlaams Woordenboek.
+                    @elseif (active('categories:show'))
+                        {{  $category->description }}
                     @endif
                 </p>
+
+                @if (active('categories:show'))
+                    <a href="{{ route('news:index') }}" class="btn btn-submit mt-3 border-0 shadow-sm">
+                        Terug naar overzicht
+                    </a>
+                @endif
             </div>
         </div>
     </header>
@@ -37,17 +49,10 @@
 
                                     <div class="float-end">
                                         <span class="text-muted">{{ $post->read_time }}</span>
-
-                                        @if ($post->category()->exists())
-                                            <span class="text-muted mx-1">|</span>
-                                            <span class="badge badge-primary shadow-sm">
-                                                <x-heroicon-o-tag class="icon-sm me-1"/> {{ $post->category->name }}
-                                            </span>
-                                        @endif
                                     </div>
                                 </div>
                                 <h3 class="card-title color-green mb-3">{{  $post->title }}</h3>
-                                <p class="card-text mb-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
+                                <p class="card-text mb-2">{!! strip_tags(str($post->content)->words(75)->markdown()->sanitizeHtml()) !!}</p>
 
                                 <span class="float-start">
                                     <a class="card-link text-decoration-none" href="{{ route('news:show', $post) }}">
@@ -66,9 +71,11 @@
                                     Momenteel zijn er geen artikelen in het Vlaams Woordenboek te vinden die voldoen aan je zoekopdracht of categorie. Probeer een andere zoekterm of kom later nog eens terug.
                                 </p>
 
-                                <a href="{{ route('news:index') }}" class="btn btn-sm btn-submit border-0">
-                                    <x-heroicon-o-x-mark class="icon me-1"/> Zoekopdracht ongedaan maken
-                                </a>
+                                @if (request()->has('zoekterm') && request()->get('zoekterm') !== null)
+                                    <a href="{{ route('news:index') }}" class="btn btn-sm btn-submit border-0">
+                                        <x-heroicon-o-x-mark class="icon me-1"/> Zoekopdracht ongedaan maken
+                                    </a>
+                                @endif
                             </div>
                         </div>
                     @endforelse
@@ -100,7 +107,7 @@
 
                     <div class="border-bottom pb-2 border-green">
                         @foreach ($categories as $category)
-                            <a href="" class="badge badge-primary shadow-sm text-decoration-none">
+                            <a href="{{ route('categories:show', $category) }}" class="badge badge-primary shadow-sm text-decoration-none">
                                 {{ $category->name }} <span class="fst-italic fw-bold">({{ $category->posts->count() }})</span>
                             </a>
                         @endforeach

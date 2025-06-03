@@ -11,6 +11,18 @@ body {
     background-image: url('../img/app-background.png');
 }
 
+// Articles
+
+.article-section {
+    > p:not(:last-of-type) {
+        margin-bottom: 1rem;
+    }
+
+    > h1, h2, h3, h4, h5, h6 {
+        color: #127453;
+    }
+}
+
 // Icons
 
 .icon-thin {
