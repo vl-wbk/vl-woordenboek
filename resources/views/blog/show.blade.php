@@ -52,6 +52,7 @@
                                     </ul>
                                 </nav>
                             </div>
+
                             <ul class="list-group list-group-flush">
                                 @foreach ($comments as $comment)
                                     <livewire:articleComments.post-comment :comment=$comment />
@@ -81,7 +82,7 @@
                                     Reset
                                 </button>
 
-                                <a href="" class="text-muted text-decoration-none fw-semibold float-end">
+                                <a href="" _target="blank" class="text-muted text-decoration-none fw-semibold float-end">
                                     <x-heroicon-s-book-open class="icon color-green me-1"/> Moderatie FAQ
                                 </a>
                             </div>
@@ -94,7 +95,9 @@
                 <!-- Side widgets-->
                 <div class="col-lg-4">
                     <!-- Search widget-->
-                    <h5 class="border-bottom pb-2 border-green color-green fw-bold"><x-heroicon-o-magnifying-glass-circle class="icon me-1"/> Artikel opzoeken</h4>
+                    <h5 class="border-bottom pb-2 border-green color-green fw-bold">
+                        <x-heroicon-o-magnifying-glass-circle class="icon me-1"/> Artikel opzoeken
+                    </h4>
 
                     <form action="{{ route('news:index') }}" method="GET" class="mb-4 border-0 shadow-sm">
                         <div class="input-group">
@@ -106,7 +109,9 @@
                     </form>
 
                     <!-- Categories widget-->
-                    <h5 class="border-bottom pb-2 border-green color-green fw-bold"><x-heroicon-s-tag class="icon me-1"/> Categorieen</h4>
+                    <h5 class="border-bottom pb-2 border-green color-green fw-bold">
+                        <x-heroicon-s-tag class="icon me-1"/> Categorieen
+                    </h4>
 
                     <div class="border-bottom pb-2 border-green">
                         @foreach ($categories as $category)
