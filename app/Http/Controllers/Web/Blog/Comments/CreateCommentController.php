@@ -25,7 +25,7 @@ final class CreateCommentController
         return $this->attemptSubmissionWithRateLimiting($storeCommentRequest, 'reaction', function () use ($storeReaction, $storeCommentRequest, $blog): RedirectResponse {
             $storeReaction->handle($blog, $storeCommentRequest);
 
-            return redirect()->action([PostsController::class, 'show'], parameters: $blog);
+            return redirect()->action([PostsController::class, 'show'], parameters: $blog)->withFragment('reacties');
         });
     }
 }

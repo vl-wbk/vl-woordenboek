@@ -34,7 +34,7 @@
                     <section class="pb-3">
                         <div class="card bg-light border-0 shadow-sm">
                             <div class="card-header bg-white d-flex justify-content-between align-items-center fw-bold">
-                                <span class="color-green">Reacties (2)</span>
+                                <span class="color-green" id="reacties">Reacties ({{ $post->comments->count() }})</span>
 
                                 <nav aria-label="Page navigation example">
                                     <ul class="pagination border-0 pagination-sm mb-0">
@@ -54,7 +54,7 @@
                             </div>
                             <ul class="list-group list-group-flush">
                                 @foreach ($comments as $comment)
-                                    <livewire:articleComments.post-comment :comment="$comment" />
+                                    <livewire:articleComments.post-comment :comment=$comment />
                                 @endforeach
                             </ul>
                         </div>

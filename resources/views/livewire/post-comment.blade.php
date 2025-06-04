@@ -5,7 +5,7 @@
 
     <div class="ms-3">
         <div class="fw-bold">
-            Commenter Name <span class=" ms-1 badge border-0 badge-gray">kernlid - ontwikkeling</span>
+            {{ $comment->commentator->name }} <span class=" ms-1 badge border-0 badge-gray">kernlid - ontwikkeling</span>
         </div>
 
         <span>Momenteel ervaren een doelgerichte spam actie tegen de commentaren van dit artikel. We werken aan een oplossing en houden jullie op de hoogte.</span>
