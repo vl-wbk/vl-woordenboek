@@ -13,12 +13,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
 use App\Services\ReadTimeCalculator;
+use BeyondCode\Comments\Traits\HasComments;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 final class Blog extends Model implements Feedable
 {
     use HasFactory;
     use HasUlids;
+    use HasComments;
 
     protected $guarded = ['id'];
 

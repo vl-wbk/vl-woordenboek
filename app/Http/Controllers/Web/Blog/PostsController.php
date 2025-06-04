@@ -32,6 +32,7 @@ final readonly class PostsController
 
         return view('blog.show', data: [
             'post' => $blog,
+            'comments' => $blog->comments()->simplePaginate(6)->appends(request()->query()),
             'categories' => Category::with('posts')->get(),
         ]);
     }

@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
-                <article class="border-green mb-3 @if ($post->comments_enabled) border-bottom @endif">
+                <article class="border-green mb-3 @if ($post->comments_enabled && $post->comments->count() > 0) border-bottom @endif">
                     <header class="mb-4">
                         <h1 class="fw-bolder text-gold mb-1">{{ $post->title }}</h1>
                         <div class="text-muted fst-italic mb-2">{{ __('Gepubliceerd door :author op :date', ['author' => $post->author->name, 'date' => $post->created_at->locale('nl_BE')->isoFormat('DD MMMM YYYY HH:mm') ]) }}</div>
@@ -30,108 +30,46 @@
                 </article>
 
                 <!-- Comments section-->
-                @if ($post->comments_enabled)
+                @if ($post->comments_enabled && $post->comments->count() > 0)
                     <section class="pb-3">
-                    <div class="card bg-light border-0 shadow-sm">
-                        <div class="card-header bg-white d-flex justify-content-between align-items-center fw-bold">
-                            <span class="color-green">Reacties (2)</span>
+                        <div class="card bg-light border-0 shadow-sm">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center fw-bold">
+                                <span class="color-green">Reacties (2)</span>
 
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination border-0 pagination-sm mb-0">
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="#" tabindex="-1">
-                                            <x-heroicon-o-chevron-double-left class="icon icon-sm"/> recentere reacties
-                                        </a>
-                                    </li
-                                    >
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">
-                                            oudere reacties <x-heroicon-o-chevron-double-right class="icon icon-sm"/>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination border-0 pagination-sm mb-0">
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" tabindex="-1">
+                                                <x-heroicon-o-chevron-double-left class="icon icon-sm"/> recentere reacties
+                                            </a>
+                                        </li
+                                        >
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">
+                                                oudere reacties <x-heroicon-o-chevron-double-right class="icon icon-sm"/>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item bg-warning-subtle d-flex">
-                                    <div class="flex-shrink-0"><img class="rounded-circle shadow-sm" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                    <div class="ms-3">
-                                        <div class="fw-bold">
-                                            Commenter Name
-
-                                            <span class="ms-1 badge float-end badge-warning fst-italic">
-                                                Gerapporteerde reactie - aandacht vereist
-                                            </span>
-                                        </div>
-
-                                        <span>When I look at the universe and all the ways the universe wants to kill us, I find it hard to reconcile that with statements of beneficence.</span>
-
-                                        <ul class="list-inline pt-2">
-                                            <li class="list-inline-item">
-                                                <a href="" class="text-decoration-none text-success">
-                                                    <x-heroicon-o-hand-thumb-up class="icon me-1"/> 0
-                                                </a>
-                                            </li>
-                                            <li class="list-inline-item">
-                                                <a href="" class="text-decoration-none text-danger">
-                                                    <x-heroicon-o-hand-thumb-down class="icon me-1"/> 0
-                                                </a>
-                                            </li>
-                                            <li class="list-inline-item float-end">
-                                                <a href="" class="text-success text-decoration-none">
-                                                    <x-heroicon-o-shield-check class="icon"/> behandeld
-                                                </a>
-
-                                                <span class="text-muted mx-1">|</span>
-
-                                                <a href="" class="text-decoration-none text-danger">
-                                                    <x-heroicon-o-trash class="icon"/>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-
-                                <li class="list-group-item d-flex">
-                                    <div class="flex-shrink-0"><img class="rounded-circle shadow-sm" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                    <div class="ms-3">
-                                        <div class="fw-bold">Commenter Name <span class=" ms-1 badge border-0 badge-gray">kernlid - ontwikkeling</span></div>
-                                        <span>Momenteel ervaren een doelgerichte spam actie tegen de commentaren van dit artikel. We werken aan een oplossing en houden jullie op de hoogte.</span>
-
-                                        <ul class="list-inline pt-2">
-                                            <li class="list-inline-item">
-                                                <a href="" class="text-decoration-none text-success">
-                                                    <x-heroicon-o-hand-thumb-up class="icon me-1"/> 0
-                                                </a>
-                                            </li>
-                                            <li class="list-inline-item">
-                                                <a href="" class="text-decoration-none text-danger">
-                                                    <x-heroicon-o-hand-thumb-down class="icon me-1"/> 0
-                                                </a>
-                                            </li>
-                                            <li class="list-inline-item float-end">
-                                                <a href="" class="text-danger text-decoration-none">
-                                                    <x-heroicon-o-shield-exclamation class="icon"/> rapporteren
-                                                </a>
-
-                                                <span class="text-muted mx-1">|</span>
-
-                                                <a href="" class="text-danger text-decoration-none">
-                                                    <x-heroicon-o-trash class="icon"/>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
+                                @foreach ($comments as $comment)
+                                    <livewire:articleComments.post-comment :comment="$comment" />
+                                @endforeach
                             </ul>
                         </div>
                     </section>
+                @endif
 
-                    {{-- Reaction form --}}
+                {{-- Reaction form --}}
+                @if (optional(auth()->user())->can('canComment', $post))
                     <section class="mb-5 border-top border-green pt-3">
-                        <form class="card bg-white border-0 shadow-sm">
+                        <form method="POST" action="{{ route('comment:create', $post) }}" class="card bg-white border-0 shadow-sm">
+                            @csrf {{-- Cross-Site Request Forgery protection --}}
+
                             <div class="card-body">
-                                <textarea class="form-control" rows="3" placeholder="Join the discussion and leave a comment!"></textarea>
+                                <textarea class="form-control @error('reactie') is-invalid @enderror" name="reactie" rows="3" placeholder="Sluit je aan bij de discussie doormiddel van een reactie achter te laten."></textarea>
+                                <x-forms.validation-error field="reactie"/>
                             </div>
 
                             <div class="card-footer border-top-0 bg-light">
@@ -142,11 +80,15 @@
                                 <button type="reset" class="btn btn-sm btn-link">
                                     Reset
                                 </button>
+
+                                <a href="" class="text-muted text-decoration-none fw-semibold float-end">
+                                    <x-heroicon-s-book-open class="icon color-green me-1"/> Moderatie FAQ
+                                </a>
                             </div>
                         </form>
                     </section>
                 @endif
-            </div>
+            </div> {{-- END comments section --}}
 
 
                 <!-- Side widgets-->
