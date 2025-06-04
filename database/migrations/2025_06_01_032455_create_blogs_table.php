@@ -22,12 +22,19 @@ return new class extends Migration
         Schema::create('blogs', function (Blueprint $table): void {
             $table->ulid('id')->primary();
             $table->foreignIdFor(User::class, 'author_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignUlid('category_id')->nullable()->constrained()->nullOnDelete();
             $table->smallInteger('status')->nullable();
             $table->string('title');
             $table->text('content');
             $table->integer('views')->default(0);
+            $table->boolean('comments_enabled')->default(true);
             $table->timestamp('published_at')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('post_categories', function (Blueprint $table): void {
+            $table->ulid('id')->primary();
+            $table->foreignUlid('blog_id')->constrained()->cascadeOnDelete();
+            $table->foreignUlid('category_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -37,6 +44,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('post_categories');
         Schema::dropIfExists('blogs');
         Schema::dropIfExists('categories');
     }

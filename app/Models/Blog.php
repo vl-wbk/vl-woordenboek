@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
 use App\Services\ReadTimeCalculator;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 final class Blog extends Model implements Feedable
 {
@@ -33,14 +34,15 @@ final class Blog extends Model implements Feedable
             ]);
     }
 
-    public function category(): BelongsTo
+    public function category(): BelongsToMany
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsToMany(Category::class, table: 'post_categories');
     }
 
     protected function casts(): array
     {
         return [
+            'comments_enabled' => 'boolean',
             'status' => Status::class,
         ];
     }

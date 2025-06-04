@@ -42,6 +42,7 @@ final readonly class TableSchema
 
             Columns\TextColumn::make('views')
                 ->label('weergaves')
+                ->icon('heroicon-o-eye')
                 ->translateLabel()
                 ->sortable(),
 

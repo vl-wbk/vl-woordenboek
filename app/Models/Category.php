@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 final class Category extends Model
@@ -14,8 +15,8 @@ final class Category extends Model
 
     protected $fillable = ['name', 'description'];
 
-    public function posts(): HasMany
+    public function posts(): BelongsToMany
     {
-        return $this->hasMany(Blog::class);
+        return $this->belongsToMany(Blog::class, 'post_categories');
     }
 }

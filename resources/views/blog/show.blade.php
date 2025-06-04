@@ -4,20 +4,20 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
-                <article class="border-green mb-3 border-bottom">
+                <article class="border-green mb-3 @if ($post->comments_enabled) border-bottom @endif">
                     <header class="mb-4">
                         <h1 class="fw-bolder text-gold mb-1">{{ $post->title }}</h1>
                         <div class="text-muted fst-italic mb-2">{{ __('Gepubliceerd door :author op :date', ['author' => $post->author->name, 'date' => $post->created_at->locale('nl_BE')->isoFormat('DD MMMM YYYY HH:mm') ]) }}</div>
 
                         <!-- Post categories-->
                         @if ($post->category()->exists())
-                            @foreach ($post->category as $category)
+                            @foreach ($post->category as $category) {{-- Loop through the ctageories that are associated with the article --}}
                                 <a href="{{ route('categories:show', $category) }}" class="badge badge-primary shadow-sm text-decoration-none" href="#!">
-                                    <x-heroicon-s-tag class="icon icon-sm me-1"/> Ongecategoriseerd
+                                    <x-heroicon-s-tag class="icon icon-sm me-1"/> {{ $category->name }}
                                 </a>
                             @endforeach
                         @else  {{-- No ctageories are found so simply return the uncategorised label. --}}
-                            <span class="badge badge-primary shadow-sm text-decoration-none" href="#!">
+                            <span class="badge badge-primary shadow-sm text-decoration-none">
                                 <x-heroicon-s-tag class="icon icon-sm me-1"/> Ongecategoriseerd
                             </span>
                         @endif
@@ -30,7 +30,8 @@
                 </article>
 
                 <!-- Comments section-->
-                <section class="pb-3">
+                @if ($post->comments_enabled)
+                    <section class="pb-3">
                     <div class="card bg-light border-0 shadow-sm">
                         <div class="card-header bg-white d-flex justify-content-between align-items-center fw-bold">
                             <span class="color-green">Reacties (2)</span>
@@ -144,7 +145,8 @@
                             </div>
                         </form>
                     </section>
-                </div>
+                @endif
+            </div>
 
 
                 <!-- Side widgets-->

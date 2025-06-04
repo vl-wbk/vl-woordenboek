@@ -58,7 +58,7 @@ final readonly class FormSchema
                 ->label('Artikel status')
                 ->required()
                 ->options(Status::class)
-                ->columnSpan(2)
+                ->columnSpan(3)
                 ->default(Status::Draft->value)
                 ->native(false),
 
@@ -67,17 +67,18 @@ final readonly class FormSchema
                 ->required()
                 ->maxLength(255)
                 ->placeholder('Titel van uw nieuwsbericht')
-                ->columnSpan(7),
+                ->columnSpan(9),
 
             Components\Select::make('category_id')
-                ->label('Categorie')
+                ->label('Categorieen')
                 ->translateLabel()
                 ->relationship(name: 'category', titleAttribute: 'name')
                 ->createOptionForm(SchemaFormSchema::getFormComponents())
                 ->native(false)
+                ->multiple()
                 ->searchable()
                 ->preload()
-                ->columnSpan(3),
+                ->columnspanFull(),
 
             Components\MarkdownEditor::make('content')
                 ->label('Nieuwsbericht')
@@ -85,6 +86,15 @@ final readonly class FormSchema
                 ->required()
                 ->placeholder('De start van een mooi verhaal...')
                 ->columnSpanFull(),
+
+            Components\Toggle::make('comments_enabled')
+                ->label('Gebruikers kunnen reageren op dit artikel?')
+                ->columnSpan(12)
+                ->onIcon('heroicon-o-check')
+                ->onColor('success')
+                ->offIcon('heroicon-o-x-mark')
+                ->offColor('danger')
+                ->default(true)
         ];
     }
 }
