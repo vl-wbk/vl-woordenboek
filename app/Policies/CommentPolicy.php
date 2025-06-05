@@ -1,16 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\User;
+use BeyondCode\Comments\Comment;
+use Illuminate\Auth\Access\Response;
 
-class CommentPolicy
+final readonly class CommentPolicy
 {
-    /**
-     * Create a new policy instance.
-     */
-    public function __construct()
+    public function delete(User $user, Comment $comment): Response
     {
-        //
+        if ($comment->commentator->is($user)) {
+            return Response::allow();
+        }
+
+        return Response::denyAsNotFound();
     }
 }
