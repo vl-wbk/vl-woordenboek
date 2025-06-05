@@ -1,39 +1,45 @@
 <li class="list-group-item d-flex">
     <div class="flex-shrink-0">
-        <img class="rounded-circle shadow-sm" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." />
+        <img class="rounded-circle avatar-img shadow-sm" src="{{ gravatar($comment->commentator->email) }}" alt="avatar van {{ $user->name }}" />
     </div>
 
-    <div class="ms-3">
+    <div class="ms-3 flex-grow-1">
         <div class="fw-bold">
-            {{ $comment->commentator->name }} <span class=" ms-1 badge border-0 badge-gray">kernlid - ontwikkeling</span>
+            {{ $comment->commentator->name }}
         </div>
 
-        <span>Momenteel ervaren een doelgerichte spam actie tegen de commentaren van dit artikel. We werken aan een oplossing en houden jullie op de hoogte.</span>
+        <span>{{ $comment->comment }}</span>
 
-        <ul class="list-inline pt-2">
-            <li class="list-inline-item">
-                <a href="" class="text-decoration-none text-success">
-                    <x-heroicon-o-hand-thumb-up class="icon me-1"/> 0
-                </a>
-            </li>
+        @auth
+            <ul class="list-inline pt-2 d-flex justify-content-between align-items-center">
+                <div> {{-- Wrap like/dislike in a div --}}
+                    <li class="list-inline-item">
+                        <a href="" class="text-decoration-none text-success">
+                            <x-heroicon-o-hand-thumb-up class="icon me-1"/> 0
+                        </a>
+                    </li>
 
-            <li class="list-inline-item">
-                <a href="" class="text-decoration-none text-danger">
-                    <x-heroicon-o-hand-thumb-down class="icon me-1"/> 0
-                </a>
-            </li>
+                    <li class="list-inline-item">
+                        <a href="" class="text-decoration-none text-danger">
+                            <x-heroicon-o-hand-thumb-down class="icon me-1"/> 0
+                        </a>
+                    </li>
+                </div>
 
-            <li class="list-inline-item float-end">
-                <a href="" class="text-danger text-decoration-none">
-                    <x-heroicon-o-shield-exclamation class="icon"/> rapporteren
-                </a>
+                <li class="list-inline-item"> {{-- Removed float-end from here --}}
+                    <a href="" class="text-danger text-decoration-none">
+                        <x-heroicon-o-shield-exclamation class="icon"/> rapporteren
+                    </a>
 
-                <span class="text-muted mx-1">|</span>
+                    <span class="text-muted mx-1">|</span>
 
-                <a href="" class="text-danger text-decoration-none">
-                    <x-heroicon-o-trash class="icon"/>
-                </a>
-            </li>
-        </ul>
+                    <a href="" class="text-danger text-decoration-none">
+                        <x-heroicon-o-trash class="icon"/>
+                    </a>
+                </li>
+            </ul>
+        @endauth
     </div>
 </li>
+
+
