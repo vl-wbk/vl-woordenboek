@@ -16,15 +16,9 @@
             </div>
 
             <li class="list-inline-item"> {{-- Removed float-end from here --}}
-                <a href="" class="text-danger text-decoration-none">
-                    <x-heroicon-o-shield-exclamation class="icon" /> rapporteren
-                </a>
-
                 @can('delete', $comment)
-                    <span class="text-muted mx-1">|</span>
-
                     <a href="{{ route('comment:delete', $comment) }}" class="text-danger text-decoration-none">
-                        <x-heroicon-o-trash class="icon" />
+                        <x-heroicon-o-trash class="icon" /> Verwijderen
                     </a>
                 @endcan
             </li>

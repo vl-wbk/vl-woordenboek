@@ -36,21 +36,7 @@
                             <div class="card-header bg-white d-flex justify-content-between align-items-center fw-bold">
                                 <span class="color-green" id="reacties">Reacties ({{ $post->comments->count() }})</span>
 
-                                <nav aria-label="Page navigation example">
-                                    <ul class="pagination border-0 pagination-sm mb-0">
-                                        <li class="page-item disabled">
-                                            <a class="page-link" href="#" tabindex="-1">
-                                                <x-heroicon-o-chevron-double-left class="icon icon-sm"/> recentere reacties
-                                            </a>
-                                        </li
-                                        >
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">
-                                                oudere reacties <x-heroicon-o-chevron-double-right class="icon icon-sm"/>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
+                                {{ $comments->links('blog.components.pagination') }}
                             </div>
 
                             <ul class="list-group list-group-flush">
