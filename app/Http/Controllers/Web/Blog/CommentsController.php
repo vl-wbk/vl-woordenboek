@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Web\Blog;
 
+use App\Actions\Comments\DeleteReaction;
 use App\Actions\Comments\StoreReaction;
 use App\Concerns\RateLimitSubmission;
 use App\Http\Controllers\Web\Blog\PostsController;
@@ -11,6 +12,7 @@ use App\Http\Requests\Comments\StoreCommentRequest;
 use App\Models\Blog;
 use App\Models\Comment;
 use Illuminate\Http\RedirectResponse;
+use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Middleware;
 use Spatie\RouteAttributes\Attributes\Post;
 
@@ -30,8 +32,13 @@ final class CommentsController
         });
     }
 
-    public function delete(Comment $comment): RedirectResponse
+    #[Get('/reactie/{comment}/delete', name: 'comment:delete', middleware: 'can:delete,comment')]
+    public function delete(Comment $comment, DeleteReaction $deleteReaction): RedirectResponse
     {
+        $deleteReaction->handle($comment);
 
+        return redirect()
+            ->action([PostsController::class, 'show'], parameters: $comment->commentable)
+            ->withFragment('reacties');
     }
 }

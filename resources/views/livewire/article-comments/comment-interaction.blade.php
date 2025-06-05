@@ -23,7 +23,7 @@
                 @can('delete', $comment)
                     <span class="text-muted mx-1">|</span>
 
-                    <a href="#reactions" class="text-danger text-decoration-none">
+                    <a href="{{ route('comment:delete', $comment) }}" class="text-danger text-decoration-none">
                         <x-heroicon-o-trash class="icon" />
                     </a>
                 @endcan
