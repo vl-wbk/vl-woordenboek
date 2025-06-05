@@ -6,7 +6,7 @@ namespace App\Actions\Comments;
 
 use App\Http\Requests\Comments\StoreCommentRequest;
 use App\Models\Blog;
-use BeyondCode\Comments\Comment;
+use App\Models\Comment;
 use Illuminate\Support\Facades\DB;
 
 final readonly class StoreReaction

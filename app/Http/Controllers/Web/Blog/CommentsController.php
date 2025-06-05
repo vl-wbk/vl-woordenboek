@@ -9,7 +9,7 @@ use App\Concerns\RateLimitSubmission;
 use App\Http\Controllers\Web\Blog\PostsController;
 use App\Http\Requests\Comments\StoreCommentRequest;
 use App\Models\Blog;
-use BeyondCode\Comments\Comment;
+use App\Models\Comment;
 use Illuminate\Http\RedirectResponse;
 use Spatie\RouteAttributes\Attributes\Middleware;
 use Spatie\RouteAttributes\Attributes\Post;

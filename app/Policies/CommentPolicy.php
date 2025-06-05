@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Policies;
 
 use App\Models\User;
-use BeyondCode\Comments\Comment;
+use App\Models\Comment;
 use Illuminate\Auth\Access\Response;
 
 final readonly class CommentPolicy

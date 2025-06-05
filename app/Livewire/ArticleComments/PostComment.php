@@ -2,7 +2,7 @@
 
 namespace App\Livewire\ArticleComments;
 
-use BeyondCode\Comments\Comment;
+use App\Models\Comment;
 use Livewire\Component;
 
 class PostComment extends Component

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire\ArticleComments;
 
-use BeyondCode\Comments\Comment;
+use App\Models\Comment;
 use Illuminate\Contracts\Support\Renderable;
 use Livewire\Component;
 
