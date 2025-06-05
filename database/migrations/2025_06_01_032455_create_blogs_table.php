@@ -32,7 +32,6 @@ return new class extends Migration
         });
 
         Schema::create('post_categories', function (Blueprint $table): void {
-            $table->ulid('id')->primary();
             $table->foreignUlid('blog_id')->constrained()->cascadeOnDelete();
             $table->foreignUlid('category_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
