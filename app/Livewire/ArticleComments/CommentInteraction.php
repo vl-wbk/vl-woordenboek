@@ -19,6 +19,18 @@ class CommentInteraction extends Component
 
     public function render(): Renderable
     {
-        return view('livewire.article-comments.comment-interaction');
+        return view('livewire.article-comments.comment-interaction', data: [
+            'likes' => $this->comment->likers()->count(),
+        ]);
+    }
+
+    public function likeComment(): void
+    {
+        auth()->user()->like($this->comment);
+    }
+
+    public function unlikeComment(): void
+    {
+        auth()->user()->unlike($this->comment);
     }
 }
