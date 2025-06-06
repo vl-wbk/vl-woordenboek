@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources\BlogResource\Schema;
 
+use App\Features\DocumentationButtons;
 use Filament\Tables\Actions;
+use Laravel\Pennant\Feature;
 
 /**
  * Class ResourceActionDefinitions
@@ -29,6 +31,7 @@ final readonly class ResourceActionDefinitions
         return [
             Actions\Action::make('help')
                 ->color('gray')
+                ->visible(Feature::active(DocumentationButtons::class))
                 ->icon('heroicon-o-lifebuoy'),
 
             Actions\CreateAction::make('artikel aanmaken')
