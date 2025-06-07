@@ -80,6 +80,9 @@ final class BlogResource extends Resource
         return FormSchema::getComponents($form);
     }
 
+    /**
+     * @todo Document this function
+     */
     public static function infolist(Infolist $infolist): Infolist
     {
         return BlogPostInfolist::getComponent($infolist);

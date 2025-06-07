@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Builders\ArticleBuilder;
+use App\Builders\UserBuilder;
 use App\Notifications\WelcomeNotification;
 use App\UserTypes;
 use Carbon\Carbon;
@@ -140,6 +142,20 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
     public function sendWelcomeNotification(Carbon $validUntil): void
     {
         $this->notify(new WelcomeNotification($validUntil));
+    }
+
+    /**
+     * Overrides tge default Eloquent builder with a custom UserBuilder.
+     *
+     * This method ensures that all queries for the User model use the custom builder,
+     * which includes additional methods for managing user types and such.
+     *
+     * @param \Illuminate\Database\Query\Builder $query The base query builder instance
+     * @return UserBuilder<self>                        The custom builder instance
+     */
+    public function newEloquentBuilder($query): UserBuilder
+    {
+        return new UserBuilder($query);
     }
 
     /**

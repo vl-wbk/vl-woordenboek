@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Builders;
 
 use App\Enums\ArticleStates;
-use App\Enums\Visibility;
 use App\Models\Note;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;

@@ -9,6 +9,9 @@ use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
 
+/**
+ * @todo #249 Docblocks toevoegen aan de status enumeratie voor de blog posts
+ */
 enum Status: int implements HasLabel, HasColor, HasIcon
 {
     use Comparable;
@@ -49,5 +52,10 @@ enum Status: int implements HasLabel, HasColor, HasIcon
     public function isPublished(): bool
     {
         return $this->is(self::Published);
+    }
+
+    public function isDraft(): bool
+    {
+        return $this->is(self::Draft);
     }
 }
