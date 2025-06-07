@@ -16,6 +16,20 @@ use App\Services\ReadTimeCalculator;
 use BeyondCode\Comments\Traits\HasComments;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * @property string               $id
+ * @property int|null             $author_id
+ * @property Status               $status
+ * @property string               $title
+ * @property string               $content
+ * @property int                  $views
+ * @property bool                 $comments_enabled
+ * @property \Carbon\Carbon|null  $published_at
+ * @property \Carbon\Carbon|null  $created_at
+ * @property \Carbon\Carbon|null  $updated_at
+ *
+ * @package App\Models
+ */
 final class Blog extends Model implements Feedable
 {
     use HasFactory;
@@ -34,6 +48,12 @@ final class Blog extends Model implements Feedable
             ->withDefault(callback: [
                 'name' => config('app.name')
             ]);
+    }
+
+    public function publisher(): BelongsTo
+    {
+        return $this->belongsTo(User::class)
+            ->withDefault(callback: ['name' => config('app.name')]);
     }
 
     public function category(): BelongsToMany
@@ -85,7 +105,7 @@ final class Blog extends Model implements Feedable
 
     public static function getFeedItems()
     {
-        return static::with('author')->where('status', Status::Published)->get();
+        return Blog::with('author')->where('status', Status::Published)->get();
     }
 
     public function getLinkAttribute()

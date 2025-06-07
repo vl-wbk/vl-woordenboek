@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources\BlogResource\Enums;
 
+use ArchTech\Enums\Comparable;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
 
 enum Status: int implements HasLabel, HasColor, HasIcon
 {
+    use Comparable;
+
     case Draft = 0;
     case Published = 1;
     case Archived = 2;
@@ -41,5 +44,10 @@ enum Status: int implements HasLabel, HasColor, HasIcon
             self::Published => 'heroicon-o-globe-europe-africa',
             self::Archived => 'heroicon-o-archive-box',
         };
+    }
+
+    public function isPublished(): bool
+    {
+        return $this->is(self::Published);
     }
 }

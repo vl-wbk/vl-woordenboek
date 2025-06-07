@@ -6,11 +6,13 @@ namespace App\Filament\Clusters\Blog\Resources;
 
 use App\Filament\Clusters\Blog;
 use App\Filament\Clusters\Blog\Resources\BlogResource\Pages;
+use App\Filament\Clusters\Blog\Resources\BlogResource\Schema\BlogPostInfolist;
 use App\Filament\Clusters\Blog\Resources\BlogResource\Schema\FormSchema;
 use App\Filament\Clusters\Blog\Resources\BlogResource\Schema\ResourceActionDefinitions;
 use App\Filament\Clusters\Blog\Resources\BlogResource\Schema\TableSchema;
 use App\Models\Blog as BlogPosts;
 use Filament\Forms\Form;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 
@@ -78,6 +80,11 @@ final class BlogResource extends Resource
         return FormSchema::getComponents($form);
     }
 
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return BlogPostInfolist::getComponent($infolist);
+    }
+
     /**
      * Defines the structure and behavior of the table used to list blog posts.
      * It configures labels, descriptions, empty states, and delegates column and action definitions to `TableSchema` and `ResourceActionDefinitions`.
@@ -112,6 +119,7 @@ final class BlogResource extends Resource
         return [
             'index' => Pages\ListBlogs::route('/'),
             'create' => Pages\CreateBlog::route('/create'),
+            'view' => Pages\ViewBlog::route('/{record}'),
             'edit' => Pages\EditBlog::route('/{record}/edit'),
         ];
     }
