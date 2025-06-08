@@ -6,6 +6,7 @@ namespace App\Filament\Clusters\Blog\Resources;
 
 use App\Filament\Clusters\Blog;
 use App\Filament\Clusters\Blog\Resources\BlogResource\Pages;
+use App\Filament\Clusters\Blog\Resources\BlogResource\RelationManagers\CommentsRelationManager;
 use App\Filament\Clusters\Blog\Resources\BlogResource\Schema\BlogPostInfolist;
 use App\Filament\Clusters\Blog\Resources\BlogResource\Schema\FormSchema;
 use App\Filament\Clusters\Blog\Resources\BlogResource\Schema\ResourceActionDefinitions;
@@ -109,6 +110,13 @@ final class BlogResource extends Resource
             ->headerActions(actions: ResourceActionDefinitions::getHeaderActions())
             ->actions(actions: ResourceActionDefinitions::getTableActions())
             ->bulkActions(actions: ResourceActionDefinitions::getBulkActions());
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            CommentsRelationManager::class,
+        ];
     }
 
     /**
