@@ -11,7 +11,6 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Laravel\Pennant\Feature;
 
 final class CommentsRelationManager extends RelationManager
@@ -56,9 +55,6 @@ final class CommentsRelationManager extends RelationManager
                 ->icon('heroicon-o-lifebuoy')
                 ->color('gray')
                 ->label('Help')
-
-                // Comment management action classes
-                // Action class name: CommentToggleAction
         ];
     }
 
