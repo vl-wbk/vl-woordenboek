@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Builders\BlogBuilder;
 use App\Filament\Clusters\Blog\Resources\BlogResource\Enums\Status;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
@@ -111,5 +112,10 @@ final class Blog extends Model implements Feedable
     public function getLinkAttribute()
     {
         return route('news:show', $this);
+    }
+
+    public function newEloquentBuilder($query): BlogBuilder
+    {
+        return new BlogBuilder($query);
     }
 }
