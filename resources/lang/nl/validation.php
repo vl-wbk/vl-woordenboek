@@ -63,6 +63,7 @@ return [
     'image'                  => ':Attribute moet een afbeelding zijn.',
     'in'                     => ':Attribute is ongeldig.',
     'in_array'               => ':Attribute bestaat niet in :other.',
+    'in_array_keys'          => 'The :attribute field must contain at least one of the following keys: :values.',
     'integer'                => ':Attribute moet een getal zijn.',
     'ip'                     => ':Attribute moet een geldig IP-adres zijn.',
     'ipv4'                   => ':Attribute moet een geldig IPv4-adres zijn.',

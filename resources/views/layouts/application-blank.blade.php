@@ -27,6 +27,7 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @include('feed::links')
 </head>
 
 <body class="d-flex flex-column h-100">
@@ -98,6 +99,14 @@
                         </a>
                     </li>
 
+                    @if (\App\Models\Blog::count() > 0)
+                        <li class="nav-item">
+                            <a href="{{ route('news:index') }}" class="nav-link">
+                                <x-heroicon-s-newspaper class="icon"/> Artikelen
+                            </a>
+                        </li>
+                    @endif
+
                     <li class="nav-item">
                         <a href="mailto:contact@vlaamswoordenboek.be" class="nav-link">
                             <x-heroicon-s-envelope class="icon me-1" /> Contact
@@ -156,7 +165,7 @@
     </div>
     {{-- EINDE --}}
 
-    <main class="py-4 flex-shrink-0">
+    <main class="{{ $paddingContent ?? 'py-4' }} flex-shrink-0">
         @yield('content')
     </main>
 

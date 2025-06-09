@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Models\User;
+use App\Services\ReadTimeCalculator;
 use App\UserTypes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
@@ -23,6 +24,13 @@ final class AppServiceProvider extends ServiceProvider
 
         $this->registerGlobalPolicyCheck();
         $this->registerLaravelTelescope();
+    }
+
+    public function register(): void
+    {
+        $this->app->singleton(ReadTimeCalculator::class, function ($app) {
+            return new ReadTimeCalculator();
+        });
     }
 
     /** @todo document */

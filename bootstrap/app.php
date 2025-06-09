@@ -20,5 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias(['forbid-banned-user' => ForbidBannedUser::class]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        Integration::handles($exceptions);
+        if (app()->environment('production')) {
+            Integration::handles($exceptions);
+        }
     })->create();
