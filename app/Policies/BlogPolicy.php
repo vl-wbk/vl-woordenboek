@@ -21,6 +21,16 @@ final readonly class BlogPolicy
             : null;
     }
 
+    public function viewAny(User $user): Response
+    {
+        return Response::denyAsNotFound();
+    }
+
+    public function view(User $user, $blog): Response
+    {
+        return Response::denyAsNotFound();
+    }
+
     /**
      * @todo Document
      * @todo rename canComment to writeComment
@@ -33,10 +43,23 @@ final readonly class BlogPolicy
             : Response::denyAsNotFound();
     }
 
-    /** @todo Document */
-    public function delete(User $user, Blog $blog): Response
+    public function update(User $user, Blog $blog): Response
     {
-        return ($blog->author()->is($user) && $blog->status->isDraft())
+        return $blog->author()->is($user)
+            ? Response::allow()
+            : Response::denyAsNotFound();
+    }
+
+    public function publish(User $user, Blog $blog): Response
+    {
+        return $blog->author()->is($user)
+            ? Response::allow()
+            : Response::denyAsNotFound();
+    }
+
+    public function undoPublication(User $user, Blog $blog): Response
+    {
+        return $blog->author()->is($user)
             ? Response::allow()
             : Response::denyAsNotFound();
     }

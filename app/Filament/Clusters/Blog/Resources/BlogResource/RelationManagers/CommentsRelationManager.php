@@ -6,8 +6,12 @@ namespace App\Filament\Clusters\Blog\Resources\BlogResource\RelationManagers;
 
 use App\Features\DocumentationButtons;
 use App\Filament\Clusters\Blog\Resources\BlogResource\Pages\ViewBlog;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -27,10 +31,38 @@ final class CommentsRelationManager extends RelationManager
         return $pageClass === ViewBlog::class;
     }
 
+    public function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->columns(12)
+            ->schema(components: [
+                TextEntry::make('commentator.name')
+                    ->label('Gebruiker')
+                    ->translateLabel()
+                    ->color('primary')
+                    ->weight(FontWeight::SemiBold)
+                    ->icon('heroicon-o-user-circle')
+                    ->iconColor('primary')
+                    ->columnSpan(7),
+                TextEntry::make('created_at')
+                    ->label('Schreef op')
+                    ->icon('heroicon-o-clock')
+                    ->columnSpan(5)
+                    ->iconColor('primary'),
+                TextEntry::make('comment')
+                    ->label('Schreef het volgende als reactie')
+                    ->translateLabel()
+                    ->columnSpanFull(),
+            ]);
+    }
+
     public function table(Table $table): Table
     {
         return $table
             ->heading('Reacties')
+            ->emptyStateIcon('heroicon-o-chat-bubble-bottom-center-text')
+            ->emptyStateHeading('Geen reacties toegevoegd')
+            ->emptyStateDescription('Het lijkt erop dat er nog geen reacties zijn toegevoegd door gebruikers onder het nieuwsartikel. Kom later nog eens terug!')
             ->description('Een overzicht van alles reacties die geplaatst zijn onder het nieuwsartikel.')
             ->modifyQueryUsing(fn (Builder $query): Builder => $query->with('commentator'))
             ->columns(components: $this->getTableColumnComponents())
@@ -71,16 +103,33 @@ final class CommentsRelationManager extends RelationManager
     {
         return [
             Tables\Actions\ViewAction::make()
-                ->hiddenLabel()
-                ->tooltip('bekijken'),
+                ->modalHeading('Reactie informatie')
+                ->modalIcon('heroicon-o-chat-bubble-bottom-center-text'),
+
             Tables\Actions\DeleteAction::make()
-                ->hiddenLabel()
-                ->tooltip('verwijderen')
+                ->modalHeading('Reactie verwijderen'),
         ];
     }
 
     protected function getTableColumnComponents(): array
     {
-        return [];
+        return [
+            TextColumn::make('commentator.name')
+                ->label('Gebruiker')
+                ->translateLabel()
+                ->sortable()
+                ->icon('heroicon-o-user-circle')
+                ->weight(FontWeight::SemiBold)
+                ->color('primary')
+                ->searchable(),
+            TextColumn::make('comment')
+                ->label('Reactie')
+                ->translateLabel(),
+            TextColumn::make('created_at')
+                ->label('Toegevoegd op')
+                ->translateLabel()
+                ->sortable()
+                ->date(),
+        ];
     }
 }

@@ -6,7 +6,6 @@ namespace App\Models;
 
 use App\Builders\BlogBuilder;
 use App\Filament\Clusters\Blog\Resources\BlogResource\Enums\Status;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,6 +13,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
 use App\Services\ReadTimeCalculator;
+use App\States\Posts\PublicationStateContract;
+use App\States\Posts;
 use BeyondCode\Comments\Traits\HasComments;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -49,6 +50,14 @@ final class Blog extends Model implements Feedable
             ->withDefault(callback: [
                 'name' => config('app.name')
             ]);
+    }
+
+    public function publicationStatus(): PublicationStateContract
+    {
+        return match($this->status) {
+            Status::Draft => new Posts\DraftState($this),
+            Status::Published => new Posts\PublishedState($this),
+        };
     }
 
     public function publisher(): BelongsTo

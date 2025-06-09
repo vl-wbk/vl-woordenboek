@@ -18,14 +18,12 @@ enum Status: int implements HasLabel, HasColor, HasIcon
 
     case Draft = 0;
     case Published = 1;
-    case Archived = 2;
 
     public function getLabel(): string
     {
         $label = match($this) {
             self::Draft => 'Klad versie',
             self::Published => 'Gepubliceerd',
-            self::Archived => 'gearchiveerd',
         };
 
         return trans($label);
@@ -36,7 +34,6 @@ enum Status: int implements HasLabel, HasColor, HasIcon
         return match($this) {
             self::Draft => 'warning',
             self::Published => 'success',
-            self::Archived => 'info',
         };
     }
 
@@ -45,7 +42,6 @@ enum Status: int implements HasLabel, HasColor, HasIcon
         return match($this) {
             self::Draft => 'heroicon-o-pencil-square',
             self::Published => 'heroicon-o-globe-europe-africa',
-            self::Archived => 'heroicon-o-archive-box',
         };
     }
 

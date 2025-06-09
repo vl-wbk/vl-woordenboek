@@ -55,7 +55,7 @@ final class ActivateCommentsAction extends Action
 
     private function canPerformTheAction(): bool
     {
-        return $this->record->hasCommentsDisabled()
+        return ($this->record->hasCommentsDisabled() && $this->record->isPublished())
             && (auth()->user()->isDeveloper() || auth()->user()->isAdministrator());
     }
 }

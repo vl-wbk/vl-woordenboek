@@ -38,13 +38,13 @@ final readonly class BlogPostInfolist
             ->columns(12)
             ->schema(components: [
                 TextEntry::make('author.name')
-                    ->columnSpan(4)
+                    ->columnSpan(3)
                     ->weight(FontWeight::SemiBold)
                     ->icon('heroicon-o-user-circle')
                     ->iconColor('primary'),
                 TextEntry::make('title')
                     ->label('Titel')
-                    ->columnSpan(8)
+                    ->columnSpan(7)
                     ->translateLabel(),
                 TextEntry::make('category.name')
                     ->label('Categorieen')
@@ -52,6 +52,7 @@ final readonly class BlogPostInfolist
                     ->badge()
                     ->color('info')
                     ->icon('heroicon-o-tag')
+                    ->placeholder('- Geen categorieen gekoppeld aan het nieuwsartikel')
                     ->columnSpanFull(),
                 TextEntry::make('content')
                     ->label('Artikel inhoud')

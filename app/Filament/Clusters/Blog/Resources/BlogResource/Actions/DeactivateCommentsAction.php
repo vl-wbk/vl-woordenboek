@@ -99,7 +99,7 @@ final class DeactivateCommentsAction extends Action
      */
     private function canPerformTheAction(): bool
     {
-        return $this->record->hasCommentsEnabled()
+        return ($this->record->hasCommentsEnabled() && $this->record->isPublished())
             && (auth()->user()->isDeveloper() || auth()->user()->isAdministrator());
     }
 }

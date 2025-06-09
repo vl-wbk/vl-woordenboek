@@ -23,6 +23,8 @@ final class ViewBlog extends ViewRecord
 
                 ResourceSpecificActions\ActivateCommentsAction::make(),
                 ResourceSpecificActions\DeactivateCommentsAction::make(),
+                ResourceSpecificActions\PublishArticleAction::make(),
+                ResourceSpecificActions\UndoPublicationAction::make(),
 
                 // Allows deleting the current blog record.
                 // It's wrapped in its own ActionGroup to apply authorization specifically to the delete action.
