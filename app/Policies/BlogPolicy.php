@@ -57,6 +57,13 @@ final readonly class BlogPolicy
             : Response::denyAsNotFound();
     }
 
+    public function delete(User $user, Blog $blog): Response
+    {
+        return $blog->author()->is($user)
+            ? Response::allow()
+            : Response::denyAsNotFound();
+    }
+
     public function undoPublication(User $user, Blog $blog): Response
     {
         return $blog->author()->is($user)
