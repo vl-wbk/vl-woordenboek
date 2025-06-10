@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use Database\Factories\LabelFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -18,8 +20,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property int            $id           The unique identifier for the label
  * @property string         $name         The unique name of the label
  * @property string|null    $description  The detailed explanation of the label
- * @property \Carbon\Carbon $created_at   Timestamp of when the label was created
- * @property \Carbon\Carbon $updated_at   Timestamp of the last update.
+ * @property Carbon $created_at   Timestamp of when the label was created
+ * @property Carbon $updated_at   Timestamp of the last update.
  *
  * @package App\Models
  */
@@ -29,7 +31,7 @@ final class Label extends Model
      * Enables factory support for testing scenarios. The type hint ensures proper
      * IDE integration with the dedicated LabelFactory class.
      *
-     * @use HasFactory<\Database\Factories\LabelFactory>
+     * @use HasFactory<LabelFactory>
      */
     use HasFactory;
 

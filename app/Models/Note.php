@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -20,10 +21,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int                 $author_id   Reference to the note's author unique identifier in the users table
  * @property string              $title       Heading of the note
  * @property string              $body        Main context text of the note
- * @property \Carbon\Carbon|null $created_at  The timestamp of note creation
- * @property \Carbon\Carbon|null $updated_at  The timestamp of last modification
- *
- * @method author()  Relationship method to access the note's author
+ * @property Carbon|null         $created_at  The timestamp of note creation
+ * @property Carbon|null         $updated_at  The timestamp of last modification
  *
  * @package App\Models
  */

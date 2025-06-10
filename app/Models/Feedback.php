@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\FeedbackTrueFalse;
 use App\Enums\FeedbackStatus;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -25,21 +26,31 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property ?string            $visit_reason             The user's reason for visiting the website
  * @property ?string            $search_additional_info   Additional information about what the user was searching for
  * @property ?bool              $contact_allowed          Whether the user allows follow-up context
- * @property \Carbon\Carbon     $created_at               Timestamp when the feedback was submitted
- * @property \Carbon\Carbon     $updated_at               Timestamp when the feedback was last updated
- *
- * @method author() The data relation for the user who created the feedback submission
+ * @property Carbon|null        $created_at               Timestamp when the feedback was submitted
+ * @property Carbon|null        $updated_at               Timestamp when the feedback was last updated
  *
  * @package App\Models
  */
 final class Feedback extends Model
 {
     /**
+     * The attributes that aren't mass assignable.
+     *
+     * These fields are protected from mass assignment to prevent accidental
+     * or malicious updates via `create()` or `update()` methods.
+     *
      * @var list<string>
      */
     protected $guarded = ['id', 'author_id'];
 
-    /** @todo Document this variable */
+    /**
+     * The model's default attribute values.
+     *
+     * These values are applied when a new model instance is created, ensuring that certain attributes have a predefined initial state.
+     * For example, new feedback submissions are set to 'Unprocessed' by default.
+     *
+     * @var array<string, mixed>
+     */
     protected $attributes = [
         'status' => FeedbackStatus::Unprocessed,
     ];
@@ -49,7 +60,7 @@ final class Feedback extends Model
      *
      * This relationship connects the feedback entry to the user who created it.
      * This relationship may be null for anonymous feedback submissions.
-     * When accessed, this will lead the socciated User model with all it attrbiutes.
+     * When accessed, this will lead the associated User model with all it attributes.
      *
      * @return BelongsTo<User, covariant $this>
      */
@@ -59,7 +70,11 @@ final class Feedback extends Model
     }
 
     /**
-     * @todo Document this
+     * Get the casts for the model.
+     *
+     * The `casts` method defines how certain attributes should be converted to native PHP types when, they are retrieved from your database.
+     * This ensures type safety and simplifies working with enums and boolean values.
+     *
      * @return array<string, string>
      */
     protected function casts(): array

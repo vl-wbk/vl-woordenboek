@@ -7,9 +7,9 @@ namespace App\Http\Controllers\Web\Articles;
 use App\UserTypes;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use OwenIt\Auditing\Models\Audit;
 use Spatie\RouteAttributes\Attributes\Get;
+use Symfony\Component\HttpFoundation\Response;
 
 final readonly class ArticleVersionInformationController
 {

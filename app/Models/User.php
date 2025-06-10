@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Builders\ArticleBuilder;
 use App\Builders\UserBuilder;
 use App\Notifications\WelcomeNotification;
 use App\UserTypes;
 use Carbon\Carbon;
+use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\WelcomeNotification\ReceivesWelcomeNotification;
@@ -28,7 +29,7 @@ use Laravel\Sanctum\HasApiTokens;
  *
  * This model handles user authentication, authorization, and profile management.
  * It supports role-based access control through user types, welcome notifications for new users,
- * and interaction tracking thrpough the "likes" system.
+ * and interaction tracking through the "likes" system.
  *
  * @property int          $id                 Unique identifier for the user
  * @property string       $firstname          User's first name
@@ -49,7 +50,7 @@ use Laravel\Sanctum\HasApiTokens;
  */
 final class User extends Authenticatable implements FilamentUser, BannableInterface, MustVerifyEmail
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
+    /** @use HasFactory<UserFactory> */
     use HasFactory;
     use ReceivesWelcomeNotification;
     use Notifiable;
@@ -67,7 +68,7 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
 
     /**
      * Defines default values for new user instances.
-     * Every new user start with normal privileges unitl explicitly upgraded by an administrator.
+     * Every new user start with normal privileges until explicitly upgraded by an administrator.
      *
      * @var array<string, UserTypes>
      */
@@ -75,7 +76,7 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
 
     /**
      * Specifies attributes that should be hidden when the model is serialized.
-     * This prevents sensitive data like passwords form beind exposed in API responses of JSON serialization.
+     * This prevents sensitive data like passwords form behind exposed in API responses of JSON serialization.
      *
      * @var list<string>
      */
@@ -121,9 +122,9 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
     }
 
     /**
-     * Defines the relationship bewteen a user and their bookmarked articles.
+     * Defines the relationship between a user and their bookmarked articles.
      *
-     * This method estabilishes a many-to-many relationship bewteen the User model and the Article model, using the 'article_bookmarks' pivot table.
+     * This method establishes a many-to-many relationship between the User model and the Article model, using the 'article_bookmarks' pivot table.
      * This allows a user to bookmark multiple articles, and an article to be bookmarked by multiple users.
      *
      * @return BelongsToMany<Article, covariant $this> A collection of Article instances that the user has bookmarked.
@@ -137,7 +138,7 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
      * Sends the initial welcome notification to newly created users.
      * The notification includes a time-limited link for setting up their password and activating their account.
      *
-     * @param  Carbon $validUntil Expriration timestamp for the welcome link.
+     * @param  Carbon $validUntil Expiration timestamp for the welcome link.
      */
     public function sendWelcomeNotification(Carbon $validUntil): void
     {
@@ -150,8 +151,8 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
      * This method ensures that all queries for the User model use the custom builder,
      * which includes additional methods for managing user types and such.
      *
-     * @param \Illuminate\Database\Query\Builder $query The base query builder instance
-     * @return UserBuilder<self>                        The custom builder instance
+     * @param  Builder $query       The base query builder instance
+     * @return UserBuilder<self>    The custom builder instance
      */
     public function newEloquentBuilder($query): UserBuilder
     {
@@ -160,7 +161,7 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
 
     /**
      * Configures attribute casting for proper type handling.
-     * This ensures that dates are properly handles as Casbon instances and that the user type cast to its own enum representation.
+     * This ensures that dates are properly handles as Carbon instances and that the user type cast to its own enum representation.
      *
      * @return array<string, string>
      */

@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpMissingFieldTypeInspection */
 
 declare(strict_types=1);
 
@@ -12,6 +12,8 @@ use App\Enums\DataOrigin;
 use App\Enums\LanguageStatus;
 use App\Models\Relations\BelongsToEditor;
 use App\Models\Relations\BelongsToManyRegions;
+use Carbon\Carbon;
+use Database\Factories\ArticleFactory;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -46,17 +48,20 @@ use Kenepa\ResourceLock\Models\Concerns\HasLocks;
  * @property int|null       $editor_id          The ID of the assigned editor
  * @property int|null       $part_of_speech_id  The unique ID of the part of speech information.
  * @property string |null   $archiving_reason   The reason why the article has been archived.
- * @property \Carbon\Carbon $archived_at        Timestamp for when the article is archived at
- * @property \Carbon\Carbon $deleted_at         Timestamp for when the article is marked for deletion.
- * @property \Carbon\Carbon $created_at         Timestamp of when the article was created
- * @property \Carbon\Carbon $updated_at         Timestamp of the last update
+ * @property Carbon         $archived_at        Timestamp for when the article is archived at
+ * @property Carbon         $deleted_at         Timestamp for when the article is marked for deletion.
+ * @property Carbon         $created_at         Timestamp of when the article was created
+ * @property Carbon         $updated_at         Timestamp of the last update
  *
  * @package App\Models
  */
 final class Article extends Model implements AuditableContract
 {
-    /** @use HasFactory<\Database\Factories\ArticleFactory> */
+    /**
+     * @use HasFactory<ArticleFactory>
+     */
     use HasFactory;
+
     use BelongsToManyRegions;
     use BelongsToEditor;
     use Auditable;
@@ -97,11 +102,11 @@ final class Article extends Model implements AuditableContract
     /**
      * Returns the appropriate Article State instance based on the current article status.
      *
-     * This methed uses a `match` expression to determine the current state of the dictionary article based on its state.
-     * It then returns an instance of the corresponding state class, which handles specigfic behaviours and transitions fo that state.
-     * Each articlpe state maps to a different state class; ensuring the current state logic is applied at any given point in the articlpe lifecycle.
+     * This method uses a `match` expression to determine the current state of the dictionary article based on its state.
+     * It then returns an instance of the corresponding state class, which handles specific behaviours and transitions fo that state.
+     * Each article state maps to a different state class; ensuring the current state logic is applied at any given point in the article lifecycle.
      *
-     * Exmaple states flow: New -> Draft -> Approval -> Published -> Archived
+     * Example states flow: New -> Draft -> Approval -> Published -> Archived
      *
      * @return ArticleStateContract - The correcponding state class for the current dictionary article
      */
@@ -166,7 +171,7 @@ final class Article extends Model implements AuditableContract
     /**
      * Defines the relationship between an article and its disclaimer.
      *
-     * This method estailishes a "belongs to" relationship, indicating that each article can be associated with one disclaimer.
+     * This method establishes a "belongs to" relationship, indicating that each article can be associated with one disclaimer.
      * This is useful for providing legal or informational disclaimers related to the article's content.
      *
      * @return BelongsTo<Disclaimer, covariant $this>
@@ -251,13 +256,13 @@ final class Article extends Model implements AuditableContract
     /**
      * Defines the query for prunable records.
      *
-     * This method configures the query to select soft-deleted articles that have been deleted for more then two months.
+     * This method configures the query to select soft-deleted articles that have been deleted for more than two months.
      * These articles are considered prunable and can be permanently removed from the database.
      *
      * @return Builder The query builder instance for prunable articles.
      */
     public function prunable(): Builder
     {
-        return static::where('deleted_at', '<=', now()->subDays(60));
+        return self::query()->where('deleted_at', '<=', now()->subDays(60));
     }
 }

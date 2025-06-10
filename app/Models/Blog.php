@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUnused */
 
 declare(strict_types=1);
 
@@ -6,6 +6,8 @@ namespace App\Models;
 
 use App\Builders\BlogBuilder;
 use App\Filament\Clusters\Blog\Resources\BlogResource\Enums\Status;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -26,9 +28,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property string               $content
  * @property int                  $views
  * @property bool                 $comments_enabled
- * @property \Carbon\Carbon|null  $published_at
- * @property \Carbon\Carbon|null  $created_at
- * @property \Carbon\Carbon|null  $updated_at
+ * @property Carbon|null  $published_at
+ * @property Carbon|null  $created_at
+ * @property Carbon|null  $updated_at
+ * @property User $author
+ * @property string $link
  *
  * @package App\Models
  */
@@ -113,12 +117,12 @@ final class Blog extends Model implements Feedable
             ->authorName($this->author->name);
     }
 
-    public static function getFeedItems()
+    public static function getFeedItems(): Collection
     {
         return Blog::with('author')->where('status', Status::Published)->get();
     }
 
-    public function getLinkAttribute()
+    public function getLinkAttribute(): string
     {
         return route('news:show', $this);
     }
