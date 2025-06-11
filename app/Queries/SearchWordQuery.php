@@ -49,6 +49,7 @@ final readonly class SearchWordQuery
                     ->when($includeDescription, fn(Builder $builder): Builder => $builder->orWhere('description', 'like', $this->getSearchPattern($request)['pattern']));
             })
             ->orderBy('word')
+            ->with('author')
             ->paginate(6)
             ->appends(request()->query());
     }

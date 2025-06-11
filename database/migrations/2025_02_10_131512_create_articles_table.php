@@ -50,6 +50,8 @@ return new class extends Migration
             $table->timestamp('prune_reminder_sent_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
+
+            $table->index(['published_at', 'deleted_at']);
         });
 
         Schema::create('article_region', function (Blueprint $table): void {

@@ -36,7 +36,7 @@ final readonly class SearchController
     {
         return view('welcome', [
             'searchPatterns' => SearchPatterns::cases(),
-            'articleCount' => Article::query()->whereNotNull('published_at')->count(),
+            'articleCount' => Article::query()->whereNotNull('published_at')->count('id'),
             'results' => $searchWordQuery->execute($request),
             'termPresent' => $request->has('zoekterm'),
         ]);

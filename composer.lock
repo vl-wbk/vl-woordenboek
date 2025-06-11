@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "64d54bbc662a3fb2081c2acef71e712b",
+    "content-hash": "5b9f6d7fe71d28ccd814ab42846e585d",
     "packages": [
         {
             "name": "amphp/amp",
@@ -16018,6 +16018,144 @@
             "time": "2024-10-09T05:16:32+00:00"
         },
         {
+            "name": "spatie/backtrace",
+            "version": "1.7.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/backtrace.git",
+                "reference": "cd37a49fce7137359ac30ecc44ef3e16404cccbe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/backtrace/zipball/cd37a49fce7137359ac30ecc44ef3e16404cccbe",
+                "reference": "cd37a49fce7137359ac30ecc44ef3e16404cccbe",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.3 || ^8.0"
+            },
+            "require-dev": {
+                "ext-json": "*",
+                "laravel/serializable-closure": "^1.3 || ^2.0",
+                "phpunit/phpunit": "^9.3 || ^11.4.3",
+                "spatie/phpunit-snapshot-assertions": "^4.2 || ^5.1.6",
+                "symfony/var-dumper": "^5.1 || ^6.0 || ^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Backtrace\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van de Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A better backtrace",
+            "homepage": "https://github.com/spatie/backtrace",
+            "keywords": [
+                "Backtrace",
+                "spatie"
+            ],
+            "support": {
+                "source": "https://github.com/spatie/backtrace/tree/1.7.4"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/spatie",
+                    "type": "github"
+                },
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "other"
+                }
+            ],
+            "time": "2025-05-08T15:41:09+00:00"
+        },
+        {
+            "name": "spatie/laravel-sql-commenter",
+            "version": "2.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-sql-commenter.git",
+                "reference": "72d33eba6a48407e309a3234c33917176cc63fcf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-sql-commenter/zipball/72d33eba6a48407e309a3234c33917176cc63fcf",
+                "reference": "72d33eba6a48407e309a3234c33917176cc63fcf",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^9.0|^10.0|^11.0|^12.0",
+                "php": "^8.1",
+                "spatie/backtrace": "^1.2",
+                "spatie/invade": "^1.1|^2.0",
+                "spatie/laravel-package-tools": "^1.12"
+            },
+            "require-dev": {
+                "nunomaduro/collision": "^6.2|^8.0",
+                "orchestra/testbench": "^7.6|^8.0|^9.0|^10.0",
+                "pestphp/pest": "^1.21|^2.0|^3.7",
+                "pestphp/pest-plugin-laravel": "^1.2|^2.0|^3.1",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0|^2.0",
+                "phpstan/phpstan-phpunit": "^1.1|^2.0",
+                "phpunit/phpunit": "^9.5|^10.0|^11.5.3",
+                "spatie/laravel-ray": "^1.29"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\SqlCommenter\\SqlCommenterServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\SqlCommenter\\": "src",
+                    "Spatie\\SqlCommenter\\Database\\Factories\\": "database/factories"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rias Van der Veken",
+                    "email": "rias@spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Add comments to SQL queries made by Laravel",
+            "homepage": "https://github.com/spatie/laravel-sql-commenter",
+            "keywords": [
+                "laravel",
+                "spatie",
+                "sql-commenter",
+                "sqlcommenter"
+            ],
+            "support": {
+                "source": "https://github.com/spatie/laravel-sql-commenter/tree/2.1.1"
+            },
+            "time": "2025-02-21T14:16:19+00:00"
+        },
+        {
             "name": "staabm/side-effects-detector",
             "version": "1.0.5",
             "source": {
@@ -16325,6 +16463,135 @@
                 }
             ],
             "time": "2024-03-03T12:36:25+00:00"
+        },
+        {
+            "name": "tpetry/laravel-mysql-explain",
+            "version": "2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tpetry/laravel-mysql-explain.git",
+                "reference": "3e83942d72bca685310623487d425631e57aa745"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tpetry/laravel-mysql-explain/zipball/3e83942d72bca685310623487d425631e57aa745",
+                "reference": "3e83942d72bca685310623487d425631e57aa745",
+                "shasum": ""
+            },
+            "require": {
+                "ext-pdo": "*",
+                "guzzlehttp/guzzle": "^7.0",
+                "illuminate/contracts": "^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0",
+                "php": "^8.0",
+                "tpetry/php-mysql-explain": "^1.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.6",
+                "nunomaduro/collision": "^3.1|^4.0|^5.0|^6.0|^7.0|^8.0",
+                "nunomaduro/larastan": "^1.0|^2.0",
+                "orchestra/testbench": "^4.0|^5.0|^6.0|^7.0|^8.0|^9.0",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "MysqlExplain": "Tpetry\\LaravelMysqlExplain\\Facades\\MysqlExplain"
+                    },
+                    "providers": [
+                        "Tpetry\\LaravelMysqlExplain\\MysqlExplainServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Tpetry\\LaravelMysqlExplain\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tobias Petry",
+                    "email": "github@tpetry.me",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Get Visual MySQL EXPLAIN for Laravel.",
+            "homepage": "https://github.com/tpetry/laravel-mysql-explain",
+            "keywords": [
+                "explain",
+                "laravel",
+                "mysql"
+            ],
+            "support": {
+                "issues": "https://github.com/tpetry/laravel-mysql-explain/issues",
+                "source": "https://github.com/tpetry/laravel-mysql-explain/tree/2.1.0"
+            },
+            "time": "2025-02-14T11:43:01+00:00"
+        },
+        {
+            "name": "tpetry/php-mysql-explain",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tpetry/php-mysql-explain.git",
+                "reference": "954a6ad75cb3764b9d6c20f27c482950500af17f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tpetry/php-mysql-explain/zipball/954a6ad75cb3764b9d6c20f27c482950500af17f",
+                "reference": "954a6ad75cb3764b9d6c20f27c482950500af17f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "nyholm/psr7": "^1.6.0",
+                "php": ">=7.4",
+                "psr/http-client": "^1.0",
+                "symfony/polyfill-php81": "^1.22"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.64.0",
+                "mockery/mockery": "^1.6.12",
+                "pestphp/pest": "^1.23.1|^2.0|^3.0",
+                "php-http/mock-client": "^1.6",
+                "phpstan/phpstan": "^1.12.4",
+                "spatie/ray": "^1.41",
+                "vlucas/phpdotenv": "^5.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Tpetry\\PhpMysqlExplain\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "tpetry",
+                    "email": "github@tpetry.me",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Visual MySQL EXPLAIN plans for PHP",
+            "homepage": "https://github.com/tpetry/php-mysql-explain",
+            "keywords": [
+                "explain",
+                "mysql"
+            ],
+            "support": {
+                "issues": "https://github.com/tpetry/php-mysql-explain/issues",
+                "source": "https://github.com/tpetry/php-mysql-explain/tree/1.0.0"
+            },
+            "time": "2024-09-26T11:17:02+00:00"
         }
     ],
     "aliases": [],

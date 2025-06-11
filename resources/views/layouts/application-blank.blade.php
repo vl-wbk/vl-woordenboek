@@ -62,7 +62,7 @@
                         </li>
                     @endauth
 
-                    @if (\App\Models\Article::whereNotNull('published_at')->count() > 0)
+                    @if (\App\Models\Article::whereNotNull('published_at')->count('id') > 0)
                         <li class="nav-item">
                             <a href="{{ route('word-information.random') }}" class="nav-link">
                                 <x-heroicon-s-language class="icon me-1" /> Zo maar een woord
@@ -99,7 +99,7 @@
                         </a>
                     </li>
 
-                    @if (\App\Models\Blog::count() > 0)
+                    @if (\App\Models\Blog::count('id') > 0)
                         <li class="nav-item">
                             <a href="{{ route('news:index') }}" class="nav-link">
                                 <x-heroicon-s-newspaper class="icon"/> Artikelen
