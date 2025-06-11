@@ -205,7 +205,7 @@
                     </li>
 
                     <li class="list-inline-item">
-                        <a href="https://discord.gg/eXsyvdgx" class="footer-icon-color text-decoration-none">
+                        <a href="https://discord.gg/bqKNs2SDz8" class="footer-icon-color text-decoration-none">
                             <x-tabler-brand-discord class="icon" />
                         </a>
                     </li>
