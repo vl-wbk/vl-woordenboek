@@ -8,6 +8,7 @@ use App\Enums\Articles\SearchPatterns;
 use App\Models\Article;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -32,10 +33,10 @@ final readonly class SearchWordQuery
      * The search is case-insensitive and matches partial words.
      * Results are sorted alphabetically by default and paginated for better performance and user expierence
      *
-     * @param  Request $request  The instance that holds all the request information
-     * @return mixed             Paginated collection of matching articles with query parameters preserved
+     * @param  Request $request      The instance that holds all the request information
+     * @return LengthAwarePaginator  Paginated collection of matching articles with query parameters preserved
      */
-    public function execute(Request $request): mixed
+    public function execute(Request $request): LengthAwarePaginator
     {
         $includeDescription = $request->boolean('uitgebreid');
 
@@ -75,11 +76,10 @@ final readonly class SearchWordQuery
         // Determine the formatted search pattern based on the 'zoekpatroon' (search pattern) value provided in the request.
         // This uses a match expression for concise conditional logic.
         $pattern = match($request->get('zoekpatroon')) {
-            SearchPatterns::Contains->value => "%{$searchTerm}%",   // If the pattern is 'Contains', wrap the search term with '%' wildcards.
-            SearchPatterns::StartsWith->value => "{$searchTerm}%",  // If the pattern is 'StartsWith', append a '%' wildcard to the search term.
-            SearchPatterns::Endswith->value => "%{$searchTerm}",    // If the pattern is 'Endswith', prepend a '%' wildcard to the search term.
+            SearchPatterns::StartsWith->value => "$searchTerm%",  // If the pattern is 'StartsWith', append a '%' wildcard to the search term.
+            SearchPatterns::Endswith->value => "%$searchTerm",    // If the pattern is 'Endswith', prepend a '%' wildcard to the search term.
             SearchPatterns::Exact->value => $searchTerm,            // If the pattern is 'Exact', use the search term as is (no wildcards).
-            default => "%{$searchTerm}%",
+            default => "%$searchTerm%",
         };
 
         // Return an array containing both the generated pattern and the appropriate SQL operator.
@@ -93,8 +93,8 @@ final readonly class SearchWordQuery
     /**
      * Provides the available sorting options for the search results.
      *
-     * This method defines which fields can be used for sorting and maps user-friendly names to actual database colums.
-     * The 'alfabetisch' option sorts by the word itself, 'publicatie' sorts by the publish data, and 'weergaves' sorts by the number of times an articles has been viewed.
+     * This method defines which fields can be used for sorting and maps user-friendly names to actual database columns.
+     * The alphabetical option sorts by the word itself, publication sorts by the publication date, and the views sorts by the number of times an articles has been viewed.
      *
      * @return array<int, AllowedSort> Collection of permitted sorting options
      */
