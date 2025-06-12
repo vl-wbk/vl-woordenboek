@@ -22,6 +22,9 @@ use stdClass;
 final class ArticleDataMapper
 {
     /**
+     * A lookup table for mapping external linguistic region IDs to internal region IDs.
+     * The keys represent external region IDs (strings), and the values are the corresponding internal region IDs (integers).
+     *
      * @var array<int, int>
      */
     private static array $regionMappingLookup = [
@@ -110,6 +113,15 @@ final class ArticleDataMapper
         }
     }
 
+    /**
+     * Converts an external linguistic region ID to an internal region ID.
+     *
+     * This method uses the `regionMappingLookup` to find the corresponding internal region ID for a given external region ID. If no mapping is found for the
+     * provided external region ID, it defaults to `0` (which typically maps to 'Onbekend' or a similar placeholder).
+     *
+     * @param  int $region  The external linguistic region ID (e.g., from a legacy system or external source).
+     * @return int          The corresponding internal region ID, or `0` if no direct mapping is found.
+     */
     private function convertLinguisticRegion(int $region): int
     {
         return self::$regionMappingLookup[$region] ?? 0;
