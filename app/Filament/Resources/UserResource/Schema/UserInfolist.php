@@ -6,7 +6,10 @@ namespace App\Filament\Resources\UserResource\Schema;
 
 use App\Models\User;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Illuminate\Support\Carbon;
+use Filament\Infolists\Components\Tabs;
+use Filament\Infolists\Components\Tabs\Tab;
 
 /**
  * InfolistSchema
@@ -24,8 +27,27 @@ use Illuminate\Support\Carbon;
  *
  * @package App\Filament\Resources\UserResource\Schema
  */
-final readonly class InfolistSchema
+final readonly class UserInfolist
 {
+    public static function configure(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Tabs::make('tabs')
+                    ->columnSpan(12)
+                    ->tabs([
+                        Tab::make('Algemene informatie')
+                            ->columns(12)
+                            ->icon('heroicon-o-identification')
+                            ->schema(UserInfolist::renderGeneralInformation()),
+                        Tab::make('Deactiverings informatie')
+                            ->columns(12)
+                            ->visible(fn (User $user): bool => $user->isBanned())
+                            ->icon('heroicon-o-lock-closed')
+                            ->schema(UserInfolist::renderDeactivationInformation())
+                    ])
+            ]);
+    }
     /**
      * Renders general information about the user.
      *
