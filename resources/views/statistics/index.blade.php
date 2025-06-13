@@ -11,37 +11,37 @@
 
     <div class="container mt-3">
         <div class="row">
-            <div class="col-2">
+            <div class="col-lg-2 mb-4 col-sm-12">
                 <div class="card border-0 shadow-sm card-body">
                     <h6 class="color-green fw-bold">Artikel weergaves</h6>
                     <h3 class="text-muted mb-0"><x-heroicon-o-eye class="icon icon-statistic"/> {{ $articleViews }}</h3>
                 </div>
             </div>
-            <div class="col-2">
+            <div class="col-lg-2 mb-4 col-sm-12">
                 <div class="card border-0 shadow-sm card-body">
                     <h6 class="color-green fw-bold">Aantal artikelen</h6>
                     <h3 class="text-muted mb-0"><x-heroicon-o-document-text class="icon icon-statistic"/> {{ $articleCount }}</h3>
                 </div>
             </div>
-            <div class="col-2">
+            <div class="col-lg-2 mb-4 col-sm-12">
                 <div class="card border-0 shadow-sm card-body">
                     <h6 class="color-green fw-bold">Aantal edits</h6>
                     <h3 class="text-muted mb-0"><x-heroicon-o-pencil-square class="icon icon-statistic"/> {{ $editCount }}</h3>
                 </div>
             </div>
-            <div class="col-2">
+            <div class="col-lg-2 mb-4 col-sm-12">
                 <div class="card border-0 shadow-sm card-body">
                     <h6 class="color-green fw-bold">Aantal gebruikers</h6>
                     <h3 class="text-muted mb-0"><x-heroicon-o-users class="icon icon-statistic"/> {{ $getUserCount }}</h3>
                 </div>
             </div>
-            <div class="col-2">
+            <div class="col-lg-2 mb-4 col-sm-12">
                 <div class="card border-0 shadow-sm card-body">
                     <h6 class="color-green fw-bold">Vrijwillligers</h6>
                     <h3 class="text-muted mb-0"><x-heroicon-o-users class="icon icon-statistic"/> {{ $getVolunteerCount }}</h3>
                 </div>
             </div>
-            <div class="col-2">
+            <div class="col-lg-2 mb-4 col-sm-12">
                 <div class="card border-0 shadow-sm card-body">
                     <h6 class="color-green fw-bold">Registraties vandaag</h6>
                     <h3 class="text-muted mb-0"><x-heroicon-o-user-plus class="icon icon-statistic"/> {{ $getRegisteredToday }}</h3>
@@ -50,7 +50,7 @@
         </div>
     </div>
 
-    <div class="container mt-4">
+    <div class="container">
         <div class="card bg-white border-0 shadow-sm">
             <div class="card-header bg-white">
                 <h5 class="pt-2 fw-bold color-green mb-1"><x-heroicon-o->Gebruikersevolutie</h5>
