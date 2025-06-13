@@ -11,6 +11,7 @@ use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use OwenIt\Auditing\Models\Audit;
 
 /**
@@ -21,7 +22,7 @@ use OwenIt\Auditing\Models\Audit;
  *
  * @package App\Services
  */
-final readonly class StatisticService
+final class StatisticService
 {
     /**
      * Constant representing the string 'perWeek'. Used as a parameter for the `flowframe/trend` package to specify weekly trend intervals.
@@ -29,6 +30,8 @@ final readonly class StatisticService
      * @var string
      */
     private const WEEKLY = 'perWeek';
+
+    private array $cacheTTL = [0, 900];
 
     /**
      * Retrieves the total number of article views.
@@ -38,7 +41,9 @@ final readonly class StatisticService
      */
     public function getArticleViews(): string
     {
-        return toHumanReadableNumber(number: (float) Article::sum('views'));
+        return Cache::flexible('article_views', $this->cacheTTL, function (): string {
+            return toHumanReadableNumber(number: (float) Article::sum('views'));
+        });
     }
 
     /**
@@ -49,7 +54,9 @@ final readonly class StatisticService
      */
     public function getArticleCount(): string
     {
-        return toHumanReadableNumber(number: Article::count());
+        return Cache::flexible('article_count', $this->cacheTTL, function (): string {
+            return toHumanReadableNumber(number: Article::count());
+        });
     }
 
     /**
@@ -60,7 +67,9 @@ final readonly class StatisticService
      */
     public function getEditCount(): string
     {
-        return toHumanReadableNumber(number: Audit::count());
+        return Cache::flexible('edit_count', $this->cacheTTL, function (): string {
+            return toHumanReadableNumber(number: Audit::count());
+        });
     }
 
     /**
@@ -71,7 +80,9 @@ final readonly class StatisticService
      */
     public function getUserCount(): string
     {
-        return toHumanReadableNumber(number: User::count());
+        return Cache::flexible('user_count', $this->cacheTTL, function (): string {
+            return toHumanReadableNumber(number: User::count());
+        });
     }
 
     /**
@@ -84,7 +95,9 @@ final readonly class StatisticService
      */
     public function getVolunteerCount(): string
     {
-        return toHumanReadableNumber(number: User::whereNot('user_type', UserTypes::Normal)->count());
+        return Cache::flexible('volunteer_count', $this->cacheTTL, function (): string {
+            return toHumanReadableNumber(number: User::whereNot('user_type', UserTypes::Normal)->count());
+        });
     }
 
     /**
@@ -95,7 +108,9 @@ final readonly class StatisticService
      */
     public function registeredToday(): int
     {
-        return User::whereDate('created_at', now()->today())->count();
+        return Cache::flexible('registered_today_count', $this->cacheTTL, function (): int {
+            return User::whereDate('created_at', now()->today())->count();
+        });
     }
 
     /**
