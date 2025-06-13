@@ -48,17 +48,12 @@ final class ConvertHardReturns implements ShouldQueue
      */
     public function middleware(): array
     {
-        $exampleMatches = 0;
-        $descriptionMatches = 0;
-
-        preg_match_all("/\r\n|\r/", (string) $this->article->example, $exampleMatches);
-        preg_match_all("/\r\n|\r/", $this->article->description, $descriptionMatches);
-
-        $exampleMatches = count($exampleMatches[0]);
-        $descriptionMatches = count($descriptionMatches[0]);
+        $needsStandardization =
+            str_contains((string) $this->article->example, "\r") ||
+            str_contains((string) $this->article->description, "\r");
 
         return [
-            Skip::when(condition : fn(): bool => $exampleMatches === 0 && $descriptionMatches === 0),
+            Skip::when(condition: fn(): bool => !$needsStandardization),
         ];
     }
     /**
