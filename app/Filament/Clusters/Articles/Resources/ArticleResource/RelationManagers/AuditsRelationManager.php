@@ -17,6 +17,8 @@ final class AuditsRelationManager extends RelationManager
 {
     protected static string $relationship = 'audits';
 
+    protected static ?string $icon = 'heroicon-o-pencil-square';
+
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
     {
         /** @var \App\Models\Article $ownerRecord */

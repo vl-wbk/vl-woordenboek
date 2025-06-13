@@ -39,6 +39,8 @@ final class LabelsRelationManager extends RelationManager
      */
     protected static string $relationship = 'labels';
 
+    protected static ?string $icon = "heroicon-o-tag";
+
     /**
      * Returns the form configuration for creating and editing labels.
      * The form setup is delegated to LabelResource to maintain consistency across the application.

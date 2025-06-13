@@ -22,6 +22,7 @@ final class ReportsRelationManager extends RelationManager
     protected static string $relationship = 'reports';
     protected static ?string $title = 'Meldingen';
     protected static ?string $navigationIcon = 'heroicon-o-flag';
+    protected static ?string $icon = 'heroicon-o-flag';
 
     public function isReadOnly(): bool
     {

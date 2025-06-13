@@ -42,6 +42,8 @@ final class NotesRelationManager extends RelationManager
      */
     protected static ?string $title = 'Notities';
 
+    protected static ?string $icon = 'heroicon-o-document-text';
+
     /**
      * Constructs the form interface for note creation and editing.
      * The form employs a 12-column grid system for responsive layout.
