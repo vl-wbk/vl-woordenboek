@@ -3,6 +3,8 @@
 namespace App\Filament\Clusters\Articles\Resources\LabelResource\Pages;
 
 use App\Filament\Clusters\Articles\Resources\LabelResource;
+use App\Models\Article;
+use CodeWithDennis\FactoryAction\FactoryAction;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Support\Enums\MaxWidth;
@@ -14,6 +16,13 @@ class ListLabels extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            FactoryAction::make()
+                ->color('danger')
+                ->icon('heroicon-o-cog-8-tooth')
+                ->modalHeading('Labels aanmaken')
+                ->modalDescription('Deze actie zal nieuwe labels aanmaken in de databank. Met als doel om dingen te testen tijdens de ontwikkeling van het vlaams woordenboek. Weet je zeker dat je wilt verder gaan?')
+                ->belongsToMany([Article::class]),
+
             Actions\CreateAction::make()
                 ->color('gray')
                 ->modalWidth(MaxWidth::SevenExtraLarge)

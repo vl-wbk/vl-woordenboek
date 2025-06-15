@@ -91,7 +91,7 @@
                 <!-- Side widgets-->
                 <div class="col-lg-4">
                     <!-- Search widget-->
-                    <h5 class="border-bottom pb-2 border-green color-green fw-bold"><x-heroicon-o-magnifying-glass-circle class="icon me-1"/> Artikel opzoeken</h4>
+                    <h5 class="border-bottom pb-2 border-green color-green fw-bold"><x-heroicon-o-magnifying-glass-circle class="icon me-1"/> Artikel opzoeken</h5>
 
                     <form action="{{ route('news:index') }}" method="GET" class="mb-4 border-0 shadow-sm">
                         <div class="input-group">
@@ -103,7 +103,7 @@
                     </form>
 
                     <!-- Categories widget-->
-                    <h5 class="border-bottom pb-2 border-green color-green fw-bold"><x-heroicon-s-tag class="icon me-1"/> Categorieen</h4>
+                    <h5 class="border-bottom pb-2 border-green color-green fw-bold"><x-heroicon-s-tag class="icon me-1"/> Categorieen</h5>
 
                     <div class="border-bottom pb-2 border-green">
                         @foreach ($categories as $category)
@@ -113,10 +113,21 @@
                         @endforeach
                     </div>
 
-                    <a href="{{  url('feed') }}" class="btn mt-2 w-100 text-white shadow-sm btn-rss">
-                        <x-heroicon-s-rss class="icon me-1"/> RSS Feed
-                    </a>
+                    <div class="row">
+                        <div class="@if (optional(auth()->user())->cannot('submit-post', \App\Models\Blog::class)) col-12 @else col-6 @endif">
+                            <a href="{{ url('feed') }}" class="btn mt-2 w-100 text-white shadow-sm btn-rss">
+                                <x-heroicon-s-rss class="icon me-1"/> RSS Feed
+                            </a>
+                        </div>
 
+                        @can('submit-post', \App\Models\Blog::class)
+                            <div class="col-6">
+                                <a href="" class="btn mt-2 w-100 btn-light border-0 shadow-sm">
+                                    <x-heroicon-o-pencil-square class="icon color-green me-1"/> Uw artikel hier?
+                                </a>
+                            </div>
+                        @endcan
+                    </div>
                 </div>
             </div>
         </div>

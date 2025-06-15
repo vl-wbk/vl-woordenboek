@@ -21,6 +21,13 @@ final readonly class BlogPolicy
             : null;
     }
 
+    public function submitPost(User $user): Response
+    {
+        return $user->hasVerifiedEmail()
+            ? Response::allow()
+            : Response::denyAsNotFound();
+    }
+
     public function viewAny(User $user): Response
     {
         return Response::denyAsNotFound();
