@@ -19,7 +19,7 @@
                     @endif
                 </div>
                 <p class="text-muted pb-2">{{ $label->description }}</p>
-                <small class="text-secondary">Aangemaakt op {{ $label->created_at->locale('nl_BE')->isoFormat('DD MMMM YYYY') }} | Laatst bijgewerkt op 12 {{ $label->updated_at->locale('nl_BE')->isoFormat('DD MMMM YYYY') }}</small>
+                <small class="text-secondary">Aangemaakt op {{ $label->created_at->locale('nl_BE')->isoFormat('DD MMMM YYYY') }} | Laatst bijgewerkt op {{ $label->updated_at->locale('nl_BE')->isoFormat('DD MMMM YYYY') }}</small>
             </div>
         </div>
 
