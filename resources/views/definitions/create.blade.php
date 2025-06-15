@@ -117,7 +117,7 @@
                                 <small id="voorbeeld" class="form-text text-muted">
                                     <x-tabler-info-circle class="icon icon-sm me-1"/>  Geef een voorbeeldzin in het Algemeen (Belgisch–)Nederlands waaruit de hierboven beschreven betekenis duidelijk wordt. Voeg zeker een bronvermelding toe.
 
-                                    <a href="">
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#sourceInformation">
                                         meer info
                                     </a>
                                 </small>
@@ -133,6 +133,59 @@
                             <x-tabler-arrow-back-up class="icon icon-sm me-1 text-danger"/> Reset
                         </button>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="sourceInformation" tabindex="-1" aria-labelledby="sourceInformationLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header bg-sidenav color-green border-0">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel"><x-heroicon-s-book-open class="icon me-2"/>Bronvermelding bij voorbeeldzinnen</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <p class="mb-2">Voorbeeldzinnen zijn belangrijk om de context waarin een woord of uitdrukking wordt gebruikt te illustreren. Daarom moet je bij elke suggestie minstens één voorbeeldzin geven.</p>
+
+                    <p class="mb-2">
+                        Onze voorkeur gaat uit naar citaten uit (online) bronnen, zoals blogs, kranten- en tijdschriftartikels, andere webpagina’s, eventueel sociale media.
+                        Alleen als het ècht niet anders kan, bijvoorbeeld bij dialectwoorden of uitgesproken spreektalig taalgebruik, kun je een zelfverzonnen voorbeeldzin geven.
+                        Hou er rekening mee dat dat soort zinnen minder betrouwbaar overkomen bij de lezer.
+                    </p>
+
+                    <p class="mb-2 pb-2 border-bottom">Als je een citaat gebruikt, vermeld je uiteraard ook de bron. Dat doe je als volgt.</p>
+
+                    <h5 class="color-green fw-bold">Uit een artikel:</h5>
+
+                    <p class="mb-3 fst-italic text-muted">(bron: (auteur) – titel – bron – datum publicatie – ‘geraadpleegd op’ datum raadpleging – (indien mogelijk: link))</p>
+
+                    <h6 class="fw-bold"><x-heroicon-o-information-circle class="icon"/> Voorbeeld (bij ‘stront aan de knikker’):</h6>
+
+                    <p class="mb-3">
+                        U voelt meteen stront aan de knikker in ‘Malditos’ (Bron: titel in De Morgen 5.05.2025, geraadpleegd op 14.05.2025, https://www.demorgen.be/tv-cultuur/u-voelt-meteen-stront-aan-de-knikker-in-malditos~be73fc04/)
+                    </p>
+
+                    <h6 class="fw-bold"><x-heroicon-o-information-circle class="icon"/> Voorbeeld (bij ‘Brailleliga’):</h6>
+
+                    <p class="mb-2 pb-2 border-bottom">
+                        De Brailleliga moet niet betalen om documenten in blindenschrift te versturen. (Bron: Brailleliga vreest voor kosteloze verzendingen. De Standaard 08.02.2006, geraadpleegd op 14.05.2025, https://www.standaard.be/binnenland/brailleliga-vreest-voor-kosteloze-verzendingen/43962690.html)
+                    </p>
+
+                    <h5 class="color-green fw-bold">Uit een website:</h5>
+                    <p class="mb-3 fst-italic text-muted">(Bron: Naam website, ‘geraadpleegd op’ datum raadpleging, link)</p>
+
+                    <h6 class="fw-bold"><x-heroicon-o-information-circle class="icon"/> Voorbeeld (bij ‘goesting’):</h6>
+                    <p class="mb-2 pb-2 border-bottom">
+                        Goesting in Antwerpen? Wij gidsen je op een plezante manier. (Bron: Goesting in A, geraadpleegd op 14.05.2025, https://goestingina.be/)
+                    </p>
+
+                    <h5 class="color-green fw-bold">Uit een papieren bron:</h5>
+                    <p class="mb-3 fst-italic text-muted">(Bron: titel van boek, andere bron zoals folder, brochure; publicatiedatum of -jaar)</p>
+
+                    <h6 class="fw-bold"><x-heroicon-o-information-circle class="icon"/> Voorbeeld: (bij ‘hesp’):</h6>
+                    <p>Hesp en kaas in promotie! (Bron: folder van Aldi. 10.01.2010)</p>
                 </div>
             </div>
         </div>
