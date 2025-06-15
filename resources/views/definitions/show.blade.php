@@ -130,7 +130,9 @@
                                 <ul class="list-unstyled mb-0">
                                     @forelse ($word->labels as $label)
                                         <li>
-                                            <x-heroicon-o-map class="icon me-1"/> {{ $label->name }}
+                                            <a href="{{ route('label:show', $label) }}">
+                                                <x-heroicon-o-map class="icon me-1"/> {{ $label->name }}
+                                            </a>
                                         </li>
                                     @empty
                                         <li class="text-muted">- Geen labels voor het woord gevonden</li>

@@ -71,6 +71,12 @@ final class LabelResource extends Resource
         return $form
             ->columns(12)
             ->schema([
+                Components\TextInput::make('type')
+                    ->label('Type')
+                    ->translateLabel()
+                    ->required()
+                    ->maxLength(255)
+                    ->columnSpan(3),
                 Components\TextInput::make('name')
                     ->label('Label naam')
                     ->columnSpan(6)
