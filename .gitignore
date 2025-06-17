@@ -1,3 +1,4 @@
+wbk-local-infra/mysql/data
 /.phpunit.cache
 /node_modules
 /public/hot

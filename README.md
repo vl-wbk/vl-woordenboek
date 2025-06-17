@@ -57,8 +57,108 @@ Dit project is gelicenseerd onder de MIT-licentie. Zie het bestand [LICENSE](/LI
 
 Wil je meedenken, feedback geven of gewoon je liefde voor de Vlaamse taal delen? We horen graag van je! 
 
-- Open een [een GitHub issue](https://github.com/Tjoosten/vl-woordenboek/issues/new) voor vragen, suggesties of problemen.
+- Open een [een GitHub issue](https://github.com/vl-wbk/vl-woordenboek/issues/new) voor vragen, suggesties of problemen.
 - Doe mee aan discussies en help ons om het project verder uit te bouwen.
 - Heb je een idee voor een verbetering? Aarzel niet om een pull request in te dienen. 
 
 Samen kunnen we een waardevolle bron creeren voor iedereen die de Vlaamse taal en cultuur wil ontdekken en bewaren. Sluit je aan en draag bij!
+
+## 💻 Lokale ontwikkeling
+
+Wil je het project lokaal draaien voor ontwikkeling? Volg deze stappen om aan de slag te gaan:
+
+### Vereisten
+
+- PHP 8.2 of hoger
+- [Composer](https://getcomposer.org/download/)
+- [Node.js](https://nodejs.org/) (v16 of hoger)
+- [npm](https://www.npmjs.com/get-npm) of [yarn](https://yarnpkg.com/getting-started/install)
+- Docker (om de database in een container te draaien)
+
+### Installatie
+
+1. **Clone de repository**
+   ```sh
+   git clone https://github.com/vl-wbk/vl-woordenboek.git
+   cd vl-woordenboek
+   ```
+
+2. **Installeer PHP dependencies**
+   ```sh
+   composer install
+   ```
+
+3. **Installeer JavaScript dependencies**
+   ```sh
+   npm install
+   # of
+   yarn install
+   ```
+
+4. **Maak een kopie van het .env bestand**
+   ```sh
+   cp .env.example .env
+   ```
+
+5. **Genereer een applicatie sleutel**
+   ```sh
+   php artisan key:generate
+   ```
+
+6. **Configureer je database verbinding in het .env bestand**
+
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=vl_woordenboek
+   DB_USERNAME=laravel
+   DB_PASSWORD=laravel
+
+7. **Voer de database migraties uit**
+   ```sh
+   php artisan migrate
+   ```
+
+8. **Seed de database met testgegevens (optioneel)**
+   ```sh
+   php artisan db:seed
+   ```
+
+### De applicatie starten
+
+1. **Start de Laravel development server**
+   ```sh
+   php artisan serve
+   ```
+
+2. **Compileer assets in development mode**
+   ```sh
+   npm run dev
+   # of
+   yarn dev
+   ```
+
+3. **Of gebruik de handige dev script die alles in één keer start**
+   ```sh
+   composer run dev
+   ```
+
+De applicatie is nu beschikbaar op [http://localhost:8000](http://localhost:8000).
+
+### Filament Admin Panel
+
+Het admin panel is beschikbaar op [http://localhost:8000/admin](http://localhost:8000/admin).
+
+### Handige commando's
+
+- **Cache wissen**
+  ```sh
+  php artisan optimize:clear
+  ```
+
+- **Tests uitvoeren**
+  ```sh
+  php artisan test
+  # of
+  composer test
+  ```
