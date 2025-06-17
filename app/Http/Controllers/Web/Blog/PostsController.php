@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Web\Blog;
 
+use App\Features\GuestEditors;
 use App\Models\Blog;
 use App\Models\Category;
 use App\Queries\SearchArticlesQuery;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
+use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 use Spatie\RouteAttributes\Attributes\Get;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -35,5 +37,11 @@ final readonly class PostsController
             'comments' => $blog->comments()->orderBy('created_at', 'desc')->simplePaginate(6)->appends(request()->query()),
             'categories' => Category::with('posts')->get(),
         ]);
+    }
+
+    #[Get(uri: '/nieuw-nieuwsartikel', name: 'news:create', middleware: ['auth', 'verified', 'forbid-banned-user', 'can:create,App\Models\Blog'])]
+    public function create(): Renderable
+    {
+        return view('blog.create');
     }
 }

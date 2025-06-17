@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
+use App\Features\GuestEditors;
 use App\Models\Blog;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use Laravel\Pennant\Feature;
 
 /**
  * @todo Document
@@ -21,9 +23,9 @@ final readonly class BlogPolicy
             : null;
     }
 
-    public function submitPost(User $user): Response
+    public function create(User $user): Response
     {
-        return $user->hasVerifiedEmail()
+        return ($user->hasVerifiedEmail() && Feature::active(GuestEditors::class))
             ? Response::allow()
             : Response::denyAsNotFound();
     }
