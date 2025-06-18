@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Builders\CategoryBuilder;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -33,11 +35,11 @@ final class Category extends Model
      * The attributes that are mass assignable.
      *
      * These fields can be safely set via mass assignment (e.g., using `Category::create()` or `Category->fill()`).
-     * The 'name' and 'description' attributes are allowed to be filled directly.
+     * The 'name', 'internal' and 'description' attributes are allowed to be filled directly.
      *
      * @var list<string>
      */
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['name', 'internal', 'description'];
 
     /**
      * Get the posts that belong to this category.
@@ -52,5 +54,10 @@ final class Category extends Model
     public function posts(): BelongsToMany
     {
         return $this->belongsToMany(Blog::class, 'post_categories');
+    }
+
+    public function newEloquentBuilder($query): Builder
+    {
+        return new CategoryBuilder($query);
     }
 }

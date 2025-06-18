@@ -87,7 +87,11 @@
                     <div class="col-12">
                         <div class="form-group">
                             <label for="content" class="form-label">Uw artikel <span class="fw-bold text-danger">*</span></label>
-                            <textarea name="conetent" id="content" class="form-control" rows="10"></textarea>
+                            <textarea name="conetent" id="content" class="form-control" rows="10" aria-describedby="contentHelpBlock"></textarea>
+
+                            <div id="contentHelpBlock" class="form-text">
+                                <x-heroicon-o-information-circle class="icon icon-sm me-1"/>Dit veld is <a href="https://www.markdownguide.org/basic-syntax/" target="_blank">markdown</a> ondersteund voor de opmaak van het artikel
+                            </div>
                         </div>
                     </div>
                 </form>

@@ -17,6 +17,9 @@ use Spatie\RouteAttributes\Attributes\Post;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @todo Document this controller
+ */
 final readonly class PostsController
 {
     #[Get(uri: '/nieuws', name: 'news:index')]
@@ -47,7 +50,7 @@ final readonly class PostsController
     {
         return view('blog.create', data: [
             'writtenArticles' => $request->user()->articles()->count(),
-            'categories' => Category::query()->select('name', 'id')->get(),
+            'categories' => Category::query()->guestCategories()->select('name', 'id')->get(),
         ]);
     }
 
