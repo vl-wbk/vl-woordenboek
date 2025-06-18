@@ -130,16 +130,11 @@ Wil je het project lokaal draaien voor ontwikkeling? Volg deze stappen om aan de
    vendor/bin/sail artisan db:seed
    ```
 
-Je bent nu klaar, de applicatie is beschikbaar op [http://localhost:8000](http://localhost:8000)
+Je bent nu klaar, de applicatie is beschikbaar op [http://localhost](http://localhost)
 
 ### Filament Admin Panel
 
-Het admin panel is beschikbaar op [http://localhost:8000/admin](http://localhost:8000/admin).
-
-### Installatie (zonder sail)
-
-TODO: documenteer dit (zelf db installeren, en verder grotendeels zelfde commandos met php ipv met sail,
-en met DB_HOST=localhost ipv DB_HOST=mysql
+Het admin panel is beschikbaar op [http://localhost/admin](http://localhost/admin).
 
 ### Handige commando's
 
