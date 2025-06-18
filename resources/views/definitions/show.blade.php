@@ -119,7 +119,11 @@
                             <div class="tab-pane fade show" id="region-tab-pane" role="tabpanel" aria-labelledby="region-tab" tabindex="0">
                                 <ul class="list-unstyled mb-0">
                                     @forelse ($word->regions as $region)
-                                        <li><x-heroicon-o-map class="icon color-green me-1"/> {{ $region->name }}</li>
+                                        <li>
+                                            <a href="{{ route('region:show', $region) }}">
+                                                <x-heroicon-o-map class="icon color-green me-1"/> {{ $region->name }}
+                                            </a>
+                                        </li>
                                     @empty
                                         <li class="text-muted">- Geen regio voor het woord gevonden</li>
                                     @endforelse
