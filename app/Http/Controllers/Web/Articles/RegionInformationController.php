@@ -20,7 +20,7 @@ final readonly class RegionInformationController
     /**
      * Renders the region informâtion page.
      *
-     * This method serves the static content explaining the geographical regions used throughouyt the dictionary.
+     * This method serves the static content explaining the geographical regions used throughout the dictionary.
      * This view contains maps and descriptions of the various Flemish regions and their dialect characteristics.
      *
      * @return Renderable  The view containing regional information.
