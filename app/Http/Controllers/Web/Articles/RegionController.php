@@ -47,7 +47,7 @@ final readonly class RegionController
             'alfabetisch' => ['column' => 'word', 'order' => 'ASC'],
             'populariteit' => ['column' => 'views', 'order' => 'DESC'],
             'recent' => ['column' => 'published_at', 'order' => 'ASC'],
-            default => ['column' => 'word', 'order' => 'ASC'],
+            default => ['column' => 'views', 'order' => 'DESC'],
         };
     }
 }
