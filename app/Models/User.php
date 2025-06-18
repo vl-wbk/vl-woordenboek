@@ -108,6 +108,11 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
         return $this->hasMany(Article::class, 'author_id');
     }
 
+    public function articles(): HasMany
+    {
+        return $this->hasMany(Blog::class, foreignKey: 'author_id');
+    }
+
     /**
      * Returns all article reports submitted by this user.
      *

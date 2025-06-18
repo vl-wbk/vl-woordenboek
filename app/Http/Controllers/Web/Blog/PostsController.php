@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Web\Blog;
 
 use App\Features\GuestEditors;
+use App\Models\Article;
 use App\Models\Blog;
 use App\Models\Category;
 use App\Queries\SearchArticlesQuery;
@@ -12,6 +13,8 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Post;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 final readonly class PostsController
@@ -40,8 +43,17 @@ final readonly class PostsController
     }
 
     #[Get(uri: '/nieuw-nieuwsartikel', name: 'news:create', middleware: ['auth', 'verified', 'forbid-banned-user', 'can:create,App\Models\Blog'])]
-    public function create(): Renderable
+    public function create(Request $request): Renderable
     {
-        return view('blog.create');
+        return view('blog.create', data: [
+            'writtenArticles' => $request->user()->articles()->count(),
+            'categories' => Category::query()->select('name', 'id')->get(),
+        ]);
+    }
+
+    #[Post(uri: '/nieuw-nieuwsartikel', name: 'news:store', middleware: ['auth', 'verified', 'forbid-banned-user', 'can:create,App\Models\Blog'])]
+    public function store(): RedirectResponse
+    {
+        dd('works');
     }
 }

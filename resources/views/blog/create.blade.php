@@ -11,14 +11,22 @@
                 <div class="float-end">
                     <div class="btn-toolbar" role="toolbar" aria-label="Toolbar met knoppen met relatie op de artikel inzending">
                         <div class="btn-group border-0 shadow-sm me-2" role="group" aria-label="First group">
-                            <button type="button" class="btn btn-light">Annuleren</button>
-                            <button type="button" class="btn btn-light">Insturen</button>
+                            <a href="{{  route('news:index') }}" class="btn btn-light">
+                                <x-heroicon-o-x-mark class="icon me-1 text-danger"/>Annuleren
+                            </a>
+                            <a href="" class="btn btn-light">
+                                <x-heroicon-s-queue-list class="icon mr-1 color-green"/> Mijn artikelen
+
+                                @if ($writtenArticles > 0)
+                                    <span class="badge text-bg-secondary">{{ $writtenArticles }}</span>
+                                @endif
+                            </a>
                         </div>
 
                         <div class="btn-group border-0 shadow-sm" role="group" aria-label="Second group">
-                            <a href="" class="btn btn-submit">
-                                Mijn artikelen
-                            </a>
+                            <button type="submit" form="createArticleForm" class="btn btn-submit">
+                                <x-heroicon-o-paper-airplane class="icon me-1"/>Insturen
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -47,8 +55,41 @@
             </div>
 
             <div class="col-12">
-                <form method="POST" action="" class="card card-body border-0 shadow-sm bg-white">
+                <form method="POST" id="createArticleForm" action="{{ route('news:store') }}" class="card card-body border-0 shadow-sm bg-white">
                     @csrf {{-- Form protection --}}
+
+                    <div class="row">
+                        <div class="form-group mb-3">
+                            <div class="col-8">
+                                <label for="title" class="form-label">Titel <span class="text-danger fw-bold">*</span></label>
+                                <input type="text" class="form-control" name="titel" id="titel"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <div class="form-group">
+                            <label for="categories" class="form-label">Categorieen</label>
+                            <select name="categorieen[]" id="categories" class="form-select" aria-describedby="categoriesHelpBlock" size="9" multiple>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}" {{ in_array($category->id, old('regio', [])) ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                            <div id="categoriesHelpBlock" class="form-text">
+                                <x-heroicon-o-information-circle class="icon icon-sm me-1"/>Wil je meerdere categorieen aanklikken? Hou de CTRL-toets ingedrukt terwijl je een voor een op de categorieen klikt.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="content" class="form-label">Uw artikel <span class="fw-bold text-danger">*</span></label>
+                            <textarea name="conetent" id="content" class="form-control" rows="10"></textarea>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
