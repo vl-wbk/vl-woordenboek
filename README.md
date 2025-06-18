@@ -130,11 +130,11 @@ Wil je het project lokaal draaien voor ontwikkeling? Volg deze stappen om aan de
    vendor/bin/sail artisan db:seed
    ```
 
-Je bent nu klaar, de applicatie is beschikbaar op [http://localhost](http://localhost)
+Je bent nu klaar, de applicatie is beschikbaar op [http://localhost:8000](http://localhost:8000)
 
 ### Filament Admin Panel
 
-Het admin panel is beschikbaar op [http://localhost/admin](http://localhost/admin).
+Het admin panel is beschikbaar op [http://localhost:8000/admin](http://localhost:8000/admin).
 
 ### Handige commando's
 
