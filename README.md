@@ -73,9 +73,9 @@ Wil je het project lokaal draaien voor ontwikkeling? Volg deze stappen om aan de
 - [Composer](https://getcomposer.org/download/)
 - [Node.js](https://nodejs.org/) (v16 of hoger)
 - [npm](https://www.npmjs.com/get-npm) of [yarn](https://yarnpkg.com/getting-started/install)
-- Docker (om de database in een container te draaien)
+- Docker (tenzij je zelf een database gaat voorzien)
 
-### Installatie
+### Voorbereiding
 
 1. **Clone de repository**
    ```sh
@@ -105,60 +105,50 @@ Wil je het project lokaal draaien voor ontwikkeling? Volg deze stappen om aan de
    php artisan key:generate
    ```
 
-6. **Configureer je database verbinding in het .env bestand**
+### Installatie mbv sail
+
+1. **Configureer je database verbinding in het .env bestand**
 
    DB_CONNECTION=mysql
-   DB_HOST=127.0.0.1
+   DB_HOST=mysql
    DB_PORT=3306
    DB_DATABASE=vl_woordenboek
    DB_USERNAME=laravel
    DB_PASSWORD=laravel
 
-7. **Voer de database migraties uit**
+2. **Start de database en de applicatie**
+
+    vendor/bin/sail up -d
+
+3**Voer de database migraties uit**
    ```sh
-   php artisan migrate
+   vendor/bin/sail artisan migrate
    ```
 
-8. **Seed de database met testgegevens (optioneel)**
+4**Seed de database met testgegevens (optioneel)**
    ```sh
-   php artisan db:seed
+   vendor/bin/sail artisan db:seed
    ```
 
-### De applicatie starten
-
-1. **Start de Laravel development server**
-   ```sh
-   php artisan serve
-   ```
-
-2. **Compileer assets in development mode**
-   ```sh
-   npm run dev
-   # of
-   yarn dev
-   ```
-
-3. **Of gebruik de handige dev script die alles in één keer start**
-   ```sh
-   composer run dev
-   ```
-
-De applicatie is nu beschikbaar op [http://localhost:8000](http://localhost:8000).
+Je bent nu klaar, de applicatie is beschikbaar op [http://localhost:8000](http://localhost:8000)
 
 ### Filament Admin Panel
 
 Het admin panel is beschikbaar op [http://localhost:8000/admin](http://localhost:8000/admin).
 
+### Installatie (zonder sail)
+
+TODO: documenteer dit (zelf db installeren, en verder grotendeels zelfde commandos met php ipv met sail,
+en met DB_HOST=localhost ipv DB_HOST=mysql
+
 ### Handige commando's
 
 - **Cache wissen**
   ```sh
-  php artisan optimize:clear
+  vendor/bin/sail artisan optimize:clear
   ```
 
 - **Tests uitvoeren**
   ```sh
-  php artisan test
-  # of
-  composer test
+  vendor/bin/sail artisan test
   ```
