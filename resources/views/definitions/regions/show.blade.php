@@ -176,7 +176,7 @@
                         <h5 class="card-title fw-bold">Geen gekoppelde woorden gevonden</h5>
 
                         <p class="card-text text-muted">
-                            Momenteel zijn er geen woorden gekoppeld of gevonden die matchen in het regio. Kom later nog eens terug.
+                            Momenteel zijn er geen woorden gekoppeld of gevonden die matchen met de regio. Kom later nog eens terug.
                         </p>
 
                         @if (request()->filled('zoekterm'))
