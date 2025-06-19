@@ -162,11 +162,13 @@ final class StandarizeInternalHyperlinks implements ShouldQueue
                     ? route('word-information.show', $lookup['first_id'])
                     : route('search.results', parameters: [
                         'zoekpatroon' => SearchPatterns::Exact,
-                        'zoekterm' => str_replace(' ', '+', $term)
+                        'zoekterm' => $term
                     ]);
 
+                $encodedUrl = htmlspecialchars($url, ENT_QUOTES, 'UTF-8');
+
                 // Return the formatted Markdown link
-                return "[{$term}]({$url})";
+                return "[{$term}]({$encodedUrl})";
             }
 
             // If no published article is found, return the original match (unaltered)
