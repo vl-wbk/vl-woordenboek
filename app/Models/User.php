@@ -151,8 +151,8 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
      * This method ensures that all queries for the User model use the custom builder,
      * which includes additional methods for managing user types and such.
      *
-     * @param  Builder $query       The base query builder instance
-     * @return UserBuilder<self>    The custom builder instance
+     * @param  Builder $query  The base query builder instance
+     * @return UserBuilder     The custom builder instance
      */
     public function newEloquentBuilder($query): UserBuilder
     {

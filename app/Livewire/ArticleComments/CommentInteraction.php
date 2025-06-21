@@ -12,7 +12,7 @@ class CommentInteraction extends Component
 {
     public Comment $comment;
 
-    public function mount(Comment $comment)
+    public function mount(Comment $comment): void
     {
         $this->comment = $comment->load('commentator');
     }

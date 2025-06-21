@@ -10,7 +10,7 @@ use App\Models\Feedback;
 use App\Enums\FeedbackStatus;
 use App\Enums\FeedbackTrueFalse;
 use Flowframe\Trend\TrendValue;
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Collection;
 
@@ -75,6 +75,9 @@ final class FeedbackStatisticsWidget extends AdvancedChartWidget
         ],
     ];
 
+    /**
+     * @param ?Builder<Feedback> $query
+     */
     private function getFeedbackTrendData(?Builder $query = null): Collection
     {
         $trendQuery = $query ? Trend::query($query) : Trend::model(Feedback::class);
@@ -85,6 +88,9 @@ final class FeedbackStatisticsWidget extends AdvancedChartWidget
             ->count();
     }
 
+    /**
+     * @return array{perWeek: string, perMonth: string}
+     */
     protected function getFilters(): array
     {
         return [

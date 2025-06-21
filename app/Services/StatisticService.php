@@ -31,6 +31,15 @@ final class StatisticService
      */
     private const WEEKLY = 'perWeek';
 
+    /**
+     * Defines the cache time-to-live (TTL) settings for this class.
+     *
+     * This property holds an array of TTL values, representing the duration (in seconds) for which cached data remains valid.
+     * The first value (0) typically indicates no caching, while the second value (900) sets a 15-minute cache duration.
+     * These values can be used to control how long certain data should be stored in cache, allowing for flexible cache strategies depending on the context or environment.
+     *
+     * @var array<int, int>
+     */
     private array $cacheTTL = [0, 900];
 
     /**

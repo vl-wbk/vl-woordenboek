@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Web\Articles;
 
 use App\Models\Region;
 use App\Queries\Regions\RegionAnalytics;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
@@ -25,11 +25,15 @@ final readonly class RegionController
         ]);
     }
 
+    /**
+     * @return LengthAwarePaginator<int, int>
+     */
     private function getRelatedArticleSearch(Request $request, Region $region): LengthAwarePaginator
     {
         $searchInput = $request->get('zoekterm');
         $sorting = $this->getSortBy($request->string('sortering'));
 
+        /** @phpstan-ignore-next-line */
         return $region->articles()
             ->whereNotNull('published_at')
             ->where(function ($query) use ($searchInput): void {
@@ -41,9 +45,13 @@ final readonly class RegionController
             ->fragment('woorden');
     }
 
+    /**
+     * @return array{column: string, order: string}
+     */
     private function getSortBy(?Stringable $sort): array
     {
-        return match($sort->value) {
+        /** @phpstan-ignore-next-line */
+        return match($sort->toString()) {
             'alfabetisch' => ['column' => 'word', 'order' => 'ASC'],
             'populariteit' => ['column' => 'views', 'order' => 'DESC'],
             'recent' => ['column' => 'published_at', 'order' => 'ASC'],

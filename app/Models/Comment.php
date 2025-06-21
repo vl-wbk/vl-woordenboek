@@ -13,6 +13,9 @@ use Overtrue\LaravelLike\Traits\Likeable;
  *
  * All core comment-related properties (e.g., body, author, commentable_type, commentable_id) and relationships are inherited from the `BeyondCode\Comments\Comment` base class.
  *
+ * @property User  $commentator The authenticated user who created the comment.
+ * @property mixed $commentable The resource entity that is attached to the comment.
+ *
  * @package App\Models
  */
 final class Comment extends BaseCommentEntity

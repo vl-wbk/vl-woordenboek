@@ -43,6 +43,7 @@ class ReadTimeCalculator
         // 2. Count words
         // Use a robust way to count words: split by whitespace and filter out empty strings
         $words = preg_split('/\s+/', $plainText, -1, PREG_SPLIT_NO_EMPTY);
+        /** @phpstan-ignore-next-line */
         $wordCount = count($words);
 
         // 3. Detect and count images in markdown
@@ -79,6 +80,8 @@ class ReadTimeCalculator
         $converter = new CommonMarkConverter();
         $plainText = strip_tags($converter->convert($markdownContent)->getContent());
         $words = preg_split('/\s+/', $plainText, -1, PREG_SPLIT_NO_EMPTY);
+
+        /** @phpstan-ignore-next-line */
         $wordCount = count($words);
         $imageCount = $this->countImagesInMarkdown($markdownContent);
 

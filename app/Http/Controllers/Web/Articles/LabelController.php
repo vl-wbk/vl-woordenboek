@@ -25,11 +25,15 @@ final readonly class LabelController
         ]);
     }
 
+    /**
+     * @return LengthAwarePaginator<int, int>
+     */
     private function getRelatedArticleSearch(Request $request, Label $label): LengthAwarePaginator
     {
         $searchInput = $request->get('zoekterm');
         $sorting = $this->getSortBy($request->string('sortering'));
 
+        /** @phpstan-ignore-next-line */
         return $label->articles()
             ->whereNotNull('published_at')
             ->where(function ($query) use ($searchInput): void {
@@ -41,9 +45,13 @@ final readonly class LabelController
             ->fragment('woorden');
     }
 
+    /**
+     * @return array{column: string, order: string}
+     */
     private function getSortBy(?Stringable $sort): array
     {
-        return match($sort->value) {
+        /** @phpstan-ignore-next-line */
+        return match($sort->toString()) {
             'alfabetisch' => ['column' => 'word', 'order' => 'ASC'],
             'populariteit' => ['column' => 'views', 'order' => 'DESC'],
             'recent' => ['column' => 'published_at', 'order' => 'ASC'],

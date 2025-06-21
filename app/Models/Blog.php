@@ -21,33 +21,43 @@ use BeyondCode\Comments\Traits\HasComments;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * @property string               $id
- * @property int|null             $author_id
- * @property Status               $status
- * @property string               $title
- * @property string               $content
- * @property int                  $views
- * @property bool                 $comments_enabled
- * @property Carbon|null  $published_at
- * @property Carbon|null  $created_at
- * @property Carbon|null  $updated_at
- * @property User $author
- * @property string $link
+ * @property string         $id
+ * @property int|null       $author_id
+ * @property Status         $status
+ * @property string         $title
+ * @property string         $content
+ * @property int            $views
+ * @property bool           $comments_enabled
+ * @property Carbon|null    $published_at
+ * @property Carbon|null    $created_at
+ * @property Carbon|null    $updated_at
+ * @property User           $author
+ * @property string         $link
  *
  * @package App\Models
  */
 final class Blog extends Model implements Feedable
 {
+    /** @use HasFactory<\Database\Factories\BlogFactory> */
     use HasFactory;
     use HasUlids;
     use HasComments;
 
+    /**
+     * @var list<string>
+     */
     protected $guarded = ['id'];
 
+    /**
+     * @var array<string, Status>
+     */
     protected $attributes = [
         'status' => Status::Draft,
     ];
 
+    /**
+     * @return BelongsTo<User, covariant $this>
+     */
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class)
@@ -64,17 +74,26 @@ final class Blog extends Model implements Feedable
         };
     }
 
+    /**
+     * @return BelongsTo<User, covariant $this>
+     */
     public function publisher(): BelongsTo
     {
         return $this->belongsTo(User::class)
             ->withDefault(callback: ['name' => config('app.name')]);
     }
 
+    /**
+     * @return BelongsToMany<Category, covariant $this>
+     */
     public function category(): BelongsToMany
     {
         return $this->belongsToMany(Category::class, table: 'post_categories');
     }
 
+    /**
+     * @return array<string, string>
+     */
     protected function casts(): array
     {
         return [
@@ -117,6 +136,9 @@ final class Blog extends Model implements Feedable
             ->authorName($this->author->name);
     }
 
+    /**
+     * @return Collection<int, Model>
+     */
     public static function getFeedItems(): Collection
     {
         return Blog::with('author')->where('status', Status::Published)->get();

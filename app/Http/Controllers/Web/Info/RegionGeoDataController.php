@@ -16,7 +16,6 @@ final readonly class RegionGeoDataController
     public function __invoke(): JsonResponse
     {
         $featureCollection = Cache::rememberForever('region_geo_data_feature_collection', function () {
-            /** @phpstan-ignore-next-line */
             $geoFeatures = RegionGeoData::query()
                 ->with('region')
                 ->select('name', 'region_id', 'postal', DB::raw('ST_AsGeoJSON(geometry) as geometry_geojson'))
@@ -27,7 +26,7 @@ final readonly class RegionGeoDataController
                 "features" => [],
             ];
 
-            foreach ($geoFeatures as $feature) {
+            collect($geoFeatures)->each(function($feature) {
                 $collection['features'][] = [
                     "type" => "Feature",
                     "properties" => [
@@ -36,10 +35,9 @@ final readonly class RegionGeoDataController
                         'region_name' => $feature->region->name,
                         "postal" => $feature->postal,
                     ],
-                    /** @phpstan-ignore-next-line */
                     "geometry" => json_decode((string) $feature->geometry_geojson),
                 ];
-            }
+            });
 
             return $collection;
         });

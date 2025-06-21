@@ -33,7 +33,7 @@ final readonly class BlogPolicy
         return Response::denyAsNotFound();
     }
 
-    public function view(User $user, $blog): Response
+    public function view(User $user, Blog $blog): Response
     {
         return Response::denyAsNotFound();
     }

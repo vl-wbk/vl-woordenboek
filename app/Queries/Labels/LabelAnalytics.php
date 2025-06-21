@@ -12,6 +12,9 @@ use Illuminate\Support\Collection;
 
 final readonly class LabelAnalytics
 {
+    /**
+     * @return Collection<string, array<string, string>>
+     */
     public function fetch(Label $label): Collection
     {
         return collect([
@@ -22,6 +25,10 @@ final readonly class LabelAnalytics
         ]);
     }
 
+    /**
+     * @param Label $label
+     * @return array<string, string>
+     */
     private function getArticleAnalytics(Label $label): array
     {
         $articles = $label->articles()->whereNotNull('published_at')->count();
@@ -35,6 +42,10 @@ final readonly class LabelAnalytics
         ];
     }
 
+    /**
+     * @param Label $label
+     * @return array<string, string>
+     */
     private function getViewAnalytics(Label $label): array
     {
         $views = (int) $label->articles()->whereNotNull('published_at')->sum('views');
@@ -48,6 +59,10 @@ final readonly class LabelAnalytics
         ];
     }
 
+    /**
+     * @param Label $label
+     * @return array<string, string>
+     */
     private function getContributorAnalytics(Label $label): array
     {
         $totalArticles = Article::query()
@@ -60,6 +75,8 @@ final readonly class LabelAnalytics
 
         $totalUniqueAuthors = User::whereHas('suggestions', function ($suggestionQuery) use ($label) {
             $suggestionQuery->whereNotNull('published_at');
+
+            /** @phpstan-ignore-next-line */
             $suggestionQuery->whereHas('labels', function ($labelQuery) use ($label) {
                 $labelQuery->where('labels.id', $label->id);
             });
@@ -73,10 +90,15 @@ final readonly class LabelAnalytics
         ];
     }
 
+    /**
+     * @return array<string, string>
+     */
     private function getReportAnalytics(Label $label): array
     {
         $totalAttachedReports = ArticleReport::whereHas('article', function ($articleQuery) use ($label) {
             $articleQuery->whereNotNull('published_at');
+
+            /** @phpstan-ignore-next-line */
             $articleQuery->whereHas('labels', function ($labelQuery) use ($label) {
                 $labelQuery->where('labels.id', $label->id);
             });

@@ -73,7 +73,7 @@ final readonly class BrowserSessionService
      * It then maps each session record to a more user-friendly object containing information about the user agent, IP address, whether it's the current
      * device, and the time since last activity. This operation only applies if the session driver is set to 'database'.
      *
-     * @return Collection<int, object{agent: AgentService, ip_address: mixed, is_current_device: bool, last_active: string}>
+     * @return Collection<int,  object{agent: AgentService, ip_address: mixed, is_current_device: bool, last_active: string}&stdClass>
      */
     public function getSessionProperty(): Collection
     {
