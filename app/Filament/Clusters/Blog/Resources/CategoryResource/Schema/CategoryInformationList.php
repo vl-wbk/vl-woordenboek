@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources\CategoryResource\Schema;
 
+use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 
@@ -14,26 +15,31 @@ final readonly class CategoryInformationList
         return $infolist
             ->columns(12)
             ->schema([
+                IconEntry::make('internal')
+                    ->boolean()
+                    ->label('Interne categorie')
+                    ->translateLabel()
+                    ->columnSpan(3),
                 TextEntry::make('name')
                     ->label('Naam')
                     ->translateLabel()
-                    ->columnSpan(4)
+                    ->columnSpan(3)
                     ->icon('heroicon-o-tag')
                     ->badge(),
 
                 TextEntry::make('posts_count')
                     ->label('Aantal koppelingen')
-                    ->columnSpan(4)
+                    ->columnSpan(3)
                     ->translateLabel(),
 
                 TextEntry::make('created_at')
                     ->label('Aangemaakt op')
                     ->translateLabel()
                     ->date()
-                    ->columnSpan(4),
+                    ->columnSpan(3),
 
                 TextEntry::make('description')
-                    ->label('Categorie beschrijving')
+                    ->label('Beschrijving')
                     ->columnSpanFull()
                     ->placeholder('- Geen categorie beschrijving opgegeven'),
             ]);

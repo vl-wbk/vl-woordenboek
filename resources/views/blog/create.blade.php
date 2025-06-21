@@ -62,36 +62,43 @@
                         <div class="form-group mb-3">
                             <div class="col-8">
                                 <label for="title" class="form-label">Titel <span class="text-danger fw-bold">*</span></label>
-                                <input type="text" class="form-control" name="titel" id="titel"/>
+                                <input type="text" class="form-control @error('titel') is-invalid @enderror" name="titel" id="titel"/>
+                                <x-forms.validation-error field="titel"/>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-12 mb-3">
-                        <div class="form-group">
-                            <label for="categories" class="form-label">Categorieen</label>
-                            <select name="categorieen[]" id="categories" class="form-select" aria-describedby="categoriesHelpBlock" size="9" multiple>
-                                @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}" {{ in_array($category->id, old('regio', [])) ? 'selected' : '' }}>
-                                        {{ $category->name }}
-                                    </option>
-                                @endforeach
-                            </select>
+                    @if ($categories->count() > 0)
+                        <div class="col-12 mb-3">
+                            <div class="form-group">
+                                <label for="categories" class="form-label">Categorieen</label>
+                                <select name="categorieen[]" id="categories" class="form-select" aria-describedby="categoriesHelpBlock" size="9" multiple>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}" {{ in_array($category->id, old('regio', [])) ? 'selected' : '' }}>
+                                            {{ $category->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
 
-                            <div id="categoriesHelpBlock" class="form-text">
-                                <x-heroicon-o-information-circle class="icon icon-sm me-1"/>Wil je meerdere categorieen aanklikken? Hou de CTRL-toets ingedrukt terwijl je een voor een op de categorieen klikt.
+                                <div id="categoriesHelpBlock" class="form-text">
+                                    <x-heroicon-o-information-circle class="icon icon-sm me-1"/>Wil je meerdere categorieen aanklikken? Hou de CTRL-toets ingedrukt terwijl je een voor een op de categorieen klikt.
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
 
                     <div class="col-12">
                         <div class="form-group">
                             <label for="content" class="form-label">Uw artikel <span class="fw-bold text-danger">*</span></label>
-                            <textarea name="conetent" id="content" class="form-control" rows="10" aria-describedby="contentHelpBlock"></textarea>
+                            <textarea name="content" id="content" class="form-control @error('content') is-invalid @enderror" rows="10" aria-describedby="contentHelpBlock"></textarea>
 
-                            <div id="contentHelpBlock" class="form-text">
-                                <x-heroicon-o-information-circle class="icon icon-sm me-1"/>Dit veld is <a href="https://www.markdownguide.org/basic-syntax/" target="_blank">markdown</a> ondersteund voor de opmaak van het artikel
-                            </div>
+                            @if($errors->has('content'))
+                                <x-forms.validation-error field="content"/>
+                            @else
+                                <div id="contentHelpBlock" class="form-text">
+                                    <x-heroicon-o-information-circle class="icon icon-sm me-1"/>Dit veld is <a href="https://www.markdownguide.org/basic-syntax/" target="_blank">markdown</a> ondersteund voor de opmaak van het artikel
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </form>

@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Web\Blog;
 
+use App\Actions\Posts\StoreGuestArticle;
 use App\Features\GuestEditors;
+use App\Http\Requests\Posts\StoreGuestArticleRequest;
 use App\Models\Article;
 use App\Models\Blog;
 use App\Models\Category;
@@ -54,9 +56,12 @@ final readonly class PostsController
         ]);
     }
 
-    #[Post(uri: '/nieuw-nieuwsartikel', name: 'news:store', middleware: ['auth', 'verified', 'forbid-banned-user', 'can:create,App\Models\Blog'])]
-    public function store(): RedirectResponse
+    #[Post(uri: '/nieuw-nieuwsartikel', name: 'news:store', middleware: ['auth', 'verified', 'forbid-banned-user'])]
+    public function store(StoreGuestArticleRequest $storeGuestArticleRequest, StoreGuestArticle $storeGuestArticle): RedirectResponse
     {
-        dd('works');
+        $storeGuestArticle->handle($storeGuestArticleRequest->getData());
+        flash('We hebben uw artikel goed ontvangen. Een adminstrator zal het spoedig nalezen en publiceren.', 'alert-success');
+
+        return back();
     }
 }
