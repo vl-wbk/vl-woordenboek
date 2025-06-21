@@ -186,26 +186,19 @@
                     <li class="list-inline-item text-muted">|</li>
 
                     <li class="list-inline-item">
-                        <a href="https://github.com/Tjoosten/vl-woordenboek"
-                            class="footer-icon-color text-decoration-none">
+                        <a href="https://github.com/Tjoosten/vl-woordenboek" target="_blank" class="footer-icon-color text-decoration-none">
                             <x-tabler-brand-github class="icon" />
                         </a>
                     </li>
 
                     <li class="list-inline-item">
-                        <a href="" class="footer-icon-color text-decoration-none">
-                            <x-tabler-brand-bluesky class="icon" />
-                        </a>
-                    </li>
-
-                    <li class="list-inline-item">
-                        <a href="https://www.facebook.com/vlaamswoordenboek" class="footer-icon-color text-decoration-none">
+                        <a href="https://www.facebook.com/vlaamswoordenboek" target="_blank" class="footer-icon-color text-decoration-none">
                             <x-tabler-brand-facebook class="icon" />
                         </a>
                     </li>
 
                     <li class="list-inline-item">
-                        <a href="https://discord.gg/bqKNs2SDz8" class="footer-icon-color text-decoration-none">
+                        <a href="https://discord.gg/bqKNs2SDz8" target="_blank" class="footer-icon-color text-decoration-none">
                             <x-tabler-brand-discord class="icon" />
                         </a>
                     </li>

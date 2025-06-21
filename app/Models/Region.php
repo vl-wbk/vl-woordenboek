@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Database\Factories\RegionFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * Welcome to the Region model - our way of mapping the rich tapestry of Flemish dialects
@@ -46,4 +47,18 @@ final class Region extends Model
      * @var list<string>
      */
     protected $fillable = ['id', 'name'];
+
+    /**
+     * Defines the many-to-many relationship between labels and dictionary articles.
+     * This relationship tracks when articles are tagged with labels through timestamps in the pivot table, enabling chronological analysis of label usage.
+     * The pivot table maintains both creation and update timestamps for detailed auditing.
+     *
+     * @return BelongsToMany<Article, covariant $this>
+     */
+    public function articles(): BelongsToMany
+    {
+        return $this->belongsToMany(Article::class)
+            ->withPivot('created_at')
+            ->withTimestamps();
+    }
 }

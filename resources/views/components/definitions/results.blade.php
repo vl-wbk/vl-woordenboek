@@ -25,9 +25,15 @@
                 <x-heroicon-o-eye class="icon color-green"/> bekijk
             </a>
 
-            <a href="" class="card-link text-decoration-none">
-                <x-heroicon-o-bookmark class="icon color-green"/> bewaar
-            </a>
+            @if ($result->bookmarkers->contains(auth()->user()))
+                <a href="{{ route('bookmark:remove', $result) }}" class="card-link text-decoration-none">
+                    <x-heroicon-o-bookmark-slash class="icon text-danger"/> vergeten
+                </a>
+            @else {{-- The user hasnt bookmarked the article --}}
+                <a href="{{ route('bookmark:create', $result) }}" class="card-link text-decoration-none">
+                    <x-heroicon-o-bookmark class="icon color-green"/> bewaar
+                </a>
+            @endif
         </div>
     </div>
 @endforeach

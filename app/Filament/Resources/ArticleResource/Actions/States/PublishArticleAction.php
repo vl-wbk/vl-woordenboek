@@ -44,10 +44,10 @@ final class PublishArticleAction extends Action
         $this->icon('heroicon-o-paper-airplane');
         $this->color('gray');
 
-        // Configuration on the conformation model
+        // Configuration on the confirmation model
         $this->requiresConfirmation();
         $this->modalHeading(fn (): string => trans('Artikel insturen voor publicatie.'));
-        $this->modalDescription('Nadat u het artikel instuurt voor nazicht zal hij/zij het artikel nakijken en mogelijks goedkeuren voor publictatie');
+        $this->modalDescription('Nadat u het artikel instuurt voor nazicht zal hij/zij het artikel nakijken en mogelijks goedkeuren voor publicatie');
         $this->modalSubmitActionLabel('Insturen');
         $this->modalIcon('heroicon-o-paper-airplane');
 

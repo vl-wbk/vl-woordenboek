@@ -224,6 +224,19 @@ final class Article extends Model implements AuditableContract
     }
 
     /**
+     * Retrieves all users who have bookmarked this article.
+     *
+     * The `bookmarkers` method sets up a many-to-many relationship between articles and users through the `article_bookmarks` pivot table.
+     * This allows you to quickly find all users who have saved this article to their bookmarks, which can be useful for engagement analytics, notifications, or personalized content features.
+     *
+     * @return BelongsToMany<User> A collection of users who have bookmarked this article.
+     */
+    public function bookmarkers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, table: 'article_bookmarks');
+    }
+
+    /**
      * Overrides the default Eloquent builder with a custom ArticleBuilder.
      *
      * This method ensures that all queries for the Article model use the custom builder,

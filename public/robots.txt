@@ -1,2 +1,8 @@
 User-agent: *
 Disallow:
+
+# robots.txt
+# This should block Meta-ExternalAgent
+
+User-agent: Meta-ExternalAgent
+Disallow: /

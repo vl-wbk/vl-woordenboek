@@ -26,5 +26,57 @@
     {
         "name": "televisie",
         "description": "Bekende televisieprogramma's en -series, citaten uit die programma's en acteurs"
+    },
+    {
+        "name": "Formeel",
+        "description": ""
+    },
+    {
+        "name": "(vooral) geschreven taal",
+        "description": ""
+    },
+    {
+        "name": "Juridisch",
+        "description": ""
+    },
+    {
+        "name": "Administratie",
+        "description": ""
+    },
+    {
+        "name": "Jongerentaal",
+        "description": ""
+    },
+    {
+        "name": "specialistisch",
+        "description": ""
+    },
+    {
+        "name": "Pejoratief",
+        "description": ""
+    },
+    {
+        "name": "Eufemistisch",
+        "description": ""
+    },
+    {
+        "name": "Schertsend",
+        "description": ""
+    },
+    {
+        "name": "Ironisch",
+        "description": ""
+    },
+    {
+        "name": "beledigend",
+        "description": ""
+    },
+    {
+        "name": "Verouderend",
+        "description": ""
+    },
+    {
+        "name": "Vulgair",
+        "description": ""
     }
 ]

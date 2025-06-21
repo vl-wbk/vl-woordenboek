@@ -6,7 +6,7 @@
             <div class="col-12">
                 <h3 class="color-green float-start">Suggestie indienen</h3>
 
-                <a href="{{ url()->previous() }}" class="btn btn-outline-danger shadow-sm float-end">
+                <a href="{{ route('home') }}" class="btn btn-outline-danger shadow-sm float-end">
                     <x-heroicon-o-arrow-uturn-left class="icon me-1"/> Annuleren
                 </a>
             </div>
