@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int          $id          The unique identifier for this geographical data.
  * @property ?int         $region_id   The unique identifier of the associated region
  * @property string       $postal      The postal code this geographical area
- * @property string       $geometry    The geometric data defining the area boundaries
+ * @property string       $geometry_geojson    The geometric data defining the area boundaries
  * @property ?string      $name        An optional name for this geographical area
  * @property Carbon|null  $created_at  Timestamp of when this record was created
  * @property Carbon|null  $updated_at  Timestamp of when this record was last updated

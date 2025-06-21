@@ -19,7 +19,7 @@ use Illuminate\Queue\Middleware\Skip;
  * If a bracketed term matches a single published article, it creates a direct link to that article's information page. If it matches multiple published articles, it creates a link to the search results page for that term.
  * Terms that do not match any published articles are left unchanged.
  *
- * @property App\Jobs\DataMigration
+ * @package App\Jobs\DataMigration
  */
 final class StandarizeInternalHyperlinks implements ShouldQueue
 {

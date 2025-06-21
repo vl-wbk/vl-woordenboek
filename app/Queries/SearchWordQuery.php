@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Stringable;
 
 /**
  * The SearchWordQuery provides a focused way to search through dictionary articles.
@@ -33,8 +35,8 @@ final readonly class SearchWordQuery
      * The search is case-insensitive and matches partial words.
      * Results are sorted alphabetically by default and paginated for better performance and user expierence
      *
-     * @param  Request $request      The instance that holds all the request information
-     * @return LengthAwarePaginator  Paginated collection of matching articles with query parameters preserved
+     * @param  Request $request                  The instance that holds all the request information
+     * @return LengthAwarePaginator<int, Model>  Paginated collection of matching articles with query parameters preserved
      */
     public function execute(Request $request): LengthAwarePaginator
     {
@@ -63,10 +65,8 @@ final readonly class SearchWordQuery
      * - 'zoekterm': The actual text to search for.
      * - 'zoekpatroon': The desired search pattern, corresponding to a `SearchPatterns` enum case value.
      *
-     * @param Request $request The incoming HTTP request instance, containing 'zoekterm' and 'zoekpatroon'.
-     * @return array An associative array containing:
-     * - 'pattern' (string): The formatted search string, including wildcards ('%') if applicable.
-     * - 'operator' (string): The SQL operator to use for the query, either 'LIKE' or '='.
+     * @param  Request $request The incoming HTTP request instance, containing 'zoekterm' and 'zoekpatroon'.
+     * @return array{pattern: Stringable|non-falsy-string, operator: '='|'LIKE'}
      */
     private function getSearchPattern(Request $request): array
     {

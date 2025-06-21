@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Carbon;
-
+use Illuminate\Database\Eloquent\Relations\Pivot;
 /**
  * Class Category
  *
@@ -49,7 +49,7 @@ final class Category extends Model
      * to many categories. The relationship is managed through an intermediate pivot table,
      * named 'post_categories' by default, which typically stores `category_id` and `blog_id`.
      *
-     * @return BelongsToMany<Blog>
+     * @return BelongsToMany<Blog, covariant $this, Pivot>
      */
     public function posts(): BelongsToMany
     {

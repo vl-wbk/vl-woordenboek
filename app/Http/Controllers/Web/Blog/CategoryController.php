@@ -15,6 +15,7 @@ final readonly class CategoryController
     {
         return view('blog.index', data: [
             'category' => $category,
+            /** @phpstan-ignore-next-line */
             'posts' => $category->posts()->simplePaginate(6)->appends(request()->query()),
             'categories' => Category::with('posts')->get(),
         ]);

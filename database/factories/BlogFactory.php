@@ -27,9 +27,12 @@ final class BlogFactory extends Factory
         ];
     }
 
-    private function withAuthor()
+    private function withAuthor(): int|UserFactory
     {
-        if ($randomUser = User::inRandomOrder()->first()) {
+        $randomUser = User::inRandomOrder()->first();
+
+        if ($randomUser) {
+            /** @var User $randomUser */
             return $randomUser->id;
         }
 
