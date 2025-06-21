@@ -69,7 +69,7 @@ final readonly class BookmarkController
             $request->user()->bookmarks()->attach($article);
         }
 
-        return redirect()->action(DictionaryArticleController::class, $article);
+        return back();
     }
 
     /**
