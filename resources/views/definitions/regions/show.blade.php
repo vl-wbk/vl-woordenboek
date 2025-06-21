@@ -87,10 +87,10 @@
                 <div class="card border-0 shadow-sm">
                     <div class="card-header border-bottom-0 information-statistic">
                         <form action="#woorden" method="GET" class="row g-2">
-                            <div class="col-9">
+                            <div class="col-lg-9 col-md-7 col-sm-12">
                                 <input type="text" name="zoekterm" value="{{ request()->get('zoekterm') }}" class="shadow-sm form-control w-100" autocomplete="off" placeholder="Zoek op woord of sleutelwoorden…">
                             </div>
-                            <div class="col-2">
+                            <div class="col-lg-2 col-md-3 col-sm-9">
                                 <select name="sortering" class="form-select shadow-sm">
                                     <option value="" @selected(request('sortering') === null)>Sorteren op</option>
                                     <option value="alfabetisch" @selected(request('sortering') === 'alfabetisch')>Alfabetische volgorde</option>
@@ -98,7 +98,7 @@
                                     <option value="recent" @selected(request('sortering') === 'recent')>Meest recent</option>
                                 </select>
                             </div>
-                            <div class="col-1">
+                            <div class="col-lg-1 col-md-2 col-sm-3">
                                 <button type="submit" class="btn w-100 shadow-sm btn-filter">
                                     <x-heroicon-o-funnel class="icon me-1"/> Filteren
                                 </button>
