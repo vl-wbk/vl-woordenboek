@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * this is where we keep track of those geographical connections.
  *
  * We keep things simple here each region has a name, and it can be connected to various linguistic features through a flexible polymorphic relationship.
- * This means we can link regions not just to words, but to any linguistic feature we might want to track in the future.
+ * This means we can link regions not just to words but to any linguistic feature we might want to track in the future.
  *
  * @property int             $id            The unique identifier for the geographical region in the database.
  * @property string          $name          The name for the geographical region

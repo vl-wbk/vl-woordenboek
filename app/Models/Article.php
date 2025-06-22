@@ -33,7 +33,7 @@ use Kenepa\ResourceLock\Models\Concerns\HasLocks;
  * This model manages dictionary articles through their entire lifecycle, from creation to publication.
  * It implements a state pattern to handle different article statuses (new, draft, published, etc.)
  * and includes auditing capabilities to track changes. The model supports relationships with authors,
- * editors, regions, and definitions while also providing likeability features.
+ * editors, regions, and definitions while also providing likability features.
  *
  * @property int            $id                 The unique identifier for the article
  * @property string         $word               The dictionary word being defined
@@ -72,7 +72,7 @@ final class Article extends Model implements AuditableContract
 
     /**
      * Specifies attributes that are protected from mass assignment.
-     * This property ensures that the note's unique identifier remains immutable throughout its lifecycle,  maintaining referential integrity while allowing other attributes to be mass assigned for efficient creation and updates.
+     * This property ensures that the note's unique identifier remains immutable throughout its lifecycle, maintaining referential integrity while allowing other attributes to be mass assigned for efficient creation and updates.
      * The minimal protection approach reflects a balance between security and development convenience.
      *
      * @var list<string>
@@ -89,7 +89,7 @@ final class Article extends Model implements AuditableContract
 
     /**
      * Default values for new article instances.
-     * Every new article starts in 'New' state with unknown language status.
+     * Every new article starts in the 'New' state with unknown language status.
      *
      * @var array<string, object|int|string>
      */
@@ -103,7 +103,7 @@ final class Article extends Model implements AuditableContract
      * Returns the appropriate Article State instance based on the current article status.
      *
      * This method uses a `match` expression to determine the current state of the dictionary article based on its state.
-     * It then returns an instance of the corresponding state class, which handles specific behaviours and transitions fo that state.
+     * It then returns an instance of the corresponding state class, which handles specific behaviors and transitions of that state.
      * Each article state maps to a different state class; ensuring the current state logic is applied at any given point in the article lifecycle.
      *
      * Example states flow: New -> Draft -> Approval -> Published -> Archived
@@ -213,7 +213,7 @@ final class Article extends Model implements AuditableContract
      * Retrieves all reports associated with this article.
      *
      * The `reports` method establishes a one-to-many relationship between an article and its related report records.
-     * Every time a user or system flags an article—whether for feedback, issue reporting, or another purpose a corresponding record is created in the ArticleReport model.
+     * Every time a user or system flags an article—whether for feedback, issue reporting, or another purpose, a corresponding record is created in the ArticleReport model.
      * This method makes it easy to access all such reports, which can then be used for analytics, audits, or user notifications.
      *
      * @return HasMany<ArticleReport, covariant $this>

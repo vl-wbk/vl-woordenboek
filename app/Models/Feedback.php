@@ -34,7 +34,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 final class Feedback extends Model
 {
     /**
-     * The attributes that aren't mass assignable.
+     * The attributes that aren't mass-assignable.
      *
      * These fields are protected from mass assignment to prevent accidental
      * or malicious updates via `create()` or `update()` methods.
@@ -60,7 +60,7 @@ final class Feedback extends Model
      *
      * This relationship connects the feedback entry to the user who created it.
      * This relationship may be null for anonymous feedback submissions.
-     * When accessed, this will lead the associated User model with all it attributes.
+     * When accessed, this will lead to the associated User model with all its attributes.
      *
      * @return BelongsTo<User, covariant $this>
      */
@@ -72,7 +72,7 @@ final class Feedback extends Model
     /**
      * Get the casts for the model.
      *
-     * The `casts` method defines how certain attributes should be converted to native PHP types when, they are retrieved from your database.
+     * The `casts` method defines how certain attributes should be converted to native PHP types when they are retrieved from your database.
      * This ensures type safety and simplifies working with enums and boolean values.
      *
      * @return array<string, string>

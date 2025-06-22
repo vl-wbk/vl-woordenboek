@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Builders\BlogBuilder;
 use App\Filament\Clusters\Blog\Resources\BlogResource\Enums\Status;
 use Carbon\Carbon;
+use Database\Factories\BlogFactory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -38,7 +39,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 final class Blog extends Model implements Feedable
 {
-    /** @use HasFactory<\Database\Factories\BlogFactory> */
+    /** @use HasFactory<BlogFactory> */
     use HasFactory;
     use HasUlids;
     use HasComments;

@@ -8,10 +8,10 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Part of speech model
+ * Part of the speech model
  *
  * This model represents grammatical categories in the Flemish dictionary application.
- * Each instance defines a specific part of speech that helps classify words in the dictionary based on their grammatical function and behaviour sentences.
+ * Each instance defines a specific part of speech that helps classify words in the dictionary based on their grammatical function and behavior sentences.
  *
  * The model serves as a fundamental building block for linguistic categorization, enabling proper classification of dictionary entries.
  * It Maintains a clear separation between Dutch terminology and English equivalents.

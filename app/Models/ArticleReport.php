@@ -18,11 +18,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * Represents a report submitted for an article.
  *
  * The `ArticleReport` model is responsible for managing the lifecycle and relationships of reports submitted for dictionary articles.
- * It tracks the report's state, assignee, and associated article, and provides methods for transitioning between states in the reporting lifecycle.
+ * It tracks the report's state, assignee, and associated article and provides methods for transitioning between states in the reporting lifecycle.
  *
  * This model integrates with the state pattern to handle transitions between "Open", "In Progress", and "Closed" states.
  * It also uses Eloquent relationships to associate reports with articles, authors, and assignees.
- * The `state` attribute is cast to the `Status` enum, ensuring that the state is always represented as a strongly-typed value.
+ * The `state` attribute is cast to the `Status` enum, ensuring that the state is always represented as a strongly typed value.
  *
  * Additionally, this model provides a foundation for future extensions, such as implementing an "Archived" state for reports.
  *
