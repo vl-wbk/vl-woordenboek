@@ -85,7 +85,8 @@
                 <h2 class="mb-4 text-gold">Gekoppelde woorden</h2>
 
                 <div class="card border-0 shadow-sm">
-                    <div class="card-header border-bottom-0 information-statistic">
+                    <div id="map" style="height: 400px;" class="card-header border-bottom-0"></div>
+                    <div class="card-body border-bottom-0 information-statistic">
                         <form action="#woorden" method="GET" class="row g-2">
                             <div class="col-lg-9 col-md-7 col-sm-12">
                                 <input type="text" name="zoekterm" value="{{ request()->get('zoekterm') }}" class="shadow-sm form-control w-100" autocomplete="off" placeholder="Zoek op woord of sleutelwoorden…">
@@ -189,4 +190,81 @@
             @endif
         </section>
     </div>
+@endsection
+
+
+@section('scripts')
+ <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+<style>
+    .leaflet-tile { border-color: transparent; }
+.leaflet-container path.leaflet-interactive:focus:not(:focus-visible) {
+  outline: 0;
+}
+</style>
+
+<script>
+        // Initialize the map
+        var map = L.map('map', {
+}).setView([50.8503, 4.3517], 10); // Set initial view (approx. Brussels center)
+
+        // Add a base tile layer (e.g., OpenStreetMap)
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        // URL of your Laravel API endpoint
+        const geoApiUrl = '/api/geo-data/{{ $region->id}}'; // Adjust if your API path is different
+
+        // Fetch the GeoJSON data from the backend
+        fetch(geoApiUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json(); // Parse the JSON response
+            })
+            .then(geojsonData => {
+                // Data fetched successfully, add it to the map
+                if (geojsonData && geojsonData.type === "FeatureCollection") {
+                    function getColor(d) {
+                        return '#519';
+}
+
+                     var geojsonLayer = L.geoJSON(geojsonData, {
+                        // Optional: Style the polygon
+                        style: function (feature) {
+                            return {
+                                color: getColor(feature.properties.region_id), // Border color (blue)
+                                weight: 1,         // Border thickness
+                                opacity: 1,      // Border opacity
+                                fillColor: getColor(feature.properties.region_id), // Fill color (blue)
+                                fillOpacity: 0.1   // Fill opacity
+                            };
+                        },
+                        // Optional: Add popups or other interactions
+                        onEachFeature: function (feature, layer) {
+                                layer.bindPopup("<strong>Gemeente(s):</strong><br>" + feature.properties.name + "<br><br><strong>Taalkundige regio: </strong><br>" + feature.properties.region_name)
+
+
+                        }
+                    }).addTo(map);
+
+                    // Optional: Fit the map view to the bounds of the GeoJSON layer
+                    map.fitBounds(geojsonLayer.getBounds());
+
+                } else {
+                     console.error("Invalid GeoJSON data received:", geojsonData);
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching geo data:", error);
+            });
+
+    </script>
 @endsection
