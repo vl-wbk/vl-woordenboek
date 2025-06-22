@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Web\Articles;
 
 use App\Models\Region;
 use App\Queries\Regions\RegionAnalytics;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
@@ -36,10 +37,7 @@ final readonly class RegionController
         /** @phpstan-ignore-next-line */
         return $region->articles()
             ->whereNotNull('published_at')
-            ->where(function ($query) use ($searchInput): void {
-                $query->where('word', 'LIKE', "%$searchInput%")
-                    ->orWhere('keywords', 'LIKE', "%$searchInput%");
-            })
+            ->when($request->filled('zoekterm'), fn (Builder $query): Builder => $query->where('word', 'LIKE', "%$searchInput%")->orWhere('keywords', 'LIKE', "%$searchInput%"))
             ->orderBy($sorting['column'], $sorting['order'])
             ->fastPaginate()
             ->fragment('woorden');
