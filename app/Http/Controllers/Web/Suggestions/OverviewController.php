@@ -32,7 +32,7 @@ final readonly class OverviewController
         $suggestionQuery = new UserSuggestionQueryBuilder($request);
 
         return view('suggestions.index', [
-            'results' => $suggestionQuery->paginate()->appends(request()->query())
+            'results' => $suggestionQuery->fastPaginate()->appends(request()->query())
         ]);
     }
 }

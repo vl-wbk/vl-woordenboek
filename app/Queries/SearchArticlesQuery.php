@@ -43,7 +43,7 @@ final readonly class SearchArticlesQuery
             ->when($request->has('zoekterm') && $request->get('zoekterm') !== null, function (Builder $builder) use ($request): void {
                 $builder->where('title', 'LIKE', "%{$request->get('zoekterm')}%");
             })
-            ->simplePaginate(6)
+            ->simpleFastPaginate(6)
             ->appends(request()->query());
     }
 }

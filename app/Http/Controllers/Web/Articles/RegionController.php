@@ -41,7 +41,7 @@ final readonly class RegionController
                     ->orWhere('keywords', 'LIKE', "%$searchInput%");
             })
             ->orderBy($sorting['column'], $sorting['order'])
-            ->paginate()
+            ->fastPaginate()
             ->fragment('woorden');
     }
 
