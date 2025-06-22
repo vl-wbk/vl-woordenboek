@@ -43,6 +43,7 @@ final readonly class SearchWordQuery
         $includeDescription = $request->boolean('uitgebreid');
 
         return QueryBuilder::for(Article::class)
+            ->with(['author', 'bookmarkers'])
             ->allowedSorts($this->getAllowedSorts())
             ->whereNotNull('published_at')
             ->where(function ($query) use ($request, $includeDescription): void {
@@ -52,7 +53,6 @@ final readonly class SearchWordQuery
                     ->when($includeDescription, fn(Builder $builder): Builder => $builder->orWhere('description', 'like', $this->getSearchPattern($request)['pattern']));
             })
             ->orderBy('word')
-            ->with(['author', 'bookmarkers'])
             ->paginate(6)
             ->appends(request()->query());
     }
