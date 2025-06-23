@@ -71,6 +71,7 @@ final readonly class TableSchema
                 ->translateLabel()
                 ->options(Status::class)
                 ->native(false)
+                ->default(Status::Submission->value)
         ];
     }
 }
