@@ -46,11 +46,13 @@ enum Status: int implements HasLabel, HasColor, HasIcon
      */
     case Published = 1;
 
+    case Submission = 2;
+
     /**
      * Provides a human-readable label for the current status in the user's language.
      *
      * This method converts our internal status values into user-friendly text that appears throughout the admin interface.
-     * 
+     *
      * The labels are defined in Dutch but go through our translation system, allowing for:
      * - Consistent status terminology across the interface
      * - Future internationalization if needed
@@ -68,6 +70,7 @@ enum Status: int implements HasLabel, HasColor, HasIcon
     public function getLabel(): string
     {
         $label = match($this) {
+            self::Submission => 'Klad versie - inzending',
             self::Draft => 'Klad versie',
             self::Published => 'Gepubliceerd',
         };
@@ -84,6 +87,7 @@ enum Status: int implements HasLabel, HasColor, HasIcon
     public function getColor(): string
     {
         return match($this) {
+            self::Submission => 'gray',
             self::Draft => 'warning',
             self::Published => 'success',
         };
@@ -103,7 +107,7 @@ enum Status: int implements HasLabel, HasColor, HasIcon
     public function getIcon(): string
     {
         return match($this) {
-            self::Draft => 'heroicon-o-pencil-square',
+            self::Draft, self::Submission => 'heroicon-o-pencil-square',
             self::Published => 'heroicon-o-globe-europe-africa',
         };
     }
@@ -128,5 +132,10 @@ enum Status: int implements HasLabel, HasColor, HasIcon
     public function isDraft(): bool
     {
         return $this->is(self::Draft);
+    }
+
+    public function isSubmission(): bool
+    {
+        return $this->is(self::Submission);
     }
 }

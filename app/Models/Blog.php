@@ -35,6 +35,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property User           $author
  * @property string         $link
  *
+ * @method category()
+ *
  * @package App\Models
  */
 final class Blog extends Model implements Feedable
@@ -71,6 +73,7 @@ final class Blog extends Model implements Feedable
     {
         return match($this->status) {
             Status::Draft => new Posts\DraftState($this),
+            Status::Submission => new Posts\SubmissionState($this),
             Status::Published => new Posts\PublishedState($this),
         };
     }

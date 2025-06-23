@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Policies;
 
 use App\Features\GuestEditors;
+use App\Filament\Clusters\Blog\Resources\BlogResource\Enums\Status;
 use App\Models\Blog;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
@@ -61,7 +62,7 @@ final readonly class BlogPolicy
 
     public function publish(User $user, Blog $blog): Response
     {
-        return $blog->author()->is($user)
+        return ($blog->author()->is($user) && $blog->status->in(enums: [Status::Submission, Status::Draft]))
             ? Response::allow()
             : Response::denyAsNotFound();
     }
@@ -75,7 +76,7 @@ final readonly class BlogPolicy
 
     public function undoPublication(User $user, Blog $blog): Response
     {
-        return $blog->author()->is($user)
+        return ($blog->author()->is($user) && $blog->status->is(Status::Published))
             ? Response::allow()
             : Response::denyAsNotFound();
     }

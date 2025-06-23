@@ -12,6 +12,6 @@ final class GuestArticleDataObjectData extends Data
         #[MapInputName('titel')]        public readonly string $title,
         #[MapInputName('content')]      public readonly string $content,
         #[MapInputName('categorieen')]  public readonly array $categories = [],
-        public readonly Status $status = Status::Draft,
+        public readonly Status $status = Status::Submission,
     ) {}
 }

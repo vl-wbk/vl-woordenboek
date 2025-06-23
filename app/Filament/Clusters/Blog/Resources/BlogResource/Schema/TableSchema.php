@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources\BlogResource\Schema;
 
+use App\Filament\Clusters\Blog\Resources\BlogResource\Enums\Status;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 
 /**
  * Class TableSchema
@@ -57,6 +60,17 @@ final readonly class TableSchema
                 ->placeholder('-')
                 ->sortable()
                 ->date()
+        ];
+    }
+
+    public static function configureFilters(): array
+    {
+        return [
+            SelectFilter::make('status')
+                ->label('Publicatie status')
+                ->translateLabel()
+                ->options(Status::class)
+                ->native(false)
         ];
     }
 }

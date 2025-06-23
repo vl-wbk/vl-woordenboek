@@ -107,6 +107,7 @@ final class BlogResource extends Resource
             ->emptyStateHeading('Geen artikelen gevonden of aangemaakt')
             ->emptyStateDescription('Het lijkt erop dat er momenteel nog geen artikelen zijn aangemaakt of gevonden met opgegeven criteria. Maak een artikel aan of kom later nog eens terug.')
             ->columns(components: TableSchema::getColumnComponents())
+            ->filters(filters: TableSchema::configureFilters())
             ->headerActions(actions: ResourceActionDefinitions::getHeaderActions())
             ->actions(actions: ResourceActionDefinitions::getTableActions())
             ->bulkActions(actions: ResourceActionDefinitions::getBulkActions());

@@ -37,7 +37,7 @@ final class ActivateCommentsAction extends Action
         $this->modalHeading('Reacties inschakelen');
         $this->modalDescription('Indien u de reacties inschakeled kunnen gebruikers reageren op het nieuwsartikel. Bent u zeker dat u ze wilt inschakelen?');
 
-        // Set up notifications for success and failure of the action.
+        // Set up notifications for the success and failure of the action.
         $this->successNotificationTitle('Reacties zijn inschakeld');
         $this->failureNotificationTitle('Helaas pindakaas! Er is iets misgelopen');
 

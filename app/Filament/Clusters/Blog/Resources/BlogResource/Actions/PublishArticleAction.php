@@ -24,7 +24,7 @@ final class PublishArticleAction extends Action
         $this->icon('tabler-eye-check');
         $this->color('success');
 
-        $this->visible($this->record->status->isDraft());
+        $this->visible($this->record->status->isDraft() || $this->record->status->isSubmission());
         $this->authorize('publish', $this->record);
 
         $this->requiresConfirmation();
