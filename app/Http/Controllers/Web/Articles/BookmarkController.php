@@ -45,7 +45,7 @@ final readonly class BookmarkController
         $searchQuery = auth()->user()->bookmarks() // @phpstan-ignore-line (because lack of knowledge)
             ->where(function (Builder $query) use ($searchTerm): void {
                 $query->where('word', 'like', "%{$searchTerm}%")->orWhere('description', 'like', "%{$searchTerm}%");
-            })->paginate();
+            })->fastPaginate();
 
         return view('definitions.bookmarks', data: [
             'results' => $searchQuery,

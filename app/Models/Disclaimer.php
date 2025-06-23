@@ -39,7 +39,7 @@ final class Disclaimer extends Model
 
     /**
      * Defines default values for new disclaimer registrations.
-     * Every new disclaimer start with the Default type when no type is provided when the user stores the disclaimer.
+     * Every new disclaimer starts with the Default type when no type is provided when the user stores the disclaimer.
      *
      * @var array<string, DisclaimerTypes>
      */

@@ -14,7 +14,7 @@
         <div class="card-body bg-white">
             <p class="card-text"> {!! str($result->description)->words(25)->markdown()->sanitizeHtml() !!}</p>
 
-            @if ($result->author()->exists())
+            @if ($result->author)
                 <p class="card-text fw-bold my-2">
                     Op basis van de suggestie ingestuurd door <span class="color-green">{{ $result->author->name }}</span>
                 </p>

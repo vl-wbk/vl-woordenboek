@@ -11,16 +11,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * The RegionGeoData model represents geographical data associated with regions.
  *
- * Thi model stores geographic information such as boundaries, coordinates, and other spatial data that defines the physical area of a region.
+ * The model stores geographic information such as boundaries, coordinates, and other spatial data that defines the physical area of a region.
  * It maintains a relationship with the Region model, allowing geographical data to be associated with specific regions in the system.?
  *
- * @property int          $id          The unique identifier for this geographical data.
- * @property ?int         $region_id   The unique identifier of the associated region
- * @property string       $postal      The postal code this geographical area
- * @property string       $geometry_geojson    The geometric data defining the area boundaries
- * @property ?string      $name        An optional name for this geographical area
- * @property Carbon|null  $created_at  Timestamp of when this record was created
- * @property Carbon|null  $updated_at  Timestamp of when this record was last updated
+ * @property int          $id                   The unique identifier for this geographical data.
+ * @property ?int         $region_id            The unique identifier of the associated region
+ * @property string       $postal               The postal code this geographical area
+ * @property string       $geometry_geojson     The geometric data defining the area boundaries
+ * @property ?string      $name                 An optional name for this geographical area
+ * @property Carbon|null  $created_at           Timestamp of when this record was created
+ * @property Carbon|null  $updated_at           Timestamp of when this record was last updated
  *
  * @package App\Models
  */
