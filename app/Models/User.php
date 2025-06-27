@@ -41,6 +41,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property Carbon|null  $email_verified_at  Timestamp of email verification
  * @property string|null  $remember_token     Token for "remember me" functionality
  * @property Carbon|null  $banned_at          Timestamp from when the user account has been banned.
+ * @property bool         $is_beta_tester      Indicates that user is a beta tester of not.
  * @property Carbon       $created_at         Timestamp of account creation
  * @property Carbon       $updated_at         Timestamp of the last update
  *
@@ -64,7 +65,7 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
      *
      * @var list<string>
      */
-    protected $fillable = ['firstname', 'lastname', 'email', 'user_type', 'password', 'last_seen_at', 'email_verified_at'];
+    protected $fillable = ['firstname', 'lastname', 'is_beta_tester', 'email', 'user_type', 'password', 'last_seen_at', 'email_verified_at'];
 
     /**
      * Defines default values for new user instances.
@@ -159,6 +160,11 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
         return new UserBuilder($query);
     }
 
+    public function isTester(): bool
+    {
+        return $this->is_beta_tester;
+    }
+
     /**
      * Configures attribute casting for proper type handling.
      * This ensures that dates are properly handled as Carbon instances and that the user type cast to its own enum representation.
@@ -168,6 +174,7 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
     protected function casts(): array
     {
         return [
+            'is_beta_tester' => 'boolean',
             'user_type' => UserTypes::class,
             'last_seen_at' => 'datetime',
             'email_verified_at' => 'datetime',

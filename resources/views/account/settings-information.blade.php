@@ -63,6 +63,44 @@
                         <hr class="my-3 text-body-tertiary">
 
                         <div class="col-12">
+                            <form method="POST" action="{{ route('profile.settings.tester') }}" class="card bg-white border-0 shadow-sm">
+                                @csrf
+                                @method('PATCH')
+
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold color-green">Registreren als testgebruiker</h5>
+                                    <h6 class="card-subtitle text-muted border-bottom pb-2">Help ons in het doortesten van verbetering en nieuwe functionaliteiten.</h6>
+
+                                    <p class="card-text lh-sm text-muted my-3">
+                                        Als testgebruiker krijgt je de mogelijkheid om als eerste nieuwe functionaliteiten en verbeteringen te testen en of te gebruiken in het Vlaams Woordenboek.
+                                        Echter zijn deze functionaliteiten in volle opbouw en kunnen deze niet naar behoren werken.
+                                    </p>
+
+                                    <hr>
+
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" name="is_beta_tester" value="1" role="switch" id="switchCheckCheckedDisabled" @checked($user->isTester()) switch>
+                                        <label class="form-check-label" for="switchCheckCheckedDisabled">Ja, ik wens me te registeren als testgebruiker</label>
+                                    </div>
+                                </div>
+
+                                <div class="card-footer border-0 bg-light">
+                                    <div class="float-end">
+                                        <button type="reset" class="btn btn-sm btn-link">
+                                            reset
+                                        </button>
+
+                                        <button type="submit" class="btn btn-sm btn-submit">
+                                            <x-heroicon-o-pencil-square class="icon me-1"/> aanpassen
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <hr class="my-3 text-body-tertiary">
+
+                        <div class="col-12">
                             <div class="card bg-white border-0 shadow-sm">
                                 <div class="card-body">
                                     <h5 class="card-title fw-bold text-danger">Account verwijderen</h5>
