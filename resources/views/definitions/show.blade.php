@@ -48,8 +48,10 @@
                     <div>
                         <h4 class="text-gold float-start">{{ $word->word }}</h4>
 
-                        @if (auth()->check() && auth()->user()->user_type->isNot(\App\UserTypes::Normal))
-                            <span class="float-end color-green">{{ $word->state->getLabel() }}</span>
+                        @if ($etymologies > 0)
+                            <a href="{{ route('etymology:show', $word->lastEtymology) }}" class="float-end">
+                                <x-heroicon-o-eye class="icon me-1"/>ethymologie
+                            </a>
                         @endif
                     </div>
 

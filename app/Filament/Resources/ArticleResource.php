@@ -99,6 +99,7 @@ final class ArticleResource extends Resource
             \App\Filament\Resources\ArticleResource\RelationManagers\NotesRelationManager::class,
             \App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\ReportsRelationManager::class,
             \App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\AuditsRelationManager::class,
+            \App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\EtymologyRelationManager::class,
         ];
     }
 

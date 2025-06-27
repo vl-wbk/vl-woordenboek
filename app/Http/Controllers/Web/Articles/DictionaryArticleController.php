@@ -37,6 +37,7 @@ final readonly class DictionaryArticleController
 
         return view('definitions.show', data: [
             'word' => $word,
+            'etymologies' => $word->etymology->count()
         ]);
     }
 }

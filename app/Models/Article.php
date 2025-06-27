@@ -223,6 +223,16 @@ final class Article extends Model implements AuditableContract
         return $this->hasMany(ArticleReport::class);
     }
 
+    public function etymology(): HasMany
+    {
+        return $this->hasMany(Etymology::class);
+    }
+
+    public function lastEtymology()
+{
+    return $this->hasOne(Etymology::class)->latest();
+}
+
     /**
      * Retrieves all users who have bookmarked this article.
      *
