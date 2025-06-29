@@ -40,7 +40,6 @@ final readonly class DictionaryArticleController
         return view('definitions.show', data: [
             'word' => $word,
             'etymologies' => $word->etymology()->whereNotIn('status', [EtymologyStatus::Draft, EtymologyStatus::Rejected, EtymologyStatus::Archived])->count(),
-            'feature' => EtymologySupport::class,
         ]);
     }
 }

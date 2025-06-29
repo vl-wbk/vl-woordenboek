@@ -41,15 +41,6 @@ final readonly class AccountSettingsController
         ]);
     }
 
-    #[Patch(uri: 'registereren-als-tester', name: 'profile.settings.tester')]
-    public function registerAsTestUser(Request $request): RedirectResponse
-    {
-        $request->user()->update($request->all());
-        Feature::flushCache();
-
-        return back();
-    }
-
     #[Delete(uri: 'browser-sessies-verwijderen', name: 'profile.delete-browser-sessions')]
     public function deleteBrowserSessions(DeleteBrowserSessionsRequest $deleteBrowserSessionsRequest): RedirectResponse
     {

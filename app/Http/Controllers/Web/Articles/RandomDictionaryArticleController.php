@@ -21,7 +21,6 @@ final readonly class RandomDictionaryArticleController
         return view('definitions.show', data: [
             'word' => $article,
             'etymologies' => $article->etymology()->whereNotIn('status', [EtymologyStatus::Draft, EtymologyStatus::Rejected, EtymologyStatus::Archived])->count(),
-            'feature' => EtymologySupport::class,
         ]);
     }
 }
