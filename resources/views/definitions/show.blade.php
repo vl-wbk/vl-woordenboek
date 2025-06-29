@@ -48,11 +48,11 @@
                     <div>
                         <h4 class="text-gold float-start">{{ $word->word }}</h4>
 
-                        @if ($etymologies > 0)
+                        @if ($etymologies > 0 && optional(auth()->user())->features()->active($feature))
                             <a href="{{ route('etymology:show', $word->lastEtymology) }}" class="float-end">
                                 <x-heroicon-o-eye class="icon me-1"/>ethymologie
                             </a>
-                        @elseif ($etymologies === 0)
+                        @elseif ($etymologies === 0 && optional(auth()->user())->features()->active($feature))
                             <a href="{{ route('etymology:store', $word) }}" class="float-end">
                                 <x-heroicon-o-pencil-square class="icon me-1"/>Dien etymologie in
                             </a>

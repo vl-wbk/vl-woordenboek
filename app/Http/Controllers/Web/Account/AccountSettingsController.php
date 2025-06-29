@@ -9,6 +9,7 @@ use App\Services\BrowserSessionService;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Laravel\Pennant\Feature;
 use Spatie\RouteAttributes\Attributes\Delete;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Middleware;
@@ -44,6 +45,8 @@ final readonly class AccountSettingsController
     public function registerAsTestUser(Request $request): RedirectResponse
     {
         $request->user()->update($request->all());
+        Feature::flushCache();
+
         return back();
     }
 

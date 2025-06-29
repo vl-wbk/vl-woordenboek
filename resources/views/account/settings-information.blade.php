@@ -79,7 +79,9 @@
                                     <hr>
 
                                     <div class="form-check form-switch">
+                                        <input type="hidden" name="is_beta_tester" value="0"/>
                                         <input class="form-check-input" type="checkbox" name="is_beta_tester" value="1" role="switch" id="switchCheckCheckedDisabled" @checked($user->isTester()) switch>
+
                                         <label class="form-check-label" for="switchCheckCheckedDisabled">Ja, ik wens me te registeren als testgebruiker</label>
                                     </div>
                                 </div>
