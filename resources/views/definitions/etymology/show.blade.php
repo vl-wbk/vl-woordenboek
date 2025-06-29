@@ -37,21 +37,32 @@
         <div class="col-12">
             <ul class="nav nav-underline mb-4">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">
+                    <a class="nav-link {{ active('etymology:show') }}" aria-current="page" href="{{ route('etymology:show', $etymology) }}">
                         <x-heroicon-o-queue-list class="icon me-1"/> Gegevensoverzicht
                     </a>
                 </li>
+
+                @auth
+                    <li class="nav-item">
+                        <a class="nav-link {{ active('etymology:report') }}" href="{{ route('etymology:report', $etymology) }}">
+                            <x-heroicon-o-exclamation-circle class="icon me-1"/> Ik wil iets melden
+                        </a>
+                    </li>
+                @endauth
+
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <x-heroicon-o-exclamation-circle class="icon me-1"/> Ik wil iets melden
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link {{ active('etymology:create') }}" href="{{ route('etymology:create', $etymology->article) }}">
                         <x-heroicon-o-pencil-square class="icon me-1"/> Nieuwe suggestie doen
                     </a>
                 </li>
             </ul>
+
+            @if (flash()->message)
+                <div class="alert {{ flash()->class }} alert-dismissible fade show border-0 shadow-sm" data-bs-dismiss="alert">
+                    <x-heroicon-o-bell-alert class="icon icon-lg me-1"/> Gelukt!
+                    {{ flash()->message }}
+                </div>
+            @endif
 
             <div class="card border-0 shadow-sm">
                 <div class="card-header text-dark border-0 bg-sidenav">
@@ -105,19 +116,20 @@
 
         <div class="row">
             <div class="col-12">
-                <div class="card shadow-sm border-0 mt-4">
+                <div class="card shadow-sm bg-white border-0 mt-4">
                     <div class="card-header border-0 bg-sidenav">
                         <span class="color-green fw-bold">
                             <x-heroicon-o-queue-list class="icon me-1"/>Overzichtstabel van de herkomsten <br>
                         </span>
                     </div>
-                    <div class="card-body bg-white">
+                    <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-hover table-sm mb-0">
                                 <thead>
                                     <tr>
                                         <th class="text-muted">#</th>
                                         <th class="text-muted">Periode</th>
+                                        <th class="text-muted">Status</th>
                                         <th class="text-muted">Type</th>
                                         <th class="text-muted">Taal</th>
                                         <th class="text-muted">Vorm</th>
@@ -127,8 +139,9 @@
                                 <tbody>
                                     @foreach ($etymologies as $etymology)
                                         <tr>
-                                            <th scope="row" class="color-green"><code>#ETYM-{{ $etymology->id }}</code></th>
-                                            <td>{{ $etymology->period }}</td>
+                                            <th scope="row"><code>#ETYM-{{ $etymology->id }}</code></th>
+                                            <td class="fw-bold color-green">{{ $etymology->period }}</td>
+                                            <td>{{ $etymology->status->getLabel() }}</td>
                                             <td>{{ $etymology->type->getLabel() }}</td>
                                             <td>{{ $etymology->origin_language }}</td>
                                             <td>{{ $etymology->origin_form }}</td>

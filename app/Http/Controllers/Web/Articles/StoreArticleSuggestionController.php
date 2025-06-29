@@ -61,7 +61,7 @@ final class StoreArticleSuggestionController
     {
         /** @phpstan-ignore-next-line */
         return $this->attemptSubmissionWithRateLimiting($storeSuggestionRequest, 'submission', function () use ($storeArticleSuggestion, $storeSuggestionRequest): RedirectResponse {
-            $storeArticleSuggestion->execute($storeSuggestionRequest->getData());
+            $storeArticleSuggestion->execute(suggestionData: $storeSuggestionRequest->getData());
 
             return redirect()->route('definitions.create');
         });

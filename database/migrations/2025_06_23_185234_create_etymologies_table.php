@@ -25,11 +25,11 @@ return new class extends Migration
             $table->string('source')->comment('Naam van de bron (bv. WNT, EWN)');
             $table->string('source_url')->comment('Link naar online bron (optioneel)');
 
-            $table->text('note')->comment('Extra toelichting of twijfelgevallen');
+            $table->text('note')->nullable()->comment('Extra toelichting of twijfelgevallen');
             $table->text('etymology')->comment('beschrijving van de herkomst');
 
-            $table->timestamp('period_start')->nullable()->comment('Begin van het gebruik (vb. "13e eeuw")');
-            $table->timestamp('period_end')->nullable()->comment('Eind van het gebruik (vb. "19e eeuw" of "heden") ');
+            $table->dateTime('period_start')->nullable()->comment('Begin van het gebruik (vb. "13e eeuw")');
+            $table->dateTime('period_end')->nullable()->comment('Eind van het gebruik (vb. "19e eeuw" of "heden") ');
             $table->timestamps();
         });
     }

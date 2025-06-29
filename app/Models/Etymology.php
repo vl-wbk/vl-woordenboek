@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\Articles\EtymologyStatus;
 use App\Enums\Articles\EtymologyTypes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +13,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 final class Etymology extends Model
 {
     protected $guarded = ['id'];
+
+    protected $attributes = [
+        'status' => EtymologyStatus::UnderReview,
+    ];
 
     public function period(): Attribute
     {
@@ -28,6 +33,7 @@ final class Etymology extends Model
         return [
             'period_end' => 'date',
             'period_start' => 'date',
+            'status' => EtymologyStatus::class,
             'type' => EtymologyTypes::class,
         ];
     }
