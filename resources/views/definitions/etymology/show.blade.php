@@ -42,14 +42,6 @@
                     </a>
                 </li>
 
-                @auth
-                    <li class="nav-item">
-                        <a class="nav-link {{ active('etymology:report') }}" href="{{ route('etymology:report', $etymology) }}">
-                            <x-heroicon-o-exclamation-circle class="icon me-1"/> Ik wil iets melden
-                        </a>
-                    </li>
-                @endauth
-
                 <li class="nav-item">
                     <a class="nav-link {{ active('etymology:create') }}" href="{{ route('etymology:create', $etymology->article) }}">
                         <x-heroicon-o-pencil-square class="icon me-1"/> Nieuwe suggestie doen
