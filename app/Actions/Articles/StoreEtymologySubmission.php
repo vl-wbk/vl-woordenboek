@@ -6,15 +6,18 @@ namespace App\Actions\Articles;
 
 use App\Data\EtymologySubmissionData;
 use App\Models\Article;
+use App\Models\Etymology;
 use Illuminate\Support\Facades\DB;
 
 final readonly class StoreEtymologySubmission
 {
-    public function execute(Article $article, EtymologySubmissionData $etymologySubmissionData): void
+    public function execute(Article $article, EtymologySubmissionData $etymologySubmissionData): Etymology
     {
-        DB::transaction(function () use ($article, $etymologySubmissionData): void {
-            $article->etymology()->create($etymologySubmissionData->toArray());
+        return DB::transaction(function () use ($article, $etymologySubmissionData): Etymology {
+            $submission = $article->etymology()->create($etymologySubmissionData->toArray());
             flash(text: 'We hebben da informatie goed ontvangen! We gaan er spoedig mee aan de slag.', class: 'alert-success');
+
+            return $submission;
         });
     }
 }

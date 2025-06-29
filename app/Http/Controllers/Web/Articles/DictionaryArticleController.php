@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Web\Articles;
 
+use App\Enums\Articles\EtymologyStatus;
 use App\Models\Article;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Response;
@@ -37,7 +38,7 @@ final readonly class DictionaryArticleController
 
         return view('definitions.show', data: [
             'word' => $word,
-            'etymologies' => $word->etymology->count()
+            'etymologies' => $word->etymology()->whereNotIn('status', [EtymologyStatus::Draft, EtymologyStatus::Rejected, EtymologyStatus::Archived])->count(),
         ]);
     }
 }

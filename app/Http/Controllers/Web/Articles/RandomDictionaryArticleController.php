@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Web\Articles;
 
+use App\Enums\Articles\EtymologyStatus;
 use App\Models\Article;
 use Illuminate\Contracts\Support\Renderable;
 use Spatie\RouteAttributes\Attributes\Get;
@@ -18,6 +19,7 @@ final readonly class RandomDictionaryArticleController
 
         return view('definitions.show', data: [
             'word' => $article,
+            'etymologies' => $article->etymology()->whereNotIn('status', [EtymologyStatus::Draft, EtymologyStatus::Rejected, EtymologyStatus::Archived])->count(),
         ]);
     }
 }

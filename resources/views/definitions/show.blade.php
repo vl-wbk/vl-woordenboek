@@ -52,6 +52,10 @@
                             <a href="{{ route('etymology:show', $word->lastEtymology) }}" class="float-end">
                                 <x-heroicon-o-eye class="icon me-1"/>ethymologie
                             </a>
+                        @elseif ($etymologies === 0)
+                            <a href="{{ route('etymology:store', $word) }}" class="float-end">
+                                <x-heroicon-o-pencil-square class="icon me-1"/>Dien etymologie in
+                            </a>
                         @endif
                     </div>
 
