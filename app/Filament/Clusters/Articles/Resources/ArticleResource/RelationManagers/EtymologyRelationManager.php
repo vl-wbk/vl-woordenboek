@@ -21,6 +21,7 @@ use Filament\Tables;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Model;
 
 final class EtymologyRelationManager extends RelationManager
@@ -51,7 +52,19 @@ final class EtymologyRelationManager extends RelationManager
             ->bulkActions($this->configureBulkActions())
             ->headerActions($this->configureHeaderActions())
             ->columns($this->configureColumns())
+            ->filters($this->configureFilters())
+            ->filtersFormWidth(MaxWidth::Medium)
             ->actions($this->configureHandlings());
+    }
+
+    private function configureFilters(): array
+    {
+        return [
+            SelectFilter::make('status')
+                ->options(EtymologyStatus::class)
+                ->default(EtymologyStatus::UnderReview->value)
+                ->native(false)
+        ];
     }
 
     private function configureColumns(): array
@@ -60,6 +73,9 @@ final class EtymologyRelationManager extends RelationManager
             TextColumn::make('period')
                 ->label('Periode')
                 ->sortable(),
+            TextColumn::make('status')
+                ->toggleable(isToggledHiddenByDefault: true)
+                ->badge(),
             TextColumn::make('type')
                 ->label('Woordsoort')
                 ->sortable()
@@ -69,13 +85,27 @@ final class EtymologyRelationManager extends RelationManager
                 ->translateLabel(),
             TextColumn::make('origin_form')
                 ->label('Woordvorm')
+                ->searchable()
                 ->sortable(),
             TextColumn::make('etymology')
                 ->label('Beschrijving')
                 ->limit()
                 ->translateLabel(),
             TextColumn::make('source')
-                ->label('Bron'),
+                ->label('Bron')
+                ->toggleable(isToggledHiddenByDefault: true),
+            TextColumn::make('created_at')
+                ->sortable()
+                ->label('Aangemaakt op')
+                ->translateLabel()
+                ->date()
+                ->toggleable(isToggledHiddenByDefault: true),
+            TextColumn::make('updated_at')
+                ->sortable()
+                ->label('Laast gewijzigd')
+                ->translateLabel()
+                ->date()
+                ->toggleable(isToggledHiddenByDefault: true)
         ];
     }
 
