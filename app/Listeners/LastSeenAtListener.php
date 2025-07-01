@@ -11,7 +11,7 @@ final readonly class LastSeenAtListener
 {
     public function handle(Login $loginEvent): void
     {
-        $user = User::query()->findOrFail($loginEvent->id);
+        $user = User::query()->findOrFail($loginEvent->user->id);
         $user->update(['last_seen_at' => now()]);
     }
 }
