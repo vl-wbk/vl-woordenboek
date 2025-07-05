@@ -14,31 +14,88 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @todo Document this relation manager.
+ * Manages the Etymology relationship for Article resources in the Filament admin panel.
+ *
+ * This relation manager is responsible for displaying, filtering, and managing the etymology records associated with a given article.
+ * Etymology entries provide historical and linguistic background for words, including their origins, language of borrowing, historical forms, and semantic evolution.
+ * The manager defines how etymology data is presented in both table and form views, and customizes the user experience with descriptive headings, icons, and empty state messages.
+ * It also restricts visibility to the appropriate context (the ViewWord page).
+ * Developers can extend or override the configuration by modifying the associated Schema and TableSchema classes, which encapsulate the form and table logic for etymology records.
+ *
+ * @package App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers
  */
 final class EtymologyRelationManager extends RelationManager
 {
+    /**
+     * The name of the relationship as defined on the Article model.
+     *
+     * This string must match the relationship method name on the Article Eloquent model.
+     * It tells Filament which related records to manage in this section.
+     * In this case, 'etymology' should correspond to a hasMany or morphMany relationship on the Article model, returning all etymology records for a given article.
+     */
     protected static string $relationship = 'etymology';
 
+    /**
+     * The icon used throughout the Filament UI for this relation manager.
+     *
+     * This icon is displayed in the sidebar, headers, and empty states to visually represent the etymology section.
+     * The value should be a valid Heroicon identifier.
+     * Using a clock icon ('heroicon-o-clock') here symbolizes the historical and time-related nature of etymological information.
+     */
     protected static ?string $icon = 'heroicon-o-clock';
 
+    /**
+     * The display title for the etymology relation manager section.
+     *
+     * This title appears in the Filament admin panel as the heading for the section managing etymology records.
+     * It should be concise and clearly indicate the purpose of the section to users. In this case, 'Etymologie' is the Dutch word for 'Etymology', aligning with the application's language and terminology.
+     */
     protected static ?string $title = 'Etymologie';
 
+    /**
+     * Indicates whether the relation manager is read-only.
+     *
+     * @return bool Always returns false, allowing full CRUD operations.
+     */
     public function isReadOnly(): bool
     {
         return false;
     }
 
+    /**
+     * Determines if the relation manager should be visible for a given record and page.
+     * Only shows the etymology relation manager on the ViewWord page.
+     *
+     * @param  Model    $ownerRecord  The parent Article model instance.
+     * @param  string   $pageClass    The current Filament page class.
+     * @return bool                   True if the relation manager should be shown, false otherwise.
+     */
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
     {
         return $pageClass === ViewWord::class;
     }
 
+    /**
+     * Configures the form used to create or edit etymology records.
+     * Delegates the form schema configuration to the EtymologyResource\Schema\FormSchema class, allowing for centralized and reusable form definitions.
+     *
+     * @param  Form $form  The Filament form instance.
+     * @return Form        The configured form instance.
+     */
     public function form(Form $form): Form
     {
         return Schema\FormSchema::configure($form);
     }
 
+    /**
+     * Configures the table view for displaying etymology records.
+     *
+     * Sets up the table's description, columns, filters, actions, and empty state messages.
+     * Uses the TableSchema class for column, filter, and action definitions, ensuring consistency and maintainability across the application.
+     *
+     * @param  Table $table The Filament table instance.
+     * @return Table        The configured table instance.
+     */
     public function table(Table $table): Table
     {
         return $table
