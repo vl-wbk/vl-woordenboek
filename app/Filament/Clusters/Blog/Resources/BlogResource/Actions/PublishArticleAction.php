@@ -7,6 +7,10 @@ namespace App\Filament\Clusters\Blog\Resources\BlogResource\Actions;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 
+/**
+ * @toàdo document this class
+ * @property \App\Models\Blog $record The database entity from the blog post in the database
+ */
 final class PublishArticleAction extends Action
 {
     use CanCustomizeProcess;

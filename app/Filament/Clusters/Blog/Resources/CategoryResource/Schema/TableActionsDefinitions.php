@@ -8,6 +8,9 @@ use Filament\Tables\Actions;
 
 final readonly class TableActionsDefinitions
 {
+    /**
+     * @return array<int, Actions\BulkActionGroup>
+     */
     public static function getBulkActions(): array
     {
         return [
@@ -17,6 +20,9 @@ final readonly class TableActionsDefinitions
         ];
     }
 
+    /**
+     * @return array<int, Actions\ViewAction|Actions\EditAction|Actions\DeleteAction>
+     */
     public static function getRowActions(): array
     {
         return [
@@ -42,6 +48,9 @@ final readonly class TableActionsDefinitions
         ];
     }
 
+    /**
+     * @return array<int, Actions\Action|Actions\CreateAction>
+     */
     public static function getHeaderActions(): array
     {
         return [

@@ -9,6 +9,9 @@ use App\Filament\Clusters\Blog\Resources\BlogResource\Actions as ResourceSpecifi
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
 
+/**
+ * @property \App\Models\Blog $record  The database entity from the blog post in the database.
+ */
 final class ViewBlog extends ViewRecord
 {
     protected static string $resource = BlogResource::class;

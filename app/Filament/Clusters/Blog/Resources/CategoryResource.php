@@ -127,7 +127,7 @@ final class CategoryResource extends Resource
      * Currently, only the index page is defined, which displays a list of all categories.
      * Additional pages (like creation, edit, or view) can be added here as needed.
      *
-     * @return array An associative array where keys are page identifiers and values are the fully qualified page class names.
+     * @return array<string, \Filament\Resources\Pages\PageRegistration> An associative array where keys are page identifiers and values are the fully qualified page class names.
      */
     public static function getPages(): array
     {

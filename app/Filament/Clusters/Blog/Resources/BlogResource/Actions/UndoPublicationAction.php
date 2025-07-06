@@ -7,6 +7,10 @@ namespace App\Filament\Clusters\Blog\Resources\BlogResource\Actions;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 
+/**
+ * @todo GH-#267
+ * @property \App\Models\Blog $record  The database entity from the blog post.
+ */
 final class UndoPublicationAction extends Action
 {
     use CanCustomizeProcess;

@@ -33,7 +33,6 @@ final readonly class LabelController
         $searchInput = $request->get('zoekterm');
         $sorting = $this->getSortBy($request->string('sortering'));
 
-        /** @phpstan-ignore-next-line */
         return $label->articles()
             ->whereNotNull('published_at')
             ->where(function ($query) use ($searchInput): void {

@@ -16,6 +16,10 @@ use Overtrue\LaravelLike\Traits\Likeable;
  * @property User  $commentator The authenticated user who created the comment.
  * @property mixed $commentable The resource entity that is attached to the comment.
  *
+ * @method hasCommentsEnabled()     Indicates that the comments are enabled on the child resource.
+ * @method hasCommentsDisabled()    Indicates that the comments are disabled on the child resource.
+ * @method isPublished()            INdicates that the comment has been published in the application.
+ *
  * @package App\Models
  */
 final class Comment extends BaseCommentEntity

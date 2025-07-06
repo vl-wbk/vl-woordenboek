@@ -16,6 +16,9 @@ final readonly class FormSchema
             ->schema(self::getFormComponents());
     }
 
+    /**
+     * @return array<int, Components\TextInput|Components\Textarea>
+     */
     public static function getFormComponents(): array
     {
         return [

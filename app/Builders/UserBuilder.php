@@ -8,6 +8,11 @@ use App\UserTypes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
+/**
+ * @todo document this class
+ *
+ * @template-extends Builder<\App\Models\User>
+ */
 final class UserBuilder extends Builder
 {
     public function __construct(QueryBuilder $query)

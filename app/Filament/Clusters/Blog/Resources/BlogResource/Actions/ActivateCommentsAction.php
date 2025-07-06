@@ -7,6 +7,10 @@ namespace App\Filament\Clusters\Blog\Resources\BlogResource\Actions;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 
+/**
+ * @todo Document this class
+ * @property \App\Models\Comment $record The database entity from the given comment.
+ */
 final class ActivateCommentsAction extends Action
 {
     use CanCustomizeProcess;

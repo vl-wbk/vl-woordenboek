@@ -47,6 +47,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @property Carbon       $updated_at         Timestamp of the last update
  *
  * @method bans()
+ * @method static UserBuilder|static query()
+ * @method UserBuilder newQuery()
  *
  * @package App\Models
  */

@@ -42,7 +42,7 @@ final readonly class BookmarkController
     public function index(Request $request): Renderable
     {
         $searchTerm = $request->get('zoekterm');
-        $searchQuery = auth()->user()->bookmarks() // @phpstan-ignore-line (because lack of knowledge)
+        $searchQuery = auth()->user()->bookmarks()
             ->where(function (Builder $query) use ($searchTerm): void {
                 $query->where('word', 'like', "%{$searchTerm}%")->orWhere('description', 'like', "%{$searchTerm}%");
             })->fastPaginate();

@@ -43,8 +43,8 @@ final readonly class SearchWordQuery
         $includeDescription = $request->boolean('uitgebreid');
 
         return QueryBuilder::for(Article::class)
-            ->with(['author', 'bookmarkers'])
             ->allowedSorts($this->getAllowedSorts())
+            ->with(['author', 'bookmarkers'])
             ->whereNotNull('published_at')
             ->where(function ($query) use ($request, $includeDescription): void {
                 $query->where('word', $this->getSearchPattern($request)['operator'], $this->getSearchPattern($request)['pattern'])

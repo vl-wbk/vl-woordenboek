@@ -21,7 +21,7 @@ final readonly class TableSchema
      * Retrieves an array of Filament Table Column components.
      * Each element in the array represents a column to be displayed in the table, configured with its label, sortability, and searchability.
      *
-     * @return array An array of Filament Table Column instances.
+     * @return array<int, Columns\TextColumn> An array of Filament Table Column instances.
      */
     public static function getColumnComponents(): array
     {

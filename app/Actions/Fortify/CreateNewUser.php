@@ -6,6 +6,7 @@ namespace App\Actions\Fortify;
 
 use App\Data\Account\UserRegistrationData;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
@@ -19,7 +20,7 @@ class CreateNewUser implements CreatesNewUsers
      *
      * @param  array<string, string>  $input
      */
-    public function create(array $input): User
+    public function create(array $input): User|Model
     {
         Validator::make($input, [
             'voornaam' => ['required', 'string', 'max:255'],

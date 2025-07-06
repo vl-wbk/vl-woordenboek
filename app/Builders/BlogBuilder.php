@@ -7,6 +7,10 @@ namespace App\Builders;
 use App\Filament\Clusters\Blog\Resources\BlogResource\Enums\Status;
 use Illuminate\Database\Eloquent\Builder;
 
+/**
+ * @todo Document clpass
+ * @template-extends Builder<\App\Models\Blog>
+ */
 final class BlogBuilder extends Builder
 {
     public function hasCommentsEnabled(): bool

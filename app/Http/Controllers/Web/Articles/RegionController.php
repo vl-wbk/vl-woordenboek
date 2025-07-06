@@ -34,7 +34,6 @@ final readonly class RegionController
         $searchInput = $request->get('zoekterm');
         $sorting = $this->getSortBy($request->string('sortering'));
 
-        /** @phpstan-ignore-next-line */
         return $region->articles()
             ->whereNotNull('published_at')
             ->when($request->filled('zoekterm'), fn (Builder $query): Builder => $query->where('word', 'LIKE', "%$searchInput%")->orWhere('keywords', 'LIKE', "%$searchInput%"))
