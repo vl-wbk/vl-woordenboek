@@ -77,6 +77,7 @@ final class FeedbackStatisticsWidget extends AdvancedChartWidget
 
     /**
      * @param ?Builder<Feedback> $query
+     * @return Collection<string, TrendValue>
      */
     private function getFeedbackTrendData(?Builder $query = null): Collection
     {

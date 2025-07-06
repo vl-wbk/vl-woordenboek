@@ -9,6 +9,9 @@ use Filament\Tables\Columns;
 
 final readonly class TableColumnSchema
 {
+    /**
+     * @return array<int, Columns\TextColumn>
+     */
     public static function getComponents(): array
     {
         return [

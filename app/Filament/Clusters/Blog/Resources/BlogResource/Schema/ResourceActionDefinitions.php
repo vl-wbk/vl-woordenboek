@@ -24,7 +24,7 @@ final readonly class ResourceActionDefinitions
      * Defines actions that appear in the header of a Filament table.
      * These actions typically include global operations like creating new records or providing help.
      *
-     * @return array  An array of Filament Table Action instances.
+     * @return array<int, Actions\Action|Actions\CreateAction>  An array of Filament Table Action instances.
      */
     public static function getHeaderActions(): array
     {
@@ -44,7 +44,7 @@ final readonly class ResourceActionDefinitions
      * These are often actions like 'Edit', 'View', or 'Delete' for specific records.
      * Actions can be grouped together under a dropdown menu using `ActionGroup`.
      *
-     * @return array<int, int>  An array of Filament Table Action or ActionGroup instances.
+     * @return array<int, Actions\ActionGroup>  An array of Filament Table Action or ActionGroup instances.
      */
     public static function getTableActions(): array
     {
@@ -62,7 +62,7 @@ final readonly class ResourceActionDefinitions
      * These are typically destructive actions like 'Delete' but can also include status updates or other bulk operations.
      * Actions are grouped using `BulkActionGroup`.
      *
-     * @return array  An array of Filament Bulk Action instances.
+     * @return array<int, Actions\BulkActionGroup>  An array of Filament Bulk Action instances.
      */
     public static function getBulkActions(): array
     {

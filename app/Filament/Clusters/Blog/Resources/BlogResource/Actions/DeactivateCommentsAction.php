@@ -16,6 +16,8 @@ use Filament\Actions\Concerns\CanCustomizeProcess;
  * This primary purpose of this action is to provide an administrative tool within the Filament interface to toggle off comments for a selected blog entry,
  * ensuring proper authorization checks and user confirmation before execution.
  *
+ * @property \App\Models\Comment $record The database entity from the comment in the database
+ *
  * @package App\Filament\lusters\Blog\Resources\BlogResource\Actions
  */
 final class DeactivateCommentsAction extends Action

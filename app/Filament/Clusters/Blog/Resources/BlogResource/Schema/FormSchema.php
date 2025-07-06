@@ -51,6 +51,9 @@ final readonly class FormSchema
         ]);
     }
 
+    /**
+     * @return array<int, \Filament\Forms\Components\Field>
+     */
     private static function getFormComponents(): array
     {
         return [

@@ -103,8 +103,6 @@ final class PruneArticlesReminderCommand extends Command
     {
         User::where('user_type', UserTypes::Administrators)
             ->orWhere('user_type', UserTypes::Developer)
-            ->each(function (User $user) use ($articles): void {
-                $user->notify(new PruneArticleNotification($articles));
-            });
+            ->each(fn (User $user) => $user->notify(new PruneArticleNotification($articles)));
     }
 }

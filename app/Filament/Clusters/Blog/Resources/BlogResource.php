@@ -123,7 +123,7 @@ final class BlogResource extends Resource
      * Defines the routes and socciated page classes for this resource.
      * This maps URLs to specific Filament pages (list, create, view, edit)
      *
-     * @return array  An array of page route definitions
+     * @return array<string, \Filament\Resources\Pages\PageRegistration>  An array of page route definitions
      */
     public static function getPages(): array
     {

@@ -138,7 +138,7 @@ final class Blog extends Model implements Feedable
     }
 
     /**
-     * @return Collection<int, Model>
+     * @return Collection<int, \App\Models\Blog>
      */
     public static function getFeedItems(): Collection
     {
