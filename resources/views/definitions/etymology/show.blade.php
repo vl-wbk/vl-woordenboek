@@ -133,7 +133,11 @@
                                         <tr>
                                             <th scope="row"><code>#ETYM-{{ $etymology->id }}</code></th>
                                             <td class="fw-bold color-green">{{ $etymology->period }}</td>
-                                            <td>{{ $etymology->status->getLabel() }}</td>
+                                            <td>
+                                                <span class="badge {{ $etymology->status->frontendBadge() }}">
+                                                    {{ $etymology->status->getLabel() }}
+                                                </span>
+                                            </td>
                                             <td>{{ $etymology->type->getLabel() }}</td>
                                             <td>{{ $etymology->origin_language }}</td>
                                             <td>{{ $etymology->origin_form }}</td>

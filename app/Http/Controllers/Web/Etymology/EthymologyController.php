@@ -11,11 +11,15 @@ use App\Enums\Articles\EtymologyTypes;
 use App\Http\Requests\Articles\StoreEtymologyRequest;
 use App\Models\Article;
 use App\Models\Etymology;
+use Closure;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Post;
 
+/**
+ * @todo add docblocks for this class
+ */
 final class EthymologyController
 {
     use RateLimitSubmission;
@@ -42,7 +46,7 @@ final class EthymologyController
     }
 
     #[Post(uri: 'etymologie/{article}/nieuwe-suggestie', name: 'etymology:store')]
-    public function store(StoreEtymologyRequest $storeEtymologyRequest, Article $article, StoreEtymologySubmission $storeEtymologySubmission): RedirectResponse
+    public function store(StoreEtymologyRequest $storeEtymologyRequest, Article $article, StoreEtymologySubmission $storeEtymologySubmission): RedirectResponse|Closure
     {
         return $this->attemptSubmissionWithRateLimiting($storeEtymologyRequest, 'etymologySubmission', function () use ($article, $storeEtymologyRequest, $storeEtymologySubmission): RedirectResponse {
             $etymology = $storeEtymologySubmission->execute(article: $article, etymologySubmissionData: $storeEtymologyRequest->getData());

@@ -10,6 +10,7 @@ use Spatie\LaravelData\WithData;
 
 final class StoreEtymologyRequest extends FormRequest
 {
+    /** @use WithData<EtymologySubmissionData> */
     use WithData;
 
     protected string $dataClass = EtymologySubmissionData::class;

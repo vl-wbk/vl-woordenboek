@@ -44,6 +44,17 @@ enum EtymologyStatus: int implements HasColor, HasDescription, HasIcon, HasLabel
     #[Color('danger')]
     case Archived = 5;
 
+    public function frontendBadge(): string
+    {
+        return match ($this) {
+            self::Draft => 'badge-warning',
+            self::UnderReview => 'badge-primary',
+            self::Rejected => 'badge-danger',
+            self::Published => 'badge-success',
+            self::Archived => 'badge-gray',
+        };
+    }
+
     public function getLabel(): string
     {
         return self::label();

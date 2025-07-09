@@ -10,6 +10,25 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id
+ * @property EtymologyStatus $status
+ * @property EtymologyTypes|null $type
+ * @property int|null $article_id
+ * @property string $origin_language
+ * @property string $origin_form
+ * @property string $source
+ * @property string $source_url
+ * @property string|null $note
+ * @property string $etymology
+ * @property \Illuminate\Support\Carbon|null $period_start
+ * @property \Illuminate\Support\Carbon|null $period_end
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ *
+ *
+ * @package App\Models
+ */
 final class Etymology extends Model
 {
     protected $guarded = ['id'];
@@ -18,11 +37,17 @@ final class Etymology extends Model
         'status' => EtymologyStatus::UnderReview,
     ];
 
+    /**
+     * @return Attribute<non-falsy-string, never>
+     */
     public function period(): Attribute
     {
         return Attribute::get(fn () => $this->period_start->format('d/m/Y') . ' - ' . $this->period_end->format('d/m/Y'));
     }
 
+    /**
+     * @return BelongsTo<Article, covariant $this>
+     */
     public function article(): BelongsTo
     {
         return $this->belongsTo(Article::class);
