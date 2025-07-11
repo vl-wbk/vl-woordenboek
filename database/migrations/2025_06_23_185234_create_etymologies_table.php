@@ -30,6 +30,7 @@ return new class extends Migration
 
             $table->dateTime('period_start')->nullable()->comment('Begin van het gebruik (vb. "13e eeuw")');
             $table->dateTime('period_end')->nullable()->comment('Eind van het gebruik (vb. "19e eeuw" of "heden") ');
+            $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });
     }

@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema;
 
 use App\Enums\Articles\EtymologyStatus;
+use App\Filament\Clusters\Articles\Resources\EtymologyResource;
 use App\Models\Article;
+use App\Models\Etymology;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables;
+use LibDNS\Records\Record;
 
 /**
  * Defines the table schema and configuration for displaying etymology records in the Filament admin panel.
@@ -159,11 +162,7 @@ final readonly class TableSchema
         return [
             Tables\Actions\ActionGroup::make([
                 Tables\Actions\ViewAction::make()
-                    ->modalWidth(MaxWidth::SevenExtraLarge)
-                    ->modalHeading('Etymologische gegevens bekijken')
-                    ->modalIcon('heroicon-o-eye')
-                    ->modalIconColor('primary')
-                    ->modalDescription('Alle geregistreerde gegevens omtrent de etymologie van het woord'),
+                    ->url(fn (Etymology $record): string => EtymologyResource::getUrl('view', ['record' => $record])),
                 Tables\Actions\EditAction::make()
                     ->modalWidth(MaxWidth::SevenExtraLarge),
                 Tables\Actions\DeleteAction::make()
