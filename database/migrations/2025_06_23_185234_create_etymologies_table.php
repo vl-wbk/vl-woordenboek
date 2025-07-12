@@ -23,14 +23,18 @@ return new class extends Migration
             $table->string('origin_language')->comment('Taal van oorspong (vb.latijn)');
             $table->string('origin_form')->comment('Vorm in de brontaal (vb. Hospitale)');
             $table->string('source')->nullable()->comment('Naam van de bron (bv. WNT, EWN)');
-            $table->string('source_url')->comment('Link naar online bron (optioneel)');
+            $table->string('source_url')->nullable()->comment('Link naar online bron (optioneel)');
 
             $table->text('note')->nullable()->comment('Extra toelichting of twijfelgevallen');
             $table->text('etymology')->nullable()->comment('beschrijving van de herkomst');
 
+            $table->text('archiving_reason')->nullable();
+            $table->text('rejection_reason')->nullable();
+
             $table->dateTime('period_start')->nullable()->comment('Begin van het gebruik (vb. "13e eeuw")');
             $table->dateTime('period_end')->nullable()->comment('Eind van het gebruik (vb. "19e eeuw" of "heden") ');
             $table->timestamp('published_at')->nullable();
+            $table->timestamp('archived_at')->nullable();
             $table->timestamps();
         });
     }
