@@ -6,6 +6,7 @@ namespace App\Filament\Resources\ArticleResource\Schema;
 
 use App\Enums\ArticleStates;
 use App\Enums\LanguageStatus;
+use App\UserTypes;
 use Filament\Forms\Components;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\Section;
@@ -54,10 +55,8 @@ final readonly class FormSchema
                 ->columnSpan(2)
                 ->hiddenOn('edit')
                 ->default(ArticleStates::New->value)
-                ->options([
-                    ArticleStates::New->value => ArticleStates::New->getLabel(),
-                    ArticleStates::Draft->value => ArticleStates::Draft->getLabel(),
-                ]),
+                ->native(false)
+                ->options(self::getArticleStateOptions()),
             Components\TextInput::make('word')
                 ->label('Woord')
                 ->columnSpan(2)
@@ -117,6 +116,18 @@ final readonly class FormSchema
                 ->columnSpanFull()
                 ->maxHeight('200px')
                 ->required()
+        ];
+    }
+
+    private static function getArticleStateOptions(): array|string
+    {
+        if (auth()->user()->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer])) {
+            return ArticleStates::class;
+        }
+
+        return [
+            ArticleStates::New->value => ArticleStates::New->getLabel(),
+            ArticleStates::Draft->value => ArticleStates::Draft->getLabel(),
         ];
     }
 
