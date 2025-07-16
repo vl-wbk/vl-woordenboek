@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums\Articles;
 
+use ArchTech\Enums\Comparable;
 use ArchTech\Enums\Meta\Meta;
 use ArchTech\Enums\Metadata;
 use App\Enums\MetaProperties\{Description, Label, Icon, Color};
@@ -13,6 +14,7 @@ use Filament\Support\Contracts\{HasLabel, HasIcon, HasColor, HasDescription};
 enum EtymologyStatus: int implements HasColor, HasDescription, HasIcon, HasLabel
 {
     use Metadata;
+    use Comparable;
 
     #[Label('Klad ontwerp')]
     #[Description('De etymolgische data wordt nog verder uitgewerkt of is onvolledig')]
@@ -73,5 +75,20 @@ enum EtymologyStatus: int implements HasColor, HasDescription, HasIcon, HasLabel
     public function getColor(): string
     {
         return self::color();
+    }
+
+    public function isRejected(): bool
+    {
+        return $this->is(self::Rejected);
+    }
+
+    public function isPublished(): bool
+    {
+        return $this->is(self::Published);
+    }
+
+    public function isArchived(): bool
+    {
+        return $this->is(self::Archived);
     }
 }

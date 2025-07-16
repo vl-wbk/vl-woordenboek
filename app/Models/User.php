@@ -33,6 +33,7 @@ use Laravel\Sanctum\HasApiTokens;
  * and interaction tracking through the "likes" system.
  *
  * @property int          $id                 Unique identifier for the user
+ * @property string       $name               The unique username from the account
  * @property string       $firstname          User's first name
  * @property string       $lastname           User's last name
  * @property string       $email              User's email address for authentication

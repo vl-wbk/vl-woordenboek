@@ -38,7 +38,8 @@ trait BelongsToAuthor
      */
     public function author(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)
+            ->withDefault(['name' => config('app.name')]);
     }
 
     /**

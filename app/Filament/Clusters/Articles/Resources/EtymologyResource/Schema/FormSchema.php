@@ -25,6 +25,7 @@ final readonly class FormSchema
                     ->label('Status van de gegevens')
                     ->translateLabel()
                     ->columnSpan(3)
+                    ->disabledOn('edit')
                     ->options(EtymologyStatus::class)
                     ->native(false)
                     ->required(),

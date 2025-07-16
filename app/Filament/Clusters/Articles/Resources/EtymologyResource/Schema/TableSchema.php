@@ -123,7 +123,7 @@ final readonly class TableSchema
      * Configures header actions for the etymology table, such as help and create.
      *
      * Header actions appear at the top of the table and provide quick access to context-specific features, such as opening a help page or adding new etymology data for the current article.
-     * The create action uses a large modal for data entry and includes a dynamic description.
+     * The creation action uses a large modal for data entry and includes a dynamic description.
      *
      * @param  Article $article  The article for which etymology data is being managed.
      * @return array             Array of Filament header action definitions.

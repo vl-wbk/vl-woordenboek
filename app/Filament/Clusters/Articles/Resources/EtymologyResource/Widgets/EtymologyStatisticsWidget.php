@@ -17,6 +17,7 @@ final class EtymologyStatisticsWidget extends BaseWidget
             $this->publishedStat(),
             $this->underReviewStat(),
             $this->archivedStat(),
+            $this->rejectedStat()
         ];
     }
 
@@ -30,7 +31,7 @@ final class EtymologyStatisticsWidget extends BaseWidget
             ->icon('heroicon-o-globe-europe-africa')
             ->iconColor('success')
             ->description(trans(':percent van alle etymologieen', [
-                'percent' => toHumanReadablePercentage((int) $count, $this->getAllEtymoglogies())
+                'percent' => toHumanReadablePercentage($this->getAllEtymoglogies(), (int) $count)
             ]))
             ->descriptionColor('success');
     }
@@ -44,7 +45,7 @@ final class EtymologyStatisticsWidget extends BaseWidget
         return Stat::make('Gearchiveerde etymologieen', $count)
             ->icon('heroicon-o-archive-box')
             ->description(trans(':percent van alle etymologieen', [
-                'percent' => toHumanReadablePercentage((int) $count, $this->getAllEtymoglogies())
+                'percent' => toHumanReadablePercentage($this->getAllEtymoglogies(), (int) $count)
             ]))
             ->descriptionColor('primary')
             ->iconColor('primary');
@@ -59,10 +60,25 @@ final class EtymologyStatisticsWidget extends BaseWidget
         return Stat::make('In beoordeling', 0)
             ->icon('heroicon-o-pencil')
             ->description(trans(':percent van alle etymologieen', [
-                'percent' => toHumanReadablePercentage((int) $count, $this->getAllEtymoglogies())
+                'percent' => toHumanReadablePercentage($this->getAllEtymoglogies(), (int) $count)
             ]))
             ->descriptionColor('primary')
             ->iconColor('primary');
+    }
+
+    protected function rejectedStat(): Stat
+    {
+        $count = toHumanReadableNumber(
+            Etymology::whereStatus(EtymologyStatus::Rejected)->count(),
+        );
+
+        return Stat::make('Afgewezen etymologieen', $count)
+            ->icon('heroicon-o-x-circle')
+            ->description(trans(':percent van alle etymologieen', [
+                'percent' => toHumanReadablePercentage($this->getAllEtymoglogies(), (int) $count)
+            ]))
+            ->descriptionColor('danger')
+            ->iconColor('danger');
     }
 
     private function getAllEtymoglogies(): int
