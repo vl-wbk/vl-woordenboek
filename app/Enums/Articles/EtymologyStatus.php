@@ -18,7 +18,7 @@ enum EtymologyStatus: int implements HasColor, HasDescription, HasIcon, HasLabel
 
     #[Label('Klad ontwerp')]
     #[Description('De etymolgische data wordt nog verder uitgewerkt of is onvolledig')]
-    #[Icon('heoricon-o-pencil-square')]
+    #[Icon('heroicon-o-pencil-square')]
     #[Color('warning')]
     case Draft = 1;
 

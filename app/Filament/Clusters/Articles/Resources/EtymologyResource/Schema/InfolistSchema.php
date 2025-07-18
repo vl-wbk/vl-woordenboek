@@ -36,7 +36,7 @@ final readonly class InfolistSchema
                         ->authorize(static function (Etymology $etymology): bool {
                             return auth()->user()->can('viewAny', $etymology->author);
                         })
-                        ->url(fn (Etymology $etymology): string => UserResource::getUrl('view', ['record' => $etymology->author]))
+                        ->url(fn (Etymology $etymology): string => UserResource::getUrl('view', ['record' => $etymology->author])),
                 ])
                 ->iconColor('primary')
                 ->iconSize(IconSize::Medium)

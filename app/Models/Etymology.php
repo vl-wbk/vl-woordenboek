@@ -8,6 +8,8 @@ use App\Enums\Articles\EtymologyStatus;
 use App\Enums\Articles\EtymologyTypes;
 use App\Models\Relations\BelongsToAuthor;
 use App\Observers\EtymologyObserver;
+use App\States\Etymology\EtymologyStateContract;
+use App\States\Etymology as EtymologyState;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -30,6 +32,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property User $author
  *
+ * @todo Document this class fully
  *
  * @package App\Models
  */
@@ -43,6 +46,17 @@ final class Etymology extends Model
     protected $attributes = [
         'status' => EtymologyStatus::UnderReview,
     ];
+	
+	public function state(): EtymologyStateContract
+	{
+		return match($this->status) {
+			EtymologyStatus::UnderReview => new EtymologyState\UnderReview($this),
+			EtymologyStatus::Draft => new EtymologyState\Draft($this),
+			EtymologyStatus::Rejected => new EtymologyState\Rejected($this),
+			EtymologyStatus::Published => new EtymologyState\Published($this),
+			EtymologyStatus::Archived => new EtymologyState\Archived($this),
+		};
+	}
 
     /**
      * @return Attribute<non-falsy-string, never>
