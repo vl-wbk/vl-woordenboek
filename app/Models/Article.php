@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Overtrue\LaravelLike\Traits\Likeable;
 use OwenIt\Auditing\Auditable;
@@ -222,6 +223,22 @@ final class Article extends Model implements AuditableContract
     {
         return $this->hasMany(ArticleReport::class);
     }
+
+    /**
+     * @return HasMany<Etymology, covariant $this>
+     */
+    public function etymology(): HasMany
+    {
+        return $this->hasMany(Etymology::class);
+    }
+
+    /**
+     * @return HasOne<Etymology, covariant $this>
+     */
+    public function lastEtymology(): HasOne
+{
+    return $this->hasOne(Etymology::class)->latest();
+}
 
     /**
      * Retrieves all users who have bookmarked this article.

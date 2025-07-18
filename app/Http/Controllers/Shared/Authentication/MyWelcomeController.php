@@ -11,6 +11,6 @@ final class MyWelcomeController extends WelcomeController
 {
     public function sendPasswordSavedResponse(): Response
     {
-        return redirect()->route('filament.admin.pages.dashboard');
+        return redirect()->route('home');
     }
 }

@@ -9,6 +9,7 @@ use App\Services\BrowserSessionService;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Laravel\Pennant\Feature;
 use Spatie\RouteAttributes\Attributes\Delete;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Middleware;
@@ -38,13 +39,6 @@ final readonly class AccountSettingsController
             'user' => auth()->user(),
             'sessions' => $this->browserSessionService->getSessionProperty(),
         ]);
-    }
-
-    #[Patch(uri: 'registereren-als-tester', name: 'profile.settings.tester')]
-    public function registerAsTestUser(Request $request): RedirectResponse
-    {
-        $request->user()->update($request->all());
-        return back();
     }
 
     #[Delete(uri: 'browser-sessies-verwijderen', name: 'profile.delete-browser-sessions')]

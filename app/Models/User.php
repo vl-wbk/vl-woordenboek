@@ -22,6 +22,7 @@ use Cog\Laravel\Ban\Traits\Bannable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Laravel\Pennant\Concerns\HasFeatures;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
@@ -32,6 +33,7 @@ use Laravel\Sanctum\HasApiTokens;
  * and interaction tracking through the "likes" system.
  *
  * @property int          $id                 Unique identifier for the user
+ * @property string       $name               The unique username from the account
  * @property string       $firstname          User's first name
  * @property string       $lastname           User's last name
  * @property string       $email              User's email address for authentication
@@ -60,6 +62,8 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
     use Liker;
     use Bannable;
     use HasApiTokens;
+    use HasFeatures;
+
 
     /**
      * Specifies which attributes can be mass assigned when creating or updating user records.

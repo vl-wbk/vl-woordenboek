@@ -105,7 +105,7 @@ final class NotesRelationManager extends RelationManager
     }
 
     /**
-     * Controles the visibility of the notes interface.
+     * Controls the visibility of the notes interface.
      * This method ensures notes are only accessible when viewing dictionary articles through the ViewRecord page, maintaining proper context and preventing access from inappropriate locations.
      *
      * @param Model  $ownerRecord  The current article being viewed
