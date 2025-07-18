@@ -21,6 +21,11 @@ final readonly class EtymologyPolicy
 		return null;
 	}
 	
+	public function update(User $user, Etymology $etymology): bool
+	{
+		return $etymology->status->is(enum: EtymologyStatus::Draft);
+	}
+	
     public function delete(User $user, Etymology $etymology): bool
     {
         return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer]);

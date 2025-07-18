@@ -7,6 +7,7 @@ namespace App\Filament\Clusters\Articles\Resources;
 use App\Filament\Clusters\Articles;
 use App\Filament\Clusters\Articles\Resources\EtymologyResource\Pages;
 use App\Filament\Clusters\Articles\Resources\EtymologyResource\RelationManagers;
+use App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema\FormSchema;
 use App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema\InfolistSchema;
 use App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema\TableSchema;
 use App\Filament\Clusters\Articles\Resources\EtymologyResource\Widgets\EtymologyStatisticsWidget;
@@ -38,8 +39,13 @@ final class EtymologyResource extends Resource
     {
         return InfolistSchema::configure($infolist);
     }
-
-    public static function table(Table $table): Table
+	
+	public static function form(Form $form): Form
+	{
+		return FormSchema::configure($form);
+	}
+	
+	public static function table(Table $table): Table
     {
         return $table
             ->heading('Etymologie overzicht')

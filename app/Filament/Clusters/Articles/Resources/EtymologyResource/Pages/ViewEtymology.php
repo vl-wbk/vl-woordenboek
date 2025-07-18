@@ -3,10 +3,13 @@
 namespace App\Filament\Clusters\Articles\Resources\EtymologyResource\Pages;
 
 use App\Filament\Clusters\Articles\Resources\EtymologyResource;
+use App\Filament\Resources\ArticleResource;
+use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
+use Filament\Support\Enums\MaxWidth;
 
 final class ViewEtymology extends ViewRecord
 {
@@ -28,7 +31,14 @@ final class ViewEtymology extends ViewRecord
 				->icon('heroicon-o-tag'),
 			
 			ActionGroup::make([
-				EditAction::make()->icon('heroicon-o-pencil-square'),
+				Action::make('view-article')
+					->color('gray')
+					->label('Bekijk gekoppeld artikel')
+					->icon('heroicon-o-eye')
+					->url(ArticleResource::getUrl('view', ['record' => $this->record->article])),
+				
+				EditAction::make()->icon('heroicon-o-pencil-square')
+					->modalWidth(MaxWidth::SevenExtraLarge),
 				
 				ActionGroup::make([
 					DeleteAction::make()->icon('heroicon-s-trash'),
