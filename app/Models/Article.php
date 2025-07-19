@@ -248,7 +248,7 @@ final class Article extends Model implements AuditableContract
      *
      * @return BelongsToMany<User, covariant $this> A collection of users who have bookmarked this article.
      */
-    public function bookmarkers(): BelongsToMany
+        public function bookmarkers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, table: 'article_bookmarks');
     }

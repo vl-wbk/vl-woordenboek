@@ -6,6 +6,11 @@ namespace App\Filament\Resources\ArticleResource\Pages;
 
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets\ArticleRegistrationChart;
 use App\Filament\Resources\ArticleResource;
+use App\Models\ArticleReport;
+use App\Models\Etymology;
+use App\Models\Label;
+use App\Models\Note;
+use CodeWithDennis\FactoryAction\Facades\FactoryAction;
 use Filament\Resources\Pages\ListRecords;
 
 /**
@@ -36,6 +41,18 @@ final class ListWords extends ListRecords
      * The ArticleResource drives the behavior of this tabbed interface, determining how dictionary entries are displayed, filtered, and interacted with throughout the editorial workflow.
      */
     protected static string $resource = ArticleResource::class;
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            FactoryAction::make()
+                ->color('danger')
+                ->label('Genereer records')
+                ->icon('heroicon-o-cog-8-tooth')
+                ->hasMany([Note::class, Etymology::class])
+                ->belongsToMany([Label::class])
+        ];
+    }
 
     /**
      * Retrieves the header widgets for the page.

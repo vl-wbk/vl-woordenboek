@@ -21,7 +21,7 @@ class ArticleFactory extends Factory
     public function definition(): array
     {
         return [
-            'state' => ArticleStates::New,
+            'state' => $this->faker->randomElement(ArticleStates::cases())->value,
             'part_of_speech_id' => null,
             'author_id' => null,
             'editor_id' => null,
@@ -34,8 +34,9 @@ class ArticleFactory extends Factory
             'keywords' => implode(',', fake()->words(3)),
             'example' => fake()->sentence,
             'characteristics' => fake()->paragraph,
-            'sources' => json_encode([fake()->url, fake()->url]),
+            'sources' => [],
             'created_at' => now(),
+            'published_at' => now(),
             'updated_at' => now(),
         ];
     }
