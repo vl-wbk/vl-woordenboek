@@ -7,21 +7,32 @@ namespace App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema;
 use App\Enums\Articles\EtymologyStatus;
 use App\Filament\Resources\UserResource;
 use App\Models\Etymology;
-use App\Models\User;
 use Filament\Infolists\Components\Actions\Action;
-use Filament\Infolists\Components\Fieldset;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\Tabs;
 use Filament\Infolists\Components\Tabs\Tab;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
-use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconSize;
-use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Defines the Infolist schema for displaying Etymology resource details in Filament.
+ *
+ * This class provides a static method to configure an Infolist, organizing etymology data into sections and tabs for a comprehensive view.
+ * It includes information about the author, general etymology details, source information, internal notes, and specific details for archived or rejected etymologies.
+ *
+ * @package App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema
+ */
 final readonly class InfolistSchema
 {
+    /**
+     * Configures the Infolist for the Etymology resource.
+     * This method defines the layout and components of the Infolist, including a section for author and registration data, and a set of tabs for various etymology-related information.
+     *
+     * @param  Infolist $infolist   The Infolist instance to configure.
+     * @return Infolist             The configured Infolist instance.
+     */
     public static function configure(Infolist $infolist): Infolist
     {
         return $infolist->schema([
@@ -58,6 +69,12 @@ final readonly class InfolistSchema
         ]);
     }
 
+    /**
+     * Defines the 'Algemene informatie' tab for the Etymology Infolist.
+     * This tab displays core etymology details such as status, type, origin language, origin form, period start/end, and the etymology description itself.
+     *
+     * @return Tab The configured 'Algemene informatie' tab.
+     */
     private static function generalInformationTab(): Tab
     {
         return Tab::make('Algemene informatie')
@@ -93,6 +110,12 @@ final readonly class InfolistSchema
             ]);
     }
 
+    /**
+     * Defines the 'Archiverings informatie' tab for the Etymology Infolist.
+     * This tab is visible only if the etymology status is 'Archived' and displays details about who archived the record, when it was archived, and the reason.
+     *
+     * @return Tab The configured 'Archiverings informatie' tab.
+     */
     private static function archiveInformationTab(): Tab
     {
         return Tab::make('Archiverings informatie')
@@ -121,6 +144,12 @@ final readonly class InfolistSchema
             ]);
     }
 
+    /**
+     * Defines the 'Weigerings informatie' tab for the Etymology Infolist.
+     * This tab is visible only if the etymology status is 'Rejected' and displays details about who rejected the record, when it was rejected, and the reason.
+     *
+     * @return Tab The configured 'Weigerings informatie' tab.
+     */
     private static function rejectionInformationTab(): Tab
     {
         return Tab::make('Weigerings informatie')
@@ -148,6 +177,13 @@ final readonly class InfolistSchema
             ]);
     }
 
+    /**
+     * Generates a tooltip string based on the etymology's status.
+     * This helper method provides contextual information for the status badge, indicating who performed the action (published, rejected, archived) and when.
+     *
+     * @param  Etymology $etymology  The Etymology model instance.
+     * @return string|null           The tooltip string, or null if no specific tooltip is defined for the status.
+     */
     private static function getStatusTooltip(Etymology $etymology): ?string
     {
         return match($etymology->status) {
@@ -158,6 +194,12 @@ final readonly class InfolistSchema
         };
     }
 
+    /**
+     * Defines the schema for the author information section.
+     * This method returns an array of TextEntry components displaying details about the etymology's author, including their name, email, and creation/update timestamps.
+     *
+     * @return array<TextEntry> An array of TextEntry components for author information.
+     */
     private static function authorInformationTab(): array
     {
         return [
@@ -188,7 +230,13 @@ final readonly class InfolistSchema
                 ->date(),
         ];
     }
-    
+
+    /**
+     * Defines the 'Bron gegevens' tab for the Etymology Infolist.
+     * This tab displays information about the source of the etymology, including a text label for the hyperlink and the actual URL.
+     *
+     * @return Tab The configured 'Bron gegevens' tab.
+     */
     private static function sourceInformationTab(): Tab
     {
         return Tab::make('source-information-tab')
@@ -207,7 +255,13 @@ final readonly class InfolistSchema
                     ->openUrlInNewTab()
             ]);
     }
-    
+
+    /**
+     * Defines the 'Interne notitie' tab for the Etymology Infolist.
+     * This tab is visible only if an internal note exists for the etymology and displays the content of that note.
+     *
+     * @return Tab The configured 'Interne notitie' tab.
+     */
     private static function internalNoteTab()
     {
         return Tab::make('internal-note-tab')

@@ -1,82 +1,102 @@
 <?php
 
 declare(strict_types=1);
-	
+
 namespace App\Filament\Clusters\Articles\Resources\EtymologyResource\Actions;
-	
+
 use App\Enums\Articles\EtymologyStatus;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Forms\Components\Textarea;
-	
+
 /**
- * Class RejectEtymology
+ * Represents a custom Filament Action designed to transition an `Etymology` record to the `EtymologyStatus::Rejected` state.
  *
- * This action handles the rejection of an etymology record. It enforces the
- * 'reject' authorization policy, displays a confirmation modal with a required
- * textarea for the rejection reason, and uses a danger style with a thumb-down icon
- * to signal a destructive operation. Upon submission it attempts the state transition
- * to Rejected on the model and shows either a success or failure notification
- * depending on the outcome.
+ * This action provides a declarative interface for integrating a specific state transition into the Filament administration panel.
+ * It encapsulates the logic for user authorization, visual presentation, user interaction (via a confirmation modal that includes a mandatory input field for a rejection reason),
+ * and the execution of the underlying state change on the `Etymology` model.
+ * The action leverages Filament's built-in features for process customization, confirmation dialogues, and notification management to ensure a robust and auditable user experience
+ * for rejecting etymology submissions.
  *
- * @property \App\Models\Etymology $record THe etymology instance to be rejected.
+ * @property \App\Models\Etymology $record The Eloquent model instance of `Etymology` on which this action is being performed. This property is automatically resolved by Filament.
+ * @package  App\Filament\Clusters\Articles\Resources\EtymologyResource\Actions
  */
 final class RejectEtymology extends Action
 {
 	use CanCustomizeProcess;
-	
+
 	/**
-	 * Provide the default name of this action by returning the localized label of the Rejected enum value.
-	 * This label is used as the button text.
-	 *
-	 * @return string|null
-	 */
+     * Defines the default, human-readable name (label) for this action.
+     *
+     * This static method retrieves the localized label directly from the `EtymologyStatus::Rejected` enum case, ensuring consistency with the defined etymology statuses across the application.
+     * This label is typically used as the text displayed on the action button.
+     *
+     * @return string|null The default display name for the action, or `null` if not explicitly set.
+     */
 	public static function getDefaultName(): ?string
 	{
 		return EtymologyStatus::Rejected->getLabel();
 	}
-	
-	/**
-	 * Configure the visual appearance, confirmation dialog, form fields, notification titles, and execution logic.
-	 * This includes setting the icon, color, modal heading, and description, and defining a callback that processes
-	 * the rejection reason and invokes the model state transition.
-	 *
-	 * @return void
-	 */
+
+    /**
+     * Configures the action's properties, behavior, and execution logic.
+     *
+     * This method is invoked during the action's initialization phase to set up its various operational aspects.
+     * It begins by calling the parent `setUp()` method to inherit any foundational action configurations.
+     * Subsequently, a policy-based authorization check is applied using `authorize('reject', $this->record)`,
+     * which is crucial for ensuring that the currently authenticated user possesses the necessary permissions to transition the given `Etymology` record to the 'rejected' status.
+     *
+     * For visual presentation within the Filament interface, the action's icon is set to `heroicon-o-hand-thumb-down` and its color is configured as `danger`,
+     * signaling a potentially destructive or irreversible operation. To enhance data integrity and prevent accidental state changes, a user confirmation step is enforced before the
+     * action's core logic is executed. The confirmation modal's appearance and content are extensively customized: its `modalIcon` is set, the `modalCloseButton` is
+     * disabled to require explicit user interaction, a `modalHeading` defines the title, and a `modalDescription` provides a detailed explanation of the action's consequences.
+     * The text on the modal's primary confirmation button is customized via `modalSubmitActionLabel`.
+     *
+     * Critically, this action includes a form within its modal, specifically a `Textarea` component named 'reason'.
+     * This field is labeled 'Reden van de archivering' (though contextually it should be 'Reden van de afwijzing' for rejection), includes a placeholder, sets a row count, and is marked as `required()`,
+     * ensuring that a justification for the rejection is always provided by the user.
+     *
+     * Notification titles for both successful and failed action completions are defined to provide clear feedback to the user.
+     * Finally, the core execution logic of the action is registered within a closure passed to `action()`.
+     * This closure attempts to transition the `$this->record`'s state to 'rejected' by invoking `->state()->transitionToRejected($data['reason'])`, passing the collected reason.
+     * The `process()` method is then utilized to handle the execution of this state transition, automatically managing the dispatching of appropriate success or failure notifications based on the outcome.
+     *
+     * @return void
+     */
 	protected function setUp(): void
 	{
 		parent::setUp();
-		
+
 		$this->authorize('reject', $this->record);
-		
+
 		$this->icon('heroicon-o-hand-thumb-down');
 		$this->color('danger');
-		
+
 		$this->requiresConfirmation();
-			
+
 		$this->modalIcon('heroicon-o-hand-thumb-down');
 		$this->modalCloseButton(false);
 		$this->modalHeading('Etymology afwijzen');
 		$this->modalDescription('U staat op het punt om een etymology af te wijzen in het systeem. Bij afwijzing zal deze niet gepubliceerd worden. Bent u zeker dat u dit wilt doen?');
 		$this->modalSubmitActionLabel('Ja, ik ben zeker');
-			
+
 		$this->form([
 			Textarea::make('reason')
-				->label('Reden van de archivering')
-				->placeholder('Beschrijf kort waarom je de gegevens wilt archiveren.')
+				->label('Reden van de afwijzing')
+				->placeholder('Beschrijf kort waarom je de gegevens wilt afwijzen.')
 				->rows(5)
 				->required()
 		]);
-			
+
 		$this->successNotificationTitle('De etymologische gegevens of bijdragen zijn afgewezen');
 		$this->failureNotificationTitle('Helaas pindakaas! Er is iets misgelopen.');
-			
+
 		$this->action(function (): void {
 			if ($this->process(fn (array $data): bool => $this->record->state()->transitionToRejected($data['reason']))) {
 				$this->success();
 				return;
 			}
-				
+
 			$this->failure();
 		});
 	}

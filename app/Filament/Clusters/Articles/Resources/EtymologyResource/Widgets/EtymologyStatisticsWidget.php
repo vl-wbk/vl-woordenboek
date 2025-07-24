@@ -9,8 +9,22 @@ use App\Models\Etymology;
 use EightyNine\FilamentAdvancedWidget\AdvancedStatsOverviewWidget as BaseWidget;
 use EightyNine\FilamentAdvancedWidget\AdvancedStatsOverviewWidget\Stat;
 
+/**
+ * EtymologyStatisticsWidget is a Filament widget that displays key statistics related to Etymology records within the application.
+ *
+ * It extends `AdvancedStatsOverviewWidget` to provide a customizable overview of etymology counts based on their status (Published, Under Review, Archived, Rejected).
+ * Each statistic includes a count, an icon, a color, and a percentage description relative to the total number of etymologies.
+ *
+ * @package App\Filament\Clusters\Articles\Resources\EtymologyResource\Widgets
+ */
 final class EtymologyStatisticsWidget extends BaseWidget
 {
+    /**
+     * Retrieves an array of Stat objects to be displayed in the widget.
+     * This method orchestrates the collection of individual statistics for published, under review, archived, and rejected etymologies.
+     *
+     * @return array<Stat>  An array containing instances of `Stat` representing different etymology status counts.
+     */
     protected function getStats(): array
     {
         return [
@@ -21,6 +35,14 @@ final class EtymologyStatisticsWidget extends BaseWidget
         ];
     }
 
+    /**
+     * Generates a Stat object for the count of published etymologies.
+     *
+     * This method queries the database for etymologies that have a `published_at` timestamp and a status of `EtymologyStatus::Published`.
+     * The count is then formatted into a human-readable number and a percentage relative to all etymologies.
+     *
+     * @return Stat The Stat object configured for published etymologies.
+     */
     protected function publishedStat(): Stat
     {
         $count = toHumanReadableNumber(
@@ -36,6 +58,14 @@ final class EtymologyStatisticsWidget extends BaseWidget
             ->descriptionColor('success');
     }
 
+    /**
+     * Generates a Stat object for the count of archived etymologies.
+     *
+     * This method queries the database for etymologies that have an `archived_at` timestamp and a status of `EtymologyStatus::Archived`.
+     * The count is then formatted into a human-readable number and a percentage relative to all etymologies.
+     *
+     * @return Stat The Stat object configured for archived etymologies.
+     */
     protected function archivedStat(): Stat
     {
         $count = toHumanReadableNumber(
@@ -51,6 +81,17 @@ final class EtymologyStatisticsWidget extends BaseWidget
             ->iconColor('primary');
     }
 
+    /**
+     * Generates a Stat object for the count of etymologies currently under review.
+     *
+     * This method queries the database for etymologies with a status of `EtymologyStatus::UnderReview`.
+     * The count is formatted into a human-readable number and a percentage relative to all etymologies.
+     *
+     * Note: The displayed count in the `Stat::make` call is currently hardcoded to `0`, while the `$count` variable correctly calculates the actual number.
+     * This might indicate a potential discrepancy or an intentional design choice to always display '0' for this specific statistic.
+     *
+     * @return Stat The Stat object configured for etymologies under review.
+     */
     protected function underReviewStat(): Stat
     {
         $count = toHumanReadableNumber(
@@ -66,6 +107,14 @@ final class EtymologyStatisticsWidget extends BaseWidget
             ->iconColor('primary');
     }
 
+    /**
+     * Generates a Stat object for the count of rejected etymologies.
+     *
+     * This method queries the database for etymologies with a status of `EtymologyStatus::Rejected`.
+     * The count is formatted into a human-readable number and a percentage relative to all etymologies.
+     *
+     * @return Stat The Stat object configured for rejected etymologies.
+     */
     protected function rejectedStat(): Stat
     {
         $count = toHumanReadableNumber(
@@ -81,6 +130,12 @@ final class EtymologyStatisticsWidget extends BaseWidget
             ->iconColor('danger');
     }
 
+    /**
+     * Retrieves the total count of all etymology records in the database.
+     * This is a helper method used to calculate percentages for other statistics.
+     *
+     * @return int The total number of etymology records.
+     */
     private function getAllEtymoglogies(): int
     {
         return (int) Etymology::count();
