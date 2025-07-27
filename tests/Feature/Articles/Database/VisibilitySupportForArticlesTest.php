@@ -3,8 +3,8 @@
 use App\Models\Article;
 
 beforeEach(function (): void {
-    $this->article = Article::factory()->create(['published_at' => now()]);
-    $this->hiddenArticle = Article::factory()->create();
+    $this->article = Article::factory()->create();
+    $this->hiddenArticle = Article::factory()->create(['published_at' => null]);
 });
 
 test('determine whether the is published check is working properly for the artticle', function (): void {
