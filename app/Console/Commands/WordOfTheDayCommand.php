@@ -11,11 +11,35 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Command for registering the "word of the day" in the dictionary.
+ *
+ * This command selects a new word of the day based on user votes or randomly if no votes exist.
+ * It ensures only one word is marked per day, resets previous word of the day flags,
+ * and clears daily votes after selection. The command uses a cache lock to prevent
+ * multiple runs within the same day.
+ *
+ * Usage:
+ * - Run via CLI: php artisan wtod:register
+ * - Intended for daily execution, e.g. via scheduler.
+ *
+ * @see Article
+ */
 #[AsCommand(name: 'wtod:register', description: 'Register the word of the day', hidden: true)]
 final class WordOfTheDayCommand extends Command
 {
     private const CACHE_KEY = 'wtod.last_run_timestamp';
 
+    /**
+     * Handles the command execution.
+     *
+     * - Checks if there are published articles.
+     * - Prevents duplicate runs within the same day using cache.
+     * - Runs the selection and marking logic in a database transaction.
+     * - Updates the cache with the current timestamp.
+     *
+     * @return int Command exit code (SUCCESS or FAILURE).
+     */
     public function handle(): int
     {
         $lastRunTimestamp = Cache::get(self::CACHE_KEY);
@@ -48,6 +72,12 @@ final class WordOfTheDayCommand extends Command
         return Command::SUCCESS;
     }
 
+    /**
+     * Removes the "word of the day" flag from all articles.
+     * Sets the 'wotd' column to false for all articles currently marked as word of the day.
+     *
+     * @return void
+     */
     private function removeWordOfTheDay(): void
     {
         Article::query()
@@ -55,6 +85,15 @@ final class WordOfTheDayCommand extends Command
             ->update(['wotd' => false]);
     }
 
+    /**
+     * Selects and marks a new word of the day.
+     *
+     * If there are articles with votes today, selects the one with the highest votes.
+     * Otherwise, selects a random published article.
+     * Sets the 'wotd' column to true for the selected article.
+     *
+     * @return void
+     */
     private function markWordOfTheDay(): void
     {
         $voteResults = Article::where('votes_today', '>', 0);
@@ -66,6 +105,12 @@ final class WordOfTheDayCommand extends Command
         $wtod->update(['wotd' => true]);
     }
 
+    /**
+     * Clears the daily votes for all articles.
+     * Sets the 'votes_today' column to zero for all articles that received votes today.
+     *
+     * @return void
+     */
     private function clearVotes(): void
     {
         Article::where('votes_today', '>', 0)
