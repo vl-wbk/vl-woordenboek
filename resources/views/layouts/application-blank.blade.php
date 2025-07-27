@@ -62,14 +62,6 @@
                         </li>
                     @endauth
 
-                    @if (\App\Models\Article::whereNotNull('published_at')->count('id') > 0)
-                        <li class="nav-item">
-                            <a href="{{ route('word-information.random') }}" class="nav-link">
-                                <x-heroicon-s-language class="icon me-1" /> Zo maar een woord
-                            </a>
-                        </li>
-                    @endif
-
                     <li class="nav-item dropdown">
                         <a id="infoDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

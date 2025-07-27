@@ -23,6 +23,11 @@ use JetBrains\PhpStorm\Deprecated;
  */
 final class ArticleBuilder extends Builder
 {
+    public function published(): self
+    {
+        return $this->whereNot('published_at', null);
+    }
+
     /**
      * Archives the current article with an optional reason.
      *

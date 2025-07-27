@@ -48,6 +48,7 @@ class LikeWords extends Component
     public function likeArticle(): void
     {
         auth()->user()->like($this->article);
+        $this->article->increment('votes_today');
     }
 
     /**
@@ -59,6 +60,10 @@ class LikeWords extends Component
     public function dislikeArticle(): void
     {
         auth()->user()->unlike($this->article);
+
+        if ($this->article->votes_today > 0) {
+            $this->article->decrement('votes_today');
+        }
     }
 
     /**

@@ -18,8 +18,24 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card bg-white border-0 shadow-sm">
-                    <div class="card-header color-green fw-bold bg-white">
-                        Zoek een artikel in ons woordenboek met {{ $articleCount }} termen
+                    <div class="card-header bg-white">
+                        <span class="color-green fw-bold">Zoek een artikel in ons woordenboek met {{ $articleCount }} termen</span>
+
+                        <div class="float-end">
+                            @if (\App\Models\Article::whereNotNull('published_at')->count('id') > 0)
+                                <a href="{{ route('word-information.random') }}" class="text-muted text-decoration-none">
+                                    <x-heroicon-o-language class="icon color-green" /> Willekeurig woord
+                                </a>
+                            @endif
+
+                            <div class="vr mx-1 bg-black"></div>
+
+                            @if (\App\Models\Article::where('wotd', true)->count('id') > 0)
+                                <a href="{{ route('word-information.wtod') }}" class="text-muted text-decoration-none">
+                                    <x-heroicon-o-calendar-days class="icon color-green" /> Woord van de dag
+                                </a>
+                            @endif
+                        </div>
                     </div>
                     <div class="card-body">
                         <form action="{{ route('search.results') }}" method="GET">
