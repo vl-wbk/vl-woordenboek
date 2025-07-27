@@ -30,7 +30,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 final class Note extends Model
 {
     use HasFactory;
-    
+
     /**
      * Specifies attributes that are protected from mass assignment.
      * This property ensures that the note's unique identifier remains immutable throughout its lifecycle, maintaining referential integrity while allowing other attributes to be mass assigned for efficient creation and updates.
@@ -49,6 +49,7 @@ final class Note extends Model
      */
     public function author(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)
+            ->withDefault(['name' => config('app.name', 'Laravel')]);
     }
 }
