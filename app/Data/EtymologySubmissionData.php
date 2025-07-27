@@ -16,10 +16,6 @@ final class EtymologySubmissionData extends Data
         #[MapInputName('type')]
         public readonly int $type,
 
-        #[MapInputName('periode_start')]
-        #[WithCast(DateTimeInterfaceCast::class, format: "Y-m-d")]
-        public readonly ?Carbon $period_end = null,
-
         #[MapInputName('bron')]
         public readonly string $source,
 
@@ -38,5 +34,9 @@ final class EtymologySubmissionData extends Data
 
         #[MapInputName('url_bron')]
         public readonly ?string $source_url = null,
+
+        #[MapInputName('periode_start')]
+        #[WithCast(DateTimeInterfaceCast::class, format: "Y-m-d")]
+        public readonly ?Carbon $period_end = null,
     ) {}
 }
