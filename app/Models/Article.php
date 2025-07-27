@@ -86,7 +86,7 @@ final class Article extends Model implements AuditableContract
      *
      * @var list<string>
      */
-    protected $auditExclude = ['views'];
+    protected $auditExclude = ['views', 'votes_today'];
 
     /**
      * Default values for new article instances.
@@ -276,6 +276,7 @@ final class Article extends Model implements AuditableContract
     protected function casts(): array
     {
         return [
+            'wtod' => 'boolean',
             'origin' => DataOrigin::class,
             'state' => ArticleStates::class,
             'status' => LanguageStatus::class,

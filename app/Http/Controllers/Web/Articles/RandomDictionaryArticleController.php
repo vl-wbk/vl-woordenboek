@@ -23,4 +23,16 @@ final readonly class RandomDictionaryArticleController
             'etymologies' => $article->etymology()->whereNotIn('status', [EtymologyStatus::Draft, EtymologyStatus::Rejected, EtymologyStatus::Archived])->count(),
         ]);
     }
+
+    #[Get(uri: '/woord-van-de-dag', name: 'word-information.wtod')]
+    public function wtod(): Renderable
+    {
+        $article = Article::where('wotd', true)->firstOrFail();
+        $article->increment('views');
+
+        return view('definitions.show', data: [
+            'word' => $article,
+            'etymologies' => $article->etymology()->whereNotIn('status', [EtymologyStatus::Draft, EtymologyStatus::Rejected, EtymologyStatus::Archived])->count(),
+        ]);
+    }
 }
