@@ -52,7 +52,7 @@ enum Status: int implements HasLabel, HasColor, HasIcon
      */
     public function getLabel(): string
     {
-        $label =  match($this) {
+        $label =  match ($this) {
             self::Open => 'onbehandeld',
             self::InProgress => 'in behandeling',
             self::Closed => 'behandeld',
@@ -71,7 +71,7 @@ enum Status: int implements HasLabel, HasColor, HasIcon
      */
     public function getIcon(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Open => 'tabler-circle-dashed-x',
             self::InProgress => 'tabler-circle-dashed',
             self::Closed => 'tabler-circle-dashed-check',
@@ -88,7 +88,7 @@ enum Status: int implements HasLabel, HasColor, HasIcon
      */
     public function getColor(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Open => 'danger',
             self::InProgress => 'warning',
             self::Closed => 'success',

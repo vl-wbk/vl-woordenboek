@@ -30,7 +30,7 @@ final class OpenReportState extends ReportState
      */
     public function transitionToInProgress(): bool
     {
-        return DB::transaction(fn (): bool => $this->articleReport->update(attributes: [
+        return DB::transaction(fn(): bool => $this->articleReport->update(attributes: [
             'assignee_id' => auth()->id(), 'assigned_at' => now(), 'state' => Status::InProgress,
         ]));
     }

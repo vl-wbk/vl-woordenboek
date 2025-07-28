@@ -21,14 +21,14 @@ class EtymologyFactory extends Factory
     {
         return [
             'period_start' => $this->faker->dateTime(),
-            'period_end' => $this->faker->dateTime(), 
-            'status' => $this->faker->randomElement(EtymologyStatus::cases())->value, 
+            'period_end' => $this->faker->dateTime(),
+            'status' => $this->faker->randomElement(EtymologyStatus::cases())->value,
             'type' => $this->faker->randomElement(EtymologyTypes::cases())->value,
             'article_id' => $this->withArticle(),
             'author_id' => $this->withAuthor(),
-            'rejected_by' => $this->withAuthor(), 
-            'archived_by' => $this->withAuthor(), 
-            'published_by' => $this->withAuthor(), 
+            'rejected_by' => $this->withAuthor(),
+            'archived_by' => $this->withAuthor(),
+            'published_by' => $this->withAuthor(),
             'origin_form' => $this->faker->word(),
             'origin_language' => $this->faker->languageCode(),
         ];

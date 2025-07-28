@@ -41,8 +41,7 @@ final class ArticleImporter
         private readonly JsonFileStreamer $jsonFileStreamer,
         private readonly ArticleDataMapper $dataMapper,
         private readonly ArticleProcessor $articleProcessor,
-    ) {
-    }
+    ) {}
 
     /**
      * Processes the import of articles from a JSON file source.

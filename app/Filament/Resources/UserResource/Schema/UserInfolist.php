@@ -42,10 +42,10 @@ final readonly class UserInfolist
                             ->schema(UserInfolist::renderGeneralInformation()),
                         Tab::make('Deactiverings informatie')
                             ->columns(12)
-                            ->visible(fn (User $user): bool => $user->isBanned())
+                            ->visible(fn(User $user): bool => $user->isBanned())
                             ->icon('heroicon-o-lock-closed')
-                            ->schema(UserInfolist::renderDeactivationInformation())
-                    ])
+                            ->schema(UserInfolist::renderDeactivationInformation()),
+                    ]),
             ]);
     }
     /**
@@ -83,7 +83,7 @@ final readonly class UserInfolist
                 ->icon('heroicon-o-clock')
                 ->iconColor('primary')
                 ->date()
-                ->columnSpan(3)
+                ->columnSpan(3),
         ];
     }
 
@@ -106,7 +106,7 @@ final readonly class UserInfolist
                 ->columnSpan(4)
                 ->icon('heroicon-o-user-circle')
                 ->iconColor('primary')
-                ->state(fn (User $user): ?string => $user->bans->first()->bannable->name),
+                ->state(fn(User $user): ?string => $user->bans->first()->bannable->name),
             TextEntry::make('banned_at')
                 ->label('Gedeactiveerd sinds')
                 ->columnSpan(4)
@@ -117,14 +117,14 @@ final readonly class UserInfolist
                 ->columnSpan(4)
                 ->icon('heroicon-o-clock')
                 ->iconColor('primary')
-                ->state(fn (User $user): ?Carbon => $user->bans->first()->expired_at),
+                ->state(fn(User $user): ?Carbon => $user->bans->first()->expired_at),
             TextEntry::make('bannable.reason')
                 ->label('Redenen tot deactivering')
                 ->columnSpan(12)
                 ->icon('heroicon-o-chat-bubble-left-right')
                 ->iconColor('primary')
-                ->state(fn (user $user): ?string => $user->bans->first()->reason)
-                ->placeholder('- geen reden opgegeven')
+                ->state(fn(user $user): ?string => $user->bans->first()->reason)
+                ->placeholder('- geen reden opgegeven'),
         ];
     }
 }

@@ -49,7 +49,7 @@ final readonly class SearchWordQuery
             ->where(function ($query) use ($request, $includeDescription): void {
                 $query->where('word', $this->getSearchPattern($request)['operator'], $this->getSearchPattern($request)['pattern'])
                     ->orWhere('keywords', $this->getSearchPattern($request)['operator'], $this->getSearchPattern($request)['pattern'])
-                    ->when($includeDescription, fn (Builder $builder): Builder => $builder->orWhere('description', 'like', $this->getSearchPattern($request)['pattern']));
+                    ->when($includeDescription, fn(Builder $builder): Builder => $builder->orWhere('description', 'like', $this->getSearchPattern($request)['pattern']));
             })
             ->orderBy('word')
             ->fastPaginate(6)
@@ -74,7 +74,7 @@ final readonly class SearchWordQuery
 
         // Determine the formatted search pattern based on the 'zoekpatroon' (search pattern) value provided in the request.
         // This uses a match expression for concise conditional logic.
-        $pattern = match($request->get('zoekpatroon')) {
+        $pattern = match ($request->get('zoekpatroon')) {
             SearchPatterns::StartsWith->value => "$searchTerm%",  // If the pattern is 'StartsWith', append a '%' wildcard to the search term.
             SearchPatterns::Endswith->value => "%$searchTerm",    // If the pattern is 'Endswith', prepend a '%' wildcard to the search term.
             SearchPatterns::Exact->value => $searchTerm,            // If the pattern is 'Exact', use the search term as is (no wildcards).

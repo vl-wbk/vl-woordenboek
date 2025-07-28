@@ -98,22 +98,22 @@ final class ArticleReportResource extends Resource
                             ->label('bekijk melder')
                             ->icon('tabler-user-search')
                             ->color('gray')
-                            ->url(fn (ArticleReport $articleReport): string => UserResource::getUrl('view', ['record' => $articleReport->author])),
+                            ->url(fn(ArticleReport $articleReport): string => UserResource::getUrl('view', ['record' => $articleReport->author])),
                         Action::make('article-information')
                             ->label('bekijk artikel')
                             ->icon('tabler-eye-search')
                             ->color('gray')
-                            ->url(fn (ArticleReport $articleReport): string => ViewWord::getUrl(['record' => $articleReport->article])),
+                            ->url(fn(ArticleReport $articleReport): string => ViewWord::getUrl(['record' => $articleReport->article])),
                     ])
-                    ->description(fn (ArticleReport $articleReport): string => trans(':user heeft op :date de volgende melding ingestuurd.', [
-                        'user' => $articleReport->author->name, 'date' => $articleReport->created_at->format('d/m/Y')
+                    ->description(fn(ArticleReport $articleReport): string => trans(':user heeft op :date de volgende melding ingestuurd.', [
+                        'user' => $articleReport->author->name, 'date' => $articleReport->created_at->format('d/m/Y'),
                     ]))
                     ->icon('tabler-message-user')
                     ->iconSize(IconSize::Medium)
                     ->iconColor('highlight')
                     ->compact()
                     ->columns(12)
-                    ->schema(components: [self::followUpFieldset(), self::feedbackFieldset()])
+                    ->schema(components: [self::followUpFieldset(), self::feedbackFieldset()]),
             ]);
     }
 
@@ -167,7 +167,7 @@ final class ArticleReportResource extends Resource
                 ->default([Status::Open->value, Status::InProgress->value]),
             Filter::make('assigned')
                 ->label('Toegewezen aan mij')
-                ->query(fn (Builder $query): Builder => $query->where('assignee_id', auth()->id())),
+                ->query(fn(Builder $query): Builder => $query->where('assignee_id', auth()->id())),
         ];
     }
 
@@ -181,7 +181,7 @@ final class ArticleReportResource extends Resource
      */
     public static function getNavigationBadge(): ?string
     {
-        return Cache::flexible('report_count', [10, 60], fn (): string => (string) self::$model::count());
+        return Cache::flexible('report_count', [10, 60], fn(): string => (string) self::$model::count());
     }
 
     /**
@@ -268,7 +268,7 @@ final class ArticleReportResource extends Resource
             ->schema(components: [
                 TextEntry::make('description')
                     ->columnSpan(12)
-                    ->hiddenLabel()
+                    ->hiddenLabel(),
             ]);
     }
 }

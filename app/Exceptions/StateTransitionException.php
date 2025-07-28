@@ -14,6 +14,4 @@ use Exception;
  *
  * @package App\Exceptions
  */
-final class StateTransitionException extends Exception
-{
-}
+final class StateTransitionException extends Exception {}

@@ -85,13 +85,13 @@ final readonly class BrowserSessionService
             DB::connection(config('session.connection'))->table(config('session.table', 'sessions'))
                 ->where('user_id', Auth::user()->getAuthIdentifier())
                 ->orderBy('last_activity', 'desc')
-                ->get()
-        )->map(fn (stdClass $session) => (object) [
-                'agent' => $this->createAgent($session),
-                'ip_address' => $session->ip_address,
-                'is_current_device' => $session->id === request()->session()->getId(),
-                'last_active' => Carbon::createFromTimestamp($session->last_activity)->diffForHumans(),
-            ]);
+                ->get(),
+        )->map(fn(stdClass $session) => (object) [
+            'agent' => $this->createAgent($session),
+            'ip_address' => $session->ip_address,
+            'is_current_device' => $session->id === request()->session()->getId(),
+            'last_active' => Carbon::createFromTimestamp($session->last_activity)->diffForHumans(),
+        ]);
     }
 
     /**
@@ -105,6 +105,6 @@ final readonly class BrowserSessionService
      */
     private function createAgent(stdClass $session): AgentService
     {
-        return tap(new AgentService(), fn ($agent): string => $agent->setUserAgent($session->user_agent));
+        return tap(new AgentService(), fn($agent): string => $agent->setUserAgent($session->user_agent));
     }
 }

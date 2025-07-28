@@ -15,6 +15,4 @@ namespace App\States\Reporting;
  *
  * @package App\States\Reporting
  */
-final class ClosedReportState extends ReportState
-{
-}
+final class ClosedReportState extends ReportState {}

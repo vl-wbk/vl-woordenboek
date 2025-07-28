@@ -52,7 +52,7 @@ final class StatisticService
         return Cache::flexible(
             key: 'article_views',
             ttl: $this->cacheTTL,
-            callback: fn (): string => toHumanReadableNumber(number: (float) Article::sum('views')),
+            callback: fn(): string => toHumanReadableNumber(number: (float) Article::sum('views')),
         );
     }
 
@@ -67,7 +67,7 @@ final class StatisticService
         return Cache::flexible(
             key: 'article_count',
             ttl: $this->cacheTTL,
-            callback: fn (): string => toHumanReadableNumber(number: Article::count()),
+            callback: fn(): string => toHumanReadableNumber(number: Article::count()),
         );
     }
 
@@ -82,7 +82,7 @@ final class StatisticService
         return Cache::flexible(
             key: 'edit_count',
             ttl: $this->cacheTTL,
-            callback: fn (): string => toHumanReadableNumber(number: Audit::count()),
+            callback: fn(): string => toHumanReadableNumber(number: Audit::count()),
         );
     }
 
@@ -97,7 +97,7 @@ final class StatisticService
         return Cache::flexible(
             key: 'user_count',
             ttl: $this->cacheTTL,
-            callback: fn (): string => toHumanReadableNumber(number: User::count()),
+            callback: fn(): string => toHumanReadableNumber(number: User::count()),
         );
     }
 
@@ -114,7 +114,7 @@ final class StatisticService
         return Cache::flexible(
             key: 'volunteer_count',
             ttl: $this->cacheTTL,
-            callback: fn (): string => toHumanReadableNumber(number: User::whereNot('user_type', UserTypes::Normal)->count()),
+            callback: fn(): string => toHumanReadableNumber(number: User::whereNot('user_type', UserTypes::Normal)->count()),
         );
     }
 
@@ -129,7 +129,7 @@ final class StatisticService
         return Cache::flexible(
             key: 'registered_today_count',
             ttl: $this->cacheTTL,
-            callback: fn (): int => User::whereDate('created_at', now()->today())->count(),
+            callback: fn(): int => User::whereDate('created_at', now()->today())->count(),
         );
     }
 
@@ -214,7 +214,7 @@ final class StatisticService
      */
     private function extractTrendValues(Collection $trendData): Collection
     {
-        return $trendData->map(fn (TrendValue $value): mixed => $value->aggregate);
+        return $trendData->map(fn(TrendValue $value): mixed => $value->aggregate);
     }
 
     /**
@@ -226,6 +226,6 @@ final class StatisticService
      */
     private function extractTrendLabels(Collection $trendData): Collection
     {
-        return $trendData->map(fn (TrendValue $value): string => $value->date);
+        return $trendData->map(fn(TrendValue $value): string => $value->date);
     }
 }
