@@ -105,8 +105,11 @@
         "test:types": "phpstan analyse --memory-limit=2G",
         "test:type-coverage": "pest --type-coverage --min=100",
         "test": [
-            "@php artisan config:clear --ansi",
-            "@test:types"
+            "@test:lint",
+            "@test:refactor",
+            "@test:types",
+            "@test:type-coverage",
+            "@test:unit"
         ]
     },
     "extra": {
