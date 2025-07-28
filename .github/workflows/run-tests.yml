@@ -1,9 +1,6 @@
 name: Tests
 
-on:
-  push:
-    branches:
-      - develop
+on: [push, pull_request]
 
 jobs:
   ci:
