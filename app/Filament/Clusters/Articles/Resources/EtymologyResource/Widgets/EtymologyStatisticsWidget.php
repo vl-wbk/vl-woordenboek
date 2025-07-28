@@ -43,7 +43,7 @@ final class EtymologyStatisticsWidget extends BaseWidget
      *
      * @return Stat The Stat object configured for published etymologies.
      */
-    protected function publishedStat(): Stat
+    private function publishedStat(): Stat
     {
         $count = toHumanReadableNumber(
             Etymology::whereNotNull('published_at')->whereStatus(EtymologyStatus::Published)->count()
@@ -66,7 +66,7 @@ final class EtymologyStatisticsWidget extends BaseWidget
      *
      * @return Stat The Stat object configured for archived etymologies.
      */
-    protected function archivedStat(): Stat
+    private function archivedStat(): Stat
     {
         $count = toHumanReadableNumber(
             Etymology::whereNotNull('archived_at')->whereStatus(EtymologyStatus::Archived)->count()
@@ -92,7 +92,7 @@ final class EtymologyStatisticsWidget extends BaseWidget
      *
      * @return Stat The Stat object configured for etymologies under review.
      */
-    protected function underReviewStat(): Stat
+    private function underReviewStat(): Stat
     {
         $count = toHumanReadableNumber(
             Etymology::whereStatus(EtymologyStatus::UnderReview)->count()
@@ -115,7 +115,7 @@ final class EtymologyStatisticsWidget extends BaseWidget
      *
      * @return Stat The Stat object configured for rejected etymologies.
      */
-    protected function rejectedStat(): Stat
+    private function rejectedStat(): Stat
     {
         $count = toHumanReadableNumber(
             Etymology::whereStatus(EtymologyStatus::Rejected)->count(),

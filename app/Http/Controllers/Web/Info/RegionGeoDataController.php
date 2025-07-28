@@ -16,7 +16,7 @@ final readonly class RegionGeoDataController
     #[Get(uri: '/api/geo-data')]
     public function __invoke(): JsonResponse
     {
-        $featureCollection = Cache::rememberForever('region_geo_data_feature_collection', function () {
+        $featureCollection = Cache::rememberForever('region_geo_data_feature_collection', function (): array {
             $geoFeatures = RegionGeoData::query()
                 ->with('region')
                 ->select('name', 'region_id', 'postal', DB::raw('ST_AsGeoJSON(geometry) as geometry_geojson'))
@@ -27,7 +27,7 @@ final readonly class RegionGeoDataController
                 "features" => [],
             ];
 
-            collect($geoFeatures)->each(function($feature) {
+            collect($geoFeatures)->each(function($feature): void {
                 $collection['features'][] = [
                     "type" => "Feature",
                     "properties" => [
@@ -53,11 +53,11 @@ final readonly class RegionGeoDataController
         // Construct a unique cache key based on the region identifier
         $cacheKey = 'region_geo_data_feature_collection_' . $region->id;
 
-        $featureCollection = Cache::rememberForever($cacheKey, function () use ($region) {
+        $featureCollection = Cache::rememberForever($cacheKey, function () use ($region): array {
             $geoFeatures = RegionGeoData::query()
                 ->with('region')
                 // Add a where clause to filter by region
-                ->whereHas('region', function ($query) use ($region) {
+                ->whereHas('region', function ($query) use ($region): void {
                     // You'll need to decide how to identify the region.
                     // Options:
                     // 1. By region ID: $query->where('id', $regionIdentifier);
@@ -75,7 +75,7 @@ final readonly class RegionGeoDataController
                 "features" => [],
             ];
 
-            collect($geoFeatures)->each(function ($feature) use (&$collection) {
+            collect($geoFeatures)->each(function ($feature) use (&$collection): void {
                 $collection['features'][] = [
                     "type" => "Feature",
                     "properties" => [

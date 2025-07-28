@@ -17,9 +17,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Pennant\Feature;
 
-/**
- * @todo 2025-12-14 Document this class
- */
 final class CommentsRelationManager extends RelationManager
 {
     protected static string $relationship = 'comments';
@@ -77,7 +74,7 @@ final class CommentsRelationManager extends RelationManager
     /**
      * @return array<int, Tables\Actions\ActionGroup>
      */
-    protected function getHeaderActions(): array
+    private function getHeaderActions(): array
     {
         return [
             Tables\Actions\ActionGroup::make([
@@ -99,7 +96,7 @@ final class CommentsRelationManager extends RelationManager
     /**
      * @return array<int, Tables\Actions\BulkActionGroup>
      */
-    protected function getBulkTableActions(): array
+    private function getBulkTableActions(): array
     {
         return [
             Tables\Actions\BulkActionGroup::make([
@@ -111,7 +108,7 @@ final class CommentsRelationManager extends RelationManager
     /**
      * @return array<int, Tables\Actions\ViewAction|Tables\Actions\DeleteAction>
      */
-    protected function getRowActions(): array
+    private function getRowActions(): array
     {
         return [
             Tables\Actions\ViewAction::make()
@@ -126,7 +123,7 @@ final class CommentsRelationManager extends RelationManager
     /**
      * @return array<int, \Filament\Tables\Columns\Column>
      */
-    protected function getTableColumnComponents(): array
+    private function getTableColumnComponents(): array
     {
         return [
             TextColumn::make('commentator.name')

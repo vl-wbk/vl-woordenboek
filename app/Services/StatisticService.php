@@ -50,9 +50,11 @@ final class StatisticService
      */
     public function getArticleViews(): string
     {
-        return Cache::flexible('article_views', $this->cacheTTL, function (): string {
-            return toHumanReadableNumber(number: (float) Article::sum('views'));
-        });
+        return Cache::flexible(
+            key: 'article_views',
+            ttl: $this->cacheTTL,
+            callback: fn (): string => toHumanReadableNumber(number: (float) Article::sum('views')),
+        );
     }
 
     /**
@@ -63,9 +65,11 @@ final class StatisticService
      */
     public function getArticleCount(): string
     {
-        return Cache::flexible('article_count', $this->cacheTTL, function (): string {
-            return toHumanReadableNumber(number: Article::count());
-        });
+        return Cache::flexible(
+            key: 'article_count',
+            ttl: $this->cacheTTL,
+            callback: fn (): string => toHumanReadableNumber(number: Article::count()),
+        );
     }
 
     /**
@@ -76,9 +80,11 @@ final class StatisticService
      */
     public function getEditCount(): string
     {
-        return Cache::flexible('edit_count', $this->cacheTTL, function (): string {
-            return toHumanReadableNumber(number: Audit::count());
-        });
+        return Cache::flexible(
+            key: 'edit_count',
+            ttl: $this->cacheTTL,
+            callback: fn (): string => toHumanReadableNumber(number: Audit::count()),
+        );
     }
 
     /**
@@ -89,9 +95,11 @@ final class StatisticService
      */
     public function getUserCount(): string
     {
-        return Cache::flexible('user_count', $this->cacheTTL, function (): string {
-            return toHumanReadableNumber(number: User::count());
-        });
+        return Cache::flexible(
+            key: 'user_count',
+            ttl: $this->cacheTTL,
+            callback: fn (): string => toHumanReadableNumber(number: User::count()),
+        );
     }
 
     /**
@@ -104,9 +112,11 @@ final class StatisticService
      */
     public function getVolunteerCount(): string
     {
-        return Cache::flexible('volunteer_count', $this->cacheTTL, function (): string {
-            return toHumanReadableNumber(number: User::whereNot('user_type', UserTypes::Normal)->count());
-        });
+        return Cache::flexible(
+            key: 'volunteer_count',
+            ttl: $this->cacheTTL,
+            callback: fn (): string => toHumanReadableNumber(number: User::whereNot('user_type', UserTypes::Normal)->count()),
+        );
     }
 
     /**
@@ -117,9 +127,11 @@ final class StatisticService
      */
     public function registeredToday(): int
     {
-        return Cache::flexible('registered_today_count', $this->cacheTTL, function (): int {
-            return User::whereDate('created_at', now()->today())->count();
-        });
+        return Cache::flexible(
+            key: 'registered_today_count',
+            ttl: $this->cacheTTL,
+            callback: fn (): int => User::whereDate('created_at', now()->today())->count(),
+        );
     }
 
     /**

@@ -29,9 +29,7 @@ final class AppServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->app->singleton(ReadTimeCalculator::class, function ($app) {
-            return new ReadTimeCalculator();
-        });
+        $this->app->singleton(ReadTimeCalculator::class, fn ($app): ReadTimeCalculator => new ReadTimeCalculator());
     }
 
     /** @todo document */

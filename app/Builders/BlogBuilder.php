@@ -25,6 +25,6 @@ final class BlogBuilder extends Builder
 
     public function hasCommentsDisabled(): bool
     {
-        return ! $this->hasCommentsEnabled();
+        return ! $this->model->hasCommentsEnabled();
     }
 }

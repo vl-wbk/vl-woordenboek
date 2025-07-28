@@ -25,9 +25,11 @@ final class ViewEtymology extends ViewRecord
 {
     /**
      * The resource associated with this view page.
-     * This static property links the `ViewEtymology` page to the `EtymologyResource`, ensuring that it correctly displays data for Etymology models.
      *
-     * @var string
+     * This static property links the `ViewEtymology` page to the `EtymologyResource`.
+     * It ensures that the view correctly displays data for Etymology models, facilitating the retrieval and presentation of etymological information.
+     *
+     * @var string $resource - The fully qualified class name of the resource.
      */
     protected static string $resource = EtymologyResource::class;
 

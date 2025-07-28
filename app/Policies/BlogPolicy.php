@@ -9,11 +9,25 @@ use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
 /**
- * @todo Document
+ * Defines authorization logic for 'blog' model actions.
+ *
+ * This policy class determines whether a given user can perform specific actions on blog posts, such as submitting, viewing, updating, publishing, or deleting them, as well as commenting.
+ * It leverages Laravel's authorization system to return `Response` objects indicating `allow` or `deny` access.
+ *
+ * @package App\Policues
  */
 final readonly class BlogPolicy
 {
-    /** @todo Document */
+    /**
+     * Determine whether the user can perform any action on blog posts.
+     *
+     * This "before" method is executed before any other policy method.
+     * If it returns a non-null `Response`, that response will short-circuit the authorization check.
+     * Administrators and Developers are granted full access.
+     *
+     * @param  User $user       The authenticated user attempting the action.
+     * @return Response|null    A `Response::allow()` if the user is an administrator or developer, otherwise `null` to proceed to other policy methods.
+     */
     public function before(User $user): ?Response
     {
         return ($user->isAdministrator() || $user->isDeveloper())
@@ -40,8 +54,7 @@ final readonly class BlogPolicy
 
     /**
      * @todo Document
-     * @todo rename canComment to writeComment
-     * @deprecated
+     * @deprecated - rename canComment to writeComment
      */
     public function canComment(User $user, Blog $blog): Response
     {

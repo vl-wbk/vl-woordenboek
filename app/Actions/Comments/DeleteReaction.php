@@ -11,8 +11,6 @@ final readonly class DeleteReaction
 {
     public function handle(Comment $comment): bool
     {
-        return DB::transaction(function () use ($comment): bool {
-            return $comment->delete();
-        });
+        return DB::transaction(callback: fn () => $comment->delete());
     }
 }

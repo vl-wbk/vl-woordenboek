@@ -10,9 +10,19 @@ use App\Models\Label;
 use App\Models\User;
 use Illuminate\Support\Collection;
 
+/**
+ * Provides analytical data related to a specific `Label` model.
+ * This class encapsulates the logic for fetching various statistics and metrics associated with a given label, such as article counts, views, contributor data, and report statistics.
+ *
+ * @package App\Queries\Labels
+ */
 final readonly class LabelAnalytics
 {
     /**
+     * Fetches a collection of analytical data for a given label.
+     * This method aggregates various analytics (views, articles, contributors, reports) into a single collection, making it easy to retrieve all relevant statistics for a specific label.
+     *
+     * @param  Label $label The label for which to fetch analytics.
      * @return Collection<string, array<string, string>>
      */
     public function fetch(Label $label): Collection
@@ -26,13 +36,18 @@ final readonly class LabelAnalytics
     }
 
     /**
-     * @param Label $label
+     * Retrieves article-related analytics for a given label.
+     *
+     * This method calculates the number of published articles associated with the label and compares it against the total number of published articles across the platform.
+     * It returns human-readable statistics and a percentage for display.
+     *
+     * @param  Label $label The label for which to calculate article analytics.
      * @return array<string, string>
      */
     private function getArticleAnalytics(Label $label): array
     {
-        $articles = $label->articles()->whereNotNull('published_at')->count();
-        $total = Article::query()->whereNotNull('published_at')->count();
+        $articles = $label->articles()->whereNotNull('published_at')->count(); // Count published articles directly associated with this label
+        $total = Article::query()->whereNotNull('published_at')->count(); // Count all published articles in the system
 
         return [
             'statistic' => toHumanReadableNumber($articles),
@@ -43,13 +58,18 @@ final readonly class LabelAnalytics
     }
 
     /**
-     * @param Label $label
+     * Retrieves view-related analytics for a given label.
+     *
+     * This method sums up the total views for all published articles associated with the label and compares it against the total views of all published articles system-wide.
+     * It returns human-readable statistics and a percentage for display.
+     *
+     * @param  Label $label The label for which to calculate view analytics.
      * @return array<string, string>
      */
     private function getViewAnalytics(Label $label): array
     {
-        $views = (int) $label->articles()->whereNotNull('published_at')->sum('views');
-        $totalViews = (int) Article::query()->whereNotNull('published_at')->sum('views');
+        $views = (int) $label->articles()->whereNotNull('published_at')->sum('views'); // Sum views for published articles directly associated with this label
+        $totalViews = (int) Article::query()->whereNotNull('published_at')->sum('views'); // Sum views for all published articles in the system
 
         return [
             'statistic' => toHumanReadableNumber($views),
@@ -60,24 +80,30 @@ final readonly class LabelAnalytics
     }
 
     /**
-     * @param Label $label
+     * Retrieves contributor-related analytics for a given label.
+     *
+     * This method counts the number of unique authors who have published articles associated with the given label.
+     * It also provides the total number of published articles by these contributors under this label.
+     *
+     * @param  Label $label The label for which to calculate contributor analytics.
      * @return array<string, string>
      */
     private function getContributorAnalytics(Label $label): array
     {
+        // Count published articles associated with this label that have an author
         $totalArticles = Article::query()
             ->whereNotNull('published_at')
             ->whereHas('author')
-            ->whereHas('labels', function ($labelQuery) use ($label) {
-                // Ensure the suggestion is linked to the specific label
-                $labelQuery->where('labels.id', $label->id);
+            ->whereHas('labels', function ($labelQuery) use ($label): void {
+                $labelQuery->where('labels.id', $label->id); // Ensure the article is linked to the specific label
             })->count();
 
-        $totalUniqueAuthors = User::whereHas('suggestions', function ($suggestionQuery) use ($label) {
+        // Count unique users who have published articles (suggestions) associated with this label
+        $totalUniqueAuthors = User::whereHas('suggestions', function ($suggestionQuery) use ($label): void {
             $suggestionQuery->whereNotNull('published_at');
 
             /** @phpstan-ignore-next-line */
-            $suggestionQuery->whereHas('labels', function ($labelQuery) use ($label) {
+            $suggestionQuery->whereHas('labels', function ($labelQuery) use ($label): void {
                 $labelQuery->where('labels.id', $label->id);
             });
         })->count();
@@ -91,20 +117,27 @@ final readonly class LabelAnalytics
     }
 
     /**
+     * Retrieves report-related analytics for a given label.
+     *
+     * This method counts the number of article reports that are linked to published articles associated with the given label.
+     * It also provides the total number of all article reports in the system for comparison.
+     *
+     * @param  Label $label The label for which to calculate report analytics.
      * @return array<string, string>
      */
     private function getReportAnalytics(Label $label): array
     {
-        $totalAttachedReports = ArticleReport::whereHas('article', function ($articleQuery) use ($label) {
+        // Count article reports where the associated article is published and linked to this label
+        $totalAttachedReports = ArticleReport::whereHas('article', function ($articleQuery) use ($label): void {
             $articleQuery->whereNotNull('published_at');
 
             /** @phpstan-ignore-next-line */
-            $articleQuery->whereHas('labels', function ($labelQuery) use ($label) {
+            $articleQuery->whereHas('labels', function ($labelQuery) use ($label): void {
                 $labelQuery->where('labels.id', $label->id);
             });
         })->count();
 
-        $totalReports = ArticleReport::count();
+        $totalReports = ArticleReport::count(); // Count all article reports in the system
 
         return [
             'statistic' => toHumanReadableNumber($totalAttachedReports),

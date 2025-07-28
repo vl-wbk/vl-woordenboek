@@ -52,8 +52,6 @@ final class UnderReviewEtymology extends Action
      * This closure attempts to transition the `$this->record`'s state to 'under review' by invoking `->state()->transitionToUnderReview()`.
      * The `process()` method is then utilized to handle the execution of this state transition,
      * automatically managing the dispatching of appropriate success or failure notifications based on the outcome.
-     *
-     * @return void
      */
 	protected function setUp(): void
 	{

@@ -36,7 +36,6 @@ final readonly class BookmarkController
      * The search looks for matches in both the word and description fields of bookmarked articles.
      *
      * @param  Request $request The instance that contaions all the request information.
-     * @return Renderable
      */
     #[Get(uri: 'bookmarks', name: 'bookmarks:index')]
     public function index(Request $request): Renderable
@@ -60,7 +59,6 @@ final readonly class BookmarkController
      *
      * @param  Request $request The request instance that contains all the request information.
      * @param  Article $article The database entity that contains the Article information
-     * @return RedirectResponse
      */
     #[Get(uri: 'bookmark/{article}', name: 'bookmark:create')]
     public function store(Request $request, Article $article): RedirectResponse
@@ -80,7 +78,6 @@ final readonly class BookmarkController
      *
      * @param  Request $request  The equest instance that contains all the request information
      * @param  Article $article  The database entity that contains the Article information
-     * @return RedirectResponse
      */
     #[Get(uri: 'unbookmark/{article}', name: 'bookmark:remove')]
     public function delete(Request $request, Article $article): RedirectResponse

@@ -53,8 +53,6 @@ final class PublishEtymology extends Action
      * Finally, the core execution logic of the action is registered within a closure passed to `action()`.
      * This closure attempts to transition the `$this->record`'s state to 'published' by invoking `->state()->transitionToPublished()`.
      * The `process()` method is then utilized to handle the execution of this state transition, automatically managing the dispatching of appropriate success or failure notifications based on the outcome.
-     *
-     * @return void
      */
 	protected function setUp(): void
 	{

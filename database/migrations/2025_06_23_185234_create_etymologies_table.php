@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('etymologies', function (Blueprint $table) {
+        Schema::create('etymologies', function (Blueprint $table): void {
             $table->id()->comment('De uniek ID');
 
             $table->dateTime('period_start')->nullable()->comment('Begin van het gebruik (vb. "13e eeuw")');
