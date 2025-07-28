@@ -9,6 +9,7 @@ use App\Models\User;
 use App\UserTypes;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use OwenIt\Auditing\Models\Audit;

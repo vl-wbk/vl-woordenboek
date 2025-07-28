@@ -9,6 +9,7 @@ use Cog\Contracts\Ban\Ban;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Actions\Action;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\DateTimePicker;
 
 /**

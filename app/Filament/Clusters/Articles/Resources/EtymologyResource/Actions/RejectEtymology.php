@@ -23,9 +23,9 @@ use Filament\Forms\Components\Textarea;
  */
 final class RejectEtymology extends Action
 {
-    use CanCustomizeProcess;
+	use CanCustomizeProcess;
 
-    /**
+	/**
      * Defines the default, human-readable name (label) for this action.
      *
      * This static method retrieves the localized label directly from the `EtymologyStatus::Rejected` enum case, ensuring consistency with the defined etymology statuses across the application.
@@ -33,10 +33,10 @@ final class RejectEtymology extends Action
      *
      * @return string|null The default display name for the action, or `null` if not explicitly set.
      */
-    public static function getDefaultName(): ?string
-    {
-        return EtymologyStatus::Rejected->getLabel();
-    }
+	public static function getDefaultName(): ?string
+	{
+		return EtymologyStatus::Rejected->getLabel();
+	}
 
     /**
      * Configures the action's properties, behavior, and execution logic.
@@ -61,41 +61,41 @@ final class RejectEtymology extends Action
      * This closure attempts to transition the `$this->record`'s state to 'rejected' by invoking `->state()->transitionToRejected($data['reason'])`, passing the collected reason.
      * The `process()` method is then utilized to handle the execution of this state transition, automatically managing the dispatching of appropriate success or failure notifications based on the outcome.
      */
-    protected function setUp(): void
-    {
-        parent::setUp();
+	protected function setUp(): void
+	{
+		parent::setUp();
 
-        $this->authorize('reject', $this->record);
+		$this->authorize('reject', $this->record);
 
-        $this->icon('heroicon-o-hand-thumb-down');
-        $this->color('danger');
+		$this->icon('heroicon-o-hand-thumb-down');
+		$this->color('danger');
 
-        $this->requiresConfirmation();
+		$this->requiresConfirmation();
 
-        $this->modalIcon('heroicon-o-hand-thumb-down');
-        $this->modalCloseButton(false);
-        $this->modalHeading('Etymology afwijzen');
-        $this->modalDescription('U staat op het punt om een etymology af te wijzen in het systeem. Bij afwijzing zal deze niet gepubliceerd worden. Bent u zeker dat u dit wilt doen?');
-        $this->modalSubmitActionLabel('Ja, ik ben zeker');
+		$this->modalIcon('heroicon-o-hand-thumb-down');
+		$this->modalCloseButton(false);
+		$this->modalHeading('Etymology afwijzen');
+		$this->modalDescription('U staat op het punt om een etymology af te wijzen in het systeem. Bij afwijzing zal deze niet gepubliceerd worden. Bent u zeker dat u dit wilt doen?');
+		$this->modalSubmitActionLabel('Ja, ik ben zeker');
 
-        $this->form([
-            Textarea::make('reason')
-                ->label('Reden van de afwijzing')
-                ->placeholder('Beschrijf kort waarom je de gegevens wilt afwijzen.')
-                ->rows(5)
-                ->required()
-        ]);
+		$this->form([
+			Textarea::make('reason')
+				->label('Reden van de afwijzing')
+				->placeholder('Beschrijf kort waarom je de gegevens wilt afwijzen.')
+				->rows(5)
+				->required()
+		]);
 
-        $this->successNotificationTitle('De etymologische gegevens of bijdragen zijn afgewezen');
-        $this->failureNotificationTitle('Helaas pindakaas! Er is iets misgelopen.');
+		$this->successNotificationTitle('De etymologische gegevens of bijdragen zijn afgewezen');
+		$this->failureNotificationTitle('Helaas pindakaas! Er is iets misgelopen.');
 
-        $this->action(function (): void {
-            if ($this->process(fn (array $data): bool => $this->record->state()->transitionToRejected($data['reason']))) {
-                $this->success();
-                return;
-            }
+		$this->action(function (): void {
+			if ($this->process(fn (array $data): bool => $this->record->state()->transitionToRejected($data['reason']))) {
+				$this->success();
+				return;
+			}
 
-            $this->failure();
-        });
-    }
+			$this->failure();
+		});
+	}
 }

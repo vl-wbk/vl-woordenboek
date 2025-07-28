@@ -48,3 +48,4 @@ test('that the first name is required', function (string $field): void {
     actingAs($user)->put($this->updateSettingsEndpoint, data:  [])
         ->assertSessionHasErrorsIn('updateProfileInformation', $field);
 })->with(['email', 'firstname', 'lastname']);
+

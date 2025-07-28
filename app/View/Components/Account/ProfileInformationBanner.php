@@ -10,9 +10,7 @@ use Illuminate\View\Component;
 
 final class ProfileInformationBanner extends Component
 {
-    public function __construct(public readonly User $user)
-    {
-    }
+    public function __construct(public readonly User $user) {}
 
     public function render(): View
     {

@@ -7,11 +7,15 @@ namespace App\Filament\Resources\ArticleResource\Schema;
 use App\Enums\ArticleStates;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Actions\DisclaimerToolbarActions;
 use App\Models\Article;
+use Filament\Infolists\Components\Actions\Action;
+use Filament\Support\Enums\IconSize;
+use App\Filament\Resources\ArticleResource;
 use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Infolists\Components\Tabs;
 use Filament\Infolists\Components\Tabs\Tab;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
+use Illuminate\Support\HtmlString;
 
 /**
  * WordInfolist is responsible for defining the schema of the detailed information display for articles.

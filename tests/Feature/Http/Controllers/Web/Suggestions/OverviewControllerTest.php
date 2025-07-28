@@ -49,3 +49,4 @@ test('it can successfully display the page when the user wants his suggesions th
 
     actingAs($user)->get(route('suggestions:index', ['filter' => 'done']))->assertSuccessful();
 });
+

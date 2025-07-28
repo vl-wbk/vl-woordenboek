@@ -14,8 +14,7 @@ final class ArticleInformationToolbar extends Component
 {
     public function __construct(
         public readonly Article $word,
-    ) {
-    }
+    ) {}
 
     public function render(): ?Renderable
     {

@@ -64,7 +64,7 @@ final class ManageFeaturesCommand extends Command
 
         $fullyQualifiedFeatureClass = $this->resolveFeatureClass($feature);
 
-        if (! class_exists($fullyQualifiedFeatureClass)) {
+        if ( ! class_exists($fullyQualifiedFeatureClass)) {
             $this->error("The feature class '{$fullyQualifiedFeatureClass}' does not exist.");
             return;
         }

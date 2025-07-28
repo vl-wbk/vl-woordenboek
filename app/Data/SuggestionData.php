@@ -42,6 +42,5 @@ final class SuggestionData extends Data
         #[MapInputName('kenmerken')]    public ?string $characteristics = null,
         #[MapInputName('creator')]      public ?int $creator_id = null,
         #[MapInputName('woordsoort')]   public ?int $part_of_speech_id = null,
-    ) {
-    }
+    ) {}
 }

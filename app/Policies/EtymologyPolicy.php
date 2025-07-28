@@ -31,14 +31,14 @@ final readonly class EtymologyPolicy
      * @param  string   $ability    The name of the policy being checked.
      * @return Response|null        Returns a deny response or null to continu.
      */
-    public function before(User $user, string $ability): ?Response
-    {
-        if ($user->user_type->notIn(enums: [UserTypes::EditorInChief, UserTypes::Administrators, UserTypes::Developer])) {
-            return Response::denyAsNotFound();
-        }
+	public function before(User $user, string $ability): ?Response
+	{
+		if ($user->user_type->notIn(enums: [UserTypes::EditorInChief, UserTypes::Administrators, UserTypes::Developer])) {
+			return Response::denyAsNotFound();
+		}
 
-        return null;
-    }
+		return null;
+	}
 
     /**
      * Determines whether the given user can update the specified etymology.
@@ -51,10 +51,10 @@ final readonly class EtymologyPolicy
      * @param  Etymology $etymology  The etymology instance being considered for update.
      * @return bool                  Returns true if the etymology is in draft status and can be updated; false otherwise.
      */
-    public function update(User $user, Etymology $etymology): bool
-    {
-        return $etymology->status->is(enum: EtymologyStatus::Draft);
-    }
+	public function update(User $user, Etymology $etymology): bool
+	{
+		return $etymology->status->is(enum: EtymologyStatus::Draft);
+	}
 
     /**
      * Determines whether the given user can delete the specified etymology.
@@ -81,10 +81,10 @@ final readonly class EtymologyPolicy
      * @param  Etymology  $etymology    The etymology instance being considered for archiving.
      * @return bool                     Returns true if the etymology is not archived; false otherwise.
      */
-    public function archive(User $user, Etymology $etymology): bool
-    {
-        return $etymology->status->isNot(enum: EtymologyStatus::Archived);
-    }
+	public function archive(User $user, Etymology $etymology): bool
+	{
+		return $etymology->status->isNot(enum: EtymologyStatus::Archived);
+	}
 
     /**
      * Determines whether the given user can reject the specified etymology.
@@ -96,10 +96,10 @@ final readonly class EtymologyPolicy
      * @param  Etymology    $etymology  The etymology instance being considered for rejection.
      * @return bool                     Returns true if the etymology is under review; false otherwise.
      */
-    public function reject(User $user, Etymology $etymology): bool
-    {
-        return $etymology->status->in(enums: [EtymologyStatus::UnderReview]);
-    }
+	public function reject(User $user, Etymology $etymology): bool
+	{
+		return $etymology->status->in(enums: [EtymologyStatus::UnderReview]);
+	}
 
     /**
      * Determines whether the given user can publish the specified etymology.
@@ -111,10 +111,10 @@ final readonly class EtymologyPolicy
      * @param  Etymology    $etymology  The etymology instance being considered for publishing.
      * @return bool                     Returns true if the etymology is under review or archived; false otherwise.
      */
-    public function publish(User $user, Etymology $etymology): bool
-    {
-        return $etymology->status->in(enums: [EtymologyStatus::UnderReview, EtymologyStatus::Archived]);
-    }
+	public function publish(User $user, Etymology $etymology): bool
+	{
+		return $etymology->status->in(enums: [EtymologyStatus::UnderReview, EtymologyStatus::Archived]);
+	}
 
     /**
      * Determines whether the given user can move the specified etymology to draft status.
@@ -126,10 +126,10 @@ final readonly class EtymologyPolicy
      * @param  Etymology  $etymology    The etymology instance being considered for draft status.
      * @return bool                     Returns true if the etymology is under review, rejected, or archived; false otherwise.
      */
-    public function draft(User $user, Etymology $etymology): bool
-    {
-        return $etymology->status->in(enums: [EtymologyStatus::UnderReview, EtymologyStatus::Rejected, EtymologyStatus::Archived]);
-    }
+	public function draft(User $user, Etymology $etymology): bool
+	{
+		return $etymology->status->in(enums: [EtymologyStatus::UnderReview, EtymologyStatus::Rejected, EtymologyStatus::Archived]);
+	}
 
     /**
      * Determines whether the given user can move the specified etymology to under review status.
@@ -141,8 +141,8 @@ final readonly class EtymologyPolicy
      * @param  Etymology $etymology  The etymology instance being considered for under review status.
      * @return bool                  Returns true if the etymology is in draft status; false otherwise.
      */
-    public function underReview(User $user, Etymology $etymology): bool
-    {
-        return $etymology->status->is(enum: EtymologyStatus::Draft);
-    }
+	public function underReview(User $user, Etymology $etymology): bool
+	{
+		return $etymology->status->is(enum: EtymologyStatus::Draft);
+	}
 }

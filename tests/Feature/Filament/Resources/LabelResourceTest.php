@@ -11,11 +11,11 @@ beforeEach(function (): void {
     actingAsDeveloper();
 });
 
-it('can render the index page', function (): void {
+it ('can render the index page', function(): void {
     livewire(ListLabels::class)->assertSuccessful();
 })->group('labels');
 
-it('can render the information page', function (): void {
+it ('can render the information page', function (): void {
     $record = Label::factory()->create();
 
     livewire(ViewLabel::class, ['record' => $record->getRouteKey()])->assertSuccessful();
@@ -27,13 +27,13 @@ it('has columns', function (string $column): void {
 ->with(['name', 'articles_count', 'description', 'created_at'])
 ->group('labels');
 
-it('can render columns', function (string $column): void {
+it ('can render columns', function (string $column): void {
     livewire(ListLabels::class)->assertCanRenderTableColumn($column);
 })
 ->with(['name', 'articles_count', 'description', 'created_at'])
 ->group('labels');
 
-it('can search columns', function (string $column): void {
+it ('can search columns', function (string $column): void {
     $records = Label::factory(5)->create();
     $value = $records->first()->{$column};
 
@@ -45,7 +45,7 @@ it('can search columns', function (string $column): void {
 ->with(['name'])
 ->group('labels');
 
-it('can sort columns', function (string $column): void {
+it ('can sort columns', function (string $column): void {
     $records = Label::factory(5)->create();
 
     livewire(ListLabels::class)
@@ -57,14 +57,14 @@ it('can sort columns', function (string $column): void {
 ->with(['articles_count', 'name', 'created_at'])
 ->group('labels');
 
-it('can create a record', function (): void {
+it ('can create a record', function (): void {
     livewire(ListLabels::class)
         ->assertActionExists('create')
         ->callAction('create')
         ->assertActionMounted('create');
 })->group('labels');
 
-it('can update a record', function (): void {
+it ('can update a record', function (): void {
     $record = Label::factory()->create();
 
     livewire(ViewLabel::class, ['record' => $record->getRouteKey()])
@@ -72,7 +72,7 @@ it('can update a record', function (): void {
         ->callAction('edit');
 })->group('labels');
 
-it('can delete a record', function (): void {
+it ('can delete a record', function (): void {
     $record = Label::factory()->create();
 
     livewire(ViewLabel::class, ['record' => $record->getRouteKey()])
@@ -83,14 +83,14 @@ it('can delete a record', function (): void {
 })->group('labels');
 
 
-it('can bulk delete records', function (): void {
+it ('can bulk delete records', function (): void {
     $records = Label::factory(5)->create();
 
     livewire(ListLabels::class)
         ->assertTableBulkActionExists('delete')
         ->callTableBulkAction(DeleteBulkAction::class, $records);
 
-    collect($records)->each(function (Label $label): void {
-        $this->assertModelMissing($label);
-    });
+        collect($records)->each(function (Label $label): void {
+            $this->assertModelMissing($label);
+        });
 })->group('labels');

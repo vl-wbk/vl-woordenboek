@@ -6,8 +6,8 @@ namespace App\States\Etymology;
 
 final readonly class UnderReview extends EtymologyState
 {
-    public function transitionToUnderReview(): bool
-    {
-        return false;
-    }
+	public function transitionToUnderReview(): bool
+	{
+		return false;
+	}
 }

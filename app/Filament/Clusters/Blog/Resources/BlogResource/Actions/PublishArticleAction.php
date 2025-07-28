@@ -51,3 +51,5 @@ final class PublishArticleAction extends Action
         });
     }
 }
+
+

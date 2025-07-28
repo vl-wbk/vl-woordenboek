@@ -7,9 +7,11 @@ namespace App\Filament\Resources\FeedbackResource\Widgets;
 use EightyNine\FilamentAdvancedWidget\AdvancedChartWidget;
 use Flowframe\Trend\Trend;
 use App\Models\Feedback;
+use App\Enums\FeedbackStatus;
 use App\Enums\FeedbackTrueFalse;
 use Flowframe\Trend\TrendValue;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Collection;
 
 final class FeedbackStatisticsWidget extends AdvancedChartWidget

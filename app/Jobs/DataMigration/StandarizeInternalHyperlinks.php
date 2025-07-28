@@ -66,7 +66,7 @@ final class StandarizeInternalHyperlinks implements ShouldQueue
 
         return [
             // Skip the job if no unformatted links are found in either field
-            Skip::when(condition : fn (): bool => $exampleMatches === 0 && $descriptionMatches === 0),
+            Skip::when(condition : fn(): bool => $exampleMatches === 0 && $descriptionMatches === 0),
         ];
     }
 
@@ -114,7 +114,7 @@ final class StandarizeInternalHyperlinks implements ShouldQueue
 
         // Organize lookup data by word, including count and the ID of the first published article
         $lookupData = $lookupArticles->groupBy('word')->map(function ($items): array {
-            $publishedItems = $items->filter(fn ($item): bool => $item->published_at !== null);
+            $publishedItems = $items->filter(fn($item): bool => $item->published_at !== null);
 
             return [
                 'count' => $publishedItems->count(),

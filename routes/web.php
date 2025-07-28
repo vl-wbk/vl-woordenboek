@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Shared\Authentication\MyWelcomeController;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Spatie\WelcomeNotification\WelcomesNewUsers;
 

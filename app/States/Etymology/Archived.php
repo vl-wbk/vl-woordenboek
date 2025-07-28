@@ -6,18 +6,18 @@ namespace App\States\Etymology;
 
 final readonly class Archived extends EtymologyState
 {
-    public function transitionToUnderReview(): bool
-    {
-        return false;
-    }
-
-    public function transitionToRejected(?string $reason = null): bool
-    {
-        return false;
-    }
-
-    public function transitionToArchived(?string $reason = null): bool
-    {
-        return false;
-    }
+	public function transitionToUnderReview(): bool
+	{
+		return false;
+	}
+		
+	public function transitionToRejected(?string $reason = null): bool
+	{
+		return false;
+	}
+		
+	public function transitionToArchived(?string $reason = null): bool
+	{
+		return false;
+	}
 }

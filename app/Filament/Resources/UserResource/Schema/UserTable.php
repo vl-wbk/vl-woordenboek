@@ -38,7 +38,7 @@ final readonly class UserTable
             ->columns([
                 TextColumn::make('name')
                     ->iconColor('danger')
-                    ->icon(fn (User $user): ?string => $user->isBanned() ? 'tabler-shield-lock' : null)
+                    ->icon(fn (User $user): ?string  => $user->isBanned() ? 'tabler-shield-lock' : null)
                     ->label('Naam')
                     ->weight(FontWeight::Bold)
                     ->color(fn (User $user): string => $user->isBanned() ? 'danger' : 'primary')

@@ -119,7 +119,7 @@ final readonly class InfolistSchema
     {
         return Tab::make('Archiverings informatie')
             ->icon('heroicon-o-archive-box')
-            ->visible(fn (Etymology $etymology): bool => $etymology->status->isArchived())
+            ->visible(fn(Etymology $etymology): bool => $etymology->status->isArchived())
             ->columns(12)
             ->schema([
                 TextEntry::make('archiver.name')
@@ -152,7 +152,7 @@ final readonly class InfolistSchema
     private static function rejectionInformationTab(): Tab
     {
         return Tab::make('Weigerings informatie')
-            ->visible(fn (Etymology $etymology): bool => $etymology->status->isRejected())
+            ->visible(fn(Etymology $etymology): bool => $etymology->status->isRejected())
             ->icon('heroicon-o-x-circle')
             ->columns(12)
             ->schema([

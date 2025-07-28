@@ -30,8 +30,7 @@ class ReportState implements ReportStateContract
      */
     public function __construct(
         public ArticleReport $articleReport
-    ) {
-    }
+    ) {}
 
     /**
      * Handles the transition to the "Closed" state.

@@ -36,15 +36,15 @@ it('can display the user information', function (): void {
     livewire(ViewUser::class, ['record' => $record->getRouteKey()])->assertSuccessful();
 });
 
-it('has the following table columns', function (string $column): void {
+it('has the following table columns', function(string $column): void {
     livewire(ListUsers::class)->assertTableColumnExists($column);
 })->with(['name', 'user_type', 'email', 'last_seen_at', 'created_at']);
 
-it('can render the following table columns', function (string $column): void {
+it ('can render the following table columns', function (string $column): void {
     livewire(ListUsers::class)->assertCanRenderTableColumn($column);
 })->with(['name', 'user_type', 'email', 'last_seen_at', 'created_at']);
 
-it('can sort the following columns', function (string $column): void {
+it ('can sort the following columns', function (string $column): void {
     $records = User::factory(5)->create();
 
     livewire(ListUsers::class)
@@ -54,7 +54,7 @@ it('can sort the following columns', function (string $column): void {
         ->assertCanSeeTableRecords($records->sortByDesc($column), inOrder: true);
 })->with(['last_seen_at', 'created_at']);
 
-it('can search the following table columns', function (string $column): void {
+it ('can search the following table columns', function (string $column): void {
     $records = User::factory(5)->create();
     $value = $records->first()->{$column};
 
@@ -96,7 +96,7 @@ it('can update a record', function (): void {
     $this->assertDatabaseHas(User::class, ['firstname' => $newRecord->firstname, 'lastname' => $newRecord->lastname, 'email' => $newRecord->email]);
 });
 
-it('can delete a record', function (): void {
+it ('can delete a record', function (): void {
     $record = User::factory()->create();
 
     livewire(EditUser::class, ['record' => $record->getRouteKey()])

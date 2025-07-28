@@ -1,6 +1,4 @@
-<?php
-
-/** @noinspection PhpMissingFieldTypeInspection */
+<?php /** @noinspection PhpMissingFieldTypeInspection */
 
 declare(strict_types=1);
 
@@ -240,9 +238,9 @@ final class Article extends Model implements AuditableContract
      */
     #[Todo('Write a docblock for this method', 'low')]
     public function lastEtymology(): HasOne
-    {
-        return $this->hasOne(Etymology::class)->latest();
-    }
+{
+    return $this->hasOne(Etymology::class)->latest();
+}
 
     /**
      * Retrieves all users who have bookmarked this article.
@@ -252,7 +250,7 @@ final class Article extends Model implements AuditableContract
      *
      * @return BelongsToMany<User, covariant $this> A collection of users who have bookmarked this article.
      */
-    public function bookmarkers(): BelongsToMany
+        public function bookmarkers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, table: 'article_bookmarks');
     }

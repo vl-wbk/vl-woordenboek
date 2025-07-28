@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\DB;
  */
 final class ReportInProgressState extends ReportState
 {
+
     /**
      * Transitions the report from the "In Progress" state to the "Closed" state.
      *
