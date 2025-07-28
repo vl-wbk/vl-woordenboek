@@ -54,8 +54,6 @@ final class DraftEtymology extends Action
      * Notification titles for both successful and failed action completions are defined to provide clear feedback to the user.
      * Finally, the core execution logic of the action is registered within a closure passed to `action()`. This closure attempts to transition the `$this->record`'s state to 'draft' by invoking`->state()->transitionToDraft()`.
      * The `process()` method is then utilized to handle the execution of this state transition, automatically managing the dispatching of appropriate success or failure notifications based on the outcome.
-     *
-     * @return void
      */
 	protected function setUp(): void
 	{

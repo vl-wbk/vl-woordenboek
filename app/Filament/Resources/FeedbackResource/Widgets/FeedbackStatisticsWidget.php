@@ -81,7 +81,7 @@ final class FeedbackStatisticsWidget extends AdvancedChartWidget
      */
     private function getFeedbackTrendData(?Builder $query = null): Collection
     {
-        $trendQuery = $query ? Trend::query($query) : Trend::model(Feedback::class);
+        $trendQuery = $query instanceof Builder ? Trend::query($query) : Trend::model(Feedback::class);
 
         return $trendQuery
             ->between(start: now()->subYear(), end: now())

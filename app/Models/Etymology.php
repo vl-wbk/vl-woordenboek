@@ -48,7 +48,7 @@ final class Etymology extends Model
     protected $attributes = [
         'status' => EtymologyStatus::UnderReview,
     ];
-	
+
 	public function state(): EtymologyStateContract
 	{
 		return match($this->status) {
@@ -65,15 +65,17 @@ final class Etymology extends Model
      */
     public function period(): Attribute
     {
-        return Attribute::get(fn () => $this->period_start->format('d/m/Y') . ' - ' . $this->period_end->format('d/m/Y'));
+        return Attribute::get(
+            fn (): string => $this->period_start->format('d/m/Y') . ' - ' . $this->period_end->format('d/m/Y')
+        );
     }
-    
+
     public function archiver(): BelongsTo
     {
         return $this->belongsTo(User::class, 'archived_by')
             ->withDefault(['name' => 'Onbekende of verwijderde gebruiker']);
     }
-    
+
     public function rejecter(): BelongsTo
     {
         return $this->belongsTo(User::class, 'rejected_by')

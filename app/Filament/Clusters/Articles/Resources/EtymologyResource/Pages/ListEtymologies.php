@@ -18,9 +18,11 @@ final class ListEtymologies extends ListRecords
 {
     /**
      * The resource associated with this list page.
-     * This static property links the `ListEtymologies` page to the `EtymologyResource`, ensuring that it correctly displays and manages data for Etymology models.
      *
-     * @var string
+     * This static property links the `ListEtymologies` page to the `EtymologyResource`.
+     * It ensures the page correctly displays and manages data for Etymology models, providing a seamless interface for handling etymological records.
+     *
+     * @var string $resource - The fully qualified class name of the resource.
      */
     protected static string $resource = EtymologyResource::class;
 

@@ -89,8 +89,6 @@ final class Blog extends Model implements Feedable
      *
      * This method returns a state object implementing `PublicationStateContract` based on the current `status` of the blog post.
      * This allows for polymorphic behavior related to publication logic (e.g., publishing, drafting).
-     *
-     * @return PublicationStateContract
      */
     public function publicationStatus(): PublicationStateContract
     {

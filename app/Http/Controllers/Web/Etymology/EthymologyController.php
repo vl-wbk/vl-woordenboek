@@ -51,7 +51,7 @@ final class EthymologyController
         return $this->attemptSubmissionWithRateLimiting($storeEtymologyRequest, 'etymologySubmission', function () use ($article, $storeEtymologyRequest, $storeEtymologySubmission): RedirectResponse {
             $etymology = $storeEtymologySubmission->execute(article: $article, etymologySubmissionData: $storeEtymologyRequest->getData());
 
-            return redirect()->action([self::class, 'show'], $etymology);
+            return redirect()->route('etymology:create', $etymology);
         });
     }
 }

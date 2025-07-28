@@ -7,6 +7,7 @@ use Rector\DeadCode\Rector\ClassMethod\RemoveUnusedPublicMethodParameterRector;
 use Rector\EarlyReturn\Rector\Return_\ReturnBinaryOrToEarlyReturnRector;
 use Rector\Php74\Rector\Closure\ClosureToArrowFunctionRector;
 use Rector\Php83\Rector\ClassMethod\AddOverrideAttributeToOverriddenMethodsRector;
+use Rector\Privatization\Rector\ClassMethod\PrivatizeFinalClassMethodRector;
 use Rector\Privatization\Rector\Property\PrivatizeFinalClassPropertyRector;
 use Rector\Strict\Rector\If_\BooleanInIfConditionRuleFixerRector;
 use Rector\Strict\Rector\Ternary\DisallowedShortTernaryRuleFixerRector;
@@ -20,6 +21,7 @@ return RectorConfig::configure()
     ])
     ->withSkip([
         PrivatizeFinalClassPropertyRector::class,
+        PrivatizeFinalClassMethodRector::class          => [__DIR__ . '/app/Filament/Clusters/Blog/Resources/BlogResource/Pages/CreateBlog.php'],
         RemoveUnusedPublicMethodParameterRector::class  => [__DIR__ . '/app/Policies'],
         ClosureToArrowFunctionRector::class             => [__DIR__ . '/app/Providers/FortifyServiceProvider.php'],
         BooleanInIfConditionRuleFixerRector::class      => [__DIR__ . '/app/Filament/Clusters/Articles/Resources/ArticleReportResource/Widgets/ArticleReportingChartWidget.php'],

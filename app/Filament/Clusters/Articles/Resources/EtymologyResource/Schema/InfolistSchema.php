@@ -15,6 +15,7 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconSize;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Defines the Infolist schema for displaying Etymology resource details in Filament.
@@ -37,16 +38,14 @@ final readonly class InfolistSchema
     {
         return $infolist->schema([
             Section::make('Gegevens van de auteur en registratie')
-                ->visible(fn (Etymology $etymology): bool => $etymology->author()->exists() && auth()->user()->can('viewAny', $etymology->author))
+                ->visible(static fn (Etymology $etymology): bool => $etymology->author()->exists() && Auth::user()->can('viewAny', $etymology->author))
                 ->icon('heroicon-s-user-circle')
                 ->headerActions([
                     Action::make("view-user")
                         ->color('gray')
                         ->icon('heroicon-s-eye')
                         ->label('Bekijk gebruiker')
-                        ->authorize(static function (Etymology $etymology): bool {
-                            return auth()->user()->can('viewAny', $etymology->author);
-                        })
+                        ->authorize(static fn (Etymology $etymology): bool => Auth::user()->can('viewAny', $etymology->author))
                         ->url(fn (Etymology $etymology): string => UserResource::getUrl('view', ['record' => $etymology->author])),
                 ])
                 ->iconColor('primary')
@@ -262,7 +261,7 @@ final readonly class InfolistSchema
      *
      * @return Tab The configured 'Interne notitie' tab.
      */
-    private static function internalNoteTab()
+    private static function internalNoteTab(): Tab
     {
         return Tab::make('internal-note-tab')
             ->label('Interne notitie')

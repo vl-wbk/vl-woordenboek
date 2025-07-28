@@ -75,8 +75,6 @@ final class WordOfTheDayCommand extends Command
     /**
      * Removes the "word of the day" flag from all articles.
      * Sets the 'wotd' column to false for all articles currently marked as word of the day.
-     *
-     * @return void
      */
     private function removeWordOfTheDay(): void
     {
@@ -91,8 +89,6 @@ final class WordOfTheDayCommand extends Command
      * If there are articles with votes today, selects the one with the highest votes.
      * Otherwise, selects a random published article.
      * Sets the 'wotd' column to true for the selected article.
-     *
-     * @return void
      */
     private function markWordOfTheDay(): void
     {
@@ -108,8 +104,6 @@ final class WordOfTheDayCommand extends Command
     /**
      * Clears the daily votes for all articles.
      * Sets the 'votes_today' column to zero for all articles that received votes today.
-     *
-     * @return void
      */
     private function clearVotes(): void
     {

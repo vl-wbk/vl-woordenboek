@@ -99,16 +99,16 @@ final readonly class RegionAnalytics
         $totalArticles = Article::query()
             ->whereNotNull('published_at')
             ->whereHas('author')
-            ->whereHas('regions', function ($regionQuery) use ($region) {
+            ->whereHas('regions', function ($regionQuery) use ($region): void {
                 // Ensure the suggestion is linked to the specific label
                 $regionQuery->where('regions.id', $region->id);
             })->count();
 
-        $totalUniqueAuthors = User::whereHas('suggestions', function ($suggestionQuery) use ($region) {
+        $totalUniqueAuthors = User::whereHas('suggestions', function ($suggestionQuery) use ($region): void {
             $suggestionQuery->whereNotNull('published_at');
 
             /** @phpstan-ignore-next-line */
-            $suggestionQuery->whereHas('regions', function ($regionQuery) use ($region) {
+            $suggestionQuery->whereHas('regions', function ($regionQuery) use ($region): void {
                 $regionQuery->where('regions.id', $region->id);
             });
         })->count();

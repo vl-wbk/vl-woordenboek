@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('article_region', function (Blueprint $table) {
+        Schema::table('article_region', function (Blueprint $table): void {
             $table->dateTime('created_at')->nullable()->after('article_id');
             $table->dateTime('updated_at')->nullable()->after('created_at');
         });

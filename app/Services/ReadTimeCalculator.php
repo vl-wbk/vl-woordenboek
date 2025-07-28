@@ -4,19 +4,23 @@ namespace App\Services;
 
 use League\CommonMark\CommonMarkConverter;
 
-class ReadTimeCalculator
+final readonly class ReadTimeCalculator
 {
     /**
-     * Average words per minute for reading.
-     * You can adjust this value based on your audience.
-     * @var int
+     * The average number of words a person can read per minute.
+     *
+     * This value is used in calculating the estimated reading time of an article.
+     * You can adjust this based on your target audience's typical reading speed.
+     * For example, a common average reading speed for adults is around 200-250 words per minute.
      */
     protected int $wordsPerMinute;
 
     /**
-     * Seconds to add per image found in the content.
-     * This is a simplified approach. Some sophisticated calculators add decreasing seconds for the first 10 images.
-     * @var int
+     * The number of seconds to add to the reading time for each image found in the content.
+     *
+     * Images can interrupt the flow of reading, and this variable accounts for the time a user might spend looking at or processing each image.
+     * This implementation uses a simplified approach where each image adds a fixed amount of time.
+     * More advanced calculators might vary this, for instance, by adding more time for the first few images and less for subsequent ones.
      */
     protected int $secondsPerImage;
 
@@ -59,21 +63,25 @@ class ReadTimeCalculator
         }
 
         // 6. Format the output string
-        if ($minutes < 1) {
-            return trans('Leestijd: :time min.', ['time' => 1]);
-        } elseif ($minutes === 1) {
-            return trans('Leestijd: :time min.', ['time' => 1]);
-        } else {
-            return trans('Leestijd: :time min.', ['time' => $minutes]);
-        }
+        return match (true) {
+            $minutes < 1, $minutes === 1 => trans('Leestijd: :time min.', ['time' => 1]),
+            default => trans('Leestijd: :time min.', ['time' => $minutes]),
+        };
     }
 
     /**
-     * Calculate the estimated read time in minutes (integer) for markdown content.
-     * This is useful if you need the raw number for sorting or other logic.
+     * Calculates the estimated reading time for Markdown content in whole minutes.
      *
-     * @param string $markdownContent
-     * @return int The estimated read time in minutes.
+     * This method converts the provided Markdown content into plain text, counts the words, and adds a time estimation for any images present.
+     * It's designed to return a raw integer value representing minutes, which is useful for sorting, filtering, or
+     * other programmatic logic where an exact numerical duration is required.
+     *
+     * The calculation factors in:
+     * - The number of words in the content based on a predefined `wordsPerMinute` rate.
+     * - Additional time for each image, using a `secondsPerImage` value.
+     *
+     * @param  string $markdownContent  The Markdown formatted string content of an article or post.
+     * @return int                      The estimated reading time, rounded up to the nearest whole minute.
      */
     public function calculateInMinutes(string $markdownContent): int
     {
@@ -96,12 +104,15 @@ class ReadTimeCalculator
     }
 
     /**
-     * Detects and counts common Markdown image syntaxes and HTML <img> tags.
+     * Detects and counts common Markdown image syntaxes and HTML <img> tags within a given string.
      *
-     * @param string $markdownContent
-     * @return int The number of images found.
+     * This function uses regular expressions to find occurrences of both standard Markdown image syntax (`![alt text](url "optional title")`) and HTML `<img>` tags.
+     * It provides a basic count and may not be exhaustive for all possible Markdown variations or highly complex embedded HTML structures.
+     *
+     * @param  string $markdownContent  The string content, potentially containing Markdown and/or HTML.
+     * @return int                      The total number of detected images (Markdown images + HTML `<img>` tags).
      */
-    protected function countImagesInMarkdown(string $markdownContent): int
+    private function countImagesInMarkdown(string $markdownContent): int
     {
         $count = 0;
 
@@ -112,8 +123,6 @@ class ReadTimeCalculator
 
         // Regex for HTML <img> tags: <img src="..." alt="..." />
         preg_match_all('/<img[^>]*src\s*=\s*["\']([^"\']*)["\'][^>]*>/i', $markdownContent, $htmlMatches);
-        $count += count($htmlMatches[0]);
-
-        return $count;
+        return $count + count($htmlMatches[0]);
     }
 }
