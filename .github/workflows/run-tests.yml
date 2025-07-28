@@ -1,57 +1,76 @@
-name: "De unit-test slagen in mijn pull request/push "
+name: Tests
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - develop
 
 jobs:
-  tests:
+  ci:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [8.3]
 
-    env:
-      DB_DATABASE: sijot_verhuur_testing
-      DB_USER: root
-      DB_PASSWORD: root
+    name: Tests
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Start MySQL
-        run: |
-          sudo /etc/init.d/mysql start
-          mysql -e "CREATE DATABASE IF NOT EXISTS $DB_DATABASE;" -u$DB_USER -p$DB_PASSWORD
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Cache Dependencies
+        uses: actions/cache@v4
         with:
-          node-version: '20'
+          path: ~/.composer/cache/files
+          key: dependencies-php-composer-${{ hashFiles('composer.lock') }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.3 # php matrix from the laravel boilerplate: [8.1, 8.2]
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, xdebug
-          coverage: pcov
+          php-version: ${{ matrix.php }}
+          extensions: json, dom, curl, libxml, mbstring, zip
+          tools: composer:v2
+          coverage: xdebug
 
-      - name: Install Composer dependencies
-        run: composer install --prefer-dist --no-interaction
+      - name: Set up Node & NPM
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.x'
 
-      - name: Install NPM dependencies
-        run: npm ci
+      - name: Setup Problem Matches
+        run: |
+          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+          echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-      - name: Compile assets
+      - name: Install PHP dependencies
+        run: composer install --no-interaction --no-progress --ansi
+
+      - name: Get NPM cache directory
+        id: npm-cache-dir
+        shell: bash
+        run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
+
+      - name: Cache dependencies
+        id: npm-cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm install
+
+      - name: Build dependencies
         run: npm run build
 
-      - name: Prepare Laravel Application
+      - name: Prepare Laravel
         run: |
           cp .env.example .env
           php artisan key:generate
-          php artisan migrate
 
-      - name: Execute tests
-        run: vendor/bin/pest --parallel --profile --coverage --coverage-clover storage/coverage/coverage.xml
-
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: storage/coverage/coverage.xml
+      - name: Tests
+        run: composer test
