@@ -6,7 +6,7 @@
     "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "aaronfrancis/fast-paginate": "^2.0",
         "archtechx/enums": "^1.1",
         "beyondcode/laravel-comments": "^1.8",
@@ -59,6 +59,7 @@
         "pestphp/pest": "^3.7",
         "pestphp/pest-plugin-laravel": "^3.1",
         "pestphp/pest-plugin-livewire": "^3.0",
+        "pestphp/pest-plugin-type-coverage": "^3.6",
         "phpunit/phpunit": "^11.5.3",
         "rector/rector": "^2.0",
         "spatie/laravel-sql-commenter": "^2.1",
@@ -102,9 +103,13 @@
             "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
         ],
         "test:types": "phpstan analyse --memory-limit=2G",
+        "test:type-coverage": "pest --type-coverage --min=100",
         "test": [
-            "@php artisan config:clear --ansi",
-            "@test:types"
+            "@test:lint",
+            "@test:refactor",
+            "@test:types",
+            "@test:type-coverage",
+            "@test:unit"
         ]
     },
     "extra": {
