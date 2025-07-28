@@ -20,7 +20,7 @@ use Filament\Actions\Concerns\CanCustomizeProcess;
  */
 final class UnderReviewEtymology extends Action
 {
-	use CanCustomizeProcess;
+    use CanCustomizeProcess;
 
     /**
      * Defines the default, human-readable name (label) for this action.
@@ -28,10 +28,10 @@ final class UnderReviewEtymology extends Action
      *
      * @return string|null The default display name for the action, or `null` if not explicitly set.
      */
-	public static function getDefaultName(): ?string
-	{
-		return EtymologyStatus::UnderReview->getLabel();
-	}
+    public static function getDefaultName(): ?string
+    {
+        return EtymologyStatus::UnderReview->getLabel();
+    }
 
     /**
      * Configures the action's properties, behavior, and execution logic.
@@ -53,34 +53,34 @@ final class UnderReviewEtymology extends Action
      * The `process()` method is then utilized to handle the execution of this state transition,
      * automatically managing the dispatching of appropriate success or failure notifications based on the outcome.
      */
-	protected function setUp(): void
-	{
-		parent::setUp();
+    protected function setUp(): void
+    {
+        parent::setUp();
 
-		$this->authorize('underReview', $this->record);
+        $this->authorize('underReview', $this->record);
 
-		$this->icon('heroicon-o-paper-airplane');
-		$this->color('success');
+        $this->icon('heroicon-o-paper-airplane');
+        $this->color('success');
 
-		$this->requiresConfirmation();
+        $this->requiresConfirmation();
 
-		$this->modalIcon('heroicon-o-paper-airplane');
-		$this->modalCloseButton(false);
-		$this->modalHeading('Etymology in review plaatsen');
-		$this->modalDescription('Bij het plaatsen van de etymologie in review. Zal deze ingezonden worden ter beoordeling. Onder deze status zal het niet meer mogelijk zijn om de etymologie te bewerken.');
-		$this->modalSubmitActionLabel('Insturen');
-		$this->modalCancelAction(false);
+        $this->modalIcon('heroicon-o-paper-airplane');
+        $this->modalCloseButton(false);
+        $this->modalHeading('Etymology in review plaatsen');
+        $this->modalDescription('Bij het plaatsen van de etymologie in review. Zal deze ingezonden worden ter beoordeling. Onder deze status zal het niet meer mogelijk zijn om de etymologie te bewerken.');
+        $this->modalSubmitActionLabel('Insturen');
+        $this->modalCancelAction(false);
 
-		$this->successNotificationTitle('De etymologie is ingestuurd ter beoordeling');
-		$this->failureNotificationTitle('Helaas pindakaas! Er is iets misgelopen.');
+        $this->successNotificationTitle('De etymologie is ingestuurd ter beoordeling');
+        $this->failureNotificationTitle('Helaas pindakaas! Er is iets misgelopen.');
 
-		$this->action(function (): void {
-			if ($this->process(fn (): bool => $this->record->state()->transitionToUnderReview())) {
-				$this->success();
-				return;
-			}
+        $this->action(function (): void {
+            if ($this->process(fn (): bool => $this->record->state()->transitionToUnderReview())) {
+                $this->success();
+                return;
+            }
 
-			$this->failure();
-		});
-	}
+            $this->failure();
+        });
+    }
 }

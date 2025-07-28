@@ -8,13 +8,25 @@ use App\Enums\MetaProperties\Description;
 use App\Enums\MetaProperties\Label;
 use ArchTech\Enums\Meta\Meta;
 use ArchTech\Enums\Metadata;
-use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasDescription;
 use Filament\Support\Contracts\HasLabel;
 
 /**
- * @method static description()
- * @method static label()
+ * Represents the various etymological types or origins of words.
+ *
+ * This enum defines a fixed set of common ways in which words can originate or enter a language, such as borrowing, calque, neologism, and more.
+ * Each case is equipped with metadata via attributes (`#[Label]` and `#[Description]`) to provide a human-readable label and a detailed description.
+ *
+ * The enum implements the `HasLabel` and `HasDescription` interfaces from Filament, which makes it easy to use these etymological types in UI components
+ * like forms, tables, or select boxes, where both a concise display name and an extended explanation are required.
+ *
+ * The `Metadata` trait from `ArchTech\Enums` is used to provide the functionality for retrieving the attributes as methods (e.g., `self::label()`
+ * and `self::description()`), which are then utilized in the implementation of `getLabel()` and `getDescription()`.
+ *
+ * @method static string description()  Retrieves the description for the current enum case.
+ * @method static string label()        Retrieves the label for the current enum case.
+ *
+ * @package App\Enums\Articles
  */
 #[Meta(Description::class, Label::class)]
 enum EtymologyTypes: int implements HasLabel, HasDescription
@@ -69,11 +81,23 @@ enum EtymologyTypes: int implements HasLabel, HasDescription
     #[Description('De oorsprong is niet met zekerheid vast te stellen.')]
     case unknown = 12;
 
+    /**
+     * Retrieves the human-readable label for the current etymology type.
+     * This method leverages the `#[Label]` attribute defined on each enum case to provide a display-friendly name, suitable for UI elements.
+     *
+     * @return string The label of the etymology type.
+     */
     public function getLabel(): string
     {
         return self::label();
     }
 
+    /**
+     * Retrieves a detailed description for the current etymology type.
+     * This method uses the `#[Description]` attribute associated with each enum case to offer an extended explanation of what the etymology type signifies.
+     *
+     * @return string The description of the etymology type.
+     */
     public function getDescription(): string
     {
         return self::description();

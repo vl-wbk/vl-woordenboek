@@ -37,11 +37,14 @@ final class NotesRelationManager extends RelationManager
     protected static string $relationship = 'notes';
 
     /**
-     * Szets the display title in the admin interface to "Notities" (Dutch for notes).
+     * Sets the display title in the admin interface to "Notities" (Dutch for notes).
      * This localization choice reflects the application's primary language setting.
      */
     protected static ?string $title = 'Notities';
 
+    /**
+     * Sets the icon to be displayed for the NotesRelationManager in the Filament admin panel.
+     */
     protected static ?string $icon = 'heroicon-o-document-text';
 
     /**
@@ -165,8 +168,8 @@ final class NotesRelationManager extends RelationManager
             ->hiddenLabel()
             ->modalIcon('heroicon-o-document-text')
             ->modalIconColor('gray')
-            ->modalHeading(fn(Note $note): string => $note->title)
-            ->modalDescription(fn(Note $note): string => trans('Aangemaakt door :author op :date',['author' => $note->author->name, 'date' => $note->created_at->format('d/m/Y')]));
+            ->modalHeading(fn (Note $note): string => $note->title)
+            ->modalDescription(fn (Note $note): string => trans('Aangemaakt door :author op :date', ['author' => $note->author->name, 'date' => $note->created_at->format('d/m/Y')]));
     }
 
     /**

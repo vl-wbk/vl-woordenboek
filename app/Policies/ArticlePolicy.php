@@ -7,7 +7,6 @@ namespace App\Policies;
 use App\Enums\ArticleStates;
 use App\Models\User;
 use App\Models\Article;
-use App\States\Articles\ArticleState;
 use App\UserTypes;
 
 /**
@@ -86,7 +85,16 @@ final readonly class ArticlePolicy
         return $article->editor()->exists() && $article->editor()->isNot($user);
     }
 
-    /** @todo document */
+    /**
+     * Determines whether a user can unpublish an article.
+     *
+     * Unpublishing is restricted to users with Administrator or Developer roles, and only applies to articles that are currently in the Published state.
+     * This ensures that only authorized personnel can remove content from public view.
+     *
+     * @param  User    $user     The user attempting to unpublish the article.
+     * @param  Article $article  The article to be unpublished.
+     * @return bool              True if the user has permission to unpublish, false otherwise.
+     */
     public function unpublish(User $user, Article $article): bool
     {
         return $article->isPublished() && $user->user_type->in(enums: [UserTypes::Developer, UserTypes::Administrators]);
@@ -122,13 +130,31 @@ final readonly class ArticlePolicy
         return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer]);
     }
 
-    /** @todo document */
+    /**
+     * Determines whether a user can attach a disclaimer to an article.
+     *
+     * Attaching a disclaimer is permitted only if the article does not already have one, and the user is not a 'Normal' user or an 'Editor'.
+     * This ensures that only users with higher privileges can manage disclaimers.
+     *
+     * @param  User    $user     The user attempting to attach the disclaimer.
+     * @param  Article $article  The article to which the disclaimer is to be attached.
+     * @return bool              True if the user has permission to attach the disclaimer, false otherwise.
+     */
     public function attachDisclaimer(User $user, Article $article): bool
     {
         return $article->disclaimer()->doesntExist() && $user->user_type->notIn([UserTypes::Normal, UserTypes::Editor]);
     }
 
-    /** @todo document */
+    /**
+     * Determines whether a user can detach a disclaimer from an article.
+     *
+     * Detaching a disclaimer is permitted only if the article currently has one, and the user is not a 'Normal' user or an 'Editor'.
+     * This ensures that only users with higher privileges can manage disclaimers.
+     *
+     * @param  User    $user     The user attempting to detach the disclaimer.
+     * @param  Article $article  The article from which the disclaimer is to be detached.
+     * @return bool              True if the user has permission to detach the disclaimer, false otherwise.
+     */
     public function detachDisclaimer(User $user, Article $article): bool
     {
         return $article->disclaimer()->exists() && $user->user_type->notIn([UserTypes::Normal, UserTypes::Editor]);
@@ -150,7 +176,16 @@ final readonly class ArticlePolicy
             && $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer, UserTypes::EditorInChief]);
     }
 
-    /** @todo document */
+    /**
+     * Determines whether a user can unarchive an article.
+     *
+     * Unarchiving is allowed only if the article is currently in the Archived state, and the user is not a 'Normal' user or an 'Editor'.
+     * This ensures that only authorized personnel can restore archived content.
+     *
+     * @param  User    $user     The user attempting to unarchive the article.
+     * @param  Article $article  The article to be unarchived.
+     * @return bool              True if the user has permission to unarchive, false otherwise.
+     */
     public function unarchive(User $user, Article $article): bool
     {
         return $article->state->is(ArticleStates::Archived) && $user->user_type->notIn([UserTypes::Normal, UserTypes::Editor]);
@@ -172,13 +207,29 @@ final readonly class ArticlePolicy
             && $article->state->in(enums: [ArticleStates::New, ArticleStates::Draft, ArticleStates::ExternalData, ArticleStates::Archived]);
     }
 
-    /** @todo document */
+    /**
+     * Determines whether a user can restore a soft-deleted article.
+     *
+     * Restoration is restricted to users with 'Administrators' or 'Developer' roles.
+     * This policy applies to restoring a single, specific soft-deleted article.
+     *
+     * @param  User $user  The user attempting to restore the article.
+     * @return bool        True if the user has permission to restore, false otherwise.
+     */
     public function restore(User $user): bool
     {
         return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer]);
     }
 
-    /** @todo document */
+    /**
+     * Determines whether a user can restore any soft-deleted article.
+     *
+     * This permission is granted exclusively to users with 'Administrators' or 'Developer' roles,
+     * allowing them to restore any soft-deleted article, not just a specific one.
+     *
+     * @param  User $user  The user attempting to restore articles.
+     * @return bool        True if the user has permission to restore any article, false otherwise.
+     */
     public function restoreAny(User $user): bool
     {
         return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer]);
