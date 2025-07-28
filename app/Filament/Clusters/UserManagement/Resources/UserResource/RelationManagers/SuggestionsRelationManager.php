@@ -63,7 +63,7 @@ final class SuggestionsRelationManager extends RelationManager
      */
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
     {
-        return new $pageClass instanceof ViewUser;
+        return new $pageClass() instanceof ViewUser;
     }
 
     /**

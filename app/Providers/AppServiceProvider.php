@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
-use Laravel\Pennant\Feature;
 
 /** @todo document */
 final class AppServiceProvider extends ServiceProvider

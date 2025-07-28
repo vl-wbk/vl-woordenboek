@@ -24,7 +24,7 @@ use Filament\Actions\Action;
  */
 final class DraftEtymology extends Action
 {
-	use CanCustomizeProcess;
+    use CanCustomizeProcess;
 
     /**
      * Defines the default, human-readable name (label) for this action.
@@ -34,10 +34,10 @@ final class DraftEtymology extends Action
      *
      * @return string|null The default display name for the action, or `null` if not explicitly set.
      */
-	public static function getDefaultName(): ?string
-	{
-		return EtymologyStatus::Draft->getLabel();
-	}
+    public static function getDefaultName(): ?string
+    {
+        return EtymologyStatus::Draft->getLabel();
+    }
 
     /**
      * Configures the action's properties, behavior, and execution logic.
@@ -55,33 +55,33 @@ final class DraftEtymology extends Action
      * Finally, the core execution logic of the action is registered within a closure passed to `action()`. This closure attempts to transition the `$this->record`'s state to 'draft' by invoking`->state()->transitionToDraft()`.
      * The `process()` method is then utilized to handle the execution of this state transition, automatically managing the dispatching of appropriate success or failure notifications based on the outcome.
      */
-	protected function setUp(): void
-	{
-		parent::setUp();
+    protected function setUp(): void
+    {
+        parent::setUp();
 
-		$this->authorize('draft', $this->record);
+        $this->authorize('draft', $this->record);
 
-		$this->icon('heroicon-o-pencil-square');
-		$this->color('warning');
+        $this->icon('heroicon-o-pencil-square');
+        $this->color('warning');
 
-		$this->requiresConfirmation();
+        $this->requiresConfirmation();
 
-		$this->modalIcon('heroicon-o-pencil-square');
-		$this->modalCloseButton(false);
-		$this->modalHeading('Gegevens in onderhoud plaatsen');
-		$this->modalDescription('U staat op het punt om de etymologische gegevens in onderhoud te plaatsen. In deze fase zullen de gegevens niet publiekelijk raadpleegbaar zijn. Bent u zeker dat u dit wilt doen?');
-		$this->modalSubmitActionLabel('Ja, ik ben zeker');
+        $this->modalIcon('heroicon-o-pencil-square');
+        $this->modalCloseButton(false);
+        $this->modalHeading('Gegevens in onderhoud plaatsen');
+        $this->modalDescription('U staat op het punt om de etymologische gegevens in onderhoud te plaatsen. In deze fase zullen de gegevens niet publiekelijk raadpleegbaar zijn. Bent u zeker dat u dit wilt doen?');
+        $this->modalSubmitActionLabel('Ja, ik ben zeker');
 
-		$this->successNotificationTitle('De etymologische gegevens zijn nu in onderhoud');
-		$this->failureNotificationTitle('Helaas pindakaas! Er is iets misgelopen.');
+        $this->successNotificationTitle('De etymologische gegevens zijn nu in onderhoud');
+        $this->failureNotificationTitle('Helaas pindakaas! Er is iets misgelopen.');
 
-		$this->action(function(): void {
-			if ($this->process(fn (array $data): bool => $this->record->state()->transitionToDraft())) {
-				$this->success();
-				return;
-			}
+        $this->action(function (): void {
+            if ($this->process(fn (array $data): bool => $this->record->state()->transitionToDraft())) {
+                $this->success();
+                return;
+            }
 
-			$this->failure();
-		});
-	}
+            $this->failure();
+        });
+    }
 }

@@ -3,11 +3,9 @@
 namespace App\Providers\Filament;
 
 use CharrafiMed\GlobalSearchModal\GlobalSearchModalPlugin;
-use CharrafiMed\GlobalSearchModal\Livewire\GlobalSearchModal;
 use Cog\Laravel\Ban\Http\Middleware\ForbidBannedUser;
 use Devonab\FilamentEasyFooter\EasyFooterPlugin;
 use DutchCodingCompany\FilamentDeveloperLogins\FilamentDeveloperLoginsPlugin;
-use Filament\FontProviders\BunnyFontProvider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;

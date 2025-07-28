@@ -21,4 +21,3 @@ final class ViewDisclaimer extends ViewRecord
         ];
     }
 }
-

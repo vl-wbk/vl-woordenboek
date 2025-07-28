@@ -20,7 +20,7 @@ class NoteFactory extends Factory
         return [
             'author_id' => $this->withAuthor(),
             'article_id' => $this->withArticle(),
-            'title' => $this->faker->sentence(), 
+            'title' => $this->faker->sentence(),
             'body' => $this->faker->paragraph(),
         ];
     }

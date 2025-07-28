@@ -11,5 +11,6 @@ final class ArticleReportData extends Data
 {
     public function __construct(
         #[MapInputName('melding')] public string $description,
-    ) {}
+    ) {
+    }
 }

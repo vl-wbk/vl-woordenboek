@@ -50,7 +50,7 @@ enum Status: int implements HasLabel, HasColor, HasIcon
      * Provides a human-readable label for the current status in the user's language.
      *
      * This method converts our internal status values into user-friendly text that appears throughout the admin interface.
-     * 
+     *
      * The labels are defined in Dutch but go through our translation system, allowing for:
      * - Consistent status terminology across the interface
      * - Future internationalization if needed

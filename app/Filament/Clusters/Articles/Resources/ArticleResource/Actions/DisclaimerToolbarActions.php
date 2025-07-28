@@ -8,9 +8,7 @@ use App\Models\Article;
 use App\Models\Disclaimer;
 use Filament\Forms\Components\Select;
 use Filament\Infolists\Components\Actions\Action;
-use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\IconSize;
-use Filament\Support\Enums\MaxWidth;
 
 final readonly class DisclaimerToolbarActions
 {

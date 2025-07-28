@@ -41,7 +41,8 @@ final class ConvertHardReturns implements ShouldQueue
      */
     public function __construct(
         protected Article $article
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<int, Skip>
@@ -53,7 +54,7 @@ final class ConvertHardReturns implements ShouldQueue
             str_contains((string) $this->article->description, "\r");
 
         return [
-            Skip::when(condition: fn(): bool => !$needsStandardization),
+            Skip::when(condition: fn (): bool => !$needsStandardization),
         ];
     }
     /**

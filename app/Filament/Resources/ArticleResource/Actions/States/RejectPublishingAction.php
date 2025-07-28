@@ -8,7 +8,6 @@ use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Forms\Components\Textarea;
 use Filament\Support\Enums\MaxWidth;
-use Illuminate\Contracts\Support\Htmlable;
 
 /**
  * RejectPublishingAction handles the rejection of articles submitted for publication.

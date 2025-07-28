@@ -13,5 +13,6 @@ final class UserRegistrationData extends Data
         public readonly string $lastname,
         public readonly string $email,
         public readonly string $password,
-    ) {}
+    ) {
+    }
 }

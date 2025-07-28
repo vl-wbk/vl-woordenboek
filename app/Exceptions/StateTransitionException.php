@@ -6,4 +6,6 @@ namespace App\Exceptions;
 
 use Exception;
 
-final class StateTransitionException extends Exception {}
+final class StateTransitionException extends Exception
+{
+}

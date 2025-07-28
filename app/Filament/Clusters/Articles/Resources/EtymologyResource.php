@@ -4,28 +4,18 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources;
 
-use App\Filament\Clusters\Articles;
 use App\Filament\Clusters\Articles\Resources\EtymologyResource\Pages;
-use App\Filament\Clusters\Articles\Resources\EtymologyResource\RelationManagers;
 use App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema\FormSchema;
 use App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema\InfolistSchema;
 use App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema\TableSchema;
 use App\Filament\Clusters\Articles\Resources\EtymologyResource\Widgets\EtymologyStatisticsWidget;
 use App\Filament\Resources\ArticleResource;
 use App\Models\Etymology;
-use DragonCode\Support\Helpers\Arr;
-use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Infolists\Components\Section;
-use Filament\Infolists\Components\Tabs;
-use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
-use Filament\Support\Enums\IconSize;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 final class EtymologyResource extends Resource
 {
@@ -39,13 +29,13 @@ final class EtymologyResource extends Resource
     {
         return InfolistSchema::configure($infolist);
     }
-	
-	public static function form(Form $form): Form
-	{
-		return FormSchema::configure($form);
-	}
-	
-	public static function table(Table $table): Table
+
+    public static function form(Form $form): Form
+    {
+        return FormSchema::configure($form);
+    }
+
+    public static function table(Table $table): Table
     {
         return $table
             ->heading('Etymologie overzicht')

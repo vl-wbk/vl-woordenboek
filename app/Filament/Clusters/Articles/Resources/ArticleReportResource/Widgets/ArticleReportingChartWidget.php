@@ -9,7 +9,6 @@ use App\States\Reporting\Status;
 use App\UserTypes;
 use Carbon\Carbon;
 use EightyNine\FilamentAdvancedWidget\AdvancedChartWidget;
-use Illuminate\Contracts\Support\Htmlable;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 use Illuminate\Support\Collection;

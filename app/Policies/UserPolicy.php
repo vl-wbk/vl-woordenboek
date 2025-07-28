@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\User;
 use App\UserTypes;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * UserPOlicy enforces authorization rules for user management operations.

@@ -4,4 +4,6 @@ declare(strict_types=1);
 
 namespace App\States\Reporting;
 
-final class ClosedReportState extends ReportState {}
+final class ClosedReportState extends ReportState
+{
+}

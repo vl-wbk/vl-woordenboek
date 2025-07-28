@@ -7,7 +7,6 @@ namespace App\Http\Controllers\Web\Statistics;
 use App\Http\Controllers\Controller;
 use App\Services\StatisticService;
 use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
 
 final class DictionaryStatistics extends Controller

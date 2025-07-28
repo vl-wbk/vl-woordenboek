@@ -12,7 +12,8 @@ class PublicationState implements PublicationStateContract
 {
     public function __construct(
         public readonly Blog $blog,
-    ) {}
+    ) {
+    }
 
     public function transitionToPublished(): bool
     {

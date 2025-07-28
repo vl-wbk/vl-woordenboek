@@ -51,38 +51,38 @@ final class ViewEtymology extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-			ActionGroup::make([
-				EtymologyResource\Actions\ArchiveEtymology::make(),
-				EtymologyResource\Actions\RejectEtymology::make(),
-				EtymologyResource\Actions\PublishEtymology::make(),
-				EtymologyResource\Actions\DraftEtymology::make(),
-				EtymologyResource\Actions\UnderReviewEtymology::make(),
-			])
-				->button()
-				->label('Markeren als')
-				->color('gray')
-				->icon('heroicon-o-tag'),
+            ActionGroup::make([
+                EtymologyResource\Actions\ArchiveEtymology::make(),
+                EtymologyResource\Actions\RejectEtymology::make(),
+                EtymologyResource\Actions\PublishEtymology::make(),
+                EtymologyResource\Actions\DraftEtymology::make(),
+                EtymologyResource\Actions\UnderReviewEtymology::make(),
+            ])
+                ->button()
+                ->label('Markeren als')
+                ->color('gray')
+                ->icon('heroicon-o-tag'),
 
-			ActionGroup::make([
-				Action::make('view-article')
-					->color('gray')
-					->label('Bekijk gekoppeld artikel')
-					->icon('heroicon-o-eye')
-					->url(ArticleResource::getUrl('view', ['record' => $this->record->article])),
+            ActionGroup::make([
+                Action::make('view-article')
+                    ->color('gray')
+                    ->label('Bekijk gekoppeld artikel')
+                    ->icon('heroicon-o-eye')
+                    ->url(ArticleResource::getUrl('view', ['record' => $this->record->article])),
 
-				EditAction::make()->icon('heroicon-o-pencil-square')
-					->modalWidth(MaxWidth::SevenExtraLarge),
+                EditAction::make()->icon('heroicon-o-pencil-square')
+                    ->modalWidth(MaxWidth::SevenExtraLarge),
 
-				ActionGroup::make([
-					DeleteAction::make()->icon('heroicon-s-trash'),
-				])
-					->authorize('delete', $this->record)
-					->dropdown(false),
-			])
-				->button()
-				->label('Acties')
-				->color('gray')
-				->icon('heroicon-o-cog'),
+                ActionGroup::make([
+                    DeleteAction::make()->icon('heroicon-s-trash'),
+                ])
+                    ->authorize('delete', $this->record)
+                    ->dropdown(false),
+            ])
+                ->button()
+                ->label('Acties')
+                ->color('gray')
+                ->icon('heroicon-o-cog'),
         ];
     }
 }

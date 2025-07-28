@@ -12,7 +12,7 @@ it('can render the relation manager', function (): void {
         ->has(ArticleReport::factory()->count(5), 'reports')
         ->create();
 
-        livewire(ReportsRelationManager::class, ['ownerRecord' => $article, 'pageClass' => ViewArticleReport::class])
-            ->assertSuccessful()
-            ->assertCanSeeTableRecords($article->reports);
+    livewire(ReportsRelationManager::class, ['ownerRecord' => $article, 'pageClass' => ViewArticleReport::class])
+        ->assertSuccessful()
+        ->assertCanSeeTableRecords($article->reports);
 })->group('reports', 'articles');

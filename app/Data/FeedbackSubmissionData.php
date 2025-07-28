@@ -19,5 +19,6 @@ final class FeedbackSubmissionData extends Data
         #[MapInputName('extra_informatie_zoektocht')]   public readonly ?string $search_additional_info = null,
         #[MapInputName('extra_informatie')]             public readonly ?string $additional_info = null,
         #[MapInputName('contact')]                      public readonly bool $contact_allowed = false,
-    ) {}
+    ) {
+    }
 }

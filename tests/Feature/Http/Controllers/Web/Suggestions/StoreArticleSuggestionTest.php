@@ -26,7 +26,7 @@ beforeEach(function (): void {
     ];
 });
 
-it('can store an article suggestion as guest user', function(): void {
+it('can store an article suggestion as guest user', function (): void {
     $user = User::factory()->create();
 
     post(route('definitions.store'), $this->formData)
@@ -36,7 +36,7 @@ it('can store an article suggestion as guest user', function(): void {
     $this->assertDatabaseMissing(Article::class, ['author_id' => $user->id]);
 })->group('suggestions', 'articles');
 
-it ('can store an article as authenticated user and the auth identifier is attached', function (): void {
+it('can store an article as authenticated user and the auth identifier is attached', function (): void {
     $user = User::factory()->create();
 
     actingAs($user)->post(route('definitions.store'), array_merge($this->formData, ['creator' => $user->id]))

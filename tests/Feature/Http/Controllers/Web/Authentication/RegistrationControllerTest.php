@@ -2,7 +2,6 @@
 
 use function Pest\Laravel\from;
 use function Pest\Laravel\get;
-use function Pest\Laravel\post;
 
 test('registration screen can be rendered', function (): void {
     get(route('register'))->assertSuccessful();

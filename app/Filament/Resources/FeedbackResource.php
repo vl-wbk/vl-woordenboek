@@ -4,15 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use App\Enums\FeedbackStatus;
 use App\Filament\Resources\FeedbackResource\Pages;
-use App\Filament\Resources\FeedbackResource\RelationManagers;
 use App\Models\Feedback;
-use Filament\Actions\Action;
-use Filament\Actions\ActionGroup;
-use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Infolists\Components\Actions\Action as ComponentsActionsAction;
 use Filament\Infolists\Components\Fieldset;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\TextEntry;
@@ -25,10 +18,7 @@ use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Cache;
 
 final class FeedbackResource extends Resource
@@ -165,7 +155,7 @@ final class FeedbackResource extends Resource
             ->modalIcon('heroicon-o-information-circle')
             ->modalIconColor('info')
             ->modalHeading('Feedback informatie')
-            ->modalDescription(fn(Feedback $feedback): string => trans('Ingestuurd door :user op :date', ['user' => $feedback->name, 'date' => $feedback->created_at->format('d/m/Y')]));
+            ->modalDescription(fn (Feedback $feedback): string => trans('Ingestuurd door :user op :date', ['user' => $feedback->name, 'date' => $feedback->created_at->format('d/m/Y')]));
     }
 
     public static function deleteAction(): DeleteAction
@@ -185,9 +175,9 @@ final class FeedbackResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        $feedbackCount = Cache::flexible('feedback_count', [10, 60], fn(): string => (string) self::$model::count());
+        $feedbackCount = Cache::flexible('feedback_count', [10, 60], fn (): string => (string) self::$model::count());
 
-    // Return the count if it's greater than 0, otherwise return null
-    return $feedbackCount > 0 ? $feedbackCount : null;
+        // Return the count if it's greater than 0, otherwise return null
+        return $feedbackCount > 0 ? $feedbackCount : null;
     }
 }

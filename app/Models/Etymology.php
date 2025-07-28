@@ -49,16 +49,16 @@ final class Etymology extends Model
         'status' => EtymologyStatus::UnderReview,
     ];
 
-	public function state(): EtymologyStateContract
-	{
-		return match($this->status) {
-			EtymologyStatus::UnderReview => new EtymologyState\UnderReview($this),
-			EtymologyStatus::Draft => new EtymologyState\Draft($this),
-			EtymologyStatus::Rejected => new EtymologyState\Rejected($this),
-			EtymologyStatus::Published => new EtymologyState\Published($this),
-			EtymologyStatus::Archived => new EtymologyState\Archived($this),
-		};
-	}
+    public function state(): EtymologyStateContract
+    {
+        return match($this->status) {
+            EtymologyStatus::UnderReview => new EtymologyState\UnderReview($this),
+            EtymologyStatus::Draft => new EtymologyState\Draft($this),
+            EtymologyStatus::Rejected => new EtymologyState\Rejected($this),
+            EtymologyStatus::Published => new EtymologyState\Published($this),
+            EtymologyStatus::Archived => new EtymologyState\Archived($this),
+        };
+    }
 
     /**
      * @return Attribute<non-falsy-string, never>

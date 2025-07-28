@@ -31,7 +31,7 @@ final class ReportsRelationManager extends RelationManager
 
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
     {
-        return new $pageClass instanceof ViewWord;
+        return new $pageClass() instanceof ViewWord;
     }
 
     public function table(Table $table): Table

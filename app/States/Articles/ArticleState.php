@@ -25,7 +25,8 @@ class ArticleState implements ArticleStateContract
 {
     public function __construct(
         public readonly Article $article,
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritDoc}

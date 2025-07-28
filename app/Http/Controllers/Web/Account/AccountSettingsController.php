@@ -8,12 +8,9 @@ use App\Http\Requests\Account\DeleteBrowserSessionsRequest;
 use App\Services\BrowserSessionService;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Laravel\Pennant\Feature;
 use Spatie\RouteAttributes\Attributes\Delete;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Middleware;
-use Spatie\RouteAttributes\Attributes\Patch;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
 #[Prefix('instellingen')]
@@ -22,7 +19,8 @@ final readonly class AccountSettingsController
 {
     public function __construct(
         private readonly BrowserSessionService $browserSessionService
-    ) {}
+    ) {
+    }
 
     #[Get(uri: 'account-informatie', name: 'profile.settings')]
     public function information(): Renderable

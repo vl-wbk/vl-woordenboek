@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpUnused */
+<?php
+
+/** @noinspection PhpUnused */
 
 declare(strict_types=1);
 
@@ -141,7 +143,7 @@ final class Blog extends Model implements Feedable
         ];
     }
 
-     /**
+    /**
      * Get the estimated read time for the post in a human-readable format.
      *
      * This accessor dynamically calculates the reading time based on the post's content using the `ReadTimeCalculator` service and formats it for display.

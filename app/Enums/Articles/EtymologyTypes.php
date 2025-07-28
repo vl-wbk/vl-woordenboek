@@ -8,7 +8,6 @@ use App\Enums\MetaProperties\Description;
 use App\Enums\MetaProperties\Label;
 use ArchTech\Enums\Meta\Meta;
 use ArchTech\Enums\Metadata;
-use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasDescription;
 use Filament\Support\Contracts\HasLabel;
 

@@ -6,7 +6,6 @@ namespace App\Filament\Resources\ArticleResource\Pages;
 
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets\ArticleRegistrationChart;
 use App\Filament\Resources\ArticleResource;
-use App\Models\ArticleReport;
 use App\Models\Etymology;
 use App\Models\Label;
 use App\Models\Note;

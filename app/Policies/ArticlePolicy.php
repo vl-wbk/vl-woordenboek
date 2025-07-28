@@ -7,7 +7,6 @@ namespace App\Policies;
 use App\Enums\ArticleStates;
 use App\Models\User;
 use App\Models\Article;
-use App\States\Articles\ArticleState;
 use App\UserTypes;
 
 /**

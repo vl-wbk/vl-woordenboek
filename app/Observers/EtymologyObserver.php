@@ -16,7 +16,7 @@ final readonly class EtymologyObserver
             $etymology->status->isArchived() => $etymology->fill(['archived_at' => now(), 'author_id' => $userId, 'archived_by' => $userId]),
             $etymology->status->isRejected() => $etymology->fill(['rejected_at' => now(), 'author_id' => $userId, 'rejected_by' => $userId]),
             $etymology->status->isPublished() => $etymology->fill(['published_at' => now(), 'author_id' => $userId, 'published_by' => $userId]),
-			default => null,
+            default => null,
         };
     }
 }

@@ -165,8 +165,8 @@ final class NotesRelationManager extends RelationManager
             ->hiddenLabel()
             ->modalIcon('heroicon-o-document-text')
             ->modalIconColor('gray')
-            ->modalHeading(fn(Note $note): string => $note->title)
-            ->modalDescription(fn(Note $note): string => trans('Aangemaakt door :author op :date',['author' => $note->author->name, 'date' => $note->created_at->format('d/m/Y')]));
+            ->modalHeading(fn (Note $note): string => $note->title)
+            ->modalDescription(fn (Note $note): string => trans('Aangemaakt door :author op :date', ['author' => $note->author->name, 'date' => $note->created_at->format('d/m/Y')]));
     }
 
     /**
