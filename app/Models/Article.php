@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Attributes\Todo;
 use App\Builders\ArticleBuilder;
 use App\States\Articles;
 use App\Contracts\States\ArticleStateContract;
@@ -237,6 +238,7 @@ final class Article extends Model implements AuditableContract
     /**
      * @return HasOne<Etymology, covariant $this>
      */
+    #[Todo('Write a docblock for this method', 'low')]
     public function lastEtymology(): HasOne
     {
         return $this->hasOne(Etymology::class)->latest();
