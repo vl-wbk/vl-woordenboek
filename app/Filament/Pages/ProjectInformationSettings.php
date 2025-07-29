@@ -14,6 +14,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Pages\SettingsPage;
 use Filament\Support\Enums\IconSize;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class ProjectInformationSettings
@@ -72,7 +73,7 @@ final class ProjectInformationSettings extends SettingsPage
                     ->iconSize(IconSize::Medium)
                     ->compact()
                     ->columns(12)
-                    ->schema($this->pageSettingsFormDefinition())
+                    ->schema($this->pageSettingsFormDefinition()),
             ]);
     }
 
@@ -109,6 +110,6 @@ final class ProjectInformationSettings extends SettingsPage
      */
     public static function canAccess(): bool
     {
-        return auth()->user()->user_type->in([UserTypes::Administrators, UserTypes::Developer]);
+        return Auth::user()->user_type->in([UserTypes::Administrators, UserTypes::Developer]);
     }
 }

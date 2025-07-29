@@ -49,7 +49,7 @@ final class ListWords extends ListRecords
                 ->label('Genereer records')
                 ->icon('heroicon-o-cog-8-tooth')
                 ->hasMany([Note::class, Etymology::class])
-                ->belongsToMany([Label::class])
+                ->belongsToMany([Label::class]),
         ];
     }
 

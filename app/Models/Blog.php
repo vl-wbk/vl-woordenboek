@@ -82,7 +82,7 @@ final class Blog extends Model implements Feedable
     {
         return $this->belongsTo(User::class)
             ->withDefault(callback: [
-                'name' => config('app.name')
+                'name' => config('app.name'),
             ]);
     }
 
@@ -94,7 +94,7 @@ final class Blog extends Model implements Feedable
      */
     public function publicationStatus(): PublicationStateContract
     {
-        return match($this->status) {
+        return match ($this->status) {
             Status::Draft => new Posts\DraftState($this),
             Status::Published => new Posts\PublishedState($this),
         };

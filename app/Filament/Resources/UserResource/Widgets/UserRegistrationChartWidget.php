@@ -8,7 +8,6 @@ use App\Models\User;
 use EightyNine\FilamentAdvancedWidget\AdvancedChartWidget;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
-use Illuminate\Contracts\Support\Htmlable;
 
 final class UserRegistrationChartWidget extends AdvancedChartWidget
 {
@@ -143,14 +142,14 @@ final class UserRegistrationChartWidget extends AdvancedChartWidget
             'datasets' => [
                 [
                     'label' => 'Nieuwe registraties',
-                    'data' => $chartData->map(fn (TrendValue $value): mixed => $value->aggregate),
+                    'data' => $chartData->map(fn(TrendValue $value): mixed => $value->aggregate),
                 ],
                 [
                     'label' => 'Aantal verificaties',
-                    'data' => $registrationData->map(fn (TrendValue $value): mixed => $value->aggregate),
+                    'data' => $registrationData->map(fn(TrendValue $value): mixed => $value->aggregate),
                 ],
             ],
-            'labels' => $chartData->map(fn (TrendValue $value): string => $value->date),
+            'labels' => $chartData->map(fn(TrendValue $value): string => $value->date),
         ];
     }
 

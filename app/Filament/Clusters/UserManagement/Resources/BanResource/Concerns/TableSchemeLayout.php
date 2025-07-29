@@ -55,7 +55,7 @@ trait TableSchemeLayout
                 ->icon('heroicon-o-user-circle')
                 ->toggleable(isToggledHiddenByDefault: true)
                 ->searchable()
-                ->formatStateUsing(fn (Ban $record): string => $record->createdBy->name ?? '-'),
+                ->formatStateUsing(fn(Ban $record): string => $record->createdBy->name ?? '-'),
             Columns\TextColumn::make('comment')
                 ->label('Reden')
                 ->searchable()

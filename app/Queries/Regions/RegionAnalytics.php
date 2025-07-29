@@ -145,7 +145,7 @@ final readonly class RegionAnalytics
             'statistic' => toHumanReadableNumber($totalAttachedReports),
             'altText' => trans('Goed voor :percent van de meldingen', [
                 'percent' => toHumanReadablePercentage($totalReports, $totalAttachedReports),
-            ])
+            ]),
         ];
     }
 }

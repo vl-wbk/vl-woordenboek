@@ -63,10 +63,10 @@ final class EditBanAction extends Action
         $this->requiresConfirmation();
 
         $this->form($this->formSchema());
-        $this->fillForm(fn (Model $record): array => $record->attributesToArray());
+        $this->fillForm(fn(Model $record): array => $record->attributesToArray());
 
         $this->action(function (): void {
-            $result = $this->process(static fn (array $data, Model $record) => $record->update([
+            $result = $this->process(static fn(array $data, Model $record) => $record->update([
                 'comment' => $data['comment'],
                 'expired_at' => $data['expired_at'],
             ]));

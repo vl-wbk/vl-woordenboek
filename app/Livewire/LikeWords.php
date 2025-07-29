@@ -6,6 +6,7 @@ namespace App\Livewire;
 
 use App\Models\Article;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 /**
@@ -47,7 +48,7 @@ class LikeWords extends Component
      */
     public function likeArticle(): void
     {
-        auth()->user()->like($this->article);
+        Auth::user()->like($this->article);
         $this->article->increment('votes_today');
     }
 
@@ -59,7 +60,7 @@ class LikeWords extends Component
      */
     public function dislikeArticle(): void
     {
-        auth()->user()->unlike($this->article);
+        Auth::user()->unlike($this->article);
 
         if ($this->article->votes_today > 0) {
             $this->article->decrement('votes_today');
@@ -78,7 +79,7 @@ class LikeWords extends Component
     {
         return view('livewire.like-words', [
             'article' => $this->article,
-            'upvotes' => $this->article->likers()->count()
+            'upvotes' => $this->article->likers()->count(),
         ]);
     }
 }

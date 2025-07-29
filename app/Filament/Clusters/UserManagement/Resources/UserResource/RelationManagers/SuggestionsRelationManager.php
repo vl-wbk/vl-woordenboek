@@ -63,7 +63,7 @@ final class SuggestionsRelationManager extends RelationManager
      */
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
     {
-        return new $pageClass instanceof ViewUser;
+        return new $pageClass() instanceof ViewUser;
     }
 
     /**
@@ -156,7 +156,7 @@ final class SuggestionsRelationManager extends RelationManager
     {
         return [
             Tables\Actions\ViewAction::make()
-                ->url(fn (Article $article): string => ArticleResource::getUrl('view', ['record' => $article]))
+                ->url(fn(Article $article): string => ArticleResource::getUrl('view', ['record' => $article])),
         ];
     }
 }

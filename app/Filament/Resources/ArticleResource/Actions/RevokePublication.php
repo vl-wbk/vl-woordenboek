@@ -69,7 +69,7 @@ final class RevokePublication extends Action
                 ->label('Reden van de handeling')
                 ->placeholder('Beschrijf kort waarom je de publicatie ongedaan wilt maken.')
                 ->rows(5)
-                ->required()
+                ->required(),
         ]);
 
         // Set up notifications for success and failure.
@@ -79,7 +79,7 @@ final class RevokePublication extends Action
         // Define the action's execution logic.
         $this->action(function (): void {
             // Attempt to transition the article to the "editing" state, providing the reason.
-            if ($this->process(fn (array $data): bool => $this->record->articleStatus()->transitionToEditing($data['reason']))) {
+            if ($this->process(fn(array $data): bool => $this->record->articleStatus()->transitionToEditing($data['reason']))) {
                 // If successful, display a success message.
                 $this->success();
                 return;

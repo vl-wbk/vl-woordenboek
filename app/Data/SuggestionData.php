@@ -35,13 +35,19 @@ final class SuggestionData extends Data
      * @param int|null            $part_of_speech_id  Optional ID of the part of speech associated with the suggested word. Can be null if the part of speech is not specified. Mapped from the 'woordsoort' input name.
      */
     public function __construct(
-        #[MapInputName('woord')]        public string $word,
-        #[MapInputName("beschrijving")] public string $description,
-        #[MapInputName('voorbeeld')]    public string $example,
-        #[MapInputName('regio')]        public array $regions = [],
-        #[MapInputName('kenmerken')]    public ?string $characteristics = null,
-        #[MapInputName('creator')]      public ?int $creator_id = null,
-        #[MapInputName('woordsoort')]   public ?int $part_of_speech_id = null,
-    ) {
-    }
+        #[MapInputName('woord')]
+        public string $word,
+        #[MapInputName("beschrijving")]
+        public string $description,
+        #[MapInputName('voorbeeld')]
+        public string $example,
+        #[MapInputName('regio')]
+        public array $regions = [],
+        #[MapInputName('kenmerken')]
+        public ?string $characteristics = null,
+        #[MapInputName('creator')]
+        public ?int $creator_id = null,
+        #[MapInputName('woordsoort')]
+        public ?int $part_of_speech_id = null,
+    ) {}
 }

@@ -57,7 +57,7 @@ enum UserTypes: int implements HasLabel, HasColor, HasIcon
      */
     public function getLabel(): string
     {
-        $usertype = match($this) {
+        $usertype = match ($this) {
             self::Normal => 'Invoerder',
             self::Editor => 'Redacteur',
             self::EditorInChief => 'Eindredacteur',
@@ -77,7 +77,7 @@ enum UserTypes: int implements HasLabel, HasColor, HasIcon
      */
     public function getIcon(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Developer => 'heroicon-o-code-bracket',
             self::Administrators => 'heroicon-o-key',
             self::Editor, self::EditorInChief => 'heroicon-o-pencil',
@@ -97,7 +97,7 @@ enum UserTypes: int implements HasLabel, HasColor, HasIcon
      */
     public function getColor(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Developer, self::Administrators => 'danger',
             self::Editor, self::EditorInChief => 'gray',
             self::Normal => 'success',

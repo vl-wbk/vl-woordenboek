@@ -81,7 +81,7 @@ final class EditWord extends EditRecord
                     ->cancelAction($this->getCancelFormAction())
                     ->submitAction($this->getSubmitFormAction())
                     ->skippable($this->hasSkippableSteps())
-                    ->contained(false)
+                    ->contained(false),
             ])->columns(null);
     }
 
@@ -106,7 +106,7 @@ final class EditWord extends EditRecord
             Wizard\Step::make(trans('Bronnen'))
                 ->icon('heroicon-o-book-open')
                 ->columns('12')
-                ->schema([FormSchema::sectionConfiguration()->schema(FormSchema::getSourceSchema())])
+                ->schema([FormSchema::sectionConfiguration()->schema(FormSchema::getSourceSchema())]),
         ];
     }
 
@@ -134,7 +134,12 @@ final class EditWord extends EditRecord
     }
 
     /**
-     * @todo Document this method
+     * Defines the URL to redirect to after a successful form submission and record save.
+     *
+     * This method specifies the destination where the user will be sent immediately after the article editing process is successfully completed.
+     * In this implementation, the user is redirected to the 'view' page for the specific article that was just edited. This provides a seamless user experience, allowing the editor to immediately see the updated article details.
+     *
+     * @return string|null The URL string to redirect to, or `null` if no redirection is desired.
      */
     protected function getRedirectUrl(): ?string
     {

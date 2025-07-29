@@ -79,7 +79,7 @@ final readonly class TableSchema
                 ->label('Laast gewijzigd')
                 ->translateLabel()
                 ->date()
-                ->toggleable(isToggledHiddenByDefault: true)
+                ->toggleable(isToggledHiddenByDefault: true),
         ];
     }
 
@@ -97,7 +97,7 @@ final readonly class TableSchema
             SelectFilter::make('status')
                 ->options(EtymologyStatus::class)
                 ->default(EtymologyStatus::UnderReview->value)
-                ->native(false)
+                ->native(false),
         ];
     }
 
@@ -115,7 +115,7 @@ final readonly class TableSchema
             Tables\Actions\DeleteBulkAction::make()
                 ->modalHeading('Etymologische gegevens verwijderen')
                 ->modalDescription('U staat op het punt om etymologische gegevens te verwijderen. Ben u zeker deze actie te willen uitvoeren?')
-                ->modalSubmitActionLabel('Ja, ik ben zeker')
+                ->modalSubmitActionLabel('Ja, ik ben zeker'),
         ];
     }
 
@@ -162,12 +162,12 @@ final readonly class TableSchema
         return [
             Tables\Actions\ActionGroup::make([
                 Tables\Actions\ViewAction::make()
-                    ->url(fn (Etymology $record): string => EtymologyResource::getUrl('view', ['record' => $record])),
+                    ->url(fn(Etymology $record): string => EtymologyResource::getUrl('view', ['record' => $record])),
                 Tables\Actions\EditAction::make()
                     ->modalWidth(MaxWidth::SevenExtraLarge),
                 Tables\Actions\DeleteAction::make()
                     ->modalHeading('Etymolische gegevens verwijderen'),
-            ])
+            ]),
         ];
     }
 }

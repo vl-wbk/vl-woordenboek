@@ -106,7 +106,7 @@ final class ArticleReport extends Model
      */
     public function status(): ReportStateContract
     {
-        return match($this->state) {
+        return match ($this->state) {
             Status::Open => new Reporting\OpenReportState($this),
             Status::InProgress => new Reporting\ReportInProgressState($this),
             Status::Closed => new Reporting\ClosedReportState($this),

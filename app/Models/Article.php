@@ -6,7 +6,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Attributes\Todo;
 use App\Builders\ArticleBuilder;
 use App\States\Articles;
 use App\Contracts\States\ArticleStateContract;
@@ -116,7 +115,7 @@ final class Article extends Model implements AuditableContract
      */
     public function articleStatus(): ArticleStateContract
     {
-        return match($this->state) {
+        return match ($this->state) {
             ArticleStates::ExternalData => new Articles\ExternalDataState($this),
             ArticleStates::New => new Articles\NewState($this),
             ArticleStates::Draft => new Articles\DraftState($this),

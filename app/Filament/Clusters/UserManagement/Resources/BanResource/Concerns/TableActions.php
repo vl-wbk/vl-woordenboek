@@ -48,12 +48,12 @@ trait TableActions
                 ->modalIconColor('primary'),
 
             EditBanAction::make()
-                ->visible(fn (Ban $ban): bool => Gate::allows('update-deactivation', $ban->bannable))
+                ->visible(fn(Ban $ban): bool => Gate::allows('update-deactivation', $ban->bannable))
                 ->hiddenLabel()
                 ->tooltip('Wijzigen'),
 
             UnbanAction::make()
-                ->visible(fn (Ban $ban): bool => Gate::allows('reactivate', $ban->bannable))
+                ->visible(fn(Ban $ban): bool => Gate::allows('reactivate', $ban->bannable))
                 ->hiddenLabel()
                 ->color('danger')
                 ->tooltip('Reactiveren'),

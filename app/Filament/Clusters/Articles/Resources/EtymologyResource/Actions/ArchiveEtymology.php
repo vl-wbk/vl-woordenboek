@@ -23,7 +23,7 @@ use Filament\Forms\Components\Textarea;
  */
 final class ArchiveEtymology extends Action
 {
-	use CanCustomizeProcess;
+    use CanCustomizeProcess;
 
     /**
      * Defines the default, human-readable name (label) for this action.
@@ -33,10 +33,10 @@ final class ArchiveEtymology extends Action
      *
      * @return string|null The default display name for the action, or `null` if not explicitly set.
      */
-	public static function getDefaultName(): ?string
-	{
-		return EtymologyStatus::Archived->getLabel();
-	}
+    public static function getDefaultName(): ?string
+    {
+        return EtymologyStatus::Archived->getLabel();
+    }
 
     /**
      * Configures the action's properties, behavior, and execution logic.
@@ -62,41 +62,41 @@ final class ArchiveEtymology extends Action
      * This closure attempts to transition the `$this->record`'s state to 'archived' by invoking `->state()->transitionToArchived($data['reason'])`, passing the collected reason.
      * The `process()` method is then utilized to handle the execution of this state transition, automatically managing the dispatching of appropriate success or failure notifications based on the outcome.
      */
-	protected function setUp(): void
-	{
-		parent::setUp();
+    protected function setUp(): void
+    {
+        parent::setUp();
 
-		$this->authorize('archive', $this->record);
+        $this->authorize('archive', $this->record);
 
-		$this->icon('heroicon-o-archive-box');
-		$this->color('warning');
+        $this->icon('heroicon-o-archive-box');
+        $this->color('warning');
 
-		$this->requiresConfirmation();
+        $this->requiresConfirmation();
 
-		$this->modalIcon('heroicon-o-archive-box');
-		$this->modalCloseButton(false);
-		$this->modalHeading('Etymologie archiveren');
-		$this->modalDescription('U staat op het punt om etymologische gegevens te archiveren. Bent u zeker dat u deze handeling wilt uitvoeren?');
-		$this->modalSubmitActionLabel('Ja, ik ben zeker');
+        $this->modalIcon('heroicon-o-archive-box');
+        $this->modalCloseButton(false);
+        $this->modalHeading('Etymologie archiveren');
+        $this->modalDescription('U staat op het punt om etymologische gegevens te archiveren. Bent u zeker dat u deze handeling wilt uitvoeren?');
+        $this->modalSubmitActionLabel('Ja, ik ben zeker');
 
-		$this->successNotificationTitle('De gegevens zijn gearchiveerd');
-		$this->failureNotificationTitle('Helaas pindakaas! Er is iets migelopen.');
+        $this->successNotificationTitle('De gegevens zijn gearchiveerd');
+        $this->failureNotificationTitle('Helaas pindakaas! Er is iets migelopen.');
 
-		$this->form([
-			Textarea::make('reason')
-				->label('Reden van de archivering')
-				->placeholder('Beschrijf kort waarom je de gegevens wilt archiveren.')
-				->rows(5)
-				->required()
-		]);
+        $this->form([
+            Textarea::make('reason')
+                ->label('Reden van de archivering')
+                ->placeholder('Beschrijf kort waarom je de gegevens wilt archiveren.')
+                ->rows(5)
+                ->required(),
+        ]);
 
-		$this->action(function (): void {
-			if ($this->process(fn (array $data): bool => $this->record->state()->transitionToArchived($data['reason']))) {
-				$this->success();
-				return;
-			}
+        $this->action(function (): void {
+            if ($this->process(fn(array $data): bool => $this->record->state()->transitionToArchived($data['reason']))) {
+                $this->success();
+                return;
+            }
 
-			$this->failure();
-		});
-	}
+            $this->failure();
+        });
+    }
 }
