@@ -23,7 +23,7 @@ use Laravel\Telescope\TelescopeApplicationServiceProvider;
  */
 final class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
 {
-     /**
+    /**
      * Register any application services.
      * This method is called when the service provider is registered. It's used to configure Telescope's logging behavior and data filtering.
      *
