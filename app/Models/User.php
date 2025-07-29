@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Pennant\Concerns\HasFeatures;
 use Laravel\Sanctum\HasApiTokens;
+use Override;
 
 /**
  * User represents an authenticated account in the 'Vlaams woordenboek application'.
@@ -161,6 +162,7 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
      * @param  Builder $query  The base query builder instance
      * @return UserBuilder     The custom builder instance
      */
+    #[Override]
     public function newEloquentBuilder($query): UserBuilder
     {
         return new UserBuilder($query);

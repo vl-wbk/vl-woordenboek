@@ -38,8 +38,6 @@ final class FortifyServiceProvider extends ServiceProvider
      * - Authentication actions (`configureAuthActions`).
      * - Authentication-related rate limiters (`configureAuthRateLimiters`).
      * - Custom views for authentication (`configureAuthViews`).
-     *
-     * @return void
      */
     public function boot(): void
     {

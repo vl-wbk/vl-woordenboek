@@ -29,6 +29,7 @@ use Overtrue\LaravelLike\Traits\Likeable;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 use Kenepa\ResourceLock\Models\Concerns\HasLocks;
+use Override;
 
 /**
  * Article represents a dictionary entry in the Vlaams Woordenboek application.
@@ -277,6 +278,7 @@ final class Article extends Model implements AuditableContract
      * @param \Illuminate\Database\Query\Builder $query  The base query builder instance
      * @return ArticleBuilder<self>                      The custom builder instance
      */
+    #[Override]
     public function newEloquentBuilder($query): ArticleBuilder
     {
         return new ArticleBuilder($query);

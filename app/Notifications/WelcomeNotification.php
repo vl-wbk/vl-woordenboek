@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Notifications;
 
 use Illuminate\Notifications\Messages\MailMessage;
+use Override;
 use Spatie\WelcomeNotification\WelcomeNotification as WelcomeNotificationBase;
 
 final class WelcomeNotification extends WelcomeNotificationBase
 {
+    #[Override]
     public function buildWelcomeNotificationMessage(): MailMessage
     {
         return (new MailMessage())

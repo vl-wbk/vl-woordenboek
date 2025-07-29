@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\States\Etymology;
 
+use Override;
+
 /**
  * The Archived class represents a concrete state within the etymology state machine, specifically signifying that an etymology entry is in an 'Archived' status.
  *
@@ -28,6 +30,7 @@ final readonly class Archived extends EtymologyState
      *
      * @return bool Returns `false` because a direct transition from 'Archived' to 'Under Review' is not permitted.
      */
+    #[Override]
     public function transitionToUnderReview(): bool
     {
         return false;
@@ -45,6 +48,7 @@ final readonly class Archived extends EtymologyState
      * @param  string|null $reason  An optional reason for the rejection, which is ignored in this state.
      * @return bool                 Returns `false` because a direct transition from 'Archived' to 'Rejected' is not permitted.
      */
+    #[Override]
     public function transitionToRejected(?string $reason = null): bool
     {
         return false;
@@ -61,6 +65,7 @@ final readonly class Archived extends EtymologyState
      * @param  string|null $reason  An optional reason for the archiving, which is ignored in this state.
      * @return bool                 Returns `false` because the etymology is already in the 'Archived' state, and no transition is performed.
      */
+    #[Override]
     public function transitionToArchived(?string $reason = null): bool
     {
         return false;

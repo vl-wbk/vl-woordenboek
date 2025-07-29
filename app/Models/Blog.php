@@ -22,6 +22,7 @@ use App\States\Posts\PublicationStateContract;
 use App\States\Posts;
 use BeyondCode\Comments\Traits\HasComments;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Override;
 
 /**
  * Represents a blog post within the application.
@@ -223,6 +224,7 @@ final class Blog extends Model implements Feedable
      * @param  \Illuminate\Database\Query\Builder $query The underlying query builder instance.
      * @return BlogBuilder A new instance of `BlogBuilder`.
      */
+    #[Override]
     public function newEloquentBuilder($query): BlogBuilder
     {
         return new BlogBuilder($query);

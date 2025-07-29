@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
+use Override;
 
 /**
  * AppServiceProvider
@@ -45,6 +46,7 @@ final class AppServiceProvider extends ServiceProvider
      * This method is where you register all of your application's service container bindings.
      * It is called very early in the application's lifecycle.
      */
+    #[Override]
     public function register(): void
     {
         $this->app->singleton(ReadTimeCalculator::class, fn($app): ReadTimeCalculator => new ReadTimeCalculator());

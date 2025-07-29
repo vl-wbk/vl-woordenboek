@@ -25,10 +25,8 @@ final class StatisticService
 {
     /**
      * Constant representing the string 'perWeek'. Used as a parameter for the `flowframe/trend` package to specify weekly trend intervals.
-     *
-     * @var string
      */
-    private const WEEKLY = 'perWeek';
+    private const string WEEKLY = 'perWeek';
 
     /**
      * Defines the cache time-to-live (TTL) settings for this class.
