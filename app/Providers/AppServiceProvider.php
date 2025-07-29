@@ -47,7 +47,7 @@ final class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(ReadTimeCalculator::class, fn ($app): ReadTimeCalculator => new ReadTimeCalculator());
+        $this->app->singleton(ReadTimeCalculator::class, fn($app): ReadTimeCalculator => new ReadTimeCalculator());
     }
 
     /**
@@ -58,7 +58,7 @@ final class AppServiceProvider extends ServiceProvider
      */
     private function registerGlobalPolicyCheck(): void
     {
-        Gate::define('access-backend', fn (User $user): bool => $user->user_type->isNot(enum: UserTypes::Normal) && $user->hasVerifiedEmail());
+        Gate::define('access-backend', fn(User $user): bool => $user->user_type->isNot(enum: UserTypes::Normal) && $user->hasVerifiedEmail());
     }
 
     /**

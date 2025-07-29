@@ -31,7 +31,7 @@ final class ReportsRelationManager extends RelationManager
 
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
     {
-        return new $pageClass instanceof ViewWord;
+        return new $pageClass() instanceof ViewWord;
     }
 
     public function table(Table $table): Table
@@ -49,7 +49,7 @@ final class ReportsRelationManager extends RelationManager
             ->actions([
                 ViewAction::make()
                     ->hiddenLabel()
-                    ->url(fn (ArticleReport $articleReport): string => ArticleReportResource::getUrl('view', ['record' => $articleReport->getRouteKey()])),
+                    ->url(fn(ArticleReport $articleReport): string => ArticleReportResource::getUrl('view', ['record' => $articleReport->getRouteKey()])),
                 DeleteAction::make()
                     ->modalHeading('Melding verwijderen')
                     ->hiddenLabel(),

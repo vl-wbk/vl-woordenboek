@@ -79,7 +79,7 @@ final class RemoveEditorAction extends Action
         $this->failureNotificationTitle('We konden de redacteur niet loskoppelen van het artikel');
 
         $this->action(function (): void {
-            if ($this->process(fn (): bool => $this->transitionBackBasedOnOrigin($this->record))) {
+            if ($this->process(fn(): bool => $this->transitionBackBasedOnOrigin($this->record))) {
                 $this->success();
                 return;
             }

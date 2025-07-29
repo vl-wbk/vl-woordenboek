@@ -42,7 +42,7 @@ final class PublishArticleAction extends Action
         $this->failureNotificationTitle('Helaas pindaklaas! Er is iets misgelopen');
 
         $this->action(function (): void {
-            if ($this->process(fn (): bool => $this->record->publicationStatus()->transitionToPublished())) {
+            if ($this->process(fn(): bool => $this->record->publicationStatus()->transitionToPublished())) {
                 $this->success();
                 return;
             }
@@ -51,5 +51,3 @@ final class PublishArticleAction extends Action
         });
     }
 }
-
-

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Web\Articles;
 
 use App\Enums\Articles\EtymologyStatus;
-use App\Features\EtymologySupport;
 use App\Models\Article;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Response;

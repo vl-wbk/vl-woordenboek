@@ -4,15 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use App\Enums\FeedbackStatus;
 use App\Filament\Resources\FeedbackResource\Pages;
-use App\Filament\Resources\FeedbackResource\RelationManagers;
 use App\Models\Feedback;
-use Filament\Actions\Action;
-use Filament\Actions\ActionGroup;
-use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Infolists\Components\Actions\Action as ComponentsActionsAction;
 use Filament\Infolists\Components\Fieldset;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\TextEntry;
@@ -25,10 +18,7 @@ use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Cache;
 
 final class FeedbackResource extends Resource
@@ -82,8 +72,8 @@ final class FeedbackResource extends Resource
                         TextEntry::make('additional_info')
                             ->label('Extra info / Suggestie(s) van de gebruiker')
                             ->columnSpanFull()
-                            ->placeholder('- Niet ingevuld')
-                    ])
+                            ->placeholder('- Niet ingevuld'),
+                    ]),
             ]);
     }
 
@@ -103,7 +93,7 @@ final class FeedbackResource extends Resource
                 ActionsAction::make('documentation')
                     ->color('primary')
                     ->label('Documentatie')
-                    ->url('https://www.google.com', shouldOpenInNewTab: true)
+                    ->url('https://www.google.com', shouldOpenInNewTab: true),
             ])
             ->description('Een overzicht van alle feedback of bugs die zijn ingezonden door gebruikers van het Vlaams Woordenboek')
             ->emptyStateIcon(self::$navigationIcon)
@@ -132,12 +122,12 @@ final class FeedbackResource extends Resource
                 TextColumn::make('created_at')
                     ->label('Ingestuurd op')
                     ->sortable()
-                    ->date()
+                    ->date(),
 
             ])
             ->actions([
                 self::viewAction(),
-                self::deleteAction()
+                self::deleteAction(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -155,8 +145,8 @@ final class FeedbackResource extends Resource
                 ActionsAction::make('Mail gebruiker')
                     ->color('gray')
                     ->icon('heroicon-o-paper-airplane')
-                    ->visible(fn (Feedback $feedback): bool => $feedback->contact_allowed)
-                    ->url(fn (Feedback $feedback): string => "mailto:{$feedback->email}"),
+                    ->visible(fn(Feedback $feedback): bool => $feedback->contact_allowed)
+                    ->url(fn(Feedback $feedback): string => "mailto:{$feedback->email}"),
                 self::deleteAction()
                     ->hiddenLabel(false),
             ])
@@ -187,7 +177,7 @@ final class FeedbackResource extends Resource
     {
         $feedbackCount = Cache::flexible('feedback_count', [10, 60], fn(): string => (string) self::$model::count());
 
-    // Return the count if it's greater than 0, otherwise return null
-    return $feedbackCount > 0 ? $feedbackCount : null;
+        // Return the count if it's greater than 0, otherwise return null
+        return $feedbackCount > 0 ? $feedbackCount : null;
     }
 }

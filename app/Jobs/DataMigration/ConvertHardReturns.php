@@ -40,7 +40,7 @@ final class ConvertHardReturns implements ShouldQueue
      * @param Article $article The article to be processed.
      */
     public function __construct(
-        protected Article $article
+        protected Article $article,
     ) {}
 
     /**

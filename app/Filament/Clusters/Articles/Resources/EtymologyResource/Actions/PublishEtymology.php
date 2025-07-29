@@ -20,7 +20,7 @@ use Filament\Actions\Concerns\CanCustomizeProcess;
  */
 final class PublishEtymology extends Action
 {
-	use CanCustomizeProcess;
+    use CanCustomizeProcess;
 
     /**
      * Defines the default, human-readable name (label) for this action.
@@ -30,10 +30,10 @@ final class PublishEtymology extends Action
      *
      * @return string|null The default display name for the action, or `null` if not explicitly set.
      */
-	public static function getDefaultName(): ?string
-	{
-		return EtymologyStatus::Published->getLabel();
-	}
+    public static function getDefaultName(): ?string
+    {
+        return EtymologyStatus::Published->getLabel();
+    }
 
     /**
      * Configures the action's properties, behavior, and execution logic.
@@ -54,33 +54,33 @@ final class PublishEtymology extends Action
      * This closure attempts to transition the `$this->record`'s state to 'published' by invoking `->state()->transitionToPublished()`.
      * The `process()` method is then utilized to handle the execution of this state transition, automatically managing the dispatching of appropriate success or failure notifications based on the outcome.
      */
-	protected function setUp(): void
-	{
-		parent::setUp();
+    protected function setUp(): void
+    {
+        parent::setUp();
 
-		$this->authorize('publish', $this->record);
+        $this->authorize('publish', $this->record);
 
-		$this->icon('heroicon-o-globe-europe-africa');
-		$this->color('success');
+        $this->icon('heroicon-o-globe-europe-africa');
+        $this->color('success');
 
-		$this->requiresConfirmation();
+        $this->requiresConfirmation();
 
-		$this->modalIcon('heroicon-o-globe-europe-africa');
-		$this->modalCloseButton(false);
-		$this->modalHeading('Etymologie publiceren');
-		$this->modalDescription('U staat op het punt om meen etymologie beschikbaar te stellen voor het brede publiek.Weet u zeker dat u dit wilt doen?');
-		$this->modalSubmitActionLabel('Ja, ik weet dit zeker');
+        $this->modalIcon('heroicon-o-globe-europe-africa');
+        $this->modalCloseButton(false);
+        $this->modalHeading('Etymologie publiceren');
+        $this->modalDescription('U staat op het punt om meen etymologie beschikbaar te stellen voor het brede publiek.Weet u zeker dat u dit wilt doen?');
+        $this->modalSubmitActionLabel('Ja, ik weet dit zeker');
 
-		$this->successNotificationTitle('De etymologische gegevens zijn gepubliceerd.');
-		$this->failureNotificationTitle('Helaas pindakaas! Er is iets misgelopen.');
+        $this->successNotificationTitle('De etymologische gegevens zijn gepubliceerd.');
+        $this->failureNotificationTitle('Helaas pindakaas! Er is iets misgelopen.');
 
-		$this->action(function (): void {
-			if ($this->process(fn (): bool => $this->record->state()->transitionToPublished())) {
-				$this->success();
-				return;
-			}
+        $this->action(function (): void {
+            if ($this->process(fn(): bool => $this->record->state()->transitionToPublished())) {
+                $this->success();
+                return;
+            }
 
-			$this->failure();
-		});
-	}
+            $this->failure();
+        });
+    }
 }

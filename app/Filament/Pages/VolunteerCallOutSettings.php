@@ -95,7 +95,7 @@ final class VolunteerCallOutSettings extends SettingsPage
                             ->url(route('support.volunteers'))
                             ->openUrlInNewTab()
                             ->color('gray')
-                            ->visible(fn (VolunteerSettings $volunteerSettings): bool => $volunteerSettings->pageActive)
+                            ->visible(fn(VolunteerSettings $volunteerSettings): bool => $volunteerSettings->pageActive),
 
                     ])
                     ->schema($this->pageSettingsFormDefinition()),
@@ -147,7 +147,7 @@ final class VolunteerCallOutSettings extends SettingsPage
             CheckboxList::make('positions')
                 ->hiddenLabel()
                 ->options(VolunteerPositions::class)
-                ->columns(3)
+                ->columns(3),
         ];
     }
 

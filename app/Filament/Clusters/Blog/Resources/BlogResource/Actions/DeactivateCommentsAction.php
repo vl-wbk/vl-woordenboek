@@ -78,7 +78,7 @@ final class DeactivateCommentsAction extends Action
 
         // Define the action's execution logic.
         $this->action(function (): void {
-            if ($this->process(fn (): bool => $this->record->update(attributes: ['comments_enabled' => false]))) {
+            if ($this->process(fn(): bool => $this->record->update(attributes: ['comments_enabled' => false]))) {
                 $this->success(); // If successful, display a success message.
                 return;
             }

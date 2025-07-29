@@ -60,14 +60,14 @@ final class BanAction extends Action
         $this->requiresConfirmation();
 
         $this->form(
-            $this->formSchema()
+            $this->formSchema(),
         );
 
         $this->action(function (): void {
             /**
              * @todo Make use of an Dataobject in this data storage handling.
              */
-            $result = $this->process(static fn (array $data, User $record): Ban => $record->ban([
+            $result = $this->process(static fn(array $data, User $record): Ban => $record->ban([
                 'comment' => $data['comment'],
                 'expired_at' => $data['expired_at'],
             ]));

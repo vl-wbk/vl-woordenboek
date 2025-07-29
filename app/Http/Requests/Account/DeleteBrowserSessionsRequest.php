@@ -16,7 +16,7 @@ final class DeleteBrowserSessionsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'password' => ['required', 'current_password:web']
+            'password' => ['required', 'current_password:web'],
         ];
     }
 }

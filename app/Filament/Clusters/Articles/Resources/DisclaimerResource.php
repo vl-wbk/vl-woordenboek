@@ -88,7 +88,7 @@ final class DisclaimerResource extends Resource
                             ->required()
                             ->placeholder('Beschrijf kort in welke omstandigheden de disclaimer te gebruiken is')
                             ->columnSpan(12)
-                            ->rows(3)
+                            ->rows(3),
                     ]),
             ]);
     }
@@ -132,7 +132,7 @@ final class DisclaimerResource extends Resource
                                     ->hiddenLabel()
                                     ->columnSpan(12),
                             ]),
-                    ])
+                    ]),
             ]);
     }
 
@@ -204,6 +204,6 @@ final class DisclaimerResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return Cache::flexible('disclaimer_count', [10, 60], fn (): string => (string) self::$model::count());
+        return Cache::flexible('disclaimer_count', [10, 60], fn(): string => (string) self::$model::count());
     }
 }

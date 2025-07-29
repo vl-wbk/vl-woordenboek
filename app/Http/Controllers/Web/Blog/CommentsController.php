@@ -7,7 +7,6 @@ namespace App\Http\Controllers\Web\Blog;
 use App\Actions\Comments\DeleteReaction;
 use App\Actions\Comments\StoreReaction;
 use App\Concerns\RateLimitSubmission;
-use App\Http\Controllers\Web\Blog\PostsController;
 use App\Http\Requests\Comments\StoreCommentRequest;
 use App\Models\Blog;
 use App\Models\Comment;

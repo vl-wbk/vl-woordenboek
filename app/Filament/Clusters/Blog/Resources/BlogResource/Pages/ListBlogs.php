@@ -37,7 +37,7 @@ final class ListBlogs extends ListRecords
     {
         return [
             FactoryAction::make()
-                ->color('danger')
+                ->color('danger'),
         ];
     }
 }

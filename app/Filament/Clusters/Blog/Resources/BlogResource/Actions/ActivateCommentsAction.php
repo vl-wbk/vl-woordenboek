@@ -47,7 +47,7 @@ final class ActivateCommentsAction extends Action
 
         // Define the action's execution logic.
         $this->action(function (): void {
-            if ($this->process(fn (): bool => $this->record->update(attributes: ['comments_enabled' => true]))) {
+            if ($this->process(fn(): bool => $this->record->update(attributes: ['comments_enabled' => true]))) {
                 $this->success(); // If successful, display a success message.
                 return;
             }

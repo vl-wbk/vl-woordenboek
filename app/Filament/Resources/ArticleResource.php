@@ -168,7 +168,7 @@ final class ArticleResource extends Resource
                     ->url('https://vl-wbk.github.io/documentatie-portaal/artikelen/')
                     ->openUrlInNewTab(),
                 CreateAction::make()
-                    ->icon('heroicon-o-document-plus')
+                    ->icon('heroicon-o-document-plus'),
             ])
             ->heading('Woordenboek artikelen')
             ->description('Een overzicht van alle artikelen die geregistreerd staan In het Vlaams Woordenboek gebruik de filters om de woorden te verkrijgen per status.')
@@ -176,7 +176,7 @@ final class ArticleResource extends Resource
             ->emptyStateHeading('Geen artikelen gevonden')
             ->emptyStateDescription("Momenteel konden we geen artikelen (lemma's) vinden met de matchende criteria. Kom later nog eens terug.")
             ->paginated([10, 25, 50, 75])
-            ->modifyQueryUsing(fn (Builder $query): Builder => self::selectDatabaseColumns($query))
+            ->modifyQueryUsing(fn(Builder $query): Builder => self::selectDatabaseColumns($query))
             ->columns([
                 TextColumn::make('author.name')
                     ->label('Ingevoegd door')
@@ -226,10 +226,10 @@ final class ArticleResource extends Resource
                     ->options(ArticleStates::class),
                 TrashedFilter::make()
                     ->native(false)
-                    ->visible(fn (Article $article): bool => auth()->user()->canAny(['restore', 'restoreAny'], $article)),
+                    ->visible(fn(Article $article): bool => auth()->user()->canAny(['restore', 'restoreAny'], $article)),
                 Filter::make('assigned')
                     ->label('Toegewezen aan mij')
-                    ->query(fn (Builder $query): Builder => $query->where('editor_id', auth()->id())),
+                    ->query(fn(Builder $query): Builder => $query->where('editor_id', auth()->id())),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -327,7 +327,7 @@ final class ArticleResource extends Resource
      */
     public static function getNavigationBadge(): ?string
     {
-        return Cache::flexible('lemma_count', [10, 60], fn (): string => (string) self::$model::count());
+        return Cache::flexible('lemma_count', [10, 60], fn(): string => (string) self::$model::count());
     }
 
     /**

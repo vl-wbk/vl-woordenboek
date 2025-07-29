@@ -67,7 +67,7 @@ enum Status: int implements HasLabel, HasColor, HasIcon
      */
     public function getLabel(): string
     {
-        $label = match($this) {
+        $label = match ($this) {
             self::Draft => 'Klad versie',
             self::Published => 'Gepubliceerd',
         };
@@ -83,7 +83,7 @@ enum Status: int implements HasLabel, HasColor, HasIcon
      */
     public function getColor(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Draft => 'warning',
             self::Published => 'success',
         };
@@ -102,7 +102,7 @@ enum Status: int implements HasLabel, HasColor, HasIcon
      */
     public function getIcon(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Draft => 'heroicon-o-pencil-square',
             self::Published => 'heroicon-o-globe-europe-africa',
         };

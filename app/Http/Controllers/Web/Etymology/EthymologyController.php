@@ -32,7 +32,7 @@ final class EthymologyController
             'etymologies' => $etymology->article
                 ->etymology()
                 ->whereNotIn('status', [EtymologyStatus::Draft, EtymologyStatus::Rejected, EtymologyStatus::Archived])
-                ->get()
+                ->get(),
         ]);
     }
 

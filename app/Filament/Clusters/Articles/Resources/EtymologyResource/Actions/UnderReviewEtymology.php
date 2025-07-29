@@ -75,7 +75,7 @@ final class UnderReviewEtymology extends Action
         $this->failureNotificationTitle('Helaas pindakaas! Er is iets misgelopen.');
 
         $this->action(function (): void {
-            if ($this->process(fn (): bool => $this->record->state()->transitionToUnderReview())) {
+            if ($this->process(fn(): bool => $this->record->state()->transitionToUnderReview())) {
                 $this->success();
                 return;
             }

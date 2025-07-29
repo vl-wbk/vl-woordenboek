@@ -16,7 +16,7 @@ final readonly class TableActionsDefinitions
         return [
             Actions\BulkActionGroup::make([
                 Actions\DeleteBulkAction::make(),
-            ])
+            ]),
         ];
     }
 
@@ -63,7 +63,7 @@ final readonly class TableActionsDefinitions
                 ->label('categorie toevoegen')
                 ->modalHeading('Nieuwe categorie aanmaken')
                 ->modalIcon('heroicon-o-plus')
-                ->modalDescription('Via het onderstaande formulier kunt u een nieuwe categorie aanmaken voor een nieuwsbericht')
+                ->modalDescription('Via het onderstaande formulier kunt u een nieuwe categorie aanmaken voor een nieuwsbericht'),
         ];
     }
 }

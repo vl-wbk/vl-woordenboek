@@ -89,9 +89,9 @@ final class ArticleRegistrationChart extends AdvancedChartWidget
 
         return [
             'datasets' => [
-                ['label' => 'Aantal aangemaakte artikelen', 'data' => $trendData->map(fn (TrendValue $value): mixed => $value->aggregate)],
+                ['label' => 'Aantal aangemaakte artikelen', 'data' => $trendData->map(fn(TrendValue $value): mixed => $value->aggregate)],
             ],
-            'labels' => $trendData->map(fn (TrendValue $value): string => $value->date),
+            'labels' => $trendData->map(fn(TrendValue $value): string => $value->date),
         ];
     }
 

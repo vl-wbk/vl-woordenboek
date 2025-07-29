@@ -47,7 +47,7 @@ final readonly class FormSchema
                 ->compact()
                 ->columns(12)
                 ->compact()
-                ->schema(self::getFormComponents())
+                ->schema(self::getFormComponents()),
         ]);
     }
 
@@ -97,7 +97,7 @@ final readonly class FormSchema
                 ->onColor('success')
                 ->offIcon('heroicon-o-x-mark')
                 ->offColor('danger')
-                ->default(true)
+                ->default(true),
         ];
     }
 }

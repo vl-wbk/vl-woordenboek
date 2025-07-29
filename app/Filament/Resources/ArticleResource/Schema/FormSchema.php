@@ -115,7 +115,7 @@ final readonly class FormSchema
                 ->helperText(str('Deze rich editor ondersteund enkel [**Markdown**](https://www.markdownguide.org/cheat-sheet/)')->inlineMarkdown()->toHtmlString())
                 ->columnSpanFull()
                 ->maxHeight('200px')
-                ->required()
+                ->required(),
         ];
     }
 
@@ -152,7 +152,7 @@ final readonly class FormSchema
                 ->required(),
             Components\Radio::make('status')
                 ->columnSpanFull()
-                ->options(LanguageStatus::class)
+                ->options(LanguageStatus::class),
         ];
     }
 
@@ -173,7 +173,7 @@ final readonly class FormSchema
                 ->valueLabel('Url / Artikel')
                 ->valuePlaceholder('https://woordenlijst.org/')
                 ->addActionLabel('Nieuwe bron toevoegen')
-                ->columnSpanFull()
+                ->columnSpanFull(),
         ];
     }
 }

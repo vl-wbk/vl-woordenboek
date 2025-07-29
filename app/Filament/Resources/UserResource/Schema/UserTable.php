@@ -32,16 +32,16 @@ final readonly class UserTable
                     ->label('Help'),
                 CreateAction::make()
                     ->label('Gebruiker toevoegen')
-                    ->icon('heroicon-o-user-plus')
+                    ->icon('heroicon-o-user-plus'),
             ])
-            ->recordUrl(fn (User $user): string => UserResource::getUrl('view', ['record' => $user]))
+            ->recordUrl(fn(User $user): string => UserResource::getUrl('view', ['record' => $user]))
             ->columns([
                 TextColumn::make('name')
                     ->iconColor('danger')
-                    ->icon(fn (User $user): ?string  => $user->isBanned() ? 'tabler-shield-lock' : null)
+                    ->icon(fn(User $user): ?string => $user->isBanned() ? 'tabler-shield-lock' : null)
                     ->label('Naam')
                     ->weight(FontWeight::Bold)
-                    ->color(fn (User $user): string => $user->isBanned() ? 'danger' : 'primary')
+                    ->color(fn(User $user): string => $user->isBanned() ? 'danger' : 'primary')
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('user_type')
@@ -50,7 +50,7 @@ final readonly class UserTable
                 TextColumn::make('email')
                     ->label('E-mail adres')
                     ->searchable()
-                    ->url(fn (User $user): string => 'mailto:' . $user->email),
+                    ->url(fn(User $user): string => 'mailto:' . $user->email),
                 TextColumn::make('last_seen_at')
                     ->placeholder('-')
                     ->sortable()
@@ -58,7 +58,7 @@ final readonly class UserTable
                     ->label('Laatste aanmelding'),
                 TextColumn::make('created_at')
                     ->sortable()
-                    ->label('Registratie tijdstip')
+                    ->label('Registratie tijdstip'),
             ])
             ->filters([
                 SelectFilter::make('user_type')
@@ -72,12 +72,12 @@ final readonly class UserTable
                     Tables\Actions\EditAction::make(),
 
                     // Custom actions for activating/deactivating user accounts in the application platform.
-                    Actions\BanAction::make()->visible(fn (User $user): bool => Gate::allows('deactivate', $user)),
-                    Actions\UnbanAction::make()->authorize(fn (User $user): bool => Gate::allows('reactivate', $user)),
+                    Actions\BanAction::make()->visible(fn(User $user): bool => Gate::allows('deactivate', $user)),
+                    Actions\UnbanAction::make()->authorize(fn(User $user): bool => Gate::allows('reactivate', $user)),
 
                     // Default delete actions
                     Tables\Actions\DeleteAction::make(),
-                ])
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

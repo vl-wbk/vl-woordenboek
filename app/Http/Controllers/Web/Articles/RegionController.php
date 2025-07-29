@@ -22,7 +22,7 @@ final readonly class RegionController
             'region' => $region,
             'relatedArticles' => $this->getRelatedArticleSearch($request, $region),
             'popularWord' => $region->articles()->whereNotNull('published_at')->orderBy('views', 'desc')->first(),
-            'analytics' => $regionAnalytics->fetch($region)
+            'analytics' => $regionAnalytics->fetch($region),
         ]);
     }
 
@@ -36,7 +36,7 @@ final readonly class RegionController
 
         return $region->articles()
             ->whereNotNull('published_at')
-            ->when($request->filled('zoekterm'), fn (Builder $query): Builder => $query->where('word', 'LIKE', "%$searchInput%")->orWhere('keywords', 'LIKE', "%$searchInput%"))
+            ->when($request->filled('zoekterm'), fn(Builder $query): Builder => $query->where('word', 'LIKE', "%$searchInput%")->orWhere('keywords', 'LIKE', "%$searchInput%"))
             ->orderBy($sorting['column'], $sorting['order'])
             ->fastPaginate()
             ->fragment('woorden');
@@ -48,7 +48,7 @@ final readonly class RegionController
     private function getSortBy(?Stringable $sort): array
     {
         /** @phpstan-ignore-next-line */
-        return match($sort->toString()) {
+        return match ($sort->toString()) {
             'alfabetisch' => ['column' => 'word', 'order' => 'ASC'],
             'populariteit' => ['column' => 'views', 'order' => 'DESC'],
             'recent' => ['column' => 'published_at', 'order' => 'ASC'],

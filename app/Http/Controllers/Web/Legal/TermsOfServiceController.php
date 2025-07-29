@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Web\Legal;
 
 use Illuminate\Contracts\Support\Renderable;
-use Livewire\Features\SupportTesting\Render;
 use Spatie\RouteAttributes\Attributes\Get;
 
 /**

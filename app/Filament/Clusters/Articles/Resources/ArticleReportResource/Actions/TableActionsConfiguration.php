@@ -30,7 +30,7 @@ final readonly class TableActionsConfiguration
         return [
             Action::make('Help')
                 ->icon('heroicon-o-lifebuoy')
-                ->color('gray')
+                ->color('gray'),
         ];
     }
 
