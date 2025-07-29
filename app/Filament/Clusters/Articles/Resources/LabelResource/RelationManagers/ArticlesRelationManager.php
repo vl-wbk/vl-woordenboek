@@ -58,7 +58,7 @@ final class ArticlesRelationManager extends RelationManager
                     ->modalIconColor('primary')
                     ->icon('heroicon-o-link')
                     ->modalDescription('Door de rijke omvang van het woordenboek kan het even duren vooraleer huet woord gevonden.')
-                    ->modalAlignment(Alignment::Center)
+                    ->modalAlignment(Alignment::Center),
             ])
             ->heading('Artikelen')
             ->description('Alle artikelen vanuit het woordenboek dat gekoppeld zijn aan het gereleateerde label')
@@ -81,9 +81,9 @@ final class ArticlesRelationManager extends RelationManager
     {
         return [
             Tables\Actions\ViewAction::make()
-                ->url(fn (Article $article): string => ArticleResource::getUrl('view', ['record' => $article])),
+                ->url(fn(Article $article): string => ArticleResource::getUrl('view', ['record' => $article])),
 
-            Tables\Actions\DetachAction::make()
+            Tables\Actions\DetachAction::make(),
         ];
     }
 

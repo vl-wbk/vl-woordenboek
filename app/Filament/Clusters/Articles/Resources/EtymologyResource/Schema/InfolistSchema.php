@@ -38,15 +38,15 @@ final readonly class InfolistSchema
     {
         return $infolist->schema([
             Section::make('Gegevens van de auteur en registratie')
-                ->visible(static fn (Etymology $etymology): bool => $etymology->author()->exists() && Auth::user()->can('viewAny', $etymology->author))
+                ->visible(static fn(Etymology $etymology): bool => $etymology->author()->exists() && Auth::user()->can('viewAny', $etymology->author))
                 ->icon('heroicon-s-user-circle')
                 ->headerActions([
                     Action::make("view-user")
                         ->color('gray')
                         ->icon('heroicon-s-eye')
                         ->label('Bekijk gebruiker')
-                        ->authorize(static fn (Etymology $etymology): bool => Auth::user()->can('viewAny', $etymology->author))
-                        ->url(fn (Etymology $etymology): string => UserResource::getUrl('view', ['record' => $etymology->author])),
+                        ->authorize(static fn(Etymology $etymology): bool => Auth::user()->can('viewAny', $etymology->author))
+                        ->url(fn(Etymology $etymology): string => UserResource::getUrl('view', ['record' => $etymology->author])),
                 ])
                 ->iconColor('primary')
                 ->iconSize(IconSize::Medium)
@@ -64,7 +64,7 @@ final readonly class InfolistSchema
                     self::internalNoteTab(),
                     self::archiveInformationTab(),
                     self::rejectionInformationTab(),
-                ])
+                ]),
         ]);
     }
 
@@ -84,7 +84,7 @@ final readonly class InfolistSchema
                     ->label('Status')
                     ->columnSpan(3)
                     ->badge()
-                    ->tooltip(fn (Etymology $etymology): ?string => self::getStatusTooltip($etymology)),
+                    ->tooltip(fn(Etymology $etymology): ?string => self::getStatusTooltip($etymology)),
                 TextEntry::make('type')
                     ->label('Etymologisch type')
                     ->columnSpan(3)
@@ -185,7 +185,7 @@ final readonly class InfolistSchema
      */
     private static function getStatusTooltip(Etymology $etymology): ?string
     {
-        return match($etymology->status) {
+        return match ($etymology->status) {
             EtymologyStatus::Published => trans('Gepubliceerd door :user op :time', ['user' => $etymology->author->name, 'time' => $etymology->created_at->format('d-m-Y H:i')]),
             EtymologyStatus::Rejected => trans('Afgewezen door :user op :time', ['user' => $etymology->author->name, 'time' => $etymology->created_at->format('d-m-Y H:i')]),
             EtymologyStatus::Archived => trans('Gearchiveerd door :user op :time', ['user' => $etymology->author->name, 'time' => $etymology->created_at->format('d-m-Y H:i')]),
@@ -209,7 +209,7 @@ final readonly class InfolistSchema
                 ->icon('heroicon-o-user')
                 ->iconColor('primary')
                 ->color('primary')
-                ->state(fn (Etymology $etymology) => $etymology->author->name),
+                ->state(fn(Etymology $etymology) => $etymology->author->name),
             TextEntry::make('author.email')
                 ->label('Email adres')
                 ->icon('heroicon-o-envelope')
@@ -250,8 +250,8 @@ final readonly class InfolistSchema
                     ->label('Hyperlink')
                     ->columnSpan(8)
                     ->placeholder('- Geen hyperlink opgegeven')
-                    ->url(fn (Etymology $etymology): ?string => $etymology->source_url)
-                    ->openUrlInNewTab()
+                    ->url(fn(Etymology $etymology): ?string => $etymology->source_url)
+                    ->openUrlInNewTab(),
             ]);
     }
 
@@ -267,11 +267,11 @@ final readonly class InfolistSchema
             ->label('Interne notitie')
             ->icon('heroicon-o-chat-bubble-bottom-center-text')
             ->columns(12)
-            ->visible(fn (Etymology $etymology): bool => ! is_null($etymology->note))
+            ->visible(fn(Etymology $etymology): bool => ! is_null($etymology->note))
             ->schema([
                 TextEntry::make('note')
                     ->hiddenLabel()
-                    ->columnSpanFull()
+                    ->columnSpanFull(),
             ]);
     }
 }

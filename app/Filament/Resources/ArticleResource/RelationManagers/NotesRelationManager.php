@@ -19,6 +19,7 @@ use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * The NotesRelationManager is a critical component in our dictionary application that handles the relationship bewteen duictionary articles and their associated notes.
@@ -256,7 +257,7 @@ final class NotesRelationManager extends RelationManager
                 ->modalHeading('Notitie aanmaken')
                 ->modalWidth(MaxWidth::ThreeExtraLarge)
                 ->mutateFormDataUsing(function (array $data): array {
-                    $data['author_id'] = auth()->id();
+                    $data['author_id'] = Auth::user()->getAuthIdentifier();
                     return $data;
                 }),
         ];
