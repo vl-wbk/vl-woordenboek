@@ -39,7 +39,7 @@ final readonly class TableSchema
      * Each column definition controls how a specific attribute of the etymology record is presented, including its label, formatting, sortability, and whether it appears as a badge or is toggleable.
      * Some columns are hidden by default but can be toggled by the user for a cleaner interface.
      *
-     * @return array Array of Filament table column definitions.
+     * @return array<int, Tables\Columns\TextColumn> Array of Filament table column definitions.
      */
     public static function configureColumns(): array
     {
@@ -89,7 +89,7 @@ final readonly class TableSchema
      * Filters allow users to narrow down the displayed records based on specific criteria, such as the status of the etymology entry.
      * The default filter is set to show entries that are under review.
      *
-     * @return array Array of Filament table filter definitions.
+     * @return array<int, SelectFilter> Array of Filament table filter definitions.
      */
     public static function configureFilters(): array
     {
@@ -107,7 +107,7 @@ final readonly class TableSchema
      * Bulk actions are useful for efficiently managing large sets of data, such as deleting multiple records in a single operation.
      * Each action includes custom modal headings and confirmation messages to guide the user.
      *
-     * @return array Array of Filament bulk action definitions.
+     * @return array<int, Tables\Actions\DeleteBulkAction> Array of Filament bulk action definitions.
      */
     public static function configureBulkActions(): array
     {
@@ -126,7 +126,7 @@ final readonly class TableSchema
      * The creation action uses a large modal for data entry and includes a dynamic description.
      *
      * @param  Article $article  The article for which etymology data is being managed.
-     * @return array             Array of Filament header action definitions.
+     * @return array<int, Tables\Actions\Action|Tables\Actions\CreateAction> Array of Filament header action definitions.
      */
     public static function configureHeaderActions(Article $article): array
     {

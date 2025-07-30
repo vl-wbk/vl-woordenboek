@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 final class Note extends Model
 {
+    /** @use HasFactory<\Database\Factories\NoteFactory> */
     use HasFactory;
 
     /**

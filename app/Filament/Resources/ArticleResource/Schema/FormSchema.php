@@ -119,6 +119,9 @@ final readonly class FormSchema
         ];
     }
 
+    /**
+     * @return array<int, string>|string
+     */
     private static function getArticleStateOptions(): array|string
     {
         if (auth()->user()->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer])) {

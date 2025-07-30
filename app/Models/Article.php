@@ -249,7 +249,7 @@ final class Article extends Model implements AuditableContract
      *
      * For example, `$article->lastEtymology` will return a single `Etymology` model (or `null` if none exist) that was most recently added for that article.
      *
-     * @return Hasone<Etymology, covariant this>
+     * @return Hasone<Etymology, covariant $this>
      */
     public function lastEtymology(): HasOne
     {

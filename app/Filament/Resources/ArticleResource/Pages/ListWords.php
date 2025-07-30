@@ -41,6 +41,10 @@ final class ListWords extends ListRecords
      */
     protected static string $resource = ArticleResource::class;
 
+    /**
+     * @todo Document this function
+     * @return array<mixed>
+     */
     protected function getHeaderActions(): array
     {
         return [

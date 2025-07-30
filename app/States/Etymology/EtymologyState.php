@@ -47,12 +47,12 @@ readonly class EtymologyState implements EtymologyStateContract
      * This ensures that the status change is atomic; either the update is fully committed to the database, or it is entirely rolled back if any error occurs, thereby maintaining data consistency and integrity.
      * The attributes for the update are prepared using `StatusData::from()->toArray()`.
      *
-     * @return bool|int  Returns `true` if the update operation was successful (for Eloquent's `update` method, or `0` if no update occurred. In a transaction, it returns the result of the callback.
+     * @return bool  Returns `true` if the update operation was successful (for Eloquent's `update` method, or `0` if no update occurred. In a transaction, it returns the result of the callback.
      */
-    public function transitionToDraft(): bool|int
+    public function transitionToDraft(): bool
     {
         return DB::transaction(
-            callback: fn(): bool|int => $this->etymology->update(
+            callback: fn(): bool => $this->etymology->update(
                 attributes: StatusData::from(['status' => EtymologyStatus::Draft])->toArray(),
             ),
         );
@@ -66,12 +66,12 @@ readonly class EtymologyState implements EtymologyStateContract
      * This guarantees that the status change is performed atomically, ensuring that the database remains in a consistent state even if an error occurs during the update process.
      * The attributes for the update are prepared using `StatusData::from()->toArray()`.
      *
-     * @return bool|int  Returns `true` if the update operation was successful, or `0` if no update occurred.
+     * @return bool  Returns `true` if the update operation was successful, or `0` if no update occurred.
      */
-    public function transitionToUnderReview(): bool|int
+    public function transitionToUnderReview(): bool
     {
         return DB::transaction(
-            callback: fn(): bool|int => $this->etymology->update(
+            callback: fn(): bool => $this->etymology->update(
                 attributes: StatusData::from(['status' => EtymologyStatus::UnderReview])->toArray(),
             ),
         );
@@ -86,12 +86,12 @@ readonly class EtymologyState implements EtymologyStateContract
      * The attributes are prepared using `StatusData::from()->toArray()`.
      *
      * @param  string|null $reason  An optional string providing the reason for rejection.
-     * @return bool|int             Returns `true` if the update operation was successful, or `0` if no update occurred.
+     * @return bool                 Returns `true` if the update operation was successful, or `0` if no update occurred.
      */
-    public function transitionToRejected(?string $reason = null): bool|int
+    public function transitionToRejected(?string $reason = null): bool
     {
         return DB::transaction(
-            callback: fn(): bool|int => $this->etymology->update(
+            callback: fn(): bool => $this->etymology->update(
                 attributes: StatusData::from([
                     'status' => EtymologyStatus::Rejected,
                     'rejected_by' => Auth::user()->getAuthIdentifier(),
@@ -109,12 +109,12 @@ readonly class EtymologyState implements EtymologyStateContract
      * It also records the `published_at` timestamp (current time) and the `published_by` user (using the authenticated user's ID).
      * The entire operation is executed within a database transaction to guarantee atomicity and data consistency. The attributes are prepared using `StatusData::from()->toArray()`.
      *
-     * @return bool|int Returns `true` if the update operation was successful, or `0` if no update occurred.
+     * @return bool Returns `true` if the update operation was successful, or `0` if no update occurred.
      */
-    public function transitionToPublished(): bool|int
+    public function transitionToPublished(): bool
     {
         return DB::transaction(
-            callback: fn(): bool|int => $this->etymology->update(
+            callback: fn(): bool => $this->etymology->update(
                 attributes: StatusData::from([
                     'status' => EtymologyStatus::Published,
                     'published_at' => now(),
@@ -133,12 +133,12 @@ readonly class EtymologyState implements EtymologyStateContract
      * The attributes are prepared using `StatusData::from()->toArray()`.
      *
      * @param  string|null $reason  An optional string providing the reason for archiving.
-     * @return bool|int             Returns `true` if the update operation was successful, or `0` if no update occurred.
+     * @return bool                 Returns `true` if the update operation was successful, or `0` if no update occurred.
      */
-    public function transitionToArchived(?string $reason = null): bool|int
+    public function transitionToArchived(?string $reason = null): bool
     {
         return DB::transaction(
-            callback: fn(): bool | int => $this->etymology->update(
+            callback: fn(): bool => $this->etymology->update(
                 attributes: StatusData::from([
                     'status' => EtymologyStatus::Archived,
                     'archived_by' => Auth::user()->getAuthIdentifier(),

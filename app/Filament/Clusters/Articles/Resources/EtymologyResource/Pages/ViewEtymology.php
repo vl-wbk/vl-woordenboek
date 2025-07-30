@@ -19,6 +19,8 @@ use Filament\Support\Enums\MaxWidth;
  * such as changing its status (e.g., publishing, archiving, rejecting) and performing other related operations like editing or viewing its associated article.
  * The design aims to provide a clear, actionable, and user-friendly display for etymology records.
  *
+ * @property \App\Models\Etymology $record The database entity from the given etymology.
+ *
  * @package App\Filament\Clusters\Articles\Resources\EtymologyResource\Pages
  */
 final class ViewEtymology extends ViewRecord

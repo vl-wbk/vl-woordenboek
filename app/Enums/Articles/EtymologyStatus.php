@@ -5,45 +5,19 @@ declare(strict_types=1);
 namespace App\Enums\Articles;
 
 use ArchTech\Enums\Comparable;
-use ArchTech\Enums\Meta\Meta;
-use ArchTech\Enums\Metadata;
-use App\Enums\MetaProperties\{Description, Label, Icon, Color};
 use Filament\Support\Contracts\{HasLabel, HasIcon, HasColor, HasDescription};
 
-#[Meta(Description::class, Label::class, Icon::class, Color::class)]
+/**
+ * @todo Document enumeration
+ */
 enum EtymologyStatus: int implements HasColor, HasDescription, HasIcon, HasLabel
 {
-    use Metadata;
     use Comparable;
 
-    #[Label('Klad ontwerp')]
-    #[Description('De etymolgische data wordt nog verder uitgewerkt of is onvolledig')]
-    #[Icon('heroicon-o-pencil-square')]
-    #[Color('warning')]
     case Draft = 1;
-
-    #[Label('In review')]
-    #[Description('De etymologische data is ingediend voor een redactionele beoordeling')]
-    #[Icon('heroicon-o-paper-airplane')]
-    #[Color('info')]
     case UnderReview = 2;
-
-    #[Label('Afgewezen')]
-    #[Description('De Etymoligsche data is nagekeken maar expliciet geweigerd als bijdrage')]
-    #[Icon('heroicon-o-x-circle')]
-    #[Color('danger')]
     case Rejected = 3;
-
-    #[Label('Gepubliceerd')]
-    #[Description('De etymologische data is publiek beschrikbaar')]
-    #[Icon('heroicon-o-check')]
-    #[Color('success')]
     case Published = 4;
-
-    #[Label('Gearchiveerd')]
-    #[Description('De Etymologische data word niet meer weergegeven, maar wordt nog bewaard voor naslag')]
-    #[Icon('heroicon-o-archive-box')]
-    #[Color('danger')]
     case Archived = 5;
 
     public function frontendBadge(): string
@@ -59,22 +33,45 @@ enum EtymologyStatus: int implements HasColor, HasDescription, HasIcon, HasLabel
 
     public function getLabel(): string
     {
-        return self::label();
+        return match ($this) {
+            self::Draft => 'Klad ontwerp',
+            self::UnderReview => 'In review',
+            self::Rejected => 'Afgewezen',
+            self::Published => 'Gepubliceerd',
+            self::Archived => 'Gearchiveerd',
+        };
     }
 
     public function getDescription(): string
     {
-        return self::description();
+        return match ($this) {
+            self::Draft => 'De etymolgische data wordt nog verder uitgewerkt of is onvolledig.',
+            self::UnderReview => 'De etymologische data is ingediend voor een redactionele beoordeling',
+            self::Rejected => 'De Etymoligsche data is nagekeken maar expliciet geweigerd als bijdrage',
+            self::Published => 'De etymologische data is publiek beschrikbaar',
+            self::Archived => 'De Etymologische data word niet meer weergegeven, maar wordt nog bewaard voor naslag.',
+        };
     }
 
     public function getIcon(): string
     {
-        return self::icon();
+        return match ($this) {
+            self::Draft => 'heroicon-o-pencil-square',
+            self::UnderReview => 'heroicon-o-paper-airplane',
+            self::Rejected => 'heroicon-o-x-circle',
+            self::Published => 'heroicon-o-check',
+            self::Archived => 'heroicon-o-archive-box',
+        };
     }
 
     public function getColor(): string
     {
-        return self::color();
+        return match ($this) {
+            self::Draft => 'warning',
+            self::UnderReview => 'info',
+            self::Rejected, self::Archived => 'danger',
+            self::Published => 'success',
+        };
     }
 
     public function isRejected(): bool

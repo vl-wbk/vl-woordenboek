@@ -46,7 +46,7 @@ class EtymologyFactory extends Factory
         return User::factory();
     }
 
-    private function withArticle(): int|UserFactory
+    private function withArticle(): int|ArticleFactory
     {
         $randomArticle = Article::inRandomOrder()->first();
 

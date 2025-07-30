@@ -74,9 +74,9 @@ final class NoteFactory extends Factory
      * If no articles are found in the database (e.g., during initial seeding before article creation), it falls back to returning a new `ArticleFactory` instance.
      * This factory instance will then create a new article when the note is created, ensuring a valid article relationship is always established.
      *
-     * @return int|UserFactory  The ID of an existing user, or a `UserFactory` instance if no users are found.
+     * @return int|ArticleFactory The ID of an existing user, or a `UserFactory` instance if no users are found.
      */
-    private function withArticle(): int|UserFactory
+    private function withArticle(): int|ArticleFactory
     {
         $randomArticle = Article::inRandomOrder()->first();
 

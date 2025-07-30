@@ -23,7 +23,7 @@ final class EtymologyStatisticsWidget extends BaseWidget
      * Retrieves an array of Stat objects to be displayed in the widget.
      * This method orchestrates the collection of individual statistics for published, under review, archived, and rejected etymologies.
      *
-     * @return array<Stat>  An array containing instances of `Stat` representing different etymology status counts.
+     * @return array<mixed>  An array containing instances of `Stat` representing different etymology status counts.
      */
     protected function getStats(): array
     {

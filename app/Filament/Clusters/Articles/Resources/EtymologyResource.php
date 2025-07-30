@@ -99,6 +99,10 @@ final class EtymologyResource extends Resource
             ]);
     }
 
+    /**
+     * @todo Document this function
+     * @return array<int, string>
+     */
     public static function getWidgets(): array
     {
         return [
@@ -106,6 +110,10 @@ final class EtymologyResource extends Resource
         ];
     }
 
+    /**
+     * @todo Document this function
+     * @return array<string, \Filament\Resources\Pages\PageRegistration>
+     */
     public static function getPages(): array
     {
         return [

@@ -84,7 +84,7 @@ final readonly class InfolistSchema
                     ->label('Status')
                     ->columnSpan(3)
                     ->badge()
-                    ->tooltip(fn(Etymology $etymology): ?string => self::getStatusTooltip($etymology)),
+                    ->tooltip(fn(Etymology $etymology): string|array|null => self::getStatusTooltip($etymology)),
                 TextEntry::make('type')
                     ->label('Etymologisch type')
                     ->columnSpan(3)
@@ -181,9 +181,9 @@ final readonly class InfolistSchema
      * This helper method provides contextual information for the status badge, indicating who performed the action (published, rejected, archived) and when.
      *
      * @param  Etymology $etymology  The Etymology model instance.
-     * @return string|null           The tooltip string, or null if no specific tooltip is defined for the status.
+     * @return array<int>|string|null     The tooltip string, or null if no specific tooltip is defined for the status.
      */
-    private static function getStatusTooltip(Etymology $etymology): ?string
+    private static function getStatusTooltip(Etymology $etymology): array|string|null
     {
         return match ($etymology->status) {
             EtymologyStatus::Published => trans('Gepubliceerd door :user op :time', ['user' => $etymology->author->name, 'time' => $etymology->created_at->format('d-m-Y H:i')]),
@@ -250,7 +250,7 @@ final readonly class InfolistSchema
                     ->label('Hyperlink')
                     ->columnSpan(8)
                     ->placeholder('- Geen hyperlink opgegeven')
-                    ->url(fn(Etymology $etymology): ?string => $etymology->source_url)
+                    ->url(fn(Etymology $etymology): string => $etymology->source_url)
                     ->openUrlInNewTab(),
             ]);
     }

@@ -23,6 +23,9 @@ use JetBrains\PhpStorm\Deprecated;
  */
 final class ArticleBuilder extends Builder
 {
+    /**
+     * @return self<\App\Models\Article>
+     */
     public function published(): self
     {
         return $this->whereNot('published_at', null);

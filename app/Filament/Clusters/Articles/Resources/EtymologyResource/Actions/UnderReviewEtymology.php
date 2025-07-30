@@ -26,9 +26,9 @@ final class UnderReviewEtymology extends Action
      * Defines the default, human-readable name (label) for this action.
      * This static method retrieves the localized label directly from the `EtymologyStatus::UnderReview` enum case, ensuring consistency with the defined etymology statuses across the application.
      *
-     * @return string|null The default display name for the action, or `null` if not explicitly set.
+     * @return string The default display name for the action, or `null` if not explicitly set.
      */
-    public static function getDefaultName(): ?string
+    public static function getDefaultName(): string
     {
         return EtymologyStatus::UnderReview->getLabel();
     }
@@ -75,7 +75,7 @@ final class UnderReviewEtymology extends Action
         $this->failureNotificationTitle('Helaas pindakaas! Er is iets misgelopen.');
 
         $this->action(function (): void {
-            if ($this->process(fn(): bool => $this->record->state()->transitionToUnderReview())) {
+            if ($this->process(fn(): bool|int => $this->record->state()->transitionToUnderReview())) {
                 $this->success();
                 return;
             }

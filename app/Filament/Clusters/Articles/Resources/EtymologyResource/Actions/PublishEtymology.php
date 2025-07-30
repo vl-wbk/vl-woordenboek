@@ -28,9 +28,9 @@ final class PublishEtymology extends Action
      * This static method retrieves the localized label directly from the `EtymologyStatus::Published` enum case, ensuring consistency with the defined etymology statuses across the application.
      * This label is typically used as the text displayed on the action button.
      *
-     * @return string|null The default display name for the action, or `null` if not explicitly set.
+     * @return string The default display name for the action, or `null` if not explicitly set.
      */
-    public static function getDefaultName(): ?string
+    public static function getDefaultName(): string
     {
         return EtymologyStatus::Published->getLabel();
     }
@@ -75,7 +75,7 @@ final class PublishEtymology extends Action
         $this->failureNotificationTitle('Helaas pindakaas! Er is iets misgelopen.');
 
         $this->action(function (): void {
-            if ($this->process(fn(): bool => $this->record->state()->transitionToPublished())) {
+            if ($this->process(fn(): bool|int => $this->record->state()->transitionToPublished())) {
                 $this->success();
                 return;
             }

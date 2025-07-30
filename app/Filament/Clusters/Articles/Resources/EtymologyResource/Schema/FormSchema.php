@@ -6,7 +6,7 @@ namespace App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema;
 
 use App\Enums\Articles\EtymologyStatus;
 use App\Enums\Articles\EtymologyTypes;
-use Filament\Forms\Components\{DatePicker, Select, TextArea, TextInput};
+use Filament\Forms\Components\{DatePicker, Select, Textarea, TextInput};
 use Filament\Forms\Form;
 
 /**
@@ -39,19 +39,19 @@ final readonly class FormSchema
      * This method returns a structured array of Filament form components, each representing a field for etymology data.
      * It includes various types of inputs such as Select, TextInput, TextArea, and DatePicker, along with their respective labels, validation rules, and layout spans.
      *
-     * @return array An array of Filament form components.
+     * @return array<int, Select|TextInput|Textarea|DatePicker> An array of Filament form components.
      */
     public static function configureColumns(): array
     {
         return [
             Select::make('status')
-                    ->label('Status van de gegevens')
-                    ->translateLabel()
-                    ->columnSpan(3)
-                    ->disabledOn('edit')
-                    ->options(EtymologyStatus::class)
-                    ->native(false)
-                    ->required(),
+                ->label('Status van de gegevens')
+                ->translateLabel()
+                ->columnSpan(3)
+                ->disabledOn('edit')
+                ->options(EtymologyStatus::class)
+                ->native(false)
+                ->required(),
 
             Select::make('type')
                 ->label('Etymologisch type')

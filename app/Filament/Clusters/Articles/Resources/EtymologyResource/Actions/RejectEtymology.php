@@ -31,9 +31,9 @@ final class RejectEtymology extends Action
      * This static method retrieves the localized label directly from the `EtymologyStatus::Rejected` enum case, ensuring consistency with the defined etymology statuses across the application.
      * This label is typically used as the text displayed on the action button.
      *
-     * @return string|null The default display name for the action, or `null` if not explicitly set.
+     * @return string The default display name for the action, or `null` if not explicitly set.
      */
-    public static function getDefaultName(): ?string
+    public static function getDefaultName(): string
     {
         return EtymologyStatus::Rejected->getLabel();
     }
@@ -90,7 +90,7 @@ final class RejectEtymology extends Action
         $this->failureNotificationTitle('Helaas pindakaas! Er is iets misgelopen.');
 
         $this->action(function (): void {
-            if ($this->process(fn(array $data): bool => $this->record->state()->transitionToRejected($data['reason']))) {
+            if ($this->process(fn(array $data): bool|int => $this->record->state()->transitionToRejected($data['reason']))) {
                 $this->success();
                 return;
             }

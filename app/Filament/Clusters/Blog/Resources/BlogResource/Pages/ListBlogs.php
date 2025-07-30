@@ -31,7 +31,7 @@ final class ListBlogs extends ListRecords
      * Currently, it includes a `FactoryAction` which is set to a 'danger' color.
      * This action likely provides functionality to generate new blog records, possibly for testing or seeding purposes.
      *
-     * @return array
+     * @return array<int, FactoryAction>
      */
     protected function getHeaderActions(): array
     {

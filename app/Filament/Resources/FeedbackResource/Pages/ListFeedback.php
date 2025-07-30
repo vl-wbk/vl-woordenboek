@@ -37,7 +37,7 @@ final class ListFeedback extends ListRecords
      * This approach centralizes the definition of feedback-related widgets within the resource, promoting reusability and easier maintenance.
      * These widgets typically provide aggregated data or quick insights related to feedback.
      *
-     * @return array  An array of widget class strings that should be displayed in the page header.
+     * @return array<int, class-string<\Filament\Widgets\Widget>>  An array of widget class strings that should be displayed in the page header.
      */
     protected function getHeaderWidgets(): array
     {

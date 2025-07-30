@@ -29,7 +29,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int|null                           $article_id         The foreign key linking this etymology to its parent article.
  * @property string                             $origin_language    The original language from which the word is derived.
  * @property string                             $origin_form        The original form of the word in its origin language.
- * @property string                             $source             The primary source of the etymological information.
+ * @property ?string                            $source             The primary source of the etymological information.
  * @property string                             $source_url         The URL to the primary source of the etymological information.
  * @property string|null                        $note               Any additional notes or comments regarding the etymology.
  * @property string                             $etymology          The detailed etymological explanation.
@@ -56,8 +56,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[ObservedBy(EtymologyObserver::class)]
 final class Etymology extends Model
 {
-    use BelongsToAuthor;
+    /** @use HasFactory<\Database\Factories\EtymologyFactory> */
     use HasFactory;
+    use BelongsToAuthor;
 
     /**
      * The attributes that are not mass assignable.
@@ -107,7 +108,7 @@ final class Etymology extends Model
      * This attribute accessor dynamically formats the period_start and period_end dates into a user-friendly string representation (e.g., "DD/MM/YYYY - DD/MM/YYYY").
      * It provides a convenient way to display the time span associated with the etymology.
      *
-     * @return Attribute<string, never>  An Eloquent attribute instance that defines the accessor.
+     * @return Attribute<non-falsy-string, never>  An Eloquent attribute instance that defines the accessor.
      */
     public function period(): Attribute
     {
@@ -124,7 +125,7 @@ final class Etymology extends Model
      * If the associated archiver user does not exist (e.g., if the user was deleted),
      * it defaults to a placeholder user with the name 'Onbekende of verwijderde gebruiker' (Unknown or deleted user) to prevent errors in the view.
      *
-     * @return BelongsTo  The Eloquent BelongsTo relationship instance.
+     * @return BelongsTo<User, covariant $this>  The Eloquent BelongsTo relationship instance.
      */
     public function archiver(): BelongsTo
     {
@@ -139,7 +140,7 @@ final class Etymology extends Model
      * The foreign key used for this relationship is rejected_by.
      * If the associated rejecter user does not exist, it defaults to a placeholder user with the name 'Onbekende of verwijderde gebruiker' (Unknown or deleted user).
      *
-     * @return BelongsTo The Eloquent BelongsTo relationship instance.
+     * @return BelongsTo<User, covariant $this> The Eloquent BelongsTo relationship instance.
      */
     public function rejecter(): BelongsTo
     {
