@@ -70,10 +70,8 @@ final class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      * Maintainers should ensure that any new sensitive data points (e.g., API keys
      * passed in headers, specific request body parameters) are added to these
      * `hideRequestParameters` or `hideRequestHeaders` lists as needed for security.
-     *
-     * @return void
      */
-    protected function hideSensitiveRequestDetails(): void
+    private function hideSensitiveRequestDetails(): void
     {
         if ($this->app->environment('local')) {
             return;

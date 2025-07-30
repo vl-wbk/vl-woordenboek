@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\DB;
 #[AsCommand(name: 'wtod:register', description: 'Register the word of the day', hidden: true)]
 final class WordOfTheDayCommand extends Command
 {
-    private const CACHE_KEY = 'wtod.last_run_timestamp';
+    private const string CACHE_KEY = 'wtod.last_run_timestamp';
 
     /**
      * Handles the command execution.
