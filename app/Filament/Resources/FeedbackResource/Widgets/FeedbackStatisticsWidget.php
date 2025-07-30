@@ -7,11 +7,9 @@ namespace App\Filament\Resources\FeedbackResource\Widgets;
 use EightyNine\FilamentAdvancedWidget\AdvancedChartWidget;
 use Flowframe\Trend\Trend;
 use App\Models\Feedback;
-use App\Enums\FeedbackStatus;
 use App\Enums\FeedbackTrueFalse;
 use Flowframe\Trend\TrendValue;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Collection;
 
 final class FeedbackStatisticsWidget extends AdvancedChartWidget
@@ -119,7 +117,7 @@ final class FeedbackStatisticsWidget extends AdvancedChartWidget
 
         // Get trend data for first-time visits
         $firstTimeVisitChart = $this->getFeedbackTrendData(
-            Feedback::query()->where('first_time_visit', FeedbackTrueFalse::true)
+            Feedback::query()->where('first_time_visit', FeedbackTrueFalse::true),
         );
 
         // Get trend data for all feedback
@@ -127,34 +125,34 @@ final class FeedbackStatisticsWidget extends AdvancedChartWidget
 
         // Get trend data for recurring visits
         $recurringVisitChart = $this->getFeedbackTrendData(
-            Feedback::query()->where('first_time_visit', FeedbackTrueFalse::false)
+            Feedback::query()->where('first_time_visit', FeedbackTrueFalse::false),
         );
 
         return [
             'datasets' => [
                 [
                     'label' => 'feedback van nieuwe bezoekers',
-                    'data' => $firstTimeVisitChart->map(fn (TrendValue $value): mixed => $value->aggregate),
+                    'data' => $firstTimeVisitChart->map(fn(TrendValue $value): mixed => $value->aggregate),
                     'backgroundColor' => '#e74c3c',
                     'borderColor' => '#e74c3c',
                     'pointBackgroundColor' => '#e74c3c',
                 ],
                 [
                     'label' => 'feedback van terugkerende bezoekers',
-                    'data' => $recurringVisitChart->map(fn (TrendValue $value): mixed => $value->aggregate),
+                    'data' => $recurringVisitChart->map(fn(TrendValue $value): mixed => $value->aggregate),
                     'backgroundColor' => 'oklch(62.7% 0.194 149.214)',
                     'borderColor' => 'oklch(62.7% 0.194 149.214)',
                     'pointBackgroundColor' => 'oklch(62.7% 0.194 149.214)',
                 ],
                 [
                     'label' => 'feedback van alle type gebruikers',
-                    'data' => $allFeedbackChart->map(fn (TrendValue $value): mixed => $value->aggregate),
+                    'data' => $allFeedbackChart->map(fn(TrendValue $value): mixed => $value->aggregate),
                     'backgroundColor' => 'oklch(54.6% 0.245 262.881)',
                     'borderColor' => 'oklch(54.6% 0.245 262.881)',
                     'pointBackgroundColor' => 'oklch(54.6% 0.245 262.881)',
-                ]
+                ],
             ],
-            'labels' => $firstTimeVisitChart->map(fn (TrendValue $value): string => $value->date),
+            'labels' => $firstTimeVisitChart->map(fn(TrendValue $value): string => $value->date),
         ];
     }
 

@@ -1,10 +1,11 @@
-<?php /** @noinspection PhpMissingFieldTypeInspection */
+<?php
+
+/** @noinspection PhpMissingFieldTypeInspection */
 
 declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Attributes\Todo;
 use App\Builders\ArticleBuilder;
 use App\States\Articles;
 use App\Contracts\States\ArticleStateContract;
@@ -28,6 +29,7 @@ use Overtrue\LaravelLike\Traits\Likeable;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 use Kenepa\ResourceLock\Models\Concerns\HasLocks;
+use Override;
 
 /**
  * Article represents a dictionary entry in the Vlaams Woordenboek application.
@@ -114,7 +116,7 @@ final class Article extends Model implements AuditableContract
      */
     public function articleStatus(): ArticleStateContract
     {
-        return match($this->state) {
+        return match ($this->state) {
             ArticleStates::ExternalData => new Articles\ExternalDataState($this),
             ArticleStates::New => new Articles\NewState($this),
             ArticleStates::Draft => new Articles\DraftState($this),
@@ -226,6 +228,11 @@ final class Article extends Model implements AuditableContract
     }
 
     /**
+     * Defines a one-to-many relationship with the `Etymology` model.
+     *
+     * This method indicates that the current model (e.g., an `Article`) can have multiple associated `Etymology` records.
+     * When called, it returns a `HasMany` relationship builder instance, allowing you to query or eager load all etymology entries linked to this specific model instance.
+     *
      * @return HasMany<Etymology, covariant $this>
      */
     public function etymology(): HasMany
@@ -234,13 +241,20 @@ final class Article extends Model implements AuditableContract
     }
 
     /**
-     * @return HasOne<Etymology, covariant $this>
+     * Defines a one-to-one relationship with the *latest* `Etymology` record.
+     *
+     * This method is designed to retrieve only a single, most recently created `Etymology` record associated with the current model.
+     * It leverages the `hasOne` relationship combined with the `latest()` method, which orders  the results by the `created_at` timestamp (or a specified timestamp column) in descending order and limits the result to one.
+     * This is particularly useful when you need quick access to the primary, most current, or most recently updated etymological information without fetching all related records.
+     *
+     * For example, `$article->lastEtymology` will return a single `Etymology` model (or `null` if none exist) that was most recently added for that article.
+     *
+     * @return Hasone<Etymology, covariant $this>
      */
-    #[Todo('Write a docblock for this method', 'low')]
     public function lastEtymology(): HasOne
-{
-    return $this->hasOne(Etymology::class)->latest();
-}
+    {
+        return $this->hasOne(Etymology::class)->latest();
+    }
 
     /**
      * Retrieves all users who have bookmarked this article.
@@ -250,7 +264,7 @@ final class Article extends Model implements AuditableContract
      *
      * @return BelongsToMany<User, covariant $this> A collection of users who have bookmarked this article.
      */
-        public function bookmarkers(): BelongsToMany
+    public function bookmarkers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, table: 'article_bookmarks');
     }
@@ -264,6 +278,7 @@ final class Article extends Model implements AuditableContract
      * @param \Illuminate\Database\Query\Builder $query  The base query builder instance
      * @return ArticleBuilder<self>                      The custom builder instance
      */
+    #[Override]
     public function newEloquentBuilder($query): ArticleBuilder
     {
         return new ArticleBuilder($query);

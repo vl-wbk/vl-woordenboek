@@ -22,6 +22,8 @@ use Illuminate\Database\Eloquent\Model;
  * It also restricts visibility to the appropriate context (the ViewWord page).
  * Developers can extend or override the configuration by modifying the associated Schema and TableSchema classes, which encapsulate the form and table logic for etymology records.
  *
+ * @property \App\Models\Article $ownerRecord
+ *
  * @package App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers
  */
 final class EtymologyRelationManager extends RelationManager

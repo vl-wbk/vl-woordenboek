@@ -32,7 +32,7 @@ final class ListEtymologies extends ListRecords
      * This method delegates to the `EtymologyResource::getWidgets()` method to obtain the widgets configured for the Etymology resource.
      * These widgets typically provide summary statistics or other relevant information at the top of the etymology list.
      *
-     * @return array An array of Filament widgets.
+     * @return array<mixed> An array of Filament widgets.
      */
     protected function getHeaderWidgets(): array
     {

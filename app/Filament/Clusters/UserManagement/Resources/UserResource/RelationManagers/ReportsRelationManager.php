@@ -66,7 +66,7 @@ final class ReportsRelationManager extends RelationManager
      */
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
     {
-        return new $pageClass instanceof ViewUser;
+        return new $pageClass() instanceof ViewUser;
     }
 
     /**
@@ -109,13 +109,13 @@ final class ReportsRelationManager extends RelationManager
                 'Hier zie je de meldingen die de gebruiker heeft ingediend over het woordenboek, zoals opmerkingen, ' .
                 'fouten of aanvullingen. Deze meldingen geven inzicht in feedback en eventuele aandachtspunten die ' .
                 'de gebruiker signaleert. Gebruik deze informatie voor gerichte opvolging en om kansen te ontdekken ' .
-                'voor verdere verbetering of samenwerking.'
+                'voor verdere verbetering of samenwerking.',
             )
             ->emptyStateIcon(self::$icon)
             ->emptyStateHeading('Geen meldingen gevonden')
             ->emptyStateDescription(
                 'Nog geen gebruikersmeldingen beschikbaar. Als deze gebruiker feedback geeft over het woordenboek ' .
-                'zoals fouten, aanvullingen of opmerkingen, verschijnen deze hier.'
+                'zoals fouten, aanvullingen of opmerkingen, verschijnen deze hier.',
             )
             ->columns($this->getTableColumnSchemaLayout())
             ->filters($this->getFilterImplementations())
@@ -192,7 +192,7 @@ final class ReportsRelationManager extends RelationManager
     {
         return [
             Tables\Actions\ViewAction::make()
-                ->url(fn (ArticleReport $articleReport): string => ArticleReportResource::getUrl('view', ['record' => $articleReport])),
+                ->url(fn(ArticleReport $articleReport): string => ArticleReportResource::getUrl('view', ['record' => $articleReport])),
         ];
     }
 }

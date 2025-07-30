@@ -8,9 +8,7 @@ use App\Models\Article;
 use App\Models\Disclaimer;
 use Filament\Forms\Components\Select;
 use Filament\Infolists\Components\Actions\Action;
-use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\IconSize;
-use Filament\Support\Enums\MaxWidth;
 
 final readonly class DisclaimerToolbarActions
 {
@@ -39,7 +37,7 @@ final readonly class DisclaimerToolbarActions
     private static function attachActionDefinition(): Action
     {
         return Action::make('attach')
-            ->visible(fn (Article $article): bool => auth()->user()->can('attachDisclaimer', $article) && Disclaimer::count() > 0)
+            ->visible(fn(Article $article): bool => auth()->user()->can('attachDisclaimer', $article) && Disclaimer::count() > 0)
             ->label('dislaimer koppelen')
             ->icon('heroicon-o-link')
             ->requiresConfirmation()
@@ -66,11 +64,11 @@ final readonly class DisclaimerToolbarActions
     private static function detachActionDefinition(): Action
     {
         return Action::make('detach')
-            ->visible(fn (Article $article): bool => auth()->user()->can('detachDisclaimer', $article))
+            ->visible(fn(Article $article): bool => auth()->user()->can('detachDisclaimer', $article))
             ->label('disclaimer loskoppelen')
             ->icon('heroicon-o-link-slash')
             ->iconSize(IconSize::Small)
             ->color('danger')
-            ->action(fn (Article $article) => $article->disclaimer()->dissociate()->save());
+            ->action(fn(Article $article) => $article->disclaimer()->dissociate()->save());
     }
 }

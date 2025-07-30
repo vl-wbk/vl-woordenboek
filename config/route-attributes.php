@@ -14,7 +14,7 @@ return [
      */
     'directories' => [
         app_path('Http/Controllers/Web') => [
-            'middleware' => ['web']
+            'middleware' => ['web'],
         ],
     ],
 

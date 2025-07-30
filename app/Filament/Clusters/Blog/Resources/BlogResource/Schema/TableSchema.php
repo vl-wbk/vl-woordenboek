@@ -56,7 +56,7 @@ final readonly class TableSchema
                 ->translateLabel()
                 ->placeholder('-')
                 ->sortable()
-                ->date()
+                ->date(),
         ];
     }
 }

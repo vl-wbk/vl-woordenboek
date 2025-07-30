@@ -58,7 +58,7 @@ final class AuditsRelationManager extends RelationManager
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()
-                    ->url(fn (Audit $audit): string => route('change:information', $audit->getRouteKey()), shouldOpenInNewTab: true),
+                    ->url(fn(Audit $audit): string => route('change:information', $audit->getRouteKey()), shouldOpenInNewTab: true),
             ]);
     }
 }

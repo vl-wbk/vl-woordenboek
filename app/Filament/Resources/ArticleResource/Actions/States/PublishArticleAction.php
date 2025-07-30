@@ -46,7 +46,7 @@ final class PublishArticleAction extends Action
 
         // Configuration on the confirmation model
         $this->requiresConfirmation();
-        $this->modalHeading(fn (): string => trans('Artikel insturen voor publicatie.'));
+        $this->modalHeading(fn(): string => trans('Artikel insturen voor publicatie.'));
         $this->modalDescription('Nadat u het artikel instuurt voor nazicht zal hij/zij het artikel nakijken en mogelijks goedkeuren voor publicatie');
         $this->modalSubmitActionLabel('Insturen');
         $this->modalIcon('heroicon-o-paper-airplane');

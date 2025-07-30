@@ -42,7 +42,7 @@ final class UndoPublicationAction extends Action
         $this->failureNotificationTitle('Helaas pindakaas! Er is iets misgelopen');
 
         $this->action(function (): void {
-            if ($this->process(fn (): bool => $this->record->publicationStatus()->transitionToDraft())) {
+            if ($this->process(fn(): bool => $this->record->publicationStatus()->transitionToDraft())) {
                 $this->success();
                 return;
             }

@@ -19,7 +19,7 @@ final readonly class ArticleVersionInformationController
         abort_if($request->user()->user_type->is(UserTypes::Normal), Response::HTTP_NOT_FOUND);
 
         return view('versions.info', data: [
-            'audit' => $audit
+            'audit' => $audit,
         ]);
     }
 }

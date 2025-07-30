@@ -35,10 +35,15 @@ use Illuminate\Database\Eloquent\Model;
 final class LabelsRelationManager extends RelationManager
 {
     /**
-     * Defines the relationship name for the labels on the article model.
+     * Defines the name of the relationship method on the owner article model that this relation manager interacts with.
+     * This property explicitly links the manager to the `labels` relationship defined within the `Article` model.
      */
     protected static string $relationship = 'labels';
 
+    /**
+     * Defines the icon to be displayed alongside the relation manager's tab or heading.
+     * The 'heroicon-o-tag' icon visually represents the concept of tagging or labeling.
+     */
     protected static ?string $icon = "heroicon-o-tag";
 
     /**
@@ -101,7 +106,7 @@ final class LabelsRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('description')
                     ->label('Beschrijving')
                     ->placeholder('- geen beschrijving opgegeven')
-                    ->formatStateUsing(fn (Label $label): string => Str::limit($label->description, 60, '...', preserveWords: true)),
+                    ->formatStateUsing(fn(Label $label): string => Str::limit($label->description, 60, '...', preserveWords: true)),
                 Tables\Columns\TextColumn::make('pivot.created_at')
                     ->label('Gekoppeld op')
                     ->date()
@@ -109,7 +114,7 @@ final class LabelsRelationManager extends RelationManager
             ])
             ->headerActions([
                 $this->getCreateAction(),
-                $this->getHeaderAttachAction()
+                $this->getHeaderAttachAction(),
             ])
             ->actions([
                 Tables\Actions\DetachAction::make(),

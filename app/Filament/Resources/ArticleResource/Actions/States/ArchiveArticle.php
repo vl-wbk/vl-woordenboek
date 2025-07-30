@@ -64,7 +64,7 @@ final class ArchiveArticle extends Action
                 ->rows(4)
                 ->label('Archiverings redenen')
                 ->placeholder('Beschrijf kort waarom het artikel gearchiveerd word')
-                ->maxLength(350)
+                ->maxLength(350),
         ]);
 
         $this->action(function (array $data, Article $article): void {

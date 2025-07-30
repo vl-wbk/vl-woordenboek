@@ -1,9 +1,6 @@
 name: Tests
 
-on:
-  push:
-    branches:
-      - develop
+on: [push, pull_request]
 
 jobs:
   ci:
@@ -36,7 +33,7 @@ jobs:
       - name: Set up Node & NPM
         uses: actions/setup-node@v2
         with:
-          node-version: '18.x'
+          node-version: '24.x'
 
       - name: Setup Problem Matches
         run: |

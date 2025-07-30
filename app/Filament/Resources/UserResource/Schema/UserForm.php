@@ -40,8 +40,8 @@ final readonly class UserForm
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->email()
-                            ->columnSpan(12)
-                    ])
+                            ->columnSpan(12),
+                    ]),
             ]);
     }
 }

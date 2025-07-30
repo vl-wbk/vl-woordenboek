@@ -56,14 +56,14 @@ final class AssignArticleReportAction extends Action
         $this->icon(Status::InProgress->getIcon());
         $this->color('gray');
         $this->label('melding behandelen');
-        $this->visible(fn (): bool => Gate::allows('markInProgress', $this->record));
+        $this->visible(fn(): bool => Gate::allows('markInProgress', $this->record));
 
         $this->successNotificationTitle('Je bent toegewezen aan de artikel melding');
         $this->failureNotificationTitle('Helaas konden we je niet toewijzen aan de melding');
 
 
         $this->action(function (): void {
-            if ($this->process(fn (): bool => $this->record->status()->transitionToInProgress())) {
+            if ($this->process(fn(): bool => $this->record->status()->transitionToInProgress())) {
                 $this->success();
                 return;
             }

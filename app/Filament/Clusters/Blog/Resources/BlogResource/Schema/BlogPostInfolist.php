@@ -4,17 +4,13 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources\BlogResource\Schema;
 
-use App\Filament\Clusters\Blog\Resources\BlogResource\Enums\Status;
 use App\Models\Blog;
 use Filament\Infolists\Components\IconEntry;
-use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\Tabs;
 use Filament\Infolists\Components\Tabs\Tab;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Support\Enums\FontWeight;
-use Filament\Support\Enums\IconSize;
-use Filament\Tables\Columns\TextColumn;
 
 final readonly class BlogPostInfolist
 {
@@ -27,7 +23,7 @@ final readonly class BlogPostInfolist
                     ->tabs(tabs: [
                         self::getArticleContentTab(),
                         self::getPublicationInformationTab(),
-                    ])
+                    ]),
             ]);
     }
 
@@ -67,7 +63,7 @@ final readonly class BlogPostInfolist
     {
         return Tab::make('Publicatie informatie')
             ->icon('heroicon-s-globe-europe-africa')
-            ->visible(fn (Blog $blog): bool => $blog->status->isPublished())
+            ->visible(fn(Blog $blog): bool => $blog->status->isPublished())
             ->columns(12)
             ->schema(components: [
                 TextEntry::make('publisher.name')
@@ -86,7 +82,7 @@ final readonly class BlogPostInfolist
                 TextEntry::make('views')
                     ->label('Weergaves')
                     ->translateLabel()
-                    ->formatStateUsing(fn ($state): string => $state . ' weergave(s)')
+                    ->formatStateUsing(fn($state): string => $state . ' weergave(s)')
                     ->badge()
                     ->columnSpan(3)
                     ->icon('heroicon-o-eye'),
@@ -98,7 +94,7 @@ final readonly class BlogPostInfolist
                     ->columnSpan(3)
                     ->icon('heroicon-o-clock')
                     ->iconColor('primary')
-                    ->placeholder('- Geen publicatie datum bekend')
+                    ->placeholder('- Geen publicatie datum bekend'),
             ]);
     }
 }

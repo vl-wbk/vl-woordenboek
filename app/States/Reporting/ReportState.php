@@ -29,7 +29,7 @@ class ReportState implements ReportStateContract
      * @param ArticleReport $articleReport The report data model associated with the current state.
      */
     public function __construct(
-        public ArticleReport $articleReport
+        public ArticleReport $articleReport,
     ) {}
 
     /**

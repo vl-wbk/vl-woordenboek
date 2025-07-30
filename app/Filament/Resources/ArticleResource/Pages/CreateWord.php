@@ -59,7 +59,7 @@ final class CreateWord extends CreateRecord
                     ->cancelAction($this->getCancelFormAction())
                     ->submitAction($this->getSubmitFormAction())
                     ->skippable($this->hasSkippableSteps())
-                    ->contained(false)
+                    ->contained(false),
             ])->columns(null);
     }
 
@@ -105,7 +105,7 @@ final class CreateWord extends CreateRecord
             Wizard\Step::make(trans('Bronnen'))
                 ->icon('heroicon-o-book-open')
                 ->columns('12')
-                ->schema([FormSchema::sectionConfiguration()->schema(FormSchema::getSourceSchema())])
+                ->schema([FormSchema::sectionConfiguration()->schema(FormSchema::getSourceSchema())]),
         ];
     }
 }

@@ -36,11 +36,11 @@ final class ViewBlog extends ViewRecord
                         ->icon('heroicon-o-trash'),
                 ])
                     ->dropdown(false)
-                    ->authorize('delete', $this->record)
+                    ->authorize('delete', $this->record),
             ])
                 ->button()
                 ->color('gray')
-                ->icon('heroicon-o-cog-8-tooth')
-            ];
+                ->icon('heroicon-o-cog-8-tooth'),
+        ];
     }
 }

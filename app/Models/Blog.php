@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpUnused */
+<?php
+
+/** @noinspection PhpUnused */
 
 declare(strict_types=1);
 
@@ -20,6 +22,7 @@ use App\States\Posts\PublicationStateContract;
 use App\States\Posts;
 use BeyondCode\Comments\Traits\HasComments;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Override;
 
 /**
  * Represents a blog post within the application.
@@ -80,7 +83,7 @@ final class Blog extends Model implements Feedable
     {
         return $this->belongsTo(User::class)
             ->withDefault(callback: [
-                'name' => config('app.name')
+                'name' => config('app.name'),
             ]);
     }
 
@@ -92,7 +95,7 @@ final class Blog extends Model implements Feedable
      */
     public function publicationStatus(): PublicationStateContract
     {
-        return match($this->status) {
+        return match ($this->status) {
             Status::Draft => new Posts\DraftState($this),
             Status::Published => new Posts\PublishedState($this),
         };
@@ -141,7 +144,7 @@ final class Blog extends Model implements Feedable
         ];
     }
 
-     /**
+    /**
      * Get the estimated read time for the post in a human-readable format.
      *
      * This accessor dynamically calculates the reading time based on the post's content using the `ReadTimeCalculator` service and formats it for display.
@@ -221,6 +224,7 @@ final class Blog extends Model implements Feedable
      * @param  \Illuminate\Database\Query\Builder $query The underlying query builder instance.
      * @return BlogBuilder A new instance of `BlogBuilder`.
      */
+    #[Override]
     public function newEloquentBuilder($query): BlogBuilder
     {
         return new BlogBuilder($query);

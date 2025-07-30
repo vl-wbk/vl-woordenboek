@@ -6,7 +6,7 @@ namespace App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema;
 
 use App\Enums\Articles\EtymologyStatus;
 use App\Enums\Articles\EtymologyTypes;
-use Filament\Forms\Components\{DatePicker, Select, TextArea, TextInput};
+use Filament\Forms\Components\{DatePicker, Select, Textarea, TextInput};
 use Filament\Forms\Form;
 
 /**
@@ -39,80 +39,80 @@ final readonly class FormSchema
      * This method returns a structured array of Filament form components, each representing a field for etymology data.
      * It includes various types of inputs such as Select, TextInput, TextArea, and DatePicker, along with their respective labels, validation rules, and layout spans.
      *
-     * @return array An array of Filament form components.
+     * @return array<int, Select|TextInput|Textarea|DatePicker> An array of Filament form components.
      */
     public static function configureColumns(): array
     {
         return [
             Select::make('status')
-                    ->label('Status van de gegevens')
-                    ->translateLabel()
-                    ->columnSpan(3)
-                    ->disabledOn('edit')
-                    ->options(EtymologyStatus::class)
-                    ->native(false)
-                    ->required(),
+                ->label('Status van de gegevens')
+                ->translateLabel()
+                ->columnSpan(3)
+                ->disabledOn('edit')
+                ->options(EtymologyStatus::class)
+                ->native(false)
+                ->required(),
 
-                Select::make('type')
-                    ->label('Etymologisch type')
-                    ->translateLabel()
-                    ->options(EtymologyTypes::class)
-                    ->required()
-                    ->searchable()
-                    ->native(false)
-                    ->columnSpan(3),
+            Select::make('type')
+                ->label('Etymologisch type')
+                ->translateLabel()
+                ->options(EtymologyTypes::class)
+                ->required()
+                ->searchable()
+                ->native(false)
+                ->columnSpan(3),
 
-                TextInput::make('origin_language')
-                    ->label('Taal van oorsprong')
-                    ->translateLabel()
-                    ->columnSpan(3)
-                    ->required()
-                    ->maxLength(255),
+            TextInput::make('origin_language')
+                ->label('Taal van oorsprong')
+                ->translateLabel()
+                ->columnSpan(3)
+                ->required()
+                ->maxLength(255),
 
-                TextInput::make('origin_form')
-                    ->label('Vorm in de brontaal')
-                    ->translateLabel()
-                    ->required()
-                    ->maxLength(255)
-                    ->columnSpan(3),
+            TextInput::make('origin_form')
+                ->label('Vorm in de brontaal')
+                ->translateLabel()
+                ->required()
+                ->maxLength(255)
+                ->columnSpan(3),
 
-                DatePicker::make('period_start')
-                    ->label('Periode (start)')
-                    ->translateLabel()
-                    ->required()
-                    ->native(false)
-                    ->columnSpan(6),
+            DatePicker::make('period_start')
+                ->label('Periode (start)')
+                ->translateLabel()
+                ->required()
+                ->native(false)
+                ->columnSpan(6),
 
-                DatePicker::make('period_end')
-                    ->label('Periode (einde)')
-                    ->translateLabel()
-                    ->required()
-                    ->native(false)
-                    ->columnSpan(6),
+            DatePicker::make('period_end')
+                ->label('Periode (einde)')
+                ->translateLabel()
+                ->required()
+                ->native(false)
+                ->columnSpan(6),
 
-                Textarea::make('etymology')
-                    ->label('Beschrijving van de herkomst')
-                    ->translateLabel()
-                    ->columnSpanFull()
-                    ->required(),
+            Textarea::make('etymology')
+                ->label('Beschrijving van de herkomst')
+                ->translateLabel()
+                ->columnSpanFull()
+                ->required(),
 
-                Textarea::make('note')
-                    ->label('Interne notitie voor administratieve doeleinden')
-                    ->translateLabel()
-                    ->columnSpanFull(),
+            Textarea::make('note')
+                ->label('Interne notitie voor administratieve doeleinden')
+                ->translateLabel()
+                ->columnSpanFull(),
 
-                TextInput::make('source')
-                    ->label('Bron notitie')
-                    ->translateLabel()
-                    ->required()
-                    ->maxLength(255)
-                    ->columnSpan(6),
+            TextInput::make('source')
+                ->label('Bron notitie')
+                ->translateLabel()
+                ->required()
+                ->maxLength(255)
+                ->columnSpan(6),
 
-                TextInput::make('source_url')
-                    ->label('Hyperlink van de bron')
-                    ->translateLabel()
-                    ->maxLength(255)
-                    ->columnSpan(6),
+            TextInput::make('source_url')
+                ->label('Hyperlink van de bron')
+                ->translateLabel()
+                ->maxLength(255)
+                ->columnSpan(6),
         ];
     }
 }

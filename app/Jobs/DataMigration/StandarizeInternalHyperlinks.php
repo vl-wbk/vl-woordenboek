@@ -38,9 +38,8 @@ final class StandarizeInternalHyperlinks implements ShouldQueue
      * @param Article $article The article to be processed.
      */
     public function __construct(
-        private Article $article
-    ) {
-    }
+        private Article $article,
+    ) {}
 
     /**
      * Get the middelware the job should pass through.
@@ -162,7 +161,7 @@ final class StandarizeInternalHyperlinks implements ShouldQueue
                     ? route('word-information.show', $lookup['first_id'])
                     : route('search.results', parameters: [
                         'zoekpatroon' => SearchPatterns::Exact,
-                        'zoekterm' => $term
+                        'zoekterm' => $term,
                     ]);
 
                 $encodedUrl = htmlspecialchars($url, ENT_QUOTES, 'UTF-8');

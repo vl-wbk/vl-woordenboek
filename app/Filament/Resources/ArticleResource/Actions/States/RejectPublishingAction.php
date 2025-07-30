@@ -8,7 +8,6 @@ use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Forms\Components\Textarea;
 use Filament\Support\Enums\MaxWidth;
-use Illuminate\Contracts\Support\Htmlable;
 
 /**
  * RejectPublishingAction handles the rejection of articles submitted for publication.
@@ -68,7 +67,7 @@ final class RejectPublishingAction extends Action
         $this->failureNotificationTitle('Helaas! Er is iets misgelopen');
 
         $this->action(function (array $data): void {
-            if ($this->process(fn () => $this->record->articleStatus()->transitionToEditing($data['reason']))) {
+            if ($this->process(fn() => $this->record->articleStatus()->transitionToEditing($data['reason']))) {
                 $this->success();
                 return;
             }

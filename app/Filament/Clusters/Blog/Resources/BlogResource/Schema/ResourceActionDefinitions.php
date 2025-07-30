@@ -53,7 +53,7 @@ final readonly class ResourceActionDefinitions
                 Actions\ViewAction::make(),
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
-            ])
+            ]),
         ];
     }
 

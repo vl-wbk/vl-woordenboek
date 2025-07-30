@@ -10,6 +10,7 @@ use Spatie\LaravelData\Attributes\MapInputName;
 final class ArticleReportData extends Data
 {
     public function __construct(
-        #[MapInputName('melding')] public string $description,
+        #[MapInputName('melding')]
+        public string $description,
     ) {}
 }

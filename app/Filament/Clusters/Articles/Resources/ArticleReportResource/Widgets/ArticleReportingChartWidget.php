@@ -9,7 +9,6 @@ use App\States\Reporting\Status;
 use App\UserTypes;
 use Carbon\Carbon;
 use EightyNine\FilamentAdvancedWidget\AdvancedChartWidget;
-use Illuminate\Contracts\Support\Htmlable;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 use Illuminate\Support\Collection;
@@ -109,11 +108,11 @@ final class ArticleReportingChartWidget extends AdvancedChartWidget
 
         return [
             'datasets' => [
-                ['backgroundColor' => '#A53838', 'borderColor' => '#A53838', 'label' => 'Aantal nieuwe meldingen', 'data' => $createdReports->map(fn (TrendValue $value): mixed => $value->aggregate)],
-                ['backgroundColor' => '#D4A373', 'borderColor' => '#D4A373', 'label' => 'Aantal toegewezen meldingen', 'data' => $assignedReports->map(fn (TrendValue $value): mixed => $value->aggregate)],
-                ['backgroundColor' => '#3A5A40', 'borderColor' => '#3A5A40', 'label' => 'Aantal meldingen gesloten', 'data' => $closedReports->map(fn (TrendValue $value): mixed => $value->aggregate)],
+                ['backgroundColor' => '#A53838', 'borderColor' => '#A53838', 'label' => 'Aantal nieuwe meldingen', 'data' => $createdReports->map(fn(TrendValue $value): mixed => $value->aggregate)],
+                ['backgroundColor' => '#D4A373', 'borderColor' => '#D4A373', 'label' => 'Aantal toegewezen meldingen', 'data' => $assignedReports->map(fn(TrendValue $value): mixed => $value->aggregate)],
+                ['backgroundColor' => '#3A5A40', 'borderColor' => '#3A5A40', 'label' => 'Aantal meldingen gesloten', 'data' => $closedReports->map(fn(TrendValue $value): mixed => $value->aggregate)],
             ],
-            'labels' => $createdReports->map(fn (TrendValue $value): string => $value->date),
+            'labels' => $createdReports->map(fn(TrendValue $value): string => $value->date),
         ];
     }
 

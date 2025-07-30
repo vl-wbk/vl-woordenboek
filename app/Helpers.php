@@ -11,9 +11,10 @@ if (! function_exists('toHumanReadableNumber')) {
 }
 
 if (! function_exists('toHumanReadablePercentage')) {
-    function toHumanReadablePercentage(int $total, int $part): string  {
+    function toHumanReadablePercentage(int $total, int $part): string
+    {
         return ($total === 0)
             ? 'Infinity%'
-            : number_format($part / $total * 100, 1).'%';
+            : number_format($part / $total * 100, 1) . '%';
     }
 }

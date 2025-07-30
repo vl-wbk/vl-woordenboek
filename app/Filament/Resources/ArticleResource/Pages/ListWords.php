@@ -6,7 +6,6 @@ namespace App\Filament\Resources\ArticleResource\Pages;
 
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets\ArticleRegistrationChart;
 use App\Filament\Resources\ArticleResource;
-use App\Models\ArticleReport;
 use App\Models\Etymology;
 use App\Models\Label;
 use App\Models\Note;
@@ -42,6 +41,10 @@ final class ListWords extends ListRecords
      */
     protected static string $resource = ArticleResource::class;
 
+    /**
+     * @todo Document this function
+     * @return array<mixed>
+     */
     protected function getHeaderActions(): array
     {
         return [
@@ -50,7 +53,7 @@ final class ListWords extends ListRecords
                 ->label('Genereer records')
                 ->icon('heroicon-o-cog-8-tooth')
                 ->hasMany([Note::class, Etymology::class])
-                ->belongsToMany([Label::class])
+                ->belongsToMany([Label::class]),
         ];
     }
 

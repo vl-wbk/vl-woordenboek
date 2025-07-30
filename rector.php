@@ -14,12 +14,13 @@ use Rector\Strict\Rector\Ternary\DisallowedShortTernaryRuleFixerRector;
 
 return RectorConfig::configure()
     ->withPaths([
-        __DIR__.'/app',
-        __DIR__.'/bootstrap/app.php',
-        __DIR__.'/database',
-        __DIR__.'/public',
+        __DIR__ . '/app',
+        __DIR__ . '/bootstrap/app.php',
+        __DIR__ . '/database',
+        __DIR__ . '/public',
     ])
     ->withSkip([
+        AddOverrideAttributeToOverriddenMethodsRector::class,
         PrivatizeFinalClassPropertyRector::class,
         PrivatizeFinalClassMethodRector::class          => [__DIR__ . '/app/Filament/Clusters/Blog/Resources/BlogResource/Pages/CreateBlog.php'],
         RemoveUnusedPublicMethodParameterRector::class  => [__DIR__ . '/app/Policies'],

@@ -20,7 +20,6 @@ use Illuminate\Support\Facades\DB;
  */
 final class ReportInProgressState extends ReportState
 {
-
     /**
      * Transitions the report from the "In Progress" state to the "Closed" state.
      *
@@ -31,7 +30,7 @@ final class ReportInProgressState extends ReportState
      */
     public function transitionToClosed(): bool
     {
-        return DB::transaction(fn (): bool => $this->articleReport->update(attributes: [
+        return DB::transaction(fn(): bool => $this->articleReport->update(attributes: [
             'state' => Status::Closed, 'closed_at' => now(),
         ]));
     }

@@ -7,15 +7,11 @@ namespace App\Filament\Resources\ArticleResource\Schema;
 use App\Enums\ArticleStates;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Actions\DisclaimerToolbarActions;
 use App\Models\Article;
-use Filament\Infolists\Components\Actions\Action;
-use Filament\Support\Enums\IconSize;
-use App\Filament\Resources\ArticleResource;
 use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Infolists\Components\Tabs;
 use Filament\Infolists\Components\Tabs\Tab;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
-use Illuminate\Support\HtmlString;
 
 /**
  * WordInfolist is responsible for defining the schema of the detailed information display for articles.
@@ -57,8 +53,8 @@ final readonly class WordInfolist
                     self::sourcesInformationTab(),
                     self::editInformationTab(),
                     self::publicationInformationTab(),
-                    self::archiveInformationTab()
-                ])
+                    self::archiveInformationTab(),
+                ]),
         ]);
     }
 
@@ -74,7 +70,7 @@ final readonly class WordInfolist
     private static function archiveInformationTab(): Tab
     {
         return Tab::make('Archiverings informatie')
-            ->visible(fn (Article $article): bool => $article->state->is(ArticleStates::Archived))
+            ->visible(fn(Article $article): bool => $article->state->is(ArticleStates::Archived))
             ->icon('heroicon-o-archive-box')
             ->columns(12)
             ->schema([
@@ -92,7 +88,7 @@ final readonly class WordInfolist
                 TextEntry::make('archiving_reason')
                     ->label('Beweegredenen')
                     ->columnSpan(6)
-                    ->placeholder('- geen beweegredenen opgegeven')
+                    ->placeholder('- geen beweegredenen opgegeven'),
             ]);
     }
 
@@ -115,13 +111,13 @@ final readonly class WordInfolist
             ->icon('heroicon-o-book-open')
             ->columns(12)
             /** @phpstan-ignore-next-line */
-            ->visible(fn (Article $article): bool => ! is_null($article->sources) && json_encode(count($article->sources)) > 0)
+            ->visible(fn(Article $article): bool => ! is_null($article->sources) && json_encode(count($article->sources)) > 0)
             ->schema([
                 KeyValueEntry::make('sources')
                     ->hiddenLabel()
                     ->keyLabel('Naam')
                     ->valueLabel('Url / Artikel')
-                    ->columnSpanFull()
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -142,7 +138,7 @@ final readonly class WordInfolist
     {
         return Tab::make('Publicatie gegevens')
             ->icon('tabler-file-signal')
-            ->visible(fn (Article $article): bool => $article->isPublished())
+            ->visible(fn(Article $article): bool => $article->isPublished())
             ->columns(12)
             ->schema([
                 TextEntry::make('disclaimer.message')

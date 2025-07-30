@@ -52,7 +52,7 @@ final class ReportArticleModal extends Component
     public function render(): Renderable
     {
         return view('livewire.report-article-modal', data: [
-            'article' => $this->article
+            'article' => $this->article,
         ]);
     }
 }

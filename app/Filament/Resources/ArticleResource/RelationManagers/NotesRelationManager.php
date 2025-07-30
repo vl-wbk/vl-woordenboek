@@ -19,6 +19,7 @@ use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * The NotesRelationManager is a critical component in our dictionary application that handles the relationship bewteen duictionary articles and their associated notes.
@@ -37,11 +38,14 @@ final class NotesRelationManager extends RelationManager
     protected static string $relationship = 'notes';
 
     /**
-     * Szets the display title in the admin interface to "Notities" (Dutch for notes).
+     * Sets the display title in the admin interface to "Notities" (Dutch for notes).
      * This localization choice reflects the application's primary language setting.
      */
     protected static ?string $title = 'Notities';
 
+    /**
+     * Sets the icon to be displayed for the NotesRelationManager in the Filament admin panel.
+     */
     protected static ?string $icon = 'heroicon-o-document-text';
 
     /**
@@ -69,7 +73,7 @@ final class NotesRelationManager extends RelationManager
                     ->label('Notitie')
                     ->translateLabel()
                     ->rows(4)
-                    ->columnSpanFull()
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -166,7 +170,7 @@ final class NotesRelationManager extends RelationManager
             ->modalIcon('heroicon-o-document-text')
             ->modalIconColor('gray')
             ->modalHeading(fn(Note $note): string => $note->title)
-            ->modalDescription(fn(Note $note): string => trans('Aangemaakt door :author op :date',['author' => $note->author->name, 'date' => $note->created_at->format('d/m/Y')]));
+            ->modalDescription(fn(Note $note): string => trans('Aangemaakt door :author op :date', ['author' => $note->author->name, 'date' => $note->created_at->format('d/m/Y')]));
     }
 
     /**
@@ -253,7 +257,7 @@ final class NotesRelationManager extends RelationManager
                 ->modalHeading('Notitie aanmaken')
                 ->modalWidth(MaxWidth::ThreeExtraLarge)
                 ->mutateFormDataUsing(function (array $data): array {
-                    $data['author_id'] = auth()->id();
+                    $data['author_id'] = Auth::user()->getAuthIdentifier();
                     return $data;
                 }),
         ];

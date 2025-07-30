@@ -12,13 +12,30 @@ use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
- * @todo document
+ * The UserSuggestionQueryBuilder class extends Spatie's QueryBuilder to construct and manage database queries specifically for retrieving article suggestions made by the currently authenticated user.
+ * It provides methods to filter these suggestions based on their state (e.g., new, in progress, done) and to search within their content.
+ *
+ * This query builder centralizes the logic for fetching user-specific article suggestions, ensuring consistent filtering and search capabilities across different parts of the application where such data is needed.
+ * It is designed to be flexible, allowing different filters to be applied based on request parameters.
+ *
+ * @see Article         - The Eloquent model representing the articles being queried.
+ * @see ArticleStates   - The enum defining the possible states of an article.
+ * @see QueryBuilder    - The base query builder provided by Spatie.
+ *
  * @extends QueryBuilder<Article>
+ *
+ * @package App\QueryBuilders
  */
 final class UserSuggestionQueryBuilder extends QueryBuilder
 {
     /**
-     * @todo document
+     * Constructs a new UserSuggestionQueryBuilder instance.
+     *
+     * This constructor initializes the query builder by first building the base suggestion query using the `suggestionQuery` private method.
+     * This base query already filters articles to only include those authored by the currently authenticated user and applies general search terms.
+     * The constructed query is then passed to the parent QueryBuilder's constructor, allowing Spatie's functionalities (like allowed filters, sorts, etc.) to be built upon this foundation.
+     *
+     * @param Request $request  The current HTTP request instance, used to determine which filters and search terms to apply.
      */
     public function __construct(Request $request)
     {
@@ -27,16 +44,29 @@ final class UserSuggestionQueryBuilder extends QueryBuilder
     }
 
     /**
-     * @todo document
-     * @phpstan-ignore-next-line
+     * Builds the base Eloquent query for user-specific article suggestions.
+     *
+     * This private method constructs the initial query that retrieves articles submitted by the currently authenticated user.
+     * It applies conditional filters based on the `filter` query parameter in the request:
+     *
+     * - If the 'inProgress' filter is requested, it calls `onlyInProgressSuggestions`.
+     * - If the 'done' filter is requested, it calls `onlyProcessedSuggestions`.
+     * - If the 'new' filter is requested, it calls `onlyNewSuggestions`.
+     *
+     * Additionally, it includes a `where` clause to enable searching within the `word` and `description` fields of the articles, using a `like` operator with the value from the `zoekterm` (search term) request parameter.
+     *
+     * @param   Request $request  The current HTTP request instance, used to access filter parameters and search terms.
+     * @return  Builder|Relation  An Eloquent query builder instance or a relation instance, configured for fetching user suggestions.
+     *
+     * @phpstan-ignore-next-line    This annotation is used to suppress a potential PhpStan warning regarding the return type, as it can be either a Builder or a Relation.
      */
     private function suggestionQuery(Request $request): Builder|Relation
     {
         return Article::query()
             ->where('author_id', auth()->id())
-            ->when($this->needsToApplyFilter('inProgress'), fn (Builder $builder): Builder => $this->onlyInProgressSuggestions($builder))
-            ->when($this->needsToApplyFilter('done'), fn (Builder $builder): Builder => $this->onlyProcessedSuggestions($builder))
-            ->when($this->needsToApplyFilter('new'), fn (Builder $builder): Builder => $this->onlyNewSuggestions($builder))
+            ->when($this->needsToApplyFilter('inProgress'), fn(Builder $builder): Builder => $this->onlyInProgressSuggestions($builder))
+            ->when($this->needsToApplyFilter('done'), fn(Builder $builder): Builder => $this->onlyProcessedSuggestions($builder))
+            ->when($this->needsToApplyFilter('new'), fn(Builder $builder): Builder => $this->onlyNewSuggestions($builder))
 
             // Search between the suggestions
             ->where(function ($query) use ($request): void {

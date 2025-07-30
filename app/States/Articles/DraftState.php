@@ -35,8 +35,8 @@ final class DraftState extends ArticleState
     /** @todo document */
     public function transitionToExternalData(): bool
     {
-        return DB::transaction(fn (): bool => $this->article->update(attributes: [
-            'state' => ArticleStates::ExternalData, 'editor_id' => null
+        return DB::transaction(fn(): bool => $this->article->update(attributes: [
+            'state' => ArticleStates::ExternalData, 'editor_id' => null,
         ]));
     }
 
@@ -50,8 +50,8 @@ final class DraftState extends ArticleState
      */
     public function transitionToSuggestion(): bool
     {
-        return DB::transaction(fn (): bool => $this->article->update(attributes: [
-            'state' => ArticleStates::New, 'editor_id' => null
+        return DB::transaction(fn(): bool => $this->article->update(attributes: [
+            'state' => ArticleStates::New, 'editor_id' => null,
         ]));
     }
 }

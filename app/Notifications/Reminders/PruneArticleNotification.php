@@ -62,7 +62,7 @@ final class PruneArticleNotification extends Notification implements ShouldQueue
      */
     public function toMail(User $notifiable): MailMessage
     {
-        $mail = (new MailMessage)
+        $mail = (new MailMessage())
             ->subject('Herinnering: Woordenboekartikelen worden binnen 2 dagen definitief verwijderd')
             ->greeting('Beste ' . $notifiable->name . ',')
             ->line('De volgende woordenboekartikelen werden voorlopig verwijderd. **Binnen 2 dagen worden ze automatisch en permanent verwijderd**:')

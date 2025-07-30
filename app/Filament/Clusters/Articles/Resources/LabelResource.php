@@ -87,7 +87,7 @@ final class LabelResource extends Resource
                     ->label('Beschrijving')
                     ->rows(4)
                     ->placeholder('Beschrijf zo goed mogelijk wat het label inhoud. (Optioneel)')
-                    ->columnSpanFull()
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -130,7 +130,7 @@ final class LabelResource extends Resource
                         TextEntry::make('description')
                             ->label('Beschrijving')
                             ->columnSpanFull()
-                            ->placeholder('Geen label beschrijving geregistreed')
+                            ->placeholder('Geen label beschrijving geregistreed'),
                     ]),
             ]);
     }
@@ -167,11 +167,11 @@ final class LabelResource extends Resource
                 TextColumn::make('description')
                     ->label('Beschrijving')
                     ->placeholder('- geen beschrijving opgegeven')
-                    ->formatStateUsing(fn (Label $label): string => Str::limit($label->description, 60, '...', preserveWords: true)),
+                    ->formatStateUsing(fn(Label $label): string => Str::limit($label->description, 60, '...', preserveWords: true)),
                 TextColumn::make('created_at')
                     ->label('Aangemaakt op')
                     ->sortable()
-                    ->date()
+                    ->date(),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()
@@ -206,7 +206,7 @@ final class LabelResource extends Resource
      */
     public static function getNavigationBadge(): ?string
     {
-        return Cache::flexible('label_count', [10, 60], fn (): string => (string) self::$model::count());
+        return Cache::flexible('label_count', [10, 60], fn(): string => (string) self::$model::count());
     }
 
     /**
@@ -222,7 +222,7 @@ final class LabelResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\ArticlesRelationManager::class
+            RelationManagers\ArticlesRelationManager::class,
         ];
     }
 

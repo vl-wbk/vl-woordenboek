@@ -64,7 +64,7 @@ final class CommentsRelationManager extends RelationManager
             ->emptyStateHeading('Geen reacties toegevoegd')
             ->emptyStateDescription('Het lijkt erop dat er nog geen reacties zijn toegevoegd door gebruikers onder het nieuwsartikel. Kom later nog eens terug!')
             ->description('Een overzicht van alles reacties die geplaatst zijn onder het nieuwsartikel.')
-            ->modifyQueryUsing(fn (Builder $query): Builder => $query->with('commentator'))
+            ->modifyQueryUsing(fn(Builder $query): Builder => $query->with('commentator'))
             ->columns(components: $this->getTableColumnComponents())
             ->headerActions(actions: $this->getHeaderActions())
             ->actions(actions: $this->getRowActions())
@@ -83,13 +83,13 @@ final class CommentsRelationManager extends RelationManager
                     ->label('documentatie'),
                 Tables\Actions\Action::make('moderatie-faq')
                     ->icon('heroicon-s-document-text')
-                    ->label('moderatie FAQ')
+                    ->label('moderatie FAQ'),
             ])
                 ->visible(Feature::active(DocumentationButtons::class))
                 ->button()
                 ->icon('heroicon-o-lifebuoy')
                 ->color('gray')
-                ->label('Help')
+                ->label('Help'),
         ];
     }
 

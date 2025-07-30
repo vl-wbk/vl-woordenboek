@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\DataMigration;
 
-use App\Models\Article;
 use App\Services\DataMigration\ArticleImporterFactory;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
@@ -17,7 +16,7 @@ final class MigrateArticleCommand extends Command
     private static string $sourceFile = 'imports/data-dump.json';
 
     public function __construct(
-        private readonly ArticleImporterFactory $articleImporterFactory
+        private readonly ArticleImporterFactory $articleImporterFactory,
     ) {
         parent::__construct();
     }
@@ -36,7 +35,7 @@ final class MigrateArticleCommand extends Command
                 function (int $count): void {
                     $this->output->writeln("Processed: {$count} articles");
                 },
-                fn (string $message) => $this->warn($message)
+                fn(string $message) => $this->warn($message),
             );
 
             $this->newLine();

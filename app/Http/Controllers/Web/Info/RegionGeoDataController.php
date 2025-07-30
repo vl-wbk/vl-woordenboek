@@ -27,7 +27,7 @@ final readonly class RegionGeoDataController
                 "features" => [],
             ];
 
-            collect($geoFeatures)->each(function($feature): void {
+            collect($geoFeatures)->each(function ($feature): void {
                 $collection['features'][] = [
                     "type" => "Feature",
                     "properties" => [

@@ -23,7 +23,7 @@ final class EtymologyStatisticsWidget extends BaseWidget
      * Retrieves an array of Stat objects to be displayed in the widget.
      * This method orchestrates the collection of individual statistics for published, under review, archived, and rejected etymologies.
      *
-     * @return array<Stat>  An array containing instances of `Stat` representing different etymology status counts.
+     * @return array<mixed>  An array containing instances of `Stat` representing different etymology status counts.
      */
     protected function getStats(): array
     {
@@ -31,7 +31,7 @@ final class EtymologyStatisticsWidget extends BaseWidget
             $this->publishedStat(),
             $this->underReviewStat(),
             $this->archivedStat(),
-            $this->rejectedStat()
+            $this->rejectedStat(),
         ];
     }
 
@@ -46,14 +46,14 @@ final class EtymologyStatisticsWidget extends BaseWidget
     private function publishedStat(): Stat
     {
         $count = toHumanReadableNumber(
-            Etymology::whereNotNull('published_at')->whereStatus(EtymologyStatus::Published)->count()
+            Etymology::whereNotNull('published_at')->whereStatus(EtymologyStatus::Published)->count(),
         );
 
         return Stat::make('Gepubliceerde etymologieen', $count)
             ->icon('heroicon-o-globe-europe-africa')
             ->iconColor('success')
             ->description(trans(':percent van alle etymologieen', [
-                'percent' => toHumanReadablePercentage($this->getAllEtymoglogies(), (int) $count)
+                'percent' => toHumanReadablePercentage($this->getAllEtymoglogies(), (int) $count),
             ]))
             ->descriptionColor('success');
     }
@@ -69,13 +69,13 @@ final class EtymologyStatisticsWidget extends BaseWidget
     private function archivedStat(): Stat
     {
         $count = toHumanReadableNumber(
-            Etymology::whereNotNull('archived_at')->whereStatus(EtymologyStatus::Archived)->count()
+            Etymology::whereNotNull('archived_at')->whereStatus(EtymologyStatus::Archived)->count(),
         );
 
         return Stat::make('Gearchiveerde etymologieen', $count)
             ->icon('heroicon-o-archive-box')
             ->description(trans(':percent van alle etymologieen', [
-                'percent' => toHumanReadablePercentage($this->getAllEtymoglogies(), (int) $count)
+                'percent' => toHumanReadablePercentage($this->getAllEtymoglogies(), (int) $count),
             ]))
             ->descriptionColor('primary')
             ->iconColor('primary');
@@ -95,13 +95,13 @@ final class EtymologyStatisticsWidget extends BaseWidget
     private function underReviewStat(): Stat
     {
         $count = toHumanReadableNumber(
-            Etymology::whereStatus(EtymologyStatus::UnderReview)->count()
+            Etymology::whereStatus(EtymologyStatus::UnderReview)->count(),
         );
 
         return Stat::make('In beoordeling', 0)
             ->icon('heroicon-o-pencil')
             ->description(trans(':percent van alle etymologieen', [
-                'percent' => toHumanReadablePercentage($this->getAllEtymoglogies(), (int) $count)
+                'percent' => toHumanReadablePercentage($this->getAllEtymoglogies(), (int) $count),
             ]))
             ->descriptionColor('primary')
             ->iconColor('primary');
@@ -124,7 +124,7 @@ final class EtymologyStatisticsWidget extends BaseWidget
         return Stat::make('Afgewezen etymologieen', $count)
             ->icon('heroicon-o-x-circle')
             ->description(trans(':percent van alle etymologieen', [
-                'percent' => toHumanReadablePercentage($this->getAllEtymoglogies(), (int) $count)
+                'percent' => toHumanReadablePercentage($this->getAllEtymoglogies(), (int) $count),
             ]))
             ->descriptionColor('danger')
             ->iconColor('danger');

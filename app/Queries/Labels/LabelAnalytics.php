@@ -143,7 +143,7 @@ final readonly class LabelAnalytics
             'statistic' => toHumanReadableNumber($totalAttachedReports),
             'altText' => trans('Goed voor :percent van de meldingen', [
                 'percent' => toHumanReadablePercentage($totalReports, $totalAttachedReports),
-            ])
+            ]),
         ];
     }
 }
