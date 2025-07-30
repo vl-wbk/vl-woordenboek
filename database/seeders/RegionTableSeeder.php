@@ -1,6 +1,6 @@
 <?php
 
-declare(strct_types=1);
+declare(strict_types=1);
 
 namespace Database\Seeders;
 
