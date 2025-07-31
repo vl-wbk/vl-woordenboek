@@ -34,9 +34,12 @@ final readonly class SearchController
     #[Get(uri: '/resultaten', name: 'search.results')]
     public function __invoke(Request $request, SearchWordQuery $searchWordQuery): Renderable
     {
+        $baseQuery = Article::query()->whereNotNull('published_at');
+
         return view('welcome', [
             'searchPatterns' => SearchPatterns::cases(),
-            'articleCount' => Article::query()->whereNotNull('published_at')->count('id'),
+            'randomArticle' => $baseQuery->inRandomOrder()->first(),
+            'articleCount' => $baseQuery->count('id'),
             'results' => $searchWordQuery->execute($request),
             'termPresent' => $request->has('zoekterm'),
         ]);

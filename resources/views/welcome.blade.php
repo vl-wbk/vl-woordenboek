@@ -23,7 +23,7 @@
 
                         <div class="float-end">
                             @if (\App\Models\Article::whereNotNull('published_at')->count('id') > 0)
-                                <a href="{{ route('word-information.random') }}" class="text-muted text-decoration-none">
+                                <a href="{{ route('word-information.show', $randomArticle) }}" class="text-muted text-decoration-none">
                                     <x-heroicon-o-language class="icon color-green" /> Willekeurig woord
                                 </a>
                             @endif
