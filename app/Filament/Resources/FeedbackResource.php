@@ -21,6 +21,11 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Cache;
 
+/**
+ * @todo Document this class
+ * @todo Split the methods up in their own schema's
+ * @todo Provide additional end user documentation
+ */
 final class FeedbackResource extends Resource
 {
     protected static ?string $model = Feedback::class;
@@ -101,10 +106,16 @@ final class FeedbackResource extends Resource
             ->emptyStateDescription('Momenteel is er nog geen feedback ingestuurd door gebruikers van het Vlmaams woordenboek. Kom later nog eens terug.')
             ->deferLoading()
             ->columns([
-                TextColumn::make('name')
-                    ->label('Ingestuurd door')
+                TextColumn::make('tracking_number')
+                    ->label('Volgnummer')
+                    ->searchable()
                     ->weight(FontWeight::SemiBold)
                     ->color('primary')
+                    ->placeholder('-'),
+                TextColumn::make('name')
+                    ->label('Ingestuurd door')
+                    ->iconColor('primary')
+                    ->icon('heroicon-o-user-circle')
                     ->searchable(),
                 TextColumn::make('email')
                     ->searchable()
@@ -154,7 +165,9 @@ final class FeedbackResource extends Resource
             ->tooltip('Bekijken')
             ->modalIcon('heroicon-o-information-circle')
             ->modalIconColor('info')
-            ->modalHeading('Feedback informatie')
+            ->modalHeading(heading: function (Feedback $feedback): string {
+                return $feedback->tracking_number ? "{$feedback->tracking_number}: Feedback informatie" : 'Feedback overzicht';
+            })
             ->modalDescription(fn(Feedback $feedback): string => trans('Ingestuurd door :user op :date', ['user' => $feedback->name, 'date' => $feedback->created_at->format('d/m/Y')]));
     }
 
