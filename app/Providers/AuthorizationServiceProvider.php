@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Policies\BanPolicy;
+use App\Policies\ExportPolicy;
 use Cog\Laravel\Ban\Models\Ban;
+use Filament\Actions\Exports\Models\Export;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -30,7 +32,7 @@ final class AuthorizationServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Register the BanPolicy for the Ban model. This tells Laravel to use the BanPolicy class to determine authorization for Ban model instances.
         Gate::policy(Ban::class, BanPolicy::class);
+        Gate::policy(Export::class, ExportPolicy::class);
     }
 }

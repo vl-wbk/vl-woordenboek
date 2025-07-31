@@ -7,17 +7,20 @@ namespace App\Filament\Resources;
 use App\Enums\ArticleStates;
 use App\Filament\Clusters\Articles;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets\ArticleRegistrationChart;
+use App\Filament\Exports\ArticleExporter;
 use App\Filament\Resources\ArticleResource\Schema\WordInfolist;
 use App\Filament\Resources\ArticleResource\Pages;
 use App\Filament\Resources\ArticleResource\Schema\FormSchema;
 use App\Models\Article;
 use App\UserTypes;
+use Filament\Actions\Exports\Enums\ExportFormat;
 use Filament\Tables\Actions\Action;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconSize;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Columns\TextColumn;
@@ -176,7 +179,6 @@ final class ArticleResource extends Resource
             ->emptyStateHeading('Geen artikelen gevonden')
             ->emptyStateDescription("Momenteel konden we geen artikelen (lemma's) vinden met de matchende criteria. Kom later nog eens terug.")
             ->paginated([10, 25, 50, 75])
-            ->modifyQueryUsing(fn(Builder $query): Builder => self::selectDatabaseColumns($query))
             ->columns([
                 TextColumn::make('author.name')
                     ->label('Ingevoegd door')
@@ -235,6 +237,12 @@ final class ArticleResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),
+
+                    Tables\Actions\ExportBulkAction::make()->exporter(ArticleExporter::class)
+                        ->modalWidth(MaxWidth::Large)
+                        ->modalDescription('Gegevens nodig in een ander programma? Geen probleem! Selecteer de kolommen die je nodig hebt en je kunt vervolgens de gegevens downloaden in een .xlsx of .csv estanden downloaden')
+                        ->icon('heroicon-o-arrow-down-tray')
+                        ->slideOver(),
                 ]),
             ]);
     }
@@ -256,18 +264,6 @@ final class ArticleResource extends Resource
 
         return parent::getEloquentQuery()
             ->withoutGlobalScopes([SoftDeletingScope::class]);
-    }
-
-    /**
-     * Selects specific database columns for the article listing table.
-     * This optimizes the query by only retrieving necessary fields.
-     *
-     * @param  Builder<Article> $builder  The query builder instance
-     * @return Builder<Article>           The modified query builder
-     */
-    private static function selectDatabaseColumns(Builder $builder): Builder
-    {
-        return $builder->addSelect('id', 'characteristics', 'part_of_speech_id', 'word', 'state', 'author_id', 'created_at', 'updated_at', 'deleted_at');
     }
 
     /**
