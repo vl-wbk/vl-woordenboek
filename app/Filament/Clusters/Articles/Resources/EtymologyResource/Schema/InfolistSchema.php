@@ -248,6 +248,7 @@ final readonly class InfolistSchema
                     ->columnSpan(4),
                 TextEntry::make('source_url')
                     ->label('Hyperlink')
+                    ->visible(fn (Etymology $etymology): string => $etymology->source_url)
                     ->columnSpan(8)
                     ->placeholder('- Geen hyperlink opgegeven')
                     ->url(fn(Etymology $etymology): string => $etymology->source_url)
