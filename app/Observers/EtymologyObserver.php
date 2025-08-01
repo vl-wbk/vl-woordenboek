@@ -39,7 +39,7 @@ final readonly class EtymologyObserver
      */
     public function creating(Etymology $etymology): void
     {
-        $userId = Auth::user()->getAuthIdentifier();
+        $userId = optional(Auth::user())->getAuthIdentifier();
 
         match (true) {
             $etymology->status->isArchived() => $etymology->fill(['archived_at' => now(), 'author_id' => $userId, 'archived_by' => $userId]),
