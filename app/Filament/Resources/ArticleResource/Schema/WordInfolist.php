@@ -202,14 +202,17 @@ final readonly class WordInfolist
                 TextEntry::make('keywords')
                     ->label('Kernwoorden')
                     ->translateLabel()
+                    ->placeholder('-')
                     ->columnSpan(4),
                 TextEntry::make('partOfSpeech.name')
                     ->label('Woordsoort')
                     ->columnSpan(4)
+                    ->placeholder('-')
                     ->translateLabel(),
                 TextEntry::make('characteristics')
                     ->label('Kenmerken')
                     ->columnSpan(4)
+                    ->placeholder('-')
                     ->translateLabel(),
                 TextEntry::make('status')
                     ->label('Status')
