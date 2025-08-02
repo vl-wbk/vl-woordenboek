@@ -41,6 +41,14 @@ final readonly class UserForm
                             ->unique(ignoreRecord: true)
                             ->email()
                             ->columnSpan(12),
+                        Components\Select::make('roles')
+                            ->label('Permissie groepen')
+                            ->relationship('roles', 'name')
+                            ->multiple()
+                            ->preload()
+                            ->columnSpanFull()
+                            ->helperText('Deze groepen bepalen wie tot welke zaken toegang heeft in het vlaams woordenboek.')
+                            ->searchable(),
                     ]),
             ]);
     }

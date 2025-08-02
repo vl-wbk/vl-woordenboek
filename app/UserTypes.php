@@ -15,6 +15,8 @@ use Filament\Support\Contracts\HasLabel;
  * This enum implements Filament's visual contracts to provide consistent styling and representation across the application interface.
  * Each user type corresponds to specific permissions and capabilities within the system, creating a clear hierarchical structure for content management and administration.
  *
+ * @todo Will phase out with the permission system in place.
+ *
  * @package App
  */
 enum UserTypes: int implements HasLabel, HasColor, HasIcon

@@ -44,7 +44,7 @@ final readonly class UserTable
                     ->color(fn(User $user): string => $user->isBanned() ? 'danger' : 'primary')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('user_type')
+                TextColumn::make('roles.name')
                     ->label('Gebruikers rol')
                     ->badge(),
                 TextColumn::make('email')
