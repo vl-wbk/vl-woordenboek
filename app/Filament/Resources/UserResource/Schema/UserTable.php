@@ -46,6 +46,9 @@ final readonly class UserTable
                     ->searchable(),
                 TextColumn::make('roles.name')
                     ->label('Gebruikers rol')
+                    ->icon('heroicon-o-key')
+                    ->placeholder('- geen toegwezen')
+                    ->color('danger')
                     ->badge(),
                 TextColumn::make('email')
                     ->label('E-mail adres')
