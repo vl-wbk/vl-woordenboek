@@ -7,6 +7,7 @@ namespace App\Providers;
 use App\Models\User;
 use App\Services\ReadTimeCalculator;
 use App\UserTypes;
+use BezhanSalleh\FilamentShield\FilamentShield;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -38,6 +39,9 @@ final class AppServiceProvider extends ServiceProvider
 
         $this->registerGlobalPolicyCheck();
         $this->registerLaravelTelescope();
+
+        // Prohibit destructieve commands in production environments
+        FilamentShield::prohibitDestructiveCommands($this->app->isProduction());
     }
 
     /**

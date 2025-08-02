@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Clusters\UserManagement\Resources;
 
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
@@ -19,7 +21,7 @@ use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Unique;
 
-class RoleResource extends Resource implements HasShieldPermissions
+final class RoleResource extends Resource implements HasShieldPermissions
 {
     use HasShieldFormComponents;
 
@@ -88,6 +90,12 @@ class RoleResource extends Resource implements HasShieldPermissions
     public static function table(Table $table): Table
     {
         return $table
+            ->heading(__('Rollen overzicht'))
+            ->description(__('Hier vind je een overzicht van alle gebruikers groepen (rollen) in het Vlaams woordenboek. Deze groepen bepalen wat ze mogen en niet mogen.'))
+            ->headerActions([
+                Tables\Actions\CreateAction::make()
+                    ->icon('heroicon-o-plus-circle')
+            ])
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->weight('font-medium')
@@ -95,6 +103,7 @@ class RoleResource extends Resource implements HasShieldPermissions
                     ->formatStateUsing(fn ($state): string => Str::headline($state))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('guard_name')
+                    ->label(__('Systeem type'))
                     ->badge()
                     ->color('warning')
                     ->label(__('filament-shield::filament-shield.column.guard_name')),
@@ -109,6 +118,7 @@ class RoleResource extends Resource implements HasShieldPermissions
                     ->badge()
                     ->label(__('filament-shield::filament-shield.column.permissions'))
                     ->counts('permissions')
+                    ->label(__('Gekoppelde permissies'))
                     ->colors(['success']),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label(__('filament-shield::filament-shield.column.updated_at'))
@@ -118,8 +128,11 @@ class RoleResource extends Resource implements HasShieldPermissions
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

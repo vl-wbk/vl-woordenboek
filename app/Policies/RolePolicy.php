@@ -1,14 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\User;
+use Illuminate\Auth\Access\Response;
 use Spatie\Permission\Models\Role;
 
-class RolePolicy
+final readonly class RolePolicy
 {
-    public function delete(User $user, Role $role): bool
+    public function before(User $user, string $ability): ?Response
     {
-        return false;
+        if ($user->cannot('page_UserManagement')) {
+            return Response::denyAsNotFound();
+        }
+
+        return null;
+    }
+
+    public function view(User $user, Role $role): bool
+    {
+        return $user->can('view_role');
     }
 }
