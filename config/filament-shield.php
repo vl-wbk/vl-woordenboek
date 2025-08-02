@@ -6,12 +6,12 @@ return [
         'slug' => 'shield/roles',
         'navigation_sort' => -1,
         'navigation_badge' => true,
-        'navigation_group' => true,
+        'navigation_group' => false,
         'sub_navigation_position' => null,
         'is_globally_searchable' => false,
-        'show_model_path' => true,
+        'show_model_path' => false,
         'is_scoped_to_tenant' => true,
-        'cluster' => null,
+        'cluster' => 'App\\Filament\\Clusters\\UserManagement',
     ],
 
     'tenant_model' => null,
@@ -22,7 +22,7 @@ return [
 
     'super_admin' => [
         'enabled' => true,
-        'name' => 'super_admin',
+        'name' => 'ontwikkelaars',
         'define_via_gate' => false,
         'intercept_gate' => 'before', // after
     ],
@@ -33,20 +33,7 @@ return [
     ],
 
     'permission_prefixes' => [
-        'resource' => [
-            'view',
-            'view_any',
-            'create',
-            'update',
-            'restore',
-            'restore_any',
-            'replicate',
-            'reorder',
-            'delete',
-            'delete_any',
-            'force_delete',
-            'force_delete_any',
-        ],
+        'resource' => [],
 
         'page' => 'page',
         'widget' => 'widget',
