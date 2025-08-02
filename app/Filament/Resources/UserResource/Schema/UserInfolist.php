@@ -67,8 +67,8 @@ final readonly class UserInfolist
                 ->icon('heroicon-o-user-circle')
                 ->iconColor('primary')
                 ->columnSpan(3),
-            TextEntry::make('user_type')
-                ->label('Gebruikersgroep')
+            TextEntry::make('email')
+                ->label('Email adres')
                 ->badge()
                 ->columnSpan(3),
             TextEntry::make('last_seen_at')
@@ -84,6 +84,10 @@ final readonly class UserInfolist
                 ->iconColor('primary')
                 ->date()
                 ->columnSpan(3),
+            TextEntry::make('user_type')
+                ->label('Gebruikersgroep')
+                ->badge()
+                ->columnSpan(3),
         ];
     }
 
@@ -98,7 +102,7 @@ final readonly class UserInfolist
      *
      * @return array<int, TextEntry> The array of `TextEntry` components for user deactivation details.
      */
-    public static function renderDeactivationINformation(): array
+    public static function renderDeactivationInformation(): array
     {
         return [
             TextEntry::make('bannable.name')
