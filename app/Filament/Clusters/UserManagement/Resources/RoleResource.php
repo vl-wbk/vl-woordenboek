@@ -45,7 +45,10 @@ final class RoleResource extends Resource implements HasShieldPermissions
             ->schema([
                 Forms\Components\Grid::make()
                     ->schema([
-                        Forms\Components\Section::make()
+                        Forms\Components\Section::make('Gegevens omtrent de rol')
+                            ->description('Formulier om alle benodigde gegevens van de gebruikersrol in te vullen en aan te maken. Resources zijn de entiteiten van gegevens in het Vlaams woordenboek. Terwijl Paginas gewoon pagoinas en clusters zijn.')
+                            ->collapsible()
+                            ->compact()
                             ->schema([
                                 Forms\Components\TextInput::make('name')
                                     ->label(__('filament-shield::filament-shield.field.name'))
@@ -54,12 +57,14 @@ final class RoleResource extends Resource implements HasShieldPermissions
                                         modifyRuleUsing: fn (Unique $rule) => Utils::isTenancyEnabled() ? $rule->where(Utils::getTenantModelForeignKey(), Filament::getTenant()?->id) : $rule
                                     )
                                     ->required()
-                                    ->maxLength(255),
+                                    ->maxLength(255)
+                                    ->columnSpan(9),
 
                                 Forms\Components\TextInput::make('guard_name')
                                     ->label(__('filament-shield::filament-shield.field.guard_name'))
                                     ->default(Utils::getFilamentAuthGuard())
                                     ->nullable()
+                                    ->columnSpan(3)
                                     ->maxLength(255),
 
                                 Forms\Components\Select::make(config('permission.column_names.team_foreign_key'))
@@ -75,12 +80,13 @@ final class RoleResource extends Resource implements HasShieldPermissions
                                     ->offIcon('heroicon-s-shield-exclamation')
                                     ->label(__('filament-shield::filament-shield.field.select_all.name'))
                                     ->helperText(fn (): HtmlString => new HtmlString(__('filament-shield::filament-shield.field.select_all.message')))
-                                    ->dehydrated(fn (bool $state): bool => $state),
+                                    ->dehydrated(fn (bool $state): bool => $state)
+                                    ->columnSpan(6),
 
                             ])
                             ->columns([
                                 'sm' => 2,
-                                'lg' => 3,
+                                'lg' => 12,
                             ]),
                     ]),
                 static::getShieldFormComponents(),

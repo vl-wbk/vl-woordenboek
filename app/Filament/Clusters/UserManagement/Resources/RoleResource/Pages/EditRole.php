@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Clusters\UserManagement\Resources\RoleResource\Pages;
 
 use App\Filament\Clusters\UserManagement\Resources\RoleResource;
@@ -9,7 +11,7 @@ use Filament\Resources\Pages\EditRecord;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
-class EditRole extends EditRecord
+final class EditRole extends EditRecord
 {
     protected static string $resource = RoleResource::class;
 
