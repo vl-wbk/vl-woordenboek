@@ -18,11 +18,18 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
+/**
+ * @todo document resource class
+ */
 final class EtymologyResource extends Resource
 {
     protected static ?string $modelLabel = 'Etymologie';
 
     protected static ?string $pluralLabel = 'Etymologieen';
+
+    protected static ?string $cluster = Articles::class;
+
+    protected static ?string $navigationIcon = 'heroicon-o-book-open';
 
     public static function infolist(Infolist $infolist): Infolist
     {
