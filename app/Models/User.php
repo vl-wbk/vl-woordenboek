@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Pennant\Concerns\HasFeatures;
 use Laravel\Sanctum\HasApiTokens;
 use Override;
+use Spatie\Permission\Traits\HasRoles;
 
 /**
  * User represents an authenticated account in the 'Vlaams woordenboek application'.
@@ -64,7 +65,7 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
     use Bannable;
     use HasApiTokens;
     use HasFeatures;
-
+    use HasRoles;
 
     /**
      * Specifies which attributes can be mass assigned when creating or updating user records.

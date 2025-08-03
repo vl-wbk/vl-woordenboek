@@ -7,6 +7,7 @@ namespace App\Policies;
 use App\Models\Label;
 use App\Models\User;
 use App\UserTypes;
+use Illuminate\Auth\Access\Response;
 
 /**
  * LabelPolicy enforces authorization rules for label management in the Vlaams Woordenboek.
@@ -19,6 +20,34 @@ use App\UserTypes;
 final readonly class LabelPolicy
 {
     /**
+     * @todo Document polociy method.
+     */
+    public function before(User $user): ?Response
+    {
+        if ($user->cannot('page_Articles')) {
+            return Response::denyAsNotFound();
+        }
+
+        return null;
+    }
+
+    /**
+     * @todo Document policy
+     */
+    public function viewAny(User $user): bool
+    {
+        return $user->can('view_any_label');
+    }
+
+    /**
+     * @todo Document policy
+     */
+    public function view(User $user, Label $label): bool
+    {
+        return $user->can('view_label');
+    }
+
+    /**
      * Determines whether a user can update existing labels.
      *
      * Updates to labels are restricted to administrators and developers to maintain consistency in the dictionary's taxonomic structure.
@@ -28,7 +57,7 @@ final readonly class LabelPolicy
      */
     public function update(User $user): bool
     {
-        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer]);
+        return $user->can('update_label');
     }
 
     /**
@@ -41,7 +70,7 @@ final readonly class LabelPolicy
      */
     public function delete(User $user): bool
     {
-        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer]);
+        return $user->can('delete_label');
     }
 
     /**
@@ -54,7 +83,7 @@ final readonly class LabelPolicy
      */
     public function create(User $user): bool
     {
-        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer]);
+        return $user->can('create_label');
     }
 
     /**
@@ -67,7 +96,7 @@ final readonly class LabelPolicy
      */
     public function attach(User $user): bool
     {
-        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer, UserTypes::EditorInChief]);
+        return $user->can('attach_label');
     }
 
     /**
@@ -80,6 +109,14 @@ final readonly class LabelPolicy
      */
     public function detach(User $user, Label $label): bool
     {
-        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer, UserTypes::EditorInChief]);
+        return $user->can('detach_label');
+    }
+
+    /**
+     * @todo Document policy
+     */
+    public function deleteAny(User $user): bool
+    {
+        return $user->can('delete_any_label');
     }
 }

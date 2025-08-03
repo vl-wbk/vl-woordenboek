@@ -28,7 +28,7 @@ return [
     |
     */
     'resource' => [
-        'class' => \Kenepa\ResourceLock\Resources\LockResource::class,
+        'class' =>  \App\Filament\Resources\LockResource::class,
     ],
 
     /*
@@ -45,7 +45,7 @@ return [
 
     'unlocker' => [
         'limited_access' => false,
-        // 'gate' => ''
+        'gate' => 'unlock_resource_lock'
     ],
 
     /*

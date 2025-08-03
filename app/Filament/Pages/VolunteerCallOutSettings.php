@@ -7,7 +7,7 @@ namespace App\Filament\Pages;
 use App\Filament\Clusters\Settings;
 use App\Settings\VolunteerSettings;
 use App\Enums\VolunteerPositions;
-use App\UserTypes;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\MarkdownEditor;
@@ -30,6 +30,8 @@ use Filament\Support\Enums\IconSize;
  */
 final class VolunteerCallOutSettings extends SettingsPage
 {
+    use HasPageShield;
+
     /**
      * Defines the icon used to represent this settings page in the Filament admin panel navigation menu.
      * This helps users visually identify the page within the admin interface. Uses a Heroicon name.
@@ -149,10 +151,5 @@ final class VolunteerCallOutSettings extends SettingsPage
                 ->options(VolunteerPositions::class)
                 ->columns(3),
         ];
-    }
-
-    public static function canAccess(): bool
-    {
-        return auth()->user()->user_type->in([UserTypes::Administrators, UserTypes::Developer]);
     }
 }

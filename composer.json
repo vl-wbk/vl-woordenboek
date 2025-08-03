@@ -10,6 +10,7 @@
         "aaronfrancis/fast-paginate": "^2.0",
         "archtechx/enums": "^1.1",
         "beyondcode/laravel-comments": "^1.8",
+        "bezhansalleh/filament-shield": "^3.3",
         "charrafimed/global-search-modal": "^3.7",
         "codewithdennis/filament-factory-action": "^3.0",
         "cybercog/laravel-ban": "^4.10",
