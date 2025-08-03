@@ -6,7 +6,6 @@ namespace App\Providers;
 
 use App\Models\User;
 use App\Services\ReadTimeCalculator;
-use App\UserTypes;
 use BezhanSalleh\FilamentShield\FilamentShield;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
@@ -64,7 +63,10 @@ final class AppServiceProvider extends ServiceProvider
      */
     private function registerGlobalPolicyCheck(): void
     {
-        Gate::define('access-backend', fn(User $user): bool => $user->user_type->isNot(enum: UserTypes::Normal) && $user->hasVerifiedEmail());
+        Gate::define(
+            ability: 'access-backend',
+            callback: fn(User $user): bool => $user->roles()->exists() && $user->hasVerifiedEmail()
+        );
     }
 
     /**

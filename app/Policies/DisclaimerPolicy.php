@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
+use App\Models\Disclaimer;
 use App\Models\User;
 use App\UserTypes;
+use Illuminate\Auth\Access\Response;
 
 /**
  * The DisclaimerPolicy class defines the authorization rules for interacting with `Disclaimer` models within the application.
@@ -23,6 +25,18 @@ use App\UserTypes;
 final readonly class DisclaimerPolicy
 {
     /**
+     * @todo Document polociy method.
+     */
+    public function before(User $user): ?Response
+    {
+        if ($user->cannot('page_Articles')) {
+            return Response::denyAsNotFound();
+        }
+
+        return null;
+    }
+
+    /**
      * Determine whether the user can view any disclaimers.
      *
      * This method grants permission to view a list of all disclaimers.
@@ -34,7 +48,15 @@ final readonly class DisclaimerPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->user_type->in(enums: [UserTypes::EditorInChief, UserTypes::Administrators, UserTypes::Developer]);
+        return $user->can('view_any_disclaimer');
+    }
+
+    /**
+     * @todo Document policy
+     */
+    public function view(User $user, Disclaimer $disclaimer): bool
+    {
+        return $user->can('view_disclaimer');
     }
 
     /**
@@ -48,7 +70,7 @@ final readonly class DisclaimerPolicy
      */
     public function create(User $user): bool
     {
-        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer]);
+        return $user->can('create_disclaimer');
     }
 
     /**
@@ -62,7 +84,7 @@ final readonly class DisclaimerPolicy
      */
     public function update(User $user): bool
     {
-        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer]);
+        return $user->can('update_disclaimer');
     }
 
     /**
@@ -76,6 +98,14 @@ final readonly class DisclaimerPolicy
      */
     public function delete(User $user): bool
     {
-        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer]);
+        return $user->can('delete_disclaimer');
+    }
+
+    /**
+     * @todo Document policy
+     */
+    public function deleteAny(User $user): bool
+    {
+        return $user->can('delete_any_disclaimer');
     }
 }
