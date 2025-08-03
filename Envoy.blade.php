@@ -26,6 +26,8 @@ git pull origin {{ $branch }}
 composer update --optimize-autoloader
 {{ logMessage("INFO  Run the migrations...") }}
 php artisan migrate --force
+{{ logMessage('INFO  Run the essential seeders') }}
+php artisan db:seed --class=ShieldSeeder
 {{ logMessage("INFO  Optimize the application...") }}
 php artisan optimize
 {{ logMessage("INFO  Bring the application back online") }}
