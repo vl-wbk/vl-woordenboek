@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources;
 
+use App\Filament\Clusters\Articles;
 use App\Filament\Clusters\Articles\Resources\EtymologyResource\Pages;
 use App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema\FormSchema;
 use App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema\InfolistSchema;
@@ -19,8 +20,6 @@ use Filament\Tables\Table;
 
 final class EtymologyResource extends Resource
 {
-    protected static bool $shouldRegisterNavigation = false;
-
     protected static ?string $modelLabel = 'Etymologie';
 
     protected static ?string $pluralLabel = 'Etymologieen';

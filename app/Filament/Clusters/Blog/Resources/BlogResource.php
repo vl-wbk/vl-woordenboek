@@ -12,6 +12,7 @@ use App\Filament\Clusters\Blog\Resources\BlogResource\Schema\FormSchema;
 use App\Filament\Clusters\Blog\Resources\BlogResource\Schema\ResourceActionDefinitions;
 use App\Filament\Clusters\Blog\Resources\BlogResource\Schema\TableSchema;
 use App\Models\Blog as BlogPosts;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
@@ -35,7 +36,7 @@ use Filament\Tables\Table;
  *
  * @package App\Filament\Clusters\Blog\Resources
  */
-final class BlogResource extends Resource
+final class BlogResource extends Resource implements HasShieldPermissions
 {
     /**
      * The model associated with this resource.
@@ -53,7 +54,7 @@ final class BlogResource extends Resource
      * The label displayed in the Filament navigation sidebar for this resource.
      * Set to 'Artikelen' (Articles).
      */
-    protected static ?string $navigationLabel = 'Artikels';
+    protected static ?string $navigationLabel = 'Nieuwsberichten';
 
     /**
      * The cluster this resource belongs to.
@@ -67,7 +68,14 @@ final class BlogResource extends Resource
      *
      * For example, if your model is 'Post', setting this to 'Article' would result in UI elements like "Create new Article" or "Edit Article".
      */
-    protected static ?string $modelLabel = 'Artikel';
+    protected static ?string $modelLabel = 'Nieuwsbericht';
+
+    protected static ?string $pluralModelLabel = 'Nieuwsberichten';
+
+    public static function getPermissionPrefixes(): array
+    {
+        return ['view_any', 'view', 'update', 'delete', 'delete_any', 'undo_publication'];
+    }
 
     /**
      * Defines the structure of the form used for creating and editing blog posts.

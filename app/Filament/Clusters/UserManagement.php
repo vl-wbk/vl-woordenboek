@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters;
 
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Clusters\Cluster;
 
 /**
@@ -21,6 +22,8 @@ use Filament\Clusters\Cluster;
  */
 final class UserManagement extends Cluster
 {
+    use HasPageShield;
+
     /**
      * The icon shown in the navigation menu.
      * We use the Heroicon users outline variant to represent this user management section visually.

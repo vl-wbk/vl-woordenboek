@@ -6,6 +6,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\FeedbackResource\Pages;
 use App\Models\Feedback;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Infolists\Components\Fieldset;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\TextEntry;
@@ -26,11 +27,16 @@ use Illuminate\Support\Facades\Cache;
  * @todo Split the methods up in their own schema's
  * @todo Provide additional end user documentation
  */
-final class FeedbackResource extends Resource
+final class FeedbackResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = Feedback::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
+
+    public static function getPermissionPrefixes(): array
+    {
+        return ['view_any', 'view', 'delete', 'delete_any'];
+    }
 
     public static function infolist(Infolist $infolist): Infolist
     {
