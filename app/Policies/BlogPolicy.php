@@ -123,6 +123,6 @@ final readonly class BlogPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('deleteAny');
+        return $user->can('delete_any_blog');
     }
 }
