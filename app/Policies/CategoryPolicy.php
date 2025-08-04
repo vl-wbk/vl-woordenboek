@@ -47,7 +47,7 @@ final readonly class CategoryPolicy
         return $user->can('delete_category');
     }
 
-    public function deleteAny(User $user, Category $category): bool
+    public function deleteAny(User $user): bool
     {
         return $user->can('delete_any_category');
     }
