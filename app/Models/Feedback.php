@@ -60,20 +60,6 @@ final class Feedback extends Model
     ];
 
     /**
-     * Get the user who submitted this feedback.
-     *
-     * This relationship connects the feedback entry to the user who created it.
-     * This relationship may be null for anonymous feedback submissions.
-     * When accessed, this will lead to the associated User model with all its attributes.
-     *
-     * @return BelongsTo<User, covariant $this>
-     */
-    public function author(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    /**
      * Get the casts for the model.
      *
      * The `casts` method defines how certain attributes should be converted to native PHP types when they are retrieved from your database.

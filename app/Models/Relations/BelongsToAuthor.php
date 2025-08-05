@@ -6,6 +6,7 @@ namespace App\Models\Relations;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Trait BelongsToAuthor
@@ -38,8 +39,8 @@ trait BelongsToAuthor
      */
     public function author(): BelongsTo
     {
-        return $this->belongsTo(User::class)
-            ->withDefault(['name' => config('app.name')]);
+        return $this->belongsTo(User::class, 'author_id')
+            ->withDefault(['name' => config('app.name', 'Laravel')]);
     }
 
     /**
@@ -50,7 +51,7 @@ trait BelongsToAuthor
      */
     public function setCurrentUserAsAuthor(): void
     {
-        $this->setAuthor(auth()->user());
+        $this->setAuthor(Auth::user());
     }
 
     /**
