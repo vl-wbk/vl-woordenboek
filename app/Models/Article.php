@@ -12,6 +12,7 @@ use App\Contracts\States\ArticleStateContract;
 use App\Enums\ArticleStates;
 use App\Enums\DataOrigin;
 use App\Enums\LanguageStatus;
+use App\Models\Relations\BelongsToAuthor;
 use App\Models\Relations\BelongsToEditor;
 use App\Models\Relations\BelongsToManyRegions;
 use Carbon\Carbon;
@@ -68,6 +69,7 @@ final class Article extends Model implements AuditableContract
 
     use BelongsToManyRegions;
     use BelongsToEditor;
+    use BelongsToAuthor;
     use Auditable;
     use Likeable;
     use HasLocks;
@@ -138,17 +140,6 @@ final class Article extends Model implements AuditableContract
     public function partOfSpeech(): BelongsTo
     {
         return $this->belongsTo(PartOfSpeech::class);
-    }
-
-    /**
-     * Defines the relationship between an article and its author.
-     * Each article is created by exactly one user (author). This relationship is crucial for tracking article ownership and attribution.
-     *
-     * @return BelongsTo<User, covariant $this>
-     */
-    public function author(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'author_id');
     }
 
     /**

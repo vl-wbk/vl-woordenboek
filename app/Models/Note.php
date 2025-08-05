@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Relations\BelongsToAuthor;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -31,6 +32,7 @@ final class Note extends Model
 {
     /** @use HasFactory<\Database\Factories\NoteFactory> */
     use HasFactory;
+    use BelongsToAuthor;
 
     /**
      * Specifies attributes that are protected from mass assignment.
@@ -40,17 +42,4 @@ final class Note extends Model
      * @var list<string>
      */
     protected $guarded = ['id'];
-
-    /**
-     * Establishes the relationship between a note and its author.
-     * This method defines a belongs-to relationship with the User model, enabling seamless access to author information through Eloquent's elegant relationship syntax.
-     * The implementation automatically handles foreign key conventions and eager loading capabilities, facilitating efficient data access patterns when retrieving author details for display or processing.
-     *
-     * @return BelongsTo<User, covariant $this> The Eloquent relationship instance linking to the author
-     */
-    public function author(): BelongsTo
-    {
-        return $this->belongsTo(User::class)
-            ->withDefault(['name' => config('app.name', 'Laravel')]);
-    }
 }

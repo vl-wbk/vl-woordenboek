@@ -8,6 +8,7 @@ namespace App\Models;
 
 use App\Builders\BlogBuilder;
 use App\Filament\Clusters\Blog\Resources\BlogResource\Enums\Status;
+use App\Models\Relations\BelongsToAuthor;
 use Carbon\Carbon;
 use Database\Factories\BlogFactory;
 use Illuminate\Database\Eloquent\Collection;
@@ -52,6 +53,7 @@ final class Blog extends Model implements Feedable
     use HasFactory;
     use HasUlids;
     use HasComments;
+    use BelongsToAuthor;
 
     /**
      * The attributes that are not mass assignable.
@@ -70,22 +72,6 @@ final class Blog extends Model implements Feedable
     protected $attributes = [
         'status' => Status::Draft,
     ];
-
-    /**
-     * Get the author that owns the blog post.
-     *
-     * This defines a `BelongsTo` relationship with the `User` model, indicating that each blog post is associated with a single author.
-     * If no author is found or specified, it defaults to the application's name.
-     *
-     * @return BelongsTo<User, covariant $this>
-     */
-    public function author(): BelongsTo
-    {
-        return $this->belongsTo(User::class)
-            ->withDefault(callback: [
-                'name' => config('app.name'),
-            ]);
-    }
 
     /**
      * Get the publication status state object for the blog post.
