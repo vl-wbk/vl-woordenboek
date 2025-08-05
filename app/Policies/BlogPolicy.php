@@ -8,121 +8,133 @@ use App\Models\Blog;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-/**
- * Defines authorization logic for 'blog' model actions.
- *
- * This policy class determines whether a given user can perform specific actions on blog posts, such as submitting, viewing, updating, publishing, or deleting them, as well as commenting.
- * It leverages Laravel's authorization system to return `Response` objects indicating `allow` or `deny` access.
- *
- * @package App\Policues
- */
 final readonly class BlogPolicy
 {
-    /**
-     * Determine whether the user can perform any action on blog posts.
-     *
-     * This "before" method is executed before any other policy method.
-     * If it returns a non-null `Response`, that response will short-circuit the authorization check.
-     * Administrators and Developers are granted full access.
-     *
-     * @param  User $user       The authenticated user attempting the action.
-     * @return Response|null    A `Response::allow()` if the user is an administrator or developer, otherwise `null` to proceed to other policy methods.
-     */
     public function before(User $user): ?Response
     {
         if ($user->cannot('page_Blog')) {
-            return Response::denyAsNotFound();
+            return Response::deny(
+                message: __('authorization.policies.responses.deny_before_message', replace: [
+                    'resource' => __('authorization.resources.blogPosts'),
+                ]),
+            );
         }
 
         return null;
     }
 
-    /**
-     * @todo document policy
-     */
     public function submitPost(User $user): Response
     {
-        return $user->hasVerifiedEmail()
-            ? Response::allow()
-            : Response::denyAsNotFound();
+        if ($user->hasVerifiedEmail()) {
+            return Response::allow();
+        }
+
+        return Response::deny(message: __('authorization.policies.responses.deny_submit_post_message'));
     }
 
-    /**
-     * @todo document policy
-     */
     public function viewAny(User $user): Response
     {
-        return $user->can('view_any_blog')
-            ? Response::allow()
-            : Response::denyAsNotFound();
+        if ($user->can('view_any_blog')) {
+            return Response::allow();
+        }
+
+        return Response::denyAsNotFound(
+            message: __('authorization.policies.responses.deny_view_any_message', replace: [
+                'resource' => __('authorization.resources.blogPosts'),
+            ]),
+        );
     }
 
-    /**
-     * @todo document policy
-     */
     public function view(User $user, Blog $blog): Response
     {
-        return $user->can('view_blog')
-            ? Response::allow()
-            : Response::denyAsNotFound();
+        if ($user->can('view_blog')) {
+            return Response::allow();
+        }
+
+        return Response::denyAsNotFound(
+            message: __('authorization.policies.messages.deny_view_message', replace: [
+                'resource' => __('authorization.resources.blogPost'),
+            ]),
+        );
     }
 
-    /**
-     * @todo Document
-     * @deprecated - rename canComment to writeComment
-     */
     public function canComment(User $user, Blog $blog): Response
     {
-        return ($blog->comments_enabled && $user->hasVerifiedEmail())
-            ? Response::allow()
-            : Response::denyAsNotFound();
+        // TODO: Maybe its an idea if we register here a permission for placing reactions on indivual user acounts.
+        if ($blog->comments_enabled && $user->hasVerifiedEmail()) {
+            return Response::allow();
+        }
+
+        return Response::deny(
+            message: __('authorization.policies.responses.deny_create_comment_message', replace: [
+                'resource' => __('authorization.resources.blogPost')
+            ]),
+        );
     }
 
-    /**
-     * @todo document policy
-     */
     public function update(User $user, Blog $blog): Response
     {
-        return ($blog->author()->is($user) || $user->can('update_blog'))
-            ? Response::allow()
-            : Response::denyAsNotFound();
+        if ($blog->author()->is($user) || $user->can('update_blog')) {
+            return Response::allow();
+        }
+
+        return Response::deny(
+            message: __('authorization.policies.responses.deny_update_message', replace: [
+                'resource' => __('authorization.resources.blogPost'),
+            ]),
+        );
     }
 
-    /**
-     * @todo document policy
-     */
     public function publish(User $user, Blog $blog): Response
     {
-        return $blog->author()->is($user)
-            ? Response::allow()
-            : Response::denyAsNotFound();
+        // FIXME: Investigate why there is no permission declaration nor usage in this policy method.
+        if ($blog->author()->is($user)) {
+            return Response::allow();
+        }
+
+        return Response::deny(
+            message: __('authorization.poliies.responses.deny_publication_message', replace: [
+                'resource' => __('authorization.resources.blogPost')
+            ]),
+        );
     }
 
-    /**
-     * @todo document policy
-     */
     public function delete(User $user, Blog $blog): Response
     {
-        return ($blog->author()->is($user) || $user->can('delete_blog'))
-            ? Response::allow()
-            : Response::denyAsNotFound();
+        if ($blog->author->is($user) || $user->can('delete_blog')) {
+            return Response::allow();
+        }
+
+        return Response::deny(
+            message: __('authorization.policies.responses.deny_delete_message', replace: [
+                'resource' => __('authorization.resources.blogPost')
+            ]),
+        );
     }
 
-    /**
-     * @todo document policy
-     */
     public function undoPublication(User $user, Blog $blog): Response
     {
-        return ($blog->author()->is($user) || $user->can('undo_publication_blog'))
-            ? Response::allow()
-            : Response::denyAsNotFound();
+        if ($blog->author()->is($user) || $user->can('undo_publication_blog')) {
+            return Response::allow();
+        }
+
+        return Response::deny(
+            message: __('authorization.policies.responses.deny_undo_publication_message', replace: [
+                'resource' => __('authorization.resources.blogPosts')
+            ]),
+        );
     }
 
-    /**
-     * @todo document policy
-     */
-    public function deleteAny(User $user): bool
+    public function deleteAny(User $user): Response
     {
-        return $user->can('delete_any_blog');
+        if ($user->can('delete_any_blog')) {
+            return Response::allow();
+        }
+
+        return Response::deny(
+            message: __('authorization.policies.responses.deny_delete_any_messages', replace: [
+                'resource' => __('authorization.resources.blogPosts'),
+            ]),
+        );
     }
 }

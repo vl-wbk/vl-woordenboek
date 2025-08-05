@@ -9,79 +9,69 @@ use App\UserTypes;
 use Cog\Laravel\Ban\Models\Ban;
 use Illuminate\Auth\Access\Response;
 
-/**
- * Class BanPolicy
- *
- * This class defines the authorization policy for the 'ban' model.
- * It Determines which users are allowed to perform certain actions on 'ban' objects, such as viewing, updating, or deleting them.
- *
- * The policy grants blanket access to `Administrators` and `Developer` user types for all actions.
- * Other user types are implicitly denied access.
- *
- * @package App\Policies
- */
 final readonly class BanPolicy
 {
     public function before(User $user, string $ability): ?Response
     {
-        if ($user->cannot('page_UserManagement')) {
-            return Response::denyAsNotFound();
+        if ($user->can('page_UserManagement')) {
+            return null;
         }
 
-        return null;
+        return Response::denyAsNotFound(
+            message: __('authorization.policies.responses.deny_before_message', replace: [
+                'resource' => __('authorization.resources.bans'),
+            ]),
+        );
     }
 
-    /**
-     * Determines whether the user can view any `Ban` models.
-     *
-     * This method checks if the user has the `Administrators` or `Developer` user type.
-     * If so, it grants access to view any `Ban` models.
-     *
-     * @param User $user The user to check.
-     *
-     * @return bool True if the user is an administrator or developer, false otherwise.
-     */
-    public function viewAny(User $user): bool
+    public function viewAny(User $user): Response
     {
-        return $user->can('view_any_ban');
+        if ($user->can('view_any_ban')) {
+            return Response::allow();
+        }
+
+        return Response::deny(
+            message: __('authorization.policies.responses.deny_view_any_message', replace: [
+                'resource' => __('authorization.resources.bans'),
+            ]),
+        );
     }
 
-    /**
-     * Determines whether the user can view a specific `Ban` model.
-     *
-     * This method always returns false, effectively denying access to view specific `Ban` models.
-     * The `before` method handles access control for administrators and developers.
-     *
-     * @return bool Always false.
-     */
-    public function view(User $user, Ban $ban): bool
+    public function view(User $user, Ban $ban): Response
     {
-        return $user->can('view_ban');
+        if ($user->can('view_ban')) {
+            return Response::allow();
+        }
+
+        return Response::deny(
+            message: __('authorisation.policies.responses.deny_view_message', replace: [
+                'resource' => __('authorisation.resources.ban'),
+            ]),
+        );
     }
 
-    /**
-     * Determines whether the user can update the `Ban` model.
-     *
-     * This method always returns false, effectively denying access to update `Ban` models.
-     * The `before` method handles access control for administrators and developers.
-     *
-     * @return bool Always false.
-     */
-    public function update(User $user, Ban $ban): bool
+    public function update(User $user, Ban $ban): Response
     {
-        return $user->can('update_ban');
-    }
+        if ($user->can('update_ban')) {
+            response::allow();
+        }
 
-    /**
-     * Determines whether the user can delete the `Ban` model.
-     *
-     * This method always returns false, effectively denying access to delete `Ban` models.
-     * The `before` method handles access control for administrators and developers.
-     *
-     * @return bool Always false.
-     */
-    public function delete(User $user, Ban $ban): bool
+        return Response::deny(
+            message: __('authorisation.policies.responses.deny_update_message', replace: [
+                'resource' => __('authorisation.resources.ban'),
+            ]),
+        );
+    }
+    public function delete(User $user, Ban $ban): Response
     {
-        return $user->can('delete_ban');
+        if ($user->can('delete_ban')) {
+            return Response::allow();
+        }
+
+        return Response::deny(
+            message: __('authorisation.policies.responses.deny_delete_message', replace: [
+                'resource' => __('auhtorisation.resources.ban'),
+            ]),
+        );
     }
 }
