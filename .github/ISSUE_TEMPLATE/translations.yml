@@ -15,6 +15,13 @@ body:
   - type: textarea
     id: actual-behaviour
     attributes:
+      label: Beschrijving van de fout
+      description: Beschrijf hier de fout. Of vul de zin in die er nu momenteel staat.
+    validations:
+      required: true
+  - type: textarea
+    id: actual-behaviour
+    attributes:
       label: Voorstel tot correctie
       description: Hoe zou de fout volgens jouw verholpen moeten worden?
     validations:
@@ -22,5 +29,5 @@ body:
   - type: textarea
     id: error-location
     attributes:
-      label: Waar bevind zich de fout?
-      description: Probeer zo duidelijk mogelijk te zijn over de locatie van de fout. Zo kunnen we snel en accuraat mogelijk de fout verhelpen.
+      label: Waar staat de fout?
+      description: Probeer zo duidelijk mogelijk te zijn over de lokatie van de fout. Zo kunnen we de fout zo snel en accuraat mogelijk verhelpen.'
