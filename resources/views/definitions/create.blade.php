@@ -159,18 +159,18 @@
 
                     <h5 class="color-green fw-bold">Uit een artikel:</h5>
 
-                    <p class="mb-3 fst-italic text-muted">(bron: (auteur) – titel – bron – datum publicatie – ‘geraadpleegd op’ datum raadpleging – (indien mogelijk: link))</p>
+                    <p class="mb-3 fst-italic text-muted">(bron: (auteur) – titel – bron – datum publicatie – ‘geraadpleegd op’ datum raadpleging)</p>
 
                     <h6 class="fw-bold"><x-heroicon-o-information-circle class="icon"/> Voorbeeld (bij ‘stront aan de knikker’):</h6>
 
                     <p class="mb-3">
-                        U voelt meteen stront aan de knikker in ‘Malditos’ (Bron: titel in De Morgen 5.05.2025, geraadpleegd op 14.05.2025, https://www.demorgen.be/tv-cultuur/u-voelt-meteen-stront-aan-de-knikker-in-malditos~be73fc04/)
+                        U voelt meteen stront aan de knikker in ‘Malditos’ (Bron: titel in De Morgen 5.05.2025, geraadpleegd op 14.05.2025)
                     </p>
 
                     <h6 class="fw-bold"><x-heroicon-o-information-circle class="icon"/> Voorbeeld (bij ‘Brailleliga’):</h6>
 
                     <p class="mb-2 pb-2 border-bottom">
-                        De Brailleliga moet niet betalen om documenten in blindenschrift te versturen. (Bron: Brailleliga vreest voor kosteloze verzendingen. De Standaard 08.02.2006, geraadpleegd op 14.05.2025, https://www.standaard.be/binnenland/brailleliga-vreest-voor-kosteloze-verzendingen/43962690.html)
+                        De Brailleliga moet niet betalen om documenten in blindenschrift te versturen. (Bron: Brailleliga vreest voor kosteloze verzendingen. De Standaard 08.02.2006, geraadpleegd op 14.05.2025)
                     </p>
 
                     <h5 class="color-green fw-bold">Uit een website:</h5>
@@ -178,14 +178,13 @@
 
                     <h6 class="fw-bold"><x-heroicon-o-information-circle class="icon"/> Voorbeeld (bij ‘goesting’):</h6>
                     <p class="mb-2 pb-2 border-bottom">
-                        Goesting in Antwerpen? Wij gidsen je op een plezante manier. (Bron: Goesting in A, geraadpleegd op 14.05.2025, https://goestingina.be/)
+                        Goesting in Antwerpen? Wij gidsen je op een plezante manier. (Bron: Goesting in A, geraadpleegd op 14.05.2025)
                     </p>
 
                     <h5 class="color-green fw-bold">Uit een papieren bron:</h5>
                     <p class="mb-3 fst-italic text-muted">(Bron: titel van boek, andere bron zoals folder, brochure; publicatiedatum of -jaar)</p>
 
-                    <h6 class="fw-bold"><x-heroicon-o-information-circle class="icon"/> Voorbeeld: (bij ‘hesp’):</h6>
-                    <p>Hesp en kaas in promotie! (Bron: folder van Aldi. 10.01.2010)</p>
+                    <p>Het voorbeeld uit de papieren bron hoeft niet aangepast te worden.</p>
                 </div>
             </div>
         </div>
