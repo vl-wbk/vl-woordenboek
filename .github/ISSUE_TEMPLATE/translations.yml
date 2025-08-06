@@ -7,9 +7,9 @@ body:
       label: Beschrijving van het probleem
       description: gaat het hier om een spelfout, een onduidelijkheid of inhoudelijke fout?
       options:
-        - inhouhoudelijke fout
-        - spelfout
-        - onduidelijkeheid
+        - Inhoudelijke fout
+        - Spelfout
+        - Onduidelijkheid
     validations:
       required: true
   - type: textarea
