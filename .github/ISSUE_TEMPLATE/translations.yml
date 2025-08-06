@@ -8,7 +8,7 @@ body:
       description: gaat het hier om een spelfout, een onduidelijkheid of inhoudelijke fout?
       options:
         - Inhoudelijke fout
-        - Spelfout
+        - Taalfout
         - Onduidelijkheid
     validations:
       required: true
