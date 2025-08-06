@@ -13,7 +13,7 @@ body:
     validations:
       required: true
   - type: textarea
-    id: actual-behaviour
+    id: problem-description
     attributes:
       label: Beschrijving van de fout
       description: Beschrijf hier de fout. Of vul de zin in die er nu momenteel staat.
