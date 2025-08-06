@@ -5,7 +5,7 @@ body:
     id: problem-type
     attributes:
       label: Beschrijving van het probleem
-      description: gaat het hier om een spelfout, een onduidelijkheid of inhoudelijke fout?
+      description: Gaat het hier om een spelfout, een onduidelijkheid of inhoudelijke fout?
       options:
         - Inhoudelijke fout
         - Taalfout
