@@ -1,0 +1,33 @@
+name: "Taalkundige correctie"
+description: "Aanpassen, corrigeren of aanvullen van opschriften, onderschriften, meldingen en andere tekstjes op het VW"
+body:
+  - type: dropdown
+    id: problem-type
+    attributes:
+      label: Beschrijving van het probleem
+      description: gaat het hier om een spelfout, een onduidelijkheid of inhoudelijke fout?
+      options:
+        - Inhoudelijke fout
+        - Taalfout
+        - Onduidelijkheid
+    validations:
+      required: true
+  - type: textarea
+    id: problem-description
+    attributes:
+      label: Beschrijving van de fout
+      description: Beschrijf hier de fout. Of vul de zin in die er momenteel staat.'
+    validations:
+      required: true
+  - type: textarea
+    id: actual-behaviour
+    attributes:
+      label: Voorstel tot correctie
+      description: Hoe zou de fout volgens jou verholpen moeten worden?'
+    validations:
+      required: true
+  - type: textarea
+    id: error-location
+    attributes:
+      label: Waar staat de fout?
+      description: Probeer zo duidelijk mogelijk te zijn over de locatie van de fout. Zo kunnen we de fout zo snel en accuraat mogelijk verhelpen.'
