@@ -124,6 +124,7 @@ final class UserResource extends Resource implements HasShieldPermissions
         return [
             RelationManagers\SuggestionsRelationManager::class,
             RelationManagers\ReportsRelationManager::class,
+            \App\Filament\Clusters\UserManagement\Resources\RoleResource\RelationManagers\RolesRelationManager::class,
         ];
     }
 

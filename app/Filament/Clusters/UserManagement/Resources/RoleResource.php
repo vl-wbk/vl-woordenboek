@@ -36,6 +36,8 @@ final class RoleResource extends Resource implements HasShieldPermissions
             'update',
             'delete',
             'delete_any',
+            'detach', 
+            'attach'
         ];
     }
 
