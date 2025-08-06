@@ -177,14 +177,7 @@
                     <p class="mb-3 fst-italic text-muted">(Bron: Naam website, ‘geraadpleegd op’ datum raadpleging, link)</p>
 
                     <h6 class="fw-bold"><x-heroicon-o-information-circle class="icon"/> Voorbeeld (bij ‘goesting’):</h6>
-                    <p class="mb-2 pb-2 border-bottom">
-                        Goesting in Antwerpen? Wij gidsen je op een plezante manier. (Bron: Goesting in A, geraadpleegd op 14.05.2025)
-                    </p>
-
-                    <h5 class="color-green fw-bold">Uit een papieren bron:</h5>
-                    <p class="mb-3 fst-italic text-muted">(Bron: titel van boek, andere bron zoals folder, brochure; publicatiedatum of -jaar)</p>
-
-                    <p>Het voorbeeld uit de papieren bron hoeft niet aangepast te worden.</p>
+                    <p>Goesting in Antwerpen? Wij gidsen je op een plezante manier. (Bron: Goesting in A, geraadpleegd op 14.05.2025)</p>
                 </div>
             </div>
         </div>
