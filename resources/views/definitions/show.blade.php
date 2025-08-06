@@ -156,7 +156,7 @@
 
             <div class="col-lg-4 col-sm-12">
                 <div class="card bg-sidenav shadow-sm border-0 mt-sm-4 mt-lg-0 card-body">
-                    <h5 class="card-title fw-bold color-green border-dark-subtle border-bottom">Redactie informatie</h5>
+                    <h5 class="card-title fw-bold color-green border-dark-subtle border-bottom">Redactionele informatie</h5>
 
                     <dl class="row mt-2">
                         <dt class="col-sm-5">Suggestie door</dt>
@@ -167,7 +167,7 @@
                         <dd class="col-sm-7"><span class="float-end">{{ $word->publisher->name ?? 'onbekend' }}</span></dd>
                     </dl>
 
-                    <h5 class="card-title fw-bold color-green border-dark-subtle border-bottom">Publicatie gegevens</h5>
+                    <h5 class="card-title fw-bold color-green border-dark-subtle border-bottom">Publicatiegegevens</h5>
 
                     <dl class="row mt-2 mb-0">
                         <dt class="col-sm-5">Publicatiedatum</dt>
