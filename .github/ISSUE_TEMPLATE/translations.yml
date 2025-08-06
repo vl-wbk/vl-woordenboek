@@ -16,18 +16,18 @@ body:
     id: problem-description
     attributes:
       label: Beschrijving van de fout
-      description: Beschrijf hier de fout. Of vul de zin in die er nu momenteel staat.
+      description: Beschrijf hier de fout. Of vul de zin in die er momenteel staat.'
     validations:
       required: true
   - type: textarea
     id: actual-behaviour
     attributes:
       label: Voorstel tot correctie
-      description: Hoe zou de fout volgens jouw verholpen moeten worden?
+      description: Hoe zou de fout volgens jou verholpen moeten worden?'
     validations:
       required: true
   - type: textarea
     id: error-location
     attributes:
       label: Waar staat de fout?
-      description: Probeer zo duidelijk mogelijk te zijn over de lokatie van de fout. Zo kunnen we de fout zo snel en accuraat mogelijk verhelpen.'
+      description: Probeer zo duidelijk mogelijk te zijn over de locatie van de fout. Zo kunnen we de fout zo snel en accuraat mogelijk verhelpen.'
