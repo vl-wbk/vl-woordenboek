@@ -178,6 +178,12 @@
 
                     <h6 class="fw-bold"><x-heroicon-o-information-circle class="icon"/> Voorbeeld (bij ‘goesting’):</h6>
                     <p>Goesting in Antwerpen? Wij gidsen je op een plezante manier. (Bron: Goesting in A, geraadpleegd op 14.05.2025)</p>
+
+                    <h5 class="color-green fw-bold">Uit een papieren bron:</h5>
+                    <p class="mb-3 fst-italic text-muted">(Bron: titel van boek, andere bron zoals folder, brochure; publicatiedatum of -jaar)</p>
+
+                    <h6 class="fw-bold"><x-heroicon-o-information-circle class="icon"/> Voorbeeld: (bij ‘hesp’):</h6>
+                    <p>Hesp en kaas in promotie! (Bron: folder van Aldi. 10.01.2010)</p>
                 </div>
             </div>
         </div>
