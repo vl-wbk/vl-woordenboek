@@ -11,6 +11,7 @@ use App\Filament\Resources\UserResource\Schema;
 use App\Filament\Resources\UserResource\Schema\UserTable;
 use App\Filament\Resources\UserResource\Widgets\UserRegistrationChartWidget;
 use App\Models\User;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
@@ -32,7 +33,7 @@ use Filament\Tables\Table;
  *
  * @package App\Filament\Resources
  */
-final class UserResource extends Resource
+final class UserResource extends Resource implements HasShieldPermissions
 {
     /**
      * At the core of our system sits this connection to the User model.
@@ -70,6 +71,17 @@ final class UserResource extends Resource
      */
     protected static ?string $cluster = UserManagement::class;
 
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view_any',
+            'create',
+            'deactivate',
+            'deactivate_update',
+            'reactivate',
+        ];
+    }
+
     /**
      * Our form builder - where we craft the perfect user creation experience.
      *
@@ -104,6 +116,7 @@ final class UserResource extends Resource
     }
 
     /**
+     * @odo Implement a relation manager for the permission roles.
      * @todo Document this method
      */
     public static function getRelations(): array
@@ -111,6 +124,7 @@ final class UserResource extends Resource
         return [
             RelationManagers\SuggestionsRelationManager::class,
             RelationManagers\ReportsRelationManager::class,
+            \App\Filament\Clusters\UserManagement\Resources\RoleResource\RelationManagers\RolesRelationManager::class,
         ];
     }
 

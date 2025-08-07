@@ -8,6 +8,7 @@ use App\Filament\Clusters\Articles;
 use App\Filament\Clusters\Articles\Resources\LabelResource\Pages;
 use App\Filament\Clusters\Articles\Resources\LabelResource\RelationManagers;
 use App\Models\Label;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms\Components;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
@@ -32,7 +33,7 @@ use Illuminate\Support\Str;
  *
  * @package App\Filament\Clusters\Articles\Resources
  */
-final class LabelResource extends Resource
+final class LabelResource extends Resource implements HasShieldPermissions
 {
     /**
      * The underlying Eloquent model that represents labels in our database. This model handles all
@@ -56,6 +57,11 @@ final class LabelResource extends Resource
      * {@inheritDoc}
      */
     protected static ?string $cluster = Articles::class;
+
+    public static function getPermissionPrefixes(): array
+    {
+        return ['delete_any', 'detach', 'attach', 'create', 'delete', 'update', 'view', 'view_any'];
+    }
 
     /**
      * Configures the form interface for creating and editing labels. The form provides a user-friendly

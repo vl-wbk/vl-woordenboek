@@ -6,7 +6,7 @@ namespace App\Filament\Pages;
 
 use App\Filament\Clusters\Settings;
 use App\Settings\ProjectInformationSettings as SettingsProjectInformationSettings;
-use App\UserTypes;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
@@ -14,7 +14,6 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Pages\SettingsPage;
 use Filament\Support\Enums\IconSize;
-use Illuminate\Support\Facades\Auth;
 
 /**
  * Class ProjectInformationSettings
@@ -26,6 +25,8 @@ use Illuminate\Support\Facades\Auth;
  */
 final class ProjectInformationSettings extends SettingsPage
 {
+    use HasPageShield;
+
     /**
      * Defines the icon used to represent this settings page in the Filament admin panel navigation menu. Uses a Tabler icon.
      */
@@ -98,18 +99,5 @@ final class ProjectInformationSettings extends SettingsPage
                 ->columnSpanFull()
                 ->live(),
         ];
-    }
-
-    /**
-     * Determines whether the user can access this settings page.
-     *
-     * This method checks if the currently authenticated user has the `Administrators` or `Developer` user type.
-     * Only users with these user types are allowed to access this settings page.
-     *
-     * @return bool True if the user can access the page, false otherwise.
-     */
-    public static function canAccess(): bool
-    {
-        return Auth::user()->user_type->in([UserTypes::Administrators, UserTypes::Developer]);
     }
 }

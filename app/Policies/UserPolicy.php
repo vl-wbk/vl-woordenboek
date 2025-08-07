@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\User;
 use App\UserTypes;
+use Illuminate\Auth\Access\Response;
 
 /**
  * UserPOlicy enforces authorization rules for user management operations.
@@ -15,6 +16,15 @@ use App\UserTypes;
  */
 final readonly class UserPolicy
 {
+    public function before(User $user, string $ability): ?Response
+    {
+        if ($user->cannot('page_UserManagement')) {
+            return Response::denyAsNotFound();
+        }
+
+        return null;
+    }
+
     /**
      * Determines whether a user can view the user management interface.
      *
@@ -26,7 +36,7 @@ final readonly class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer]);
+        return $user->can('view_any_user');
     }
 
     /**
@@ -40,7 +50,7 @@ final readonly class UserPolicy
      */
     public function create(User $user): bool
     {
-        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer]);
+        return $user->can('create_user');
     }
 
     /**
@@ -57,7 +67,7 @@ final readonly class UserPolicy
      */
     public function deactivate(User $user, User $model): bool
     {
-        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer])
+        return $user->can('deactivate_user')
             && $user->isNot($model)
             && $model->isNotBanned();
     }
@@ -76,7 +86,7 @@ final readonly class UserPolicy
      */
     public function reactivate(User $user, User $model): bool
     {
-        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer])
+        return $user->can('reactivate_user')
             && $user->isNot($model)
             && $model->isBanned();
     }
@@ -97,7 +107,7 @@ final readonly class UserPolicy
      */
     public function updateDeactivation(User $user, User $model): bool
     {
-        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer])
+        return $user->can('deactivate_update_user')
             && $user->isNot($model)
             && $model->isBanned();
     }

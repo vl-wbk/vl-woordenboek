@@ -8,6 +8,7 @@ use App\Enums\ArticleStates;
 use App\Models\User;
 use App\Models\Article;
 use App\UserTypes;
+use Illuminate\Auth\Access\Response;
 
 /**
  * ArticlePolicy enforces authorization rules for dictionary article management.
@@ -19,6 +20,15 @@ use App\UserTypes;
  */
 final readonly class ArticlePolicy
 {
+    public function before(User $user): ?Response
+    {
+        if ($user->cannot('page_Articles')) {
+            return Response::denyAsNotFound();
+        }
+
+        return null;
+    }
+
     /**
      * Determines whether a user can update an article's content.
      *
@@ -31,14 +41,14 @@ final readonly class ArticlePolicy
      */
     public function update(User $user, Article $article): bool
     {
-        $isPublishedOrAwaitinApproval = ($article->isPublished() || $article->state->is(ArticleStates::Approval)) ;
+        $isPublishedOrAwaitinApproval = ($article->isPublished() || $article->state->is(ArticleStates::Approval));
 
-        if ($isPublishedOrAwaitinApproval && $user->user_type->in([UserTypes::EditorInChief, UserTypes::Administrators, UserTypes::Developer])) {
-            return true;
+        if ($isPublishedOrAwaitinApproval && $user->can('update_article')) {
+            return false;
         }
 
         return $article->state->in(enums: [ArticleStates::New, ArticleStates::ExternalData, ArticleStates::Draft, ArticleStates::Archived])
-            && $user->user_type->notIn(enums: [UserTypes::Normal]);
+            && $user->can('update_article');
     }
 
     /**
@@ -54,7 +64,7 @@ final readonly class ArticlePolicy
     public function sendForApproval(User $user, Article $article): bool
     {
         return $article->state->in(enums: [ArticleStates::Draft])
-            && $user->user_type->notIn(enums: [UserTypes::Normal]);
+            && $user->can('send_for_approval_article');
     }
 
     /**
@@ -78,7 +88,7 @@ final readonly class ArticlePolicy
             return false;
         }
 
-        if ($user->user_type->notIn(enums: [UserTypes::EditorInChief, UserTypes::Developer, UserTypes::Administrators])) {
+        if ($user->cannot('publish_article')) {
             return false;
         }
 
@@ -97,7 +107,7 @@ final readonly class ArticlePolicy
      */
     public function unpublish(User $user, Article $article): bool
     {
-        return $article->isPublished() && $user->user_type->in(enums: [UserTypes::Developer, UserTypes::Administrators]);
+        return $article->isPublished() && $user->can('unpublish_article');
     }
 
     /**
@@ -127,7 +137,7 @@ final readonly class ArticlePolicy
             return true;
         }
 
-        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer]);
+        return $user->can('detach_disclaimer_article');
     }
 
     /**
@@ -142,7 +152,7 @@ final readonly class ArticlePolicy
      */
     public function attachDisclaimer(User $user, Article $article): bool
     {
-        return $article->disclaimer()->doesntExist() && $user->user_type->notIn([UserTypes::Normal, UserTypes::Editor]);
+        return $article->disclaimer()->doesntExist() && $user->can('attach_disclaimer_article');
     }
 
     /**
@@ -157,7 +167,7 @@ final readonly class ArticlePolicy
      */
     public function detachDisclaimer(User $user, Article $article): bool
     {
-        return $article->disclaimer()->exists() && $user->user_type->notIn([UserTypes::Normal, UserTypes::Editor]);
+        return $article->disclaimer()->exists() && $user->can('detach_disclaimer_article');
     }
 
     /**
@@ -173,7 +183,7 @@ final readonly class ArticlePolicy
     public function archiveArticle(User $user, Article $article): bool
     {
         return $article->state->in(enums: [ArticleStates::Published, ArticleStates::Approval])
-            && $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer, UserTypes::EditorInChief]);
+            && $user->can('archive_article');
     }
 
     /**
@@ -188,7 +198,7 @@ final readonly class ArticlePolicy
      */
     public function unarchive(User $user, Article $article): bool
     {
-        return $article->state->is(ArticleStates::Archived) && $user->user_type->notIn([UserTypes::Normal, UserTypes::Editor]);
+        return $article->state->is(ArticleStates::Archived) && $user->can('unarchive_article');
     }
 
     /**
@@ -203,7 +213,7 @@ final readonly class ArticlePolicy
      */
     public function delete(User $user, Article $article): bool
     {
-        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer])
+        return $user->can('delete_article')
             && $article->state->in(enums: [ArticleStates::New, ArticleStates::Draft, ArticleStates::ExternalData, ArticleStates::Archived]);
     }
 
@@ -218,7 +228,7 @@ final readonly class ArticlePolicy
      */
     public function restore(User $user): bool
     {
-        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer]);
+        return $user->can('restore_article');
     }
 
     /**
@@ -232,6 +242,14 @@ final readonly class ArticlePolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer]);
+        return $user->can('restore_any_article');
+    }
+
+    /**
+     * @todo document policy
+     */
+    public function deleteAny(User $user): bool
+    {
+        return $user->can('delete_any_article');
     }
 }

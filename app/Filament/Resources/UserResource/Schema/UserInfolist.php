@@ -84,10 +84,11 @@ final readonly class UserInfolist
                 ->iconColor('primary')
                 ->date()
                 ->columnSpan(3),
-            TextEntry::make('user_type')
+            TextEntry::make('roles.name')
                 ->label('Gebruikersgroep')
                 ->badge()
-                ->columnSpan(3),
+                ->columnSpan(12)
+                ->placeholder('- Geen gebruikersrollen toegewezen'),
         ];
     }
 

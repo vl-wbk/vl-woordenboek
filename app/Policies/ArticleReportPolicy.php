@@ -35,9 +35,9 @@ final readonly class ArticleReportPolicy
      * @param  User $user  The user attempting to perform an action.
      * @return bool|null   Returns `false` to deny access, or `null` to defer to specific methods.
      */
-    public function before(User $user): bool|null
+    public function before(User $user): ?bool
     {
-        if ($user->user_type->is(enum: UserTypes::Normal)) {
+        if ($user->cannot('page_Articles')) {
             return false;
         }
 
@@ -55,7 +55,15 @@ final readonly class ArticleReportPolicy
      */
     public function viewAny(User $user): bool
     {
-        return true;
+        return $user->can('view_any_article::report');
+    }
+
+    /**
+     * @todo Undocumented policy
+     */
+    public function view(User $user, ArticleReport $articleReport): bool
+    {
+        return $user->can('view_article::report');
     }
 
     /**
@@ -70,6 +78,10 @@ final readonly class ArticleReportPolicy
      */
     public function markInProgress(User $user, ArticleReport $articleReport): bool
     {
+        if ($user->cannot('mark_in_progress_article::report')) {
+            return false;
+        }
+
         return $articleReport->assignee()->doesntExist()
             && $articleReport->state->is(enum: Status::Open);
     }
@@ -86,6 +98,10 @@ final readonly class ArticleReportPolicy
      */
     public function markAsClosed(User $user, ArticleReport $articleReport): bool
     {
+        if ($user->cannot('mark_as_closed_article::report')) {
+            return false;
+        }
+
         return $articleReport->assignee()->exists()
             && $articleReport->assignee()->is($user)
             && $articleReport->state->is(enum: Status::InProgress);
@@ -101,8 +117,16 @@ final readonly class ArticleReportPolicy
      * @param  ArticleReport $articleReport  The article report being deleted.
      * @return bool                          Always returns `true`, allowing access.
      */
-    public function delete(User $user, ArticleReport $articleReport): bool
+    public function delete(User $user): bool
     {
-        return true;
+        return $user->can('delete_article::report');
+    }
+
+    /**
+     * @todo Undocumented policy
+     */
+    public function deleteAny(User $user): bool
+    {
+        return $user->can('delete_any_article::report');
     }
 }

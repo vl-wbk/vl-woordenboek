@@ -33,11 +33,27 @@ final readonly class EtymologyPolicy
      */
     public function before(User $user, string $ability): ?Response
     {
-        if ($user->user_type->notIn(enums: [UserTypes::EditorInChief, UserTypes::Administrators, UserTypes::Developer])) {
+        if ($user->can('page_Articles')) {
             return Response::denyAsNotFound();
         }
 
         return null;
+    }
+
+    /**
+     * @todo Undocumented function
+     */
+    public function viewAny(User $user, Etymology $etymology): bool
+    {
+        return $user->can('view_any_etymology');
+    }
+
+    /**
+     * @todo Undocumented function
+     */
+    public function view(User $user, Etymology $etymology): bool
+    {
+        return $user->can('view_etymology');
     }
 
     /**
@@ -53,7 +69,8 @@ final readonly class EtymologyPolicy
      */
     public function update(User $user, Etymology $etymology): bool
     {
-        return $etymology->status->is(enum: EtymologyStatus::Draft);
+        return $etymology->status->is(enum: EtymologyStatus::Draft)
+            && $user->can('update_etymology');
     }
 
     /**
@@ -68,7 +85,15 @@ final readonly class EtymologyPolicy
      */
     public function delete(User $user, Etymology $etymology): bool
     {
-        return $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer]);
+        return $user->can('delete_etymology');
+    }
+
+    /**
+     * @todo Document policy
+     */
+    public function deleteAny(User $user): bool
+    {
+        return $user->can('delete_any_etymology');
     }
 
     /**
@@ -83,7 +108,8 @@ final readonly class EtymologyPolicy
      */
     public function archive(User $user, Etymology $etymology): bool
     {
-        return $etymology->status->isNot(enum: EtymologyStatus::Archived);
+        return $etymology->status->isNot(enum: EtymologyStatus::Archived)
+            && $user->can('archive_etymology');
     }
 
     /**
@@ -98,7 +124,8 @@ final readonly class EtymologyPolicy
      */
     public function reject(User $user, Etymology $etymology): bool
     {
-        return $etymology->status->in(enums: [EtymologyStatus::UnderReview]);
+        return $etymology->status->in(enums: [EtymologyStatus::UnderReview])
+            && $user->can('reject_etymology');
     }
 
     /**
@@ -113,7 +140,8 @@ final readonly class EtymologyPolicy
      */
     public function publish(User $user, Etymology $etymology): bool
     {
-        return $etymology->status->in(enums: [EtymologyStatus::UnderReview, EtymologyStatus::Archived]);
+        return $etymology->status->in(enums: [EtymologyStatus::UnderReview, EtymologyStatus::Archived])
+            && $user->can('publish_etymology');
     }
 
     /**
@@ -128,7 +156,8 @@ final readonly class EtymologyPolicy
      */
     public function draft(User $user, Etymology $etymology): bool
     {
-        return $etymology->status->in(enums: [EtymologyStatus::UnderReview, EtymologyStatus::Rejected, EtymologyStatus::Archived]);
+        return $etymology->status->in(enums: [EtymologyStatus::UnderReview, EtymologyStatus::Rejected, EtymologyStatus::Archived])
+            && $user->can('update_etymology');
     }
 
     /**
@@ -143,6 +172,7 @@ final readonly class EtymologyPolicy
      */
     public function underReview(User $user, Etymology $etymology): bool
     {
-        return $etymology->status->is(enum: EtymologyStatus::Draft);
+        return $etymology->status->is(enum: EtymologyStatus::Draft)
+            && $user->can('under_review_etymology');
     }
 }

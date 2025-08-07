@@ -13,6 +13,7 @@ use App\Filament\Resources\UserResource;
 use App\Models\ArticleReport;
 use App\Models\User;
 use App\States\Reporting\Status;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Infolists\Components\Actions\Action;
 use Filament\Infolists\Components\Fieldset;
 use Filament\Infolists\Components\Section;
@@ -43,7 +44,7 @@ use Illuminate\Support\Facades\Cache;
  *
  * @package App\Filament\Clusters\Articles\Resources
  */
-final class ArticleReportResource extends Resource
+final class ArticleReportResource extends Resource implements HasShieldPermissions
 {
     /**
      * Specifies the model associated with this resource.
@@ -76,6 +77,11 @@ final class ArticleReportResource extends Resource
      * {@inheritDoc}
      */
     protected static ?string $cluster = Articles::class;
+
+    public static function getPermissionPrefixes(): array
+    {
+        return ['view_any', 'view', 'mark_in_progress', 'mark_as_closed', 'delete', 'delete_any'];
+    }
 
     /**
      * Configures the infolist for displaying detailed information about a report.

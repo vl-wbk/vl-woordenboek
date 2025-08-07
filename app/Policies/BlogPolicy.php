@@ -30,11 +30,16 @@ final readonly class BlogPolicy
      */
     public function before(User $user): ?Response
     {
-        return ($user->isAdministrator() || $user->isDeveloper())
-            ? Response::allow()
-            : null;
+        if ($user->cannot('page_Blog')) {
+            return Response::denyAsNotFound();
+        }
+
+        return null;
     }
 
+    /**
+     * @todo document policy
+     */
     public function submitPost(User $user): Response
     {
         return $user->hasVerifiedEmail()
@@ -42,14 +47,24 @@ final readonly class BlogPolicy
             : Response::denyAsNotFound();
     }
 
+    /**
+     * @todo document policy
+     */
     public function viewAny(User $user): Response
     {
-        return Response::denyAsNotFound();
+        return $user->can('view_any_blog')
+            ? Response::allow()
+            : Response::denyAsNotFound();
     }
 
+    /**
+     * @todo document policy
+     */
     public function view(User $user, Blog $blog): Response
     {
-        return Response::denyAsNotFound();
+        return $user->can('view_blog')
+            ? Response::allow()
+            : Response::denyAsNotFound();
     }
 
     /**
@@ -63,13 +78,19 @@ final readonly class BlogPolicy
             : Response::denyAsNotFound();
     }
 
+    /**
+     * @todo document policy
+     */
     public function update(User $user, Blog $blog): Response
     {
-        return $blog->author()->is($user)
+        return ($blog->author()->is($user) || $user->can('update_blog'))
             ? Response::allow()
             : Response::denyAsNotFound();
     }
 
+    /**
+     * @todo document policy
+     */
     public function publish(User $user, Blog $blog): Response
     {
         return $blog->author()->is($user)
@@ -77,17 +98,31 @@ final readonly class BlogPolicy
             : Response::denyAsNotFound();
     }
 
+    /**
+     * @todo document policy
+     */
     public function delete(User $user, Blog $blog): Response
     {
-        return $blog->author()->is($user)
+        return ($blog->author()->is($user) || $user->can('delete_blog'))
             ? Response::allow()
             : Response::denyAsNotFound();
     }
 
+    /**
+     * @todo document policy
+     */
     public function undoPublication(User $user, Blog $blog): Response
     {
-        return $blog->author()->is($user)
+        return ($blog->author()->is($user) || $user->can('undo_publication_blog'))
             ? Response::allow()
             : Response::denyAsNotFound();
+    }
+
+    /**
+     * @todo document policy
+     */
+    public function deleteAny(User $user): bool
+    {
+        return $user->can('delete_any_blog');
     }
 }
