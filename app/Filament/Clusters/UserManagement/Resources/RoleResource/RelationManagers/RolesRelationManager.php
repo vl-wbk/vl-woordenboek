@@ -16,6 +16,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Spatie\Permission\Models\Role;
 
@@ -69,7 +70,7 @@ final class RolesRelationManager extends RelationManager
      */
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
     {
-        return new $pageClass() instanceof ViewUser;
+        return new $pageClass() instanceof ViewUser && Auth::user()->can('view_role');
     }
 
     /**
