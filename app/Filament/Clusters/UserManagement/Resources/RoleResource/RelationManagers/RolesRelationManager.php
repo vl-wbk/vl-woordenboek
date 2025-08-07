@@ -85,7 +85,7 @@ final class RolesRelationManager extends RelationManager
         $recordCount = Cache::flexible(
             key: 'permission_group_count' . $ownerRecord->id,
             ttl: [30, 60],
-            callback: fn(): int => $ownerRecord->roles()->count();
+            callback: fn(): int => $ownerRecord->roles()->count()
         );
 
         return ($recordCount > 0) ? (string) $recordCount : null;
