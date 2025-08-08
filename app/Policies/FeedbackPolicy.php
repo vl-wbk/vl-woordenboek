@@ -10,8 +10,10 @@ use App\Models\User;
 /**
  * @todo document policy class
  */
-final readonly class FeedbackPolicy
+final class FeedbackPolicy
 {
+    public static array $permissionPrefixes = ['view_any', 'view', 'delete', 'delete_any'];
+
     public function viewAny(User $user): bool
     {
         return $user->can('view_any_feedback');
