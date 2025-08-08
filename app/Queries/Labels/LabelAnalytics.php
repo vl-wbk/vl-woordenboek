@@ -46,8 +46,8 @@ final readonly class LabelAnalytics
      */
     private function getArticleAnalytics(Label $label): array
     {
-        $articles = $label->articles()->whereNotNull('published_at')->count(); // Count published articles directly associated with this label
-        $total = Article::query()->whereNotNull('published_at')->count(); // Count all published articles in the system
+        $articles = $label->articles()->published()->count(); // Count published articles directly associated with this label
+        $total = Article::query()->published()->count(); // Count all published articles in the system
 
         return [
             'statistic' => toHumanReadableNumber($articles),
@@ -68,8 +68,8 @@ final readonly class LabelAnalytics
      */
     private function getViewAnalytics(Label $label): array
     {
-        $views = (int) $label->articles()->whereNotNull('published_at')->sum('views'); // Sum views for published articles directly associated with this label
-        $totalViews = (int) Article::query()->whereNotNull('published_at')->sum('views'); // Sum views for all published articles in the system
+        $views = (int) $label->articles()->published()->sum('views'); // Sum views for published articles directly associated with this label
+        $totalViews = (int) Article::query()->published()->sum('views'); // Sum views for all published articles in the system
 
         return [
             'statistic' => toHumanReadableNumber($views),
@@ -92,7 +92,7 @@ final readonly class LabelAnalytics
     {
         // Count published articles associated with this label that have an author
         $totalArticles = Article::query()
-            ->whereNotNull('published_at')
+            ->published()
             ->whereHas('author')
             ->whereHas('labels', function ($labelQuery) use ($label): void {
                 $labelQuery->where('labels.id', $label->id); // Ensure the article is linked to the specific label
@@ -129,7 +129,7 @@ final readonly class LabelAnalytics
     {
         // Count article reports where the associated article is published and linked to this label
         $totalAttachedReports = ArticleReport::whereHas('article', function ($articleQuery) use ($label): void {
-            $articleQuery->whereNotNull('published_at');
+            $articleQuery->published();
 
             /** @phpstan-ignore-next-line */
             $articleQuery->whereHas('labels', function ($labelQuery) use ($label): void {

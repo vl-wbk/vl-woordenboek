@@ -108,7 +108,7 @@ final class StandarizeInternalHyperlinks implements ShouldQueue
         $lookupArticles = Article::query()
             ->select(['id', 'word', 'published_at'])
             ->whereIn('word', $uniqueTerms)
-            ->whereNotNull('published_at')
+            ->published()
             ->get();
 
         // Organize lookup data by word, including count and the ID of the first published article

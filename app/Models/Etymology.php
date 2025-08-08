@@ -7,10 +7,12 @@ namespace App\Models;
 use App\Enums\Articles\EtymologyStatus;
 use App\Enums\Articles\EtymologyTypes;
 use App\Models\Relations\BelongsToAuthor;
+use App\Models\Scopes\PublishedScope;
 use App\Observers\EtymologyObserver;
 use App\States\Etymology\EtymologyStateContract;
 use App\States\Etymology as EtymologyState;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -54,6 +56,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @package App\Models
  */
 #[ObservedBy(EtymologyObserver::class)]
+#[ScopedBy([PublishedScope::class])]
 final class Etymology extends Model
 {
     /** @use HasFactory<\Database\Factories\EtymologyFactory> */

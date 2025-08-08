@@ -34,7 +34,7 @@ final readonly class SearchController
     #[Get(uri: '/resultaten', name: 'search.results')]
     public function __invoke(Request $request, SearchWordQuery $searchWordQuery): Renderable
     {
-        $baseQuery = Article::query()->whereNotNull('published_at');
+        $baseQuery = Article::query()->published();
 
         return view('welcome', [
             'searchPatterns' => SearchPatterns::cases(),

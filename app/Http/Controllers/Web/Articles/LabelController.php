@@ -34,7 +34,7 @@ final readonly class LabelController
         $sorting = $this->getSortBy($request->string('sortering'));
 
         return $label->articles()
-            ->whereNotNull('published_at')
+            ->published()
             ->where(function ($query) use ($searchInput): void {
                 $query->where('word', 'LIKE', "%$searchInput%")
                     ->orWhere('keywords', 'LIKE', "%$searchInput%");

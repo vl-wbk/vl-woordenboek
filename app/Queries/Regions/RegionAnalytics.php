@@ -56,8 +56,8 @@ final readonly class RegionAnalytics
      */
     private function getArticleAnalytics(Region $region): array
     {
-        $articles = $region->articles()->whereNotNull('published_at')->count();
-        $total = Article::query()->whereNotNull('published_at')->count();
+        $articles = $region->articles()->published()->count();
+        $total = Article::query()->published()->count();
 
         return [
             'statistic' => toHumanReadableNumber($articles),

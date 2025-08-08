@@ -21,7 +21,7 @@ final readonly class RegionController
         return view('definitions.regions.show', data: [
             'region' => $region,
             'relatedArticles' => $this->getRelatedArticleSearch($request, $region),
-            'popularWord' => $region->articles()->whereNotNull('published_at')->orderBy('views', 'desc')->first(),
+            'popularWord' => $region->articles()->published()->orderBy('views', 'desc')->first(),
             'analytics' => $regionAnalytics->fetch($region),
         ]);
     }
@@ -35,7 +35,7 @@ final readonly class RegionController
         $sorting = $this->getSortBy($request->string('sortering'));
 
         return $region->articles()
-            ->whereNotNull('published_at')
+            ->published()
             ->when($request->filled('zoekterm'), fn(Builder $query): Builder => $query->where('word', 'LIKE', "%$searchInput%")->orWhere('keywords', 'LIKE', "%$searchInput%"))
             ->orderBy($sorting['column'], $sorting['order'])
             ->fastPaginate()

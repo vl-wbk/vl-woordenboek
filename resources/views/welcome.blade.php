@@ -22,7 +22,7 @@
                         <span class="color-green fw-bold">Zoek een artikel in ons woordenboek met {{ $articleCount }} termen</span>
 
                         <div class="float-end">
-                            @if (\App\Models\Article::whereNotNull('published_at')->count('id') > 0)
+                            @if (\App\Models\Article::published()->count('id') > 0)
                                 <a href="{{ route('word-information.show', $randomArticle) }}" class="text-muted text-decoration-none">
                                     <x-heroicon-o-language class="icon color-green" /> Willekeurig woord
                                 </a>

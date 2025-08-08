@@ -46,7 +46,7 @@ final class EtymologyStatisticsWidget extends BaseWidget
     private function publishedStat(): Stat
     {
         $count = toHumanReadableNumber(
-            Etymology::whereNotNull('published_at')->whereStatus(EtymologyStatus::Published)->count(),
+            Etymology::published()->whereStatus(EtymologyStatus::Published)->count(),
         );
 
         return Stat::make('Gepubliceerde etymologieen', $count)

@@ -45,7 +45,7 @@ final readonly class SearchWordQuery
         return QueryBuilder::for(Article::class)
             ->allowedSorts($this->getAllowedSorts())
             ->with(['author', 'bookmarkers'])
-            ->whereNotNull('published_at')
+            ->published()
             ->where(function ($query) use ($request, $includeDescription): void {
                 $query->where('word', $this->getSearchPattern($request)['operator'], $this->getSearchPattern($request)['pattern'])
                     ->orWhere('keywords', $this->getSearchPattern($request)['operator'], $this->getSearchPattern($request)['pattern'])
