@@ -12,6 +12,7 @@ use App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema\TableSchem
 use App\Filament\Clusters\Articles\Resources\EtymologyResource\Widgets\EtymologyStatisticsWidget;
 use App\Filament\Resources\ArticleResource;
 use App\Models\Etymology;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
@@ -21,7 +22,7 @@ use Filament\Tables\Table;
 /**
  * @todo document resource class
  */
-final class EtymologyResource extends Resource
+final class EtymologyResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $modelLabel = 'Etymologie';
 
@@ -30,6 +31,11 @@ final class EtymologyResource extends Resource
     protected static ?string $cluster = Articles::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
+
+    public static function getPermissionPrefixes(): array
+    {
+        return ['view', 'view_any', 'update', 'delete', 'delete_any', 'archive', 'reject', 'publish', 'draft', 'under_review'];
+    }
 
     public static function infolist(Infolist $infolist): Infolist
     {

@@ -45,7 +45,15 @@ final readonly class UserTable
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('user_type')
+                    ->label('Gebruikers groep')
+                    ->badge()
+                    ->sortable(),
+                TextColumn::make('roles.name')
                     ->label('Gebruikers rol')
+                    ->icon('heroicon-o-key')
+                    ->placeholder('- geen toegwezen')
+                    ->color('danger')
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->badge(),
                 TextColumn::make('email')
                     ->label('E-mail adres')

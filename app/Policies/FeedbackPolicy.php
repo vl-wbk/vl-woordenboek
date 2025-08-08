@@ -4,32 +4,31 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
+use App\Models\Feedback;
 use App\Models\User;
-use App\UserTypes;
 
+/**
+ * @todo document policy class
+ */
 final readonly class FeedbackPolicy
 {
-    public function before(User $user): ?bool
+    public function viewAny(User $user): bool
     {
-        if ($user->user_type->in([UserTypes::Developer, UserTypes::Administrators])) {
-            return true;
-        }
-
-        return null;
+        return $user->can('view_any_feedback');
     }
 
-    public function viewAny(): bool
+    public function view(User $user, Feedback $feedback): bool
     {
-        return false;
+        return $user->can('view_feedback');
     }
 
-    public function view(): bool
+    public function delete(User $user): bool
     {
-        return false;
+        return $user->can('delete_feedback');
     }
 
-    public function delete(): bool
+    public function deleteAny(User $user): bool
     {
-        return false;
+        return $user->can('delete_any_feedback');
     }
 }

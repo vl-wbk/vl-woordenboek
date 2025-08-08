@@ -11,6 +11,7 @@ use App\Filament\Clusters\Blog\Resources\CategoryResource\Schema\FormSchema;
 use App\Filament\Clusters\Blog\Resources\CategoryResource\Schema\TableActionsDefinitions;
 use App\Filament\Clusters\Blog\Resources\CategoryResource\Schema\TableColumnSchema;
 use App\Models\Category;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
@@ -29,7 +30,7 @@ use Filament\Tables\Table;
  *
  * @package App\Filament\Clusters\Blog\Resources
  */
-final class CategoryResource extends Resource
+final class CategoryResource extends Resource implements HasShieldPermissions
 {
     /**
      * The Eloquent model that this resource is tied to.
@@ -62,6 +63,18 @@ final class CategoryResource extends Resource
      * Used in areas like headings and resource overviews.
      */
     protected static ?string $pluralModelLabel = 'Categorieen';
+
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view',
+            'view_any',
+            'create',
+            'update',
+            'delete',
+            'delete_any',
+        ];
+    }
 
     /**
      * This method builds the form for creating and editing categories.

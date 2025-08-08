@@ -8,6 +8,7 @@ use App\Enums\DisclaimerTypes;
 use App\Filament\Clusters\Articles;
 use App\Filament\Clusters\Articles\Resources\DisclaimerResource\Pages;
 use App\Models\Disclaimer;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -27,13 +28,22 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Cache;
 
-final class DisclaimerResource extends Resource
+/**
+ * @todo Document Disclaimer resource
+ * @todo Break up the resource in smaller resource schemas
+ */
+final class DisclaimerResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = Disclaimer::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-information-circle';
 
     protected static ?string $cluster = Articles::class;
+
+    public static function getPermissionPrefixes(): array
+    {
+        return ['view', 'view_any', 'create', 'update', 'delete', 'delete_any'];
+    }
 
     public static function form(Form $form): Form
     {

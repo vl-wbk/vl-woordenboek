@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use CharrafiMed\GlobalSearchModal\GlobalSearchModalPlugin;
+use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Cog\Laravel\Ban\Http\Middleware\ForbidBannedUser;
 use Devonab\FilamentEasyFooter\EasyFooterPlugin;
 use DutchCodingCompany\FilamentDeveloperLogins\FilamentDeveloperLoginsPlugin;
@@ -110,6 +111,7 @@ final class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->plugins([
+                FilamentShieldPlugin::make(),
                 ResourceLockPlugin::make(),
                 GlobalSearchModalPlugin::make()
                 ->searchItemTree(false)

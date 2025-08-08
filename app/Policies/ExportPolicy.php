@@ -31,4 +31,13 @@ final readonly class ExportPolicy
     {
         return $export->user()->is($user);
     }
+
+    /**
+     * @todo Document policy
+     * @todo Implement policy on the action class
+     */
+    public function create(User $user): bool
+    {
+        return $user->can('export_article');
+    }
 }

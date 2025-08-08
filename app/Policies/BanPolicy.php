@@ -6,6 +6,8 @@ namespace App\Policies;
 
 use App\Models\User;
 use App\UserTypes;
+use Cog\Laravel\Ban\Models\Ban;
+use Illuminate\Auth\Access\Response;
 
 /**
  * Class BanPolicy
@@ -20,18 +22,13 @@ use App\UserTypes;
  */
 final readonly class BanPolicy
 {
-    /**
-     * Before filter that is executed before any other policy check.
-     *
-     * This method checks if the user has the `Administrators` or `Developer` user type.
-     * If so, it grants access to all actions, effectively bypassing the other policy checks.
-     *
-     * @param  User $user  The user to check.
-     * @return bool        True if the user is an administrator or developer, false otherwise.
-     */
-    public function before(User $user): bool
+    public function before(User $user, string $ability): ?Response
     {
-        return $user->user_type->in([UserTypes::Administrators, UserTypes::Developer]);
+        if ($user->cannot('page_UserManagement')) {
+            return Response::denyAsNotFound();
+        }
+
+        return null;
     }
 
     /**
@@ -46,7 +43,7 @@ final readonly class BanPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return $user->can('view_any_ban');
     }
 
     /**
@@ -57,9 +54,9 @@ final readonly class BanPolicy
      *
      * @return bool Always false.
      */
-    public function view(): bool
+    public function view(User $user, Ban $ban): bool
     {
-        return false;
+        return $user->can('view_ban');
     }
 
     /**
@@ -70,9 +67,9 @@ final readonly class BanPolicy
      *
      * @return bool Always false.
      */
-    public function update(): bool
+    public function update(User $user, Ban $ban): bool
     {
-        return false;
+        return $user->can('update_ban');
     }
 
     /**
@@ -83,8 +80,8 @@ final readonly class BanPolicy
      *
      * @return bool Always false.
      */
-    public function delete(): bool
+    public function delete(User $user, Ban $ban): bool
     {
-        return false;
+        return $user->can('delete_ban');
     }
 }
