@@ -45,7 +45,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property Carbon|null  $email_verified_at  Timestamp of email verification
  * @property string|null  $remember_token     Token for "remember me" functionality
  * @property Carbon|null  $banned_at          Timestamp from when the user account has been banned.
- * @property bool         $is_beta_tester      Indicates that user is a beta tester of not.
+ * @property bool         $is_beta_tester     Indicates that user is a beta tester of not.
  * @property Carbon       $created_at         Timestamp of account creation
  * @property Carbon       $updated_at         Timestamp of the last update
  *

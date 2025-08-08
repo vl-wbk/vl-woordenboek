@@ -62,6 +62,7 @@ final class FeedbackResource extends Resource implements HasShieldPermissions
                     ->schema([
                         TextEntry::make('first_time_visit')
                             ->badge()
+                            ->color('gray')
                             ->label('Eerste bezoek')
                             ->columnSpan(4),
                         TextEntry::make('results_found_easily')
@@ -74,15 +75,18 @@ final class FeedbackResource extends Resource implements HasShieldPermissions
                             ->columnSpan(4),
                         TextEntry::make('visit_reason')
                             ->label('Reden van het bezoek aan het Vlaams woordenboek')
+                            ->color('gray')
                             ->columnSpan(12)
                             ->placeholder('- Niet opgegeven'),
                         TextEntry::make('search_additional_info')
                             ->label('Wat er volgens de gebruiker beter kon tijdens het zoeken naar artikelen')
                             ->columnSpanFull()
+                            ->color('gray')
                             ->placeholder('- Niet opgegeven'),
                         TextEntry::make('additional_info')
                             ->label('Extra info / Suggestie(s) van de gebruiker')
                             ->columnSpanFull()
+                            ->color('gray')
                             ->placeholder('- Niet ingevuld'),
                     ]),
             ]);

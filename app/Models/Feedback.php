@@ -6,11 +6,12 @@ namespace App\Models;
 
 use App\Enums\FeedbackTrueFalse;
 use App\Enums\FeedbackStatus;
+use App\Models\Relations\BelongsToAuthor;
 use App\Observers\FeedbackObserver;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * The feedback model represents user feedback submissions in the system.
@@ -37,6 +38,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[ObservedBy(FeedbackObserver::class)]
 final class Feedback extends Model
 {
+    /** @use HasFactory<\Database\Factories\FeedbackFactory> */
+    use HasFactory;
+    use BelongsToAuthor;
+
     /**
      * The attributes that aren't mass-assignable.
      *

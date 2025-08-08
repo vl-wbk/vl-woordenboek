@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\FeedbackResource\Pages;
 
 use App\Filament\Resources\FeedbackResource;
+use CodeWithDennis\FactoryAction\FactoryAction;
 use Filament\Resources\Pages\ListRecords;
 
 /**
@@ -42,5 +43,14 @@ final class ListFeedback extends ListRecords
     protected function getHeaderWidgets(): array
     {
         return FeedbackResource::getWidgets();
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            FactoryAction::make()
+                ->label('Genereer records')
+                ->color('danger'),
+        ];
     }
 }
