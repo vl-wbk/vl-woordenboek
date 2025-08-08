@@ -26,7 +26,7 @@ final class ApprovalState extends ArticleState
     public function transitionToEditing(?string $reason = null): bool
     {
         return DB::transaction(function () use ($reason): bool {
-            $this->article->update(attributes: ['state' => ArticleStates::Draft]);
+            $this->article->update(attributes: ['state' => ArticleStates::Draft, 'published_at' => null]);
             $this->article->attachNote(title: 'Voorstellen tot wijziging', note: $reason);
 
             return true;

@@ -33,7 +33,7 @@ final class ExternalDataState extends ArticleState
     public function transitionToEditing(?string $reason = null): bool
     {
         return DB::transaction(function (): bool {
-            $this->article->update(['state' => ArticleStates::Draft]);
+            $this->article->update(['state' => ArticleStates::Draft, 'published_at' => null]);
             $this->article->setCurrentUserAsEditor();
 
             return true;

@@ -7,6 +7,7 @@ namespace App\Builders;
 use App\Enums\ArticleStates;
 use App\Models\Note;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use JetBrains\PhpStorm\Deprecated;
 
@@ -43,7 +44,7 @@ final class ArticleBuilder extends Builder
     {
         DB::transaction(function () use ($archivingReason): void {
             $this->model->update(attributes: ['state' => ArticleStates::Archived, 'archiving_reason' => $archivingReason, 'published_at' => null, 'archived_at' => now()]);
-            $this->model->archiever()->associate(auth()->user())->save();
+            $this->model->archiever()->associate(Auth::user())->save();
         });
     }
 
@@ -75,7 +76,7 @@ final class ArticleBuilder extends Builder
      */
     public function attachNote(string $title, ?string $note = null): self
     {
-        $note = new Note(attributes: ['title' => $title, 'author_id' => auth()->id(), 'body' => $note]);
+        $note = new Note(attributes: ['title' => $title, 'author_id' => Auth::user()->getAuthIdentifier(), 'body' => $note]);
         $this->model->notes()->save(model: $note);
 
         return $this;

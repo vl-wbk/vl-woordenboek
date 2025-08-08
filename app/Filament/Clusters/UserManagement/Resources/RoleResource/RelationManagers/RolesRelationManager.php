@@ -16,6 +16,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Spatie\Permission\Models\Role;
 
@@ -95,8 +96,8 @@ final class RolesRelationManager extends RelationManager
      * Defines the structure and behavior of the Filament table for displaying roles.
      * This method configures columns, empty states, descriptions, header actions (like attaching roles), row actions (like viewing or detaching roles), and bulk actions.
      *
-     * @param Table $table The Filament `Table` instance to configure.
-     * @return Table The configured `Table` instance.
+     * @param  Table $table The Filament `Table` instance to configure.
+     * @return Table        The configured `Table` instance.
      */
     public function table(Table $table): Table
     {
