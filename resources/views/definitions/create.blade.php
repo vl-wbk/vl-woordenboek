@@ -68,7 +68,7 @@
                             <div class="form-group col-8">
                                 <label for="kenmerken" class="col-form-label">Kenmerken</label>
                                 <input type="text" name="kenmerken" value=" {{ old('kenmerken') }}" id="kenmerkenHelpText" class="form-control">
-                                <x-forms.help-text field="kenmerkenHelpText" icon="true" text="Lidwoord, geslacht en meervoud – bv. de ~ (v.), ~sen."/>
+                                <x-forms.help-text field="kenmerkenHelpText" icon="true" text="bij zelfstandige naamwoorden: lidwoord, geslacht en meervoud, bijv. de ~ (v.), ~sen; bij werkwoorden: de stamtijden, bijv. neutte, geneut; bij bijvoeglijke naamwoorden: de trappen van vergelijking, bijv. ~er, ~st"/>
                             </div>
                         </div>
 
