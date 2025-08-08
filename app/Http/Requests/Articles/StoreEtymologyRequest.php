@@ -21,10 +21,8 @@ final class StoreEtymologyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'bron' => ['required', 'max:255'],
-            'type' => ['required'],
-            'oorspronkelijke_taal' => ['required', 'max:255'],
-            'oorspronkelijke_vorm' => ['required', 'max:255'],
+            'bron_naam' => ['required', 'max:255'],
+            'etymologie' => ['required'],
         ];
     }
 }
