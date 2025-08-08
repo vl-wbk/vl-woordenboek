@@ -70,7 +70,7 @@
                         </div>
 
                         <div class="form-group col-4 mb-2">
-                            <label for="developmentPeriode" class="col-form-label">Periodes</label>
+                            <label for="developmentPeriod" class="col-form-label">Periodes</label>
                             <input type="text" class="form-control" id="developmentPeriod" value="{{ old('verdere_ontwikkeling_periode') }}" name="verdere_ontwikkeling_periode" placeholder="12de, 13de eeuw">
                         </div>
 
@@ -101,7 +101,7 @@
                         </div>
 
                         <div class="form-group col-6">
-                            <label for="sourceName" class="col-form-label">Naam van de bron (bijv. WNT, Etymologiebank) <span class="fw-bold text-danger">*</span></label>
+                            <label for="sourceName" class="col-form-label">Naam van de bron (bijv. WNT, Etymologiebank, ...) <span class="fw-bold text-danger">*</span></label>
 
                             <select name="bron_naam" id="sourceName" class="form-select @error('bron_naam') is-invalid @enderror">
                                 <option value="">-- selecteer waar je de etymologie hebt gevonden --</option>
