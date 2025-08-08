@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Web\Etymology;
 use App\Actions\Articles\StoreEtymologySubmission;
 use App\Concerns\RateLimitSubmission;
 use App\Enums\Articles\EtymologyStatus;
-use App\Enums\Articles\EtymologyTypes;
+use App\Enums\Articles\EtymologySources;
 use App\Http\Requests\Articles\StoreEtymologyRequest;
 use App\Models\Article;
 use App\Models\Etymology;
@@ -41,7 +41,7 @@ final class EthymologyController
     {
         return view('definitions.etymology.create', data: [
             'article' => $article,
-            'types' => EtymologyTypes::cases(),
+            'sources' => EtymologySources::cases(),
         ]);
     }
 
