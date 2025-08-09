@@ -226,9 +226,9 @@ final class Article extends Model implements AuditableContract
      *
      * @return HasMany<Etymology, covariant $this>
      */
-    public function etymology(): HasMany
+    public function etymologies(): HasMany
     {
-        return $this->hasMany(Etymology::class);
+        return $this->hasMany(Etymology::class, 'article_id');
     }
 
     /**

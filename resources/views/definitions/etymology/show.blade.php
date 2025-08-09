@@ -22,7 +22,7 @@
             <ul class="list-inline mb-0">
                 <li class="list-inline-item"><span class="color-green">ID:</span> <span class="fw-bold">#ETYM-{{ $etymology->id }}</span></li>
                 <li class="list-inline-item text-muted">|</li>
-                <li class="list-inline-item"><span class="color-green">Aantal herkomsten:</span> <span class="fw-bold">{{ $etymology->article->etymology->count() }}</span></li>
+                <li class="list-inline-item"><span class="color-green">Aantal herkomsten:</span> <span class="fw-bold">{{ $etymology->article->etymologies->count() }}</span></li>
                 <li class="list-inline-item text-muted">|</li>
                 <li class="list-inline-item"><span class="color-green">Aangemaakt op:</span> <span class="fw-bold">{{ $etymology->created_at->format('d/m/Y') }}</span></li>
                 <li class="list-inline-item text-muted">|</li>
@@ -31,7 +31,7 @@
         </div>
     </div>
 
-    <hr class=" mt-2 mb-3">
+    <hr class="mt-2 mb-3">
 
     <div class="row">
         <div class="col-12">
@@ -138,7 +138,7 @@
                                                     {{ $etymology->status->getLabel() }}
                                                 </span>
                                             </td>
-                                            <td>{{ $etymology->type->getLabel() }}</td>
+                                            <td>{{ $etymology->source_name->getLabel() }}</td>
                                             <td>{{ $etymology->origin_language }}</td>
                                             <td>{{ $etymology->origin_form }}</td>
                                             <td>

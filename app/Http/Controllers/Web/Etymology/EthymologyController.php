@@ -30,7 +30,7 @@ final class EthymologyController
         return view('definitions.etymology.show', data: [
             'etymology' => $etymology,
             'etymologies' => $etymology->article
-                ->etymology()
+                ->etymologies()
                 ->whereNotIn('status', [EtymologyStatus::Draft, EtymologyStatus::Rejected, EtymologyStatus::Archived])
                 ->get(),
         ]);
@@ -51,7 +51,7 @@ final class EthymologyController
         return $this->attemptSubmissionWithRateLimiting($storeEtymologyRequest, 'etymologySubmission', function () use ($article, $storeEtymologyRequest, $storeEtymologySubmission): RedirectResponse {
             $etymology = $storeEtymologySubmission->execute(article: $article, etymologySubmissionData: $storeEtymologyRequest->getData());
 
-            return redirect()->route('etymology:create', $etymology);
+            return redirect()->route('etymology:create', $etymology->article);
         });
     }
 }

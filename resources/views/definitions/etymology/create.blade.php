@@ -81,7 +81,7 @@
 
                         <div class="form-group col-4">
                             <label for="oldestUsagePeriod" class="col-form-label">Periode / Jaartal</label>
-                            <input type="number" min="500" max="{{ date('Y') }}" step="25" name="oude_vindplaats_periode" placeholder="minimum jaar = 500" id="oldestUsagePeriod" value="{{ old('oudste_vindplaats_periode') }}" class="form-control">
+                            <input type="number" min="500" max="{{ date('Y') }}" step="25" name="oudste_vindplaats_periode" placeholder="minimum jaar = 500" id="oldestUsagePeriod" value="{{ old('oudste_vindplaats_periode') }}" class="form-control">
                         </div>
                     </div>
 
