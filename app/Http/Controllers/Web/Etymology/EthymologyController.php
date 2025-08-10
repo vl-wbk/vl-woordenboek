@@ -24,18 +24,6 @@ final class EthymologyController
 {
     use RateLimitSubmission;
 
-    #[Get(uri: 'ethymology/{etymology}', name: 'etymology:show')]
-    public function show(Etymology $etymology): Renderable
-    {
-        return view('definitions.etymology.show', data: [
-            'etymology' => $etymology,
-            'etymologies' => $etymology->article
-                ->etymologies()
-                ->whereNotIn('status', [EtymologyStatus::Draft, EtymologyStatus::Rejected, EtymologyStatus::Archived])
-                ->get(),
-        ]);
-    }
-
     #[Get(uri: 'etymologie/{article}/nieuwe-suggestie', name: 'etymology:create')]
     public function create(Article $article): Renderable
     {
