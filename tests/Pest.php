@@ -3,6 +3,10 @@
 use App\Models\User;
 
 use function Pest\Laravel\actingAs;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Database\Seeders\RoleAndPermissionSeeder;
+use Database\Seeders\ShieldSeeder;
+use Spatie\Permission\PermissionRegistrar;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,8 +20,20 @@ use function Pest\Laravel\actingAs;
 */
 
 pest()->extend(Tests\TestCase::class)
-    ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
-    ->in('Feature');
+    ->use(Illuminate\Foundation\Testing\LazilyRefreshDatabase::class)
+    ->in('Feature')
+    ->beforeAll(function () {
+ // Fresh migrate the database
+    $this->artisan('migrate:fresh');
+
+    // Seed roles and permissions
+    $this->artisan('db:seed', [
+        '--class' => ShieldSeeder::class,
+    ]);
+
+    // Clear cached permissions
+    app(PermissionRegistrar::class)->forgetCachedPermissions();
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -44,27 +60,3 @@ expect()->extend('toBeOne', function () {
 | global functions to help you to reduce the number of lines of code in your test files.
 |
 */
-
-function actingAsDeveloper(): void
-{
-    $user = User::factory()->developer()->create();
-    actingAs($user);
-}
-
-function actingAsAdministrator(): void
-{
-    $user = User::factory()->administrator()->create();
-    actingAs($user);
-}
-
-function actingAsEditor(): void
-{
-    $user = User::factory()->editor()->create();
-    actingAs($user);
-}
-
-function actingAsEditorInChief(): void
-{
-    $user = User::factory()->editorInChief()->create();
-    actingAs($user);
-}
