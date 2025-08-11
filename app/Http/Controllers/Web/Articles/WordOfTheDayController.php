@@ -37,7 +37,7 @@ final readonly class WordOfTheDayController
             'word' => $article,
             'etymologies' => $article->etymologies()
                 ->whereNotIn('status', [EtymologyStatus::Draft, EtymologyStatus::Rejected, EtymologyStatus::Archived])
-                ->count(),
+                ->get(),
         ]);
     }
 }
