@@ -156,47 +156,156 @@
     </div>
     {{-- EINDE --}}
 
-    <main class="{{ $paddingContent ?? 'py-4' }} flex-shrink-0">
+    <main class="{{ $paddingContent ?? 'py-4 mb-5' }} flex-shrink-0">
         @yield('content')
     </main>
 
-    <footer class="footer mt-auto py-3 bg-transparent">
-        <div class="{{ $containerSize ?? 'container' }}">
-            <span class="fw-bold text-body-secondary">
-                &copy; {{ date('Y') }}, {{ config('app.name', 'Laravel') }}
-            </span>
+    <footer class="footer mt-auto pt-4 pt-md-5 mt-5">
+        <div class="container py-4 py-md-4 px-4 px-md-3 text-body-secondary">
+            <div class="row"> <div class="col-lg-3">
+                <a class="d-inline-flex align-items-center mb-2 text-white text-decoration-none" href="/" aria-label="Bootstrap">
+                    <x:heroicon-s-book-open class="icon icon-back-to-results brand-gradient"/>
+                    <span class="fs-5 brand-gradient fw-bold ms-2">{{ config('app.name', 'Laravel') }}</span>
+                </a>
+                <ul class="list-unstyled small text-white">
+                    <li class="mb-2">
+                        Een community-driven woordenboek. Waar de maatschappijke waarden van belang is. Met dank aan onze vele bijdragers.
+                    </li>
 
-            <span class="float-end">
-                <ul class="list-inline mb-0">
-                    <li class="list-inline-item">
-                        <a href="{{ route('feedback:create') }}" class="text-decoration-none">
+                    <li class="mb-2">
+                        De code is gelicenseerd onder de MIT-licentie. De documentatie is beschikbaar onder de Creative Commons-licentie CC BY 3.0.
+                    </li>
+
+                    <li class="mb-2 fst-italic brand-gradient">
+                        huidige versie: v0.1.0
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-6 col-lg-2 offset-lg-1 mb-3">
+                <h5 class="brand-gradient">Links</h5>
+
+                <ul class="list-unstyled">
+                    <li class="mb-2">
+                        <a href="/" class="text-white">Home</a>
+                    </li>
+
+                    @auth
+                        <li class="mb-2">
+                            <a href="{{ route('statistics') }}" class="text-white">
+                                Statistieken
+                            </a>
+                        </li>
+                    @endauth
+
+                    @if (app(\App\Settings\ProjectInformationSettings::class)->pageActive)
+                        <li class="mb-2">
+                            <a href="{{ route('project-information') }}">Project informatie</a>
+                        </li>
+                    @endif
+
+                    @if (\App\Models\Blog::count('id') > 0)
+                        <li class="mb-2">
+                            <a href="{{ route('news:index') }}" class="text-white">
+                                Nieuws
+                            </a>
+                        </li>
+                    @endif
+
+                    <li class="mb-2">
+                        <a href="mailto:contact@vlaamswoordenboek.be" class="text-white">
+                            Contact
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-6 col-lg-2 mb-3">
+                <h5 class="brand-gradient">Andere bronnen</h5>
+
+                <ul class="list-unstyled">
+                    <li class="mb-2">
+                        <a href="https://www.vandale.nl/pages/gratis-woordenboek" class="text-white" target="_blank" rel="noopener">
+                            Van Dale
+                        </a>
+                    </li>
+
+                    <li class="mb-2">
+                        <a href="https://ivdnt.org/woordenboeken/historische-woordenboeken/woordenboek-der-nederlandsche-taal/" class="text-white" target="_blank" rel="noopener" title="Woordenboek der Nederlandsche Taal">
+                            WNT
+                        </a>
+                    </li>
+
+                    <li class="mb-2">
+                        <a href="https://www.dialectloket.be/woord/woordenbank-van-de-nederlandse-dialecten/" class="text-white" target="_blank" rel="noopener" title="Woordenbank van de Nederlandse Dialecten">
+                            WND
+                        </a>
+                    </li>
+
+                    <li class="mb-2">
+                        <a href="https://www.etymologiebank.nl/" class="text-white" target="_blank" rel="noopener">
+                            Etymologiebank
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-6 col-lg-2 mb-3">
+                <h5 class="brand-gradient">Bijdragen</h5>
+
+                <ul class="list-unstyled">
+                    <li class="mb-2">
+                        <a href="{{ route('definitions.create') }}" target="_blank" rel="noopener" class="text-white">
+                            Suggestie indienen
+                        </a>
+                    </li>
+
+                    <li class="mb-2">
+                        <a href="{{ route('feedback:create') }}" target="_blank" rel="noopener" class="text-white">
                             Feedback insturen
                         </a>
                     </li>
 
-                    <li class="list-inline-item text-muted">|</li>
-
-                    <li class="list-inline-item">
-                        <a href="https://github.com/Tjoosten/vl-woordenboek" target="_blank" class="footer-icon-color text-decoration-none">
-                            <x-tabler-brand-github class="icon" />
-                        </a>
-                    </li>
-
-                    <li class="list-inline-item">
-                        <a href="https://www.facebook.com/vlaamswoordenboek" target="_blank" class="footer-icon-color text-decoration-none">
-                            <x-tabler-brand-facebook class="icon" />
-                        </a>
-                    </li>
-
-                    <li class="list-inline-item">
-                        <a href="https://discord.gg/bqKNs2SDz8" target="_blank" class="footer-icon-color text-decoration-none">
-                            <x-tabler-brand-discord class="icon" />
+                    <li class="mb-2">
+                        <a href="https://github.com/vl-wbk/vl-woordenboek/issues" target="_blank" rel="noopener" class="text-white">
+                            Github issues
                         </a>
                     </li>
                 </ul>
-            </span>
+            </div>
+
+            <div class="col-6 col-lg-2 mb-3">
+                <h5 class="brand-gradient">Community</h5>
+
+                <ul class="list-unstyled">
+                    <li class="mb-2">
+                        <a href="https://github.com/vl-wbk/vl-woordenboek" target="_blank" rel="noopener" class="text-white">
+                            <x:tabler-brand-github class="icon me-2"/>Github
+                        </a>
+                    </li>
+
+                    <li class="mb-2">
+                        <a href="https://discord.com/invite/bqKNs2SDz8" target="_blank" rel="noopener" class="text-white">
+                            <x:tabler-brand-discord class="icon me-2"/>Discord
+                        </a>
+                    </li>
+
+                    <li class="mb-2">
+                        <a href="https://www.facebook.com/vlaamswoordenboek" target="_blank" rel="noopener" class="text-white">
+                            <x:tabler-brand-facebook class="icon me-2"/>Facebook
+                        </a>
+                    </li>
+
+                    <li class="mb-2">
+                        <a href="https://www.forum.chimpy.be" target="_blank" rel="noopener" class="text-white">
+                            <x:tabler-messages class="icon me-2"/>Forum
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </footer>
+    </div>
+</footer>
     </div>
 
     @yield('scripts')

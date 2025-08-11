@@ -122,6 +122,10 @@ body {
 
 // Footer
 
+.footer {
+    background-color: rgba(33, 37, 41, 1);
+}
+
 .footer-icon-color {
     color: #127453
 }
@@ -224,6 +228,13 @@ p {
 
 .modal-footer-reporting {
     background-color: oklch(0.97 0 0);
+}
+
+.brand-gradient {
+
+  background: -webkit-linear-gradient(oklch(85.2% 0.199 91.936), oklch(94.5% 0.129 101.54));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 // Badges - Suggestions overview

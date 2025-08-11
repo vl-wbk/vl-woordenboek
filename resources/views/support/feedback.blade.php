@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <div class="card border-0 bg-white shadow-sm">
                     <div class="card-header bg-white">
                         <h4 class="card-title color-green mb-1">Website feedback</h4>
