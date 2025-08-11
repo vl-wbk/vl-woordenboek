@@ -75,7 +75,16 @@
             </div>
         </div>
 
-        <div class="card shadow-sm {{ $word->disclaimer ? 'border-info' : 'border-0' }}">
+        @if($word->isHidden() || $word->state->notIn([\App\Enums\ArticleStates::Archived, \App\Enums\ArticleStates::New]))
+            <div class="alert alert-warning px-3 py-2 shadow-sm" role="alert">
+                <span class="flex-shrink-0 me-1 fw-bold">
+                    <x:heroicon-o-bell-alert class="icon"/> Melding:
+                </span>
+                Dit Woordenboek artikel is momenteel nodig niet publiceerd wegens dat het nog in de <strong>{{ $word->state->getLabel() }}</strong> status staat.
+            </div>
+        @endif
+
+        <div class="card shadow-sm mt-2 {{ $word->disclaimer ? 'border-info' : 'border-0' }}">
             @if ($word->disclaimer)
                 <div class="card-header text-info-emphasis border-bottom-0 bg-info-subtle">
                     <strong class="me-1">DISCLAIMER:</strong> {{ $word->disclaimer->message }}
@@ -84,7 +93,7 @@
 
             <div class="card-body">
                 <div class="row">
-                    <div class="col-lg-8">
+                    <div class="{{ ($word->isPublished() || $word->state->in([\App\Enums\ArticleStates::Archived, \App\Enums\ArticleStates::New])) ? 'col-8' : 'col-12' }}">
                         <div class="row mb-4">
                             <div class="col-lg-6">
                                 <h3 class="h6 text-muted fw-bold border-bottom pb-2">Regio(s)</h3>
@@ -133,15 +142,17 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-4 mt-md-0 mt-sm-3">
-                        <div class="card bg-secondary-subtle border-0">
-                            <div class="card-body">
-                                @includeWhen($word->isPublished(), 'components.articles.stateInformation.published', ['word' => $word])
-                                @includeWhen($word->state->is(\App\Enums\ArticleStates::Archived), 'components.articles.stateInformation.archived', ['word' => $word])
-                                @includeWhen($word->state->is(\App\Enums\ArticleStates::New), 'components.articles.stateInformation.suggestion', ['word' => $word])
+                    @if ($word->isPublished() || $word->state->in([\App\Enums\ArticleStates::Archived, \App\Enums\ArticleStates::New]))
+                        <div class="col-lg-4 mt-md-0 mt-sm-3">
+                            <div class="card bg-secondary-subtle border-0">
+                                <div class="card-body">
+                                    @includeWhen($word->isPublished(), 'components.articles.stateInformation.published', ['word' => $word])
+                                    @includeWhen($word->state->is(\App\Enums\ArticleStates::Archived), 'components.articles.stateInformation.archived', ['word' => $word])
+                                    @includeWhen($word->state->is(\App\Enums\ArticleStates::New), 'components.articles.stateInformation.suggestion', ['word' => $word])
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -155,7 +166,7 @@
                         </button>
                     </li>
 
-                    @if (count($etymologies)) > 0)
+                    @if (count($etymologies) > 0)
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="etymologie-tab" data-bs-toggle="tab" data-bs-target="#etymologie-tab-pane" type="button" role="tab" aria-controls="etymologie-tab-pane" aria-selected="true">
                                 <x:heroicon-o-queue-list class="icon color-green me-1"/> Etymologieen

@@ -1,5 +1,5 @@
 @foreach($results as $result)
-    <div class="card border-0 @if (! $loop->last) mb-3 @endif shadow-sm">
+    <div class="card {{ $result->isPublished() ? 'border-0' : 'border-danger' }} @if (! $loop->last) mb-3 @endif shadow-sm">
         <div class="card-header bg-white">
             <a href="{{ route('word-information.show', $result) }}" class="h5 text-decoration-none card-title fw-bold color-green">
                 {{ $result->word }}
@@ -21,9 +21,11 @@
             @endif
         </div>
         <div class="card-footer bg-white">
-            <a href="{{ route('word-information.show', $result) }}" class="card-link text-decoration-none">
-                <x-heroicon-o-eye class="icon color-green"/> bekijk
-            </a>
+            @can('view-information', $result)
+                <a href="{{ route('word-information.show', $result) }}" class="card-link text-decoration-none">
+                    <x-heroicon-o-eye class="icon color-green"/> bekijk
+                </a>
+            @endcan
 
             @if ($result->bookmarkers->contains(auth()->user()))
                 <a href="{{ route('bookmark:remove', $result) }}" class="card-link text-decoration-none">
@@ -33,6 +35,10 @@
                 <a href="{{ route('bookmark:create', $result) }}" class="card-link text-decoration-none">
                     <x-heroicon-o-bookmark class="icon color-green"/> bewaar
                 </a>
+            @endif
+
+            @if (! $result->isPublished())
+                <span class="badge badge-rounded-pill float-end shadow-sm text-danger bg-danger-subtle">status: {{ $result->state->getLabel() }}</span>
             @endif
         </div>
     </div>

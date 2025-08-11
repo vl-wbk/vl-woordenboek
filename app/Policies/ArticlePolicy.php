@@ -31,15 +31,11 @@ final readonly class ArticlePolicy
 
     public function viewInformation(?User $user, Article $article): Response
     {
-        if ($article->isHidden() && $article->state->in([ArticleStates::New, ArticleStates::Published, ArticleStates::Archived]) && $article->author()->is($user)) {
+        if ($article->isHidden()  && ($article->author()->is($user) || $user->can('page_Articles'))) {
             return Response::allow();
         }
 
-        if ($article->isHidden()) {
-            return Response::denyAsNotFound();
-        }
-
-        return Response::allow();
+        return Response::denyAsNotFound();
     }
 
     /**
