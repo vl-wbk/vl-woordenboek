@@ -94,7 +94,7 @@
                     @if (\App\Models\Blog::count('id') > 0)
                         <li class="nav-item">
                             <a href="{{ route('news:index') }}" class="nav-link">
-                                <x-heroicon-s-newspaper class="icon"/> Artikelen
+                                <x-heroicon-s-newspaper class="icon"/> Nieuwsberichten
                             </a>
                         </li>
                     @endif

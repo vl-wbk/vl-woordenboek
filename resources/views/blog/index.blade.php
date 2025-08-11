@@ -6,7 +6,7 @@
             <div class="text-center my-5">
                 @if (active('news:index'))
                     <h1 class="fw-bolder color-green">
-                        <x-heroicon-o-newspaper class="icon icon-news-heading"/> Artikelen uit het Vlaams Woordenboek
+                        <x-heroicon-o-newspaper class="icon icon-news-heading"/> Nieuwsberichten van het Vlaams Woordenboek
                     </h1>
                 @elseif (active('categories:show'))
                     <h1 class="fw-bolder color-green">
@@ -65,10 +65,10 @@
                         <div class="card bg-sidenav border-0 shadow-sm text-center">
                             <div class="card-body p-4">
                                 <x-heroicon-o-newspaper class="icon color-green icon-blankslate pb-3"/>
-                                <h5 class="card-title fw-bold">Geen artikelen gevonden!</h5>
+                                <h5 class="card-title fw-bold">Geen nieuwsberichten gevonden!</h5>
 
                                 <p class="card-text text-muted mb-3">
-                                    Momenteel zijn er geen artikelen in het Vlaams Woordenboek te vinden die voldoen aan je zoekopdracht of categorie. Probeer een andere zoekterm of kom later nog eens terug.
+                                    Momenteel zijn er geen nieuwsberichten in het Vlaams Woordenboek te vinden die voldoen aan je zoekopdracht of categorie. Probeer een andere zoekterm of kom later nog eens terug.
                                 </p>
 
                                 @if (request()->has('zoekterm') && request()->get('zoekterm') !== null)
@@ -91,11 +91,11 @@
                 <!-- Side widgets-->
                 <div class="col-lg-4">
                     <!-- Search widget-->
-                    <h5 class="border-bottom pb-2 border-green color-green fw-bold"><x-heroicon-o-magnifying-glass-circle class="icon me-1"/> Artikel opzoeken</h5>
+                    <h5 class="border-bottom pb-2 border-green color-green fw-bold"><x-heroicon-o-magnifying-glass-circle class="icon me-1"/> Nieuwsbericht opzoeken</h5>
 
                     <form action="{{ route('news:index') }}" method="GET" class="mb-4 border-0 shadow-sm">
                         <div class="input-group">
-                            <input class="form-control" type="text" name="zoekterm" placeholder="Zoek op de titel van het artikel..." aria-label="Zoek op de titel van het artikel..." value="{{ request()->get('zoekterm') }}" aria-describedby="button-search" />
+                            <input class="form-control" type="text" name="zoekterm" placeholder="Zoek op de titel van het nieuwsbericht..." aria-label="Zoek op de titel van het nieuwsbericht..." value="{{ request()->get('zoekterm') }}" aria-describedby="button-search" />
                             <button class="btn btn-submit" id="button-search" type="submit">
                                 <x-heroicon-s-magnifying-glass class="icon me-1"/> Zoek
                             </button>

@@ -1,4 +1,4 @@
-@extends('layouts.application-blank', ['title' => trans('Nieuwsartikelen')])
+@extends('layouts.application-blank', ['title' => trans('Nieuwsberichten')])
 
 @section('content')
     <div class="container">
@@ -82,12 +82,12 @@
                 <div class="col-lg-4">
                     <!-- Search widget-->
                     <h5 class="border-bottom pb-2 border-green color-green fw-bold">
-                        <x-heroicon-o-magnifying-glass-circle class="icon me-1"/> Artikel opzoeken
+                        <x-heroicon-o-magnifying-glass-circle class="icon me-1"/> Nieuwsbericht opzoeken
                     </h4>
 
                     <form action="{{ route('news:index') }}" method="GET" class="mb-4 border-0 shadow-sm">
                         <div class="input-group">
-                            <input class="form-control" type="text" name="zoekterm" placeholder="Zoek op de titel van het artikel..." aria-label="Zoek op de titel van het artikel..." value="{{ request()->get('zoekterm') }}" aria-describedby="button-search" />
+                            <input class="form-control" type="text" name="zoekterm" placeholder="Zoek op de titel van het nieuwsbericht..." aria-label="Zoek op de titel van het nieuwsbericht..." value="{{ request()->get('zoekterm') }}" aria-describedby="button-search" />
                             <button class="btn btn-submit" id="button-search" type="submit">
                                 <x-heroicon-s-magnifying-glass class="icon me-1"/> Zoek
                             </button>
