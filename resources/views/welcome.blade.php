@@ -65,15 +65,6 @@
                                             Ik wens ook uitgebreid te zoeken in de beschrijving
                                         </label>
                                     </div>
-
-                                    @if (optional(auth()->user())->hasAnyPermission(['page_Articles']))
-                                        <div class="form-check form-switch mb-0">
-                                            <input class="form-check-input" name="unpublished" type="checkbox" id="checkChecked" value="1" @checked(request()->boolean('unpublished') === true) switch>
-                                            <label class="form-check-label" for="checkChecked">
-                                                Ik wens ook te zoeken tussen de artikelen die nog niet gepubliceerd zijn.
-                                            </label>
-                                        </div>
-                                    @endif
                                 </div>
                             </div>
                         </form>

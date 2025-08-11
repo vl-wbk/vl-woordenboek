@@ -75,15 +75,6 @@
             </div>
         </div>
 
-        @if($word->isHidden() || $word->state->notIn([\App\Enums\ArticleStates::Archived, \App\Enums\ArticleStates::New]))
-            <div class="alert alert-warning px-3 py-2 shadow-sm" role="alert">
-                <span class="flex-shrink-0 me-1 fw-bold">
-                    <x:heroicon-o-bell-alert class="icon"/> Melding:
-                </span>
-                Dit Woordenboek artikel is momenteel nodig niet publiceerd wegens dat het nog in de <strong>{{ $word->state->getLabel() }}</strong> status staat.
-            </div>
-        @endif
-
         <div class="card shadow-sm mt-2 {{ $word->disclaimer ? 'border-info' : 'border-0' }}">
             @if ($word->disclaimer)
                 <div class="card-header text-info-emphasis border-bottom-0 bg-info-subtle">
@@ -93,7 +84,7 @@
 
             <div class="card-body">
                 <div class="row">
-                    <div class="{{ ($word->isPublished() || $word->state->in([\App\Enums\ArticleStates::Archived, \App\Enums\ArticleStates::New])) ? 'col-8' : 'col-12' }}">
+                    <div class="col-8">
                         <div class="row mb-4">
                             <div class="col-lg-6">
                                 <h3 class="h6 text-muted fw-bold border-bottom pb-2">Regio(s)</h3>
@@ -142,17 +133,26 @@
                         </div>
                     </div>
 
-                    @if ($word->isPublished() || $word->state->in([\App\Enums\ArticleStates::Archived, \App\Enums\ArticleStates::New]))
-                        <div class="col-lg-4 mt-md-0 mt-sm-3">
-                            <div class="card bg-secondary-subtle border-0">
-                                <div class="card-body">
-                                    @includeWhen($word->isPublished(), 'components.articles.stateInformation.published', ['word' => $word])
-                                    @includeWhen($word->state->is(\App\Enums\ArticleStates::Archived), 'components.articles.stateInformation.archived', ['word' => $word])
-                                    @includeWhen($word->state->is(\App\Enums\ArticleStates::New), 'components.articles.stateInformation.suggestion', ['word' => $word])
-                                </div>
+                    <div class="col-lg-4 mt-md-0 mt-sm-3">
+                        <div class="card bg-secondary-subtle border-0">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold color-green pb-2 border-dark-subtle border-bottom">Publicatiegegevens</h5>
+
+                                <dl class="row mt-2 mb-0">
+                                    <dt class="col-sm-5">Suggestie door</dt>
+                                    <dd class="col-sm-7"><span class="float-end">{{ $word->author->name ?? 'onbekend' }}</span></dd>
+                                    <dt class="col-sm-5">Redacteur</dt>
+                                    <dd class="col-sm-7"><span class="float-end">{{ $word->editor->name ?? 'onbekend' }}</span></dd>
+                                    <dt class="col-sm-5">Eindredacteur</dt>
+                                    <dd class="col-sm-7"><span class="float-end">{{ $word->publisher->name ?? 'onbekend' }}</span></dd>
+                                    <dt class="col-sm-5">Publicatiedatum</dt>
+                                    <dd class="col-sm-7"><span class="float-end">{{ $word->created_at->format('d/m/Y') }}</span></dd>
+                                    <dt class="col-sm-5">Laatste bewerking</dt>
+                                    <dd class="col-sm-7 mb-0"><span class="float-end">{{ $word->updated_at->format('d/m/Y') }}</span></dd>
+                                </dl>
                             </div>
                         </div>
-                    @endif
+                    </div>
                 </div>
             </div>
         </div>

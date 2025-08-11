@@ -21,11 +21,11 @@
             @endif
         </div>
         <div class="card-footer bg-white">
-            @can('view-information', $result)
+            @if ($result->isPublished())
                 <a href="{{ route('word-information.show', $result) }}" class="card-link text-decoration-none">
                     <x-heroicon-o-eye class="icon color-green"/> bekijk
                 </a>
-            @endcan
+            @endif
 
             @if ($result->bookmarkers->contains(auth()->user()))
                 <a href="{{ route('bookmark:remove', $result) }}" class="card-link text-decoration-none">
@@ -35,10 +35,6 @@
                 <a href="{{ route('bookmark:create', $result) }}" class="card-link text-decoration-none">
                     <x-heroicon-o-bookmark class="icon color-green"/> bewaar
                 </a>
-            @endif
-
-            @if (! $result->isPublished())
-                <span class="badge badge-rounded-pill float-end shadow-sm text-danger bg-danger-subtle">status: {{ $result->state->getLabel() }}</span>
             @endif
         </div>
     </div>

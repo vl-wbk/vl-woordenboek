@@ -41,12 +41,11 @@ final readonly class SearchWordQuery
     public function execute(Request $request): LengthAwarePaginator
     {
         $includeDescription = $request->boolean('uitgebreid');
-        $includeUnpublished = $request->boolean('unpublished');
 
         return QueryBuilder::for(Article::class)
             ->allowedSorts($this->getAllowedSorts())
             ->with(['author', 'bookmarkers'])
-            ->when(! $includeUnpublished, fn ($query) => $query->published())
+            ->published()
             ->where(function ($query) use ($request, $includeDescription): void {
                 $query->where('word', $this->getSearchPattern($request)['operator'], $this->getSearchPattern($request)['pattern'])
                     ->orWhere('keywords', $this->getSearchPattern($request)['operator'], $this->getSearchPattern($request)['pattern'])

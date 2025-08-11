@@ -98,5 +98,6 @@ return [
         'deactivate' => 'Accounts deactiveren',
         'deactivate_update' => 'Deactivatie gegevens aanpassen',
         'unlock_resource' => 'Resources deblokkeren',
+        'change_status' => 'Status aanpassen'
     ],
 ];
