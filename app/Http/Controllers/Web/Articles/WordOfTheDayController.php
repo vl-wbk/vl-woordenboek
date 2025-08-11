@@ -35,7 +35,7 @@ final readonly class WordOfTheDayController
 
         return view('definitions.show', data: [
             'word' => $article,
-            'etymologies' => $article->etymology()
+            'etymologies' => $article->etymologies()
                 ->whereNotIn('status', [EtymologyStatus::Draft, EtymologyStatus::Rejected, EtymologyStatus::Archived])
                 ->count(),
         ]);
