@@ -49,7 +49,7 @@ final class EtymologyStatisticsWidget extends BaseWidget
             Etymology::published()->whereStatus(EtymologyStatus::Published)->count(),
         );
 
-        return Stat::make('Gepubliceerde etymologieen', $count)
+        return Stat::make('Gepubliceerd', $count)
             ->icon('heroicon-o-globe-europe-africa')
             ->iconColor('success')
             ->description(trans(':percent van alle etymologieen', [
@@ -72,7 +72,7 @@ final class EtymologyStatisticsWidget extends BaseWidget
             Etymology::whereNotNull('archived_at')->whereStatus(EtymologyStatus::Archived)->count(),
         );
 
-        return Stat::make('Gearchiveerde etymologieen', $count)
+        return Stat::make('Gearchiveerd', $count)
             ->icon('heroicon-o-archive-box')
             ->description(trans(':percent van alle etymologieen', [
                 'percent' => toHumanReadablePercentage($this->getAllEtymoglogies(), (int) $count),
@@ -121,7 +121,7 @@ final class EtymologyStatisticsWidget extends BaseWidget
             Etymology::whereStatus(EtymologyStatus::Rejected)->count(),
         );
 
-        return Stat::make('Afgewezen etymologieen', $count)
+        return Stat::make('Afgewezen', $count)
             ->icon('heroicon-o-x-circle')
             ->description(trans(':percent van alle etymologieen', [
                 'percent' => toHumanReadablePercentage($this->getAllEtymoglogies(), (int) $count),

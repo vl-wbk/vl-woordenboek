@@ -35,7 +35,7 @@ final class EtymologyRelationManager extends RelationManager
      * It tells Filament which related records to manage in this section.
      * In this case, 'etymology' should correspond to a hasMany or morphMany relationship on the Article model, returning all etymology records for a given article.
      */
-    protected static string $relationship = 'etymology';
+    protected static string $relationship = 'etymologies';
 
     /**
      * The icon used throughout the Filament UI for this relation manager.

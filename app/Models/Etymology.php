@@ -13,6 +13,7 @@ use App\States\Etymology\EtymologyStateContract;
 use App\States\Etymology as EtymologyState;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -119,6 +120,7 @@ final class Etymology extends Model
             ->withDefault(['name' => 'Onbekende of verwijderde gebruiker']);
     }
 
+    #[Scope]
     protected function published(Builder $query): void
     {
         $query->whereNotNull('published_at');

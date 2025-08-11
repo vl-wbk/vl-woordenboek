@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema;
 
+use App\Enums\Articles\EtymologySources;
 use App\Enums\Articles\EtymologyStatus;
-use App\Enums\Articles\EtymologyTypes;
 use Filament\Forms\Components\{DatePicker, Select, Textarea, TextInput};
 use Filament\Forms\Form;
 
@@ -47,72 +47,55 @@ final readonly class FormSchema
             Select::make('status')
                 ->label('Status van de gegevens')
                 ->translateLabel()
-                ->columnSpan(3)
+                ->columnSpan(2)
                 ->disabledOn('edit')
                 ->options(EtymologyStatus::class)
                 ->native(false)
                 ->required(),
-
-            Select::make('type')
-                ->label('Etymologisch type')
-                ->translateLabel()
-                ->options(EtymologyTypes::class)
-                ->required()
-                ->searchable()
-                ->native(false)
+            TextInput::make('origin')
+                ->label('Ontleend uit (taal + oorspr. vorm + betekenis)')
+                ->placeholder(placeholder: __("Bijv. Latijn 'gustus', smaak"))
+                ->columnSpan(7),
+            TextInput::make('origin_period')
+                ->label(label: __('Periode'))
                 ->columnSpan(3),
-
-            TextInput::make('origin_language')
-                ->label('Taal van oorsprong')
-                ->translateLabel()
-                ->columnSpan(3)
-                ->required()
-                ->maxLength(255),
-
-            TextInput::make('origin_form')
-                ->label('Vorm in de brontaal')
-                ->translateLabel()
-                ->required()
-                ->maxLength(255)
-                ->columnSpan(3),
-
-            DatePicker::make('period_start')
-                ->label('Periode (start)')
-                ->translateLabel()
-                ->required()
-                ->native(false)
-                ->columnSpan(6),
-
-            DatePicker::make('period_end')
-                ->label('Periode (einde)')
-                ->translateLabel()
-                ->required()
-                ->native(false)
-                ->columnSpan(6),
-
             Textarea::make('etymology')
-                ->label('Beschrijving van de herkomst')
-                ->translateLabel()
+                ->label(label: __('Etymologie'))
                 ->columnSpanFull()
-                ->required(),
-
-            Textarea::make('note')
-                ->label('Interne notitie voor administratieve doeleinden')
-                ->translateLabel()
-                ->columnSpanFull(),
-
-            TextInput::make('source')
-                ->label('Bron notitie')
-                ->translateLabel()
+                ->rows(3)
+                ->placeholder("Bijv. ontleend aan het Oudfranse 'gost', smaak (12de eeuw), gevormd met het achtervoegsel -ing. 'Gost' komt op zijn beurt uit het Latijn 'gustus', smaal. Oorsponkelijk 'goest(e)'."),
+            TextInput::make('further_development')
+                ->label(label: __('Verdere ontwikkelingen (talen + vorm + betekenis)'))
+                ->placeholder("Bijv. Oudfrans 'gost'; Middelfrans 'goust', smaak")
+                ->columnSpan(9),
+            Textinput::make('further_development_period')
+                ->label(label: __('Periodes'))
+                ->placeholder('12de, 13de eeuw')
+                ->columnSpan(3),
+            TextInput::make('oldest_find_spot')
+                ->label(label: __('Oudste vindplaats in het Nederlands (vorm, context, evt. betekenis)'))
+                ->columnSpan(9)
+                ->placeholder("Bijv. goeste, in 'lot may men goeste vray.' Huygens."),
+            TextInput::make('oldest_find_period')
+                ->label(label: __('Periode / Jaartal'))
+                ->columnSpan(3)
+                ->placeholder('1653')
+                ->numeric(),
+            Textarea::make('additional_info')
+                ->label(label: __('Aanvullingen'))
+                ->cols(3)
+                ->columnSpanFull()
+                ->placeholder('Bijv.; Bij gebrek vindplaatsen is niet duidelijk waarom en wanneer het achtervoegsel -ing is toegevoegd. Dat achtervoegsel wordt normaal gezien alleen bij werkwoordstammen toegevoegd.'),
+            Select::make('source_name')
+                ->label(label: __('Naam van de bron (bijv. WNT, Etymologiebank)'))
                 ->required()
-                ->maxLength(255)
-                ->columnSpan(6),
-
-            TextInput::make('source_url')
-                ->label('Hyperlink van de bron')
-                ->translateLabel()
-                ->maxLength(255)
-                ->columnSpan(6),
+                ->options(EtymologySources::class)
+                ->columnSpan(6)
+                ->native(false),
+            Textinput::make('source_hyperlink')
+                ->label(label: __('Link naar de bron'))
+                ->placeholder('Bijv. https://etymologiebank.nl/trefwoord/goesting')
+                ->columnSpan(6)
         ];
     }
 }
