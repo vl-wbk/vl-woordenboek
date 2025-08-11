@@ -11,6 +11,8 @@ use App\Models\Etymology;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use LibDNS\Records\Record;
 
 /**

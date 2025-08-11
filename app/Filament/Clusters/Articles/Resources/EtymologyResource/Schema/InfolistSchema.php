@@ -61,19 +61,12 @@ final readonly class InfolistSchema
                 ->tabs([
                     self::generalInformationTab(),
                     self::sourceInformationTab(),
-                    self::internalNoteTab(),
                     self::archiveInformationTab(),
                     self::rejectionInformationTab(),
                 ]),
         ]);
     }
 
-    /**
-     * Defines the 'Algemene informatie' tab for the Etymology Infolist.
-     * This tab displays core etymology details such as status, type, origin language, origin form, period start/end, and the etymology description itself.
-     *
-     * @return Tab The configured 'Algemene informatie' tab.
-     */
     private static function generalInformationTab(): Tab
     {
         return Tab::make('Algemene informatie')
@@ -85,26 +78,26 @@ final readonly class InfolistSchema
                     ->columnSpan(3)
                     ->badge()
                     ->tooltip(fn(Etymology $etymology): string|array|null => self::getStatusTooltip($etymology)),
-                TextEntry::make('type')
-                    ->label('Etymologisch type')
+                TextEntry::make('origin')
+                    ->label(label: __('Ontleend uit het:'))
+                    ->columnSpan(6)
+                    ->color('gray'),
+                TextEntry::make('origin_period')
+                    ->label(label: __('Periode'))
                     ->columnSpan(3)
-                    ->badge(),
-                TextEntry::make('origin_language')
-                    ->label('Taal van oorsprong')
+                    ->color('gray'),
+                TextEntry::make('further_development')
+                    ->label(label: __('Verdere ontwikkelingen (talen + vorm + betekenis)'))
+                    ->color('gray')
+                    ->columnSpan(9),
+                TextEntry::make('further_development_period')
+                    ->label(label: __('Periode / Jaartal'))
+                    ->color('gray')
                     ->columnSpan(3),
-                TextEntry::make('origin_form')
-                    ->label('Vorm in de brontaal')
-                    ->columnSpan(3),
-                TextEntry::make('period_start')
-                    ->label('Periode (start)')
-                    ->columnSpan(6)
-                    ->date(),
-                TextEntry::make('period_end')
-                    ->label('Periode (eind)')
-                    ->columnSpan(6)
-                    ->date(),
-                TextEntry::make('etymology')
-                    ->label('Etymologie (beschrijving)')
+                TextEntry::make('additional_info')
+                    ->label(label: __('Aanvullende informatie'))
+                    ->color('gray')
+                    ->placeholder('-')
                     ->columnSpanFull(),
             ]);
     }
@@ -243,36 +236,25 @@ final readonly class InfolistSchema
             ->icon('heroicon-o-queue-list')
             ->columns(12)
             ->schema([
-                TextEntry::make('source')
-                    ->label('Hyperlink (tekst)')
-                    ->columnSpan(4),
-                TextEntry::make('source_url')
-                    ->label('Hyperlink')
-                    ->visible(fn (Etymology $etymology): bool => ! is_null($etymology->source_url))
-                    ->columnSpan(8)
+                TextEntry::make('oldest_find_spot')
+                    ->columnSpan(3)
+                    ->label('Oudste vindplaats in het Nederlands')
+                    ->color('gray'),
+                TextEntry::make('oldest_find_period')
+                    ->columnSpan(3)
+                    ->label(label: __('Vondst (Periode / Jaartal)'))
+                    ->color('gray'),
+                TextEntry::make('source_name')
+                    ->label(label: __('Naam van de bron'))
+                    ->color('gray')
+                    ->columnSpan(3),
+                TextEntry::make('source_hyperlink')
+                    ->label(label: __('Link naar de bron'))
+                    ->columnSpan(3)
+                    ->color('gray')
                     ->placeholder('- Geen hyperlink opgegeven')
-                    ->url(fn(Etymology $etymology): string => $etymology->source_url)
+                    ->url(fn(Etymology $etymology): string => $etymology->source_url ?? '- Geen valide link opgegeven')
                     ->openUrlInNewTab(),
-            ]);
-    }
-
-    /**
-     * Defines the 'Interne notitie' tab for the Etymology Infolist.
-     * This tab is visible only if an internal note exists for the etymology and displays the content of that note.
-     *
-     * @return Tab The configured 'Interne notitie' tab.
-     */
-    private static function internalNoteTab(): Tab
-    {
-        return Tab::make('internal-note-tab')
-            ->label('Interne notitie')
-            ->icon('heroicon-o-chat-bubble-bottom-center-text')
-            ->columns(12)
-            ->visible(fn(Etymology $etymology): bool => ! is_null($etymology->note))
-            ->schema([
-                TextEntry::make('note')
-                    ->hiddenLabel()
-                    ->columnSpanFull(),
             ]);
     }
 }

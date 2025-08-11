@@ -15,7 +15,7 @@ return new class extends Migration
         // 2) Implement the new database table layout.
         Schema::create('etymologies', function (Blueprint $table): void {
             $table->id()->comment('Unique identifier for each etymology entry');
-            $table->text('etymology')->comment('The word or term whose etymology is being described (based on the etymologie key in the suggestion form)');
+            $table->text('etymology')->nullable()->comment('The word or term whose etymology is being described (based on the etymologie key in the suggestion form)');
             $table->string('origin')->nullable()->comment('The origin of the word (based on the oorsprong key in the suggestion form)');
             $table->string('origin_period')->nullable()->comment("The time period associated with the word's origin (based on the oorspong_periode key in the suggestion form)");
             $table->text('further_development')->nullable()->comment("Details on the word's later development (based on the verder_ontwikkeling key in the suggestion form)");

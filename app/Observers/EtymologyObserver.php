@@ -39,13 +39,21 @@ final readonly class EtymologyObserver
      */
     public function creating(Etymology $etymology): void
     {
+        $user = optional(Auth::user())->getAuthIdentifier();
+
         match (true) {
-            $etymology->status->isArchived() => $etymology->fill(['archived_at' => now(), 'archived_by' => $userId]),
-            $etymology->status->isRejected() => $etymology->fill(['rejected_at' => now(), 'rejected_by' => $userId]),
-            $etymology->status->isPublished() => $etymology->fill(['published_at' => now(), 'published_by' => $userId]),
+            $etymology->status->isArchived() => $etymology->fill(['archived_at' => now(), 'archived_by' => $user]),
+            $etymology->status->isRejected() => $etymology->fill(['rejected_at' => now(), 'rejected_by' => $user]),
+            $etymology->status->isPublished() => $etymology->fill(['published_at' => now(), 'published_by' => $user]),
             default => null,
         };
+    }
 
-        $etymology->author()->associate($user ?? null)->save();
+    public function created(Etymology $etymology): void
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+            $etymology->author()->associate($user)->save();
+        }
     }
 }
