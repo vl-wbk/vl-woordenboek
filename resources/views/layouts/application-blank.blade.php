@@ -200,7 +200,7 @@
 
                     @if (app(\App\Settings\ProjectInformationSettings::class)->pageActive)
                         <li class="mb-2">
-                            <a href="{{ route('project-information') }}">Project informatie</a>
+                            <a href="{{ route('project-information') }}" class="text-white">Project informatie</a>
                         </li>
                     @endif
 
