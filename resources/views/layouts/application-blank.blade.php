@@ -151,7 +151,7 @@
     {{--  TE VERWIJDEREN WANNEER DE PUBLIEKE FASE IS AFGELOPEN --}}
     <div class="alert alert-warning border-0 mb-0 rounded-0 shadow-sm py-2" role="alert">
         <strong><x-heroicon-s-exclamation-triangle class="icon me-1"/> Ter info:</strong>
-        jdit is een bètaversie van het nieuwe Vlaamse Woordenboek om uitgebreid te testen. De data zijn van april 2025. Alle  <a href="{{ route('feedback:create') }}" target="_blank" class="alert-link">feedback</a> is welkom.
+        dit is een bètaversie van het nieuwe Vlaamse Woordenboek om uitgebreid te testen. De data zijn van april 2025. Alle  <a href="{{ route('feedback:create') }}" target="_blank" class="alert-link">feedback</a> is welkom.
         welkom. De recentste artikelen vind je op het oude <a href="https://www.vlaamswoordenboek.be/" class="alert-link">vlaamswoordenboek.be</a>.
     </div>
     {{-- EINDE --}}

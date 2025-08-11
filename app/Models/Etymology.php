@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\Articles\EtymologySources;
 use App\Enums\Articles\EtymologyStatus;
 use App\Enums\Articles\EtymologyTypes;
 use App\Models\Relations\BelongsToAuthor;
-use App\Models\Scopes\PublishedScope;
 use App\Observers\EtymologyObserver;
 use App\States\Etymology\EtymologyStateContract;
 use App\States\Etymology as EtymologyState;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
-use Illuminate\Database\Eloquent\Attributes\ScopedBy;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -56,7 +56,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @package App\Models
  */
 #[ObservedBy(EtymologyObserver::class)]
-#[ScopedBy([PublishedScope::class])]
 final class Etymology extends Model
 {
     /** @use HasFactory<\Database\Factories\EtymologyFactory> */
@@ -106,21 +105,6 @@ final class Etymology extends Model
     }
 
     /**
-     * Accessor for the period attribute.
-     *
-     * This attribute accessor dynamically formats the period_start and period_end dates into a user-friendly string representation (e.g., "DD/MM/YYYY - DD/MM/YYYY").
-     * It provides a convenient way to display the time span associated with the etymology.
-     *
-     * @return Attribute<non-falsy-string, never>  An Eloquent attribute instance that defines the accessor.
-     */
-    public function period(): Attribute
-    {
-        return Attribute::get(
-            fn(): string => $this->period_start->format('d/m/Y') . ' - ' . $this->period_end->format('d/m/Y'),
-        );
-    }
-
-    /**
      * Defines a BelongsTo relationship with the User model for the archiver.
      *
      * This method establishes a relationship where an etymology entry belongs to a user who archived it.
@@ -134,6 +118,12 @@ final class Etymology extends Model
     {
         return $this->belongsTo(User::class, 'archived_by')
             ->withDefault(['name' => 'Onbekende of verwijderde gebruiker']);
+    }
+
+    #[Scope]
+    protected function published(Builder $query): void
+    {
+        $query->whereNotNull('published_at');
     }
 
     /**
@@ -178,10 +168,8 @@ final class Etymology extends Model
     protected function casts(): array
     {
         return [
-            'period_end' => 'date',
-            'period_start' => 'date',
             'status' => EtymologyStatus::class,
-            'type' => EtymologyTypes::class,
+            'source_name' => EtymologySources::class,
         ];
     }
 }

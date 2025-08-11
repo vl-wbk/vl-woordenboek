@@ -41,76 +41,95 @@
                     @csrf {{-- Form field protection --}}
 
                     <div class="row mb-2">
-                        <div class="form-group col-6 mb-2">
-                            <label for="periodStart" class="col-form-label">Periode <span class="fw-bold fst-italic">(start)</span></label>
-                            <input type="date" class="form-control" name="periode_start" value="{{ old('periode_start') }}" />
+                        <div class="form-group col-12 mb-2">
+                            <label for="etymology" class="pt-0 col-form-label">Etymologie<span class="fw-bold text-danger">*</span></label>
+                            <textarea
+                                class="form-control @error('etymologie') is-invalid @enderror"
+                                id="etymology"
+                                name="etymologie"
+                                placeholder="Bijv. ontleend aan het Oudfranse 'gost', smaak (12de eeuw), gevormd met het achtervoegsel -ing. 'Gost' komt op zijn beurt uit het Latijn 'gustus', smaak. Oorsponkelijk 'goest(e)'."
+                                rows="4"
+                            >{{ old('etymologie') }}</textarea>
+
+                            <x-forms.validation-error field="etymologie"/>
                         </div>
 
-                        <div class="form-group col-6 mb-2">
-                            <label for="periodEnd" class="col-form-label">Periode <span class="fw-bold fst-italic">(einde)</span></label>
-                            <input type="date" class="form-control" name="periode_eind" value="{{ old('periode_eind') }}" />
+                        <div class="form-group col-8 mb-2">
+                            <label for="origin" class="col-form-label">Ontleend uit (taal + oorspr. vorm + betekenis)</label>
+                            <input id="origin" type="text" class="form-control" name="oorsprong" value="{{ old('oorspong') }}" placeholder="Bijv. Latijn 'gustus', smaak">
+                        </div>
+
+                        <div class="form-group col-4 mb-2">
+                            <label for="originPeriod" class="col-form-label">Periode</span></label>
+                            <input id="originPeriod" type="text" class="form-control" name="oorspong_periode" value="{{ old('oorspong_periode') }}">
+                        </div>
+
+                        <div class="form-group col-8 mb-2">
+                            <label for="furtherDevelopments" class="col-form-label">Verdere ontwikkelingen (talen + vorm + betekenis)</label>
+                            <input type="text" class="form-control" name="verdere_ontwikkeling" value="{{ old('verdere_ontwikkeling') }}" id="furtherDevelopments" placeholder="Bijv. Oudfrans 'gost'; Middelfrans 'goust', smaak">
+                        </div>
+
+                        <div class="form-group col-4 mb-2">
+                            <label for="developmentPeriod" class="col-form-label">Periodes</label>
+                            <input type="text" class="form-control" id="developmentPeriod" value="{{ old('verdere_ontwikkeling_periode') }}" name="verdere_ontwikkeling_periode" placeholder="12de, 13de eeuw">
+                        </div>
+
+                        <div class="form-group col-8">
+                            <label for="oldestUsage" class="col-form-label">Oudste vindplaats in het Nederlands (vorm, context, evt. betekenis)</label>
+                            <input type="text" class="form-control" id="oldestUsage" value="{{ old('oudste_vindplaats') }}" name="oudste_vindplaats" placeholder="Bijv. goeste, in 'lot may men goeste vray. Huygens.'">
+                        </div>
+
+                        <div class="form-group col-4">
+                            <label for="oldestUsagePeriod" class="col-form-label">Periode / Jaartal</label>
+                            <input type="number" min="500" max="{{ date('Y') }}" step="25" name="oudste_vindplaats_periode" placeholder="minimum jaar = 500" id="oldestUsagePeriod" value="{{ old('oudste_vindplaats_periode') }}" class="form-control">
                         </div>
                     </div>
 
-                    <hr class="my-2">
+                    <hr>
 
-                    <div class="row mb-2">
-                        <div class="form-group col-4">
-                            <label for="type" class="col-form-label">Type van het woord <span class="fw-bold text-danger">*</span></label>
-                            <select name="type" id="type" class="form-select @error('type') is-invalid @enderror">
-                                <option value="">-- selecteer een woord type --</option>
+                    <div class="row">
+                        <div class="form-group col-12 mb-2">
+                            <label for="additionalInformation" class="col-form-label pt-0">Aanvullingen</label>
+                            <textarea
+                                class="form-control"
+                                name="aanvullingen"
+                                id="additionalInformation"
+                                name="aanvullingen"
+                                placeholder="Bijv. Bij gebrek aan vindplaatsen is niet duidelijk waarom en wanneer het achtervoegsel -ing is toegevoegd. Dat achtervoegsel wordt normaal gezien alleen bij werkwoordstammen toegevoegd."
+                                rows="4"
+                            >{{ old('aanvullingen') }}</textarea>
+                        </div>
 
-                                @foreach ($types as $type)
-                                    <option value="{{ $type->value }}" @selected (old('type') === $type->value)>
-                                        {{ $type->getLabel() }}
+                        <div class="form-group col-6">
+                            <label for="sourceName" class="col-form-label">Naam van de bron (bijv. WNT, Etymologiebank, ...) <span class="fw-bold text-danger">*</span></label>
+
+                            <select name="bron_naam" id="sourceName" class="form-select @error('bron_naam') is-invalid @enderror">
+                                <option value="">-- selecteer waar je de etymologie hebt gevonden --</option>
+
+                                @foreach ($sources as $source)
+                                    <option value="{{ $source->value }}" @selected (old('bron_naam') === $source->value)>
+                                        {{ $source->getLabel() }}
                                     </option>
                                 @endforeach
                             </select>
 
-                            <x-forms.validation-error field="type"/>
+                            <x-forms.validation-error field="bron_naam"/>
                         </div>
 
-                        <div class="form-group col-4 mb-2">
-                            <label for="originLanguage" class="col-form-label">Oorspronkelijke taal <span class="fw-bold text-danger">*</span></label>
-                            <input type="text" name="oorspronkelijke_taal" class="form-control @error('oorspronkelijke_taal') is-invalid @enderror" value="{{ old('oorspronkelijke_taal') }}" name="oorspronkelijke_taal" id="originLanguage">
-                            <x-forms.validation-error field="oorspronkelijke_taal"/>
-                        </div>
-
-                        <div class="form-group col-4 mb-2">
-                            <label for="originForm" class="col-form-label">Vorm in de brontaal (vb. Hospitale) <span class="fw-bold text-danger">*</span></label>
-                            <input type="text" name="oorspronkelijke_vorm" class="form-control @error('oorspronkelijke_vorm') is-invalid @enderror" value="{{ old('oorspronkelijke_vorm') }}" name="oorspronkelijke_vorm" id="originForm">
-                            <x-forms.validation-error field="oorspronkelijke_vorm"/>
-                        </div>
-
-                        <div class="form-group col-12 mb-2">
-                            <label for="etymology" class="col-form-label">Etymologie</label>
-                            <textarea name="etymologie" class="form-control" id="etyomologie" rows="5">{{ old('etymologie') }}</textarea>
-                        </div>
-                    </div>
-
-                    <hr class="my-2">
-
-                    <div class="row">
-                        <div class="form-group col-5">
-                            <label for="sourceText" class="col-form-label">Naam van de bron (bv. WNT, EWN) <span class="fw-bold text-danger">*</span></label>
-                            <input id="sourceText" type="text" class="form-control @error('bron') is-invalid @enderror" value="{{ old('bron') }}" name="bron"/>
-                            <x-forms.validation-error field="bron"/>
-                        </div>
-
-                        <div class="form-group col-7">
+                        <div class="form-group col-6">
                             <label for="sourceUrl" class="col-form-label">Link naar de bron</label>
-                            <input id="sourceUrl" type="text" class="form-control" value="{{ old('url_bron') }}" name="url_bron" placeholder="https://www.voorbeeld.be">
+                            <input type="text" class="form-control" id="sourceUrl" name="bron_hyperlink" value="{{ old('bron_hyperlink') }}" placeholder="Bijv. https://etymologiebank.nl/trefwoord/goesting">
                         </div>
                     </div>
                 </form>
 
                 <div class="card-footer bg-white">
                     <button type="submit" form="createSuggestion" class="btn btn-sm btn-suggestion-submit">
-                            <x-tabler-send class="icon icon-sm me-1" /> Insturen
-                        </button>
-                        <button type="reset" form="createSuggestion" class="btn btn-link btn-sm">
-                            <x-tabler-arrow-back-up class="icon icon-sm me-1 text-danger"/> Reset
-                        </button>
+                        <x-tabler-send class="icon icon-sm me-1" /> Insturen
+                    </button>
+                    <button type="reset" form="createSuggestion" class="btn btn-link btn-sm">
+                        <x-tabler-arrow-back-up class="icon icon-sm me-1 text-danger"/> Reset
+                    </button>
                 </div>
             </div>
         </div>

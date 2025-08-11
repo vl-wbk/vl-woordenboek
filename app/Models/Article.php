@@ -226,25 +226,9 @@ final class Article extends Model implements AuditableContract
      *
      * @return HasMany<Etymology, covariant $this>
      */
-    public function etymology(): HasMany
+    public function etymologies(): HasMany
     {
-        return $this->hasMany(Etymology::class);
-    }
-
-    /**
-     * Defines a one-to-one relationship with the *latest* `Etymology` record.
-     *
-     * This method is designed to retrieve only a single, most recently created `Etymology` record associated with the current model.
-     * It leverages the `hasOne` relationship combined with the `latest()` method, which orders  the results by the `created_at` timestamp (or a specified timestamp column) in descending order and limits the result to one.
-     * This is particularly useful when you need quick access to the primary, most current, or most recently updated etymological information without fetching all related records.
-     *
-     * For example, `$article->lastEtymology` will return a single `Etymology` model (or `null` if none exist) that was most recently added for that article.
-     *
-     * @return Hasone<Etymology, covariant $this>
-     */
-    public function lastEtymology(): HasOne
-    {
-        return $this->hasOne(Etymology::class)->latest();
+        return $this->hasMany(Etymology::class, 'article_id');
     }
 
     /**

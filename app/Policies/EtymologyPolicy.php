@@ -33,7 +33,7 @@ final readonly class EtymologyPolicy
      */
     public function before(User $user, string $ability): ?Response
     {
-        if ($user->can('page_Articles')) {
+        if ($user->cannot('page_Articles')) {
             return Response::denyAsNotFound();
         }
 
@@ -43,7 +43,7 @@ final readonly class EtymologyPolicy
     /**
      * @todo Undocumented function
      */
-    public function viewAny(User $user, Etymology $etymology): bool
+    public function viewAny(User $user): bool
     {
         return $user->can('view_any_etymology');
     }

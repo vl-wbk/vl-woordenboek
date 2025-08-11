@@ -11,6 +11,8 @@ use App\Models\Etymology;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use LibDNS\Records\Record;
 
 /**
@@ -44,30 +46,23 @@ final readonly class TableSchema
     public static function configureColumns(): array
     {
         return [
-            Tables\Columns\TextColumn::make('period')
-                ->label('Periode')
-                ->sortable(),
-            Tables\Columns\TextColumn::make('status')
-                ->toggleable(isToggledHiddenByDefault: true)
-                ->badge(),
-            Tables\Columns\TextColumn::make('type')
-                ->label('Woordsoort')
+            Tables\Columns\TextColumn::make('author.name')
+                ->label(label: __('Ingevoegd door'))
                 ->sortable()
-                ->badge(),
-            Tables\Columns\TextColumn::make('origin_language')
-                ->label('Oorspronkelijke taal')
-                ->translateLabel(),
-            Tables\Columns\TextColumn::make('origin_form')
-                ->label('Woordvorm')
+                ->searchable(),
+            Tables\Columns\TextColumn::make('article.word')
+                ->label(label: __('Gekoppeld artikel'))
                 ->searchable()
                 ->sortable(),
-            Tables\Columns\TextColumn::make('etymology')
-                ->label('Beschrijving')
-                ->limit()
-                ->translateLabel(),
-            Tables\Columns\TextColumn::make('source')
-                ->label('Bron')
-                ->toggleable(isToggledHiddenByDefault: true),
+            Tables\Columns\TextColumn::make('status')
+                ->label(label: __('status'))
+                ->badge()
+                ->sortable(),
+            Tables\Columns\TextColumn::make('origin')
+                ->label(label: __('Oorsprong'))
+                ->searchable(),
+            Tables\Columns\TextColumn::make('origin_period')
+                ->label(__('oorspong periode')),
             Tables\Columns\TextColumn::make('created_at')
                 ->sortable()
                 ->label('Aangemaakt op')

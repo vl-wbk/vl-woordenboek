@@ -17,6 +17,7 @@ use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 /**
@@ -61,54 +62,12 @@ final class EtymologyResource extends Resource implements HasShieldPermissions
             ->headerActions([
                 Tables\Actions\Action::make('help')
                     ->label('Help')
+                    ->color('gray')
                     ->translateLabel()
                     ->icon('heroicon-o-lifebuoy')
                     ->url('https://www.google.com', shouldOpenInNewTab: true),
             ])
-            ->columns(components: [
-                Tables\Columns\TextColumn::make('period')
-                    ->label('Periode')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('article.word')
-                    ->label('Gekoppeld artikel')
-                    ->translateLabel()
-                    ->sortable()
-                    ->searchable()
-                    ->url(fn(Etymology $etymology): string => ArticleResource::getUrl('view', ['record' => $etymology->article])),
-                Tables\Columns\TextColumn::make('status')
-                    ->sortable()
-                    ->badge(),
-                Tables\Columns\TextColumn::make('type')
-                    ->label('Woordsoort')
-                    ->sortable()
-                    ->badge(),
-                Tables\Columns\TextColumn::make('origin_language')
-                    ->label('Oorspronkelijke taal')
-                    ->translateLabel(),
-                Tables\Columns\TextColumn::make('origin_form')
-                    ->label('Woordvorm')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('etymology')
-                    ->label('Beschrijving')
-                    ->limit()
-                    ->translateLabel(),
-                Tables\Columns\TextColumn::make('source')
-                    ->label('Bron')
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->sortable()
-                    ->label('Aangemaakt op')
-                    ->translateLabel()
-                    ->date()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->sortable()
-                    ->label('Laast gewijzigd')
-                    ->translateLabel()
-                    ->date()
-                    ->toggleable(isToggledHiddenByDefault: true),
-            ]);
+            ->columns(components: TableSchema::configureColumns());
     }
 
     /**

@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Web\Etymology;
 use App\Actions\Articles\StoreEtymologySubmission;
 use App\Concerns\RateLimitSubmission;
 use App\Enums\Articles\EtymologyStatus;
-use App\Enums\Articles\EtymologyTypes;
+use App\Enums\Articles\EtymologySources;
 use App\Http\Requests\Articles\StoreEtymologyRequest;
 use App\Models\Article;
 use App\Models\Etymology;
@@ -24,24 +24,12 @@ final class EthymologyController
 {
     use RateLimitSubmission;
 
-    #[Get(uri: 'ethymology/{etymology}', name: 'etymology:show')]
-    public function show(Etymology $etymology): Renderable
-    {
-        return view('definitions.etymology.show', data: [
-            'etymology' => $etymology,
-            'etymologies' => $etymology->article
-                ->etymology()
-                ->whereNotIn('status', [EtymologyStatus::Draft, EtymologyStatus::Rejected, EtymologyStatus::Archived])
-                ->get(),
-        ]);
-    }
-
     #[Get(uri: 'etymologie/{article}/nieuwe-suggestie', name: 'etymology:create')]
     public function create(Article $article): Renderable
     {
         return view('definitions.etymology.create', data: [
             'article' => $article,
-            'types' => EtymologyTypes::cases(),
+            'sources' => EtymologySources::cases(),
         ]);
     }
 
@@ -51,7 +39,7 @@ final class EthymologyController
         return $this->attemptSubmissionWithRateLimiting($storeEtymologyRequest, 'etymologySubmission', function () use ($article, $storeEtymologyRequest, $storeEtymologySubmission): RedirectResponse {
             $etymology = $storeEtymologySubmission->execute(article: $article, etymologySubmissionData: $storeEtymologyRequest->getData());
 
-            return redirect()->route('etymology:create', $etymology);
+            return redirect()->route('etymology:create', $etymology->article);
         });
     }
 }
