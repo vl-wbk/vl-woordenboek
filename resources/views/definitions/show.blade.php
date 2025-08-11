@@ -136,20 +136,9 @@
                     <div class="col-lg-4 mt-md-0 mt-sm-3">
                         <div class="card bg-secondary-subtle border-0">
                             <div class="card-body">
-                                <h5 class="card-title fw-bold color-green pb-2 border-dark-subtle border-bottom">Publicatiegegevens</h5>
-
-                                <dl class="row mt-2 mb-0">
-                                    <dt class="col-sm-5">Suggestie door</dt>
-                                    <dd class="col-sm-7"><span class="float-end">{{ $word->author->name ?? 'onbekend' }}</span></dd>
-                                    <dt class="col-sm-5">Redacteur</dt>
-                                    <dd class="col-sm-7"><span class="float-end">{{ $word->editor->name ?? 'onbekend' }}</span></dd>
-                                    <dt class="col-sm-5">Eindredacteur</dt>
-                                    <dd class="col-sm-7"><span class="float-end">{{ $word->publisher->name ?? 'onbekend' }}</span></dd>
-                                    <dt class="col-sm-5">Publicatiedatum</dt>
-                                    <dd class="col-sm-7"><span class="float-end">{{ $word->created_at->format('d/m/Y') }}</span></dd>
-                                    <dt class="col-sm-5">Laatste bewerking</dt>
-                                    <dd class="col-sm-7 mb-0"><span class="float-end">{{ $word->updated_at->format('d/m/Y') }}</span></dd>
-                                </dl>
+                                @includeWhen($word->isPublished(), 'components.articles.stateInformation.published', ['word' => $word])
+                                @includeWhen($word->state->is(\App\Enums\ArticleStates::Archived), 'components.articles.stateInformation.archived', ['word' => $word])
+                                @includeWhen($word->state->is(\App\Enums\ArticleStates::New), 'components.articles.stateInformation.suggestion', ['word' => $word])
                             </div>
                         </div>
                     </div>
@@ -166,7 +155,7 @@
                         </button>
                     </li>
 
-                    @if ($word->etymologies->count() > 0)
+                    @if (count($etymologies)) > 0)
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="etymologie-tab" data-bs-toggle="tab" data-bs-target="#etymologie-tab-pane" type="button" role="tab" aria-controls="etymologie-tab-pane" aria-selected="true">
                                 <x:heroicon-o-queue-list class="icon color-green me-1"/> Etymologieen
@@ -237,6 +226,7 @@
                             </div>
                         </div>
                     @endif
+
                 </div>
             </div>
         </div>

@@ -29,6 +29,19 @@ final readonly class ArticlePolicy
         return null;
     }
 
+    public function viewInformation(?User $user, Article $article): Response
+    {
+        if ($article->isHidden() && $article->state->in([ArticleStates::New, ArticleStates::Published, ArticleStates::Archived]) && $article->author()->is($user)) {
+            return Response::allow();
+        }
+
+        if ($article->isHidden()) {
+            return Response::denyAsNotFound();
+        }
+
+        return Response::allow();
+    }
+
     /**
      * Determines whether a user can update an article's content.
      *

@@ -139,11 +139,11 @@
                                                 <td>{{ $result->updated_at->diffForHumans() }}</td>
 
                                                 <td>
-                                                    @if ($result->isPublished())
+                                                    @can ('view-information', $result)
                                                         <a href="{{ route('word-information.show', $result) }}" class="text-muted me-2 text-decoration-none float-end">
                                                             <x-heroicon-o-eye class="icon me-1"/> Bekijk
                                                         </a>
-                                                    @endif
+                                                    @endcan
                                                 </td>
                                             </tr>
                                         @endforeach

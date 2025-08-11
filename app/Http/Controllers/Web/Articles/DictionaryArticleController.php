@@ -29,11 +29,9 @@ final readonly class DictionaryArticleController
      * @param  Article $word  The dictionary entry to display
      * @return Renderable     The view containing article details
      */
-    #[Get(uri: '/woordenboek-artikel/{word}', name: 'word-information.show')]
+    #[Get(uri: '/woordenboek-artikel/{word}', name: 'word-information.show', middleware: ['can:view-information,word'])]
     public function __invoke(Article $word): Renderable
     {
-        abort_if($word->isHidden(), Response::HTTP_NOT_FOUND);
-
         $word->increment('views', 1); // Increment the view counter for thearticle by one. Because the user decided to view the article.
 
         return view('definitions.show', data: [
