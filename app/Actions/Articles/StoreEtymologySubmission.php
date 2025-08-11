@@ -18,7 +18,7 @@ final readonly class StoreEtymologySubmission
     {
         return DB::transaction(function () use ($article, $etymologySubmissionData): Etymology {
             $submission = $article->etymologies()->create($etymologySubmissionData->toArray());
-            flash(text: 'We hebben da informatie goed ontvangen! We gaan er spoedig mee aan de slag.', class: 'alert-success');
+            flash(text: 'We hebben de informatie goed ontvangen! We gaan er spoedig mee aan de slag.', class: 'alert-success');
 
             return $submission;
         });

@@ -40,6 +40,13 @@
                 <form method="POST" id="createSuggestion" action="{{ route('etymology:store', $article) }}" class="card-body">
                     @csrf {{-- Form field protection --}}
 
+                    @if (flash()->message)
+                    <div class="alert {{ flash()->class }} alert-dismissible fade show border-0 shadow-sm">
+                        <h6 class="alert-heading fw-bold"><x-heroicon-o-bell-alert class="icon icon-lg me-1"/> Gelukt!</h6>
+                        {{ flash()->message }}
+                    </div>
+                @endif
+
                     <div class="row mb-2">
                         <div class="form-group col-12 mb-2">
                             <label for="etymology" class="pt-0 col-form-label">Etymologie<span class="fw-bold text-danger">*</span></label>
