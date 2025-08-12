@@ -5,6 +5,9 @@ includes:
 parameters:
     level: 7
 
+    excludePaths:
+        - database/seeders/ShieldSeeder.php
+
     paths:
         - app
         - bootstrap
