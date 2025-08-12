@@ -1,4 +1,4 @@
-@extends ('layouts.application-blank', ['title' => 'Nieuws'])
+@extends ('layouts.application-blank', ['title' => 'Nieuws', 'paddingContent' => 'pb-4 mb-5'])
 
 @section('content')
     <header class="bg-light border-border-0 mb-4 py-5 shadow-sm">
