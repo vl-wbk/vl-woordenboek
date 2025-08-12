@@ -55,7 +55,7 @@ final readonly class TableSchema
      * This method specifies each column's name, label, and display properties.
      * Columns are configured with searchability, sorting, and visual enhancements like icons and badges to make the data easy to scan.
      *
-     * @return array An array of Filament table column components.
+     * @return array<int, Columns\TextColumn|Columns\IconColumn> An array of Filament table column components.
      */
     private static function configureTableComponents(): array
     {
@@ -159,8 +159,8 @@ final readonly class TableSchema
                 Action::make(name: __('Mail gebruiker'))
                     ->color('gray')
                     ->icon('heroicon-o-paper-airplane')
-                    ->visible(fn(Feedback $feedback): bool => $feedback->contact_allowed)
-                    ->url(fn(Feedback $feedback): string => "mailto:{$feedback->email}"),
+                    ->visible(fn (Feedback $feedback): bool => $feedback->contact_allowed)
+                    ->url(fn (Feedback $feedback): string => "mailto:{$feedback->email}"),
 
                 // Re-uses the delete action for convenience within the modal
                 self::deleteAction()->hiddenLabel(false),
@@ -170,7 +170,7 @@ final readonly class TableSchema
             ->modalIcon('heroicon-o-information-circle')
             ->modalIconColor('info')
             // Dynamic modal description with user and date
-            ->modalDescription(fn(Feedback $feedback): string => trans('Ingestuurd door :user op :date', [
+            ->modalDescription(fn (Feedback $feedback): string => trans('Ingestuurd door :user op :date', [
                 'user' => $feedback->name,
                 'date' => $feedback->created_at->format('d/m/Y')
             ]))

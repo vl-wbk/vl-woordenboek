@@ -73,7 +73,7 @@ final class ArticleExporter extends Exporter
         ]);
 
         if ($failedRowsCount = $export->getFailedRowsCount()) {
-            $body .= ' ' . number_format($failedRowsCount) . ' ' . str('rij')->plural($failedRowsCount) . ' konden niet gexporteerd worden.';
+            $body .= ' '.number_format($failedRowsCount).' '.str('rij')->plural($failedRowsCount).' konden niet gexporteerd worden.';
         }
 
         return $body;
@@ -108,9 +108,9 @@ final class ArticleExporter extends Exporter
      * Provides a batch name for the export job.
      * This name can be used to group and monitor related export jobs in the job queue, making it easier to manage background processes.
      *
-     * @return string|null The job batch name, or null if not needed.
+     * @return string The job batch name, or null if not needed.
      */
-    public function getJobBatchName(): ?string
+    public function getJobBatchName(): string
     {
         return 'dictionary-articles-export';
     }
@@ -129,7 +129,7 @@ final class ArticleExporter extends Exporter
     private static function createExportColumn(string $name, string $label, bool $enableByDefault = true): ExportColumn
     {
         return ExportColumn::make($name)
-                ->label($label)
-                ->enabledByDefault($enableByDefault);
+            ->label($label)
+            ->enabledByDefault($enableByDefault);
     }
 }

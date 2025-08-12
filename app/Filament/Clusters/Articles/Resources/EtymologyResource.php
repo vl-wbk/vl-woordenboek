@@ -33,6 +33,9 @@ final class EtymologyResource extends Resource implements HasShieldPermissions
 
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
 
+    /**
+     * @return list<string>
+     */
     public static function getPermissionPrefixes(): array
     {
         return ['view', 'view_any', 'update', 'delete', 'delete_any', 'archive', 'reject', 'publish', 'draft', 'under_review'];

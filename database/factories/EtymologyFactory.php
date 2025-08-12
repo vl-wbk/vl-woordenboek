@@ -8,9 +8,10 @@ use App\Enums\Articles\EtymologyTypes;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
+ * @todo GH #294 apply the new data structure to the seeder
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Etymology>
  */
-class EtymologyFactory extends Factory
+final class EtymologyFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -23,7 +24,6 @@ class EtymologyFactory extends Factory
             'period_start' => $this->faker->dateTime(),
             'period_end' => $this->faker->dateTime(),
             'status' => $this->faker->randomElement(EtymologyStatus::cases())->value,
-            'type' => $this->faker->randomElement(EtymologyTypes::cases())->value,
             'article_id' => $this->withArticle(),
             'author_id' => $this->withAuthor(),
             'rejected_by' => $this->withAuthor(),

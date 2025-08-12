@@ -71,6 +71,10 @@ final class UserResource extends Resource implements HasShieldPermissions
      */
     protected static ?string $cluster = UserManagement::class;
 
+    /**
+     *
+     * @return list<string>
+     */
     public static function getPermissionPrefixes(): array
     {
         return [
