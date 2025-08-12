@@ -6,6 +6,7 @@ namespace App\Filament\Clusters\UserManagement\Resources\RoleResource\RelationMa
 
 use App\Filament\Clusters\UserManagement\Resources\RoleResource;
 use App\Filament\Resources\UserResource\Pages\ViewUser;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -73,20 +74,21 @@ final class RolesRelationManager extends RelationManager
         return new $pageClass() instanceof ViewUser && Auth::user()->can('view_role');
     }
 
+
     /**
      * Retrieves the badge count to be displayed next to the relation manager's title.
      * This method efficiently retrieves the count of roles associated with the user by leveraging Laravel's `Cache::flexible` to cache the result for 30 to 60 seconds, reducing database load on subsequent requests.
      *
-     * @param   Model  $ownerRecord  The Eloquent model instance that owns this relationship (e.g., `App\Models\User`).
+     * @param  User    $ownerRecord  The Eloquent model instance that owns this relationship (e.g., `App\Models\User`).
      * @param  string  $pageClass    The fully qualified class name of the current Filament page.
      * @return string|null           The number of associated roles as a string, or `null` if no roles are found.
      */
     public static function getBadge(Model $ownerRecord, string $pageClass): ?string
     {
         $recordCount = Cache::flexible(
-            key: 'permission_group_count' . $ownerRecord->id,
+            key: 'permission_group_count'.$ownerRecord->id,
             ttl: [30, 60],
-            callback: fn(): int => $ownerRecord->roles()->count()
+            callback: fn (): int => $ownerRecord->roles()->count()
         );
 
         return ($recordCount > 0) ? (string) $recordCount : null;

@@ -113,9 +113,8 @@ final readonly class ArticleReportPolicy
      * This method allows all authenticated users to delete article reports.
      * It is a permissive rule that grants access to the `delete` action for all users.
      *
-     * @param  User $user                    The user attempting to delete the article report.
-     * @param  ArticleReport $articleReport  The article report being deleted.
-     * @return bool                          Always returns `true`, allowing access.
+     * @param  User $user  The user attempting to delete the article report.
+     * @return bool        Always returns `true`, allowing access.
      */
     public function delete(User $user): bool
     {

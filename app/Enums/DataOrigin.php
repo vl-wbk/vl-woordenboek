@@ -48,9 +48,9 @@ enum DataOrigin: int implements HasLabel
      *
      * @return string The translated, human-readable label corresponding to the enum case.
      */
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
-        return match($this) {
+        $label = match ($this) {
             self::External => 'Externe bron',
             self::Suggestion => 'Suggestie',
         };

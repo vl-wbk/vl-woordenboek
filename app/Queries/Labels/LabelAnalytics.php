@@ -8,6 +8,7 @@ use App\Models\Article;
 use App\Models\ArticleReport;
 use App\Models\Label;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
 /**
@@ -127,11 +128,11 @@ final readonly class LabelAnalytics
      */
     private function getReportAnalytics(Label $label): array
     {
-        // Count article reports where the associated article is published and linked to this label
-        $totalAttachedReports = ArticleReport::whereHas('article', function ($articleQuery) use ($label): void {
+        /** Count article reports where the associated article is published and linked to this label */
+        $totalAttachedReports = ArticleReport::whereHas('article', function (Builder $articleQuery) use ($label): void {
+            // @phpstan-ignore-next-line
             $articleQuery->published();
 
-            /** @phpstan-ignore-next-line */
             $articleQuery->whereHas('labels', function ($labelQuery) use ($label): void {
                 $labelQuery->where('labels.id', $label->id);
             });

@@ -12,6 +12,9 @@ use App\Models\User;
  */
 final class FeedbackPolicy
 {
+    /**
+     * @var list<string>
+     */
     public static array $permissionPrefixes = ['view_any', 'view', 'delete', 'delete_any', 'change_status'];
 
     public function viewAny(User $user): bool
@@ -29,7 +32,7 @@ final class FeedbackPolicy
         return $user->can('delete_feedback');
     }
 
-    public function markAsResolved(): bool
+    public function markAsResolved(User $user): bool
     {
         return $user->can('update_status_feedback');
     }

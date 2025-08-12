@@ -95,7 +95,7 @@ final readonly class TableSchema
      * Configures actions that appear in the table's header.
      * This is where global actions for the table can be defined. In this case, it includes a "Help" action to provide quick access to documentation.
      *
-     * @return array An array of Filament table header action components.
+     * @return array<int, Action> An array of Filament table header action components.
      */
     private static function configureHeaderActions(): array
     {
@@ -129,7 +129,7 @@ final readonly class TableSchema
      * Bulk actions allow administrators to perform operations on multiple selected records at once.
      * This configuration includes a delete bulk action with a custom modal description to warn the user about potential data loss.
      *
-     * @return array An array of Filament table bulk action components.
+     * @return array<int, Tables\Actions\BulkActionGroup> An array of Filament table bulk action components.
      */
     private static function configureTableBulkActions(): array
     {

@@ -70,8 +70,15 @@ final class BlogResource extends Resource implements HasShieldPermissions
      */
     protected static ?string $modelLabel = 'Nieuwsbericht';
 
+    /**
+     * @todo Document this variable
+     */
     protected static ?string $pluralModelLabel = 'Nieuwsberichten';
 
+    /**
+     * @todo Document this function
+     * @return list<string>
+     */
     public static function getPermissionPrefixes(): array
     {
         return ['view_any', 'view', 'update', 'delete', 'delete_any', 'undo_publication'];

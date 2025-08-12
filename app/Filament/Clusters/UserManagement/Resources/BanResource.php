@@ -54,6 +54,11 @@ final class BanResource extends Resource implements HasShieldPermissions
      */
     protected static ?string $cluster = UserManagement::class;
 
+
+    /**
+     * @todo Document this function
+     * @return list<string>
+     */
     public static function getPermissionPrefixes(): array
     {
         return [
@@ -64,6 +69,9 @@ final class BanResource extends Resource implements HasShieldPermissions
         ];
     }
 
+    /**
+     * @todo Document this function
+     */
     public static function infolist(Infolist $infolist): Infolist
     {
         return $infolist

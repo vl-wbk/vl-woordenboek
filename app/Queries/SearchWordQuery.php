@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Queries;
 
+use App\Builders\ArticleBuilder;
 use App\Enums\Articles\SearchPatterns;
 use App\Models\Article;
 use Illuminate\Contracts\Database\Eloquent\Builder;
@@ -42,6 +43,7 @@ final readonly class SearchWordQuery
     {
         $includeDescription = $request->boolean('uitgebreid');
 
+        /** @phpstan-ignore-next-line */
         return QueryBuilder::for(Article::class)
             ->allowedSorts($this->getAllowedSorts())
             ->with(['author', 'bookmarkers'])
@@ -49,7 +51,7 @@ final readonly class SearchWordQuery
             ->where(function ($query) use ($request, $includeDescription): void {
                 $query->where('word', $this->getSearchPattern($request)['operator'], $this->getSearchPattern($request)['pattern'])
                     ->orWhere('keywords', $this->getSearchPattern($request)['operator'], $this->getSearchPattern($request)['pattern'])
-                    ->when($includeDescription, fn(Builder $builder): Builder => $builder->orWhere('description', 'like', $this->getSearchPattern($request)['pattern']));
+                    ->when($includeDescription, fn (ArticleBuilder $builder): Builder => $builder->orWhere('description', 'like', $this->getSearchPattern($request)['pattern']));
             })
             ->orderBy('word')
             ->fastPaginate(6)
