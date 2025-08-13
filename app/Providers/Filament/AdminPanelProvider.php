@@ -24,6 +24,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Config;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Kenepa\ResourceLock\ResourceLockPlugin;
+use Kenepa\TranslationManager\TranslationManagerPlugin;
 
 /**
  * The AdminPanelProvider class is responsible for configuring the main Filament administration panel for the application, specifically for the "VL. woordenboek" (Flemish Dictionary) project.
@@ -111,6 +112,7 @@ final class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->plugins([
+				TranslationManagerPlugin::make(),
                 FilamentShieldPlugin::make(),
                 ResourceLockPlugin::make(),
                 GlobalSearchModalPlugin::make()
