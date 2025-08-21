@@ -23,15 +23,15 @@ final readonly class UserTable
     public static function configure(Table $table): Table
     {
         return $table
-            ->heading('Gebruikersbeheer')
-            ->description('In dit overzicht zie je alle geregistreerde gebruikers van het systeem. Je kunt hier gebruikersgegevens bekijken, accounts bewerken, rollen toewijzen of gebruikers verwijderen. Gebruik de zoek- en filteropties om snel de juiste gebruiker te vinden.')
+            ->heading(heading: __('user-resource.tables.heading'))
+            ->description(description: __('user-resource.tables.description'))
             ->headerActions([
                 Action::make('documentation-reference')
                     ->color('gray')
                     ->icon('heroicon-o-book-open')
-                    ->label('Help'),
+                    ->label(label: __('buttons.help')),
                 CreateAction::make()
-                    ->label('Gebruiker toevoegen')
+                    ->label(label: __('user-resource.buttons.create-user'))
                     ->icon('heroicon-o-user-plus'),
             ])
             ->recordUrl(fn(User $user): string => UserResource::getUrl('view', ['record' => $user]))
@@ -39,38 +39,41 @@ final readonly class UserTable
                 TextColumn::make('name')
                     ->iconColor('danger')
                     ->icon(fn(User $user): ?string => $user->isBanned() ? 'tabler-shield-lock' : null)
-                    ->label('Naam')
+                    ->label(label: __('user-resource.tables.columns.name'))
                     ->weight(FontWeight::Bold)
                     ->color(fn(User $user): string => $user->isBanned() ? 'danger' : 'primary')
                     ->sortable()
                     ->searchable(),
+				
                 TextColumn::make('user_type')
-                    ->label('Gebruikers groep')
+                    ->label(label: __('user-resource.tables.columns.user-type'))
                     ->badge()
                     ->sortable(),
+				
                 TextColumn::make('roles.name')
-                    ->label('Gebruikers rol')
+                    ->label(label: __('user-resource.tables.columns.roles.label'))
                     ->icon('heroicon-o-key')
-                    ->placeholder('- geen toegwezen')
+                    ->placeholder(placeholder: __('user-resource.tables.columns.roles.placeholder'))
                     ->color('danger')
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->badge(),
-                TextColumn::make('email')
-                    ->label('E-mail adres')
+                
+				TextColumn::make('email')
+                    ->label(label: __('user-resource.tables.columns.email'))
                     ->searchable()
                     ->url(fn(User $user): string => 'mailto:' . $user->email),
                 TextColumn::make('last_seen_at')
                     ->placeholder('-')
                     ->sortable()
                     ->since()
-                    ->label('Laatste aanmelding'),
+                    ->label(label: __('user-resource.tables.columns.last-seen-at')),
                 TextColumn::make('created_at')
                     ->sortable()
                     ->label('Registratie tijdstip'),
             ])
             ->filters([
                 SelectFilter::make('user_type')
-                    ->label('Gebruikersgroep')
+                    ->label(label: __('user-resource.tables.filters.user-type'))
                     ->native(false)
                     ->options(UserTypes::class),
             ])
