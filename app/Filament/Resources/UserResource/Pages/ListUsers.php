@@ -9,7 +9,7 @@ use Filament\Resources\Pages\ListRecords;
 
 /**
  * Retrieves the header widgets to be displayed on the "List Users" page.
- * This method delegates to the `UserResource` to get any widgets defined for its header, allowing for custom components or summaries to be shown above the main record listing.
+ * This method delegates to the `UserResource` to get any widgets defined for its header, allowing for custom components or summaries to be shown preceding the main record listing.
  *
  * @return array An array of header widget classes.
  */
@@ -27,7 +27,7 @@ final class ListUsers extends ListRecords
      * Retrieves the header widgets to be displayed on the "List Users" page.
      *
      * This method delegates to the `UserResource` to get any widgets defined for its header,
-     * allowing for custom components or summaries to be shown above the main record listing.
+     * allowing for custom components or summaries to be shown preceding the main record listing.
      *
      * @return array<int, class-string<\Filament\Widgets\Widget>> An array of header widget classes.
      */

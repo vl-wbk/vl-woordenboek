@@ -36,11 +36,12 @@ final readonly class UserInfolist
                 Tabs::make('tabs')
                     ->columnSpan(12)
                     ->tabs([
-                        Tab::make('Algemene informatie')
+                        Tab::make(label: __('user-resource.infolist.tabs.general'))
                             ->columns(12)
                             ->icon('heroicon-o-identification')
                             ->schema(UserInfolist::renderGeneralInformation()),
-                        Tab::make('Deactiverings informatie')
+
+                        Tab::make(label: __('user-resource.infolist.tabs.deactivation'))
                             ->columns(12)
                             ->visible(fn(User $user): bool => $user->isBanned())
                             ->icon('heroicon-o-lock-closed')
@@ -63,29 +64,33 @@ final readonly class UserInfolist
     {
         return [
             TextEntry::make('name')
-                ->label('Naam')
+                ->label(label: __('user-resource.tables.columns.name'))
                 ->icon('heroicon-o-user-circle')
                 ->iconColor('primary')
                 ->columnSpan(3),
+
             TextEntry::make('email')
-                ->label('Email adres')
+                ->label(label: __('user-resource.tables.columns.email'))
                 ->badge()
                 ->columnSpan(3),
+
             TextEntry::make('last_seen_at')
-                ->label('laatste aanmelding')
+                ->label(label: __('user-resource.tables.columns.last-seen-at'))
                 ->since()
                 ->icon('heroicon-o-clock')
                 ->iconColor('primary')
                 ->placeholder('-')
                 ->columnSpan(3),
+
             TextEntry::make('created_at')
-                ->label('Registratiedatum')
+                ->label(label: __('user-resource.tables.columns.created-at'))
                 ->icon('heroicon-o-clock')
                 ->iconColor('primary')
                 ->date()
                 ->columnSpan(3),
+
             TextEntry::make('roles.name')
-                ->label('Gebruikersgroep')
+                ->label(label: __('user-resource.tables.columns.user-type'))
                 ->badge()
                 ->columnSpan(12)
                 ->placeholder('- Geen gebruikersrollen toegewezen'),
@@ -107,29 +112,32 @@ final readonly class UserInfolist
     {
         return [
             TextEntry::make('bannable.name')
-                ->label('Gedeactiveerd door')
+                ->label(label: __('user-resource.infolist.deactivation-information.entries.bannable'))
                 ->columnSpan(4)
                 ->icon('heroicon-o-user-circle')
                 ->iconColor('primary')
                 ->state(fn(User $user): ?string => $user->bans->first()->bannable->name),
+
             TextEntry::make('banned_at')
-                ->label('Gedeactiveerd sinds')
+                ->label(label: __('user-resource.infolist.deactivation-information.entries.banned_at'))
                 ->columnSpan(4)
                 ->icon('heroicon-o-clock')
                 ->iconColor('primary'),
+
             TextEntry::make('bannable.expiration')
-                ->label('Heractiverings datum')
+                ->label(label: __('user-resource.infolist.deactivation-information.entries.expires_at'))
                 ->columnSpan(4)
                 ->icon('heroicon-o-clock')
                 ->iconColor('primary')
                 ->state(fn(User $user): ?Carbon => $user->bans->first()->expired_at),
+
             TextEntry::make('bannable.reason')
-                ->label('Redenen tot deactivering')
+                ->label(label: __('user-resource.infolist.deactivation-information.entries.reason.label'))
                 ->columnSpan(12)
                 ->icon('heroicon-o-chat-bubble-left-right')
                 ->iconColor('primary')
                 ->state(fn(user $user): ?string => $user->bans->first()->reason)
-                ->placeholder('- geen reden opgegeven'),
+                ->placeholder(placeholder: __('user-resqource.infolist.deactivation-information.entries.reason.placeholder')),
         ];
     }
 }

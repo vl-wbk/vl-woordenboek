@@ -8,49 +8,57 @@ use App\UserTypes;
 use Filament\Forms\Form;
 use Filament\Forms\Components;
 
+/**
+ * @todo Document this class
+ */
 final readonly class UserForm
 {
     public static function configure(Form $form): Form
     {
         return $form
             ->schema([
-                Components\Section::make('Nieuwe gebruiker aanmaken')
+                Components\Section::make(heading: __('user-resource.form.section.heading'))
+                    ->description(description: __('user-resource.form.section.description'))
                     ->icon('heroicon-o-user-plus')
                     ->iconColor('primary')
-                    ->description('Vul hier alle benodigde informatie in voor het aanmaken van een nieuwe gebruiker op het Vlaams woordenboek')
                     ->compact()
                     ->columns(12)
+					
                     ->schema([
                         Components\Select::make('user_type')
-                            ->label('Gebruikersgroep')
+                            ->label(label: __('user-resource.form.section.user-type'))
                             ->required()
                             ->native(false)
                             ->options(UserTypes::class)
                             ->columnSpan(4)
                             ->required(),
+						
                         Components\TextInput::make('firstname')
-                            ->label('Voornaam')
+                            ->label(label: __('user-resource.form.section.inputs.firstname'))
                             ->required()
                             ->columnSpan(3),
+						
                         Components\TextInput::make('lastname')
-                            ->label('Achternaam')
+                            ->label(label: __('user-resource.form.section.inputs.lastname'))
                             ->required()
                             ->columnSpan(5),
+						
                         Components\TextInput::make('email')
-                            ->label('E-mail adres')
+                            ->label(label: __('user-resource.form.section.inputs.email'))
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->email()
                             ->columnSpan(12),
+						
                         Components\Select::make('roles')
-                            ->label('Permissie groepen')
+                            ->label(label: __('user-resource.form.section.inputs.roles.label'))
                             ->relationship('roles', 'name')
                             ->multiple()
                             ->preload()
                             ->columnSpanFull()
                             ->maxItems(6)
-                            ->maxItemsMessage(__('Er kunnen maar maximum 3 permissie groepen voor een gebruiker geslecteerd worden.'))
-                            ->helperText('Deze groepen bepalen wie tot welke zaken toegang heeft in het vlaams woordenboek. Laat dit leeg als het om het gewone gebruiker gaat die het woordenboek enkel bezoekt.')
+                            ->maxItemsMessage(message: __('user-resource.form.section.inputs.roles.max_items_message', ['max' => '3']))
+                            ->helperText(text: __('user-resource.form.section.inputs.roles.helper_text'))
                             ->searchable(),
                     ]),
             ]);
