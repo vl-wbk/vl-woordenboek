@@ -38,7 +38,7 @@ final class BanAction extends Action
      */
     public static function getDefaultName(): string
     {
-        return trans('Deactiveer');
+        return __('user-resource.actions.deactivate-user.label');
     }
 
     /**
@@ -52,11 +52,11 @@ final class BanAction extends Action
     {
         parent::setUp();
 
-        $this->label('Deactiveer');
+        $this->label(label: __('user-resource.actions.deactivate-user.label'));
         $this->color('danger');
         $this->icon('tabler-shield-lock');
-        $this->modalHeading('Gebruiker deactiveren');
-        $this->modalSubmitActionLabel('Bevestigen');
+        $this->modalHeading(heading: __('user-resource.actions.deactivate-user.modal.heading'));
+        $this->modalSubmitActionLabel(label: __('user-resource.actions.deactivate-user.buttons.confirm'));
         $this->requiresConfirmation();
 
         $this->form(
@@ -72,8 +72,8 @@ final class BanAction extends Action
                 'expired_at' => $data['expired_at'],
             ]));
 
-            $this->failureNotificationTitle('Oops! Er is iets fout gelopen.');
-            $this->successNotificationTitle('Het gebruikersaccount is gedeactiveerd');
+            $this->failureNotificationTitle(title: __('notifications.actions.deactivate-user.failure-title'));
+            $this->successNotificationTitle(title: __('notifications.actions.deactivate-user.success-title'));
 
             if (! $result) {
                 $this->failure();
@@ -97,11 +97,11 @@ final class BanAction extends Action
     {
         return [
             Textarea::make('comment')
-                ->label('Reden tot deactivering')
+                ->label(label: __('user-resource.actions.deactivate-user.modal.form.comment'))
                 ->nullable(),
             DateTimePicker::make('expired_at')
                 ->required()
-                ->label('Verloopt op'),
+                ->label(label: __('user-resource.actions.deactivate-user.modal.form.expires-at')),
         ];
     }
 }

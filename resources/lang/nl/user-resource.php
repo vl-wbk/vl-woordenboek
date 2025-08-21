@@ -27,7 +27,31 @@ return [
 	
 	'actions' => [
 		'deactivate-user' => [
-		
+			'label' => 'Deactiveer', 
+
+			'modal' => [
+				'heading' => 'Gebruiker deactiveren', 
+				'form' => [
+					'comment' => 'Reden tot deactivering',
+					'expires-at' => 'Verloopt op',
+				],
+			], 
+
+			'buttons' => [
+				'confirm' => 'Bevestigen',
+			]
+		],
+
+		'reactivate-user' => [
+			'label' => 'Reactiveer',
+
+			'modal' => [
+				'heading' => 'Gebruiker heractiveren'
+			],
+
+			'buttons' => [
+				'confirm' => 'Bevestigen'
+			],
 		],
 	]
 ];
