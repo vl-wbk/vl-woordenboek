@@ -116,8 +116,8 @@ final class BlogResource extends Resource implements HasShieldPermissions
         return $table
             ->modelLabel('Artikel')
             ->pluralModelLabel('Artikelen')
-            ->heading('Artikelen overzicht')
-            ->description('Het Vlaams woordenboek is een levend wezen. Dat volop groeit en evolueerd naar de behoeftes en noden van gebruikers. Maar soms is het intressant om inzichten te geven in taalkundige kwesties en of de evolutie van het Woordenboek. Daarom kunt hier artikelen aanmaken en publiceren om gebruikers op de hoogte te houden.')
+            ->heading('Overzicht artikelen')
+            ->description('Het Vlaams woordenboek is een site die volop met zijn gebruikers mee groeit en evolueert. Naast nieuwe woorden, beschrijvingen en voorbeeldzinnen is er ruimte voor inzichten in taalkundige kwesties of verslagen van de evolutie van het Woordenboek zelf. Die informatie vind je hier, in de nieuwsartikelen van het Vlaams Woordenboek. Heb je zelf iets te vertellen? Dat kun je dat hier kwijt.')
             ->emptyStateIcon(self::$navigationIcon)
             ->emptyStateHeading('Geen artikelen gevonden of aangemaakt')
             ->emptyStateDescription('Het lijkt erop dat er momenteel nog geen artikelen zijn aangemaakt of gevonden met opgegeven criteria. Maak een artikel aan of kom later nog eens terug.')
