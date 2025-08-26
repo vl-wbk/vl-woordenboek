@@ -1,4 +1,4 @@
-@extends('layouts.application-blank', ['title' => trans('Nieuwsberichten'), 'paddingContent' => 'pb-4 mb-5 mt-3'])
+@extends('layouts.application-blank', ['title' => trans('Nieuwsberichten'), 'paddingContent' => 'pb-4 mb-5 mt-4'])
 
 @section('content')
     <div class="container">
