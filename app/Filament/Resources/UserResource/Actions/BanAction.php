@@ -9,7 +9,7 @@ use Cog\Contracts\Ban\Ban;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Actions\Action;
-use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Select;
 
 /**
  * This action handles the process of deactivating user accounts in our Flemish dictionary community.
@@ -91,17 +91,26 @@ final class BanAction extends Action
      * The reason field is optional, but an expiration date is required to ensure every deactivation has a defined duration.
      * All labels are in Dutch to maintain interface consistency.
      *
-     * @return array<int, DateTimePicker|Textarea> The form field configuration
+     * @return array<int, Select|Textarea> The form field configuration
      */
     public function formSchema(): array
     {
         return [
+            Select::make('expired_at')
+                ->label('Deactivetia verloopt op')
+                ->columnSpanFull()
+                ->placeholder('Selecteer een tijdperiode')
+                ->native(false)
+                ->required()
+                ->options([
+                    '+3 month' => 'Over 3 maanden',
+                    '+6 month' => 'Over 6 maanden',
+                    '+9 month' => 'Over 9 maanden',
+                    '+12 month' => 'Over een jaar',
+                ]),
             Textarea::make('comment')
                 ->label('Reden tot deactivering')
                 ->nullable(),
-            DateTimePicker::make('expired_at')
-                ->required()
-                ->label('Verloopt op'),
         ];
     }
 }
