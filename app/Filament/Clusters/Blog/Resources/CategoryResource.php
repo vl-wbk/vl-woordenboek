@@ -122,11 +122,11 @@ final class CategoryResource extends Resource implements HasShieldPermissions
     public static function table(Table $table): Table
     {
         return $table
-            ->heading('Nieuws categorieen')
-            ->description('Een overzicht van alle categorieen die kunnen gebruikt worden in onze nieuws berichten')
+            ->heading(heading: __('category-resource.table.heading'))
+            ->description(description: __('category-resource.table.description'))
             ->emptyStateIcon(self::$navigationIcon)
-            ->emptyStateHeading('Geen categorieen gevonden')
-            ->emptyStateDescription('Het lijkt erop dat er momenteel nog geen categorieen zijn gevonden voor de nieuwsartikelen. Kom later nog eens terug.')
+            ->emptyStateHeading(heading: __('category-resource.table.empty-state.heading'))
+            ->emptyStateDescription(description: __('category-resource.table.empty-state.description'))
             ->columns(components: TableColumnSchema::getComponents())
             ->actions(actions: TableActionsDefinitions::getRowActions())
             ->headerActions(actions: TableActionsDefinitions::getHeaderActions())

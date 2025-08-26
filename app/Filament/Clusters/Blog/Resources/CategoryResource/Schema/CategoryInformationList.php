@@ -15,27 +15,27 @@ final readonly class CategoryInformationList
             ->columns(12)
             ->schema([
                 TextEntry::make('name')
-                    ->label('Naam')
+                    ->label(label: __('category-resource.infolist.name'))
                     ->translateLabel()
                     ->columnSpan(4)
                     ->icon('heroicon-o-tag')
                     ->badge(),
 
                 TextEntry::make('posts_count')
-                    ->label('Aantal koppelingen')
+                    ->label(label: __('category-resource.infolist.post-count'))
                     ->columnSpan(4)
                     ->translateLabel(),
 
                 TextEntry::make('created_at')
-                    ->label('Aangemaakt op')
+                    ->label(label: __('category-resource.infolist.created-at'))
                     ->translateLabel()
                     ->date()
                     ->columnSpan(4),
 
                 TextEntry::make('description')
-                    ->label('Categorie beschrijving')
+                    ->label(label: __('category-resource.infolist.description.label'))
                     ->columnSpanFull()
-                    ->placeholder('- Geen categorie beschrijving opgegeven'),
+                    ->placeholder(placeholder: __('category-resource.infolist.description.placeholder')),
             ]);
     }
 }

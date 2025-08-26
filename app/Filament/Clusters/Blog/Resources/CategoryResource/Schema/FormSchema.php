@@ -23,7 +23,7 @@ final readonly class FormSchema
     {
         return [
             Components\TextInput::make('name')
-                ->label('Naam v/d categorie')
+                ->label(label: __('category-resource.form.name'))
                 ->translateLabel()
                 ->required()
                 ->maxLength(255)
@@ -31,8 +31,8 @@ final readonly class FormSchema
                 ->columnSpan(7),
 
             Components\Textarea::make('description')
-                ->label('Beschrijving van de categorie')
-                ->placeholder('Beschrijf zo kort mogelijk waarover de categorie gaat')
+                ->label(label: __('category-resource.form.description.label'))
+                ->placeholder(placeholder: __('category-resource.form.description.placeholder'))
                 ->translateLabel()
                 ->required()
                 ->rows(4)

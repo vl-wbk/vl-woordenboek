@@ -28,23 +28,23 @@ final readonly class TableActionsDefinitions
         return [
             Actions\ViewAction::make()
                 ->hiddenLabel()
-                ->tooltip('Bekijken')
+                ->tooltip(tooltip: __('category-resource.table.row-actions.view-action.tooltip'))
                 ->modalIcon('heroicon-o-information-circle')
                 ->modalIconColor('info')
-                ->modalHeading('Categorie informatie')
-                ->modalDescription('Een overzicht van alle gegevens die behoren tot de categorie'),
+                ->modalHeading(heading: __('category-resource.table.row-actions.view-action.modal.heading'))
+                ->modalDescription(description: __('category-resource.table.row-actions.view-action.modal.description')),
 
             Actions\EditAction::make()
                 ->hiddenLabel()
-                ->tooltip('Bewerken')
-                ->modalHeading('Categorie wijzigen')
+                ->tooltip(tooltip: __('category-resource.table.row-actions.edit-action.tooltip'))
+                ->modalHeading(heading: __('category-resource.table.row-actions.edit-action.modal.heading'))
                 ->modalIcon('heroicon-o-pencil-square')
-                ->modalDescription('Via het onderstaande formulier kunt de gegevens wijzigen van de categorie'),
+                ->modalDescription(description: __('category-resource.table.row-actions.edit-action.modal.description')),
 
             Actions\DeleteAction::make()
                 ->hiddenLabel()
-                ->tooltip('Verwijderen')
-                ->modalDescription('Bij het verwijderen van de categorie zal deze automatisch verwijderd worden van bestaande nieuwsberichten. Weet je zeker dat je dit wilt doen?'),
+                ->tooltip(tooltip: __('category-resource.table.row-actions.delete-action.tooltip'))
+                ->modalDescription(description: __('category-resource.table.row-actions.delete-action.modal.description')),
         ];
     }
 
@@ -54,16 +54,16 @@ final readonly class TableActionsDefinitions
     public static function getHeaderActions(): array
     {
         return [
-            Actions\Action::make('Help')
+            Actions\Action::make(name: __('buttons.help'))
                 ->color('gray')
                 ->icon('heroicon-o-lifebuoy'),
 
             Actions\CreateAction::make()
                 ->icon('heroicon-o-plus')
-                ->label('categorie toevoegen')
-                ->modalHeading('Nieuwe categorie aanmaken')
+                ->label(label: __('category-resource.table.header-actions.create-action.label'))
+                ->modalHeading(heading: __('category-resource.table.header-actions.create-action.modal.heading'))
                 ->modalIcon('heroicon-o-plus')
-                ->modalDescription('Via het onderstaande formulier kunt u een nieuwe categorie aanmaken voor een nieuwsbericht'),
+                ->modalDescription(description: __('category-resource.table.header-actions.create-action.modal.description'))
         ];
     }
 }
