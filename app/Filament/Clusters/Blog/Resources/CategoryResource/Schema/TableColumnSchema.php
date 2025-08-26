@@ -17,7 +17,7 @@ final readonly class TableColumnSchema
         return [
             Columns\TextColumn::make('name')
                 ->translateLabel()
-                ->label('Categorie')
+                ->label(label: __('category-resource.table.columns.name'))
                 ->sortable()
                 ->searchable()
                 ->icon('heroicon-o-tag')
@@ -26,20 +26,20 @@ final readonly class TableColumnSchema
                 ->badge(),
 
             Columns\TextColumn::make('posts_count')
-                ->label('Koppelingen')
+                ->label(label: __('category-resource.table.columns.posts_count'))
                 ->sortable()
                 ->translateLabel()
                 ->counts('posts'),
 
             Columns\TextColumn::make('description')
                 ->searchable()
-                ->label('Beschrijving')
+                ->label(label: __('category-resource.table.columns.description.label'))
                 ->translateLabel()
-                ->placeholder('- Geen beschrijving opgegeven')
+                ->placeholder(placeholder: __('category-resource.table.columns.description.placeholder'))
                 ->searchable(),
 
             Columns\TextColumn::make('created_at')
-                ->label('Aangemaakt op')
+                ->label(label: __('category-resource.table.columns.created-at'))
                 ->translateLabel()
                 ->date()
                 ->sortable(),
