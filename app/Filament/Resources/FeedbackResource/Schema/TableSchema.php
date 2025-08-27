@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\FeedbackResource\Schema;
 
+use App\Filament\Resources\FeedbackResource\Actions\MarkAsClosedBulkAction;
+use App\Filament\Resources\FeedbackResource\Actions\MarkAsOpenBulkAction;
 use App\Models\Feedback;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Table;
@@ -12,6 +14,7 @@ use Filament\Tables\Actions\Action;
 use Filament\Tables;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\ViewAction;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Defines the complete table schema for the Feedback resource in Filament.
@@ -141,11 +144,17 @@ final readonly class TableSchema
     private static function configureTableBulkActions(): array
     {
         return [
-            Tables\Actions\BulkActionGroup::make([
-                Tables\Actions\DeleteBulkAction::make()
-                    // Custom modal description for the bulk delete action
-                    ->modalDescription(description: __('feedback-resource.table.actions.delete-bulk-action.modal-description')),
-            ]),
+			Tables\Actions\BulkActionGroup::make([
+				MarkAsClosedBulkAction::make(),
+				MarkAsOpenBulkAction::make(),
+			])
+				->icon('heroicon-o-tag')
+				->visible(Auth::user()->can('change_status_feedback'))
+				->label(label: __('feedback-resource.table.actions.mark-as-bulk-group.label')),
+			
+			Tables\Actions\DeleteBulkAction::make()
+				// Custom modal description for the bulk delete action
+				->modalDescription(description: __('feedback-resource.table.actions.delete-bulk-action.modal-description')),
         ];
     }
 

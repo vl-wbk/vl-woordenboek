@@ -25,7 +25,25 @@ return [
 		
 		'actions' => [
 			'delete-bulk-action' => [
-				'modal-description' => 'Bij het verwijderen van de feedback kan het mogelijks zijn dat er waardevolle beedback verloren gaat. Alvorens de feedback te verwijderen wees er zeker van dat de personen die er baat bij hebben de feedback hebben gelezen.'
+				'modal-description' => 'Bij het verwijderen van de feedback kan het mogelijks zijn dat er waardevolle feedback verloren gaat. Alvorens de feedback te verwijderen wees er zeker van dat de personen die er baat bij hebben de feedback hebben gelezen.'
+			],
+			
+			'mark-as-bulk-group' => [
+				'label' => 'Markeren als',
+				
+				'close-action' => [
+					'label' => 'Behandeld',
+					'notifications' => [
+						'success' => 'De geselecteerde feedback is gemarkeerd als behandeld.',
+					],
+				],
+				
+				'open-action' => [
+					'label' => 'Onbehandeld',
+					'notifications' => [
+						'success' => 'De geselecteerde feedback is gemarkeerd als onbehandeld.',
+					],
+				],
 			],
 			
 			'delete-action' => [

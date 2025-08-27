@@ -45,7 +45,7 @@ final class FeedbackPolicy
 		return Response::deny(message: __('U hebt geen machtiging om dit feedback bericht te verwijderen.'));
     }
 
-    public function markAsResolved(User $user): Response
+    public function markAs(User $user): Response
     {
         if ($user->can('change_status_feedback')) {
 			return Response::allow();
