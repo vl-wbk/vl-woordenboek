@@ -1,6 +1,10 @@
 <?php
 
 return [
+	'statuses' => [
+		'processed' => 'behandeld',
+		'unprocessed' => 'onbehandeld',
+	],
 	'table' => [
 		'heading' => 'Ingezonden feedback',
 		'description' => 'Een overzicht van alle feedback of bugs die zijn ingezonden door gebruikers van het Vlaams Woordenboek',
@@ -8,6 +12,12 @@ return [
 		'empty-state' => [
 			'heading' => 'Geen feedback ontvangen',
 			'description' => 'Momenteel is er nog geen feedback ingestuurd door gebruikers van het Vlaams woordenboek. Kom later nog eens terug.',
+		],
+		
+		'filters' => [
+			'status' => [
+				'label' => 'Status'
+			]
 		],
 		
 		'columns' => [

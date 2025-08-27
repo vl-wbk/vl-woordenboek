@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\FeedbackResource\Schema;
 
+use App\Enums\FeedbackStatus;
 use App\Filament\Resources\FeedbackResource\Actions\MarkAsClosedBulkAction;
 use App\Filament\Resources\FeedbackResource\Actions\MarkAsOpenBulkAction;
 use App\Models\Feedback;
@@ -47,10 +48,25 @@ final readonly class TableSchema
             ->emptyStateDescription(description: __('feedback-resource.table.empty-state.description'))
             ->columns(components: self::configureTableComponents())
             ->actions(actions: self::configureTableRowActions())
+			->filters(filters: self::configureTableFilters())
 			->headerActions(actions: self::configureHeaderActions())
             ->bulkActions(self::configureTableBulkActions())
             ->deferLoading();
     }
+	
+	/**
+	 * @return array <int, Tables\Filters\SelectFilter>
+	 *
+	 * @throws \Exception
+	 */
+	private static function configureTableFilters(): array
+	{
+		return [
+			Tables\Filters\SelectFilter::make(name: __('feedback-resource.table.filters.status.label'))
+				->options(options: FeedbackStatus::class)
+				->default(state: FeedbackStatus::Unprocessed->value)
+		];
+	}
 
     /**
      * Defines the individual columns for the feedback table.

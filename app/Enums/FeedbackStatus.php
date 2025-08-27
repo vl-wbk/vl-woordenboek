@@ -45,9 +45,9 @@ enum FeedbackStatus: int implements HasLabel
      */
     public function getLabel(): string
     {
-        return match ($this) {
-            self::Unprocessed => 'onbehandeld',
-            self::Processed => 'behandeld',
-        };
+		return match ($this) {
+			self::Unprocessed => __('feedback-resource.statuses.unprocessed'),
+			self::Processed => __('feedback-resource.statuses.processed'),
+		};
     }
 }
