@@ -75,7 +75,7 @@ final class Feedback extends Model
     protected function casts(): array
     {
         return [
-            'status' => 'boolean',
+            'status' => FeedbackStatus::class,
             'contact_allowed' => 'boolean',
             'first_time_visit' => FeedbackTrueFalse::class,
             'results_found_easily' => FeedbackTrueFalse::class,
