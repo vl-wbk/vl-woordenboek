@@ -37,14 +37,14 @@ final readonly class TableSchema
     public static function configure(Table $table): Table
     {
         return $table
-            ->heading(heading: __('Ingezonden feedback'))
-            ->headerActions(actions: self::configureHeaderActions())
-            ->description(description: __('Een overzicht van alle feedback of bugs die zijn ingezonden door gebruikers van het Vlaams Woordenboek'))
+            ->heading(heading: __('feedback-resource.table.heading'))
+            ->description(description: __('feedback-resource.table.description'))
             ->emptyStateIcon(icon: 'heroicon-o-chat-bubble-left-right')
-            ->emptyStateHeading(heading: __('Geen feedback ontvangen'))
-            ->emptyStateDescription(description: __('Momenteel is er nog geen feedback ingestuurd door gebruikers van het Vlmaams woordenboek. Kom later nog eens terug.'))
+            ->emptyStateHeading(heading: __('feedback-resource.table.empty-state.heading'))
+            ->emptyStateDescription(description: __('feedback-resource.table.empty-state.description'))
             ->columns(components: self::configureTableComponents())
             ->actions(actions: self::configureTableRowActions())
+			->headerActions(actions: self::configureHeaderActions())
             ->bulkActions(self::configureTableBulkActions())
             ->deferLoading();
     }
@@ -61,31 +61,38 @@ final readonly class TableSchema
     {
         return [
             Columns\TextColumn::make('tracking_number')
-                ->label('Volgnummer')
+                ->label(label: __('feedback-resource.table.columns.tracking-number'))
                 ->searchable()
                 ->weight(FontWeight::SemiBold)
                 ->color('primary')
                 ->placeholder('-'),
+			
             Columns\TextColumn::make('name')
-                ->label('Ingestuurd door')
+                ->label(label: __('feedback-resource.table.columns.name'))
                 ->iconColor('primary')
                 ->icon('heroicon-o-user-circle')
                 ->searchable(),
+			
             Columns\TextColumn::make('email')
+				->label(label: __('feedback-resource.table.columns.email.label'))
                 ->searchable()
-                ->placeholder('- niet opgegeven'),
+                ->placeholder(placeholder: __('feedback-resource.table.columns.email.placeholder')),
+			
             Columns\IconColumn::make('contact_allowed')
-                ->label('Contact toegelaten')
+                ->label(label: __('feedback-resource.table.columns.contact-allowed'))
                 ->boolean(),
+			
             Columns\TextColumn::make('first_time_visit')
-                ->label('Eerste bezoek')
+                ->label(label: __('feedback-resource.table.columns.first-time-visit'))
                 ->badge()
                 ->sortable(),
+			
             Columns\TextColumn::make('results_found_easily')
-                ->label('Resultaten gevonden?')
+                ->label(label: __('feedback-resource.table.columns.results-found-easily'))
                 ->badge(),
+			
             Columns\TextColumn::make('created_at')
-                ->label('Ingestuurd op')
+                ->label(label: __('feedback-resource.table.columns.created-at'))
                 ->sortable()
                 ->date(),
         ];
@@ -101,7 +108,7 @@ final readonly class TableSchema
     {
         return [
             Action::make(name: 'documentation')
-                ->label(label: __('Help'))
+                ->label(label: __('buttons.help'))
                 ->color('primary')
                 ->color('gray')
                 ->icon('heroicon-o-lifebuoy')
@@ -137,7 +144,7 @@ final readonly class TableSchema
             Tables\Actions\BulkActionGroup::make([
                 Tables\Actions\DeleteBulkAction::make()
                     // Custom modal description for the bulk delete action
-                    ->modalDescription(description: __('Bij het verwijderen van de feedback kan het mogelijks zijn dat er waardevolle beedback verloren gaat. Alvorens de feedback te verwijderen wees er zeker van dat de personen die er baat bij hebben de feedback hebben gelezen.')),
+                    ->modalDescription(description: __('feedback-resource.table.actions.delete-bulk-action.modal-description')),
             ]),
         ];
     }
@@ -156,7 +163,7 @@ final readonly class TableSchema
             ->slideOver()
             ->modalFooterActions([
                 // Action to mail the user, visible only if 'contact_allowed' is true
-                Action::make(name: __('Mail gebruiker'))
+                Action::make(name: __('feedback-resource.table.actions.view-action.modal.footer-actions.mail'))
                     ->color('gray')
                     ->icon('heroicon-o-paper-airplane')
                     ->visible(fn (Feedback $feedback): bool => $feedback->contact_allowed)
@@ -166,18 +173,18 @@ final readonly class TableSchema
                 self::deleteAction()->hiddenLabel(false),
             ])
             ->hiddenLabel()
-            ->tooltip(tooltip: __('Bekijken'))
+            ->tooltip(tooltip: __('feedback-resource.table.actions.view-action.tooltip'))
             ->modalIcon('heroicon-o-information-circle')
             ->modalIconColor('info')
             // Dynamic modal description with user and date
-            ->modalDescription(fn (Feedback $feedback): string => trans('Ingestuurd door :user op :date', [
+            ->modalDescription(fn (Feedback $feedback): string => trans('feedback-resource.table.actions.view-action.modal.description', [
                 'user' => $feedback->name,
                 'date' => $feedback->created_at->format('d/m/Y')
             ]))
             // Dynamix model heading based on the tracking number
             ->modalHeading(heading: fn (Feedback $feedback): string => $feedback->tracking_number
-                ? __(":number: Feedback informatie", ['number' => $feedback->tracking_number])
-                : __('Feedback overzicht')
+                ? __('feedback-resource.table.actions.view-action.modal.heading.specific', ['number' => $feedback->tracking_number])
+                : __('feedback-resource.table.actions.view-action.modal.heading.general')
             );
     }
 
@@ -191,8 +198,8 @@ final readonly class TableSchema
     {
         return DeleteAction::make()
             ->hiddenLabel()
-            ->tooltip('Verwijderen')
+            ->tooltip(tooltip: __('feedback-resource.table.actions.delete-action.tooltip'))
             // Custom warning message for the delete confirmation modal
-            ->modalDescription('Bij het verwijderen van de feedback kan het zijn indien de onbehandeld is waardevolel informatie verloren gaat voor de verdere groei van het Vlaams Woordenboek, en vragen we je om deze handeling te bevestigen');
+            ->modalDescription(description: __('feedback-resource.table.actions.delete-action.modal.description'));
     }
 }

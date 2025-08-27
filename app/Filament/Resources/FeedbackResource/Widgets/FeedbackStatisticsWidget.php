@@ -12,6 +12,9 @@ use Flowframe\Trend\TrendValue;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
+/**
+ * @todo Complete the docblocks for this class
+ */
 final class FeedbackStatisticsWidget extends AdvancedChartWidget
 {
     public ?string $filter = 'perWeek';
@@ -38,7 +41,7 @@ final class FeedbackStatisticsWidget extends AdvancedChartWidget
 
     /**
      * The color of the icon in the widget header.
-     * Typically a standard color (e.g., 'warning', 'primary') from the Filament palette.
+     * Typically, a standard color (e.g., 'warning', 'primary') from the Filament palette.
      */
     protected static ?string $iconColor = 'warning';
 
@@ -93,8 +96,8 @@ final class FeedbackStatisticsWidget extends AdvancedChartWidget
     protected function getFilters(): array
     {
         return [
-            'perWeek' => 'Op weekbasis',
-            'perMonth' => 'Op maandbasis',
+            'perWeek' => __('feedback-resource.widgets.statistics.filters.perWeek'),
+            'perMonth' => __('feedback-resource.widgets.statistics.filters.perMonth'),
         ];
     }
 
@@ -104,12 +107,12 @@ final class FeedbackStatisticsWidget extends AdvancedChartWidget
         $todayPreviousYear = now()->subYear();
         $feedbackCount = Feedback::query()->whereBetween('created_at', [$todayPreviousYear, $today])->count();
 
-        return trans(':count rapportering', ['count' => $feedbackCount]);
+        return trans('feedback-resource.widgets.statistics.heading', ['count' => $feedbackCount]);
     }
 
     public function getLabel(): string
     {
-        return trans('Statistiek omtrent de ingezonden feedback voor het Vlaams woordenboek');
+        return __('feedback-resource.widgets.statistics.label');
     }
 
     protected function getData(): array
@@ -131,21 +134,21 @@ final class FeedbackStatisticsWidget extends AdvancedChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'feedback van nieuwe bezoekers',
+                    'label' => __('feedback-resource.widgets.statistics.dataset-labels.new-visitors'),
                     'data' => $firstTimeVisitChart->map(fn(TrendValue $value): mixed => $value->aggregate),
                     'backgroundColor' => '#e74c3c',
                     'borderColor' => '#e74c3c',
                     'pointBackgroundColor' => '#e74c3c',
                 ],
                 [
-                    'label' => 'feedback van terugkerende bezoekers',
+                    'label' => __('feedback-resource.widgets.statistics.dataset-labels.recurring-visitors'),
                     'data' => $recurringVisitChart->map(fn(TrendValue $value): mixed => $value->aggregate),
                     'backgroundColor' => 'oklch(62.7% 0.194 149.214)',
                     'borderColor' => 'oklch(62.7% 0.194 149.214)',
                     'pointBackgroundColor' => 'oklch(62.7% 0.194 149.214)',
                 ],
                 [
-                    'label' => 'feedback van alle type gebruikers',
+                    'label' => __('feedback-resource.widgets.statistics.dataset-labels.all-visitors'),
                     'data' => $allFeedbackChart->map(fn(TrendValue $value): mixed => $value->aggregate),
                     'backgroundColor' => 'oklch(54.6% 0.245 262.881)',
                     'borderColor' => 'oklch(54.6% 0.245 262.881)',
