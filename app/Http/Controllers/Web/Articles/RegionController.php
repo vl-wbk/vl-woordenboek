@@ -50,7 +50,6 @@ final readonly class RegionController
         /** @phpstan-ignore-next-line */
         return match ($sort->toString()) {
             'alfabetisch' => ['column' => 'word', 'order' => 'ASC'],
-            'populariteit' => ['column' => 'views', 'order' => 'DESC'],
             'recent' => ['column' => 'published_at', 'order' => 'ASC'],
             default => ['column' => 'views', 'order' => 'DESC'],
         };

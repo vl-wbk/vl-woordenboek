@@ -25,7 +25,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 final class PruneArticlesReminderCommand extends Command
 {
     /**
-     * Defines how long an article remains in the soft-deleted state before becoming eligible for permanent deletion. After this many days,
+     * Defines how long an article remains in the soft-deleted state before becoming eligible for permanent deletion. After these many days,
      * the article will be flagged for pruning from the database.
      */
     private static int $pruneAfterDays = 60;
@@ -94,7 +94,7 @@ final class PruneArticlesReminderCommand extends Command
     /**
      * Dispatches notifications to administrators and developers.
      *
-     * This method identifies all users with sufficient privileges (administrators and developers) and sends them a notification about articles that are approaching permanent deletion.
+     * This method identifies all users with sufficient privileges, administrators, and developers and sends them a notification about articles that are approaching permanent deletion.
      * Each eligible user receives a single notification containing information about all relevant articles.
      *
      * @param  Collection<int, Article> $articles  THe collection of articles that are marked for deletion
