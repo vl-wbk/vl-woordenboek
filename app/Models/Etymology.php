@@ -6,7 +6,6 @@ namespace App\Models;
 
 use App\Enums\Articles\EtymologySources;
 use App\Enums\Articles\EtymologyStatus;
-use App\Enums\Articles\EtymologyTypes;
 use App\Models\Relations\BelongsToAuthor;
 use App\Observers\EtymologyObserver;
 use App\States\Etymology\EtymologyStateContract;
@@ -27,7 +26,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @property int                                $id                 The unique identifier for the etymology entry.
  * @property EtymologyStatus                    $status             The current status of the etymology entry (e.g., Draft, UnderReview, Published, Rejected, Archived).
- * @property EtymologyTypes|null                $type               The type of etymology (e.g., derived, borrowed), if applicable.
  * @property int|null                           $article_id         The foreign key linking this etymology to its parent article.
  * @property string                             $origin_language    The original language from which the word is derived.
  * @property string                             $origin_form        The original form of the word in its origin language.

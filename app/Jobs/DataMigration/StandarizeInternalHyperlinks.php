@@ -38,7 +38,7 @@ final class StandarizeInternalHyperlinks implements ShouldQueue
      * @param Article $article The article to be processed.
      */
     public function __construct(
-        private Article $article,
+        private readonly Article $article,
     ) {}
 
     /**
