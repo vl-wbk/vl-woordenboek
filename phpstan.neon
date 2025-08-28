@@ -1,7 +1,6 @@
 includes:
     - vendor/larastan/larastan/extension.neon
     - vendor/phpstan/phpstan/conf/bleedingEdge.neon
-    - vendor/tomasvotruba/bladestan/config/extension.neon
 
 parameters:
     level: 7
