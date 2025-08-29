@@ -66,13 +66,13 @@ final class UnderReviewEtymology extends Action
 
         $this->modalIcon('heroicon-o-paper-airplane');
         $this->modalCloseButton(false);
-        $this->modalHeading('Etymology in review plaatsen');
-        $this->modalDescription('Bij het plaatsen van de etymologie in review. Zal deze ingezonden worden ter beoordeling. Onder deze status zal het niet meer mogelijk zijn om de etymologie te bewerken.');
-        $this->modalSubmitActionLabel('Insturen');
+        $this->modalHeading(heading: __('etymology-resource.custom-actions.under-review.modal.heading'));
+        $this->modalDescription(description: __('etymology-resource.custom-actions.under-review.modal.description'));
+        $this->modalSubmitActionLabel(label: __('etymology-resource.custom-actions.under-review.modal.submit-label'));
         $this->modalCancelAction(false);
 
-        $this->successNotificationTitle('De etymologie is ingestuurd ter beoordeling');
-        $this->failureNotificationTitle('Helaas pindakaas! Er is iets misgelopen.');
+        $this->successNotificationTitle(title: __('etymology-resource.custom-actions.under-review.notifications.success-title'));
+        $this->failureNotificationTitle(title: __('etymology-resource.custom-actions.under-review.notifications.failure-title'));
 
         $this->action(function (): void {
             if ($this->process(fn(): bool|int => $this->record->state()->transitionToUnderReview())) {

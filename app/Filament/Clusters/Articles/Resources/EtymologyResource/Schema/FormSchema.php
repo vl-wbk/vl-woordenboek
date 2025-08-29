@@ -45,56 +45,65 @@ final readonly class FormSchema
     {
         return [
             Select::make('status')
-                ->label('Status van de gegevens')
-                ->translateLabel()
+                ->label(label: __('etymology-resource.form.fields.status'))
                 ->columnSpan(2)
                 ->disabledOn('edit')
                 ->options(EtymologyStatus::class)
                 ->native(false)
                 ->required(),
+			
             TextInput::make('origin')
-                ->label('Ontleend uit (taal + oorspr. vorm + betekenis)')
-                ->placeholder(placeholder: __("Bijv. Latijn 'gustus', smaak"))
+                ->label(label: __('etymology-resource.form.fields.origin.label'))
+                ->placeholder(placeholder: __('etymology-resource.form.fields.origin.placeholder'))
                 ->columnSpan(7),
+			
             TextInput::make('origin_period')
-                ->label(label: __('Periode'))
+                ->label(label: __('etymology-resource.form.fields.origin-period'))
                 ->columnSpan(3),
+			
             Textarea::make('etymology')
-                ->label(label: __('Etymologie'))
+                ->label(label: __('etymology-resource.form.fields.etymology.label'))
                 ->columnSpanFull()
                 ->rows(3)
-                ->placeholder("Bijv. ontleend aan het Oudfranse 'gost', smaak (12de eeuw), gevormd met het achtervoegsel -ing. 'Gost' komt op zijn beurt uit het Latijn 'gustus', smaal. Oorsponkelijk 'goest(e)'."),
+                ->placeholder(placeholder: __('etymology-resource.form.fields.etymology.placeholder')),
+			
             TextInput::make('further_development')
-                ->label(label: __('Verdere ontwikkelingen (talen + vorm + betekenis)'))
-                ->placeholder("Bijv. Oudfrans 'gost'; Middelfrans 'goust', smaak")
+                ->label(label: __('etymology-resource.form.fields.further-development.label'))
+                ->placeholder(placeholder: __('etymology-resource.form.fields.further-development.placeholder'))
                 ->columnSpan(9),
+			
             Textinput::make('further_development_period')
-                ->label(label: __('Periodes'))
-                ->placeholder('12de, 13de eeuw')
+                ->label(label: __('etymology-resource.form.fields.further-development.period.label'))
+                ->placeholder(placeholder: __('etymology-resource.form.fields.further-development.period.label'))
                 ->columnSpan(3),
+			
             TextInput::make('oldest_find_spot')
-                ->label(label: __('Oudste vindplaats in het Nederlands (vorm, context, evt. betekenis)'))
+                ->label(label: __('etymology-resource.form.fields.oldest-find.spot.label'))
                 ->columnSpan(9)
-                ->placeholder("Bijv. goeste, in 'lot may men goeste vray.' Huygens."),
+                ->placeholder(placeholder: __('etymology-resource.form.fields.oldest-find.spot.placeholder')),
+			
             TextInput::make('oldest_find_period')
-                ->label(label: __('Periode / Jaartal'))
+                ->label(label: __('etymology-resource.form.fields.oldest-find.period'))
                 ->columnSpan(3)
-                ->placeholder('1653')
+                ->placeholder('1653') // Paceholder is not translate because it is a year.
                 ->numeric(),
+			
             Textarea::make('additional_info')
                 ->label(label: __('Aanvullingen'))
                 ->cols(3)
                 ->columnSpanFull()
                 ->placeholder('Bijv.; Bij gebrek vindplaatsen is niet duidelijk waarom en wanneer het achtervoegsel -ing is toegevoegd. Dat achtervoegsel wordt normaal gezien alleen bij werkwoordstammen toegevoegd.'),
-            Select::make('source_name')
-                ->label(label: __('Naam van de bron (bijv. WNT, Etymologiebank)'))
+            
+			Select::make('source_name')
+                ->label(label: __('etymology-resource.form.fields.source.name.label'))
                 ->required()
                 ->options(EtymologySources::class)
                 ->columnSpan(6)
                 ->native(false),
-            Textinput::make('source_hyperlink')
-                ->label(label: __('Link naar de bron'))
-                ->placeholder('Bijv. https://etymologiebank.nl/trefwoord/goesting')
+            
+			Textinput::make('source_hyperlink')
+                ->label(label: __('etymology-resource.form.fields.source.hyperlink.label'))
+                ->placeholder(placeholder: __('etymology-resource.form.fields.source.hyperlink.placeholder'))
                 ->columnSpan(6)
         ];
     }

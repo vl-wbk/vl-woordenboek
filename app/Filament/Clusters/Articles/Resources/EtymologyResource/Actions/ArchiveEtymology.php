@@ -75,17 +75,17 @@ final class ArchiveEtymology extends Action
 
         $this->modalIcon('heroicon-o-archive-box');
         $this->modalCloseButton(false);
-        $this->modalHeading('Etymologie archiveren');
-        $this->modalDescription('U staat op het punt om etymologische gegevens te archiveren. Bent u zeker dat u deze handeling wilt uitvoeren?');
-        $this->modalSubmitActionLabel('Ja, ik ben zeker');
+        $this->modalHeading(heading: __('etymology-resource.custom-actions.archive.modal.heading'));
+        $this->modalDescription(description: __('etymology-resource.custom-actions.archive.modal.description'));
+        $this->modalSubmitActionLabel(label: __('etymology-resource.custom-actions.archive.modal.submit-label'));
 
-        $this->successNotificationTitle('De gegevens zijn gearchiveerd');
-        $this->failureNotificationTitle('Helaas pindakaas! Er is iets migelopen.');
+        $this->successNotificationTitle(title: __('etymology-resource.custom-actions.archive.notifications.success-title'));
+        $this->failureNotificationTitle(title: __('etymology-resource.custom-actions.archive.notifications.failure-title'));
 
         $this->form([
             Textarea::make('reason')
-                ->label('Reden van de archivering')
-                ->placeholder('Beschrijf kort waarom je de gegevens wilt archiveren.')
+                ->label(label: __('etymology-resource.custom-actions.archive.modal.form.label'))
+                ->placeholder(placeholder: __('etymology-resource.custom-actions.archive.modal.form.placeholder'))
                 ->rows(5)
                 ->required(),
         ]);

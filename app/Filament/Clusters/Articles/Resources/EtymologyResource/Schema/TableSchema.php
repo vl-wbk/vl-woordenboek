@@ -47,49 +47,58 @@ final readonly class TableSchema
     {
         return [
             Tables\Columns\TextColumn::make('author.name')
-                ->label(label: __('Ingevoegd door'))
+                ->label(label: __('etymology-resource.table.columns.author-name'))
                 ->sortable()
                 ->searchable(),
+			
             Tables\Columns\TextColumn::make('article.word')
-                ->label(label: __('Gekoppeld artikel'))
+                ->label(label: __('etymology-resource.table.columns.connected-article'))
                 ->searchable()
                 ->sortable(),
+			
             Tables\Columns\TextColumn::make('status')
-                ->label(label: __('status'))
+                ->label(label: __('etymology-resource.table.columns.status'))
                 ->badge()
                 ->sortable(),
+			
             Tables\Columns\TextColumn::make('origin')
-                ->label(label: __('Oorsprong'))
+                ->label(label: __('etymology-resource.table.columns.origin'))
                 ->searchable(),
+			
             Tables\Columns\TextColumn::make('origin_period')
-                ->label(__('oorspong periode')),
+                ->label(label: __('etymology-resource.table.columns.origin-period')),
+			
             Tables\Columns\TextColumn::make('created_at')
                 ->sortable()
-                ->label('Aangemaakt op')
+                ->label(label: __('etymology-resource.table.columns.created-at'))
                 ->translateLabel()
                 ->date()
                 ->toggleable(isToggledHiddenByDefault: true),
+			
             Tables\Columns\TextColumn::make('updated_at')
                 ->sortable()
-                ->label('Laast gewijzigd')
+                ->label(label: __('etymology-resource.table.columns.updated-at'))
                 ->translateLabel()
                 ->date()
                 ->toggleable(isToggledHiddenByDefault: true),
         ];
     }
-
-    /**
-     * Configures the available filters for the etymology table.
-     *
-     * Filters allow users to narrow down the displayed records based on specific criteria, such as the status of the etymology entry.
-     * The default filter is set to show entries that are under review.
-     *
-     * @return array<int, SelectFilter> Array of Filament table filter definitions.
-     */
+	
+	/**
+	 * Configures the available filters for the etymology table.
+	 *
+	 * Filters allow users to narrow down the displayed records based on specific criteria, such as the status of the etymology entry.
+	 * The default filter is set to show entries that are under review.
+	 *
+	 * @return array<int, SelectFilter> Array of Filament table filter definitions.
+	 *
+	 * @throws \Exception
+	 */
     public static function configureFilters(): array
     {
         return [
-            SelectFilter::make('status')
+            SelectFilter::make(name:'status')
+				->label(label: __('etymology-resource.table.filters.status.label'))
                 ->options(EtymologyStatus::class)
                 ->default(EtymologyStatus::UnderReview->value)
                 ->native(false),
@@ -108,9 +117,9 @@ final readonly class TableSchema
     {
         return [
             Tables\Actions\DeleteBulkAction::make()
-                ->modalHeading('Etymologische gegevens verwijderen')
-                ->modalDescription('U staat op het punt om etymologische gegevens te verwijderen. Ben u zeker deze actie te willen uitvoeren?')
-                ->modalSubmitActionLabel('Ja, ik ben zeker'),
+                ->modalHeading(heading: __('etymology-resource.bulk-actions.delete.modal.heading'))
+                ->modalDescription(description: __('etymology-resource.bulk-actions.delete.modal.description'))
+                ->modalSubmitActionLabel(label: __('etymology-resource.bulk-actions.delete.modal.submit-label')),
         ];
     }
 
@@ -127,20 +136,20 @@ final readonly class TableSchema
     {
         return [
             Tables\Actions\Action::make('help')
-                ->label('Help')
+                ->label(label: __('buttons.help'))
                 ->translateLabel()
                 ->icon('heroicon-o-lifebuoy')
                 ->url('https://www.google.com', shouldOpenInNewTab: true)
                 ->color('gray'),
 
             Tables\Actions\CreateAction::make('create-record')
-                ->label('Gegevens toevoegen')
+                ->label(label: __('etymology-resource.header-actions.create.label'))
                 ->translateLabel()
                 ->icon('heroicon-o-pencil-square')
                 ->modalIcon('heroicon-o-pencil-square')
                 ->modalWidth(MaxWidth::SevenExtraLarge)
-                ->modalHeading('Etymologische gegevens toevoegen')
-                ->modalDescription('U staat op het punt om etymologische gegevens toe te voegen voor het woord ' . $article->word),
+                ->modalHeading(heading: __('etymology-resource.header-actions.create.modal.heading'))
+				->modalDescription(description: __('etymology-resource.header-actions.create.modal.description', ['word' => $article->word])),
         ];
     }
 
@@ -158,10 +167,12 @@ final readonly class TableSchema
             Tables\Actions\ActionGroup::make([
                 Tables\Actions\ViewAction::make()
                     ->url(fn(Etymology $record): string => EtymologyResource::getUrl('view', ['record' => $record])),
+				
                 Tables\Actions\EditAction::make()
                     ->modalWidth(MaxWidth::SevenExtraLarge),
+				
                 Tables\Actions\DeleteAction::make()
-                    ->modalHeading('Etymolische gegevens verwijderen'),
+                    ->modalHeading(heading: __('etymology-resource.table.actions.delete.modal.heading')),
             ]),
         ];
     }

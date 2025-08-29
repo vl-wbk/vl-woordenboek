@@ -67,12 +67,12 @@ final class PublishEtymology extends Action
 
         $this->modalIcon('heroicon-o-globe-europe-africa');
         $this->modalCloseButton(false);
-        $this->modalHeading('Etymologie publiceren');
-        $this->modalDescription('U staat op het punt om meen etymologie beschikbaar te stellen voor het brede publiek.Weet u zeker dat u dit wilt doen?');
-        $this->modalSubmitActionLabel('Ja, ik weet dit zeker');
+        $this->modalHeading(heading: __('etymology-resource.custom-actions.publish.modal.heading'));
+        $this->modalDescription(description: __('etymology-resource.custom-actions.publish.modal.description'));
+        $this->modalSubmitActionLabel(label: __('etymology-resource.custom-actions.publish.modal.submit-label'));
 
-        $this->successNotificationTitle('De etymologische gegevens zijn gepubliceerd.');
-        $this->failureNotificationTitle('Helaas pindakaas! Er is iets misgelopen.');
+        $this->successNotificationTitle(title: __('etymology-resource.custom-actions.publish.notifications.success-title'));
+        $this->failureNotificationTitle(title: __('etymology-resource.custom-actions.publish.notifications.failure-title'));
 
         $this->action(function (): void {
             if ($this->process(fn(): bool|int => $this->record->state()->transitionToPublished())) {

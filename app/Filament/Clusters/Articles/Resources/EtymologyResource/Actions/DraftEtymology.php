@@ -68,12 +68,12 @@ final class DraftEtymology extends Action
 
         $this->modalIcon('heroicon-o-pencil-square');
         $this->modalCloseButton(false);
-        $this->modalHeading('Gegevens in onderhoud plaatsen');
-        $this->modalDescription('U staat op het punt om de etymologische gegevens in onderhoud te plaatsen. In deze fase zullen de gegevens niet publiekelijk raadpleegbaar zijn. Bent u zeker dat u dit wilt doen?');
-        $this->modalSubmitActionLabel('Ja, ik ben zeker');
+        $this->modalHeading(heading: __('etymology-resource.custom-actions.draft.modal.heading'));
+        $this->modalDescription(description: __('etymology-resource.custom-actions.draft.modal.description'));
+        $this->modalSubmitActionLabel(label: __('etymology-resource.custom-actions.draft.modal.submit-label'));
 
-        $this->successNotificationTitle('De etymologische gegevens zijn nu in onderhoud');
-        $this->failureNotificationTitle('Helaas pindakaas! Er is iets misgelopen.');
+        $this->successNotificationTitle(title: __('etymology-resource.custom-actions.draft.notifications.success-title'));
+        $this->failureNotificationTitle(title: __('etymology-resource.custom-actions.draft.notifications.failure-title'));
 
         $this->action(function (): void {
             if ($this->process(fn(): bool|int => $this->record->state()->transitionToDraft())) {

@@ -37,20 +37,20 @@ final readonly class InfolistSchema
     public static function configure(Infolist $infolist): Infolist
     {
         return $infolist->schema([
-            Section::make('Gegevens van de auteur en registratie')
+            Section::make(heading: __('etymology-resource.infolist.heading'))
                 ->visible(static fn(Etymology $etymology): bool => $etymology->author()->exists() && Auth::user()->can('viewAny', $etymology->author))
                 ->icon('heroicon-s-user-circle')
                 ->headerActions([
                     Action::make("view-user")
                         ->color('gray')
                         ->icon('heroicon-s-eye')
-                        ->label('Bekijk gebruiker')
+                        ->label(label: __('etymology-resource.header-actions.view-user.label'))
                         ->authorize(static fn(Etymology $etymology): bool => Auth::user()->can('viewAny', $etymology->author))
                         ->url(fn(Etymology $etymology): string => UserResource::getUrl('view', ['record' => $etymology->author])),
                 ])
                 ->iconColor('primary')
                 ->iconSize(IconSize::Medium)
-                ->description('Alle gegevens omtrent de persoon die de etymologie heeft aangemaakt in het Vlaams woordenboek')
+                ->description(description: __('etymology-resource.infolist.description'))
                 ->compact()
                 ->collapsed()
                 ->columns(12)
@@ -69,33 +69,38 @@ final readonly class InfolistSchema
 
     private static function generalInformationTab(): Tab
     {
-        return Tab::make('Algemene informatie')
+        return Tab::make(label: __('etymology-resource.infolist.general-information-tab.label'))
             ->icon('heroicon-o-language')
             ->columns(12)
             ->schema([
                 TextEntry::make('status')
-                    ->label('Status')
+                    ->label(label: __('etymology-resource.infolist.general-information-tab.entries.status'))
                     ->columnSpan(3)
                     ->badge()
                     ->tooltip(fn(Etymology $etymology): string|array|null => self::getStatusTooltip($etymology)),
+				
                 TextEntry::make('origin')
-                    ->label(label: __('Ontleend uit het:'))
+                    ->label(label: __('etymology-resource.infolist.general-information-tab.entries.origin'))
                     ->columnSpan(6)
                     ->color('gray'),
+				
                 TextEntry::make('origin_period')
-                    ->label(label: __('Periode'))
+                    ->label(label: __('etymology-resource.infolist.general-information-tab.entries.origin-period'))
                     ->columnSpan(3)
                     ->color('gray'),
+				
                 TextEntry::make('further_development')
-                    ->label(label: __('Verdere ontwikkelingen (talen + vorm + betekenis)'))
+                    ->label(label: __('etymology-resource.infolist.general-information-tab.entries.further-development'))
                     ->color('gray')
                     ->columnSpan(9),
+				
                 TextEntry::make('further_development_period')
-                    ->label(label: __('Periode / Jaartal'))
+                    ->label(label: __('etymology-resource.infolist.general-information-tab.entries.further-development-period'))
                     ->color('gray')
                     ->columnSpan(3),
+				
                 TextEntry::make('additional_info')
-                    ->label(label: __('Aanvullende informatie'))
+                    ->label(label: __('etymology-resource.infolist.general-information-tab.entries.additional-info'))
                     ->color('gray')
                     ->placeholder('-')
                     ->columnSpanFull(),
@@ -110,34 +115,35 @@ final readonly class InfolistSchema
      */
     private static function archiveInformationTab(): Tab
     {
-        return Tab::make('Archiverings informatie')
+        return Tab::make(label: __('etymology-resource.infolist.archive-information-tab.label'))
             ->icon('heroicon-o-archive-box')
             ->visible(fn(Etymology $etymology): bool => $etymology->status->isArchived())
             ->columns(12)
             ->schema([
                 TextEntry::make('archiver.name')
-                    ->label('Gearchiveerd door')
-                    ->icon('heroicon-o-user-circle')
+                    ->label(label: __('etymology-resource.infolist.archive-information-tab.entries.archiver'))
                     ->icon('heroicon-o-user-circle')
                     ->iconColor('primary')
                     ->color('primary')
                     ->weight(FontWeight::SemiBold)
                     ->columnSpan(4),
+				
                 TextEntry::make('archived_at')
-                    ->label('Tijdstip van archivering')
+                    ->label(label: __('etymology-resource.infolist.archive-information-tab.entries.timestamp'))
                     ->date()
                     ->columnSpan(4)
                     ->icon('heroicon-o-clock')
                     ->iconColor('primary'),
+				
                 TextEntry::make('archiving_reason')
-                    ->label('Beweegredenen tot de archivering')
-                    ->placeholder('- Geen redenen opgegeven van de archievering van de record')
+                    ->label(label: __('etymology-resource.infolist.archive-information-tab.entries.reason.label'))
+                    ->placeholder(placeholder: __('etymology-resource.infolist.archive-information-tab.entries.reason.placeholder'))
                     ->columnSpanFull(),
             ]);
     }
 
     /**
-     * Defines the 'Weigerings informatie' tab for the Etymology Infolist.
+     * Defines the 'Weigering informatie' tab for the Etymology Infolist.
      * This tab is visible only if the etymology status is 'Rejected' and displays details about who rejected the record, when it was rejected, and the reason.
      *
      * @return Tab The configured 'Weigerings informatie' tab.
@@ -150,21 +156,23 @@ final readonly class InfolistSchema
             ->columns(12)
             ->schema([
                 TextEntry::make('rejecter.name')
-                    ->label('Afgewezen door')
+                    ->label(label: __('etymology-resource.infolist.rejection-information-tab.entries.rejecter-name'))
                     ->icon('heroicon-o-user-circle')
                     ->iconColor('primary')
                     ->color('primary')
                     ->weight(FontWeight::SemiBold)
                     ->columnSpan(4),
+				
                 TextEntry::make('rejected_at')
-                    ->label('Tijdstip van afwijzing')
+                    ->label(label: __('etymology-resource.infolist.rejection-information-tab.entries.rejection-timestamp'))
                     ->date()
                     ->columnSpan(4)
                     ->icon('heroicon-o-clock')
                     ->iconColor('primary'),
+				
                 TextEntry::make('rejection_reason')
-                    ->label('Beweegredenen tot de afwijzing')
-                    ->placeholder('- Geen redenen opgegeven van de afwijzing voor de record')
+                    ->label(label: __('etymology-resource.infolist.rejection-information-tab.entries.reason.label'))
+                    ->placeholder(placeholder: __('etymology-resource.infolist.rejection-information-tab.entries.reason.placeholder'))
                     ->columnSpanFull(),
             ]);
     }
@@ -179,10 +187,20 @@ final readonly class InfolistSchema
     private static function getStatusTooltip(Etymology $etymology): array|string|null
     {
         return match ($etymology->status) {
-            EtymologyStatus::Published => trans('Gepubliceerd door :user op :time', ['user' => $etymology->author->name, 'time' => $etymology->created_at->format('d-m-Y H:i')]),
-            EtymologyStatus::Rejected => trans('Afgewezen door :user op :time', ['user' => $etymology->author->name, 'time' => $etymology->created_at->format('d-m-Y H:i')]),
-            EtymologyStatus::Archived => trans('Gearchiveerd door :user op :time', ['user' => $etymology->author->name, 'time' => $etymology->created_at->format('d-m-Y H:i')]),
-            default => null,
+            EtymologyStatus::Published => trans('etymology-resource.infolist.general-information-tab.tooltip.published', [
+				'user' => $etymology->author->name,
+				'time' => $etymology->created_at->format('d-m-Y H:i')
+			]),
+            EtymologyStatus::Rejected => trans('etymology-resource.infolist.general-information-tab.tooltip.rejected', [
+				'user' => $etymology->author->name,
+				'time' => $etymology->created_at->format('d-m-Y H:i')
+			]),
+            EtymologyStatus::Archived => trans('etymology-resource.infolist.general-information-tab.tooltip.archived', [
+				'user' => $etymology->author->name,
+				'time' => $etymology->created_at->format('d-m-Y H:i')
+			]),
+   
+			default => null,
         };
     }
 
@@ -196,26 +214,29 @@ final readonly class InfolistSchema
     {
         return [
             TextEntry::make('author.name')
-                ->label('Naam')
+                ->label(label: __('etymology-resource.infolist.author-information-tab.entries.name'))
                 ->columnSpan(3)
                 ->weight(FontWeight::SemiBold)
                 ->icon('heroicon-o-user')
                 ->iconColor('primary')
                 ->color('primary')
                 ->state(fn(Etymology $etymology) => $etymology->author->name),
+			
             TextEntry::make('author.email')
-                ->label('Email adres')
+                ->label(label: __('etymology-resource.infolist.author-information-tab.entries.name'))
                 ->icon('heroicon-o-envelope')
                 ->iconColor('primary')
                 ->columnSpan(3),
+			
             TextEntry::make('created_at')
-                ->label('Etymologie ingediend op')
+                ->label(label: __('etymology-resource.infolist.author-information-tab.entries.created-at'))
                 ->icon('heroicon-o-clock')
                 ->iconColor('primary')
                 ->columnSpan(3)
                 ->date(),
+			
             TextEntry::make('updated_at')
-                ->label('Laatste wijziging (etymologie)')
+                ->label(label: __('etymology-resource.infolist.author-information-tab.entries.edited-at'))
                 ->icon('heroicon-o-clock')
                 ->iconColor('primary')
                 ->columnSpan(3)
@@ -232,28 +253,31 @@ final readonly class InfolistSchema
     private static function sourceInformationTab(): Tab
     {
         return Tab::make('source-information-tab')
-            ->label('Bron gegevens')
+            ->label(label: __('etymology-resource.infolist.source-information-tab.label'))
             ->icon('heroicon-o-queue-list')
             ->columns(12)
             ->schema([
                 TextEntry::make('oldest_find_spot')
                     ->columnSpan(3)
-                    ->label('Oudste vindplaats in het Nederlands')
+                    ->label(label: __('etymology-resource.infolist.source-information-tab.entries.oldest-find-spot'))
                     ->color('gray'),
+				
                 TextEntry::make('oldest_find_period')
                     ->columnSpan(3)
-                    ->label(label: __('Vondst (Periode / Jaartal)'))
+                    ->label(label: __('etymology-resource.infolist.source-information-tab.entries.oldest-find-period'))
                     ->color('gray'),
+				
                 TextEntry::make('source_name')
-                    ->label(label: __('Naam van de bron'))
+                    ->label(label: __('etymology-resource.infolist.source-information-tab.entries.source-name'))
                     ->color('gray')
                     ->columnSpan(3),
+				
                 TextEntry::make('source_hyperlink')
-                    ->label(label: __('Link naar de bron'))
+                    ->label(label: __('etymology-resource.infolist.source-information-tab.entries.source-hyperlink.label'))
                     ->columnSpan(3)
                     ->color('gray')
-                    ->placeholder('- Geen hyperlink opgegeven')
-                    ->url(fn(Etymology $etymology): string => $etymology->source_url ?? '- Geen valide link opgegeven')
+                    ->placeholder(placeholder: __('etymology-resource.infolist.source-information-tab.entries.source-hyperlink.placeholder'))
+                    ->url(fn(Etymology $etymology): string => $etymology->source_url ?? __('etymology-resource.infolist.source-information-tab.entries.source-hyperlink.url'))
                     ->openUrlInNewTab(),
             ]);
     }

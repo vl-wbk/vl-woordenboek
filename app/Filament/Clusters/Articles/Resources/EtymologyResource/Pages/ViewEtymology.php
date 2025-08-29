@@ -39,12 +39,12 @@ final class ViewEtymology extends ViewRecord
      * Retrieves the array of header actions for the Etymology view page.
      * This method defines the primary interactive elements displayed at the top of the view page. These actions are logically grouped to enhance usability.
      *
-     * Status Management Actions: A dropdown group allowing users to change the etymology's status (e.g., `ArchiveEtymology`, `RejectEtymology`, `PublishEtymology`, `DraftEtymology`, `UnderReviewEtymology`).
-     * General Actions: A second dropdown group providing access to related functionalities, including:
+     * Status Management Actions - A dropdown group allowing users to change the etymology's status (e.g., `ArchiveEtymology`, `RejectEtymology`, `PublishEtymology`, `DraftEtymology`, `UnderReviewEtymology`).
+     * General Actions - A second dropdown group providing access to related functionalities, including:
      *
      * - `view-article`:    An action to navigate to the associated `ArticleResource` page for the current etymology's linked article.
      * - `EditAction`:      Allows modification of the etymology record, opening a modal with a specified maximum width.
-     * - `DeleteAction`:    Provides the functionality to delete the etymology record, with authorization checks in place to ensure only permitted users can perform this action.
+     * - `DeleteAction`:    Provides the capability to delete the etymology record, with authorization checks in place to ensure only permitted users can perform this action.
      *
      * Each action is configured with appropriate labels, icons, and colors to provide a clear and intuitive user experience.
      *
@@ -61,14 +61,14 @@ final class ViewEtymology extends ViewRecord
                 EtymologyResource\Actions\UnderReviewEtymology::make(),
             ])
                 ->button()
-                ->label('Markeren als')
+                ->label(label: __('etymology-resource.actions.view-etymology.view-article.mark-label'))
                 ->color('gray')
                 ->icon('heroicon-o-tag'),
 
             ActionGroup::make([
                 Action::make('view-article')
                     ->color('gray')
-                    ->label('Bekijk gekoppeld artikel')
+                    ->label(label: __('etymology-resource.actions.view-etymology.view-article.label'))
                     ->icon('heroicon-o-eye')
                     ->url(ArticleResource::getUrl('view', ['record' => $this->record->article])),
 
@@ -82,7 +82,7 @@ final class ViewEtymology extends ViewRecord
                     ->dropdown(false),
             ])
                 ->button()
-                ->label('Acties')
+                ->label(label: __('etymology-resource.actions.view-etymology.label'))
                 ->color('gray')
                 ->icon('heroicon-o-cog'),
         ];

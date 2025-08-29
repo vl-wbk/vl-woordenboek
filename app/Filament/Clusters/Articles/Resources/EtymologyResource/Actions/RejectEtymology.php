@@ -74,20 +74,20 @@ final class RejectEtymology extends Action
 
         $this->modalIcon('heroicon-o-hand-thumb-down');
         $this->modalCloseButton(false);
-        $this->modalHeading('Etymology afwijzen');
-        $this->modalDescription('U staat op het punt om een etymology af te wijzen in het systeem. Bij afwijzing zal deze niet gepubliceerd worden. Bent u zeker dat u dit wilt doen?');
-        $this->modalSubmitActionLabel('Ja, ik ben zeker');
+        $this->modalHeading(heading: __('etymology-resource.custom-actions.reject.modal.heading'));
+        $this->modalDescription(description: __('etymology-resource.custom-actions.reject.modal.description'));
+        $this->modalSubmitActionLabel(label: __('etymology-resource.custom-actions.reject.modal.submit-label'));
 
         $this->form([
             Textarea::make('reason')
-                ->label('Reden van de afwijzing')
-                ->placeholder('Beschrijf kort waarom je de gegevens wilt afwijzen.')
+                ->label(label: __('etymology-resource.custom-actions.reject.form.label'))
+                ->placeholder(placeholder: __('etymology-resource.custom-actions.reject.modal.form.placeholder'))
                 ->rows(5)
                 ->required(),
         ]);
 
-        $this->successNotificationTitle('De etymologische gegevens of bijdragen zijn afgewezen');
-        $this->failureNotificationTitle('Helaas pindakaas! Er is iets misgelopen.');
+        $this->successNotificationTitle(title: __('etymology-resource.custom-actions.reject.notifications.success-title'));
+        $this->failureNotificationTitle(title: __('etymology-resource.custom-actions.reject.notifications.failure-title'));
 
         $this->action(function (): void {
             if ($this->process(fn(array $data): bool|int => $this->record->state()->transitionToRejected($data['reason']))) {

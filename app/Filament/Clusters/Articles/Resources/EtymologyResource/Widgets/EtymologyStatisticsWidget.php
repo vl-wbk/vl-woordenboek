@@ -52,10 +52,10 @@ final class EtymologyStatisticsWidget extends BaseWidget
         return Stat::make('Gepubliceerd', $count)
             ->icon('heroicon-o-globe-europe-africa')
             ->iconColor('success')
+			->descriptionColor('success')
             ->description(trans(':percent van alle etymologieen', [
                 'percent' => toHumanReadablePercentage($this->getAllEtymoglogies(), (int) $count),
-            ]))
-            ->descriptionColor('success');
+            ]));
     }
 
     /**

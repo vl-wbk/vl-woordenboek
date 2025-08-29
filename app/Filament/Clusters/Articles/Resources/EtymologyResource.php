@@ -27,7 +27,7 @@ final class EtymologyResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $modelLabel = 'Etymologie';
 
-    protected static ?string $pluralLabel = 'Etymologieen';
+    protected static ?string $pluralLabel = 'Etymologieën';
 
     protected static ?string $cluster = Articles::class;
 
@@ -54,17 +54,17 @@ final class EtymologyResource extends Resource implements HasShieldPermissions
     public static function table(Table $table): Table
     {
         return $table
-            ->heading('Etymologie overzicht')
+            ->heading(heading: __('etymology-resource.table.heading'))
+			->description(description: __('etymology-resource.table.description'))
             ->emptyStateIcon('heroicon-s-queue-list')
-            ->emptyStateHeading('Geen Etymologieen gevonden')
-            ->emptyStateDescription('Het lijkt erop dat er momenteel etymologieen gevonden zijn onder de matchende criteria.')
-            ->description('Overzicht van alle etymoligieen die geregistreerd staan in het Vlaams woordenboek.')
+            ->emptyStateHeading(heading: __('etymology-resource.table.empty-state.heading'))
+            ->emptyStateDescription(description: __('etymology-resource.table.empty-state.description'))
             ->filters(filters: TableSchema::configureFilters())
             ->actions(actions: TableSchema::configureActions())
             ->bulkActions(actions: TableSchema::configureBulkActions())
             ->headerActions([
                 Tables\Actions\Action::make('help')
-                    ->label('Help')
+                    ->label(label: __('buttons.help'))
                     ->color('gray')
                     ->translateLabel()
                     ->icon('heroicon-o-lifebuoy')
