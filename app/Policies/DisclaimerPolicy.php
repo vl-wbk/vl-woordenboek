@@ -22,9 +22,11 @@ use Illuminate\Auth\Access\Response;
  *
  * @package App\Policies
  */
-final readonly class DisclaimerPolicy
+final class DisclaimerPolicy
 {
-    /**
+	public static array $permissionPrefixes = ['view', 'view_any', 'create', 'update', 'delete', 'delete_any'];
+	
+	/**
      * @todo Document polociy method.
      */
     public function before(User $user): ?Response
