@@ -10,102 +10,135 @@ use App\UserTypes;
 use Illuminate\Auth\Access\Response;
 
 /**
- * The DisclaimerPolicy class defines the authorization rules for interacting with `Disclaimer` models within the application.
- * It dictates which user roles have permission to perform various actions such as viewing, creating, updating, and deleting disclaimers.
+ * Policy class for authorizing user actions on the Disclaimer model.
  *
- * This policy ensures that only users with specific administrative or editorial roles can manage disclaimers, thereby maintaining the integrity and control over critical legal or informational texts displayed in the application.
- * It leverages the `UserTypes` enum for clear and type-safe role-based access control.
- *
- * @see User        - The User model for which permissions are being checked.
- * @see UserTypes   - The enum defining different user roles.
- * @see Disclaimer  - (Implicitly, as this policy governs its access)
+ * This policy centralizes authorization logic for viewing, creating, updating, and deleting Disclaimer records.
+ * It follows the Google PHP Style Guide for docblocks, providing clear descriptions of the purpose, parameters, and return values for each policy method.
  *
  * @package App\Policies
  */
-final readonly class DisclaimerPolicy
+final class DisclaimerPolicy
 {
-    /**
-     * @todo Document polociy method.
-     */
+	/**
+	 * A collection of standard prefixes used by Filament Shield and related authorization logic.
+	 * These prefixes map to concrete permissions like view_disclaimer, create_disclaimer, etc.
+	 *
+	 * @var list<string>
+	 */
+	public static array $permissionPrefixes = ['view', 'view_any', 'create', 'update', 'delete', 'delete_any'];
+	
+	/**
+	 * Method executed before any other policy checks.
+	 *
+	 * If the user lacks the permission to manage articles in the system, deny access with a consistent message.
+	 * Returning null allows normal policy checks to proceed.
+	 *
+	 * @param  User $user		The currently authenticated user.
+	 * @return Response|null	A denial response or null to continue checking other policies.
+	 */
     public function before(User $user): ?Response
     {
         if ($user->cannot('page_Articles')) {
-            return Response::denyAsNotFound();
+            return Response::deny(message: 'U hebt geen machtiging om het systeem dat de artikelen beheerd te gebruiken.');
         }
 
         return null;
     }
-
-    /**
-     * Determine whether the user can view any disclaimers.
-     *
-     * This method grants permission to view a list of all disclaimers.
-     * Access is restricted to users whose `user_type` is either `EditorInChief`, `Administrator`, or `Developer`.
-     * This ensures that only high-level personnel can oversee the disclaimer content.
-     *
-     * @param  User  $user  The user attempting to view disclaimers.
-     * @return bool         Returns `true` if the user has the required user type, otherwise `false`.
-     */
-    public function viewAny(User $user): bool
+	
+	/**
+	 * Determine whether the user can view a specific disclaimer.
+	 * Grants access if the user has the 'view_disclaimer' permission, otherwise denies with a descriptive message.
+	 *
+	 * @param  User $user	The currently authenticated user.
+	 * @return Response		The authorization decision.
+	 */
+    public function viewAny(User $user): Response
     {
-        return $user->can('view_any_disclaimer');
+		if ($user->can('view_any_disclaimer')) {
+			return Response::allow();
+		}
+		
+		return Response::deny(message: 'U hebt geen machtiging om een overzicht van disclaimers te bekijken');
     }
-
-    /**
-     * @todo Document policy
-     */
-    public function view(User $user, Disclaimer $disclaimer): bool
+	
+	/**
+	 * Determine whether the user can view a specific disclaimer.
+	 * Grants access if the suer has the 'view_disclaimer' permission, otherwise denies with a descriptive message.
+	 *
+	 * @param  User 		$user		 The currently authenticated user.
+	 * @param  Disclaimer 	$disclaimer	 The disclaimer instance being accessed.
+	 * @return Response					 The authorization decision.
+	 */
+    public function view(User $user, Disclaimer $disclaimer): Response
     {
-        return $user->can('view_disclaimer');
+        if ($user->can('view_disclaimer')) {
+			return Response::allow();
+		}
+		
+		return Response::deny(message: 'U hebt geen machtiging om de informatie van een disclaimer te bekijken');
     }
-
-    /**
-     * Determine whether the user can create new disclaimers.
-     *
-     * This method controls the ability to add new disclaimer entries to the database.
-     * Creation is limited to users with `Administrator` or `Developer` user types, reflecting a higher level of permission required for content generation.
-     *
-     * @param  User  $user  The user attempting to create a disclaimer.
-     * @return bool         Returns `true` if the user has the required user type, otherwise `false`.
-     */
-    public function create(User $user): bool
+	
+	/**
+	 * Determine whether the user can create a new disclaimer.
+	 * Grants access if the user has the 'create_disclaimer' permission, otherwise denies with a helpful message.
+	 *
+	 * @param  	User $user	The currently authenticated user.
+	 * @return  Response	The authorization decision.
+	 */
+    public function create(User $user): Response
     {
-        return $user->can('create_disclaimer');
+        if ($user->can('create_disclaimer')) {
+			return Response::allow();
+		}
+		
+		return Response::deny(message: 'U hebt geen machtiging om een disclaimer aan te maken');
     }
-
-    /**
-     * Determine whether the user can update existing disclaimers.
-     *
-     * This method governs the permission to modify the content or attributes of existing disclaimer records.
-     * Similar to creation, updating is restricted to users with `Administrator` or `Developer` user types to ensure that only authorized personnel can alter critical disclaimer texts.
-     *
-     * @param  User $user  The user attempting to update a disclaimer.
-     * @return bool        Returns `true` if the user has the required user type, otherwise `false`.
-     */
-    public function update(User $user): bool
+	
+	/**
+	 * Determine whether the user can update an existing disclaimer.
+	 * Grants access if the user has the 'update_disclaimer' permission, otherwise denies with a user-friendly message.
+	 *
+	 * @param  User $user	The currently authenticated user.
+	 * @return Response		The authorization decision.
+	 */
+    public function update(User $user): Response
     {
-        return $user->can('update_disclaimer');
+		if ($user->can('update_disclaimer')) {
+			return Response::allow();
+		}
+		
+		return Response::deny(message: 'U hebt geen machtiging om een disclaimer aan te passen');
     }
-
-    /**
-     * Determine whether the user can delete disclaimers.
-     *
-     * This method controls the ability to remove disclaimer entries from the database.
-     * Deletion is considered a highly sensitive action and is therefore limited exclusively to users with `Administrator` or `Developer` user types, preventing unauthorized removal of important legal or informational content.
-     *
-     * @param  User  $user  The user attempting to delete a disclaimer.
-     * @return bool         Returns `true` if the user has the required user type, otherwise `false`.
-     */
-    public function delete(User $user): bool
+	
+	/**
+	 * Determine whether the user can delete a specific disclaimer.
+	 * Grants access if the user has the 'delete_disclaimer' permission; otherwise denies with an informative message.
+	 *
+	 * @param  User $user 	The currently authenticated user.
+	 * @return Response		The authorization decision.
+	 */
+    public function delete(User $user): Response
     {
-        return $user->can('delete_disclaimer');
+        if ($user->can('delete_disclaimer')) {
+			return Response::allow();
+		}
+		
+		return Response::deny('U hebt geen machtiging om een disclaimer te verwijderen');
     }
-
-    /**
-     * @todo Document policy
-     */
-    public function deleteAny(User $user): bool
+	
+	/**
+	 * Determine whether the user can delete multiple disclaimers at once.
+	 * Grants access if the user has the 'delete_any_disclaimer' permission, otherwise denies with a clear message.
+	 *
+	 * @param  User $user	The currently authenticated user.
+	 * @return Response		The authorization decision.
+	 */
+    public function deleteAny(User $user): Response
     {
-        return $user->can('delete_any_disclaimer');
+        if ($user->can('delete_any_disclaimer')) {
+			return Response::allow();
+		}
+		
+		return Response::deny('U hebt geen machtiging om meerdere disclaimers te verwijderen');
     }
 }
