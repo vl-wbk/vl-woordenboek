@@ -12,6 +12,9 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Support\Enums\IconSize;
 
+/**
+ * @todo Document this class
+ */
 final readonly class FormSchema
 {
 	private static function createSection(string $title, string $icon, string $description): Section
@@ -32,15 +35,15 @@ final readonly class FormSchema
 			->columns(12)
 			->schema([
 				self::createSection(
-					title: 'Disclaimer informatie',
+					title: __('disclaimer-resource.form.sections.disclaimer-info.title'),
 					icon: 'heroicon-o-wrench-screwdriver',
-					description:'Alle gegevens en configuratie die gebruikt zal worden om de disclaimer te tonen aan de eindgebruiker die het Vlaams woordenboek raadpleegt.'
+					description:__('disclaimer-resource.form.sections.disclaimer-info.description')
 				)->schema(self::getDisclaimerInformationSchema()),
 				
 				self::createSection(
-					title: 'Beheersinformatie',
+					title: __('disclaimer-resource.form.sections.management-info.title'),
 					icon: 'heroicon-o-information-circle',
-					description: 'De nodige registraties van interne gegevens die ons toelaat de disclaimers te beheren en te vermelden hoe we de geregistreerde disclaimer wensen te gebruiken.'
+					description: __('disclaimer-resource.form.sections.management-info.description')
 				)->schema(self::getManagementInformationSchema()),
 			]);
 	}
@@ -54,9 +57,9 @@ final readonly class FormSchema
 				->options(DisclaimerTypes::class)
 				->native(false),
 			Textarea::make('message')
-				->label('Disclaimer melding')
+				->label(label: __('disclaimer-resource.form.sections.disclaimer-info.fields.message.label'))
 				->required()
-				->placeholder('Vermeld kort wat je wenst te vermelding richting de gebruiker')
+				->placeholder(placeholder: __('disclaimer-resource.form.sections.disclaimer-info.fields.message.placeholder'))
 				->columnSpan(12)
 				->rows(2),
 		];
@@ -66,21 +69,21 @@ final readonly class FormSchema
 	{
 		return [
 			TextInput::make('name')
-				->label('Naam')
+				->label(label: __('disclaimer-resource.form.sections.management-info..fields.name'))
 				->maxLength(255)
 				->required()
 				->unique(ignoreRecord: true)
 				->columnSpan(8),
 			Textarea::make('description')
-				->label('Beschrijving')
+				->label(label: __('disclaimer-resource.form.sections.management-info.fields.description.label'))
 				->required()
-				->placeholder('Beschrijf kort waarover de disclaimer gaat zodat het duidelijk is voor andere vrijwilligers')
+				->placeholder(placeholder: __('disclaimer-resource.form.sections.management-info.fields.description.placeholder'))
 				->columnSpan(12)
 				->rows(3),
 			Textarea::make('usage')
-				->label('Gebruikscriteria')
+				->label(label: __('disclaimer-resource.form.sections.management-info.fields.usage.label'))
 				->required()
-				->placeholder('Beschrijf kort in welke omstandigheden de disclaimer te gebruiken is')
+				->placeholder(placeholder: __('disclaimer-resource.form.sections.management-info.fields.usage.placeholder'))
 				->columnSpan(12)
 				->rows(3),
 		];

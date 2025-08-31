@@ -11,16 +11,19 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Tables;
 
+/**
+ * @todo Document this class
+ */
 final readonly class TableSchema
 {
 	public static function configure(Table $table): Table
 	{
 		return $table
-			->heading('Disclaimers')
-			->description('Disclaimers zijn bedoeld om gebruikers snel extra informatie te geven.')
-			->emptyStateIcon('heroicon-o-information-circle')
-			->emptyStateHeading('Geen disclaimer(s) aangemaakt')
-			->emptyStateDescription('Momenteel zijn er geen disclaimers aangemaakt en of gevonden onder de matchende de gegeven criteria.')
+			->heading(heading: __('disclaimer-resource.table.heading'))
+			->description(description: __('disclaimer-resource.table.description'))
+			->emptyStateIcon(icon: 'heroicon-o-information-circle')
+			->emptyStateHeading(heading: __('disclaimer-resource.table.empty-state.heading'))
+			->emptyStateDescription(description: __('disclaimer-resource.table.empty-state.description'))
 			->columns(components: self::configureColumnComponents())
 			->actions(actions: self::configureActions())
 			->headerActions(actions: self::configureHeaderActions())
@@ -31,11 +34,12 @@ final readonly class TableSchema
 	{
 		return [
 			Action::make('help')
-				->label('Help')
+				->label(label: __('buttons.help'))
 				->icon('heroicon-o-lifebuoy')
 				->color('gray'),
+			
 			CreateAction::make()
-				->label('Disclaimer aanmaken')
+				->label(label: __('disclaimer-resource.header-actions.create.label'))
 				->icon('heroicon-o-plus-circle'),
 		];
 	}
@@ -44,22 +48,25 @@ final readonly class TableSchema
 	{
 		return [
 			TextColumn::make('name')
-				->label('naam')
+				->label(label: __('disclaimer-resource.table.columns.name'))
 				->sortable()
 				->weight(FontWeight::SemiBold)
 				->color('primary')
 				->searchable(),
+			
 			TextColumn::make('articles_count')
 				->counts('articles')
 				->sortable()
-				->label('aantal koppelingen'),
+				->label(label: __('disclaimer-resource.table.columns.article-count')),
+			
 			TextColumn::make('description')
-				->label('beschrijving')
+				->label(label: __('disclaimer-resource.table.columns.description'))
 				->words(12)
 				->searchable(),
+			
 			TextColumn::make('created_at')
 				->sortable()
-				->label('aangemaakt op')
+				->label(label: __('disclaimer-resource.table.columns.created-at'))
 				->date(),
 		];
 	}
@@ -69,14 +76,16 @@ final readonly class TableSchema
 		return [
 			Tables\Actions\ViewAction::make()
 				->hiddenLabel()
-				->tooltip('bekijken'),
+				->tooltip(tooltip: __('disclaimer-resource.table.actions.view-action.label')),
+			
 			Tables\Actions\EditAction::make()
 				->hiddenLabel()
-				->tooltip('bewerken'),
+				->tooltip(tooltip: __('disclaimer-resource.table.actions.edit-action.label')),
+			
 			Tables\Actions\DeleteAction::make()
-				->modalDescription('U staat op het punt om een disclaimer te verwijderen. Bij het verwijderen zal deze worden losgekoppeld van alle artikelen. Weet u zeker dat je dit wilt doen?')
+				->modalDescription(description: __('disclaimer-resource.table.actions.delete-action.modal.description'))
 				->hiddenLabel()
-				->tooltip('verwijderen'),
+				->tooltip(tooltip: __('disclaimer-resource.table.actions.delete-action.label')),
 		];
 	}
 	

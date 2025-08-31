@@ -8,7 +8,7 @@ use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
 
 /**
- * DisclaimerTypes is a PHP enum that defines various types of disclaimers used within the application.
+ * DisclaimerTypes is a PHP enum that defines various types of disclaimers used within the app.
  * Each type is associated with a specific integer value, a display icon, a human-readable label, and a corresponding CSS class for frontend alert styling.
  *
  * This enum implements Filament's `HasIcon` and `HasLabel` contracts, which allows it to be directly used in Filament components (like select fields or tables) to automatically display the correct icon and label for each enum case.
@@ -30,7 +30,7 @@ enum DisclaimerTypes: int implements HasIcon, HasLabel
      *
      * This method is part of the `HasIcon` contract implementation.
      * It uses a `match` expression to return a specific icon string based on the current enum case.
-     * These icons are typically used in Filament admin panels or other UI components to visually represent the disclaimer type.
+     * These icons are typically used in Filament administrator panels or other UI components to visually represent the disclaimer type.
      *
      * @return string The Heroicons icon class string (e.g., 'heroicon-s-information-circle').
      */
@@ -55,9 +55,9 @@ enum DisclaimerTypes: int implements HasIcon, HasLabel
     public function getLabel(): string
     {
         return match ($this) {
-            self::Default => 'Standaard disclaimer',
-            self::Warning => 'Waarschuwings disclaimer',
-            self::Danger => 'Gevaren disclaimer',
+            self::Default => __('disclaimer-resource.status-labels.default'),
+            self::Warning => __('disclaimer-resource.status-labels.warning'),
+            self::Danger => __('disclaimer-resource.status-labels.danger'),
         };
     }
 

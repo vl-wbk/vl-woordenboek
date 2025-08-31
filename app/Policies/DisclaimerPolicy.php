@@ -39,7 +39,7 @@ final class DisclaimerPolicy
     public function before(User $user): ?Response
     {
         if ($user->cannot('page_Articles')) {
-            return Response::deny(message: 'U hebt geen machtiging om het systeem dat de artikelen beheerd te gebruiken.');
+            return Response::deny(message: __('disclaimer-resource.policy.deny-messages.before'));
         }
 
         return null;
@@ -58,7 +58,7 @@ final class DisclaimerPolicy
 			return Response::allow();
 		}
 		
-		return Response::deny(message: 'U hebt geen machtiging om een overzicht van disclaimers te bekijken');
+		return Response::deny(message: __('disclaimer-resource.policy.deny-messages.viewAny'));
     }
 	
 	/**
@@ -75,7 +75,7 @@ final class DisclaimerPolicy
 			return Response::allow();
 		}
 		
-		return Response::deny(message: 'U hebt geen machtiging om de informatie van een disclaimer te bekijken');
+		return Response::deny(message: __('disclaimer-resource.policy.deny-messages.view'));
     }
 	
 	/**
@@ -91,7 +91,7 @@ final class DisclaimerPolicy
 			return Response::allow();
 		}
 		
-		return Response::deny(message: 'U hebt geen machtiging om een disclaimer aan te maken');
+		return Response::deny(message: __('disclaimer-resource.policy.deny-messages.create'));
     }
 	
 	/**
@@ -107,7 +107,7 @@ final class DisclaimerPolicy
 			return Response::allow();
 		}
 		
-		return Response::deny(message: 'U hebt geen machtiging om een disclaimer aan te passen');
+		return Response::deny(message: __('disclaimer-resource.policy.deny-messages.update'));
     }
 	
 	/**
@@ -123,7 +123,7 @@ final class DisclaimerPolicy
 			return Response::allow();
 		}
 		
-		return Response::deny('U hebt geen machtiging om een disclaimer te verwijderen');
+		return Response::deny(__('disclaimer-resource.policy.deny-messages.delete'));
     }
 	
 	/**
@@ -139,6 +139,6 @@ final class DisclaimerPolicy
 			return Response::allow();
 		}
 		
-		return Response::deny('U hebt geen machtiging om meerdere disclaimers te verwijderen');
+		return Response::deny(__('disclaimer-resource.policy.deny-messages.deleteAny'));
     }
 }
