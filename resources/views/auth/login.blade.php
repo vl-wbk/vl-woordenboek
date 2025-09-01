@@ -77,7 +77,7 @@
                             <div class="col-md-6 offset-md-4">
                                 <div class="border-top pt-3">
                                     <a href="{{ route('login.google.redirect') }}">
-                                        <button type="button" class="btn w-100 btn-primary">
+                                        <button type="button" class="btn w-100 btn-social-google border-0 shadow-sm">
                                             <x-tabler-brand-google class="icon mx-1"/> Aanmelden met je Google account
                                         </button>
                                     </a>
