@@ -73,7 +73,7 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
      *
      * @var list<string>
      */
-    protected $fillable = ['name', 'firstname', 'lastname', 'is_beta_tester', 'email', 'user_type', 'password', 'last_seen_at', 'email_verified_at', 'provider', 'provider_id'];
+    protected $fillable = ['name', 'firstname', 'lastname', 'is_beta_tester', 'email', 'user_type', 'password', 'last_seen_at', 'email_verified_at', 'google_id', 'google_token', 'google_refresh_token'];
 
     /**
      * Defines default values for new user instances.
@@ -183,6 +183,9 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
     protected function casts(): array
     {
         return [
+			'google_id' => 'encrypted',
+			'google_token' => 'encrypted',
+			'google_refresh_token' => 'encrypted',
             'is_beta_tester' => 'boolean',
             'user_type' => UserTypes::class,
             'last_seen_at' => 'datetime',

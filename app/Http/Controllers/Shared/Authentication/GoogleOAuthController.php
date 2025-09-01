@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Shared\Authentication;
 
+use App\Data\Authentication\SocialRegistrationData;
 use App\Models\User;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
-use Spatie\RouteAttributes\Attributes\Get;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Exception;
+use Laravel\Socialite\Two\InvalidStateException;
+use Laravel\Socialite\Two\User as OAuth2User;
+use Symfony\Component\HttpFoundation\Response;
 
 final readonly class GoogleOAuthController
 {
@@ -22,25 +26,32 @@ final readonly class GoogleOAuthController
 	public function callback(): RedirectResponse
 	{
 		try {
+			/** @var OAuth2User $googleUser */
 			$googleUser = Socialite::driver('google')->stateless()->user();
-		} catch (Exception $exception) {
-			return redirect('/login');
+		} catch (InvalidStateException $invalidStateException) {
+			abort(Response::HTTP_BAD_REQUEST, $invalidStateException->getMessage());
 		}
 		
-		if ($existing = User::where('email', $googleUser->email)->first()) {
-			auth()->login($existing);
-		} else {
-			$user = User::create([
-				'name' => $googleUser->name,
-				'email' => $googleUser->email,
-				'password' => encrypt(Str::random()),
-				'provider' => 'google',
-				'provider_id' => $googleUser->id
-			]);
-			
-			Auth::login($user);
-		}
+		$user = User::query()
+			->updateOrCreate(
+				attributes: ['email' => $googleUser->email],
+				values: $this->registrationData($googleUser),
+			);
+		
+		auth()->login($user);
 		
 		return redirect('/');
+	}
+	
+	private function registrationData(OAuth2User $googleUser): array
+	{
+		return [
+			'name' => $googleUser->getNickname(),
+			'email' => $googleUser->getEmail(),
+			'password' => Hash::make(Str::random()),
+			'google_id' => $googleUser->getId(),
+			'google_token' => $googleUser->token,
+			'google_refresh_token' => $googleUser->refreshToken,
+		];
 	}
 }
