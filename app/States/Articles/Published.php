@@ -14,12 +14,12 @@ use Illuminate\Support\Facades\DB;
  * Articles in this state are considered finalized and ready for public consumption.
  * However, they can still transition to other states, such as "Archived," if needed.
  *
- * The `PublishedState` class is part of the state pattern implementation for managing the lifecycle of articles.
+ * The `Published` class is part of the state pattern implementation for managing the lifecycle of articles.
  * It encapsulates the behavior and transitions specific to the "Published" state, ensuring that state-specific logic is centralized and easy to maintain.
  *
  * @package App\States\Articles
  */
-final class PublishedState extends ArticleState
+final class Published extends ArticleState
 {
     /**
      * Transitions the article from the "Published" state to the "Archived" state.

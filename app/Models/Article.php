@@ -119,12 +119,12 @@ final class Article extends Model implements AuditableContract
     public function articleStatus(): ArticleStateContract
     {
         return match ($this->state) {
-            ArticleStates::ExternalData => new Articles\ExternalDataState($this),
-            ArticleStates::New => new Articles\NewState($this),
-            ArticleStates::Draft => new Articles\DraftState($this),
-            ArticleStates::Approval => new Articles\ApprovalState($this),
-            ArticleStates::Published => new Articles\PublishedState($this),
-            ArticleStates::Archived => new Articles\ArchivedState($this),
+            ArticleStates::ExternalData => new Articles\ExternalData($this),
+            ArticleStates::New => new Articles\Suggestion($this),
+            ArticleStates::Draft => new Articles\Draft($this),
+            ArticleStates::Approval => new Articles\Approval($this),
+            ArticleStates::Published => new Articles\Published($this),
+            ArticleStates::Archived => new Articles\Archived($this),
         };
     }
 

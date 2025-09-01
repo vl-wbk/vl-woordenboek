@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\DB;
  *
  * @package App\States\Articles
  */
-final class NewState extends ArticleState
+final class Suggestion extends ArticleState
 {
     /**
      * Transitions the article from the New state to a state that permits editing.
