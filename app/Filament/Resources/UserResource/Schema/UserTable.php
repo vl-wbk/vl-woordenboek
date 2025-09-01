@@ -40,6 +40,8 @@ final readonly class UserTable
                     ->iconColor('danger')
                     ->icon(fn(User $user): ?string => $user->isBanned() ? 'tabler-shield-lock' : null)
                     ->label(label: __('user-resource.tables.columns.name'))
+                    ->label('Gebruikersnaam')
+					->placeholder('-')
                     ->weight(FontWeight::Bold)
                     ->color(fn(User $user): string => $user->isBanned() ? 'danger' : 'primary')
                     ->sortable()

@@ -30,6 +30,13 @@ body {
     @include button-variant(#ffe615, #ffe615);
 }
 
+// Social buttons
+
+.btn-social-google {
+    @include button-variant(#A50E0E, #A50E0E);
+    color: #fff;
+}
+
 // Articles
 
 .article-section {
