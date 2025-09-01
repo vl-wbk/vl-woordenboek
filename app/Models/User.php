@@ -28,7 +28,7 @@ use Override;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
- * User represents an authenticated account in the 'Vlaams woordenboek application'.
+ * User represents an authenticated account in the 'Vlaams woordenboek app'.
  *
  * This model handles user authentication, authorization, and profile management.
  * It supports role-based access control through user types, welcome notifications for new users,
@@ -73,7 +73,7 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
      *
      * @var list<string>
      */
-    protected $fillable = ['firstname', 'lastname', 'is_beta_tester', 'email', 'user_type', 'password', 'last_seen_at', 'email_verified_at', 'provider', 'provider_id'];
+    protected $fillable = ['name', 'firstname', 'lastname', 'is_beta_tester', 'email', 'user_type', 'password', 'last_seen_at', 'email_verified_at', 'provider', 'provider_id'];
 
     /**
      * Defines default values for new user instances.
