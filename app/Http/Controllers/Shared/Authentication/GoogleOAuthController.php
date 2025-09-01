@@ -20,7 +20,7 @@ final readonly class GoogleOAuthController
 
 	public function callback(): RedirectResponse
 	{
-		$googleUser = Socialite::driver('google')->user();
+		$googleUser = Socialite::driver('google')->stateless()->user();
 		
 		$user = User::updateOrCreate([
 			'provider_id' => $googleUser->id,
