@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 use Spatie\RouteAttributes\Attributes\Get;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Exception;
 
 final readonly class GoogleOAuthController
 {
@@ -20,19 +21,25 @@ final readonly class GoogleOAuthController
 
 	public function callback(): RedirectResponse
 	{
-		$googleUser = Socialite::driver('google')->stateless()->user();
+		try {
+			$googleUser = Socialite::driver('google')->stateless()->user();
+		} catch (Exception $exception) {
+			return redirect('/login');
+		}
 		
-		$user = User::updateOrCreate([
-			'provider_id' => $googleUser->id,
-		], [
+		if ($existing = User::where('email', $googleUser->email)->first()) {
+			auth()->login($existing);
+		} else {
+		
+		}
+		
+		$user = User::create([
 			'name' => $googleUser->name,
 			'email' => $googleUser->email,
 			'password' => encrypt(Str::random()),
 			'provider' => 'google',
 			'provider_id' => $googleUser->id
 		]);
-		
-		dd($user);
 		
 		Auth::login($user);
 		
