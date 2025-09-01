@@ -25,7 +25,7 @@ final readonly class GoogleOAuthController
 		$user = User::updateOrCreate([
 			'provider_id' => $googleUser->id,
 		], [
-			'firstname' => $googleUser->name,
+			'name' => $googleUser->name,
 			'email' => $googleUser->email,
 			'password' => encrypt(Str::random()),
 			'provider' => 'google',
