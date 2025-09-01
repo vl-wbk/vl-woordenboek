@@ -30,18 +30,16 @@ final readonly class GoogleOAuthController
 		if ($existing = User::where('email', $googleUser->email)->first()) {
 			auth()->login($existing);
 		} else {
-		
+			$user = User::create([
+				'name' => $googleUser->name,
+				'email' => $googleUser->email,
+				'password' => encrypt(Str::random()),
+				'provider' => 'google',
+				'provider_id' => $googleUser->id
+			]);
+			
+			Auth::login($user);
 		}
-		
-		$user = User::create([
-			'name' => $googleUser->name,
-			'email' => $googleUser->email,
-			'password' => encrypt(Str::random()),
-			'provider' => 'google',
-			'provider_id' => $googleUser->id
-		]);
-		
-		Auth::login($user);
 		
 		return redirect('/');
 	}
