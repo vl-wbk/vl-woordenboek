@@ -59,7 +59,7 @@
                             </div>
                         </div>
 
-                        <div class="row mb-0">
+                        <div class="row mb-3">
                             <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-submit btn-primary">
                                     {{ __('Aanmelden') }}
@@ -70,6 +70,18 @@
                                         {{ __('Wachtwoord vergeten?') }}
                                     </a>
                                 @endif
+                            </div>
+                        </div>
+
+                        <div class="row mb-0">
+                            <div class="col-md-6 offset-md-4">
+                                <div class="border-top pt-3">
+                                    <a href="{{ route('login.google.redirect') }}">
+                                        <button type="button" class="btn w-100 btn-primary">
+                                            <x-tabler-brand-google class="icon mx-1"/> Aanmelden met je Google account
+                                        </button>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </form>

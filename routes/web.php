@@ -13,4 +13,9 @@ Route::group(['middleware' => ['web', WelcomesNewUsers::class]], function (): vo
     Route::post('welkom/{user}', [MyWelcomeController::class, 'savePassword']);
 });
 
+Route::get('google-authenticatie/redirect', [\App\Http\Controllers\Shared\Authentication\GoogleOAuthController::class, 'redirect'])
+	->name('login.google.redirect');
+	
+Route::get('google-authenticatie/callback', [\App\Http\Controllers\Shared\Authentication\GoogleOAuthController::class, 'callback']);
+
 Route::feeds();
