@@ -117,14 +117,6 @@
                                 </a>
                             </li>
                         @endif
-
-                        @if (Route::has('register'))
-                            <li class="nav-item">
-                                <a class="nav-link {{ active('register') }}" href="{{ route('register') }}">
-                                    <x-heroicon-o-user-plus class="me-1 icon"/> {{ __('Registreren') }}
-                                </a>
-                            </li>
-                        @endif
                     @else
                         <li class="nav-item">
                             <a href="{{ route('profile.settings.security') }}" class="nav-link">
