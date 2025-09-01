@@ -27,16 +27,20 @@
                                         <h6 class="card-subtitle text-muted border-bottom pb-2">Werk je profielgegevens en het e-mailadres van je account bij.</h6>
                                     </div>
 
+                                    <div class="col-12">
+                                        <label for="username" class="form-label">{{ __('Gebruikersnaam') }} <span class="fw-bold text-danger">*</span></label>
+                                        <input name="gebruikersnaam" type="text" class="form-control @error('gebruikersnaam', 'updateProfileInformation') is-invalid @enderror" value="{{ old('gebruikersnaam', $user->name) }}" id="emailAddress">
+                                        <x-forms.validation-error field="gebruikersnaam" bag="updateProfileInformation" />
+                                    </div>
+
                                     <div class="col-md-5">
-                                        <label for="firstname" class="form-label">Voornaam <span class="fw-bold text-danger">*</span></label>
-                                        <input name="firstname" type="text" class="form-control @error('firstname', 'updateProfileInformation') is-invalid @enderror" value="{{ old('firstname', $user->firstname) }}" id="firstname">
-                                        <x-forms.validation-error field="firstname" bag="updateProfileInformation" />
+                                        <label for="firstname" class="form-label">Voornaam</label>
+                                        <input name="firstname" type="text" class="form-control" value="{{ old('firstname', $user->firstname) }}" id="firstname">
                                     </div>
 
                                     <div class="col-md-7">
-                                        <label for="lastname" class="form-label">Achternaam <span class="fw-bold text-danger">*</span></label>
-                                        <input name="lastname" type="text" class="form-control @error('lastname', 'updateProfileInformation') is-invalid @enderror" value="{{ old('lastname', $user->lastname) }}" id="lastname">
-                                        <x-forms.validation-error field="lastname" bag="updateProfileInformation" />
+                                        <label for="lastname" class="form-label">Achternaam</label>
+                                        <input name="lastname" type="text" class="form-control" value="{{ old('lastname', $user->lastname) }}" id="lastname">
                                     </div>
 
                                     <div class="col-12">

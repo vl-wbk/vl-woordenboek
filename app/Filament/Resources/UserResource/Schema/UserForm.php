@@ -26,8 +26,15 @@ final readonly class UserForm
                             ->required()
                             ->native(false)
                             ->options(UserTypes::class)
-                            ->columnSpan(4)
+                            ->columnSpan(3)
                             ->required(),
+						Components\TextInput::make('name')
+							->label('Gebruikersnaam')
+							->required()
+							->placeholder('- niet opgegeven')
+							->disabledOn('edit')
+							->unique(ignoreRecord: true)
+							->columnSpan(3),
                         Components\TextInput::make('firstname')
                             ->label('Voornaam')
                             ->required()
@@ -35,7 +42,7 @@ final readonly class UserForm
                         Components\TextInput::make('lastname')
                             ->label('Achternaam')
                             ->required()
-                            ->columnSpan(5),
+                            ->columnSpan(3),
                         Components\TextInput::make('email')
                             ->label('E-mail adres')
                             ->required()

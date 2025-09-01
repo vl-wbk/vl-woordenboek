@@ -5,24 +5,6 @@
         <div class="ms-4 w-100">
             <h4 class="text-gold">
                 {{ $user->name }}
-
-                @if ($user->is(auth()->user()))
-                    <div class="float-end">
-                        <a class="btn btn-white shadow-sm" href="">
-                            <x-heroicon-o-question-mark-circle class="icon me-1"/> Help
-                        </a>
-
-                        @if (active('profile.settings'))
-                            <a class="btn btn-white shadow-sm" href={{ route('home') }}">
-                                <x-heroicon-o-arrow-uturn-left class="icon me-1 text-danger"/> Verlaat instellingen
-                            </a>
-                        @else
-                            <a class="btn btn-white shadow-sm" href="{{ route('profile.settings') }}">
-                                <x-heroicon-o-adjustments-horizontal class="icon me-1"/> Instellingen
-                            </a>
-                        @endif
-                    </div>
-                @endif
             </h4>
 
             <ul class="inline-list text-muted mb-0 p-0">
