@@ -14,20 +14,11 @@
                         @csrf
 
                         <div class="row mb-3">
-                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Voornaam') }}</label>
+                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Gebruikersnaam') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('voornaam') is-invalid @enderror" name="voornaam" value="{{ old('voornaam') }}" required autocomplete="given-name" autofocus>
-                                <x-forms.validation-error field="voornaam"/>
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="lastname" class="col-md-4 col-form-label text-md-end">{{ __('Achternaam') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="lastname" type="text" class="form-control @error('achternaam') is-invalid @enderror" name="achternaam" value="{{ old('achternaam') }}" required autocomplete="family-name">
-                                <x-forms.validation-error field="achternaam"/>
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="gebruikersnaam" value="{{ old('name') }}" required autocomplete="given-name" autofocus>
+                                <x-forms.validation-error field="gebruikersnaam"/>
                             </div>
                         </div>
 

@@ -55,8 +55,7 @@ final class CreateNewUser implements CreatesNewUsers
     public function create(array $input): User|Model
     {
         Validator::make($input, [
-            'voornaam' => ['required', 'string', 'max:255'],
-            'achternaam' => ['required', 'string', 'max:255'],
+            'gebruikersnaam' => ['required', 'string', 'max:255', Rule::unique('users', 'name')],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique(User::class)],
             'password' => $this->passwordRules(),
             'agreement' => ['accepted'],
@@ -82,8 +81,7 @@ final class CreateNewUser implements CreatesNewUsers
     private function userRegistrationData(array $input): UserRegistrationData
     {
         return new UserRegistrationData(
-            firstname: $input['voornaam'],
-            lastname: $input['achternaam'],
+            name: $input['gebruikersnaam'],
             email: $input['email'],
             password: $input['password'],
         );
