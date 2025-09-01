@@ -46,7 +46,7 @@ final readonly class GoogleOAuthController
 	private function registrationData(OAuth2User $googleUser): array
 	{
 		return [
-			'name' => $googleUser->getNickname(),
+			'name' => $googleUser->getName(),
 			'email' => $googleUser->getEmail(),
 			'password' => Hash::make(Str::random()),
 			'google_id' => $googleUser->getId(),
