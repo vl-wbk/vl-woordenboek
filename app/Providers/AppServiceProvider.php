@@ -38,7 +38,6 @@ final class AppServiceProvider extends ServiceProvider
         Model::preventLazyLoading();
 
         $this->registerGlobalPolicyCheck();
-        $this->registerLaravelTelescope();
 
         // Prohibit destructieve commands in production environments
         FilamentShield::prohibitDestructiveCommands($this->app->isProduction());
@@ -72,18 +71,5 @@ final class AppServiceProvider extends ServiceProvider
 		Gate::define('use-translation-manager', function (?User $user) {
 			return $user->user_type->in([UserTypes::Developer, UserTypes::Administrators]);
 		});
-    }
-
-    /**
-     * Register Laravel Telescope if the application environment is 'local'.
-     * This method conditionally registers the Telescope service provider, ensuring that Telescope (a debugging assistant for Laravel) is only active in local development environments.
-     */
-    private function registerLaravelTelescope(): void
-    {
-        if ($this->app->environment('local') && class_exists(\Laravel\Telescope\TelescopeServiceProvider::class)) {
-            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
-            // Assuming TelescopeServiceProvider is also in the current namespace or fully qualified
-            $this->app->register(TelescopeServiceProvider::class);
-        }
     }
 }
