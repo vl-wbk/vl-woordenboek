@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Services\ReadTimeCalculator;
 use App\UserTypes;
 use BezhanSalleh\FilamentShield\FilamentShield;
+use Cassandra\Type\UserType;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -67,6 +69,12 @@ final class AppServiceProvider extends ServiceProvider
             ability: 'access-backend',
             callback: fn(User $user): bool => $user->roles()->exists() && $user->hasVerifiedEmail()
         );
+		
+		Gate::define('viewPulse', function (User $user): Response {
+			return $user->user_type->is(UserTypes::Developer)
+				? Response::allow()
+				: Response::denyAsNotFound();
+		});
 		
 		Gate::define('use-translation-manager', function (?User $user) {
 			return $user->user_type->in([UserTypes::Developer, UserTypes::Administrators]);
