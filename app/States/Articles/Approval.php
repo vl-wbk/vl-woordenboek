@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\States\Articles;
 
 use App\Enums\ArticleStates;
+use App\Notifications\SendoutPublicationNotification;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -41,11 +42,15 @@ final class Approval extends ArticleState
      */
     public function transitionToReleased(): bool
     {
-        return DB::transaction(
-            fn(): bool => $this->article
-            ->setCurrentUserAsPublisher()
-            ->update(attributes: ['state' => ArticleStates::Published, 'published_at' => now()]),
-        );
+        return DB::transaction(function(): bool {
+			$this->article
+				->setCurrentUserAsPublisher()
+				->update(attributes: ['state' => ArticleStates::Published, 'published_at' => now()]);
+			
+			$this->article->author->notify(new SendoutPublicationNotification($this->article));
+			
+			return true;
+		});
     }
 
     /**

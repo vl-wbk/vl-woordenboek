@@ -46,6 +46,7 @@ use Override;
  * @property string|null    $keywords           The keywords that are attached to the article
  * @property string         $description        The detailed explanation of the word
  * @property int            $author_id          The ID of the user who created the article
+ * @property bool 			$notify_author		The boolean flag to check if the author of the article wants a publication notification.
  * @property LanguageStatus $status             The current language validation status
  * @property DataOrigin     $origin             The origin of the data where the dictionary article is based on.
  * @property string|null    $example            Optional usage example of the word
@@ -57,6 +58,8 @@ use Override;
  * @property Carbon         $deleted_at         Timestamp for when the article is marked for deletion.
  * @property Carbon         $created_at         Timestamp of when the article was created
  * @property Carbon         $updated_at         Timestamp of the last update
+ *
+ * @property-read User $author
  *
  * @package App\Models
  */
@@ -268,6 +271,7 @@ final class Article extends Model implements AuditableContract
     protected function casts(): array
     {
         return [
+			'notify_author' => 'boolean',
             'wtod' => 'boolean',
             'origin' => DataOrigin::class,
             'state' => ArticleStates::class,

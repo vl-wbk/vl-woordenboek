@@ -6,6 +6,7 @@ namespace App\Builders;
 
 use App\Enums\ArticleStates;
 use App\Models\Note;
+use App\Notifications\SendoutPublicationNotification;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -51,15 +52,23 @@ final class ArticleBuilder extends Builder
     /**
      * Restores the current article from the archived state to the published state.
      *
-     * This method transitions the article's state back to "Published" and clear any archiving-related data, such as the archiving reason and timestamp.
+     * This method transitions the article's state back to "Published" and clears any archiving-related data, such as the archiving reason and timestamp.
      * The operation is wrapped in a database transaction to ensure data consistency.
+	 *
+	 * @throws \Throwable
      */
     #[Deprecated('Should be refzactored to a general publish action in the ArticleBuilder')]
     public function unarchive(): void
     {
         DB::transaction(function (): void {
-            $this->model->update(attributes: ['state' => ArticleStates::Published, 'archiving_reason' => null, 'published_at' => now(), 'archived_at' => null]);
-            $this->model->archiever()->associate(null)->save();
+			$this->model->update(attributes: [
+				'state' => ArticleStates::Published,
+				'archiving_reason' => null,
+				'published_at' => now(),
+				'archived_at' => null,
+			]);
+			
+			$this->model->author->notify(new SendoutPublicationNotification($this->model));
         });
     }
 
