@@ -27,7 +27,7 @@ final class ApprovalState extends ArticleState
     {
         return DB::transaction(function () use ($reason): bool {
             $this->article->update(attributes: ['state' => ArticleStates::Draft, 'published_at' => null]);
-            $this->article->attachNote(title: 'Voorstellen tot wijziging', note: $reason);
+            $this->article->addNote(title: 'Voorstellen tot wijziging', note: $reason);
 
             return true;
         });

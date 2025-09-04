@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Builders\ArticleBuilder;
+use App\Models\Relations\HasNotables;
 use App\States\Articles;
 use App\Contracts\States\ArticleStateContract;
 use App\Enums\ArticleStates;
@@ -24,7 +25,6 @@ use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Overtrue\LaravelLike\Traits\Likeable;
 use OwenIt\Auditing\Auditable;
@@ -53,6 +53,7 @@ use Override;
  * @property int|null       $editor_id          The ID of the assigned editor
  * @property int|null       $part_of_speech_id  The unique ID of the part of speech information.
  * @property string |null   $archiving_reason   The reason why the article has been archived.
+ * @property ?Carbon 		$published_at		The timestamp indicating when the article is published. null = unpublished.
  * @property Carbon         $archived_at        Timestamp for when the article is archived at
  * @property Carbon         $deleted_at         Timestamp for when the article is marked for deletion.
  * @property Carbon         $created_at         Timestamp of when the article was created
@@ -75,6 +76,7 @@ final class Article extends Model implements AuditableContract
     use HasLocks;
     use SoftDeletes;
     use Prunable;
+	use HasNotables;
 
     /**
      * Specifies attributes that are protected from mass assignment.
@@ -174,21 +176,6 @@ final class Article extends Model implements AuditableContract
     public function disclaimer(): BelongsTo
     {
         return $this->belongsTo(Disclaimer::class);
-    }
-
-    /**
-     * Establishes the one-to-many relationship between dictionary articles and their associated notes.
-     * This relationship allows articles to maintain multiple textual annotations, providing additional context, clarifications, or editorial comments.
-     * Each note is directly linked to its parent article through a foreign key constraint, ensuring referential integrity in the database.
-     *
-     * The relationship enables efficient access to an article's notes through Laravel's Eloquent ORM, supporting both eager and lazy loading patterns.
-     * This implementation facilitates common operations like retrieving all notes for an article, adding new notes, and managing existing annotations within the dictionary entry context.
-     *
-     * @return HasMany<Note, covariant $this> The relationship instance managing the article's notes
-     */
-    public function notes(): HasMany
-    {
-        return $this->hasMany(Note::class);
     }
 
     /**

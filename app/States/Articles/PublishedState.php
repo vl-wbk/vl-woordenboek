@@ -55,7 +55,7 @@ final class PublishedState extends ArticleState
             $this->article->update(attributes: ['state' => ArticleStates::Draft, 'published_at' => null]);
             $this->article->publisher()->dissociate();
 
-            $this->article->attachNote(title: 'Ongedaan maken van de publicatie voor het artikel', note: $reason);
+            $this->article->addNote(title: 'Ongedaan maken van de publicatie voor het artikel', note: $reason);
 
             return true;
         });

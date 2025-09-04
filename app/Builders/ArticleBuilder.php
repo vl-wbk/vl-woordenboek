@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace App\Builders;
 
 use App\Enums\ArticleStates;
-use App\Models\Note;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use JetBrains\PhpStorm\Deprecated;
 
 /**
- * ArticleBuilder provides custom query and state management functionality for articles.
+ * ArticleBuilder provides custom query and state management feature for articles.
  *
  * This class extends Laravel's Eloquent Builder to include methods for managing the lifecycle of articles, specifically archiving and unarchiving them.
  * It encapsulates the logic for these operations, ensuring that state transitions are handled consistently and securely within database transactions.
@@ -38,7 +37,9 @@ final class ArticleBuilder extends Builder
      * This method transitions the article's state to "Archived" and records the archiving reason, the timestamp of the action, and the user who performed it.
      * The operation is wrapped in a database transaction to ensure data consistency.
      *
-     * @param string|null $archivingReason The reason for archiving the article (optional).
+     * @param string|null $archivingReason The optional reason for archiving the article.
+	 *
+	 * @throws \Throwable
      */
     public function archive(?string $archivingReason = null): void
     {
@@ -51,35 +52,18 @@ final class ArticleBuilder extends Builder
     /**
      * Restores the current article from the archived state to the published state.
      *
-     * This method transitions the article's state back to "Published" and clear any archiving-related data, such as the archiving reason and timestamp.
+     * This method transitions the article's state back to "Published" and clears any archiving-related data, such as the archiving reason and timestamp.
      * The operation is wrapped in a database transaction to ensure data consistency.
+	 *
+	 * @throws \Throwable
      */
-    #[Deprecated('Should be refzactored to a general publish action in the ArticleBuilder')]
+    #[Deprecated('Should be refactored to a general publish action in the ArticleBuilder')]
     public function unarchive(): void
     {
         DB::transaction(function (): void {
             $this->model->update(attributes: ['state' => ArticleStates::Published, 'archiving_reason' => null, 'published_at' => now(), 'archived_at' => null]);
             $this->model->archiever()->associate(null)->save();
         });
-    }
-
-    /**
-     * Attaches a note to the article.
-     *
-     * This method creates a new note with the given title and body, associates
-     * it with the currently authenticated user as the author, and saves it to
-     * the article's notes relationship.
-     *
-     * @param  string       $title       The title of the note.
-     * @param  string|null  $note        The body of the note (optional).
-     * @return self<\App\Models\Article> Returns the current ArticleBuilder instance for method chaining.
-     */
-    public function attachNote(string $title, ?string $note = null): self
-    {
-        $note = new Note(attributes: ['title' => $title, 'author_id' => Auth::user()->getAuthIdentifier(), 'body' => $note]);
-        $this->model->notes()->save(model: $note);
-
-        return $this;
     }
 
     /**
