@@ -26,7 +26,7 @@ final readonly class UserForm
 					
                     ->schema([
                         Components\Select::make('user_type')
-                            ->label(label: __('user-resource.form.section.user-type'))
+                            ->label(label: __('user-resource.form.section.inputs.user_type'))
                             ->required()
                             ->native(false)
                             ->options(UserTypes::class)
