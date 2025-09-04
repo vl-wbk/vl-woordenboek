@@ -45,10 +45,10 @@ enum EtymologyStatus: int implements HasColor, HasDescription, HasIcon, HasLabel
     public function getDescription(): string
     {
         return match ($this) {
-            self::Draft => 'De etymolgische data wordt nog verder uitgewerkt of is onvolledig.',
+            self::Draft => 'De etymologische data wordt nog verder uitgewerkt of is onvolledig.',
             self::UnderReview => 'De etymologische data is ingediend voor een redactionele beoordeling',
-            self::Rejected => 'De Etymoligsche data is nagekeken maar expliciet geweigerd als bijdrage',
-            self::Published => 'De etymologische data is publiek beschrikbaar',
+            self::Rejected => 'De etymologische data is nagekeken maar expliciet geweigerd als bijdrage',
+            self::Published => 'De etymologische data is publiek beschikbaar',
             self::Archived => 'De Etymologische data word niet meer weergegeven, maar wordt nog bewaard voor naslag.',
         };
     }
