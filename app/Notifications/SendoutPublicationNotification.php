@@ -38,11 +38,11 @@ final class SendoutPublicationNotification extends Notification implements Shoul
 		
 		// Build up the notification email
         return (new MailMessage)
-			->subject(config('app.name', 'laravel') . ' - publicatie van een suggestie')
-            ->greeting("Hey" . $this->getUserName() . ',')
-			->line('We hebben goed nieuws! Je suggestie voor het Vlaams woordenboek is door ons team nagekeken en goedgekeurd. Bedankt voor je waardevolle bijdrage.')
-			->line('De toevoeging is nu gepubliceerd en beschikbaar voor het brede publiek. Klik op de knop hieronder om het artikel te bekijken.')
-            ->action('Bekijk de publicatie', $this->articleUrl());
+			->subject(subject: __('mail-notifications.article-publication.subject', ['app' => config('app.name', 'laravel')]))
+            ->greeting(greeting: __('mail-notifications.article-publication.greeting', ['name' => $this->getUserName()]))
+			->line(line: __('mail-notifications.article-publication.first-line'))
+			->line(line: __('mail-notifications.article-publication.second-line'))
+            ->action(text: __('mail-notifications.article-publication.action'), url: $this->articleUrl());
     }
 	
 	private function getUserName(): ?string
