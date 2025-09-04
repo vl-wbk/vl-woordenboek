@@ -5,17 +5,18 @@ declare(strict_types=1);
 namespace App\States\Articles;
 
 use App\Enums\ArticleStates;
+use App\Notifications\SendoutPublicationNotification;
 use Illuminate\Support\Facades\DB;
 
 /**
- * ApprovalState represents an article awaiting editorial review in the Vlaams Woordenboek.
+ * Approval represents an article awaiting editorial review in the Vlaams Woordenboek.
  *
  * This state indicates that the article has been submitted for review and requires editorial approval before publication.
  * The state provides multiple transition paths to support various editorial decisions: returning to draft for further editing, approving for publication, or archiving if deemed unsuitable.
  *
  * @package App\States\Articles
  */
-final class ApprovalState extends ArticleState
+final class Approval extends ArticleState
 {
     /**
      * Returns the article to draft status for additional editing.
@@ -41,11 +42,15 @@ final class ApprovalState extends ArticleState
      */
     public function transitionToReleased(): bool
     {
-        return DB::transaction(
-            fn(): bool => $this->article
-            ->setCurrentUserAsPublisher()
-            ->update(attributes: ['state' => ArticleStates::Published, 'published_at' => now()]),
-        );
+        return DB::transaction(function(): bool {
+			$this->article
+				->setCurrentUserAsPublisher()
+				->update(attributes: ['state' => ArticleStates::Published, 'published_at' => now()]);
+			
+			$this->article->author->notify(new SendoutPublicationNotification($this->article));
+			
+			return true;
+		});
     }
 
     /**

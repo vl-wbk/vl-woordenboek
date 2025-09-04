@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\DB;
  *
  * @package App\States\Articles
  */
-final class ArchivedState extends ArticleState
+final class Archived extends ArticleState
 {
     /**
      * Transitions the article from the archived state back to the published state.

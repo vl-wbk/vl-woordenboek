@@ -123,6 +123,19 @@
                                 </small>
                             @endif
                         </div>
+
+                        @auth
+                            <hr class="mb-2">
+
+                            <div class="form-group">
+                                <div class="form-check form-switch mb-0">
+                                    <input class="form-check-input" name="notificatie" type="checkbox" id="checkChecked" value="1" @checked(old('notificatie') == 1) switch>
+                                    <label class="form-check-label" for="checkChecked">
+                                        Ik wens een mail notificatie te ontvangen wanneer mijn suggestie word gepubliceerd.
+                                    </label>
+                                </div>
+                            </div>
+                        @endauth
                     </form>
 
                     <div class="card-footer bg-white border-top">

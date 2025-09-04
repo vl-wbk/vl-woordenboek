@@ -8,7 +8,7 @@ use App\Enums\ArticleStates;
 use Illuminate\Support\Facades\DB;
 
 /**
- * DraftState handles the state transitions for articles in the Draft state.
+ * Draft handles the state transitions for articles in the Draft state.
  *
  * When an article is in the Draft state, it can be transitioned to an Approval state for further review, or reverted to a New (suggestion) state if changes are needed.
  * This class implements those transitions by overriding the methods inherited from the ArticleState base class.
@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\DB;
  *
  * @package App\States\Articles
  */
-final class DraftState extends ArticleState
+final class Draft extends ArticleState
 {
     /**
      * Transitions an article from Draft to Approval state.
