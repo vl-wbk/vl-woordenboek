@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Builders\UserBuilder;
-use App\Notifications\WelcomeNotification;
+use App\Notifications\RegistrationWelcomeNotification;
 use App\UserTypes;
 use Carbon\Carbon;
 use Database\Factories\UserFactory;
@@ -149,9 +149,9 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
      *
      * @param  Carbon $validUntil Expiration timestamp for the welcome link.
      */
-    public function sendWelcomeNotification(Carbon $validUntil): void
+    public function sendWelcomeNotification(Carbon $validUntil)
     {
-        $this->notify(new WelcomeNotification($validUntil));
+        $this->notify(new RegistrationWelcomeNotification($validUntil));
     }
 
     /**
