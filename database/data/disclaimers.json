@@ -6,5 +6,29 @@
         "message": "Dit artikel werd nog niet redactioneel bewerkt en daarom kan de kwaliteit ontoereikend zijn.",
         "usage": "Deze disclaimer (Dit artikel werd nog niet redactioneel bewerkt en daarom kan de kwaliteit ontoereikend zijn.) dient als tijdelijke aanduiding bij content die nog geen redactionele controle heeft ondergaan.",
         "description": "Deze disclaimer (Dit artikel werd nog niet redactioneel bewerkt en daarom kan de kwaliteit ontoereikend zijn.) dient als tijdelijke aanduiding bij artikelen die nog geen redactionele controle hebben ondergaan."
+    },
+    {
+        "id": 2,
+        "name": "Disclaimer voor gevoelige onderwerpen",
+        "type": 0,
+        "message": "Let op: dit artikel bespreekt onderwerpen die al gevoelig of confronteren kunnen worden ervaren. Lees verder met de nodige voorzichtigheid.",
+        "usage": "Gebruik deze disclaimer bij artikelen die maatschappelijk gevoelige onderwerpen behandelen, zoals geweld, discriminatie of psychologishe aandoeningen. Dit waarschuwt de lezer en stelt hen in staat om geinformeerd verder te lezen.Voorbeeld: Seksuele intimidatie, zelfdoding, racisme.",
+        "description": "-"
+    },
+    {
+        "id": 3,
+        "name": "Juridische disclaimer",
+        "type": 0,
+        "message": "De informatie in dit artikel is uitsluitend bedoeld voor algemene informatiedoeleinden. Het is geen juridisch advies en mag ook niet als zodanig worden gebruikt. Voor specifieke juridische vraagstukken of beslissingen dient u altijd een gekwalificeerd jurist of advocaat te raadplegen.",
+        "usage": "Gebruik deze disclaimer bij artikelen die betrekking hebben op wetgeving, juridische termen, rechten en plichten. Dit benadrukt dat de informatie geen vervanging is voor professioneel juridisch advies. Voorbeeld: auteursrecht, strafbaar feit, vennootschap.",
+        "description": "-"
+    },
+    {
+        "id": 4,
+        "name": "Medische disclaimer",
+        "type": 0,
+        "message": "De medische termen en definities in dit woordenboek zijn uitsluitend bedoeld voor algemene informatieve doeleinden. Ze zijn niet bedoeld als professioneel medisch advies, diagnose of behandeling, en mogen ook niet als zodanig worden beschouwd. Voor specifieke gezondheidsvragen, symptomen of medische aandoeningen, raadpleeg altijd een gekwalificeerde arts of een andere zorgverlener.",
+        "usage": "Gebruik deze disclaimer bij artikelen die betrekking hebben op gezondheid, medicatie, medische aandoeningen of procedures. Het doel is om duidelijk te maken dat de informatie geen professioneel medisch advies is. Voorbeeld: migraine, paracetamol, hartaanval.",
+        "description": "-"
     }
 ]
