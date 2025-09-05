@@ -15,6 +15,9 @@ use Illuminate\Auth\Access\Response;
  * This policy centralizes authorization logic for viewing, creating, updating, and deleting Disclaimer records.
  * It follows the Google PHP Style Guide for docblocks, providing clear descriptions of the purpose, parameters, and return values for each policy method.
  *
+ * @see \App\Policies\ArticlePolicy::detachDisclaimer() For related authorization logic within the ArticlePolicy.
+ * @see \App\Policies\ArticlePolicy::attachDisclaimer() For related authorization logic within the ArticlePolicy.
+ *
  * @package App\Policies
  */
 final class DisclaimerPolicy

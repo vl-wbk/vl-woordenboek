@@ -38,7 +38,7 @@ final readonly class DisclaimerToolbarActions
     {
         return Action::make('attach')
             ->visible(fn(Article $article): bool => auth()->user()->can('attachDisclaimer', $article) && Disclaimer::count() > 0)
-            ->label('dislaimer koppelen')
+            ->label('disclaimer koppelen')
             ->icon('heroicon-o-link')
             ->requiresConfirmation()
             ->modalHeading('Disclaimer koppelen')
