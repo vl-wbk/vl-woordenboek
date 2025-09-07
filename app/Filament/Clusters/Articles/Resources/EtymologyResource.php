@@ -12,6 +12,7 @@ use App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema\TableSchem
 use App\Filament\Clusters\Articles\Resources\EtymologyResource\Widgets\EtymologyStatisticsWidget;
 use App\Filament\Resources\ArticleResource;
 use App\Models\Etymology;
+use App\Policies\EtymologyPolicy;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
@@ -38,7 +39,7 @@ final class EtymologyResource extends Resource implements HasShieldPermissions
      */
     public static function getPermissionPrefixes(): array
     {
-        return ['view', 'view_any', 'update', 'delete', 'delete_any', 'archive', 'reject', 'publish', 'draft', 'under_review'];
+        return EtymologyPolicy::$defaultPermissions;
     }
 
     public static function infolist(Infolist $infolist): Infolist

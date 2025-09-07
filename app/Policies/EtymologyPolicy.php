@@ -20,11 +20,14 @@ use Illuminate\Auth\Access\Response;
  * The policy ensures that actions such as archiving, rejecting, publishing, moving to draft, and setting under review
  * are only available under the correct conditions, helping to maintain the integrity of the editorial workflow.
  *
+ * @link file://tests/Unit/Authorization/EtymologyPolicyTest.php
  * @package App\Policies;
  */
-final readonly class EtymologyPolicy
+final class EtymologyPolicy
 {
-    /**
+	public static array $defaultPermissions = ['view', 'view_any', 'update', 'delete', 'delete_any', 'archive', 'reject', 'publish', 'draft', 'under_review'];
+	
+	/**
      * Undocumented function
      *
      * @param  User     $user       The user attempting the action.
