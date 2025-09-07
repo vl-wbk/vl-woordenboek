@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\Articles\EtymologySources;
 use App\Models\{Article, User};
 use App\Enums\Articles\EtymologyStatus;
 use App\Enums\Articles\EtymologyTypes;
@@ -21,16 +22,18 @@ final class EtymologyFactory extends Factory
     public function definition(): array
     {
         return [
-            'period_start' => $this->faker->dateTime(),
-            'period_end' => $this->faker->dateTime(),
-            'status' => $this->faker->randomElement(EtymologyStatus::cases())->value,
-            'article_id' => $this->withArticle(),
-            'author_id' => $this->withAuthor(),
-            'rejected_by' => $this->withAuthor(),
-            'archived_by' => $this->withAuthor(),
-            'published_by' => $this->withAuthor(),
-            'origin_form' => $this->faker->word(),
-            'origin_language' => $this->faker->languageCode(),
+            'etymology' => $this->faker->word,
+			'origin' => $this->faker->word,
+			'origin_period' => $this->faker->sentence,
+			'further_development' => $this->faker->paragraph,
+			'oldest_find_spot' => $this->faker->city,
+			'oldest_find_period' => $this->faker->sentence,
+			'additional_info' => $this->faker->sentence,
+			'source_name' => EtymologySources::EtymologieBank->value,
+			'source_hyperlink' => $this->faker->url,
+			'status' => EtymologyStatus::Draft->value,
+			'article_id' => $this->withArticle(),
+			'author_id' => $this->withAuthor(),
         ];
     }
 
