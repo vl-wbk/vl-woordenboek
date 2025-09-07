@@ -139,4 +139,19 @@ return [
 			'label' => 'Disclaimer aanmaken',
 		],
 	],
+	
+	'actions' => [
+		'attach' => [
+			'label' => 'Disclaimer koppelen',
+			'modal' => [
+				'description' => 'Hieronder kunt u de disclaimer selecteren die u wenst te koppelen aan het artikel.',
+				'form' => [
+					'select-disclaimer' => 'disclaimer',
+				],
+			],
+		],
+		'detach' => [
+			'label' => 'Disclaimer loskoppelen',
+		]
+	],
 ];

@@ -27,7 +27,7 @@ final readonly class DisclaimerToolbarActions
     }
 
     /**
-     * Defines the attach disclaimer action.
+     * Defines the attachment disclaimer action.
      *
      * This method creates a Filament Action that allows authorized users to attach a disclaimer to an article.
      * The action presents a confirmation modal with a select field to choose the disclaimer to attach.
@@ -38,15 +38,16 @@ final readonly class DisclaimerToolbarActions
     {
         return Action::make('attach')
             ->visible(fn(Article $article): bool => auth()->user()->can('attachDisclaimer', $article) && Disclaimer::count() > 0)
-            ->label('disclaimer koppelen')
+            ->label(label:__('disclaimer-resource.actions.attach.label'))
             ->icon('heroicon-o-link')
             ->requiresConfirmation()
-            ->modalHeading('Disclaimer koppelen')
-            ->modalDescription('Hieronder kunt u de disclaimer selecteren die u wenst te koppelen aan het artikel.')
+            ->modalHeading(heading: __('disclaimer-resource.actions.attach.label'))
+            ->modalDescription(description: __('disclaimer-resource.actions.attach.modal.description'))
             ->color('primary')
             ->modalIcon('heroicon-o-link')
             ->form([
                 Select::make('disclaimer')
+					->label(label: __('disclaimer-resource.actions.attach.modal.form.select-disclaimer'))
                     ->relationship(name: 'disclaimer', titleAttribute: 'name')
                     ->native(false),
             ])
@@ -65,7 +66,7 @@ final readonly class DisclaimerToolbarActions
     {
         return Action::make('detach')
             ->visible(fn(Article $article): bool => auth()->user()->can('detachDisclaimer', $article))
-            ->label('disclaimer loskoppelen')
+            ->label(label: __('disclaimer-resource.actions.detach.label'))
             ->icon('heroicon-o-link-slash')
             ->iconSize(IconSize::Small)
             ->color('danger')
