@@ -113,7 +113,7 @@
         "test:arch": "pest --filter=arch",
         "test:type-coverage": "pest --type-coverage --min=95",
         "test:unit": "pest --parallel",
-        "test:coverage": "pest --parallel --coverage --log-junit junit.xml",
+        "test:coverage": "pest --parallel --coverage",
         "test": [
             "@test:lint",
             "@test:refactor",
