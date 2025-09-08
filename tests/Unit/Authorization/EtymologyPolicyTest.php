@@ -108,6 +108,31 @@ describe('deleteAny', function (): void {
     });
 });
 
+describe('archive', function (): void {
+	test('Gebruiker met de archive_etymology permissie kan etymologische data archiveren', function (EtymologyStatus $etymologyStatus): void {
+		createPermission('archive_etymology');
+		$this->user->givePermissionTo('archive_etymology');
+		
+		$etymology = Etymology::factory()->create(['status' => $etymologyStatus]);
+		
+		expect($this->etymologyPolicy->archive($this->user, $etymology))->toBeTrue();
+	})->with([EtymologyStatus::Draft, EtymologyStatus::UnderReview, EtymologyStatus::Rejected, EtymologyStatus::Published]);
+	
+	test('Gebruiker met de reject_etymology permissie kan geen bijdrage afwijzen wanneer deze niet onder review staat', function (EtymologyStatus $etymologyStatus): void {
+		createPermission('archive_etymology');
+		$this->user->givePermissionTo('archive_etymology');
+		
+		$etymology = Etymology::factory()->create(['status' => $etymologyStatus]);
+		
+		expect($this->etymologyPolicy->archive($this->user, $etymology))->toBeFalse();
+	})->with([EtymologyStatus::Archived]);
+	
+	test('faalt voor de gebruiker zonder archive_etymology permissie', function (): void {
+		$etymology = Etymology::factory()->create(['status' => EtymologyStatus::UnderReview]);
+		expect($this->etymologyPolicy->archive($this->user, $etymology))->toBeFalse();
+	});
+});
+
 describe('reject', function (): void {
     test('Gebruiker met de reject_etymology permissie kan een etymologische bijdrage weigeren in het systeem', function (EtymologyStatus $etymologyStatus): void {
         createPermission('reject_etymology');
