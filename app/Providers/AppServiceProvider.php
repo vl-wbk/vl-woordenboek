@@ -69,11 +69,11 @@ final class AppServiceProvider extends ServiceProvider
             callback: fn(User $user): bool => $user->roles()->exists() && $user->hasVerifiedEmail(),
         );
 
-        Gate::define('viewPulse', fn (User $user): Response => $user->user_type->is(UserTypes::Developer)
-			? Response::allow()
-			: Response::denyAsNotFound());
+        Gate::define('viewPulse', fn(User $user): Response => $user->user_type->is(UserTypes::Developer)
+            ? Response::allow()
+            : Response::denyAsNotFound());
 
-        Gate::define('use-translation-manager', fn (?User $user)
-			=> $user->user_type->in([UserTypes::Developer, UserTypes::Administrators]));
+        Gate::define('use-translation-manager', fn(?User $user)
+            => $user->user_type->in([UserTypes::Developer, UserTypes::Administrators]));
     }
 }

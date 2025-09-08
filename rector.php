@@ -23,7 +23,7 @@ return RectorConfig::configure()
     ->withSkip([
         AddOverrideAttributeToOverriddenMethodsRector::class,
         PrivatizeFinalClassPropertyRector::class,
-		RemoveReflectionSetAccessibleCallsRector::class => [__DIR__ . '/app/Services/DataMigration/ArticleImporter.php'],
+        RemoveReflectionSetAccessibleCallsRector::class => [__DIR__ . '/app/Services/DataMigration/ArticleImporter.php'],
         PrivatizeFinalClassMethodRector::class          => [__DIR__ . '/app/Filament/Clusters/Blog/Resources/BlogResource/Pages/CreateBlog.php'],
         RemoveUnusedPublicMethodParameterRector::class  => [__DIR__ . '/app/Policies'],
         ClosureToArrowFunctionRector::class             => [__DIR__ . '/app/Providers/FortifyServiceProvider.php'],

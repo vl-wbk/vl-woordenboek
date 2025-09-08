@@ -42,7 +42,7 @@ final class EditRole extends EditRecord
     private function afterSave(): void
     {
         $permissionModels = collect();
-		
+
         $this->permissions->each(function ($permission) use ($permissionModels): void {
             $permissionModels->push(Utils::getPermissionModel()::firstOrCreate([
                 'name' => $permission,
