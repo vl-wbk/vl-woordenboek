@@ -64,6 +64,9 @@ final class CategoryResource extends Resource implements HasShieldPermissions
      */
     protected static ?string $pluralModelLabel = 'Categorieen';
 
+    /**
+     * @return list<string>
+     */
     public static function getPermissionPrefixes(): array
     {
         return [

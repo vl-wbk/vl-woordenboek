@@ -112,7 +112,7 @@ final class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->plugins([
-				TranslationManagerPlugin::make(),
+                TranslationManagerPlugin::make(),
                 FilamentShieldPlugin::make(),
                 ResourceLockPlugin::make(),
                 GlobalSearchModalPlugin::make()

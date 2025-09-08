@@ -1,8 +1,7 @@
 <?php
 
-use App\Models\User;
 
-use function Pest\Laravel\actingAs;
+use Spatie\Permission\Models\Permission;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +16,7 @@ use function Pest\Laravel\actingAs;
 
 pest()->extend(Tests\TestCase::class)
     ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
-    ->in('Feature');
+    ->in('Feature', 'Unit');
 
 /*
 |--------------------------------------------------------------------------
@@ -45,26 +44,7 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function actingAsDeveloper(): void
+function createPermission(string $name): void
 {
-    $user = User::factory()->developer()->create();
-    actingAs($user);
-}
-
-function actingAsAdministrator(): void
-{
-    $user = User::factory()->administrator()->create();
-    actingAs($user);
-}
-
-function actingAsEditor(): void
-{
-    $user = User::factory()->editor()->create();
-    actingAs($user);
-}
-
-function actingAsEditorInChief(): void
-{
-    $user = User::factory()->editorInChief()->create();
-    actingAs($user);
+    Permission::create(['name' => $name]);
 }

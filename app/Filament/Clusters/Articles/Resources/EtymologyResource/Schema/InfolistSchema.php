@@ -78,27 +78,27 @@ final readonly class InfolistSchema
                     ->columnSpan(3)
                     ->badge()
                     ->tooltip(fn(Etymology $etymology): string|array|null => self::getStatusTooltip($etymology)),
-				
+
                 TextEntry::make('origin')
                     ->label(label: __('etymology-resource.infolist.general-information-tab.entries.origin'))
                     ->columnSpan(6)
                     ->color('gray'),
-				
+
                 TextEntry::make('origin_period')
                     ->label(label: __('etymology-resource.infolist.general-information-tab.entries.origin-period'))
                     ->columnSpan(3)
                     ->color('gray'),
-				
+
                 TextEntry::make('further_development')
                     ->label(label: __('etymology-resource.infolist.general-information-tab.entries.further-development'))
                     ->color('gray')
                     ->columnSpan(9),
-				
+
                 TextEntry::make('further_development_period')
                     ->label(label: __('etymology-resource.infolist.general-information-tab.entries.further-development-period'))
                     ->color('gray')
                     ->columnSpan(3),
-				
+
                 TextEntry::make('additional_info')
                     ->label(label: __('etymology-resource.infolist.general-information-tab.entries.additional-info'))
                     ->color('gray')
@@ -127,14 +127,14 @@ final readonly class InfolistSchema
                     ->color('primary')
                     ->weight(FontWeight::SemiBold)
                     ->columnSpan(4),
-				
+
                 TextEntry::make('archived_at')
                     ->label(label: __('etymology-resource.infolist.archive-information-tab.entries.timestamp'))
                     ->date()
                     ->columnSpan(4)
                     ->icon('heroicon-o-clock')
                     ->iconColor('primary'),
-				
+
                 TextEntry::make('archiving_reason')
                     ->label(label: __('etymology-resource.infolist.archive-information-tab.entries.reason.label'))
                     ->placeholder(placeholder: __('etymology-resource.infolist.archive-information-tab.entries.reason.placeholder'))
@@ -162,14 +162,14 @@ final readonly class InfolistSchema
                     ->color('primary')
                     ->weight(FontWeight::SemiBold)
                     ->columnSpan(4),
-				
+
                 TextEntry::make('rejected_at')
                     ->label(label: __('etymology-resource.infolist.rejection-information-tab.entries.rejection-timestamp'))
                     ->date()
                     ->columnSpan(4)
                     ->icon('heroicon-o-clock')
                     ->iconColor('primary'),
-				
+
                 TextEntry::make('rejection_reason')
                     ->label(label: __('etymology-resource.infolist.rejection-information-tab.entries.reason.label'))
                     ->placeholder(placeholder: __('etymology-resource.infolist.rejection-information-tab.entries.reason.placeholder'))
@@ -188,19 +188,19 @@ final readonly class InfolistSchema
     {
         return match ($etymology->status) {
             EtymologyStatus::Published => trans('etymology-resource.infolist.general-information-tab.tooltip.published', [
-				'user' => $etymology->author->name,
-				'time' => $etymology->created_at->format('d-m-Y H:i')
-			]),
+                'user' => $etymology->author->name,
+                'time' => $etymology->created_at->format('d-m-Y H:i'),
+            ]),
             EtymologyStatus::Rejected => trans('etymology-resource.infolist.general-information-tab.tooltip.rejected', [
-				'user' => $etymology->author->name,
-				'time' => $etymology->created_at->format('d-m-Y H:i')
-			]),
+                'user' => $etymology->author->name,
+                'time' => $etymology->created_at->format('d-m-Y H:i'),
+            ]),
             EtymologyStatus::Archived => trans('etymology-resource.infolist.general-information-tab.tooltip.archived', [
-				'user' => $etymology->author->name,
-				'time' => $etymology->created_at->format('d-m-Y H:i')
-			]),
-   
-			default => null,
+                'user' => $etymology->author->name,
+                'time' => $etymology->created_at->format('d-m-Y H:i'),
+            ]),
+
+            default => null,
         };
     }
 
@@ -221,20 +221,20 @@ final readonly class InfolistSchema
                 ->iconColor('primary')
                 ->color('primary')
                 ->state(fn(Etymology $etymology) => $etymology->author->name),
-			
+
             TextEntry::make('author.email')
                 ->label(label: __('etymology-resource.infolist.author-information-tab.entries.name'))
                 ->icon('heroicon-o-envelope')
                 ->iconColor('primary')
                 ->columnSpan(3),
-			
+
             TextEntry::make('created_at')
                 ->label(label: __('etymology-resource.infolist.author-information-tab.entries.created-at'))
                 ->icon('heroicon-o-clock')
                 ->iconColor('primary')
                 ->columnSpan(3)
                 ->date(),
-			
+
             TextEntry::make('updated_at')
                 ->label(label: __('etymology-resource.infolist.author-information-tab.entries.edited-at'))
                 ->icon('heroicon-o-clock')
@@ -261,17 +261,17 @@ final readonly class InfolistSchema
                     ->columnSpan(3)
                     ->label(label: __('etymology-resource.infolist.source-information-tab.entries.oldest-find-spot'))
                     ->color('gray'),
-				
+
                 TextEntry::make('oldest_find_period')
                     ->columnSpan(3)
                     ->label(label: __('etymology-resource.infolist.source-information-tab.entries.oldest-find-period'))
                     ->color('gray'),
-				
+
                 TextEntry::make('source_name')
                     ->label(label: __('etymology-resource.infolist.source-information-tab.entries.source-name'))
                     ->color('gray')
                     ->columnSpan(3),
-				
+
                 TextEntry::make('source_hyperlink')
                     ->label(label: __('etymology-resource.infolist.source-information-tab.entries.source-hyperlink.label'))
                     ->columnSpan(3)

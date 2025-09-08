@@ -23,7 +23,7 @@ final readonly class UserForm
                     ->iconColor('primary')
                     ->compact()
                     ->columns(12)
-					
+
                     ->schema([
                         Components\Select::make('user_type')
                             ->label(label: __('user-resource.form.section.inputs.user_type'))
@@ -32,31 +32,31 @@ final readonly class UserForm
                             ->options(UserTypes::class)
                             ->columnSpan(3)
                             ->required(),
-						Components\TextInput::make('name')
-							->label('Gebruikersnaam')
-							->required()
-							->placeholder('- niet opgegeven')
-							->disabledOn('edit')
-							->unique(ignoreRecord: true)
-							->columnSpan(3),
-       
-						Components\TextInput::make('firstname')
+                        Components\TextInput::make('name')
+                            ->label('Gebruikersnaam')
+                            ->required()
+                            ->placeholder('- niet opgegeven')
+                            ->disabledOn('edit')
+                            ->unique(ignoreRecord: true)
+                            ->columnSpan(3),
+
+                        Components\TextInput::make('firstname')
                             ->label(label: __('user-resource.form.section.inputs.firstname'))
                             ->required()
                             ->columnSpan(3),
-						
+
                         Components\TextInput::make('lastname')
                             ->label(label: __('user-resource.form.section.inputs.lastname'))
                             ->required()
                             ->columnSpan(3),
-						
+
                         Components\TextInput::make('email')
                             ->label(label: __('user-resource.form.section.inputs.email'))
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->email()
                             ->columnSpan(12),
-						
+
                         Components\Select::make('roles')
                             ->label(label: __('user-resource.form.section.inputs.roles.label'))
                             ->relationship('roles', 'name')

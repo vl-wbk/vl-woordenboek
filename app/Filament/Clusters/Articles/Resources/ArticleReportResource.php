@@ -78,6 +78,9 @@ final class ArticleReportResource extends Resource implements HasShieldPermissio
      */
     protected static ?string $cluster = Articles::class;
 
+    /**
+     * @return list<string>
+     */
     public static function getPermissionPrefixes(): array
     {
         return ['view_any', 'view', 'mark_in_progress', 'mark_as_closed', 'delete', 'delete_any'];

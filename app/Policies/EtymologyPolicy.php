@@ -7,7 +7,6 @@ namespace App\Policies;
 use App\Enums\Articles\EtymologyStatus;
 use App\Models\Etymology;
 use App\Models\User;
-use App\UserTypes;
 use Illuminate\Auth\Access\Response;
 
 /**
@@ -20,10 +19,16 @@ use Illuminate\Auth\Access\Response;
  * The policy ensures that actions such as archiving, rejecting, publishing, moving to draft, and setting under review
  * are only available under the correct conditions, helping to maintain the integrity of the editorial workflow.
  *
+ * @link file://tests/Unit/Authorization/EtymologyPolicyTest.php
  * @package App\Policies;
  */
-final readonly class EtymologyPolicy
+final class EtymologyPolicy
 {
+    /**
+     * @var list<string>
+     */
+    public static array $defaultPermissions = ['view', 'view_any', 'update', 'delete', 'delete_any', 'archive', 'reject', 'publish', 'draft', 'under_review'];
+
     /**
      * Undocumented function
      *
@@ -134,7 +139,7 @@ final readonly class EtymologyPolicy
      * Publishing is allowed if the etymology is either under review or archived.
      * This enables the transition of etymologies to a published state from these statuses.
      *
-     * @param  User         $user       The user attempting to perform the publish action.
+     * @param  User         $user       The user attempting to perform the publishing action.
      * @param  Etymology    $etymology  The etymology instance being considered for publishing.
      * @return bool                     Returns true if the etymology is under review or archived; false otherwise.
      */

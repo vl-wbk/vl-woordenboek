@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace App\Data;
 
-use Carbon\Carbon;
 use Spatie\LaravelData\Attributes\MapInputName;
-use Spatie\LaravelData\Attributes\WithCast;
-use Spatie\LaravelData\Casts\DateTimeInterfaceCast;
 use Spatie\LaravelData\Data;
 
 final class EtymologySubmissionData extends Data

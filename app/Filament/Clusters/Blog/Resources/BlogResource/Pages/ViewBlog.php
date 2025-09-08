@@ -12,9 +12,9 @@ use Filament\Resources\Pages\ViewRecord;
 /**
  * * Represents the "View Blog" page in the Filament admin panel.
  *
- * This page allows users to view the details of a specific blog post. 
+ * This page allows users to view the details of a specific blog post.
  * It extends Filament's `ViewRecord` class and provides additional functionality through custom header actions. These actions include editing, publishing, managing comments, and deleting the blog post.
- * 
+ *
  * @property \App\Models\Blog $record  The database entity from the blog post in the database.
  */
 final class ViewBlog extends ViewRecord

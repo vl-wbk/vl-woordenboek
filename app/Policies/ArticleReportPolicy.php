@@ -7,7 +7,6 @@ namespace App\Policies;
 use App\Models\ArticleReport;
 use App\Models\User;
 use App\States\Reporting\Status;
-use App\UserTypes;
 
 /**
  * The ArticleReportPolicy class defines the authorization rules for managing article reports.

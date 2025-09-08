@@ -5,7 +5,6 @@ namespace Database\Factories;
 use App\Enums\Articles\EtymologySources;
 use App\Models\{Article, User};
 use App\Enums\Articles\EtymologyStatus;
-use App\Enums\Articles\EtymologyTypes;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,17 +22,17 @@ final class EtymologyFactory extends Factory
     {
         return [
             'etymology' => $this->faker->word,
-			'origin' => $this->faker->word,
-			'origin_period' => $this->faker->sentence,
-			'further_development' => $this->faker->paragraph,
-			'oldest_find_spot' => $this->faker->city,
-			'oldest_find_period' => $this->faker->sentence,
-			'additional_info' => $this->faker->sentence,
-			'source_name' => EtymologySources::EtymologieBank->value,
-			'source_hyperlink' => $this->faker->url,
-			'status' => EtymologyStatus::Draft->value,
-			'article_id' => $this->withArticle(),
-			'author_id' => $this->withAuthor(),
+            'origin' => $this->faker->word,
+            'origin_period' => $this->faker->numberBetween(500, date('Y')),
+            'further_development' => $this->faker->paragraph,
+            'oldest_find_spot' => $this->faker->city,
+            'oldest_find_period' => $this->faker->numberBetween(500, date('Y')),
+            'additional_info' => $this->faker->sentence,
+            'source_name' => EtymologySources::EtymologieBank->value,
+            'source_hyperlink' => $this->faker->url,
+            'status' => EtymologyStatus::Draft->value,
+            'article_id' => $this->withArticle(),
+            'author_id' => $this->withAuthor(),
         ];
     }
 

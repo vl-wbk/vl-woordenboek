@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Policies;
 
 use App\Models\User;
-use App\UserTypes;
 use Cog\Laravel\Ban\Models\Ban;
 use Illuminate\Auth\Access\Response;
 

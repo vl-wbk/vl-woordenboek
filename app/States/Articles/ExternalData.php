@@ -20,18 +20,18 @@ use Illuminate\Support\Facades\DB;
  */
 final class ExternalData extends ArticleState
 {
-	/**
-	 * Transitions the article from the external data state to an editable draft state.
-	 *
-	 * When invoked, this method updates the article by assigning the current user as its editor and changing its state to ArticleStates::Draft.
-	 * The process is wrapped in a database transaction to guarantee that both actions occur atomically.
-	 * An optional reason may be provided to document why the transition is occurring, though it is not used within the method.
-	 *
-	 * @param string|null $reason An optional explanation for the transition.
-	 * @return  bool                  True if the transition was completed successfully, false otherwise.
-	 *
-	 * @throws \Throwable
-	 */
+    /**
+     * Transitions the article from the external data state to an editable draft state.
+     *
+     * When invoked, this method updates the article by assigning the current user as its editor and changing its state to ArticleStates::Draft.
+     * The process is wrapped in a database transaction to guarantee that both actions occur atomically.
+     * An optional reason may be provided to document why the transition is occurring, though it is not used within the method.
+     *
+     * @param string|null $reason An optional explanation for the transition.
+     * @return  bool                  True if the transition was completed successfully, false otherwise.
+     *
+     * @throws \Throwable
+     */
     public function transitionToEditing(?string $reason = null): bool
     {
         return DB::transaction(function (): bool {

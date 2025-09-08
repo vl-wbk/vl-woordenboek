@@ -14,10 +14,10 @@ enum EtymologySources: int implements HasLabel
 
     public function getLabel(): string
     {
-        return match($this) {
+        return match ($this) {
             self::EtymologieBank => __('Etymologiebank'),
             self::WNT => __('WNT'),
-            self::Other => __('Andere')
+            self::Other => __('Andere'),
         };
     }
 }

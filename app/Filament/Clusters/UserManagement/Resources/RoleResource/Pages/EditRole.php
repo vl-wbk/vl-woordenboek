@@ -11,10 +11,16 @@ use Filament\Resources\Pages\EditRecord;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
+/**
+ * @property \App\Models\User $record
+ */
 final class EditRole extends EditRecord
 {
     protected static string $resource = RoleResource::class;
 
+    /**
+     * @var Collection<int, string>
+     */
     public Collection $permissions;
 
     protected function getActions(): array
@@ -27,9 +33,7 @@ final class EditRole extends EditRecord
     protected function mutateFormDataBeforeSave(array $data): array
     {
         $this->permissions = collect($data)
-            ->filter(function ($permission, $key) {
-                return ! in_array($key, ['name', 'guard_name', 'select_all', Utils::getTenantModelForeignKey()]);
-            })
+            ->filter(fn($permission, $key): bool => ! in_array($key, ['name', 'guard_name', 'select_all', Utils::getTenantModelForeignKey()]))
             ->values()
             ->flatten()
             ->unique();
@@ -41,10 +45,12 @@ final class EditRole extends EditRecord
         return Arr::only($data, ['name', 'guard_name']);
     }
 
-    protected function afterSave(): void
+    /** @phpstan-ignore-next-line */
+    private function afterSave(): void
     {
         $permissionModels = collect();
-        $this->permissions->each(function ($permission) use ($permissionModels) {
+
+        $this->permissions->each(function ($permission) use ($permissionModels): void {
             $permissionModels->push(Utils::getPermissionModel()::firstOrCreate([
                 'name' => $permission,
                 'guard_name' => $this->data['guard_name'],

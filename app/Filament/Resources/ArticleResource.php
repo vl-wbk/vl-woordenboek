@@ -236,10 +236,10 @@ final class ArticleResource extends Resource implements HasShieldPermissions
                     ->options(ArticleStates::class),
                 TrashedFilter::make()
                     ->native(false)
-                    ->visible(fn (Article $article): bool => auth()->user()->canAny(['restore', 'restoreAny'], $article)),
+                    ->visible(fn(Article $article): bool => auth()->user()->canAny(['restore', 'restoreAny'], $article)),
                 Filter::make('assigned')
                     ->label('Toegewezen aan mij')
-                    ->query(fn (Builder $query): Builder => $query->where('editor_id', auth()->id())),
+                    ->query(fn(Builder $query): Builder => $query->where('editor_id', auth()->id())),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -331,7 +331,7 @@ final class ArticleResource extends Resource implements HasShieldPermissions
      */
     public static function getNavigationBadge(): ?string
     {
-        return Cache::flexible('lemma_count', [10, 60], fn (): string => (string) self::$model::count());
+        return Cache::flexible('lemma_count', [10, 60], fn(): string => (string) self::$model::count());
     }
 
     /**

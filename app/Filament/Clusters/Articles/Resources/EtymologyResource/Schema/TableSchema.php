@@ -11,8 +11,6 @@ use App\Models\Etymology;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 use LibDNS\Records\Record;
 
 /**
@@ -50,31 +48,31 @@ final readonly class TableSchema
                 ->label(label: __('etymology-resource.table.columns.author-name'))
                 ->sortable()
                 ->searchable(),
-			
+
             Tables\Columns\TextColumn::make('article.word')
                 ->label(label: __('etymology-resource.table.columns.connected-article'))
                 ->searchable()
                 ->sortable(),
-			
+
             Tables\Columns\TextColumn::make('status')
                 ->label(label: __('etymology-resource.table.columns.status'))
                 ->badge()
                 ->sortable(),
-			
+
             Tables\Columns\TextColumn::make('origin')
                 ->label(label: __('etymology-resource.table.columns.origin'))
                 ->searchable(),
-			
+
             Tables\Columns\TextColumn::make('origin_period')
                 ->label(label: __('etymology-resource.table.columns.origin-period')),
-			
+
             Tables\Columns\TextColumn::make('created_at')
                 ->sortable()
                 ->label(label: __('etymology-resource.table.columns.created-at'))
                 ->translateLabel()
                 ->date()
                 ->toggleable(isToggledHiddenByDefault: true),
-			
+
             Tables\Columns\TextColumn::make('updated_at')
                 ->sortable()
                 ->label(label: __('etymology-resource.table.columns.updated-at'))
@@ -83,22 +81,22 @@ final readonly class TableSchema
                 ->toggleable(isToggledHiddenByDefault: true),
         ];
     }
-	
-	/**
-	 * Configures the available filters for the etymology table.
-	 *
-	 * Filters allow users to narrow down the displayed records based on specific criteria, such as the status of the etymology entry.
-	 * The default filter is set to show entries that are under review.
-	 *
-	 * @return array<int, SelectFilter> Array of Filament table filter definitions.
-	 *
-	 * @throws \Exception
-	 */
+
+    /**
+     * Configures the available filters for the etymology table.
+     *
+     * Filters allow users to narrow down the displayed records based on specific criteria, such as the status of the etymology entry.
+     * The default filter is set to show entries that are under review.
+     *
+     * @return array<int, SelectFilter> Array of Filament table filter definitions.
+     *
+     * @throws \Exception
+     */
     public static function configureFilters(): array
     {
         return [
-            SelectFilter::make(name:'status')
-				->label(label: __('etymology-resource.table.filters.status.label'))
+            SelectFilter::make(name: 'status')
+                ->label(label: __('etymology-resource.table.filters.status.label'))
                 ->options(EtymologyStatus::class)
                 ->default(EtymologyStatus::UnderReview->value)
                 ->native(false),
@@ -149,7 +147,7 @@ final readonly class TableSchema
                 ->modalIcon('heroicon-o-pencil-square')
                 ->modalWidth(MaxWidth::SevenExtraLarge)
                 ->modalHeading(heading: __('etymology-resource.header-actions.create.modal.heading'))
-				->modalDescription(description: __('etymology-resource.header-actions.create.modal.description', ['word' => $article->word])),
+                ->modalDescription(description: __('etymology-resource.header-actions.create.modal.description', ['word' => $article->word])),
         ];
     }
 
@@ -167,10 +165,10 @@ final readonly class TableSchema
             Tables\Actions\ActionGroup::make([
                 Tables\Actions\ViewAction::make()
                     ->url(fn(Etymology $record): string => EtymologyResource::getUrl('view', ['record' => $record])),
-				
+
                 Tables\Actions\EditAction::make()
                     ->modalWidth(MaxWidth::SevenExtraLarge),
-				
+
                 Tables\Actions\DeleteAction::make()
                     ->modalHeading(heading: __('etymology-resource.table.actions.delete.modal.heading')),
             ]),

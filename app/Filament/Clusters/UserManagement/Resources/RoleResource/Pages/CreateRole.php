@@ -10,18 +10,20 @@ use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
+/**
+ * @property \App\Models\User $record
+ */
 final class CreateRole extends CreateRecord
 {
     protected static string $resource = RoleResource::class;
 
+    /** @var Collection<int, string> */
     public Collection $permissions;
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $this->permissions = collect($data)
-            ->filter(function ($permission, $key) {
-                return ! in_array($key, ['name', 'guard_name', 'select_all', Utils::getTenantModelForeignKey()]);
-            })
+            ->filter(fn($permission, $key): bool => ! in_array($key, ['name', 'guard_name', 'select_all', Utils::getTenantModelForeignKey()]))
             ->values()
             ->flatten()
             ->unique();
@@ -33,10 +35,11 @@ final class CreateRole extends CreateRecord
         return Arr::only($data, ['name', 'guard_name']);
     }
 
-    protected function afterCreate(): void
+    /** @phpstan-ignore-next-line */
+    private function afterCreate(): void
     {
         $permissionModels = collect();
-        $this->permissions->each(function ($permission) use ($permissionModels) {
+        $this->permissions->each(function ($permission) use ($permissionModels): void {
             $permissionModels->push(Utils::getPermissionModel()::firstOrCreate([
                 'name' => $permission,
                 'guard_name' => $this->data['guard_name'],

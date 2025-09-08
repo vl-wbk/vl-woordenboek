@@ -48,25 +48,25 @@ final readonly class TableSchema
             ->emptyStateDescription(description: __('feedback-resource.table.empty-state.description'))
             ->columns(components: self::configureTableComponents())
             ->actions(actions: self::configureTableRowActions())
-			->filters(filters: self::configureTableFilters())
-			->headerActions(actions: self::configureHeaderActions())
+            ->filters(filters: self::configureTableFilters())
+            ->headerActions(actions: self::configureHeaderActions())
             ->bulkActions(self::configureTableBulkActions())
             ->deferLoading();
     }
-	
-	/**
-	 * @return array <int, Tables\Filters\SelectFilter>
-	 *
-	 * @throws \Exception
-	 */
-	private static function configureTableFilters(): array
-	{
-		return [
-			Tables\Filters\SelectFilter::make(name: __('feedback-resource.table.filters.status.label'))
-				->options(options: FeedbackStatus::class)
-				->default(state: FeedbackStatus::Unprocessed->value)
-		];
-	}
+
+    /**
+     * @return array <int, Tables\Filters\SelectFilter>
+     *
+     * @throws \Exception
+     */
+    private static function configureTableFilters(): array
+    {
+        return [
+            Tables\Filters\SelectFilter::make(name: __('feedback-resource.table.filters.status.label'))
+                ->options(options: FeedbackStatus::class)
+                ->default(state: FeedbackStatus::Unprocessed->value),
+        ];
+    }
 
     /**
      * Defines the individual columns for the feedback table.
@@ -85,31 +85,31 @@ final readonly class TableSchema
                 ->weight(FontWeight::SemiBold)
                 ->color('primary')
                 ->placeholder('-'),
-			
+
             Columns\TextColumn::make('name')
                 ->label(label: __('feedback-resource.table.columns.name'))
                 ->iconColor('primary')
                 ->icon('heroicon-o-user-circle')
                 ->searchable(),
-			
+
             Columns\TextColumn::make('email')
-				->label(label: __('feedback-resource.table.columns.email.label'))
+                ->label(label: __('feedback-resource.table.columns.email.label'))
                 ->searchable()
                 ->placeholder(placeholder: __('feedback-resource.table.columns.email.placeholder')),
-			
+
             Columns\IconColumn::make('contact_allowed')
                 ->label(label: __('feedback-resource.table.columns.contact-allowed'))
                 ->boolean(),
-			
+
             Columns\TextColumn::make('first_time_visit')
                 ->label(label: __('feedback-resource.table.columns.first-time-visit'))
                 ->badge()
                 ->sortable(),
-			
+
             Columns\TextColumn::make('results_found_easily')
                 ->label(label: __('feedback-resource.table.columns.results-found-easily'))
                 ->badge(),
-			
+
             Columns\TextColumn::make('created_at')
                 ->label(label: __('feedback-resource.table.columns.created-at'))
                 ->sortable()
@@ -139,7 +139,7 @@ final readonly class TableSchema
      * Configures the actions that appear on each row of the table.
      * Row actions are used for performing operations on individual records, such as viewing details or deleting the entry.
      *
-     * @return array An array of Filament table row action components.
+     * @return array<int, ViewAction|DeleteAction> An array of Filament table row action components.
      */
     private static function configureTableRowActions(): array
     {
@@ -155,22 +155,22 @@ final readonly class TableSchema
      * Bulk actions allow administrators to perform operations on multiple selected records at once.
      * This configuration includes a delete bulk action with a custom modal description to warn the user about potential data loss.
      *
-     * @return array<int, Tables\Actions\BulkActionGroup> An array of Filament table bulk action components.
+     * @return array<int, \Filament\Tables\Actions\BulkActionGroup|\Filament\Tables\Actions\DeleteBulkAction> An array of Filament table bulk action components.
      */
     private static function configureTableBulkActions(): array
     {
         return [
-			Tables\Actions\BulkActionGroup::make([
-				MarkAsClosedBulkAction::make(),
-				MarkAsOpenBulkAction::make(),
-			])
-				->icon('heroicon-o-tag')
-				->visible(Auth::user()->can('change_status_feedback'))
-				->label(label: __('feedback-resource.table.actions.mark-as-bulk-group.label')),
-			
-			Tables\Actions\DeleteBulkAction::make()
-				// Custom modal description for the bulk delete action
-				->modalDescription(description: __('feedback-resource.table.actions.delete-bulk-action.modal-description')),
+            Tables\Actions\BulkActionGroup::make([
+                MarkAsClosedBulkAction::make(),
+                MarkAsOpenBulkAction::make(),
+            ])
+                ->icon('heroicon-o-tag')
+                ->visible(Auth::user()->can('change_status_feedback'))
+                ->label(label: __('feedback-resource.table.actions.mark-as-bulk-group.label')),
+
+            Tables\Actions\DeleteBulkAction::make()
+                // Custom modal description for the bulk delete action
+                ->modalDescription(description: __('feedback-resource.table.actions.delete-bulk-action.modal-description')),
         ];
     }
 
@@ -191,8 +191,8 @@ final readonly class TableSchema
                 Action::make(name: __('feedback-resource.table.actions.view-action.modal.footer-actions.mail'))
                     ->color('gray')
                     ->icon('heroicon-o-paper-airplane')
-                    ->visible(fn (Feedback $feedback): bool => $feedback->contact_allowed)
-                    ->url(fn (Feedback $feedback): string => "mailto:{$feedback->email}"),
+                    ->visible(fn(Feedback $feedback): bool => $feedback->contact_allowed)
+                    ->url(fn(Feedback $feedback): string => "mailto:{$feedback->email}"),
 
                 // Re-uses the delete action for convenience within the modal
                 self::deleteAction()->hiddenLabel(false),
@@ -202,14 +202,15 @@ final readonly class TableSchema
             ->modalIcon('heroicon-o-information-circle')
             ->modalIconColor('info')
             // Dynamic modal description with user and date
-            ->modalDescription(fn (Feedback $feedback): string => trans('feedback-resource.table.actions.view-action.modal.description', [
+            ->modalDescription(fn(Feedback $feedback): string => trans('feedback-resource.table.actions.view-action.modal.description', [
                 'user' => $feedback->name,
-                'date' => $feedback->created_at->format('d/m/Y')
+                'date' => $feedback->created_at->format('d/m/Y'),
             ]))
             // Dynamix model heading based on the tracking number
-            ->modalHeading(heading: fn (Feedback $feedback): string => $feedback->tracking_number
+            ->modalHeading(
+                heading: fn(Feedback $feedback): string => $feedback->tracking_number
                 ? __('feedback-resource.table.actions.view-action.modal.heading.specific', ['number' => $feedback->tracking_number])
-                : __('feedback-resource.table.actions.view-action.modal.heading.general')
+                : __('feedback-resource.table.actions.view-action.modal.heading.general'),
             );
     }
 

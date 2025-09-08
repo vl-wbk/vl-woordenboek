@@ -38,7 +38,7 @@ final readonly class DisclaimerToolbarActions
     {
         return Action::make('attach')
             ->visible(fn(Article $article): bool => auth()->user()->can('attachDisclaimer', $article) && Disclaimer::count() > 0)
-            ->label(label:__('disclaimer-resource.actions.attach.label'))
+            ->label(label: __('disclaimer-resource.actions.attach.label'))
             ->icon('heroicon-o-link')
             ->requiresConfirmation()
             ->modalHeading(heading: __('disclaimer-resource.actions.attach.label'))
@@ -47,7 +47,7 @@ final readonly class DisclaimerToolbarActions
             ->modalIcon('heroicon-o-link')
             ->form([
                 Select::make('disclaimer')
-					->label(label: __('disclaimer-resource.actions.attach.modal.form.select-disclaimer'))
+                    ->label(label: __('disclaimer-resource.actions.attach.modal.form.select-disclaimer'))
                     ->relationship(name: 'disclaimer', titleAttribute: 'name')
                     ->native(false),
             ])

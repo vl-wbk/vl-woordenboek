@@ -18,7 +18,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 final readonly class AccountSettingsController
 {
     public function __construct(
-        private readonly BrowserSessionService $browserSessionService,
+        private BrowserSessionService $browserSessionService,
     ) {}
 
     #[Get(uri: 'account-informatie', name: 'profile.settings')]

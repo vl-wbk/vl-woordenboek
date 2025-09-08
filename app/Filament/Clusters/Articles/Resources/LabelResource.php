@@ -58,6 +58,9 @@ final class LabelResource extends Resource implements HasShieldPermissions
      */
     protected static ?string $cluster = Articles::class;
 
+    /**
+     * @return list<string>
+     */
     public static function getPermissionPrefixes(): array
     {
         return ['delete_any', 'detach', 'attach', 'create', 'delete', 'update', 'view', 'view_any'];

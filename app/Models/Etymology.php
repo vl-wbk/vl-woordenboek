@@ -118,8 +118,8 @@ final class Etymology extends Model
             ->withDefault(['name' => 'Onbekende of verwijderde gebruiker']);
     }
 
-    #[Scope]
-    protected function published(Builder $query): void
+    /** @phpstan-ignore-next-line */
+    #[Scope]private function published(Builder $query): void
     {
         $query->whereNotNull('published_at');
     }

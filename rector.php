@@ -11,6 +11,7 @@ use Rector\Privatization\Rector\ClassMethod\PrivatizeFinalClassMethodRector;
 use Rector\Privatization\Rector\Property\PrivatizeFinalClassPropertyRector;
 use Rector\Strict\Rector\If_\BooleanInIfConditionRuleFixerRector;
 use Rector\Strict\Rector\Ternary\DisallowedShortTernaryRuleFixerRector;
+use Rector\Php81\Rector\MethodCall\RemoveReflectionSetAccessibleCallsRector;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -22,6 +23,7 @@ return RectorConfig::configure()
     ->withSkip([
         AddOverrideAttributeToOverriddenMethodsRector::class,
         PrivatizeFinalClassPropertyRector::class,
+        RemoveReflectionSetAccessibleCallsRector::class => [__DIR__ . '/app/Services/DataMigration/ArticleImporter.php'],
         PrivatizeFinalClassMethodRector::class          => [__DIR__ . '/app/Filament/Clusters/Blog/Resources/BlogResource/Pages/CreateBlog.php'],
         RemoveUnusedPublicMethodParameterRector::class  => [__DIR__ . '/app/Policies'],
         ClosureToArrowFunctionRector::class             => [__DIR__ . '/app/Providers/FortifyServiceProvider.php'],
