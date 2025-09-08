@@ -24,10 +24,10 @@ final class EtymologyFactory extends Factory
         return [
             'etymology' => $this->faker->word,
 			'origin' => $this->faker->word,
-			'origin_period' => $this->faker->sentence,
+			'origin_period' => $this->faker->numberBetween(500, date('Y')),
 			'further_development' => $this->faker->paragraph,
 			'oldest_find_spot' => $this->faker->city,
-			'oldest_find_period' => $this->faker->sentence,
+			'oldest_find_period' => $this->faker->numberBetween(500, date('Y')),
 			'additional_info' => $this->faker->sentence,
 			'source_name' => EtymologySources::EtymologieBank->value,
 			'source_hyperlink' => $this->faker->url,

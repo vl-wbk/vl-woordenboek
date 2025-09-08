@@ -137,7 +137,7 @@ final class EtymologyPolicy
      * Publishing is allowed if the etymology is either under review or archived.
      * This enables the transition of etymologies to a published state from these statuses.
      *
-     * @param  User         $user       The user attempting to perform the publish action.
+     * @param  User         $user       The user attempting to perform the publishing action.
      * @param  Etymology    $etymology  The etymology instance being considered for publishing.
      * @return bool                     Returns true if the etymology is under review or archived; false otherwise.
      */
