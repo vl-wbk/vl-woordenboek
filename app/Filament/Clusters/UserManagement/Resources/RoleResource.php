@@ -27,6 +27,9 @@ final class RoleResource extends Resource implements HasShieldPermissions
 
     protected static ?string $recordTitleAttribute = 'name';
 
+    /**
+     * @return list<string>
+     */
     public static function getPermissionPrefixes(): array
     {
         return [
@@ -147,13 +150,6 @@ final class RoleResource extends Resource implements HasShieldPermissions
             ]);
     }
 
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-
     public static function getPages(): array
     {
         return [
@@ -166,6 +162,7 @@ final class RoleResource extends Resource implements HasShieldPermissions
 
     public static function getCluster(): ?string
     {
+        /** @phpstan-ignore-next-line */
         return Utils::getResourceCluster() ?? static::$cluster;
     }
 
@@ -189,7 +186,7 @@ final class RoleResource extends Resource implements HasShieldPermissions
         return Utils::isResourceNavigationRegistered();
     }
 
-    public static function getNavigationGroup(): ?string
+    public static function getNavigationGroup(): string
     {
         return Utils::isResourceNavigationGroupEnabled()
             ? __('filament-shield::filament-shield.nav.group')

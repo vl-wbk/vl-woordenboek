@@ -10,10 +10,14 @@ use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
+/**
+ * @property \App\Models\User $record
+ */
 final class CreateRole extends CreateRecord
 {
     protected static string $resource = RoleResource::class;
 
+    /** @var Collection<int, string> */
     public Collection $permissions;
 
     protected function mutateFormDataBeforeCreate(array $data): array
@@ -31,6 +35,7 @@ final class CreateRole extends CreateRecord
         return Arr::only($data, ['name', 'guard_name']);
     }
 
+    /** @phpstan-ignore-next-line */
     private function afterCreate(): void
     {
         $permissionModels = collect();

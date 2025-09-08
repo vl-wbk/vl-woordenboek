@@ -23,7 +23,10 @@ final readonly class GoogleOAuthController
     public function callback(): RedirectResponse
     {
         try {
-            /** @var OAuth2User $googleUser */
+            /**
+             * @var OAuth2User $googleUser
+             * @phpstan-ignore-next-line
+             */
             $googleUser = Socialite::driver('google')->stateless()->user();
         } catch (InvalidStateException $invalidStateException) {
             abort(Response::HTTP_BAD_REQUEST, $invalidStateException->getMessage());
@@ -40,6 +43,10 @@ final readonly class GoogleOAuthController
         return redirect('/');
     }
 
+
+    /**
+     * @return array<string, string>
+     */
     private function registrationData(OAuth2User $googleUser): array
     {
         return [

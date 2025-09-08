@@ -139,7 +139,7 @@ final readonly class TableSchema
      * Configures the actions that appear on each row of the table.
      * Row actions are used for performing operations on individual records, such as viewing details or deleting the entry.
      *
-     * @return array An array of Filament table row action components.
+     * @return array<int, ViewAction|DeleteAction> An array of Filament table row action components.
      */
     private static function configureTableRowActions(): array
     {
@@ -155,7 +155,7 @@ final readonly class TableSchema
      * Bulk actions allow administrators to perform operations on multiple selected records at once.
      * This configuration includes a delete bulk action with a custom modal description to warn the user about potential data loss.
      *
-     * @return array<int, Tables\Actions\BulkActionGroup> An array of Filament table bulk action components.
+     * @return array<int, \Filament\Tables\Actions\BulkActionGroup|\Filament\Tables\Actions\DeleteBulkAction> An array of Filament table bulk action components.
      */
     private static function configureTableBulkActions(): array
     {

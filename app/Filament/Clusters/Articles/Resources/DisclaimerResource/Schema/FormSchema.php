@@ -48,6 +48,9 @@ final readonly class FormSchema
             ]);
     }
 
+    /**
+     * @return array<int, Select|Textarea>
+     */
     private static function getDisclaimerInformationSchema(): array
     {
         return [
@@ -65,6 +68,9 @@ final readonly class FormSchema
         ];
     }
 
+    /**
+     * @return array<int, TextInput|Textarea>
+     */
     private static function getManagementInformationSchema(): array
     {
         return [

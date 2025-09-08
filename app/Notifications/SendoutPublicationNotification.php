@@ -42,7 +42,7 @@ final class SendoutPublicationNotification extends Notification implements Shoul
     public function middleware(): array
     {
         return [
-            Skip::unless($this->article->author && $this->article->notify_author),
+            Skip::unless($this->article->author()->exists() && $this->article->notify_author),
         ];
     }
 

@@ -24,6 +24,9 @@ use Illuminate\Auth\Access\Response;
  */
 final class EtymologyPolicy
 {
+    /**
+     * @var list<string>
+     */
     public static array $defaultPermissions = ['view', 'view_any', 'update', 'delete', 'delete_any', 'archive', 'reject', 'publish', 'draft', 'under_review'];
 
     /**

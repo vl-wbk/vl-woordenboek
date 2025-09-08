@@ -45,7 +45,7 @@ trait HasNotables
      * @param string|null $note 	The body of the note, defaults to `null`.
      * @param User|null   $author 	The author of the note, defaults to the authenticated user.
      *
-     * @return Article|HasNotables The current model instance, allowing for method chaining.
+     * @return self The current model instance, allowing for method chaining.
      */
     public function addNote(string $title, ?string $note = null, ?User $author = null): self
     {

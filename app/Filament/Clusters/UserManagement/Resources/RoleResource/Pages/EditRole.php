@@ -11,10 +11,16 @@ use Filament\Resources\Pages\EditRecord;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
+/**
+ * @property \App\Models\User $record
+ */
 final class EditRole extends EditRecord
 {
     protected static string $resource = RoleResource::class;
 
+    /**
+     * @var Collection<int, string>
+     */
     public Collection $permissions;
 
     protected function getActions(): array
@@ -39,6 +45,7 @@ final class EditRole extends EditRecord
         return Arr::only($data, ['name', 'guard_name']);
     }
 
+    /** @phpstan-ignore-next-line */
     private function afterSave(): void
     {
         $permissionModels = collect();

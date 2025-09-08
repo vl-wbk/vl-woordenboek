@@ -30,6 +30,9 @@ final readonly class TableSchema
             ->bulkActions(actions: self::configureBulkActions());
     }
 
+    /**
+     * @return array<int, Action|CreateAction>
+     */
     private static function configureHeaderActions(): array
     {
         return [
@@ -44,6 +47,9 @@ final readonly class TableSchema
         ];
     }
 
+    /**
+     * @return array<int, TextColumn>
+     */
     private static function configureColumnComponents(): array
     {
         return [
@@ -71,6 +77,9 @@ final readonly class TableSchema
         ];
     }
 
+    /**
+     * @return array<int, Tables\Actions\ViewAction|Tables\Actions\EditAction|Tables\Actions\DeleteAction>
+     */
     private static function configureActions(): array
     {
         return [
@@ -89,6 +98,9 @@ final readonly class TableSchema
         ];
     }
 
+    /**
+     * @return array<int, Tables\Actions\BulkActionGroup>
+     */
     private static function configureBulkActions(): array
     {
         return [

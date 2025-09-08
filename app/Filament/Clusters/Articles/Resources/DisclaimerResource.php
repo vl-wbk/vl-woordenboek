@@ -55,7 +55,7 @@ final class DisclaimerResource extends Resource implements HasShieldPermissions
      * The values returned here are used by the Filament Shield plugin to automatically register granular permissions (e.g., `view_any`, `create`, `view`, `update`, `delete`)
      * for the Disclaimer model, allowing for fine-grained access control based on user roles.
      *
-     * @return string[] An array of permission prefixes, typically based on the model's policy.
+     * @return list<string> An array of permission prefixes, typically based on the model's policy.
      */
     public static function getPermissionPrefixes(): array
     {
@@ -112,7 +112,7 @@ final class DisclaimerResource extends Resource implements HasShieldPermissions
      * This method links each logical page (e.g., list, create, view, edit) to a specific page class within the `Pages` namespace.
      * This architecture allows for custom logic to be applied to each specific page, such as unique form behaviours or custom actions.
      *
-     * @return array An array of page routes mapped to their page classes.
+     * @return array<string, \Filament\Resources\Pages\PageRegistration> An array of page routes mapped to their page classes.
      */
     public static function getPages(): array
     {

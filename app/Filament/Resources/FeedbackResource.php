@@ -25,6 +25,9 @@ final class FeedbackResource extends Resource implements HasShieldPermissions
 
     protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
 
+    /**
+     * @return list<string>
+     */
     public static function getPermissionPrefixes(): array
     {
         return FeedbackPolicy::$permissionPrefixes;
