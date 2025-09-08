@@ -149,7 +149,7 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
      *
      * @param  Carbon $validUntil Expiration timestamp for the welcome link.
      */
-    public function sendWelcomeNotification(Carbon $validUntil)
+    public function sendWelcomeNotification(Carbon $validUntil): void
     {
         $this->notify(new RegistrationWelcomeNotification($validUntil));
     }

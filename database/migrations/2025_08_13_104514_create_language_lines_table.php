@@ -6,29 +6,14 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Query\Expression;
 
 return new class extends Migration {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up(): void
     {
-        Schema::create('language_lines', function (Blueprint $table) {
+        Schema::create('language_lines', function (Blueprint $table): void {
             $table->bigIncrements('id');
             $table->string('group')->index();
             $table->string('key')->index();
             $table->json('text')->default(new Expression('(JSON_ARRAY())'));
             $table->timestamps();
         });
-    }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('language_lines');
     }
 };

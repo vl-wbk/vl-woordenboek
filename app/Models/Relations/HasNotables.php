@@ -49,7 +49,7 @@ trait HasNotables
      */
     public function addNote(string $title, ?string $note = null, ?User $author = null): self
     {
-        $author = $author ?? auth()->user();
+        $author ??= auth()->user();
         $note = new Note(attributes: ['title' => $title, 'author_id' => $author->id, 'body' => $note]);
 
         $this->notes()->save(model: $note);

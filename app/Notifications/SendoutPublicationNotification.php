@@ -72,20 +72,10 @@ final class SendoutPublicationNotification extends Notification implements Shoul
         // Build up the notification email
         return (new MailMessage())
             ->subject(subject: __('mail-notifications.article-publication.subject', ['app' => config('app.name', 'laravel')]))
-            ->greeting(greeting: __('mail-notifications.article-publication.greeting', ['name' => $this->getUserName()]))
+            ->greeting(greeting: __('mail-notifications.article-publication.greeting', ['name' => $this->article->author->name]))
             ->line(line: __('mail-notifications.article-publication.first-line'))
             ->line(line: __('mail-notifications.article-publication.second-line'))
             ->action(text: __('mail-notifications.article-publication.action'), url: $this->articleUrl());
-    }
-
-    /**
-     * Retrieves the name of the article's author.
-     *
-     * @return string|null The author's name, or `null` if not available.
-     */
-    private function getUserName(): ?string
-    {
-        return $this->article->author->name;
     }
 
     /**

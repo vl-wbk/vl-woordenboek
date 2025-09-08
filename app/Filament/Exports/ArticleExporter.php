@@ -72,7 +72,7 @@ final class ArticleExporter extends Exporter
             'amount' => toHumanReadableNumber((int) $export->successful_rows),
         ]);
 
-        if ($failedRowsCount = $export->getFailedRowsCount()) {
+        if (($failedRowsCount = $export->getFailedRowsCount()) !== 0) {
             $body .= ' ' . number_format($failedRowsCount) . ' ' . str('rij')->plural($failedRowsCount) . ' konden niet gexporteerd worden.';
         }
 
