@@ -71,3 +71,9 @@ jobs:
 
       - name: Tests
         run: composer test
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} # You'll create this secret later
+          fail_ci_if_error: true
