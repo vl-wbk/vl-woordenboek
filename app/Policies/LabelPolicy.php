@@ -54,7 +54,7 @@ final readonly class LabelPolicy
      *
      * @param  User $user  The eloquent instance from the currently authenticated user.
      */
-    public function update(User $user): bool
+    public function update(User $user, Label $label): bool
     {
         return $user->can('update_label');
     }
