@@ -113,7 +113,7 @@
         "test:arch": "pest --filter=arch",
         "test:type-coverage": "pest --type-coverage --min=95",
         "test:unit": "pest --parallel",
-        "test:coverage": "pest --parallel --coverage-html=build/coverage",
+        "test:coverage": "pest --parallel --coverage --coverage-clover",
         "test": [
             "@test:lint",
             "@test:refactor",
