@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Filament\Clusters\UserManagement\Resources\RoleResource\Pages;
 
 use App\Filament\Clusters\UserManagement\Resources\RoleResource;
-use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
 final class ListRoles extends ListRecords

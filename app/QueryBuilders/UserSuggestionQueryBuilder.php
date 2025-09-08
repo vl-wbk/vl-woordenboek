@@ -63,7 +63,7 @@ final class UserSuggestionQueryBuilder extends QueryBuilder
     private function suggestionQuery(Request $request): Builder|Relation
     {
         return Article::query()
-			->with(['editor'])
+            ->with(['editor'])
             ->where('author_id', auth()->id())
             ->when($this->needsToApplyFilter('inProgress'), fn(Builder $builder): Builder => $this->onlyInProgressSuggestions($builder))
             ->when($this->needsToApplyFilter('done'), fn(Builder $builder): Builder => $this->onlyProcessedSuggestions($builder))

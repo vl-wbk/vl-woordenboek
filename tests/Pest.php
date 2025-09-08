@@ -1,10 +1,7 @@
 <?php
 
-use App\Models\User;
-	
-	use Spatie\Permission\Models\Permission;
-	
-	use function Pest\Laravel\actingAs;
+
+use Spatie\Permission\Models\Permission;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,5 +46,5 @@ expect()->extend('toBeOne', function () {
 
 function createPermission(string $name): void
 {
-	Permission::create(['name' => $name]);
+    Permission::create(['name' => $name]);
 }

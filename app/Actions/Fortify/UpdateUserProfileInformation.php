@@ -32,7 +32,7 @@ final class UpdateUserProfileInformation implements UpdatesUserProfileInformatio
             $user->forceFill([
                 'firstname' => $input['firstname'],
                 'lastname' => $input['lastname'],
-				'name' => $input['gebruikersnaam'],
+                'name' => $input['gebruikersnaam'],
                 'email' => $input['email'],
             ])->save();
         }
@@ -46,7 +46,7 @@ final class UpdateUserProfileInformation implements UpdatesUserProfileInformatio
     private function updateVerifiedUser(User $user, array $input): void
     {
         $user->forceFill([
-			'name' => $input['gebruikersnaam'],
+            'name' => $input['gebruikersnaam'],
             'firstname' => $input['firstname'],
             'lastname' => $input['lastname'],
             'email' => $input['email'],

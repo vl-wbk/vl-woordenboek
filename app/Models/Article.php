@@ -79,7 +79,7 @@ final class Article extends Model implements AuditableContract
     use HasLocks;
     use SoftDeletes;
     use Prunable;
-	use HasNotables;
+    use HasNotables;
 
     /**
      * Specifies attributes that are protected from mass assignment.
@@ -258,7 +258,7 @@ final class Article extends Model implements AuditableContract
     protected function casts(): array
     {
         return [
-			'notify_author' => 'boolean',
+            'notify_author' => 'boolean',
             'wtod' => 'boolean',
             'origin' => DataOrigin::class,
             'state' => ArticleStates::class,

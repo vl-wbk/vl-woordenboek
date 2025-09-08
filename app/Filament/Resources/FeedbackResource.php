@@ -58,10 +58,10 @@ final class FeedbackResource extends Resource implements HasShieldPermissions
     public static function getNavigationBadge(): ?string
     {
         $feedbackCount = Cache::flexible(
-			key: 'feedback_count',
-			ttl: [10, 60],
-			callback: fn(): string => (string) self::$model::where('status', FeedbackStatus::Unprocessed)->count()
-		);
+            key: 'feedback_count',
+            ttl: [10, 60],
+            callback: fn(): string => (string) self::$model::where('status', FeedbackStatus::Unprocessed)->count(),
+        );
 
         // Return the count if it's greater than 0, otherwise return null
         return $feedbackCount > 0 ? $feedbackCount : null;

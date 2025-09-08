@@ -7,7 +7,6 @@ namespace App\Policies;
 use App\Enums\Articles\EtymologyStatus;
 use App\Models\Etymology;
 use App\Models\User;
-use App\UserTypes;
 use Illuminate\Auth\Access\Response;
 
 /**
@@ -25,9 +24,9 @@ use Illuminate\Auth\Access\Response;
  */
 final class EtymologyPolicy
 {
-	public static array $defaultPermissions = ['view', 'view_any', 'update', 'delete', 'delete_any', 'archive', 'reject', 'publish', 'draft', 'under_review'];
-	
-	/**
+    public static array $defaultPermissions = ['view', 'view_any', 'update', 'delete', 'delete_any', 'archive', 'reject', 'publish', 'draft', 'under_review'];
+
+    /**
      * Undocumented function
      *
      * @param  User     $user       The user attempting the action.

@@ -8,7 +8,7 @@ return [
         ],
 
         'reactivate-user' => [
-            'success-title' => 'De gebruiker is terug geactiveerd in het platform'
+            'success-title' => 'De gebruiker is terug geactiveerd in het platform',
         ],
     ],
 ];

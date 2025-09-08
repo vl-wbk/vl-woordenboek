@@ -58,8 +58,8 @@ final readonly class UserInfolist
      * - **Last Seen At**: The last login time, displayed as a relative time (e.g., "2 hours ago").
      * - **Created At**: The registration date, formatted as a date.
      *
-	 * @todo On the translations branch translate the changes on the infolist
-	 *
+     * @todo On the translations branch translate the changes on the infolist
+     *
      * @return array<int, TextEntry> The array of `TextEntry` components for general user information.
      */
     public static function renderGeneralInformation(): array
@@ -69,19 +69,19 @@ final readonly class UserInfolist
                 ->label(label: __('user-resource.tables.columns.name'))
                 ->icon('heroicon-o-user-circle')
                 ->iconColor('primary')
-				->placeholder('-')
+                ->placeholder('-')
                 ->columnSpan(3),
 
-			TextEntry::make('firstname')
-				->label('Voornaam')
-				->columnSpan(3)
-				->placeholder('- niet opgegeven'),
-				
-			TextEntry::make('lastname')
-				->label('Achternaam')
-				->columnSpan(3)
-				->placeholder('- niet opgegeven'),
-				
+            TextEntry::make('firstname')
+                ->label('Voornaam')
+                ->columnSpan(3)
+                ->placeholder('- niet opgegeven'),
+
+            TextEntry::make('lastname')
+                ->label('Achternaam')
+                ->columnSpan(3)
+                ->placeholder('- niet opgegeven'),
+
             TextEntry::make('email')
                 ->label(label: __('user-resource.tables.columns.email'))
                 ->badge()
@@ -91,26 +91,26 @@ final readonly class UserInfolist
                 ->label(label: __('user-resource.tables.columns.last-seen-at'))
                 ->since()
                 ->label('laatste aanmelding')
-				->dateTimeTooltip()
+                ->dateTimeTooltip()
                 ->icon('heroicon-o-clock')
                 ->iconColor('primary')
                 ->placeholder('-')
                 ->columnSpan(3),
 
-			TextEntry::make('updated_at')
-				->label('Laatst aangepast')
-				->icon('heroicon-o-clock')
-				->iconColor('primary')
-				->since()
-				->dateTimeTooltip()
-				->columnSpan(3),
-				
+            TextEntry::make('updated_at')
+                ->label('Laatst aangepast')
+                ->icon('heroicon-o-clock')
+                ->iconColor('primary')
+                ->since()
+                ->dateTimeTooltip()
+                ->columnSpan(3),
+
             TextEntry::make('created_at')
                 ->label(label: __('user-resource.tables.columns.created-at'))
                 ->icon('heroicon-o-clock')
                 ->iconColor('primary')
-				->since()
-				->dateTimeTooltip()
+                ->since()
+                ->dateTimeTooltip()
                 ->columnSpan(3),
 
             TextEntry::make('roles.name')
@@ -140,7 +140,7 @@ final readonly class UserInfolist
                 ->columnSpan(4)
                 ->icon('heroicon-o-user-circle')
                 ->iconColor('primary')
-				->placeholder('-')
+                ->placeholder('-')
                 ->state(fn(User $user): ?string => $user->bans->first()->bannable->name),
 
             TextEntry::make('banned_at')

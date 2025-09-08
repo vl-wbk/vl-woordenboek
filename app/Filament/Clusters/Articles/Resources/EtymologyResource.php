@@ -10,15 +10,12 @@ use App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema\FormSchema
 use App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema\InfolistSchema;
 use App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema\TableSchema;
 use App\Filament\Clusters\Articles\Resources\EtymologyResource\Widgets\EtymologyStatisticsWidget;
-use App\Filament\Resources\ArticleResource;
-use App\Models\Etymology;
 use App\Policies\EtymologyPolicy;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 /**
@@ -56,7 +53,7 @@ final class EtymologyResource extends Resource implements HasShieldPermissions
     {
         return $table
             ->heading(heading: __('etymology-resource.table.heading'))
-			->description(description: __('etymology-resource.table.description'))
+            ->description(description: __('etymology-resource.table.description'))
             ->emptyStateIcon('heroicon-s-queue-list')
             ->emptyStateHeading(heading: __('etymology-resource.table.empty-state.heading'))
             ->emptyStateDescription(description: __('etymology-resource.table.empty-state.description'))

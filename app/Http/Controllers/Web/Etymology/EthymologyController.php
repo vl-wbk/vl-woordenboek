@@ -6,11 +6,9 @@ namespace App\Http\Controllers\Web\Etymology;
 
 use App\Actions\Articles\StoreEtymologySubmission;
 use App\Concerns\RateLimitSubmission;
-use App\Enums\Articles\EtymologyStatus;
 use App\Enums\Articles\EtymologySources;
 use App\Http\Requests\Articles\StoreEtymologyRequest;
 use App\Models\Article;
-use App\Models\Etymology;
 use Closure;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;

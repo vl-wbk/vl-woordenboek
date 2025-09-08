@@ -33,7 +33,7 @@ final class SuggestionData extends Data
      * @param string|null         $characteristics    Optional additional characteristics or notes about the suggested word. Can be null if no extra details are available. Mapped from the 'kenmerken' input name.
      * @param int|null            $creator_id         Optional ID of the user who created the suggestion. Can be null if the creator isn't specified. Mapped from the 'creator' input name.
      * @param int|null            $part_of_speech_id  Optional ID of the part of speech associated with the suggested word. Can be null if the part of speech isn't specified. Mapped from the 'woordsoort' input name.
-	 * @param bool				  $notify_author	  Optional boolean flag to indicate that the author of the suggestion wants to retrieve a mail notification when his suggestion is published.
+     * @param bool				  $notify_author	  Optional boolean flag to indicate that the author of the suggestion wants to retrieve a mail notification when his suggestion is published.
      */
     public function __construct(
         #[MapInputName('woord')]
@@ -50,7 +50,7 @@ final class SuggestionData extends Data
         public ?int $creator_id = null,
         #[MapInputName('woordsoort')]
         public ?int $part_of_speech_id = null,
-		#[MapInputName('notificatie')]
-		public ?bool $notify_author = false,
+        #[MapInputName('notificatie')]
+        public ?bool $notify_author = false,
     ) {}
 }

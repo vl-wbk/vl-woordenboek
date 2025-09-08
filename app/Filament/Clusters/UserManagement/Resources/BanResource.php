@@ -65,7 +65,7 @@ final class BanResource extends Resource implements HasShieldPermissions
             'view_any',
             'view',
             'update',
-            'delete'
+            'delete',
         ];
     }
 

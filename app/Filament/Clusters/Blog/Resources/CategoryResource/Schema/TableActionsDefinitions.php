@@ -63,7 +63,7 @@ final readonly class TableActionsDefinitions
                 ->label(label: __('category-resource.table.header-actions.create-action.label'))
                 ->modalHeading(heading: __('category-resource.table.header-actions.create-action.modal.heading'))
                 ->modalIcon('heroicon-o-plus')
-                ->modalDescription(description: __('category-resource.table.header-actions.create-action.modal.description'))
+                ->modalDescription(description: __('category-resource.table.header-actions.create-action.modal.description')),
         ];
     }
 }

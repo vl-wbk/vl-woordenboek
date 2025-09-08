@@ -41,17 +41,17 @@ final readonly class UserTable
                     ->icon(fn(User $user): ?string => $user->isBanned() ? 'tabler-shield-lock' : null)
                     ->label(label: __('user-resource.tables.columns.name'))
                     ->label('Gebruikersnaam')
-					->placeholder('-')
+                    ->placeholder('-')
                     ->weight(FontWeight::Bold)
                     ->color(fn(User $user): string => $user->isBanned() ? 'danger' : 'primary')
                     ->sortable()
                     ->searchable(),
-				
+
                 TextColumn::make('user_type')
                     ->label(label: __('user-resource.tables.columns.user-type'))
                     ->badge()
                     ->sortable(),
-				
+
                 TextColumn::make('roles.name')
                     ->label(label: __('user-resource.tables.columns.roles.label'))
                     ->icon('heroicon-o-key')
@@ -59,8 +59,8 @@ final readonly class UserTable
                     ->color('danger')
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->badge(),
-                
-				TextColumn::make('email')
+
+                TextColumn::make('email')
                     ->label(label: __('user-resource.tables.columns.email'))
                     ->searchable()
                     ->url(fn(User $user): string => 'mailto:' . $user->email),

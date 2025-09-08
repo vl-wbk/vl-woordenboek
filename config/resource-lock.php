@@ -45,7 +45,7 @@ return [
 
     'unlocker' => [
         'limited_access' => false,
-        'gate' => 'unlock_resource_lock'
+        'gate' => 'unlock_resource_lock',
     ],
 
     /*

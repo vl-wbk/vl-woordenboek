@@ -24,7 +24,7 @@ final readonly class DocumentationButtons
      * This can be extended in the future to include more complex logic, such as checking environment variables, database configurations, or user permissions.
      */
     public function resolve(): bool
-	{
+    {
         return true;
     }
 }

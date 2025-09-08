@@ -7,16 +7,12 @@ namespace App\Filament\Clusters\UserManagement\Resources\RoleResource\RelationMa
 use App\Filament\Clusters\UserManagement\Resources\RoleResource;
 use App\Filament\Resources\UserResource\Pages\ViewUser;
 use App\Models\User;
-use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Spatie\Permission\Models\Role;
@@ -86,9 +82,9 @@ final class RolesRelationManager extends RelationManager
     public static function getBadge(Model $ownerRecord, string $pageClass): ?string
     {
         $recordCount = Cache::flexible(
-            key: 'permission_group_count'.$ownerRecord->id,
+            key: 'permission_group_count' . $ownerRecord->id,
             ttl: [30, 60],
-            callback: fn (): int => $ownerRecord->roles()->count()
+            callback: fn(): int => $ownerRecord->roles()->count(),
         );
 
         return ($recordCount > 0) ? (string) $recordCount : null;
@@ -150,7 +146,7 @@ final class RolesRelationManager extends RelationManager
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make()
-                        ->url(fn (Role $role): string => RoleResource::getUrl('view', ['record' => $role])),
+                        ->url(fn(Role $role): string => RoleResource::getUrl('view', ['record' => $role])),
                     Tables\Actions\DetachAction::make(),
                 ]),
             ])

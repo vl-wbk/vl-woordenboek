@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 
 return [
     'table' => [
@@ -14,9 +15,9 @@ return [
             'name' => 'Categorie',
             'posts_count' => 'Koppelingen',
             'description' => [
-                'label' => 'Beschrijving', 
+                'label' => 'Beschrijving',
                 'placeholder' => '- Geen beschrijving opgegeven',
-            ], 
+            ],
             'created-at' => 'Aangemaakt op',
         ],
 
@@ -25,9 +26,9 @@ return [
                 'label' => 'Categorie toevoegen',
                 'modal' => [
                     'heading' => 'Nieuwe categorie aanmaken',
-                    'description' => 'Via het onderstaande formulier kunt u een nieuwe categorie aanmaken voor een nieuwsbericht'
-                ]
-            ]
+                    'description' => 'Via het onderstaande formulier kunt u een nieuwe categorie aanmaken voor een nieuwsbericht',
+                ],
+            ],
         ],
 
         'row-actions' => [
@@ -59,14 +60,14 @@ return [
     ],
 
     'infolist' => [
-        'name' => 'Naam', 
+        'name' => 'Naam',
         'post-count' => 'Aantal koppelingen',
         'created-at' => 'Aangemaakt op',
         'description' => [
             'label' => 'Categorie beschrijving',
             'placeholder' => '- Geen categorie beschrijving opgegeven',
         ],
-    ], 
+    ],
 
     'form' => [
         'name' => 'Naam v/d categorie',

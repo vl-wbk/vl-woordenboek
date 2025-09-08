@@ -183,9 +183,9 @@ final class User extends Authenticatable implements FilamentUser, BannableInterf
     protected function casts(): array
     {
         return [
-			'google_id' => 'encrypted',
-			'google_token' => 'encrypted',
-			'google_refresh_token' => 'encrypted',
+            'google_id' => 'encrypted',
+            'google_token' => 'encrypted',
+            'google_refresh_token' => 'encrypted',
             'is_beta_tester' => 'boolean',
             'user_type' => UserTypes::class,
             'last_seen_at' => 'datetime',

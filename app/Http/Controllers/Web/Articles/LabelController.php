@@ -51,7 +51,7 @@ final readonly class LabelController
     {
         /** @phpstan-ignore-next-line */
         return match ($sort->toString()) {
-			'populariteit' => ['column' => 'views', 'order' => 'DESC'],
+            'populariteit' => ['column' => 'views', 'order' => 'DESC'],
             'recent' => ['column' => 'published_at', 'order' => 'ASC'],
             default => ['column' => 'word', 'order' => 'ASC'],
         };

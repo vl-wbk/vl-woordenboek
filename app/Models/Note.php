@@ -8,7 +8,6 @@ use App\Models\Relations\BelongsToAuthor;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Represents individual notes attached to dictionary articles within the Vlaams Woordenboek application.

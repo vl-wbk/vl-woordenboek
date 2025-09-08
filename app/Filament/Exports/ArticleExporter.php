@@ -42,15 +42,15 @@ final class ArticleExporter extends Exporter
             self::createExportColumn(name: 'example', label: 'Voorbeeld gebruik'),
 
             self::createExportColumn(name: 'origin', label: 'Herkomst van het artikel', enableByDefault: false)
-                ->state(static fn (Article $article): string => $article->origin->getLabel()),
+                ->state(static fn(Article $article): string => $article->origin->getLabel()),
 
             self::createExportColumn(name: 'state', label: 'Status in het woordenboek', enableByDefault: false)
-                ->state(static fn (Article $article): string => $article->state->getLabel()),
+                ->state(static fn(Article $article): string => $article->state->getLabel()),
 
             self::createExportColumn(name: 'partOfSpeech.name', label: 'Woordsoort'),
             self::createExportColumn(name: 'regions.name', label: 'Regio'),
             self::createExportColumn(name: 'status', label: 'Status')
-                ->state(static fn (Article $article): string => $article->status->getLabel()),
+                ->state(static fn(Article $article): string => $article->status->getLabel()),
 
             self::createExportColumn(name: 'author.name', label: 'Auteur', enableByDefault: false),
             self::createExportColumn(name: 'editor.name', label: 'Redacteur', enableByDefault: false),
@@ -73,7 +73,7 @@ final class ArticleExporter extends Exporter
         ]);
 
         if ($failedRowsCount = $export->getFailedRowsCount()) {
-            $body .= ' '.number_format($failedRowsCount).' '.str('rij')->plural($failedRowsCount).' konden niet gexporteerd worden.';
+            $body .= ' ' . number_format($failedRowsCount) . ' ' . str('rij')->plural($failedRowsCount) . ' konden niet gexporteerd worden.';
         }
 
         return $body;

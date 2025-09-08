@@ -42,14 +42,14 @@ final readonly class InfolistSchema
                             ->iconColor('primary')
                             ->columnSpan(6)
                             ->hiddenLabel(),
-						
+
                         Components\TextEntry::make('email')
                             ->columnSpan(6)
                             ->icon('heroicon-o-envelope')
                             ->iconColor('primary')
                             ->hiddenLabel(),
                     ]),
-				
+
                 Components\Fieldset::make(label: __('feedback-resource.infolist.fieldsets.feedback'))
                     ->columns(12)
                     ->schema([
@@ -58,29 +58,29 @@ final readonly class InfolistSchema
                             ->color('gray')
                             ->label(label: __('feedback-resource.infolist.entries.first-time-visit'))
                             ->columnSpan(4),
-						
+
                         Components\TextEntry::make('results_found_easily')
                             ->badge()
                             ->label(label: __('feedback-resource.infolist.entries.results-found-easily'))
                             ->columnSpan(4),
-						
+
                         Components\IconEntry::make('contact_allowed')
                             ->label(label: __('feedback-resource.infolist.entries.contact-allowed'))
                             ->boolean()
                             ->columnSpan(4),
-						
+
                         Components\TextEntry::make('visit_reason')
                             ->label(label: __('feedback-resource.infolist.entries.visit-reason.label'))
                             ->color('gray')
                             ->columnSpan(12)
                             ->placeholder(placeholder: __('feedback-resource.infolist.entries.visit-reason.placeholder')),
-						
+
                         Components\TextEntry::make('search_additional_info')
                             ->label(label: __('feedback-resource.infolist.entries.search-additional-info.label'))
                             ->columnSpanFull()
                             ->color('gray')
                             ->placeholder(placeholder: __('feedback-resource.infolist.entries.search-additional-info.placeholder')),
-						
+
                         Components\TextEntry::make('additional_info')
                             ->label(label: __('feedback-resource.infolist.entries.additional-info.label'))
                             ->columnSpanFull()

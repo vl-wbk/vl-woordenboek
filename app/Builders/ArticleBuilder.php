@@ -39,8 +39,8 @@ final class ArticleBuilder extends Builder
      * The operation is wrapped in a database transaction to ensure data consistency.
      *
      * @param string|null $archivingReason The optional reason for archiving the article.
-	 *
-	 * @throws \Throwable
+     *
+     * @throws \Throwable
      */
     public function archive(?string $archivingReason = null): void
     {
@@ -55,21 +55,21 @@ final class ArticleBuilder extends Builder
      *
      * This method transitions the article's state back to "Published" and clears any archiving-related data, such as the archiving reason and timestamp.
      * The operation is wrapped in a database transaction to ensure data consistency.
-	 *
-	 * @throws \Throwable
+     *
+     * @throws \Throwable
      */
     #[Deprecated('Should be refactored to a general publish action in the ArticleBuilder')]
     public function unarchive(): void
     {
         DB::transaction(function (): void {
-			$this->model->update(attributes: [
-				'state' => ArticleStates::Published,
-				'archiving_reason' => null,
-				'published_at' => now(),
-				'archived_at' => null,
-			]);
-			
-			$this->model->author->notify(new SendoutPublicationNotification($this->model));
+            $this->model->update(attributes: [
+                'state' => ArticleStates::Published,
+                'archiving_reason' => null,
+                'published_at' => now(),
+                'archived_at' => null,
+            ]);
+
+            $this->model->author->notify(new SendoutPublicationNotification($this->model));
         });
     }
 
