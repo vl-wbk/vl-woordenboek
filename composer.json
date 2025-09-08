@@ -112,8 +112,7 @@
         "test:types": "phpstan analyse --memory-limit=-1",
         "test:arch": "pest --filter=arch",
         "test:type-coverage": "pest --type-coverage --min=95",
-        "test:unit-parallel": "pest --parallel",
-        "test:unit": "pest --coverage",
+        "test:unit": "pest --parallel --coverage",
         "test": [
             "@test:lint",
             "@test:refactor",
