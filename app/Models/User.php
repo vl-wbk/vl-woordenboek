@@ -55,7 +55,7 @@ use Spatie\Permission\Traits\HasRoles;
  *
  * @package App\Models
  */
-final class User extends Authenticatable implements FilamentUser, BannableInterface, MustVerifyEmail
+class User extends Authenticatable implements FilamentUser, BannableInterface, MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory;
