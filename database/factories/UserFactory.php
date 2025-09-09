@@ -90,7 +90,7 @@ class UserFactory extends Factory
      *
      * @return Factory<User>    Returns the factory instance, typed to the `User` model, allowing for method chaining.
      */
-    public function administor(): Factory
+    public function administrator(): Factory
     {
         return $this->state(fn(): array => ['user_type' => UserTypes::Administrators]);
     }
