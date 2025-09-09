@@ -9,7 +9,7 @@ use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
 /**
- * @todo Document this method
+ * @link file://tests/Unit/Authorization/CategoryPolicyTest.php
  */
 final readonly class CategoryPolicy
 {

@@ -14,6 +14,7 @@ use Illuminate\Auth\Access\Response;
  * This policy class defines access control for all label-related operations, ensuring that only users with appropriate permissions can modify the dictionary's taxonomic structure.
  * The policy implements a strict permission hierarchy where administrative tasks are restricted to administrators and developers, while relationship management extends to chief editors.
  *
+ * @link file://tests/Unit/Authorization/CategoryPolicyTest.php
  * @package App\Policies
  */
 final readonly class LabelPolicy
