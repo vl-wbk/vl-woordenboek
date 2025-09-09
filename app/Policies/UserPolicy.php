@@ -6,11 +6,12 @@ use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
 /**
- * UserPOlicy enforces authorization rules for user management operations.
+ * UserPolicy enforces authorization rules for user management operations.
  *
- * This policy class controls access to user-related functionality within the Vlaams Woordenboek administration panel.
+ * This policy class controls access to user-related capability within the Vlaams Woordenboek administration panel.
  * It implements strict access control that limits user management capabilities to administrators and developers, ensuring secure user administration.
  *
+ * @link file://tests/Unit/Authorization/CategoryPolicyTest.php
  * @package App\Policies
  */
 final readonly class UserPolicy
@@ -39,12 +40,12 @@ final readonly class UserPolicy
     }
 
     /**
-     * Determines whether a user can create new user account.
+     * Determines whether a user can create a new user account.
      *
      * The ability to create new users is limited to administrators and developers to maintain strict control over system access.
      * This centralized approach to user creation helps ensure proper role assignment and account security.
      *
-     * @param  User $user  The user that is attempting to create another user account
+     * @param  User $user  The user that's attempting to create another user account
      * @return bool        True if the user has the permission to create the user account, false otherwise
      */
     public function create(User $user): bool
@@ -57,7 +58,7 @@ final readonly class UserPolicy
      *
      * This policy ensures that:
      * - Only administrators and developers can deactivate accounts
-     * - Users cannot deactivate their own account
+     * - Users can't deactivate their own account
      * - Only active (non-banned) accounts can be deactivated
      *
      * @param  User $user   The user attempting to perform the deactivation
@@ -76,7 +77,7 @@ final readonly class UserPolicy
      *
      * This policy ensures that:
      * - Only administrators and developers can reactivate accounts
-     * - Users cannot reactivate their own account
+     * - Users can't reactivate their own account
      * - Only currently deactivated accounts can be reactivated
      *
      * @param  User $user   The user attempting to perform the reactivation
@@ -95,7 +96,7 @@ final readonly class UserPolicy
      *
      * This policy ensures that:
      * - Only administrators and developers can modify deactivations
-     * - Users cannot modify their own deactivation
+     * - Users can't modify their own deactivation
      * - Only currently deactivated accounts can have their deactivation modified
      *
      * Common modifications include updating the deactivation reason or duration.

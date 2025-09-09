@@ -13,7 +13,7 @@ beforeEach(function (): void {
     $this->policy = new UserPolicy();
 });
 
-test('de before-methode weigert toegang voor gebruikers zonder de page_UserManagement-permissie', function () {
+test('de before methode weigert toegang voor gebruikers zonder de page_UserManagement permissie', function (): void {
     $user = Mockery::mock(User::class);
     $user->shouldReceive('cannot')
         ->once()
@@ -22,11 +22,11 @@ test('de before-methode weigert toegang voor gebruikers zonder de page_UserManag
 
     $response = $this->policy->before($user, 'viewAny');
 
-    expect($response)->toBeInstanceOf(Response::class);
-    expect($response->status())->toBe(404);
+    expect($response)->toBeInstanceOf(Response::class)
+        ->and($response->status())->toBe(404);
 });
 
-test('de before-methode staat toegang toe voor gebruikers met de page_UserManagement-permissie', function () {
+test('de before methode staat toegang toe voor gebruikers met de page_UserManagement permissie', function (): void {
     $user = Mockery::mock(User::class);
     $user->shouldReceive('cannot')
         ->once()
@@ -38,7 +38,7 @@ test('de before-methode staat toegang toe voor gebruikers met de page_UserManage
     expect($response)->toBeNull();
 });
 
-test('de viewAny-methode staat toegang toe voor gebruikers met de view_any_user-permissie', function () {
+test('de viewAny methode staat toegang toe voor gebruikers met de view_any_user permissie', function (): void {
     $user = Mockery::mock(User::class);
     $user->shouldReceive('can')
         ->once()
@@ -48,7 +48,7 @@ test('de viewAny-methode staat toegang toe voor gebruikers met de view_any_user-
     expect($this->policy->viewAny($user))->toBeTrue();
 });
 
-test('de viewAny-methode weigert toegang voor gebruikers zonder de view_any_user-permissie', function () {
+test('de viewAny methode weigert toegang voor gebruikers zonder de view_any_user permissie', function (): void {
     $user = Mockery::mock(User::class);
     $user->shouldReceive('can')
         ->once()
@@ -58,7 +58,7 @@ test('de viewAny-methode weigert toegang voor gebruikers zonder de view_any_user
     expect($this->policy->viewAny($user))->toBeFalse();
 });
 
-test('de create-methode staat toegang toe voor gebruikers met de create_user-permissie', function () {
+test('de create methode staat toegang toe voor gebruikers met de create_user permissie', function (): void {
     $user = Mockery::mock(User::class);
     $user->shouldReceive('can')
         ->once()
@@ -68,7 +68,7 @@ test('de create-methode staat toegang toe voor gebruikers met de create_user-per
     expect($this->policy->create($user))->toBeTrue();
 });
 
-test('de create-methode weigert toegang voor gebruikers zonder de create_user-permissie', function () {
+test('de create methode weigert toegang voor gebruikers zonder de create_user permissie', function (): void {
     $user = Mockery::mock(User::class);
     $user->shouldReceive('can')
         ->once()
@@ -78,7 +78,7 @@ test('de create-methode weigert toegang voor gebruikers zonder de create_user-pe
     expect($this->policy->create($user))->toBeFalse();
 });
 
-test('de deactivate-methode staat de deactivering van een andere, niet-verbannen gebruiker toe', function () {
+test('de deactivate methode staat de deactivering van een andere, niet-verbannen gebruiker toe', function (): void {
     $user = Mockery::mock(User::class);
     $model = Mockery::mock(User::class);
 
@@ -97,7 +97,7 @@ test('de deactivate-methode staat de deactivering van een andere, niet-verbannen
     expect($this->policy->deactivate($user, $model))->toBeTrue();
 });
 
-test('de deactivate-methode weigert deactivering als de gebruiker de permissie mist', function () {
+test('de deactivate methode weigert deactivering als de gebruiker de permissie mist', function (): void {
     $user = Mockery::mock(User::class);
     $model = Mockery::mock(User::class);
 
@@ -109,7 +109,7 @@ test('de deactivate-methode weigert deactivering als de gebruiker de permissie m
     expect($this->policy->deactivate($user, $model))->toBeFalse();
 });
 
-test('de deactivate-methode weigert zelfdeactivering', function () {
+test('de deactivate methode weigert zelf deactivering', function (): void {
     $user = Mockery::mock(User::class);
     $model = $user;
 
@@ -125,7 +125,7 @@ test('de deactivate-methode weigert zelfdeactivering', function () {
     expect($this->policy->deactivate($user, $model))->toBeFalse();
 });
 
-test('de deactivate-methode weigert de deactivering van een verbannen gebruiker', function () {
+test('de deactivate methode weigert de deactivering van een verbannen gebruiker', function (): void {
     $user = Mockery::mock(User::class);
     $model = Mockery::mock(User::class);
 
@@ -144,7 +144,7 @@ test('de deactivate-methode weigert de deactivering van een verbannen gebruiker'
     expect($this->policy->deactivate($user, $model))->toBeFalse();
 });
 
-test('de reactivate-methode staat reactivering van een andere, verbannen gebruiker toe', function () {
+test('de reactivate methode staat reactivering van een andere, verbannen gebruiker toe', function (): void {
     $user = Mockery::mock(User::class);
     $model = Mockery::mock(User::class);
 
@@ -163,7 +163,7 @@ test('de reactivate-methode staat reactivering van een andere, verbannen gebruik
     expect($this->policy->reactivate($user, $model))->toBeTrue();
 });
 
-test('de reactivate-methode weigert reactivering als de gebruiker de permissie mist', function () {
+test('de reactivate methode weigert reactivering als de gebruiker de permissie mist', function (): void {
     $user = Mockery::mock(User::class);
     $model = Mockery::mock(User::class);
 
@@ -175,7 +175,7 @@ test('de reactivate-methode weigert reactivering als de gebruiker de permissie m
     expect($this->policy->reactivate($user, $model))->toBeFalse();
 });
 
-test('de reactivate-methode weigert zelf-reactivering', function () {
+test('de reactivate methode weigert zelf-reactivering', function (): void {
     $user = Mockery::mock(User::class);
     $model = $user;
 
@@ -191,7 +191,7 @@ test('de reactivate-methode weigert zelf-reactivering', function () {
     expect($this->policy->reactivate($user, $model))->toBeFalse();
 });
 
-test('de reactivate-methode weigert reactivering van een niet-verbannen gebruiker', function () {
+test('de reactivate methode weigert reactivering van een niet-verbannen gebruiker', function (): void {
     $user = Mockery::mock(User::class);
     $model = Mockery::mock(User::class);
 
@@ -210,7 +210,7 @@ test('de reactivate-methode weigert reactivering van een niet-verbannen gebruike
     expect($this->policy->reactivate($user, $model))->toBeFalse();
 });
 
-test('de updateDeactivation-methode staat de wijziging van een andere, verbannen gebruiker toe', function () {
+test('de updateDeactivation methode staat de wijziging van een andere, verbannen gebruiker toe', function (): void {
     $user = Mockery::mock(User::class);
     $model = Mockery::mock(User::class);
 
@@ -229,7 +229,7 @@ test('de updateDeactivation-methode staat de wijziging van een andere, verbannen
     expect($this->policy->updateDeactivation($user, $model))->toBeTrue();
 });
 
-test('de updateDeactivation-methode weigert wijziging als de gebruiker de permissie mist', function () {
+test('de updateDeactivation methode weigert wijziging als de gebruiker de permissie mist', function (): void {
     $user = Mockery::mock(User::class);
     $model = Mockery::mock(User::class);
 
@@ -241,7 +241,7 @@ test('de updateDeactivation-methode weigert wijziging als de gebruiker de permis
     expect($this->policy->updateDeactivation($user, $model))->toBeFalse();
 });
 
-test('de updateDeactivation-methode weigert zelf-wijziging', function () {
+test('de updateDeactivation methode weigert een wijziging van de gebruiker in kwestie', function (): void {
     $user = Mockery::mock(User::class);
     $model = $user;
 
@@ -257,7 +257,7 @@ test('de updateDeactivation-methode weigert zelf-wijziging', function () {
     expect($this->policy->updateDeactivation($user, $model))->toBeFalse();
 });
 
-test('de updateDeactivation-methode weigert wijziging van een niet-verbannen gebruiker', function () {
+test('De updateDeactivation methode weigert de wijziging van een niet verbannen gebruiker', function (): void {
     $user = Mockery::mock(User::class);
     $model = Mockery::mock(User::class);
 
