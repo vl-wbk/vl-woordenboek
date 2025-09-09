@@ -9,7 +9,7 @@ use App\Models\User;
 use App\UserTypes;
 
 /**
- * Implements authorization policies for managing notes within the Vlaams Woordenboek application.
+ * Implements authorization policies for managing notes within the Vlaams Woordenboek app.
  * This policy class defines the access control rules for note-related operations, ensuring that only authorized users can interact with notes in appropriate ways.
  *
  * The policy implements a hierarchical authorization system where administrators and developers
@@ -20,8 +20,9 @@ use App\UserTypes;
  * Through method-specific authorization rules, the policy ensures data integrity by restricting
  * note modifications and deletions to the original authors, except for administrative users who
  * have unrestricted access. This ownership-based access control system protects user content
- * while enabling necessary administrative oversight.
+ * while enabling the necessary administrative oversight.
  *
+ * @link file://tests/Unit/Authorization/NotePolicyTest.php
  * @package App\Policies
  */
 final readonly class NotePolicy
