@@ -8,6 +8,10 @@ use App\Models\Feedback;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
+/**
+ * @link file://tests/Unit/Authorization/BlogPolicyTest.php
+ * @package App\Policies
+ */
 final class FeedbackPolicy
 {
     /**
