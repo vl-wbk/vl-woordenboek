@@ -22,7 +22,7 @@ use Overtrue\LaravelLike\Traits\Likeable;
  *
  * @package App\Models
  */
-final class Comment extends BaseCommentEntity
+class Comment extends BaseCommentEntity
 {
     use Likeable;
 }

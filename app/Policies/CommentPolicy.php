@@ -21,6 +21,7 @@ use Illuminate\Auth\Access\Response;
  * - Supports fine-grained control over user permissions based on user roles and ownership.
  * - Utilizes Laravel's Authorization policies for a structured approach to permissions.
  *
+ * @link file://tests/Unit/Authorization/CommentPolicyTest.php
  * @package App\Policies
  */
 final readonly class CommentPolicy
