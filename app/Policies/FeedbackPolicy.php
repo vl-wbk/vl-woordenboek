@@ -8,9 +8,6 @@ use App\Models\Feedback;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-/**
- * @todo document policy class
- */
 final class FeedbackPolicy
 {
     /**
