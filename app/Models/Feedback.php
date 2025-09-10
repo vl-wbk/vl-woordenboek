@@ -36,7 +36,7 @@ use Illuminate\Database\Eloquent\Model;
  * @package App\Models
  */
 #[ObservedBy(FeedbackObserver::class)]
-final class Feedback extends Model
+class Feedback extends Model
 {
     /** @use HasFactory<\Database\Factories\FeedbackFactory> */
     use HasFactory;
