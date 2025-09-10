@@ -15,6 +15,7 @@ use Illuminate\Auth\Access\Response;
  * Each method returns a 'Response' object to explicitly grant of deny access, providing clear and robust control over actions like submitting, viewing, updating, publishing,
  * deleting, and commenting on blog posts.
  *
+ * @link file://tests/Unit/Authorization/BlogPolicyTest.php
  * @package App\Policues
  */
 final readonly class BlogPolicy

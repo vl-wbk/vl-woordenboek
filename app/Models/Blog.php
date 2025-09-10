@@ -47,7 +47,7 @@ use Override;
  *
  * @package App\Models
  */
-final class Blog extends Model implements Feedable
+class Blog extends Model implements Feedable
 {
     /** @use HasFactory<BlogFactory> */
     use HasFactory;
