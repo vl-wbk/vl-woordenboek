@@ -8,6 +8,10 @@ use App\Models\User;
 use Illuminate\Auth\Access\Response;
 use Spatie\Permission\Models\Role;
 
+/**
+ * @link file://tests/Unit/Authorization/RolePolicyTest.php
+ * @package App\Policies
+ */
 final readonly class RolePolicy
 {
     public function before(User $user, string $ability): ?Response
