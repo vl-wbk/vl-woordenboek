@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * The feedback model represents user feedback submissions in the system.
  *
  * This model stores various types of feedback collected from users, including information about their visit experience, contact preferences, and additional comments.
- * The feedback helps improve the application's usability and user experience.
+ * The feedback helps improve the app's usability and user experience.
  *
  * @property int                $id                       Unique identifier for the feedback entry
  * @property string             $tracking_number          THe unique tracking number for the feedback submission. Can be used on ithub commits and such.
