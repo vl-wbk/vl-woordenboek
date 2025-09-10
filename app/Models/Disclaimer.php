@@ -27,7 +27,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @package App\Models
  */
-final class Disclaimer extends Model
+class Disclaimer extends Model
 {
     /**
      * Specifies which attributes can be mass assigned when creating or updating user records.

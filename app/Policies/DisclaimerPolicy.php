@@ -17,6 +17,7 @@ use Illuminate\Auth\Access\Response;
  * @see \App\Policies\ArticlePolicy::detachDisclaimer() For related authorization logic within the ArticlePolicy.
  * @see \App\Policies\ArticlePolicy::attachDisclaimer() For related authorization logic within the ArticlePolicy.
  *
+ * @link file://tests/Unit/Authorization/DisclaimerPolicyTest.php
  * @package App\Policies
  */
 final class DisclaimerPolicy
