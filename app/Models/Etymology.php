@@ -119,7 +119,7 @@ final class Etymology extends Model
     }
 
     /** @phpstan-ignore-next-line */
-    #[Scope]private function published(Builder $query): void
+    #[Scope] protected function published(Builder $query): void
     {
         $query->whereNotNull('published_at');
     }

@@ -84,6 +84,7 @@ class Blog extends Model implements Feedable
         return match ($this->status) {
             Status::Draft => new Posts\DraftState($this),
             Status::Published => new Posts\PublishedState($this),
+			Status::GuestArticle => new Posts\GuestArticle($this),
         };
     }
 

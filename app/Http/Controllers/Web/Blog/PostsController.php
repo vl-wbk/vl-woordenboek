@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Web\Blog;
 
+use App\Actions\Blog\StoreGuestArticle;
+use App\Http\Requests\Blog\StoreGuestArticleRequest;
 use App\Models\Blog;
 use App\Models\Category;
 use App\Queries\SearchArticlesQuery;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Post;
 use Symfony\Component\HttpFoundation\Response;
 
 final readonly class PostsController
@@ -24,6 +28,24 @@ final readonly class PostsController
             'categories' => Category::with('posts')->get(),
         ]);
     }
+	
+	#[Get(uri: 'nieuws/artikel-insturen', name: 'news:create', middleware: ['auth', 'forbid-banned-user', 'can:submitPost,App\Models\Blog'])]
+	public function create(): Renderable
+	{
+		return view('blog.create');
+	}
+	
+	/**
+	 * @throws \Spatie\LaravelData\Exceptions\InvalidDataClass
+	 */
+	#[Post(uri: 'nieuws/artikel-insturen', name: 'news:store', middleware: ['auth', 'forbid-banned-user', 'can:submitPost,App\Models\Blog'])]
+	public function store(StoreGuestArticleRequest $storeGuestArticleRequest, StoreGuestArticle $storeGuestArticle): RedirectResponse
+	{
+		$storeGuestArticle->handle($storeGuestArticleRequest->getData());
+		flash('We hebben uw artikel goed ontvangen een kernlid zal er spoedig naar kijken.', 'alert-success');
+		
+		return back();
+	}
 
     #[Get(uri: '/nieuws/{blog}', name: 'news:show')]
     public function show(Blog $blog): Renderable

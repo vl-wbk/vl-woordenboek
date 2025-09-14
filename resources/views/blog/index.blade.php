@@ -131,7 +131,7 @@
 
                     @can('submit-post', \App\Models\Blog::class)
                         <div class="col-6">
-                            <a href="" class="btn w-100 btn-light mt-2 border-0 shadow-sm">
+                            <a href="{{ route('news:create') }}" class="btn w-100 btn-light mt-2 border-0 shadow-sm">
                                 <x-heroicon-o-pencil-square class="icon color-green me-1" /> Uw artikel hier?
                             </a>
                         </div>

@@ -82,6 +82,10 @@ final readonly class FormSchema
                 ->searchable()
                 ->preload()
                 ->columnspanFull(),
+			
+			Components\TextInput::make('original_url')
+				->label('Originele link naar het artikel')
+				->columnSpanFull(),
 
             Components\MarkdownEditor::make('content')
                 ->label('Nieuwsbericht')

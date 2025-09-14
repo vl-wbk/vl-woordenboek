@@ -45,6 +45,8 @@ enum Status: int implements HasLabel, HasColor, HasIcon
      * They represent the final, approved version of the content.
      */
     case Published = 1;
+	
+	case GuestArticle = 2;
 
     /**
      * Provides a human-readable label for the current status in the user's language.
@@ -70,6 +72,7 @@ enum Status: int implements HasLabel, HasColor, HasIcon
         $label = match ($this) {
             self::Draft => 'Klad versie',
             self::Published => 'Gepubliceerd',
+			self::GuestArticle => 'Inzending',
         };
 
         return trans($label);
@@ -85,6 +88,7 @@ enum Status: int implements HasLabel, HasColor, HasIcon
     {
         return match ($this) {
             self::Draft => 'warning',
+			self::GuestArticle => 'danger',
             self::Published => 'success',
         };
     }
@@ -104,6 +108,7 @@ enum Status: int implements HasLabel, HasColor, HasIcon
     {
         return match ($this) {
             self::Draft => 'heroicon-o-pencil-square',
+			self::GuestArticle => 'heroicon-o-document-text',
             self::Published => 'heroicon-o-globe-europe-africa',
         };
     }

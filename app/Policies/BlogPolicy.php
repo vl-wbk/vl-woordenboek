@@ -36,13 +36,13 @@ final readonly class BlogPolicy
             return Response::denyAsNotFound(message: __('U hebt niet de juiste globale machteging om nieuweberichten te beheren.'));
         }
 
-        return null; // Proceed to resource specific policy checks.
+        return null; // Proceed to resource-specific policy checks.
     }
 
     /**
      * Authorizes a user to create a new plog post.
      *
-     * The core requirement for this actions is a verified email address for now.
+     * The core requirement for this action is a verified email address for now.
      * This prevents unverified accounts from publishing possible new spammy reactions.
      *
      * @param  User $user   The authenticated user.
@@ -138,10 +138,32 @@ final readonly class BlogPolicy
      */
     public function publish(User $user, Blog $blog): Response
     {
-        return $blog->author()->is($user)
-            ? Response::allow()
-            : Response::denyAsNotFound();
+		if ($blog->status->isPublished()) {
+			return Response::denyAsNotFound();
+		}
+		
+        return Response::allow();
     }
+	
+	/**
+	 * Authorizes a user to unpublish a blog post.
+	 *
+	 * Authorization is granted if either of these conditions is met:
+	 * 1. The user is the original author of the blog post.
+	 * 2. The user has the specific `undo_publication_blog` permission.
+	 *
+	 * @param  User $user   The authenticated user.
+	 * @param  Blog $blog   The blog post whose publication status is being undone.
+	 * @return              Response Grants access if the user is the author or has the permission, otherwise denies it.
+	 */
+	public function undoPublication(User $user, Blog $blog): Response
+	{
+		if ($user->can('undo_publication_blog') && $blog->status->isPublished()) {
+			return Response::allow();
+		}
+		
+		return Response::denyAsNotFound();
+	}
 
     /**
      * Authorizes a user to delete an existing blog post.
@@ -157,24 +179,6 @@ final readonly class BlogPolicy
     public function delete(User $user, Blog $blog): Response
     {
         return ($blog->author()->is($user) || $user->can('delete_blog'))
-            ? Response::allow()
-            : Response::denyAsNotFound();
-    }
-
-    /**
-     * Authorizes a user to unpublish a blog post.
-     *
-     * Authorization is granted if either of these conditions is met:
-     * 1. The user is the original author of the blog post.
-     * 2. The user has the specific `undo_publication_blog` permission.
-     *
-     * @param  User $user   The authenticated user.
-     * @param  Blog $blog   The blog post whose publication status is being undone.
-     * @return              Response Grants access if the user is the author or has the permission, otherwise denies it.
-     */
-    public function undoPublication(User $user, Blog $blog): Response
-    {
-        return ($blog->author()->is($user) || $user->can('undo_publication_blog'))
             ? Response::allow()
             : Response::denyAsNotFound();
     }

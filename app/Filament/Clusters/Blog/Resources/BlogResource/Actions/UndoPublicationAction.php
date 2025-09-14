@@ -44,10 +44,6 @@ final class UndoPublicationAction extends Action
         $this->icon('tabler-eye-cancel');
         $this->color('danger');
 
-        // Configure visibility and authorization
-        // The action is only visible if the record's status is "published"
-        $this->visible($this->record->status->isPublished());
-
         // The action is only authorized if the user has permission to "undo-publication"
         $this->authorize('undo-publication', $this->record);
 

@@ -34,14 +34,17 @@ final readonly class BlogPostInfolist
             ->columns(12)
             ->schema(components: [
                 TextEntry::make('author.name')
-                    ->columnSpan(3)
+                    ->columnSpan(4)
                     ->weight(FontWeight::SemiBold)
                     ->icon('heroicon-o-user-circle')
                     ->iconColor('primary'),
                 TextEntry::make('title')
                     ->label('Titel')
-                    ->columnSpan(7)
-                    ->translateLabel(),
+                    ->columnSpan(4),
+				TextEntry::make('original_url')
+					->label('Originele link naar het artikel')
+					->placeholder('-')
+					->columnSpan(4),
                 TextEntry::make('category.name')
                     ->label('Categorieen')
                     ->translateLabel()
