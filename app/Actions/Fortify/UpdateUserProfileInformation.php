@@ -21,8 +21,8 @@ final class UpdateUserProfileInformation implements UpdatesUserProfileInformatio
     {
         Validator::make($input, [
             'gebruikersnaam' => ['required', 'string', 'max:255', Rule::unique('users', 'name')->ignore($user->id)],
-            'email' => [ 'required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id),
-            ],
+            'email' => [ 'required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+			'bio' => ['sometimes', 'max:160'],
         ])->validateWithBag('updateProfileInformation');
 
         /** @phpstan-ignore-next-line */
@@ -32,6 +32,7 @@ final class UpdateUserProfileInformation implements UpdatesUserProfileInformatio
             $user->forceFill([
                 'firstname' => $input['firstname'],
                 'lastname' => $input['lastname'],
+				'bio' => $input['bio'],
                 'name' => $input['gebruikersnaam'],
                 'email' => $input['email'],
             ])->save();
@@ -47,6 +48,7 @@ final class UpdateUserProfileInformation implements UpdatesUserProfileInformatio
     {
         $user->forceFill([
             'name' => $input['gebruikersnaam'],
+			'bio' => $input['bio'],
             'firstname' => $input['firstname'],
             'lastname' => $input['lastname'],
             'email' => $input['email'],

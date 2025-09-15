@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Web\Account;
 
+use App\Actions\Account\UpdateSocialRefences;
 use App\Http\Requests\Account\DeleteBrowserSessionsRequest;
+use App\Http\Requests\Account\UpdateSocialReferencesRequest;
 use App\Services\BrowserSessionService;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
+use Spatie\LaravelData\Exceptions\InvalidDataClass;
 use Spatie\RouteAttributes\Attributes\Delete;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Middleware;
+use Spatie\RouteAttributes\Attributes\Patch;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
 #[Prefix('instellingen')]
@@ -37,6 +41,19 @@ final readonly class AccountSettingsController
             'sessions' => $this->browserSessionService->getSessionProperty(),
         ]);
     }
+	
+	/**
+	 * @throws InvalidDataClass
+	 */
+	#[Patch(uri: 'account-sociale-referenties', name: 'profile.settings.social-references')]
+	public function updateSocialReferences(UpdateSocialReferencesRequest $updateSocialReferencesRequest, UpdateSocialRefences $updateSocialRefences): RedirectResponse
+	{
+		if ($updateSocialRefences->handle($updateSocialReferencesRequest->getData())) {
+			flash(text: __('We hebben de koppelingen met je sociale account succesvol aangepast'), class: 'alert-success');
+		}
+		
+		return back();
+	}
 
     #[Delete(uri: 'browser-sessies-verwijderen', name: 'profile.delete-browser-sessions')]
     public function deleteBrowserSessions(DeleteBrowserSessionsRequest $deleteBrowserSessionsRequest): RedirectResponse

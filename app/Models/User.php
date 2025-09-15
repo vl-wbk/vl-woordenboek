@@ -39,13 +39,17 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string       $firstname          User's first name
  * @property string       $lastname           User's last name
  * @property string       $email              User's email address for authentication
+ * @property ?string	  $bio			      A short description of the user in the platform
+ * @property ?string	  $twitter		      The URL to the twitter account of the user.
+ * @property ?string	  $bluesky	          The URL to the bluesky account of the user.
+ * @property ?string      $website			  The URL to the website of the user
  * @property UserTypes    $user_type          The assigned role group
  * @property string       $password           Hashed password for authentication
  * @property Carbon|null  $last_seen_at       Timestamp of last activity
  * @property Carbon|null  $email_verified_at  Timestamp of email verification
- * @property string|null  $remember_token     Token for "remember me" functionality
+ * @property string|null  $remember_token     Token for the "remember me" feature
  * @property Carbon|null  $banned_at          Timestamp from when the user account has been banned.
- * @property bool         $is_beta_tester     Indicates that user is a beta tester of not.
+ * @property bool         $is_beta_tester     Indicates that the user is a beta tester of not.
  * @property Carbon       $created_at         Timestamp of account creation
  * @property Carbon       $updated_at         Timestamp of the last update
  *
@@ -73,7 +77,7 @@ class User extends Authenticatable implements FilamentUser, BannableInterface, M
      *
      * @var list<string>
      */
-    protected $fillable = ['name', 'firstname', 'lastname', 'is_beta_tester', 'email', 'user_type', 'password', 'last_seen_at', 'email_verified_at', 'google_id', 'google_token', 'google_refresh_token'];
+    protected $fillable = ['name', 'bluesky', 'twitter', 'website', 'firstname', 'lastname', 'is_beta_tester', 'email', 'user_type', 'password', 'last_seen_at', 'email_verified_at', 'google_id', 'google_token', 'google_refresh_token'];
 
     /**
      * Defines default values for new user instances.
