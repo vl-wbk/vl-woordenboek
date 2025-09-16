@@ -133,6 +133,16 @@ class User extends Authenticatable implements FilamentUser, BannableInterface, M
     {
         return $this->hasMany(ArticleReport::class, 'author_id');
     }
+	
+	public function articles(): HasMany
+	{
+		return $this->hasMany(Blog::class, 'author_id');
+	}
+	
+	public function etymologies(): HasMany
+	{
+		return $this->hasMany(Etymology::class, 'author_id');
+	}
 
     /**
      * Defines the relationship between a user and their bookmarked articles.
