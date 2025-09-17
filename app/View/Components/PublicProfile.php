@@ -58,13 +58,9 @@ final class PublicProfile extends Component
 	private function getCountForRelation(string $relation, string $cachePrefix): Collection
 	{
 		$cacheKey = "{$cachePrefix}_{$this->user->id}";
+		
 		return Cache::flexible($cacheKey, $this->cacheTTL, function () use ($relation): Collection {
-			return collect([
-				'total' => $this->user->{$relation}()->count(),
-				'week' => $this->user->{$relation}()
-					->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
-					->count(),
-			]);
+			return collect(['total' => toHumanReadableNumber($this->user->{$relation}()->count())]);
 		});
 	}
 }
