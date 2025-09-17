@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\ArticleResource\Pages;
 
+use App\Enums\ArticleStates;
 use App\Filament\Resources\ArticleResource;
 use App\Filament\Resources\ArticleResource\Schema\FormSchema;
 use Filament\Forms\Components\Wizard;
@@ -74,6 +75,10 @@ final class CreateWord extends CreateRecord
     public function afterCreate(): void
     {
         $this->record->author()->associate(auth()->user())->save();
+		
+		if ($this->record->state->is(ArticleStates::Published)) {
+			$this->record->update(['publisher_id' => auth()->id(), 'published_at' => now()]);
+		}
     }
 
     /**
