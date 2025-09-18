@@ -56,6 +56,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @method bans()
  * @method static UserBuilder|static query()
  * @method UserBuilder newQuery()
+ * @method searchContributions(string $string, \Illuminate\Support\Stringable $string1, string $etymology)
  *
  * @package App\Models
  */

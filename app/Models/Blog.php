@@ -11,6 +11,8 @@ use App\Filament\Clusters\Blog\Resources\BlogResource\Enums\Status;
 use App\Models\Relations\BelongsToAuthor;
 use Carbon\Carbon;
 use Database\Factories\BlogFactory;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -216,4 +218,10 @@ class Blog extends Model implements Feedable
     {
         return new BlogBuilder($query);
     }
+	
+	/** @phpstan-ignore-next-line */
+	#[Scope] protected function published(Builder $query): void
+	{
+		$query->whereNotNull('published_at');
+	}
 }

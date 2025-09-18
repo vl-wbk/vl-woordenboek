@@ -23,7 +23,7 @@
                         <ul class="list-unstyled">
                             <li class="d-flex justify-content-between align-items-center mb-2">
                                 <span class="icon-list-item">
-                                    <x-heroicon-o-book-open class="icon color-green me-2"/>Artikel suggesties
+                                    <x-heroicon-o-book-open class="icon color-green me-2"/>Artikel bijdrages
                                 </span>
                                 <span class="badge badge-gray">
                                     {{ $suggestedArticleCount->get('total') }}
@@ -32,7 +32,7 @@
 
                             <li class="d-flex justify-content-between align-items-center mb-2">
                                 <span class="icon-list-item">
-                                     <x-heroicon-o-document-text class="icon color-green me-2"/>Etymologische suggesties
+                                     <x-heroicon-o-document-text class="icon color-green me-2"/>Etymologische bijdrages
                                 </span>
 
                                 <span class="badge badge-gray">
@@ -66,7 +66,7 @@
                                 </span>
 
                                 <span class="fst-italic text-muted">
-                                    ({{ $user->last_seen_at->diffForHumans() }})
+                                    {{ optional($user->last_seen_at)->diffForHumans() ?? '-' }}
                                 </span>
                             </li>
                         </ul>
@@ -100,19 +100,13 @@
                 <ul class="nav nav-tabs border-bottom-2" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <a href="{{ route('account:public', $user) }}" class="nav-link {{ active('account:public', 'border-primary border-bottom fw-semibold') }} border-0 border-3 rounded-0 bg-transparent text-dark">
-                            <x-heroicon-o-book-open class="icon color-green me-1"/> Gepubliceerde artikelen
+                            <x-heroicon-o-book-open class="icon color-green me-1"/> Artikel bijdrages
                         </a>
                     </li>
 
                     <li class=nav-item" role="presentation">
                         <a href="{{ route('account:public:etymologies', $user) }}" class="nav-link {{ active('account:public:etymologies', 'border-primary border-bottom fw-semibold') }} border-0 border-3 rounded-0 bg-transparent text-dark">
-                            <x-heroicon-o-document-text class="icon color-green me-1"/> Gepubliceerde etymologieën
-                        </a>
-                    </li>
-
-                    <li class="nav-item" role="presentation">
-                        <a href="{{ route('account:public:articles', $user) }}" class="nav-link {{ active('account:public:articles', 'border-primary border-bottom fw-semibold') }} border-0 border-3 rounded-0 bg-transparent text-dark">
-                            <x-heroicon-o-pencil-square class="icon color-green me-1"/> Gepubliceerde nieuwsberichten
+                            <x-heroicon-o-document-text class="icon color-green me-1"/> Etymologische bijdrages
                         </a>
                     </li>
                 </ul>

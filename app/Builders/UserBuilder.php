@@ -8,6 +8,7 @@ use App\UserTypes;
 use Deprecated;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * @todo document this class
@@ -32,4 +33,14 @@ final class UserBuilder extends Builder
     {
         return $this->model->user_type->is(UserTypes::Developer);
     }
+	
+	public function searchContributions(string $relation, ?string $searchParam, string $searchColumn): LengthAwarePaginator
+	{
+		return $this->model->{$relation}()
+			->when($searchParam !== null, function (Builder $builder) use ($searchParam, $searchColumn): void {
+				$builder->where($searchColumn, 'LIKE', "%$searchParam%");
+			})
+			->published()
+			->paginate();
+	}
 }

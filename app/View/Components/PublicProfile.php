@@ -37,7 +37,9 @@ final class PublicProfile extends Component
 	
 	public function getArticleReportCount(): Collection
 	{
-		return $this->getCountForRelation('reports', 'article_reports');
+		return Cache::flexible('articles_' . $this->user->id, $this->cacheTTL, function (): Collection {
+			return collect(['total' => toHumanReadableNumber($this->user->reports()->count())]);
+		});
 	}
 	
 	private function getSuggestedArticleCount(): Collection
@@ -60,7 +62,7 @@ final class PublicProfile extends Component
 		$cacheKey = "{$cachePrefix}_{$this->user->id}";
 		
 		return Cache::flexible($cacheKey, $this->cacheTTL, function () use ($relation): Collection {
-			return collect(['total' => toHumanReadableNumber($this->user->{$relation}()->count())]);
+			return collect(['total' => toHumanReadableNumber($this->user->{$relation}()->published()->count())]);
 		});
 	}
 }

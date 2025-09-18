@@ -140,11 +140,44 @@
 
                                 <dl class="row mt-2 mb-0">
                                     <dt class="col-sm-5">Suggestie door</dt>
-                                    <dd class="col-sm-7"><span class="float-end">{{ $word->author->name ?? 'onbekend' }}</span></dd>
+                                    <dd class="col-sm-7">
+                                        <span class="float-end">
+                                            @if ($word->author()->exists())
+                                                 <a href="{{ route('account:public', $word->author) }}" class="text-dark">
+                                                     {{ $word->author->name }}
+                                                </a>
+                                            @else
+                                                <span>onbekend</span>
+                                            @endif
+                                        </span>
+                                    </dd>
+
                                     <dt class="col-sm-5">Redacteur</dt>
-                                    <dd class="col-sm-7"><span class="float-end">{{ $word->editor->name ?? 'onbekend' }}</span></dd>
+                                    <dd class="col-sm-7">
+                                        <span class="float-end">
+                                            @if ($word->editor()->exists())
+                                                <a href="{{ route('account:public', $word->editor) }}" class="text-dark">
+                                                 {{ $word->editor->name }}
+                                            </a>
+                                            @else
+                                                <span>onbekend</span>
+                                            @endif
+                                        </span>
+                                    </dd>
+
                                     <dt class="col-sm-5">Eindredacteur</dt>
-                                    <dd class="col-sm-7"><span class="float-end">{{ $word->publisher->name ?? 'onbekend' }}</span></dd>
+                                    <dd class="col-sm-7">
+                                        <span class="float-end">
+                                            @if ($word->publisher()->exists())
+                                                <a href="{{ route('account:public', $word->publisher) }}" class="text-dark">
+                                                     {{ $word->publisher->name }}
+                                                </a>
+                                            @else
+                                                <span>onbekend</span>
+                                            @endif
+                                        </span>
+                                    </dd>
+
                                     <dt class="col-sm-5">Publicatiedatum</dt>
                                     <dd class="col-sm-7"><span class="float-end">{{ $word->created_at->format('d/m/Y') }}</span></dd>
                                     <dt class="col-sm-5">Laatste bewerking</dt>
