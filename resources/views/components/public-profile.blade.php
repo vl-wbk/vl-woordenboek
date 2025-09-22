@@ -1,8 +1,49 @@
 @extends ('layouts.application-blank', ['title' => $user->name, 'paddingContent' => 'pb-4 mb-5'])
 
 @section('content')
-    <div class="container-lg py-5">
+    <div class="container-lg py-4">
         <div class="row">
+            <div class="col-12 pb-4">
+                <div class="d-flex justify-content-between align-items-center border-bottom pb-2">
+                    <h3 class="color-green">Openbaar profiel</h3>
+
+                    @auth
+                        <div class="btn-group border-0 shadow-sm" role="group" aria-label="Basic example">
+                            @if (auth()->user()->is($user))
+                                <a href="{{ route('profile:inbox') }}" class="btn btn-sm btn-light">
+                                    <x-heroicon-s-inbox class="icon color-green icon-sm me-1"/> mijn inbox
+
+                                    @if($user->unreadMessagesCount() > 0)
+                                        <span class="ms-1 badge badge-gray">{{ $user->unreadMessagesCount() }}</span>
+                                    @endif
+                                </a>
+
+                                <a href="{{ route('profile.settings') }}" class="btn btn-sm btn-light">
+                                    <x-heroicon-o-cog-8-tooth class="icon color-green icon-sm me-1"/> instellingen
+                                </a>
+                            @endif
+
+                            @if (auth()->user()->isNot($user))
+                                <a href="{{ route('inbox:create', ['participant' => $user->id]) }}" class="btn btn-sm btn-light">
+                                    <x-heroicon-o-envelope-open class="icon color-green icon-sm me-1"/> bericht gebruiker
+                                </a>
+                            @endif
+
+                            @if ($contactExist)
+                                <form id="storeContact" action="{{ route('contacts:store') }}" method="POST" class="d-none">
+                                    @csrf {{-- form field protection --}}
+                                    <input type="text" name="gebruikersnaam" value="{{ $user->name }}">
+                                </form>
+
+                                <a href="{{ route('contacts:store') }}" onclick="event.preventDefault(); document.getElementById('storeContact').submit();" class="btn btn-sm btn-light">
+                                    <x-heroicon-o-user-plus class="icon color-green icon-sm me-1"/> contact toevoegen
+                                </a>
+                            @endif
+                        </div>
+                    @endauth
+                </div>
+            </div>
+
             <div class="col-lg-4 col-md-5 mx-auto">
                 <div class="card border-0 shadow-sm p-4" style="max-width: 500px;">
                     <div class="d-flex align-items-center mb-3">
@@ -23,7 +64,7 @@
                         <ul class="list-unstyled">
                             <li class="d-flex justify-content-between align-items-center mb-2">
                                 <span class="icon-list-item">
-                                    <x-heroicon-o-book-open class="icon color-green me-2"/>Artikel bijdrages
+                                    <x-heroicon-o-book-open class="icon color-green me-2"/>Artikel bijdragen
                                 </span>
                                 <span class="badge badge-gray">
                                     {{ $suggestedArticleCount->get('total') }}
@@ -32,7 +73,7 @@
 
                             <li class="d-flex justify-content-between align-items-center mb-2">
                                 <span class="icon-list-item">
-                                     <x-heroicon-o-document-text class="icon color-green me-2"/>Etymologische bijdrages
+                                     <x-heroicon-o-document-text class="icon color-green me-2"/>Etymologische bijdragen
                                 </span>
 
                                 <span class="badge badge-gray">
@@ -100,13 +141,13 @@
                 <ul class="nav nav-tabs border-bottom-2" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <a href="{{ route('account:public', $user) }}" class="nav-link {{ active('account:public', 'border-primary border-bottom fw-semibold') }} border-0 border-3 rounded-0 bg-transparent text-dark">
-                            <x-heroicon-o-book-open class="icon color-green me-1"/> Artikel bijdrages
+                            <x-heroicon-o-book-open class="icon color-green me-1"/> Artikel bijdragen
                         </a>
                     </li>
 
                     <li class=nav-item" role="presentation">
                         <a href="{{ route('account:public:etymologies', $user) }}" class="nav-link {{ active('account:public:etymologies', 'border-primary border-bottom fw-semibold') }} border-0 border-3 rounded-0 bg-transparent text-dark">
-                            <x-heroicon-o-document-text class="icon color-green me-1"/> Etymologische bijdrages
+                            <x-heroicon-o-document-text class="icon color-green me-1"/> Etymologische bijdragen
                         </a>
                     </li>
                 </ul>

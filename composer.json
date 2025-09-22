@@ -12,6 +12,7 @@
         "beyondcode/laravel-comments": "^1.8",
         "bezhansalleh/filament-shield": "^3.3",
         "charrafimed/global-search-modal": "^3.7",
+        "cmgmyr/messenger": "^2.31",
         "codewithdennis/filament-factory-action": "^3.0",
         "cybercog/laravel-ban": "^4.10",
         "devonab/filament-easy-footer": "^1.1",

@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Builders\UserBuilder;
+use App\Models\Relations\Contactable;
 use App\Notifications\RegistrationWelcomeNotification;
 use App\UserTypes;
 use Carbon\Carbon;
+use Cmgmyr\Messenger\Traits\Messagable;
 use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
@@ -71,6 +73,8 @@ class User extends Authenticatable implements FilamentUser, BannableInterface, M
     use HasApiTokens;
     use HasFeatures;
     use HasRoles;
+	use Messagable;
+	use Contactable;
 
     /**
      * Specifies which attributes can be mass assigned when creating or updating user records.

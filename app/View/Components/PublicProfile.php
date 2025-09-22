@@ -28,6 +28,7 @@ final class PublicProfile extends Component
 	{
 		return view('components.public-profile', data: [
 			'user' => $this->user,
+			'contactExist' => $this->contactExists(),
 			'suggestedArticleCount' => $this->getSuggestedArticleCount(),
 			'suggestedEtymologiesCount' => $this->getSuggestedEtymologyCount(),
 			'reportCount' => $this->getArticleReportCount(),
@@ -40,6 +41,11 @@ final class PublicProfile extends Component
 		return Cache::flexible('articles_' . $this->user->id, $this->cacheTTL, function (): Collection {
 			return collect(['total' => toHumanReadableNumber($this->user->reports()->count())]);
 		});
+	}
+	
+	private function contactExists(): bool
+	{
+		return auth()->user()->contacts->doesntContain($this->user) && auth()->user()->isNot($this->user);
 	}
 	
 	private function getSuggestedArticleCount(): Collection
