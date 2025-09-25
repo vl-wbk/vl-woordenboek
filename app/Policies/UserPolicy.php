@@ -32,11 +32,15 @@ final readonly class UserPolicy
      * This ensures that only high-level users can access sensitive user information.
      *
      * @param  User $user  The user attempting to access the interface
-     * @return bool        True if the user has viewing permission, false otherwise
+     * @return Response    True if the user has viewing permission, false otherwise
      */
-    public function viewAny(User $user): bool
+    public function viewAny(User $user): Response
     {
-        return $user->can('view_any_user');
+        if ($user->can('view_any_user')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
     /**
@@ -46,11 +50,15 @@ final readonly class UserPolicy
      * This centralized approach to user creation helps ensure proper role assignment and account security.
      *
      * @param  User $user  The user that's attempting to create another user account
-     * @return bool        True if the user has the permission to create the user account, false otherwise
+     * @return Response    True if the user has the permission to create the user account, false otherwise
      */
-    public function create(User $user): bool
+    public function create(User $user): Response
     {
-        return $user->can('create_user');
+        if ($user->can('create_user')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
     /**
@@ -63,13 +71,15 @@ final readonly class UserPolicy
      *
      * @param  User $user   The user attempting to perform the deactivation
      * @param  User $model  The user account to be deactivated
-     * @return bool         True if the deactivation is allowed
+     * @return Response     True if the deactivation is allowed
      */
-    public function deactivate(User $user, User $model): bool
+    public function deactivate(User $user, User $model): Response
     {
-        return $user->can('deactivate_user')
-            && $user->isNot($model)
-            && $model->isNotBanned();
+        if ($user->can('deactivate_user') && $user->isNot($model) && $model->isNotBanned()) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
     /**
@@ -82,13 +92,15 @@ final readonly class UserPolicy
      *
      * @param  User $user   The user attempting to perform the reactivation
      * @param  User $model  The deactivated account to be restored
-     * @return bool         True if the reactivation is allowed
+     * @return Response     True if the reactivation is allowed
      */
-    public function reactivate(User $user, User $model): bool
+    public function reactivate(User $user, User $model): Response
     {
-        return $user->can('reactivate_user')
-            && $user->isNot($model)
-            && $model->isBanned();
+        if ($user->can('reactivate_user') && $user->isNot($model) && $model->isBanned()) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
     /**
@@ -103,12 +115,14 @@ final readonly class UserPolicy
      *
      * @param  User $user   The user attempting to modify the deactivation
      * @param  User $model  The deactivated account to be modified
-     * @return bool         True if the modification is allowed
+     * @return Response     True if the modification is allowed
      */
-    public function updateDeactivation(User $user, User $model): bool
+    public function updateDeactivation(User $user, User $model): Response
     {
-        return $user->can('deactivate_update_user')
-            && $user->isNot($model)
-            && $model->isBanned();
+        if ($user->can('deactivate_update_user') && $user->isNot($model) && $model->isBanned()) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 }

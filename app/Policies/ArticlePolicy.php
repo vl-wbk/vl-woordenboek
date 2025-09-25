@@ -36,34 +36,41 @@ final readonly class ArticlePolicy
      *
      * @param  User     $user     The user attempting the update
      * @param  Article  $article  The article that is being updated
-     * @return bool               True if the user has permission to update, false otherwise
+     * @return Response           True if the user has permission to update, false otherwise
      */
-    public function update(User $user, Article $article): bool
+    public function update(User $user, Article $article): Response
     {
-        $isPublishedOrAwaitinApproval = ($article->isPublished() || $article->state->is(ArticleStates::Approval));
-
-        if ($isPublishedOrAwaitinApproval && $user->can('update_article')) {
-            return false;
+        $isPublishedOrAwaitingApproval = ($article->isPublished() || $article->state->is(ArticleStates::Approval));
+		$allowedStates = [ArticleStates::New, ArticleStates::ExternalData, ArticleStates::Draft, ArticleStates::Archived];
+		
+        if ($isPublishedOrAwaitingApproval && $user->can('update_article')) {
+            return Response::deny();
         }
 
-        return $article->state->in(enums: [ArticleStates::New, ArticleStates::ExternalData, ArticleStates::Draft, ArticleStates::Archived])
-            && $user->can('update_article');
+        if ($article->state->in(enums: $allowedStates) && $user->can('update_article')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
     /**
      * Determines whether a user can submit an article for publication review.
      *
-     * Submisseion is allowed for New or Draft articles, but retricted form normal users to ensure proper editorial workflow.
+     * Submission is allowed for New or Draft articles but restricted from normal users to ensure a proper editorial workflow.
      * This gate controls entry into the formal review process.
      *
      * @param  User     $user     The user attempting to submit the article
      * @param  Article  $article  The article that is being submitted
-     * @return bool               True if the user has permission to submit, false otherwise
+     * @return Response           True if the user has permission to submit, false otherwise
      */
-    public function sendForApproval(User $user, Article $article): bool
+    public function sendForApproval(User $user, Article $article): Response
     {
-        return $article->state->in(enums: [ArticleStates::Draft])
-            && $user->can('send_for_approval_article');
+        if ($article->state->in(enums: [ArticleStates::Draft]) && $user->can('send_for_approval_article')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
     /**
@@ -72,41 +79,49 @@ final readonly class ArticlePolicy
      * Publication is only allowed when:
      * - The article is in either Approval or Archived state
      * - The article has an assigned editor
-     * - The publishing user is not the assigned editor (four-eyes principle)
+     * - The publishing user isn't the assigned editor (four-eyes principle)
      *
      * This policy ensures proper oversight of content publication by requiring review from someone other than the original editor.
      * This helps maintain quality standards and prevents self-publication of content.
      *
      * @param  User     $user     The user attempting to publish the article
      * @param  Article  $article  The article to be published
-     * @return bool               True if publication is allowed, false otherwise
+     * @return Response           True if publication is allowed, false otherwise
      */
-    public function publish(User $user, Article $article): bool
+    public function publish(User $user, Article $article): Response
     {
         if ($article->state->isNot(enum: ArticleStates::Approval)) {
-            return false;
+            return Response::deny();
         }
 
         if ($user->cannot('publish_article')) {
-            return false;
+            return Response::deny();
         }
 
-        return $article->editor()->exists() && $article->editor()->isNot($user);
+        if ($article->editor()->exists() && $article->editor()->isNot($user)) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
     /**
      * Determines whether a user can unpublish an article.
      *
-     * Unpublishing is restricted to users with Administrator or Developer roles, and only applies to articles that are currently in the Published state.
+     * Unpublishing is restricted to users with Administrator or Developer roles and only applies to articles that are currently in the Published state.
      * This ensures that only authorized personnel can remove content from public view.
      *
      * @param  User    $user     The user attempting to unpublish the article.
      * @param  Article $article  The article to be unpublished.
-     * @return bool              True if the user has permission to unpublish, false otherwise.
+     * @return Response          True if the user has permission to unpublish, false otherwise.
      */
-    public function unpublish(User $user, Article $article): bool
+    public function unpublish(User $user, Article $article): Response
     {
-        return $article->isPublished() && $user->can('unpublish_article');
+        if ($article->isPublished() && $user->can('unpublish_article')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
     /**
@@ -117,41 +132,49 @@ final readonly class ArticlePolicy
      *
      * The method returns true if either:
      *
-     * - The user attempting the detach is the same as the article's currently assigned editor, allowing a user to remove themselves.
+     * - The user attempting the detaching is the same as the article's currently assigned editor, allowing a user to remove themselves.
      * - The user belongs to a higher-privileged role (Administrators or Developers), which enables them to manage editor assignments for any article.
      *
      * If the article is not in Draft state, the detach action is disallowed.
      *
      * @param  User    $user     The user attempting to detach the editor.
      * @param  Article $article  The article from which the editor is to be detached.
-     * @return bool              True if the user is authorized to perform the detach; otherwise, false.
+     * @return Response          True if the user is authorized to perform the detaching otherwise, false.
      */
-    public function detachEditor(User $user, Article $article): bool
+    public function detachEditor(User $user, Article $article): Response
     {
         if ($article->state->isNot(enum: ArticleStates::Draft)) {
-            return false;
+            return Response::deny();
         }
 
         if ($article->editor()->is($user)) {
-            return true;
+            return Response::allow();
         }
 
-        return $user->can('detach_disclaimer_article');
+        if ($user->can('detach_disclaimer_article')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
     /**
      * Determines whether a user can attach a disclaimer to an article.
      *
-     * Attaching a disclaimer is permitted only if the article does not already have one, and the user is not a 'Normal' user or an 'Editor'.
+     * Attaching a disclaimer is permitted only if the article doesn't already have one, and the user isn't a 'Normal' user or an 'Editor'.
      * This ensures that only users with higher privileges can manage disclaimers.
      *
      * @param  User    $user     The user attempting to attach the disclaimer.
      * @param  Article $article  The article to which the disclaimer is to be attached.
-     * @return bool              True if the user has permission to attach the disclaimer, false otherwise.
+     * @return Response          True if the user has permission to attach the disclaimer, false otherwise.
      */
-    public function attachDisclaimer(User $user, Article $article): bool
+    public function attachDisclaimer(User $user, Article $article): Response
     {
-        return $article->disclaimer()->doesntExist() && $user->can('attach_disclaimer_article');
+		if ($article->disclaimer()->doesntExist() && $user->can('attach_disclaimer_article')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
     /**
@@ -162,11 +185,15 @@ final readonly class ArticlePolicy
      *
      * @param  User    $user     The user attempting to detach the disclaimer.
      * @param  Article $article  The article from which the disclaimer is to be detached.
-     * @return bool              True if the user has permission to detach the disclaimer, false otherwise.
+     * @return Response          True if the user has permission to detach the disclaimer, false otherwise.
      */
-    public function detachDisclaimer(User $user, Article $article): bool
+    public function detachDisclaimer(User $user, Article $article): Response
     {
-        return $article->disclaimer()->exists() && $user->can('detach_disclaimer_article');
+        if ($article->disclaimer()->exists() && $user->can('detach_disclaimer_article')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
     /**
@@ -175,14 +202,17 @@ final readonly class ArticlePolicy
      * Archival permissions are granted to administrators and chief editors for Published or Approval-state articles.
      * This allows senior editors to manage content visibility while preserving article history.
      *
-     * @param  User     $user     The user that iàs attempting to archive the article.
+     * @param  User     $user     The user that's attempting to archive the article.
      * @param  Article  $article  The article that is being archived
-     * @return bool               True if the user has permission to archive, false otherwise
+     * @return Response           True if the user has permission to archive, false otherwise
      */
-    public function archiveArticle(User $user, Article $article): bool
+    public function archiveArticle(User $user, Article $article): Response
     {
-        return $article->state->in(enums: [ArticleStates::Published, ArticleStates::Approval])
-            && $user->can('archive_article');
+		if ($article->state->in(enums: [ArticleStates::Published, ArticleStates::Approval]) && $user->can('archive_article')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
     /**
@@ -193,11 +223,15 @@ final readonly class ArticlePolicy
      *
      * @param  User    $user     The user attempting to unarchive the article.
      * @param  Article $article  The article to be unarchived.
-     * @return bool              True if the user has permission to unarchive, false otherwise.
+     * @return Response          True if the user has permission to unarchive, false otherwise.
      */
-    public function unarchive(User $user, Article $article): bool
+    public function unarchive(User $user, Article $article): Response
     {
-        return $article->state->is(ArticleStates::Archived) && $user->can('unarchive_article');
+        if ($article->state->is(ArticleStates::Archived) && $user->can('unarchive_article')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
     /**
@@ -208,12 +242,17 @@ final readonly class ArticlePolicy
      *
      * @param  User     $user     The user attempting to delete the article
      * @param  Article  $article  The article being deleted by the user.
-     * @return bool               True if the user has permission to delete, false otherwise
+     * @return Response           True if the user has permission to delete, false otherwise
      */
-    public function delete(User $user, Article $article): bool
+    public function delete(User $user, Article $article): Response
     {
-        return $user->can('delete_article')
-            && $article->state->in(enums: [ArticleStates::New, ArticleStates::Draft, ArticleStates::ExternalData, ArticleStates::Archived]);
+		$allowedStates = [ArticleStates::New, ArticleStates::Draft, ArticleStates::ExternalData, ArticleStates::Archived];
+		
+        if ($user->can('delete_article') && $article->state->in(enums: $allowedStates)) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
     /**
@@ -223,11 +262,15 @@ final readonly class ArticlePolicy
      * This policy applies to restoring a single, specific soft-deleted article.
      *
      * @param  User $user  The user attempting to restore the article.
-     * @return bool        True if the user has permission to restore, false otherwise.
+     * @return Response    True if the user has permission to restore, false otherwise.
      */
-    public function restore(User $user): bool
+    public function restore(User $user): Response
     {
-        return $user->can('restore_article');
+        if ($user->can('restore_article')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
     /**
@@ -237,18 +280,23 @@ final readonly class ArticlePolicy
      * allowing them to restore any soft-deleted article, not just a specific one.
      *
      * @param  User $user  The user attempting to restore articles.
-     * @return bool        True if the user has permission to restore any article, false otherwise.
+     * @return Response    True if the user has permission to restore any article, false otherwise.
      */
-    public function restoreAny(User $user): bool
+    public function restoreAny(User $user): Response
     {
-        return $user->can('restore_any_article');
+        if ($user->can('restore_any_article')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
-
-    /**
-     * @todo document policy
-     */
-    public function deleteAny(User $user): bool
+	
+    public function deleteAny(User $user): Response
     {
-        return $user->can('delete_any_article');
+        if ($user->can('delete_any_article')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 }

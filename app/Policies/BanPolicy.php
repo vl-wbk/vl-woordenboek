@@ -36,13 +36,15 @@ final readonly class BanPolicy
      * This method checks if the user has the `Administrators` or `Developer` user type.
      * If so, it grants access to view any `Ban` models.
      *
-     * @param User $user The user to check.
-     *
-     * @return bool True if the user is an administrator or developer, false otherwise.
+     * @param  User $user 	The user to check.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(User $user): Response
     {
-        return $user->can('view_any_ban');
+        if ($user->can('view_any_ban')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
     /**
@@ -50,12 +52,14 @@ final readonly class BanPolicy
      *
      * This method always returns false, effectively denying access to view specific `Ban` models.
      * The `before` method handles access control for administrators and developers.
-     *
-     * @return bool Always false.
      */
-    public function view(User $user, Ban $ban): bool
+    public function view(User $user, Ban $ban): Response
     {
-        return $user->can('view_ban');
+        if ($user->can('view_ban')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
     /**
@@ -63,12 +67,14 @@ final readonly class BanPolicy
      *
      * This method always returns false, effectively denying access to update `Ban` models.
      * The `before` method handles access control for administrators and developers.
-     *
-     * @return bool Always false.
      */
-    public function update(User $user, Ban $ban): bool
+    public function update(User $user, Ban $ban): Response
     {
-        return $user->can('update_ban');
+        if ($user->can('update_ban')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
     /**
@@ -76,11 +82,13 @@ final readonly class BanPolicy
      *
      * This method always returns false, effectively denying access to delete `Ban` models.
      * The `before` method handles access control for administrators and developers.
-     *
-     * @return bool Always false.
      */
-    public function delete(User $user, Ban $ban): bool
+    public function delete(User $user, Ban $ban): Response
     {
-        return $user->can('delete_ban');
+        if ($user->can('delete_ban')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 }

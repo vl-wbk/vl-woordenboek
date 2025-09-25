@@ -22,33 +22,45 @@ final readonly class CategoryPolicy
         return null;
     }
 
-    public function viewAny(User $user): bool
+    public function viewAny(User $user): Response
     {
-        return $user->can('view_any_category');
+        return $user->can('view_any_category')
+			? Response::allow()
+			: Response::deny();
     }
 
-    public function view(User $user, Category $category): bool
+    public function view(User $user, Category $category): Response
     {
-        return $user->can('view_category');
+        return $user->can('view_category')
+			? Response::allow()
+			: Response::deny();
     }
 
-    public function create(User $user): bool
+    public function create(User $user): Response
     {
-        return $user->can('create_category');
+        return $user->can('create_category')
+			? Response::allow()
+			: Response::deny();
     }
 
-    public function update(User $user, Category $category): bool
+    public function update(User $user, Category $category): Response
     {
-        return $user->can('update_category');
+        return $user->can('update_category')
+			? Response::allow()
+			: Response::deny();
     }
 
-    public function delete(User $user, Category $category): bool
+    public function delete(User $user, Category $category): Response
     {
-        return $user->can('delete_category');
+        return $user->can('delete_category')
+			? Response::allow()
+			: Response::deny();
     }
 
-    public function deleteAny(User $user): bool
+    public function deleteAny(User $user): Response
     {
-        return $user->can('delete_any_category');
+        return $user->can('delete_any_category')
+			? Response::allow()
+			: Response::deny();
     }
 }

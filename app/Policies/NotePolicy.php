@@ -7,6 +7,7 @@ namespace App\Policies;
 use App\Models\Note;
 use App\Models\User;
 use App\UserTypes;
+use Illuminate\Auth\Access\Response;
 
 /**
  * Implements authorization policies for managing notes within the Vlaams Woordenboek app.
@@ -34,12 +35,12 @@ final readonly class NotePolicy
      *
      * @param  User   $user     The user attempting the operation
      * @param  string $ability  The authorization action being attempted
-     * @return bool|null        True for administrators, null for other users
+     * @return Response|null    True for administrators, null for other users
      */
-    public function before(User $user, string $ability): bool|null
+    public function before(User $user, string $ability): Response|null
     {
         if ($user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer])) {
-            return true;
+            return Response::allow();
         }
 
         return null;
@@ -51,11 +52,15 @@ final readonly class NotePolicy
      *
      * @param  User $user   The user attempting to update the note
      * @param  Note $note   The note being updated
-     * @return bool         True if the user is the note's author
+     * @return Response     True if the user is the note's author
      */
-    public function update(User $user, Note $note): bool
+    public function update(User $user, Note $note): Response
     {
-        return $note->author()->is($user);
+        if ($note->author()->is($user)) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
     /**
@@ -65,10 +70,14 @@ final readonly class NotePolicy
      *
      * @param  User $user  The user attempting to delete the note
      * @param  Note $note  The note being deleted
-     * @return bool        True if the user is the note's author
+     * @return Response    True if the user is the note's author
      */
-    public function delete(User $user, Note $note): bool
+    public function delete(User $user, Note $note): Response
     {
-        return $note->author()->is($user);
+        if ($note->author()->is($user)) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 }

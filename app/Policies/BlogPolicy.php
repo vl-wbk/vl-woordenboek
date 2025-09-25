@@ -190,10 +190,12 @@ final readonly class BlogPolicy
      * It checks if the user has the `delete_any_blog` permission, which is typically reserved for administrators.
      *
      * @param  User $user   The authenticated user.
-     * @return bool         Returns `true` if the user has the permission, `false` otherwise.
+     * @return Response     Returns `true` if the user has the permission, `false` otherwise.
      */
-    public function deleteAny(User $user): bool
+    public function deleteAny(User $user): Response
     {
-        return $user->can('delete_any_blog');
+        return $user->can('delete_any_blog')
+			? Response::allow()
+			: Response::denyAsNotFound();
     }
 }

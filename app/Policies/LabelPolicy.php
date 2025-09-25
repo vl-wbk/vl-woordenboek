@@ -19,9 +19,6 @@ use Illuminate\Auth\Access\Response;
  */
 final readonly class LabelPolicy
 {
-    /**
-     * @todo Document polociy method.
-     */
     public function before(User $user): ?Response
     {
         if ($user->cannot('page_Articles')) {
@@ -30,21 +27,23 @@ final readonly class LabelPolicy
 
         return null;
     }
-
-    /**
-     * @todo Document policy
-     */
-    public function viewAny(User $user): bool
+	
+    public function viewAny(User $user): Response
     {
-        return $user->can('view_any_label');
+        if ($user->can('view_any_label')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
-
-    /**
-     * @todo Document policy
-     */
-    public function view(User $user, Label $label): bool
+	
+    public function view(User $user, Label $label): Response
     {
-        return $user->can('view_label');
+        if ($user->can('view_label')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
     /**
@@ -55,22 +54,30 @@ final readonly class LabelPolicy
      *
      * @param  User $user  The eloquent instance from the currently authenticated user.
      */
-    public function update(User $user, Label $label): bool
+    public function update(User $user, Label $label): Response
     {
-        return $user->can('update_label');
+        if ($user->can('update_label')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
     /**
      * Determines whether a user can delete labels from the system.
      *
-     * Label deletion is a sensitive operation that could affect multiple articles, thus it is restricted to administrators and developers.
+     * Label deletion is a sensitive operation that could affect multiple articles. Thus, it is restricted to administrators and developers.
      * This helps prevent accidental removal of important categorization structures.
      *
      * @param  User $user  The eloquent instance from the currently authenticated user.
      */
-    public function delete(User $user): bool
+    public function delete(User $user): Response
     {
-        return $user->can('delete_label');
+        if ($user->can('delete_label')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
     /**
@@ -81,22 +88,30 @@ final readonly class LabelPolicy
      *
      * @param  User $user  The eloquent instance from the currently authenticated user.
      */
-    public function create(User $user): bool
+    public function create(User $user): Response
     {
-        return $user->can('create_label');
+        if ($user->can('create_label')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
     /**
      * Determines whether a user can attach labels to articles.
      *
      * Label attachment permissions extend to editors and chief editors in addition to administrators and developers.
-     * This broader access enables content organization while maintaining appropriate oversight of the categorization process.
+     * This broader access enables content organization while maintaining the appropriate oversight of the categorization process.
      *
      * @param  User $user  The eloquent instance from the currently authenticated user.
      */
-    public function attach(User $user): bool
+    public function attach(User $user): Response
     {
-        return $user->can('attach_label');
+        if ($user->can('attach_label')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
     /**
@@ -107,16 +122,21 @@ final readonly class LabelPolicy
      *
      * @param  User $user  The eloquent instance from the currently authenticated user.
      */
-    public function detach(User $user, Label $label): bool
+    public function detach(User $user, Label $label): Response
     {
-        return $user->can('detach_label');
+		if ($user->can('detach_label')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
-
-    /**
-     * @todo Document policy
-     */
-    public function deleteAny(User $user): bool
+	
+    public function deleteAny(User $user): Response
     {
-        return $user->can('delete_any_label');
+        if ($user->can('delete_any_label')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 }

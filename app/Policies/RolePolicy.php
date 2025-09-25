@@ -34,26 +34,46 @@ final readonly class RolePolicy
 
     public function view(User $user, Role $role): Response
     {
-        return $user->can('view_role');
+        if ($user->can('view_role')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
-    public function create(User $user): bool
+    public function create(User $user): Response
     {
-        return $user->can('create_role');
+        if ($user->can('create_role')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
     public function update(User $user, Role $role): Response
     {
-        return $user->can('update_role');
+        if ($user->can('update_role')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
     public function delete(User $user, Role $role): Response
     {
-        return $user->can('delete_role');
+        if ($user->can('delete_role')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
     public function deleteAny(User $user): Response
     {
-        return $user->can('delete_any_role');
+        if ($user->can('delete_any_role')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 }

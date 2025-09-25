@@ -7,6 +7,7 @@ namespace App\Policies;
 use App\Models\ArticleReport;
 use App\Models\User;
 use App\States\Reporting\Status;
+use Illuminate\Auth\Access\Response;
 
 /**
  * The ArticleReportPolicy class defines the authorization rules for managing article reports.
@@ -34,10 +35,10 @@ final readonly class ArticleReportPolicy
      * @param  User $user  The user attempting to perform an action.
      * @return bool|null   Returns `false` to deny access, or `null` to defer to specific methods.
      */
-    public function before(User $user): ?bool
+    public function before(User $user): ?Response
     {
         if ($user->cannot('page_Articles')) {
-            return false;
+            return Response::deny();
         }
 
         return null;
@@ -47,22 +48,27 @@ final readonly class ArticleReportPolicy
      * Determines whether the user can view the list of article reports.
      *
      * This method allows all authenticated users to access the list of reports.
-     * It is a permissive rule that grants access to the `viewAny` action for all users.
+     * It's a permissive rule that grants access to the `viewAny` action for all users.
      *
      * @param  User $user  The user attempting to view the list of article reports.
      * @return bool        Always returns `true`, allowing access.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(User $user): Response
     {
-        return $user->can('view_any_article::report');
+        if  ($user->can('view_any_article::report')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
-
-    /**
-     * @todo Undocumented policy
-     */
-    public function view(User $user, ArticleReport $articleReport): bool
+	
+    public function view(User $user, ArticleReport $articleReport): Response
     {
-        return $user->can('view_article::report');
+        if ($user->can('view_article::report')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
     /**
@@ -73,16 +79,19 @@ final readonly class ArticleReportPolicy
      *
      * @param  User $user                    The user attempting to mark the report as "In Progress."
      * @param  ArticleReport $articleReport  The article report being updated.
-     * @return bool                          Returns `true` if the report can be marked as "In Progress," otherwise `false`.
+     * @return Response                      Returns `true` if the report can be marked as "In Progress," otherwise `false`.
      */
-    public function markInProgress(User $user, ArticleReport $articleReport): bool
+    public function markInProgress(User $user, ArticleReport $articleReport): Response
     {
         if ($user->cannot('mark_in_progress_article::report')) {
-            return false;
+            return Response::deny();
         }
 
-        return $articleReport->assignee()->doesntExist()
-            && $articleReport->state->is(enum: Status::Open);
+        if ($articleReport->assignee()->doesntExist() && $articleReport->state->is(enum: Status::Open)) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
     /**
@@ -93,38 +102,45 @@ final readonly class ArticleReportPolicy
      *
      * @param  User $user                    The user attempting to mark the report as "Closed."
      * @param  ArticleReport $articleReport  The article report being updated.
-     * @return bool                          Returns `true` if the report can be marked as "Closed," otherwise `false`.
+     * @return Response                      Returns `true` if the report can be marked as "Closed," otherwise `false`.
      */
-    public function markAsClosed(User $user, ArticleReport $articleReport): bool
+    public function markAsClosed(User $user, ArticleReport $articleReport): Response
     {
         if ($user->cannot('mark_as_closed_article::report')) {
-            return false;
+            return Response::deny();
         }
 
-        return $articleReport->assignee()->exists()
-            && $articleReport->assignee()->is($user)
-            && $articleReport->state->is(enum: Status::InProgress);
+        if ($articleReport->assignee()->exists() && $articleReport->assignee()->is($user) && $articleReport->state->is(enum: Status::InProgress)) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 
     /**
      * Determines whether the user can delete an article report.
      *
      * This method allows all authenticated users to delete article reports.
-     * It is a permissive rule that grants access to the `delete` action for all users.
+     * It's a permissive rule that grants access to the `delete` action for all users.
      *
      * @param  User $user  The user attempting to delete the article report.
-     * @return bool        Always returns `true`, allowing access.
+     * @return Response    Always returns `true`, allowing access.
      */
-    public function delete(User $user): bool
+    public function delete(User $user): Response
     {
-        return $user->can('delete_article::report');
+        if ($user->can('delete_article::report')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
-
-    /**
-     * @todo Undocumented policy
-     */
-    public function deleteAny(User $user): bool
+	
+    public function deleteAny(User $user): Response
     {
-        return $user->can('delete_any_article::report');
+        if ($user->can('delete_any_article::report')) {
+			return Response::allow();
+		}
+		
+		return Response::deny();
     }
 }

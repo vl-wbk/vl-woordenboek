@@ -2,6 +2,10 @@
 
 ## Unreleased 
 
+### Gewijzigd 
+
+- Policy classes maken nu gebruik van de `Response::` class in plaats van boolean als return (#307) 
+
 ### Varia 
 
 - Toevoegen van een synchronisatie notitie aan de readme. (#250)
