@@ -89,7 +89,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="https://www.forum.chimpy.be" class="nav-link" target="_blank"">
+                        <a href="https://www.forum.chimpy.be" class="nav-link" target="_blank">
                             <x-heroicon-o-chat-bubble-left-right class="icon me-1"/> Forum
                         </a>
                     </li>
@@ -121,21 +121,45 @@
                             </li>
                         @endif
                     @else
-                        <li class="nav-item">
-                            <a href="{{ route('profile.settings.security') }}" class="nav-link">
-                                <x-heroicon-s-user-circle class="icon me-1" /> {{ Auth::user()->name }}
+                        <li class=nav-item"">
+                            <a href="{{ route('profile:inbox') }}" class="nav-link">
+                                <x-heroicon-s-envelope class="icon me-1"/> {{ auth()->user()->unreadMessagesCount() }}
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="{{ route('logout') }}" class="nav-link"
-                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                <x-heroicon-s-power class="icon text-danger" />
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" role="button" aria-haspopup="true" data-bs-toggle="dropdown" aria-expanded="false">
+                                <x-heroicon-s-user-circle class="icon me-1" /> {{ Auth::user()->name }}
                             </a>
 
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
+                            <div class="dropdown-menu border-0 bg-white shadow-sm dropdown-menu-end">
+                                <a class="dropdown-item" href="{{ route('account:public', auth()->user()) }}">
+                                    <x-heroicon-o-user-circle class="text-muted icon me-1"/> Openbaar profiel
+                                </a>
+                                <a class="dropdown-item" href="{{ route('profile.settings') }}">
+                                    <x-heroicon-o-cog-8-tooth class="text-muted icon me-1"/> Instellingen
+                                </a>
+
+                                <div class="dropdown-divider"></div>
+
+                                <a class="dropdown-item" href="{{ route('suggestions:index') }}">
+                                    <x-heroicon-o-queue-list class="text-muted icon me-1"/> Mijn suggesties
+                                </a>
+
+                                <a class="dropdown-item" href="{{ route('bookmarks:index') }}">
+                                    <x-heroicon-o-book-open class="text-muted icon me-1"/> Bewaarde woorden
+                                </a>
+
+                                <div class="dropdown-divider"></div>
+
+                                <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <x-heroicon-s-power class="icon text-danger me-1" /> Uitloggen
+                                </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </div>
                         </li>
                     @endguest
                 </ul>

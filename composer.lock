@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "81a123c3d1358145b982eec8519d2ec6",
+    "content-hash": "0372d26675cdf7ea801f70d566ffed34",
     "packages": [
         {
             "name": "aaronfrancis/fast-paginate",
@@ -1523,6 +1523,77 @@
                 "source": "https://github.com/CharrafiMed/global-search-modal/tree/v3.7.1"
             },
             "time": "2025-06-02T12:26:13+00:00"
+        },
+        {
+            "name": "cmgmyr/messenger",
+            "version": "2.31.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cmgmyr/laravel-messenger.git",
+                "reference": "4e8ddddd2cd823f4ee21ae75521d8a355952b908"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cmgmyr/laravel-messenger/zipball/4e8ddddd2cd823f4ee21ae75521d8a355952b908",
+                "reference": "4e8ddddd2cd823f4ee21ae75521d8a355952b908",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/config": "^5.5|^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0",
+                "illuminate/database": "^5.5|^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0",
+                "illuminate/support": "^5.5|^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0",
+                "php": "^7.2|^8.0"
+            },
+            "require-dev": {
+                "doctrine/dbal": "^3.1.2|^2.13.3|^4.2",
+                "fakerphp/faker": "^1.16|^1.9.1",
+                "friendsofphp/php-cs-fixer": "^3.2|^2.18",
+                "orchestra/testbench": "^3.0|^4.0|^5.0|^6.0|^7.0|^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^8.0|^9.3.3|^10.5|^11.5.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Cmgmyr\\Messenger\\MessengerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Cmgmyr\\Messenger\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Gmyr",
+                    "email": "cmgmyr@gmail.com",
+                    "homepage": "https://github.com/cmgmyr",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Simple user messaging tool for Laravel",
+            "keywords": [
+                "Messenger",
+                "laravel",
+                "messaging",
+                "user messaging"
+            ],
+            "support": {
+                "issues": "https://github.com/cmgmyr/laravel-messenger/issues",
+                "source": "https://github.com/cmgmyr/laravel-messenger/tree/2.31.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/cmgmyr",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-03-09T17:39:31+00:00"
         },
         {
             "name": "codewithdennis/filament-factory-action",

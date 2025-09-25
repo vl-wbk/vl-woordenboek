@@ -264,6 +264,7 @@ final class Article extends Model implements AuditableContract
             'state' => ArticleStates::class,
             'status' => LanguageStatus::class,
             'sources' => 'array',
+			'published_at' => 'datetime'
         ];
     }
 

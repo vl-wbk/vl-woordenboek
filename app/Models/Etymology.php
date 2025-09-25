@@ -166,6 +166,7 @@ final class Etymology extends Model
     protected function casts(): array
     {
         return [
+			'published_at' => 'datetime',
             'status' => EtymologyStatus::class,
             'source_name' => EtymologySources::class,
         ];

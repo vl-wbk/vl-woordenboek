@@ -20,6 +20,10 @@ body {
     }
 }
 
+.text-yellow {
+    color: #ffe615;
+}
+
 .shadow-information-statistic {
     box-shadow: 0 .125rem .25rem #ffe615;
 }
@@ -274,4 +278,27 @@ p {
     background-color: oklch(97.1% 0.013 17.38);
     border: 1px solid oklch(44.4% 0.177 26.899);
     color: oklch(44.4% 0.177 26.899);
+}
+
+// Public profile
+
+.icon-list-item {
+    display: flex;
+    align-items: center;
+}
+.icon-list-item i {
+    font-size: 1.25rem;
+    margin-right: 0.75rem;
+}
+
+.btn-website {
+    @include button-variant(#333332, #333332);
+}
+
+.btn-twitter {
+    @include button-variant(#657786, #657786);
+}
+
+.btn-bluesky {
+    @include button-variant(#00afe1, #00afe1, #fff);
 }
