@@ -23,12 +23,16 @@ final readonly class RolePolicy
         return null;
     }
 
-    public function viewAny(User $user): bool
+    public function viewAny(User $user): Response
     {
-        return $user->can('view_any_role');
+        if ($user->can('view_any_role')) {
+			return Response::allow();
+		};
+		
+		return Response::deny();
     }
 
-    public function view(User $user, Role $role): bool
+    public function view(User $user, Role $role): Response
     {
         return $user->can('view_role');
     }
@@ -38,17 +42,17 @@ final readonly class RolePolicy
         return $user->can('create_role');
     }
 
-    public function update(User $user, Role $role): bool
+    public function update(User $user, Role $role): Response
     {
         return $user->can('update_role');
     }
 
-    public function delete(User $user, Role $role): bool
+    public function delete(User $user, Role $role): Response
     {
         return $user->can('delete_role');
     }
 
-    public function deleteAny(User $user): bool
+    public function deleteAny(User $user): Response
     {
         return $user->can('delete_any_role');
     }
