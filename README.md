@@ -24,6 +24,11 @@ De volgende functionaliteiten hebben we al reeds op de implementatie planning st
 - 🏷 **Categorieën en tags om woorden gemakkelijk te organiseren.**
 - 🔄 **Suggestiesysteem** waarmee gebruikers verbeteringen kunnen voorstellen voor bestaande woorden.
 
+## 🚀 Synchronisatie
+
+Omdat we boilerplate code van `laravel/laravel` up-to-date willen houden synchronisatie we regelmatig de code van hun starter-templae met ons project. 
+Zo was de laatste synchronistatie uitgevoerd op 25/09/2025 *(v12.4.0)*
+
 ## 🧐 Bijdragen
 
 Wil je helpen om dit project beter te maken? Dat zou geweldig zijn! O0f je nu een nieuw record toevoegt, een fout corrigeert oàf een nieuwe functie voorstelt, alle hilp is welkom. 
