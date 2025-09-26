@@ -2,6 +2,10 @@
 
 ## Unreleased 
 
+### Fixes 
+
+- Toevoegen van docblocks voor de `RolePolicy` (#316)
+
 ### Gewijzigd 
 
 - Policy classes maken nu gebruik van de `Response::` class in plaats van boolean als return (#307) 
