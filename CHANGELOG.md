@@ -5,6 +5,7 @@
 ### Fixes 
 
 - Toevoegen van docblocks voor de `RolePolicy` (#316)
+- Acties zichtbaar zonder ingelogd te zijn (#251)
 
 ### Gewijzigd 
 

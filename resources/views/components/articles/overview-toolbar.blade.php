@@ -36,30 +36,33 @@
             <x-heroicon-o-list-bullet class="icon me-1"/> Acties
         </button>
 
-        <ul class="dropdown-menu shadow-sm dropdown-menu-end">
+        <ul class="dropdown-menu border-0 shadow-sm dropdown-menu-end">
             <li>
                 <a class="dropdown-item" href="{{ route('home') }}">
                     <x-heroicon-o-magnifying-glass-circle class="icon text-muted me-1"/> opzoeking
                 </a>
             </li>
-            <li>
-                <a class="dropdown-item" href="{{ route('bookmarks:index') }}">
-                    <x-heroicon-o-bookmark class="icon text-muted me-1"/> bewaarde woorden
 
-                    @if ($bookmarkCount > 0)
-                        <span class="fst-italic">{{ $bookmarkCount }}</span>
-                    @endif
-                </a>
-            </li>
-            <li>
-                <a class="dropdown-item" href="{{ route('suggestions:index') }}">
-                    <x-heroicon-o-list-bullet class="icon text-muted me-1"/> Mijn suggesties
+            @auth
+                <li>
+                    <a class="dropdown-item" href="{{ route('bookmarks:index') }}">
+                        <x-heroicon-o-bookmark class="icon text-muted me-1"/> bewaarde woorden
 
-                    @if ($suggestionCount > 0)
-                        <span class="fst-italic">{{ $suggestionCount }}</span>
-                    @endif
-                </a>
-            </li>
+                        @if ($bookmarkCount > 0)
+                            <span class="fst-italic">{{ $bookmarkCount }}</span>
+                        @endif
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="{{ route('suggestions:index') }}">
+                        <x-heroicon-o-list-bullet class="icon text-muted me-1"/> Mijn suggesties
+
+                        @if ($suggestionCount > 0)
+                            <span class="fst-italic">{{ $suggestionCount }}</span>
+                        @endif
+                    </a>
+                </li>
+            @endauth
 
             <li><hr class="dropdown-divider"></li>
 
