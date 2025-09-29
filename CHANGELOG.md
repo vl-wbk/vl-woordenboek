@@ -1,23 +1,24 @@
 # Changelog
 
-## Unreleased 
+## Unreleased
 
-### Fixes 
+### Toegevoegd
+
+- Toevoegen van de Two Facotr authenticatie functionaliteit (#328)
+
+### Fixes
 
 - Toevoegen van docblocks voor de `RolePolicy` (#316)
 - Acties zichtbaar zonder ingelogd te zijn (#251)
 
-### Gewijzigd 
+### Gewijzigd
 
-- Policy classes maken nu gebruik van de `Response::` class in plaats van boolean als return (#307) 
+- Policy classes maken nu gebruik van de `Response::` class in plaats van boolean als return (#307)
 
-### Varia 
+### Varia
 
 - Toevoegen van een synchronisatie notitie aan de readme. (#250)
 
 ## [1.0.0-beta1](2025-09-25)
 
-- Initiele afsluiting van het werk aan de eerste beta. 
-
-
-
+- Initiele afsluiting van het werk aan de eerste beta.
