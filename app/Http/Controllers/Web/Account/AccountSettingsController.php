@@ -18,12 +18,13 @@ use Spatie\RouteAttributes\Attributes\Patch;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
 #[Prefix('instellingen')]
-#[Middleware(['auth', 'forbid-banned-user', 'verified'])]
+#[Middleware(['auth', 'forbid-banned-user'])]
 final readonly class AccountSettingsController
 {
     public function __construct(
         private BrowserSessionService $browserSessionService,
-    ) {}
+    ) {
+    }
 
     #[Get(uri: 'account-informatie', name: 'profile.settings')]
     public function information(): Renderable
@@ -41,19 +42,19 @@ final readonly class AccountSettingsController
             'sessions' => $this->browserSessionService->getSessionProperty(),
         ]);
     }
-	
-	/**
-	 * @throws InvalidDataClass
-	 */
-	#[Patch(uri: 'account-sociale-referenties', name: 'profile.settings.social-references')]
-	public function updateSocialReferences(UpdateSocialReferencesRequest $updateSocialReferencesRequest, UpdateSocialRefences $updateSocialRefences): RedirectResponse
-	{
-		if ($updateSocialRefences->handle($updateSocialReferencesRequest->getData())) {
-			flash(text: __('We hebben de koppelingen met je sociale account succesvol aangepast'), class: 'alert-success');
-		}
-		
-		return back();
-	}
+
+    /**
+     * @throws InvalidDataClass
+     */
+    #[Patch(uri: 'account-sociale-referenties', name: 'profile.settings.social-references')]
+    public function updateSocialReferences(UpdateSocialReferencesRequest $updateSocialReferencesRequest, UpdateSocialRefences $updateSocialRefences): RedirectResponse
+    {
+        if ($updateSocialRefences->handle($updateSocialReferencesRequest->getData())) {
+            flash(text: __('We hebben de koppelingen met je sociale account succesvol aangepast'), class: 'alert-success');
+        }
+
+        return back();
+    }
 
     #[Delete(uri: 'browser-sessies-verwijderen', name: 'profile.delete-browser-sessions')]
     public function deleteBrowserSessions(DeleteBrowserSessionsRequest $deleteBrowserSessionsRequest): RedirectResponse
