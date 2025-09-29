@@ -143,7 +143,7 @@
                                     @foreach ($relatedArticles as $relatedArticle)
                                         <tr>
                                             <th scope="row" class="fst-italic border-0">{{  $relatedArticle->word }}</th>
-                                            <td class="border-0"><x-heroicon-s-eye class="icon color-green me-1"/>{{ toHumanReadableNumber($relatedArticle->views) }}</td>
+                                            <td class="border-0"><x-heroicon-s-eye class="icon color-green me-1"/>{{ toHumanReadableNumber((int) $relatedArticle->views) }}</td>
                                             <td class="border-0">{!! strip_tags(str($relatedArticle->description)->markdown()->sanitizeHtml()->words(15)) !!}</td>
 
                                             <td class="border-0">

@@ -4,6 +4,7 @@
 
 ### Fixes 
 
+- Sentry error die word geworpen doormiddel van een type casting error in de regio informatie pagina
 - Toevoegen van docblocks voor de `RolePolicy` (#316)
 - Acties zichtbaar zonder ingelogd te zijn (#251)
 
