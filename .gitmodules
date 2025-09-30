@@ -1,0 +1,3 @@
+[submodule "database/analytics"]
+	path = database/analytics
+	url = https://github.com/vl-wbk/analytical-queries.git
