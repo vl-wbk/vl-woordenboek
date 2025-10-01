@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "81f5c99e7e4b06bb275ed5b6e19150b4",
+    "content-hash": "a18dbd6e835efff26100e521dbb8b5ba",
     "packages": [
         {
             "name": "aaronfrancis/fast-paginate",
@@ -4643,16 +4643,16 @@
         },
         {
             "name": "league/csv",
-            "version": "9.25.0",
+            "version": "9.26.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/csv.git",
-                "reference": "f856f532866369fb1debe4e7c5a1db185f40ef86"
+                "reference": "7fce732754d043f3938899e5183e2d0f3d31b571"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/csv/zipball/f856f532866369fb1debe4e7c5a1db185f40ef86",
-                "reference": "f856f532866369fb1debe4e7c5a1db185f40ef86",
+                "url": "https://api.github.com/repos/thephpleague/csv/zipball/7fce732754d043f3938899e5183e2d0f3d31b571",
+                "reference": "7fce732754d043f3938899e5183e2d0f3d31b571",
                 "shasum": ""
             },
             "require": {
@@ -4730,7 +4730,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-09-11T08:29:08+00:00"
+            "time": "2025-10-01T11:24:54+00:00"
         },
         {
             "name": "league/flysystem",
@@ -13296,53 +13296,6 @@
                 }
             ],
             "time": "2025-08-14T07:29:31+00:00"
-        },
-        {
-            "name": "filament/upgrade",
-            "version": "v4.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/filamentphp/upgrade.git",
-                "reference": "72f47ecdf4972f84085f300f19da04b9c835f60c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/upgrade/zipball/72f47ecdf4972f84085f300f19da04b9c835f60c",
-                "reference": "72f47ecdf4972f84085f300f19da04b9c835f60c",
-                "shasum": ""
-            },
-            "require": {
-                "nunomaduro/termwind": "^2.0",
-                "php": "^8.2",
-                "rector/rector": "^2.0"
-            },
-            "bin": [
-                "bin/filament-v4"
-            ],
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Filament\\Upgrade\\UpgradeServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Filament\\Upgrade\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Upgrade Filament v3 code to Filament v4.",
-            "homepage": "https://github.com/filamentphp/filament",
-            "support": {
-                "issues": "https://github.com/filamentphp/filament/issues",
-                "source": "https://github.com/filamentphp/filament"
-            },
-            "time": "2025-09-11T14:01:25+00:00"
         },
         {
             "name": "filp/whoops",
