@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\LabelResource\RelationManagers;
 
+use Filament\Actions\AttachAction;
+use Filament\Actions\ViewAction;
+use Filament\Actions\DetachAction;
+use Filament\Actions\DetachBulkAction;
 use App\Filament\Resources\ArticleResource;
 use App\Models\Article;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
-use Filament\Tables\Actions\AttachAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -67,8 +70,8 @@ final class ArticlesRelationManager extends RelationManager
             ->emptyStateDescription('Momenteel zijn er geen artikelen gevonden die gelabeld zijn met die label. Kom later nog eens terug.')
             ->recordTitleAttribute('word')
             ->columns($this->getTableLayout())
-            ->actions($this->getTableActions())
-            ->bulkActions($this->getBulkActions());
+            ->recordActions($this->getTableActions())
+            ->toolbarActions($this->getBulkActions());
     }
 
     /**
@@ -80,10 +83,10 @@ final class ArticlesRelationManager extends RelationManager
     protected function getTableActions(): array
     {
         return [
-            Tables\Actions\ViewAction::make()
+            ViewAction::make()
                 ->url(fn(Article $article): string => ArticleResource::getUrl('view', ['record' => $article])),
 
-            Tables\Actions\DetachAction::make(),
+            DetachAction::make(),
         ];
     }
 
@@ -96,7 +99,7 @@ final class ArticlesRelationManager extends RelationManager
     private function getBulkActions(): array
     {
         return [
-            Tables\Actions\DetachBulkAction::make(),
+            DetachBulkAction::make(),
         ];
     }
 

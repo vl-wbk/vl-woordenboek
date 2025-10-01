@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\UserResource\Actions;
 
+use Filament\Actions\Action;
 use App\Models\User;
 use Cog\Contracts\Ban\Ban;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Forms\Components\Textarea;
-use Filament\Tables\Actions\Action;
 use Filament\Forms\Components\Select;
 
 /**

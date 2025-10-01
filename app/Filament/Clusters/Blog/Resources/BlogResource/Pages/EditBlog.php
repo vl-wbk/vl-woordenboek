@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources\BlogResource\Pages;
 
+use Filament\Actions\DeleteAction;
 use App\Filament\Clusters\Blog\Resources\BlogResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
@@ -15,7 +16,7 @@ final class EditBlog extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make()->icon('heroicon-o-trash'),
+            DeleteAction::make()->icon('heroicon-o-trash'),
         ];
     }
 }

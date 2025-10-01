@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Support\Carbon;
+use Database\Factories\EtymologyFactory;
 use App\Enums\Articles\EtymologySources;
 use App\Enums\Articles\EtymologyStatus;
 use App\Models\Relations\BelongsToAuthor;
@@ -33,13 +35,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string                             $source_url         The URL to the primary source of the etymological information.
  * @property string|null                        $note               Any additional notes or comments regarding the etymology.
  * @property string                             $etymology          The detailed etymological explanation.
- * @property \Illuminate\Support\Carbon|null    $period_start       The start date of the historical period relevant to the etymology.
- * @property \Illuminate\Support\Carbon|null    $period_end         The end date of the historical period relevant to the etymology.
- * @property \Illuminate\Support\Carbon|null    $created_at         The timestamp when the etymology entry was created.
- * @property \Illuminate\Support\Carbon|null    $updated_at         The timestamp when the etymology entry was last updated.
- * @property \Illuminate\Support\Carbon|null    $published_at       The timestamp when the etymology entry was published.
- * @property \Illuminate\Support\Carbon|null    $rejected_at        The timestamp when the etymology entry was rejected.
- * @property \Illuminate\Support\Carbon|null    $archived_at        The timestamp when the etymology entry was archived.
+ * @property Carbon|null $period_start The start date of the historical period relevant to the etymology.
+ * @property Carbon|null $period_end The end date of the historical period relevant to the etymology.
+ * @property Carbon|null $created_at The timestamp when the etymology entry was created.
+ * @property Carbon|null $updated_at The timestamp when the etymology entry was last updated.
+ * @property Carbon|null $published_at The timestamp when the etymology entry was published.
+ * @property Carbon|null $rejected_at The timestamp when the etymology entry was rejected.
+ * @property Carbon|null $archived_at The timestamp when the etymology entry was archived.
  * @property int|null                           $published_by       The ID of the user who published the etymology.
  * @property int|null                           $rejected_by        The ID of the user who rejected the etymology.
  * @property int|null                           $archived_by        The ID of the user who archived the etymology.
@@ -56,7 +58,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[ObservedBy(EtymologyObserver::class)]
 final class Etymology extends Model
 {
-    /** @use HasFactory<\Database\Factories\EtymologyFactory> */
+    /** @use HasFactory<EtymologyFactory> */
     use HasFactory;
     use BelongsToAuthor;
 

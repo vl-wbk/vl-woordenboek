@@ -4,20 +4,29 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Schemas\Components\Section;
+use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
+use Filament\Support\Enums\Width;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Clusters\Articles\Resources\LabelResource\RelationManagers\ArticlesRelationManager;
+use App\Filament\Clusters\Articles\Resources\LabelResource\Pages\ListLabels;
+use App\Filament\Clusters\Articles\Resources\LabelResource\Pages\ViewLabel;
 use App\Filament\Clusters\Articles;
 use App\Filament\Clusters\Articles\Resources\LabelResource\Pages;
 use App\Filament\Clusters\Articles\Resources\LabelResource\RelationManagers;
 use App\Models\Label;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms\Components;
-use Filament\Forms\Form;
-use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconSize;
-use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -47,7 +56,7 @@ final class LabelResource extends Resource implements HasShieldPermissions
      * styling across the application. The tag icon was chosen as it best represents the labeling concept.
      * See https://heroicons.com for the complete icon set.
      */
-    protected static ?string $navigationIcon = 'heroicon-o-tag';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-tag';
 
     /**
      * Organizational grouping for this resource. The Articles cluster contains all resources related to
@@ -72,27 +81,27 @@ final class LabelResource extends Resource implements HasShieldPermissions
      * system to ensure proper layout across different screen sizes. Required fields are clearly marked,
      * and helpful placeholder text guides users through the input process.
      *
-     * @param  Form $form  The Filament form builder instance used to construct the interface
-     * @return Form        The fully configured form ready for rendering
+     * @param \Filament\Schemas\Schema $schema The Filament form builder instance used to construct the interface
+     * @return \Filament\Schemas\Schema The fully configured form ready for rendering
      */
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->columns(12)
-            ->schema([
-                Components\TextInput::make('type')
+            ->components([
+                TextInput::make('type')
                     ->label('Type')
                     ->translateLabel()
                     ->required()
                     ->maxLength(255)
                     ->columnSpan(3),
-                Components\TextInput::make('name')
+                TextInput::make('name')
                     ->label('Label naam')
                     ->columnSpan(6)
                     ->unique(ignoreRecord: true)
                     ->required()
                     ->maxLength(255),
-                Components\Textarea::make('description')
+                Textarea::make('description')
                     ->label('Beschrijving')
                     ->rows(4)
                     ->placeholder('Beschrijf zo goed mogelijk wat het label inhoud. (Optioneel)')
@@ -107,13 +116,13 @@ final class LabelResource extends Resource implements HasShieldPermissions
      * It presents the label's core attributes including name, timestamps, and description in a visually appealing format with consistent styling.
      * The interface uses the Filament design system, incorporating icons and responsive column layouts to ensure optimal presentation across different screen sizes.
      *
-     * @param  Infolist $infolist   The Filament infolist builder instance
-     * @return Infolist             The configured infolist ready for rendering
+     * @param \Filament\Schemas\Schema $schema The Filament infolist builder instance
+     * @return \Filament\Schemas\Schema The configured infolist ready for rendering
      */
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
+        return $schema
+            ->components([
                 Section::make('Label informatie')
                     ->collapsible()
                     ->description('Alle informatie omtrent het label dat is aangemaakt voor artikelen in het Vlaams Woordenboek')
@@ -182,24 +191,24 @@ final class LabelResource extends Resource implements HasShieldPermissions
                     ->sortable()
                     ->date(),
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make()
+            ->recordActions([
+                ViewAction::make()
                     ->hiddenLabel(),
-                Tables\Actions\EditAction::make()
+                EditAction::make()
                     ->hiddenLabel()
                     ->color('gray')
-                    ->modalWidth(MaxWidth::SevenExtraLarge)
+                    ->modalWidth(Width::SevenExtraLarge)
                     ->modalHeading('Label Wijzigen')
                     ->modalIcon('heroicon-o-pencil-square')
                     ->modalIconColor('gray')
                     ->modalDescription('U staat op het punt om een label te wijzigen voor het woordenboek en zijn artikels.'),
-                Tables\Actions\DeleteAction::make()->hiddenLabel()
+                DeleteAction::make()->hiddenLabel()
                     ->icon('heroicon-o-trash')
                     ->modalDescription('Indien u het label verwijderd zal het label ook loskoppeld worden van de woorden. Bent u zeker dat u het label wilt verwijderen?'),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make()
                         ->modalDescription('Indien u de geselecteeerde labels verwijderd zullen deze worden losgekoppeld van de woorden. Bent u zeker dat u de handeling wilt uitvoeren?'),
                 ]),
             ]);
@@ -231,7 +240,7 @@ final class LabelResource extends Resource implements HasShieldPermissions
     public static function getRelations(): array
     {
         return [
-            RelationManagers\ArticlesRelationManager::class,
+            ArticlesRelationManager::class,
         ];
     }
 
@@ -246,8 +255,8 @@ final class LabelResource extends Resource implements HasShieldPermissions
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListLabels::route('/'),
-            'view' => Pages\ViewLabel::route('/{record}'),
+            'index' => ListLabels::route('/'),
+            'view' => ViewLabel::route('/{record}'),
         ];
     }
 }

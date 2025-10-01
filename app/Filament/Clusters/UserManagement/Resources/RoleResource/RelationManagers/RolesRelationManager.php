@@ -4,7 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\UserManagement\Resources\RoleResource\RelationManagers;
 
-use App\Filament\Clusters\UserManagement\Resources\RoleResource;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\AttachAction;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\ViewAction;
+use Filament\Actions\DetachAction;
+use Filament\Actions\DetachBulkAction;
 use App\Filament\Resources\UserResource\Pages\ViewUser;
 use App\Models\User;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -16,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Spatie\Permission\Models\Role;
+use BezhanSalleh\FilamentShield\Resources\Roles\RoleResource;
 
 /**
  * Class RolesRelationManager
@@ -44,7 +50,7 @@ final class RolesRelationManager extends RelationManager
      * The Heroicon string used to represent this relation manager in the Filament UI.
      * This icon is typically displayed next to the title or in empty states.
      */
-    protected static ?string $icon = 'heroicon-o-users';
+    protected static string | \BackedEnum | null $icon = 'heroicon-o-users';
 
     /**
      * Determines if the relation manager's table and actions should be read-only.
@@ -105,32 +111,32 @@ final class RolesRelationManager extends RelationManager
             ->emptyStateDescription('Momenteeel zijn er geen permissiegroepen gekoppeld aan het gebruikersaccount. Gebruik de knop rechts bevonaan om een permissiegroep te koppelen indien nodig.')
             ->description('Een overzicht van alle permissiegroepen (gebruikersrollen) die gekoppeld zijn aan het account van de gebruiker.')
             ->columns([
-                Tables\Columns\TextColumn::make('id')
+                TextColumn::make('id')
                     ->label('#')
                     ->weight(FontWeight::SemiBold)
                     ->color('primary'),
 
-                Tables\Columns\TextColumn::make('guard_name')
+                TextColumn::make('guard_name')
                     ->label('Systeem type'),
 
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->label('Naam')
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('permissions_count')
+                TextColumn::make('permissions_count')
                     ->badge()
                     ->label(__('filament-shield::filament-shield.column.permissions'))
                     ->counts('permissions')
                     ->label(__('Gekoppelde permissies'))
                     ->colors(['success']),
 
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->label('Laast aangepast')
                     ->date(),
             ])
             ->headerActions([
-                Tables\Actions\AttachAction::make()
+                AttachAction::make()
                     ->recordTitleAttribute('name')
                     ->modalHeading('Permissiegroep toekennen')
                     ->modalIcon(self::$icon)
@@ -143,15 +149,15 @@ final class RolesRelationManager extends RelationManager
                     ->label('Permissiegroep koppelen')
                     ->preloadRecordSelect(),
             ])
-            ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make()
+            ->recordActions([
+                ActionGroup::make([
+                    ViewAction::make()
                         ->url(fn(Role $role): string => RoleResource::getUrl('view', ['record' => $role])),
-                    Tables\Actions\DetachAction::make(),
+                    DetachAction::make(),
                 ]),
             ])
-            ->bulkActions([
-                Tables\Actions\DetachBulkAction::make(),
+            ->toolbarActions([
+                DetachBulkAction::make(),
             ]);
     }
 }

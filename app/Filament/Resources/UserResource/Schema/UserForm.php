@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\UserResource\Schema;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use App\UserTypes;
-use Filament\Forms\Form;
 use Filament\Forms\Components;
 
 /**
@@ -13,11 +16,11 @@ use Filament\Forms\Components;
  */
 final readonly class UserForm
 {
-    public static function configure(Form $form): Form
+    public static function configure(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Components\Section::make(heading: __('user-resource.form.section.heading'))
+        return $schema
+            ->components([
+                Section::make(heading: __('user-resource.form.section.heading'))
                     ->description(description: __('user-resource.form.section.description'))
                     ->icon('heroicon-o-user-plus')
                     ->iconColor('primary')
@@ -25,14 +28,14 @@ final readonly class UserForm
                     ->columns(12)
 
                     ->schema([
-                        Components\Select::make('user_type')
+                        Select::make('user_type')
                             ->label(label: __('user-resource.form.section.inputs.user_type'))
                             ->required()
                             ->native(false)
                             ->options(UserTypes::class)
                             ->columnSpan(3)
                             ->required(),
-                        Components\TextInput::make('name')
+                        TextInput::make('name')
                             ->label('Gebruikersnaam')
                             ->required()
                             ->placeholder('- niet opgegeven')
@@ -40,24 +43,24 @@ final readonly class UserForm
                             ->unique(ignoreRecord: true)
                             ->columnSpan(3),
 
-                        Components\TextInput::make('firstname')
+                        TextInput::make('firstname')
                             ->label(label: __('user-resource.form.section.inputs.firstname'))
                             ->required()
                             ->columnSpan(3),
 
-                        Components\TextInput::make('lastname')
+                        TextInput::make('lastname')
                             ->label(label: __('user-resource.form.section.inputs.lastname'))
                             ->required()
                             ->columnSpan(3),
 
-                        Components\TextInput::make('email')
+                        TextInput::make('email')
                             ->label(label: __('user-resource.form.section.inputs.email'))
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->email()
                             ->columnSpan(12),
 
-                        Components\Select::make('roles')
+                        Select::make('roles')
                             ->label(label: __('user-resource.form.section.inputs.roles.label'))
                             ->relationship('roles', 'name')
                             ->multiple()

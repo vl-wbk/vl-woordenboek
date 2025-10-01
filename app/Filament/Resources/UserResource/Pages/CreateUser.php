@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\UserResource\Pages;
 
+use App\Models\User;
 use App\Filament\Resources\UserResource;
 use Filament\Resources\Pages\CreateRecord;
 
@@ -13,7 +14,7 @@ use Filament\Resources\Pages\CreateRecord;
  * This page component handles the registration of new users through a form-based interface.
  * It extends Filament's CreateRecord to provide a standardized creation experience while integrating with the app's notification system for welcoming new users.
  *
- * @property \App\Models\User $record The entity from the created user in the app.
+ * @property User $record The entity from the created user in the app.
  * @package App\Filament\Resources\UserResource\Pages
  */
 final class CreateUser extends CreateRecord

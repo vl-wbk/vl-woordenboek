@@ -4,6 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Actions\Action;
+use Filament\Support\Enums\Width;
+use App\Filament\Clusters\Articles\Resources\ArticleReportResource\Pages\ListArticleReports;
+use App\Filament\Clusters\Articles\Resources\ArticleReportResource\Pages\ViewArticleReport;
+use App\Filament\Clusters\Articles\Resources\ArticleReportResource\Widgets\ArticleReportingChartWidget;
+use Filament\Schemas\Components\Fieldset;
 use App\Filament\Clusters\Articles;
 use App\Filament\Clusters\Articles\Resources\ArticleReportResource\Actions\TableActionsConfiguration;
 use App\Filament\Clusters\Articles\Resources\ArticleReportResource\Pages;
@@ -14,15 +22,10 @@ use App\Models\ArticleReport;
 use App\Models\User;
 use App\States\Reporting\Status;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
-use Filament\Infolists\Components\Actions\Action;
-use Filament\Infolists\Components\Fieldset;
-use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconSize;
-use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -56,7 +59,7 @@ final class ArticleReportResource extends Resource implements HasShieldPermissio
      * Specifies the icon used for the resource in the navigation menu.
      * The icon visually represents the resource in the admin panel's navigation.
      */
-    protected static ?string $navigationIcon = 'heroicon-o-flag';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-flag';
 
     /**
      * Specifies the singular label for the resource.
@@ -92,13 +95,13 @@ final class ArticleReportResource extends Resource implements HasShieldPermissio
      * The infolist includes sections and fieldsets that display general information about the report, follow-up details, and user feedback.
      * It also provides header actions for viewing related user and article information.
      *
-     * @param  Infolist $infolist  The infolist instance to configure.
-     * @return Infolist            The configured infolist instance.
+     * @param \Filament\Schemas\Schema $schema The infolist instance to configure.
+     * @return \Filament\Schemas\Schema The configured infolist instance.
      */
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
-            ->schema(components: [
+        return $schema
+            ->components(components: [
                 Section::make()
                     ->heading('Algemene informatie van de melding')
                     ->headerActions([
@@ -145,9 +148,9 @@ final class ArticleReportResource extends Resource implements HasShieldPermissio
             ->emptyStateHeading('Geen meldingen gevonden')
             ->emptyStateDescription('Het lijk erop dat er momenteel geen openstaande meldingen zijn die gerelateerd zijn aan de atikelen van het Vlaams Woordenboek.')
             ->columns(SchemaTableColumnSchema::make())
-            ->actions(TableActionsConfiguration::rowActions())
-            ->bulkActions(TableActionsConfiguration::bulkActions())
-            ->filtersFormWidth(MaxWidth::Medium)
+            ->recordActions(TableActionsConfiguration::rowActions())
+            ->toolbarActions(TableActionsConfiguration::bulkActions())
+            ->filtersFormWidth(Width::Medium)
             ->filters(self::getTableFilters());
     }
 
@@ -202,8 +205,8 @@ final class ArticleReportResource extends Resource implements HasShieldPermissio
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListArticleReports::route('/'),
-            'view' => Pages\ViewArticleReport::route('/{record}'),
+            'index' => ListArticleReports::route('/'),
+            'view' => ViewArticleReport::route('/{record}'),
         ];
     }
 
@@ -222,7 +225,7 @@ final class ArticleReportResource extends Resource implements HasShieldPermissio
     public static function getWidgets(): array
     {
         return [
-            \App\Filament\Clusters\Articles\Resources\ArticleReportResource\Widgets\ArticleReportingChartWidget::class,
+            ArticleReportingChartWidget::class,
         ];
     }
 
@@ -230,7 +233,7 @@ final class ArticleReportResource extends Resource implements HasShieldPermissio
      * Configures the fieldset for follow-up details.
      * This fieldset displays information about the report's status, assignee, and timestamps for assignment and closure.
      *
-     * @return Fieldset The configured fieldset instance.
+     * @return \Filament\Schemas\Components\Fieldset The configured fieldset instance.
      */
     private static function followUpFieldset(): Fieldset
     {
@@ -269,7 +272,7 @@ final class ArticleReportResource extends Resource implements HasShieldPermissio
      * Configures the fieldset for follow-up details.
      * This fieldset displays information about the report's status, assignee, and timestamps for assignment and closure.
      *
-     * @return Fieldset The configured fieldset instance.
+     * @return \Filament\Schemas\Components\Fieldset The configured fieldset instance.
      */
     private static function feedbackFieldset(): Fieldset
     {

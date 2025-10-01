@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
+use Exception;
 use App\Models\User;
 use Filament\Actions\Exports\Models\Export;
 use Illuminate\Auth\Access\Response;
@@ -20,17 +21,17 @@ use Illuminate\Auth\Access\Response;
 final readonly class ExportPolicy
 {
 	/**
-	 * Determines whether the given user can view the specified export.
-	 *
-	 * The policy grants permission only if the authenticated user is the owner of the export.
-	 * It performs this check by comparing the user who initiated the export with the currently authenticated user.
-	 *
-	 * @param  User   $user    The authenticated user attempting to view the export.
-	 * @param  Export $export  The export model instance being checked.
-	 * @return Response        Returns `true` if the user is the owner of the export, otherwise `false`.
-	 *
-	 * @throws \Exception
-	 */
+     * Determines whether the given user can view the specified export.
+     *
+     * The policy grants permission only if the authenticated user is the owner of the export.
+     * It performs this check by comparing the user who initiated the export with the currently authenticated user.
+     *
+     * @param  User   $user    The authenticated user attempting to view the export.
+     * @param  Export $export  The export model instance being checked.
+     * @return Response        Returns `true` if the user is the owner of the export, otherwise `false`.
+     *
+     * @throws Exception
+     */
     public function view(User $user, Export $export): Response
     {
         return ($export->user()->is($user))

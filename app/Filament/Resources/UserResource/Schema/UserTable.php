@@ -4,13 +4,20 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\UserResource\Schema;
 
+use Filament\Actions\Action;
+use Filament\Actions\CreateAction;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
+use App\Filament\Resources\UserResource\Actions\BanAction;
+use App\Filament\Resources\UserResource\Actions\UnbanAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use App\Filament\Resources\UserResource;
 use Filament\Tables\Table;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Support\Facades\Gate;
@@ -79,22 +86,22 @@ final readonly class UserTable
                     ->native(false)
                     ->options(UserTypes::class),
             ])
-            ->actions([
+            ->recordActions([
                 ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
-                    Tables\Actions\EditAction::make(),
+                    ViewAction::make(),
+                    EditAction::make(),
 
                     // Custom actions for activating/deactivating user accounts in the application platform.
-                    Actions\BanAction::make()->visible(fn(User $user): bool => Gate::allows('deactivate', $user)),
-                    Actions\UnbanAction::make()->authorize(fn(User $user): bool => Gate::allows('reactivate', $user)),
+                    BanAction::make()->visible(fn(User $user): bool => Gate::allows('deactivate', $user)),
+                    UnbanAction::make()->authorize(fn(User $user): bool => Gate::allows('reactivate', $user)),
 
                     // Default delete actions
-                    Tables\Actions\DeleteAction::make(),
+                    DeleteAction::make(),
                 ]),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources\BlogResource\Pages;
 
+use App\Models\Blog;
 use App\Filament\Clusters\Blog\Resources\BlogResource;
 use Filament\Resources\Pages\CreateRecord;
 
@@ -16,7 +17,7 @@ use Filament\Resources\Pages\CreateRecord;
  * The association is handled in the afterCreate() hook, which is triggered immediately after the blog post is saved to the database. This means that every new blog post will have its 'author' relationship set to the user who created it, without requiring any manual intervention or additional form fields.
  * This approach helps maintain data integrity and makes it easy to display or filter blog posts by author throughout the application.
  *
- * @property \App\Models\Blog $record The database entity from the current authenticat user.
+ * @property Blog $record The database entity from the current authenticat user.
  *
  * @package App\Filament\lusters\BlogResources\BlogResource\Pages
  */

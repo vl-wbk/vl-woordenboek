@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\ArticleResource\Actions\States;
 
+use App\Models\Article;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 
@@ -19,7 +20,7 @@ use Filament\Actions\Concerns\CanCustomizeProcess;
  *  3. If confirmed, transitions the article's state to 'Released', making it public.
  *  4. Displays a success or failure notification to the user.
  *
- * @property \App\Models\Article $record The database entoty from the given dictionary article.
+ * @property Article $record The database entoty from the given dictionary article.
  *
  * @package App\Filament\Resources\ArticleResource\Actions\States
  */

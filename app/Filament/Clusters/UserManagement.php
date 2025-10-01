@@ -28,7 +28,7 @@ final class UserManagement extends Cluster
      * The icon shown in the navigation menu.
      * This user management section is visually represented by the Heroicon users outline variant.
      */
-    protected static ?string $navigationIcon = 'heroicon-o-users';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-users';
 
     /**
      * The Dutch label displayed in the navigation menu.

@@ -14,7 +14,7 @@ final class Articles extends Cluster
 {
     use HasPageShield;
 
-    protected static ?string $navigationIcon = 'heroicon-o-book-open';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-book-open';
     protected static ?string $navigationLabel = 'Woordenboek';
     protected static ?string $clusterBreadcrumb = 'Woordenboek';
 }

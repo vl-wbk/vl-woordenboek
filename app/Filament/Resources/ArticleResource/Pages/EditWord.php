@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\ArticleResource\Pages;
 
+use Filament\Actions\DeleteAction;
+use Filament\Actions\RestoreAction;
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Wizard;
+use Filament\Schemas\Components\Wizard\Step;
+use App\Models\Article;
 use App\Enums\ArticleStates;
 use App\Filament\Resources\ArticleResource;
 use App\Filament\Resources\ArticleResource\Actions\RemoveEditorAction;
@@ -13,8 +19,6 @@ use Filament\Resources\Pages\EditRecord;
 use Filament\Resources\Pages\EditRecord\Concerns\HasWizard;
 use Kenepa\ResourceLock\Resources\Pages\Concerns\UsesResourceLock;
 use App\Filament\Resources\ArticleResource\Schema\FormSchema;
-use Filament\Forms\Form;
-use Filament\Forms\Components\Wizard;
 
 /**
  * EditWord provides a wizard-based interface for editing dictionary articles in the Vlaams Woordenboek.
@@ -23,7 +27,7 @@ use Filament\Forms\Components\Wizard;
  * It manages the complete editing workflow including state transitions and form validation across multiple steps.
  * The interface guides editors through a structured process to ensure consistent and complete article updates.
  *
- * @property \App\Models\Article $record The dictioniry article entity from the database
+ * @property Article $record The dictioniry article entity from the database
  *
  * @package App\Filament\Resources\ArticleResource\Pages
  */
@@ -57,9 +61,9 @@ final class EditWord extends EditRecord
         return [
             RemoveEditorAction::make(),
             PublishArticleAction::make(),
-            Actions\DeleteAction::make()
+            DeleteAction::make()
                 ->icon('heroicon-o-trash'),
-            Actions\RestoreAction::make()->icon('heroicon-m-arrow-uturn-left'),
+            RestoreAction::make()->icon('heroicon-m-arrow-uturn-left'),
         ];
     }
 
@@ -69,13 +73,13 @@ final class EditWord extends EditRecord
      * The interface supports optional step skipping and uses a full-width layout for optimal content presentation.
      * The form inherits base functionality while adding specialized behavior for dictionary article editing.
      *
-     * @param  Form $form  The Filament form instance that needs to be configured.
-     * @return Form        The configured Filament form instance.
+     * @param \Filament\Schemas\Schema $schema The Filament form instance that needs to be configured.
+     * @return \Filament\Schemas\Schema The configured Filament form instance.
      */
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return parent::form($form)
-            ->schema([
+        return parent::form($schema)
+            ->components([
                 Wizard::make($this->getSteps())
                     ->startOnStep($this->getStartStep())
                     ->cancelAction($this->getCancelFormAction())
@@ -90,20 +94,20 @@ final class EditWord extends EditRecord
      * The first step focuses on general information with language settings, while the second step handles geographic coverage and publication status.
      * Each step utilizes dedicated schema configurations from FormSchema to maintain consistency and facilitate future modifications to the form structure.
      *
-     * @return array<int, Wizard\Step>
+     * @return array<int, \Filament\Schemas\Components\Wizard\Step>
      */
     protected function getSteps(): array
     {
         return [
-            Wizard\Step::make(trans('Algemene informatie'))
+            Step::make(trans('Algemene informatie'))
                 ->icon('heroicon-o-language')
                 ->columns(12)
                 ->schema([FormSchema::sectionConfiguration()->schema(FormSchema::getDetailSchema())]),
-            Wizard\Step::make(trans('Regio & status'))
+            Step::make(trans('Regio & status'))
                 ->icon('heroicon-o-map')
                 ->columns(12)
                 ->schema([FormSchema::sectionConfiguration()->schema(FormSchema::getStatusAndRegionDetails())]),
-            Wizard\Step::make(trans('Bronnen'))
+            Step::make(trans('Bronnen'))
                 ->icon('heroicon-o-book-open')
                 ->columns('12')
                 ->schema([FormSchema::sectionConfiguration()->schema(FormSchema::getSourceSchema())]),

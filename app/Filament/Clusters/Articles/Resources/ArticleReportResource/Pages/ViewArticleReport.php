@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\ArticleReportResource\Pages;
 
+use Filament\Actions\DeleteAction;
 use App\Filament\Clusters\Articles\Resources\ArticleReportResource;
 use App\Filament\Clusters\Articles\Resources\ArticleReportResource\Actions\AssignArticleReportAction;
 use App\Filament\Clusters\Articles\Resources\ArticleReportResource\Actions\CloseArticleReportAction;
@@ -45,7 +46,7 @@ final class ViewArticleReport extends ViewRecord
         return [
             AssignArticleReportAction::make(),
             CloseArticleReportAction::make(),
-            Actions\DeleteAction::make()->icon('heroicon-o-trash'),
+            DeleteAction::make()->icon('heroicon-o-trash'),
         ];
     }
 }

@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\FeedbackResource\Schema;
 
-use Filament\Infolists\Infolist;
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components;
 use Filament\Support\Enums\FontWeight;
 
@@ -26,62 +29,62 @@ final readonly class InfolistSchema
      * This method sets up the layout and content for the feedback infolist.
      * It arranges the fields into logical groups using fieldsets and specifies the display properties for each component, such as labels, icons, colors, and column spans.
      *
-     * @param  Infolist $infolist   The infolist instance to be configured.
-     * @return Infolist             The fully configured infolist instance.
+     * @param \Filament\Schemas\Schema $schema The infolist instance to be configured.
+     * @return \Filament\Schemas\Schema The fully configured infolist instance.
      */
-    public static function configure(Infolist $infolist): Infolist
+    public static function configure(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
-                Components\Fieldset::make(label: __('feedback-resource.infolist.fieldsets.sender'))
+        return $schema
+            ->components([
+                Fieldset::make(label: __('feedback-resource.infolist.fieldsets.sender'))
                     ->columns(12)
                     ->schema([
-                        Components\TextEntry::make('name')
+                        TextEntry::make('name')
                             ->weight(FontWeight::SemiBold)
                             ->icon('heroicon-o-user-circle')
                             ->iconColor('primary')
                             ->columnSpan(6)
                             ->hiddenLabel(),
 
-                        Components\TextEntry::make('email')
+                        TextEntry::make('email')
                             ->columnSpan(6)
                             ->icon('heroicon-o-envelope')
                             ->iconColor('primary')
                             ->hiddenLabel(),
                     ]),
 
-                Components\Fieldset::make(label: __('feedback-resource.infolist.fieldsets.feedback'))
+                Fieldset::make(label: __('feedback-resource.infolist.fieldsets.feedback'))
                     ->columns(12)
                     ->schema([
-                        Components\TextEntry::make('first_time_visit')
+                        TextEntry::make('first_time_visit')
                             ->badge()
                             ->color('gray')
                             ->label(label: __('feedback-resource.infolist.entries.first-time-visit'))
                             ->columnSpan(4),
 
-                        Components\TextEntry::make('results_found_easily')
+                        TextEntry::make('results_found_easily')
                             ->badge()
                             ->label(label: __('feedback-resource.infolist.entries.results-found-easily'))
                             ->columnSpan(4),
 
-                        Components\IconEntry::make('contact_allowed')
+                        IconEntry::make('contact_allowed')
                             ->label(label: __('feedback-resource.infolist.entries.contact-allowed'))
                             ->boolean()
                             ->columnSpan(4),
 
-                        Components\TextEntry::make('visit_reason')
+                        TextEntry::make('visit_reason')
                             ->label(label: __('feedback-resource.infolist.entries.visit-reason.label'))
                             ->color('gray')
                             ->columnSpan(12)
                             ->placeholder(placeholder: __('feedback-resource.infolist.entries.visit-reason.placeholder')),
 
-                        Components\TextEntry::make('search_additional_info')
+                        TextEntry::make('search_additional_info')
                             ->label(label: __('feedback-resource.infolist.entries.search-additional-info.label'))
                             ->columnSpanFull()
                             ->color('gray')
                             ->placeholder(placeholder: __('feedback-resource.infolist.entries.search-additional-info.placeholder')),
 
-                        Components\TextEntry::make('additional_info')
+                        TextEntry::make('additional_info')
                             ->label(label: __('feedback-resource.infolist.entries.additional-info.label'))
                             ->columnSpanFull()
                             ->color('gray')

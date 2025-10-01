@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources;
 
+use Filament\Schemas\Schema;
+use App\Filament\Clusters\Blog\Resources\CategoryResource\Pages\ListCategories;
+use Filament\Resources\Pages\PageRegistration;
 use App\Filament\Clusters\Blog;
 use App\Filament\Clusters\Blog\Resources\CategoryResource\Pages;
 use App\Filament\Clusters\Blog\Resources\CategoryResource\Schema\CategoryInformationList;
@@ -12,8 +15,6 @@ use App\Filament\Clusters\Blog\Resources\CategoryResource\Schema\TableActionsDef
 use App\Filament\Clusters\Blog\Resources\CategoryResource\Schema\TableColumnSchema;
 use App\Models\Category;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
-use Filament\Forms\Form;
-use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 
@@ -42,7 +43,7 @@ final class CategoryResource extends Resource implements HasShieldPermissions
      * The icon that appears in the Filament navigation sidebar for this resource.
      * Use Heroicons icon names, prefixed with `heroicon-o-` or `heroicon-s-`.
      */
-    protected static ?string $navigationIcon = 'heroicon-o-tag';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-tag';
 
     /**
      * This links the resource to the Blog cluster in Filament.
@@ -84,12 +85,12 @@ final class CategoryResource extends Resource implements HasShieldPermissions
      * It delegates the entire form structure to 'FormSchema::getDefinition($form)'.
      * This keeps the form's complexity out of this resource class, making it more manageable.
      *
-     * @param  Form $form   The Filament Form instance.
-     * @return Form         The configured Filament Form instance.
+     * @param \Filament\Schemas\Schema $schema The Filament Form instance.
+     * @return \Filament\Schemas\Schema The configured Filament Form instance.
      */
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return FormSchema::getDefinition($form);
+        return FormSchema::getDefinition($schema);
     }
 
     /**
@@ -97,12 +98,12 @@ final class CategoryResource extends Resource implements HasShieldPermissions
      * Similar to the form, the layout is defined externally by `CategoryInformationList::getInfolist($infolist)`.
      * This ensures a consistent and reusable way to show category details
      *
-     * @param  Infolist $infolist   The Filament infolist instance.
-     * @return Infolist             The configured Filament Infolist Instance.
+     * @param \Filament\Schemas\Schema $schema The Filament infolist instance.
+     * @return \Filament\Schemas\Schema The configured Filament Infolist Instance.
      */
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return CategoryInformationList::getInfolist($infolist);
+        return CategoryInformationList::getInfolist($schema);
     }
 
     /**
@@ -131,9 +132,9 @@ final class CategoryResource extends Resource implements HasShieldPermissions
             ->emptyStateHeading(heading: __('category-resource.table.empty-state.heading'))
             ->emptyStateDescription(description: __('category-resource.table.empty-state.description'))
             ->columns(components: TableColumnSchema::getComponents())
-            ->actions(actions: TableActionsDefinitions::getRowActions())
+            ->recordActions(actions: TableActionsDefinitions::getRowActions())
             ->headerActions(actions: TableActionsDefinitions::getHeaderActions())
-            ->bulkActions(actions: TableActionsDefinitions::getBulkActions());
+            ->toolbarActions(actions: TableActionsDefinitions::getBulkActions());
     }
 
     /**
@@ -143,12 +144,12 @@ final class CategoryResource extends Resource implements HasShieldPermissions
      * Currently, only the index page is defined, which displays a list of all categories.
      * Additional pages (like creation, edit, or view) can be added here as needed.
      *
-     * @return array<string, \Filament\Resources\Pages\PageRegistration> An associative array where keys are page identifiers and values are the fully qualified page class names.
+     * @return array<string, PageRegistration> An associative array where keys are page identifiers and values are the fully qualified page class names.
      */
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCategories::route('/'),
+            'index' => ListCategories::route('/'),
         ];
     }
 }

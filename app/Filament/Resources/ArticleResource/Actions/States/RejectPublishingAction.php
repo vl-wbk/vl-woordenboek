@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\ArticleResource\Actions\States;
 
+use Filament\Support\Enums\Width;
+use App\Models\Article;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Forms\Components\Textarea;
-use Filament\Support\Enums\MaxWidth;
 
 /**
  * RejectPublishingAction handles the rejection of articles submitted for publication.
@@ -16,7 +17,7 @@ use Filament\Support\Enums\MaxWidth;
  * It implement authorization checks to ensure only authorized editors can reject publication requests.
  * The action uses clear visual indicators through red coloring and X-mark iconography to signify its negative nature.
  *
- * @property \App\Models\Article $record The articles being rejected for publication.
+ * @property Article $record The articles being rejected for publication.
  *
  * @package App\Filament\Resources\ArticleResource\Actions\States
  */
@@ -56,11 +57,11 @@ final class RejectPublishingAction extends Action
 
         // Confirmation config
         $this->requiresConfirmation();
-        $this->modalWidth(MaxWidth::ThreeExtraLarge);
+        $this->modalWidth(Width::ThreeExtraLarge);
         $this->modalIcon($this->actionIcon);
         $this->modalHeading('Voorstel tot publicatie afwijzen');
         $this->modalDescription($this->getModalDescription());
-        $this->form($this->getModalForm());
+        $this->schema($this->getModalForm());
         $this->modalSubmitActionLabel('Ja, ik weet het zeker');
 
         $this->successNotificationTitle('We hebben het artikel succesvol teruggestuurd naar de redactie.');

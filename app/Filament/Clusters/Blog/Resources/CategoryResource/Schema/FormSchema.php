@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources\CategoryResource\Schema;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components;
-use Filament\Forms\Form;
 
 final readonly class FormSchema
 {
-    public static function getDefinition(Form $form): Form
+    public static function getDefinition(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->columns(12)
-            ->schema(self::getFormComponents());
+            ->components(self::getFormComponents());
     }
 
     /**
@@ -22,7 +24,7 @@ final readonly class FormSchema
     public static function getFormComponents(): array
     {
         return [
-            Components\TextInput::make('name')
+            TextInput::make('name')
                 ->label(label: __('category-resource.form.name'))
                 ->translateLabel()
                 ->required()
@@ -30,7 +32,7 @@ final readonly class FormSchema
                 ->unique(ignoreRecord: true)
                 ->columnSpan(7),
 
-            Components\Textarea::make('description')
+            Textarea::make('description')
                 ->label(label: __('category-resource.form.description.label'))
                 ->placeholder(placeholder: __('category-resource.form.description.placeholder'))
                 ->translateLabel()

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Notifications\Reminders;
 
+use App\Models\Article;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -32,7 +33,7 @@ final class PruneArticleNotification extends Notification implements ShouldQueue
      * This constructor accepts a collection of articles that are scheduled for permanent deletion.
      * These articles will be listed in the notification email to help recipients identify which content needs their attention.
      *
-     * @param Collection<int, \App\Models\Article> $articles A collection of articles scheduled for deletion
+     * @param Collection<int, Article> $articles A collection of articles scheduled for deletion
      */
     public function __construct(
         protected Collection $articles,

@@ -4,11 +4,20 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema;
 
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\Action;
+use Filament\Actions\CreateAction;
+use Filament\Support\Enums\Width;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Exception;
 use App\Enums\Articles\EtymologyStatus;
 use App\Filament\Clusters\Articles\Resources\EtymologyResource;
 use App\Models\Article;
 use App\Models\Etymology;
-use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables;
 use LibDNS\Records\Record;
@@ -39,41 +48,41 @@ final readonly class TableSchema
      * Each column definition controls how a specific attribute of the etymology record is presented, including its label, formatting, sortability, and whether it appears as a badge or is toggleable.
      * Some columns are hidden by default but can be toggled by the user for a cleaner interface.
      *
-     * @return array<int, Tables\Columns\TextColumn> Array of Filament table column definitions.
+     * @return array<int, TextColumn> Array of Filament table column definitions.
      */
     public static function configureColumns(): array
     {
         return [
-            Tables\Columns\TextColumn::make('author.name')
+            TextColumn::make('author.name')
                 ->label(label: __('etymology-resource.table.columns.author-name'))
                 ->sortable()
                 ->searchable(),
 
-            Tables\Columns\TextColumn::make('article.word')
+            TextColumn::make('article.word')
                 ->label(label: __('etymology-resource.table.columns.connected-article'))
                 ->searchable()
                 ->sortable(),
 
-            Tables\Columns\TextColumn::make('status')
+            TextColumn::make('status')
                 ->label(label: __('etymology-resource.table.columns.status'))
                 ->badge()
                 ->sortable(),
 
-            Tables\Columns\TextColumn::make('origin')
+            TextColumn::make('origin')
                 ->label(label: __('etymology-resource.table.columns.origin'))
                 ->searchable(),
 
-            Tables\Columns\TextColumn::make('origin_period')
+            TextColumn::make('origin_period')
                 ->label(label: __('etymology-resource.table.columns.origin-period')),
 
-            Tables\Columns\TextColumn::make('created_at')
+            TextColumn::make('created_at')
                 ->sortable()
                 ->label(label: __('etymology-resource.table.columns.created-at'))
                 ->translateLabel()
                 ->date()
                 ->toggleable(isToggledHiddenByDefault: true),
 
-            Tables\Columns\TextColumn::make('updated_at')
+            TextColumn::make('updated_at')
                 ->sortable()
                 ->label(label: __('etymology-resource.table.columns.updated-at'))
                 ->translateLabel()
@@ -90,7 +99,7 @@ final readonly class TableSchema
      *
      * @return array<int, SelectFilter> Array of Filament table filter definitions.
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public static function configureFilters(): array
     {
@@ -109,12 +118,12 @@ final readonly class TableSchema
      * Bulk actions are useful for efficiently managing large sets of data, such as deleting multiple records in a single operation.
      * Each action includes custom modal headings and confirmation messages to guide the user.
      *
-     * @return array<int, Tables\Actions\DeleteBulkAction> Array of Filament bulk action definitions.
+     * @return array<int, \Filament\Actions\DeleteBulkAction> Array of Filament bulk action definitions.
      */
     public static function configureBulkActions(): array
     {
         return [
-            Tables\Actions\DeleteBulkAction::make()
+            DeleteBulkAction::make()
                 ->modalHeading(heading: __('etymology-resource.bulk-actions.delete.modal.heading'))
                 ->modalDescription(description: __('etymology-resource.bulk-actions.delete.modal.description'))
                 ->modalSubmitActionLabel(label: __('etymology-resource.bulk-actions.delete.modal.submit-label')),
@@ -128,24 +137,24 @@ final readonly class TableSchema
      * The creation action uses a large modal for data entry and includes a dynamic description.
      *
      * @param  Article $article  The article for which etymology data is being managed.
-     * @return array<int, Tables\Actions\Action|Tables\Actions\CreateAction> Array of Filament header action definitions.
+     * @return array<int, Action|CreateAction> Array of Filament header action definitions.
      */
     public static function configureHeaderActions(Article $article): array
     {
         return [
-            Tables\Actions\Action::make('help')
+            Action::make('help')
                 ->label(label: __('buttons.help'))
                 ->translateLabel()
                 ->icon('heroicon-o-lifebuoy')
                 ->url('https://www.google.com', shouldOpenInNewTab: true)
                 ->color('gray'),
 
-            Tables\Actions\CreateAction::make('create-record')
+            CreateAction::make('create-record')
                 ->label(label: __('etymology-resource.header-actions.create.label'))
                 ->translateLabel()
                 ->icon('heroicon-o-pencil-square')
                 ->modalIcon('heroicon-o-pencil-square')
-                ->modalWidth(MaxWidth::SevenExtraLarge)
+                ->modalWidth(Width::SevenExtraLarge)
                 ->modalHeading(heading: __('etymology-resource.header-actions.create.modal.heading'))
                 ->modalDescription(description: __('etymology-resource.header-actions.create.modal.description', ['word' => $article->word])),
         ];
@@ -157,19 +166,19 @@ final readonly class TableSchema
      * Row actions are grouped for clarity and include viewing, editing, and deleting individual etymology records.
      * Each action can be customized with its own modal width, heading, icon, and description to provide a clear and user-friendly experience.
      *
-     * @return array<int, Tables\Actions\ActionGroup> Array of Filament row action group definitions.
+     * @return array<int, ActionGroup> Array of Filament row action group definitions.
      */
     public static function configureActions(): array
     {
         return [
-            Tables\Actions\ActionGroup::make([
-                Tables\Actions\ViewAction::make()
+            ActionGroup::make([
+                ViewAction::make()
                     ->url(fn(Etymology $record): string => EtymologyResource::getUrl('view', ['record' => $record])),
 
-                Tables\Actions\EditAction::make()
-                    ->modalWidth(MaxWidth::SevenExtraLarge),
+                EditAction::make()
+                    ->modalWidth(Width::SevenExtraLarge),
 
-                Tables\Actions\DeleteAction::make()
+                DeleteAction::make()
                     ->modalHeading(heading: __('etymology-resource.table.actions.delete.modal.heading')),
             ]),
         ];

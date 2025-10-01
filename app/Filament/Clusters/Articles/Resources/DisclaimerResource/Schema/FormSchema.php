@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\DisclaimerResource\Schema;
 
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use App\Enums\DisclaimerTypes;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Support\Enums\IconSize;
 
 /**
@@ -29,11 +29,11 @@ final readonly class FormSchema
             ->compact();
     }
 
-    public static function configure(Form $form): Form
+    public static function configure(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->columns(12)
-            ->schema([
+            ->components([
                 self::createSection(
                     title: __('disclaimer-resource.form.sections.disclaimer-info.title'),
                     icon: 'heroicon-o-wrench-screwdriver',

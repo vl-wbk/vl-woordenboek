@@ -4,13 +4,19 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources;
 
+use App\Filament\Clusters\Articles\Resources\DisclaimerResource\Schema\FormSchema;
+use App\Filament\Clusters\Articles\Resources\DisclaimerResource\Schema\InfolistSchema;
+use App\Filament\Clusters\Articles\Resources\DisclaimerResource\Schema\TableSchema;
+use App\Filament\Clusters\Articles\Resources\DisclaimerResource\Pages\ListDisclaimers;
+use App\Filament\Clusters\Articles\Resources\DisclaimerResource\Pages\CreateDisclaimer;
+use App\Filament\Clusters\Articles\Resources\DisclaimerResource\Pages\ViewDisclaimer;
+use App\Filament\Clusters\Articles\Resources\DisclaimerResource\Pages\EditDisclaimer;
+use Filament\Resources\Pages\PageRegistration;
 use App\Filament\Clusters\Articles;
 use App\Filament\Clusters\Articles\Resources\DisclaimerResource\Pages;
 use App\Models\Disclaimer;
 use App\Policies\DisclaimerPolicy;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
-use Filament\Forms\Form;
-use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Cache;
@@ -40,7 +46,7 @@ final class DisclaimerResource extends Resource implements HasShieldPermissions
      * Using a clear, descriptive icon helps users quickly identify and navigate to the correct resource.
      * The value 'heroicon-o-information-circle' specifies the "information circle" icon from the outlined Heroicons set.
      */
-    protected static ?string $navigationIcon = 'heroicon-o-information-circle';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-information-circle';
 
     /**
      * Clusters are a powerful feature in Filament for organizing related resources into a logical group within the navigation.
@@ -69,12 +75,12 @@ final class DisclaimerResource extends Resource implements HasShieldPermissions
      * This modular design allows the form's fields and validation rules to be managed in a single, dedicated location, which is beneficial for
      * complex forms or when schemas are shared across different parts of the app.
      *
-     * @param  Form $form 	The Filament form instance to be configured.
-     * @return Form 		The configured Filament form.
+     * @param \Filament\Schemas\Schema $schema The Filament form instance to be configured.
+     * @return \Filament\Schemas\Schema The configured Filament form.
      */
-    public static function form(Form $form): Form
+    public static function form(\Filament\Schemas\Schema $schema): \Filament\Schemas\Schema
     {
-        return Schema\FormSchema::configure($form);
+        return FormSchema::configure($schema);
     }
 
     /**
@@ -84,12 +90,12 @@ final class DisclaimerResource extends Resource implements HasShieldPermissions
      * Like the form, the schema for the infolist's fields is managed externally by `Schema\InfolistSchema`, which is configured here.
      * This ensures consistency between the data displayed and the data collected via the form.
      *
-     * @param  Infolist $infolist 	The Filament infolist instance to be configured.
-     * @return Infolist 			The configured Filament infolist.
+     * @param \Filament\Schemas\Schema $schema The Filament infolist instance to be configured.
+     * @return \Filament\Schemas\Schema The configured Filament infolist.
      */
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(\Filament\Schemas\Schema $schema): \Filament\Schemas\Schema
     {
-        return Schema\InfolistSchema::configure($infolist);
+        return InfolistSchema::configure($schema);
     }
 
     /**
@@ -103,7 +109,7 @@ final class DisclaimerResource extends Resource implements HasShieldPermissions
      */
     public static function table(Table $table): Table
     {
-        return Schema\TableSchema::configure($table);
+        return TableSchema::configure($table);
     }
 
     /**
@@ -112,15 +118,15 @@ final class DisclaimerResource extends Resource implements HasShieldPermissions
      * This method links each logical page (e.g., list, create, view, edit) to a specific page class within the `Pages` namespace.
      * This architecture allows for custom logic to be applied to each specific page, such as unique form behaviours or custom actions.
      *
-     * @return array<string, \Filament\Resources\Pages\PageRegistration> An array of page routes mapped to their page classes.
+     * @return array<string, PageRegistration> An array of page routes mapped to their page classes.
      */
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListDisclaimers::route('/'),
-            'create' => Pages\CreateDisclaimer::route('/create'),
-            'view' => Pages\ViewDisclaimer::route('/{record}'),
-            'edit' => Pages\EditDisclaimer::route('/{record}/edit'),
+            'index' => ListDisclaimers::route('/'),
+            'create' => CreateDisclaimer::route('/create'),
+            'view' => ViewDisclaimer::route('/{record}'),
+            'edit' => EditDisclaimer::route('/{record}/edit'),
         ];
     }
 

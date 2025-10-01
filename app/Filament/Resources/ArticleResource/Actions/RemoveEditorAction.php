@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\ArticleResource\Actions;
 
+use Filament\Support\Enums\Width;
 use App\Enums\DataOrigin;
 use App\Models\Article;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
-use Filament\Support\Enums\MaxWidth;
 use LogicException;
 
 /**
@@ -21,7 +21,7 @@ use LogicException;
  * suggestion state. The action also handles notifying the user if the removal is successful
  * or if it fails.
  *
- * @property \App\Models\Article $record The dictionary article being submitted for publication
+ * @property Article $record The dictionary article being submitted for publication
  *
  * @package App\Filament\Resources\ArticleResource\Actions
  */
@@ -67,7 +67,7 @@ final class RemoveEditorAction extends Action
 
 
         $this->requiresConfirmation();
-        $this->modalWidth(MaxWidth::Large);
+        $this->modalWidth(Width::Large);
 
         $this->modalCloseButton(false);
         $this->modalIcon(self::$navigationIcon);

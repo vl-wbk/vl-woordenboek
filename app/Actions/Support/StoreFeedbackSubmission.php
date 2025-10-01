@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Support;
 
+use Throwable;
 use App\Data\FeedbackSubmissionData;
 use App\Models\Feedback;
 use Illuminate\Support\Facades\Auth;
@@ -33,7 +34,7 @@ final readonly class StoreFeedbackSubmission
      * @param  FeedbackSubmissionData $feedbackSubmissionData   The validated feedback data to be stored
      * @return Feedback                                         The newly created and associated feedback entry
      *
-     * @throws \Throwable If the database transaction fails or user association cannot be completed
+     * @throws Throwable If the database transaction fails or user association cannot be completed
      */
     public function execute(FeedbackSubmissionData $feedbackSubmissionData): Feedback
     {

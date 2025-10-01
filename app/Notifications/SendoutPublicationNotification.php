@@ -37,7 +37,7 @@ final class SendoutPublicationNotification extends Notification implements Shoul
      * Get the notification's middleware.
      * The middleware prevents the notification from being queued and processed if the conditions aren't met, ensuring the notification is only sent when intended.
      *
-     * @return array<int, \Illuminate\Queue\Middleware\Skip> The middleware array.
+     * @return array<int, Skip> The middleware array.
      */
     public function middleware(): array
     {

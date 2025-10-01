@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\DisclaimerResource\Schema;
 
-use Filament\Infolists\Components\Tabs;
-use Filament\Infolists\Components\Tabs\Tab;
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Infolist;
 
 /**
  * @todo Document this class
  */
 final readonly class InfolistSchema
 {
-    public static function configure(Infolist $infolist): Infolist
+    public static function configure(Schema $schema): Schema
     {
-        return $infolist
+        return $schema
             ->columns(12)
-            ->schema([
+            ->components([
                 Tabs::make('information-tabs')
                     ->columnSpan(12)
                     ->schema([

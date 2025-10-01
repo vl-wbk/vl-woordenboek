@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources\BlogResource\Actions;
 
+use App\Models\Blog;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 
@@ -13,7 +14,7 @@ use Filament\Actions\Concerns\CanCustomizeProcess;
  * This action provides a user interface element within Filament to change the status of a published blog post back to a draft state.
  * It includes a confirmation modal, custom notifications, and authorization checks to ensure the action can only be performed on published articles.
  *
- * @property \App\Models\Blog $record  The database entity from the blog post.
+ * @property Blog $record The database entity from the blog post.
  * @package App\Filament\Clusters\Blog\Resources\BlogResource\Actions
  */
 final class UndoPublicationAction extends Action

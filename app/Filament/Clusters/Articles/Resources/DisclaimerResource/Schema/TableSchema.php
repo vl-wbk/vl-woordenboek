@@ -4,9 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\DisclaimerResource\Schema;
 
+use Filament\Actions\Action;
+use Filament\Actions\CreateAction;
+use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Support\Enums\FontWeight;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Tables;
@@ -25,9 +30,9 @@ final readonly class TableSchema
             ->emptyStateHeading(heading: __('disclaimer-resource.table.empty-state.heading'))
             ->emptyStateDescription(description: __('disclaimer-resource.table.empty-state.description'))
             ->columns(components: self::configureColumnComponents())
-            ->actions(actions: self::configureActions())
+            ->recordActions(actions: self::configureActions())
             ->headerActions(actions: self::configureHeaderActions())
-            ->bulkActions(actions: self::configureBulkActions());
+            ->toolbarActions(actions: self::configureBulkActions());
     }
 
     /**
@@ -78,20 +83,20 @@ final readonly class TableSchema
     }
 
     /**
-     * @return array<int, Tables\Actions\ViewAction|Tables\Actions\EditAction|Tables\Actions\DeleteAction>
+     * @return array<int, ViewAction|EditAction|DeleteAction>
      */
     private static function configureActions(): array
     {
         return [
-            Tables\Actions\ViewAction::make()
+            ViewAction::make()
                 ->hiddenLabel()
                 ->tooltip(tooltip: __('disclaimer-resource.table.actions.view-action.label')),
 
-            Tables\Actions\EditAction::make()
+            EditAction::make()
                 ->hiddenLabel()
                 ->tooltip(tooltip: __('disclaimer-resource.table.actions.edit-action.label')),
 
-            Tables\Actions\DeleteAction::make()
+            DeleteAction::make()
                 ->modalDescription(description: __('disclaimer-resource.table.actions.delete-action.modal.description'))
                 ->hiddenLabel()
                 ->tooltip(tooltip: __('disclaimer-resource.table.actions.delete-action.label')),
@@ -99,13 +104,13 @@ final readonly class TableSchema
     }
 
     /**
-     * @return array<int, Tables\Actions\BulkActionGroup>
+     * @return array<int, \Filament\Actions\BulkActionGroup>
      */
     private static function configureBulkActions(): array
     {
         return [
-            Tables\Actions\BulkActionGroup::make([
-                Tables\Actions\DeleteBulkAction::make(),
+            BulkActionGroup::make([
+                DeleteBulkAction::make(),
             ]),
         ];
     }

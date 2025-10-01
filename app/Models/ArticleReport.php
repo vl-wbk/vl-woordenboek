@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\States\Reporting\OpenReportState;
+use App\States\Reporting\ReportInProgressState;
+use App\States\Reporting\ClosedReportState;
 use App\Models\Relations\BelongsToAuthor;
 use App\States\Reporting\Status;
 use App\States\Reporting\ReportStateContract;
@@ -107,9 +110,9 @@ final class ArticleReport extends Model
     public function status(): ReportStateContract
     {
         return match ($this->state) {
-            Status::Open => new Reporting\OpenReportState($this),
-            Status::InProgress => new Reporting\ReportInProgressState($this),
-            Status::Closed => new Reporting\ClosedReportState($this),
+            Status::Open => new OpenReportState($this),
+            Status::InProgress => new ReportInProgressState($this),
+            Status::Closed => new ClosedReportState($this),
         };
     }
 

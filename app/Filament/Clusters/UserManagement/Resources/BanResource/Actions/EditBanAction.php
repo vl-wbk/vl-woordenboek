@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\UserManagement\Resources\BanResource\Actions;
 
+use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Textarea;
-use Filament\Tables\Actions\Action;
 use Illuminate\Database\Eloquent\Model;
 
 /**

@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Actions\Action;
+use App\Filament\Clusters\Articles\Resources\EtymologyResource\Pages\ListEtymologies;
+use App\Filament\Clusters\Articles\Resources\EtymologyResource\Pages\ViewEtymology;
+use Filament\Resources\Pages\PageRegistration;
 use App\Filament\Clusters\Articles;
 use App\Filament\Clusters\Articles\Resources\EtymologyResource\Pages;
 use App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema\FormSchema;
@@ -12,8 +17,6 @@ use App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema\TableSchem
 use App\Filament\Clusters\Articles\Resources\EtymologyResource\Widgets\EtymologyStatisticsWidget;
 use App\Policies\EtymologyPolicy;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
-use Filament\Forms\Form;
-use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -29,7 +32,7 @@ final class EtymologyResource extends Resource implements HasShieldPermissions
 
     protected static ?string $cluster = Articles::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-book-open';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-book-open';
 
     /**
      * @return list<string>
@@ -39,14 +42,14 @@ final class EtymologyResource extends Resource implements HasShieldPermissions
         return EtymologyPolicy::$defaultPermissions;
     }
 
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return InfolistSchema::configure($infolist);
+        return InfolistSchema::configure($schema);
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return FormSchema::configure($form);
+        return FormSchema::configure($schema);
     }
 
     public static function table(Table $table): Table
@@ -58,10 +61,10 @@ final class EtymologyResource extends Resource implements HasShieldPermissions
             ->emptyStateHeading(heading: __('etymology-resource.table.empty-state.heading'))
             ->emptyStateDescription(description: __('etymology-resource.table.empty-state.description'))
             ->filters(filters: TableSchema::configureFilters())
-            ->actions(actions: TableSchema::configureActions())
-            ->bulkActions(actions: TableSchema::configureBulkActions())
+            ->recordActions(actions: TableSchema::configureActions())
+            ->toolbarActions(actions: TableSchema::configureBulkActions())
             ->headerActions([
-                Tables\Actions\Action::make('help')
+                Action::make('help')
                     ->label(label: __('buttons.help'))
                     ->color('gray')
                     ->translateLabel()
@@ -84,13 +87,13 @@ final class EtymologyResource extends Resource implements HasShieldPermissions
 
     /**
      * @todo Document this function
-     * @return array<string, \Filament\Resources\Pages\PageRegistration>
+     * @return array<string, PageRegistration>
      */
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListEtymologies::route('/'),
-            'view' => Pages\ViewEtymology::route('/{record}'),
+            'index' => ListEtymologies::route('/'),
+            'view' => ViewEtymology::route('/{record}'),
         ];
     }
 }

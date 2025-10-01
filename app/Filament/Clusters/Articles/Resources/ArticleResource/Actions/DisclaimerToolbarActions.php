@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\ArticleResource\Actions;
 
+use Filament\Actions\Action;
 use App\Models\Article;
 use App\Models\Disclaimer;
 use Filament\Forms\Components\Select;
-use Filament\Infolists\Components\Actions\Action;
 use Filament\Support\Enums\IconSize;
 
 final readonly class DisclaimerToolbarActions
@@ -45,7 +45,7 @@ final readonly class DisclaimerToolbarActions
             ->modalDescription(description: __('disclaimer-resource.actions.attach.modal.description'))
             ->color('primary')
             ->modalIcon('heroicon-o-link')
-            ->form([
+            ->schema([
                 Select::make('disclaimer')
                     ->label(label: __('disclaimer-resource.actions.attach.modal.form.select-disclaimer'))
                     ->relationship(name: 'disclaimer', titleAttribute: 'name')

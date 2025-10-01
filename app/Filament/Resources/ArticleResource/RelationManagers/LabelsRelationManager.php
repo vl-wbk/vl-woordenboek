@@ -4,16 +4,20 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\ArticleResource\RelationManagers;
 
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\DetachAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DetachBulkAction;
+use Filament\Actions\CreateAction;
+use Filament\Actions\AttachAction;
+use Filament\Support\Enums\Width;
 use App\Models\Label;
 use Illuminate\Support\Str;
 use App\Filament\Clusters\Articles\Resources\LabelResource;
 use App\Filament\Resources\ArticleResource\Pages\ViewWord;
-use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
-use Filament\Tables\Actions\AttachAction;
-use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
@@ -44,18 +48,18 @@ final class LabelsRelationManager extends RelationManager
      * Defines the icon to be displayed alongside the relation manager's tab or heading.
      * The 'heroicon-o-tag' icon visually represents the concept of tagging or labeling.
      */
-    protected static ?string $icon = "heroicon-o-tag";
+    protected static string | \BackedEnum | null $icon = "heroicon-o-tag";
 
     /**
      * Returns the form configuration for creating and editing labels.
      * The form setup is delegated to LabelResource to maintain consistency across the application.
      *
-     * @param  Form $form  The filament form instance.
-     * @return Form        THe configured form instance.
+     * @param \Filament\Schemas\Schema $schema The filament form instance.
+     * @return \Filament\Schemas\Schema THe configured form instance.
      */
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return LabelResource::form($form);
+        return LabelResource::form($schema);
     }
 
     /**
@@ -98,16 +102,16 @@ final class LabelsRelationManager extends RelationManager
             ->emptyStateDescription('Momenteel zijn er geen labels gekoppeld aan het artikel gebruik de bovenstaande knop om een label te koppelen')
             ->recordTitleAttribute('name')
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->label('Naam')
                     ->badge()
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('description')
+                TextColumn::make('description')
                     ->label('Beschrijving')
                     ->placeholder('- geen beschrijving opgegeven')
                     ->formatStateUsing(fn(Label $label): string => Str::limit($label->description, 60, '...', preserveWords: true)),
-                Tables\Columns\TextColumn::make('pivot.created_at')
+                TextColumn::make('pivot.created_at')
                     ->label('Gekoppeld op')
                     ->date()
                     ->sortable(),
@@ -116,12 +120,12 @@ final class LabelsRelationManager extends RelationManager
                 $this->getCreateAction(),
                 $this->getHeaderAttachAction(),
             ])
-            ->actions([
-                Tables\Actions\DetachAction::make(),
+            ->recordActions([
+                DetachAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DetachBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DetachBulkAction::make(),
                 ]),
             ]);
     }
@@ -147,7 +151,7 @@ final class LabelsRelationManager extends RelationManager
     private function getHeaderAttachAction(): AttachAction
     {
         return AttachAction::make()
-            ->modalWidth(MaxWidth::TwoExtraLarge)  // S
+            ->modalWidth(Width::TwoExtraLarge)  // S
             ->modalIcon('heroicon-o-link')
             ->modalIconColor('gray')
             ->attachAnother(false)

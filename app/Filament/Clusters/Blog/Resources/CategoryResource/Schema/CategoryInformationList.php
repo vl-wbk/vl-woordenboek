@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources\CategoryResource\Schema;
 
+use Filament\Schemas\Schema;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Infolist;
 
 final readonly class CategoryInformationList
 {
-    public static function getInfolist(Infolist $infolist): Infolist
+    public static function getInfolist(Schema $schema): Schema
     {
-        return $infolist
+        return $schema
             ->columns(12)
-            ->schema([
+            ->components([
                 TextEntry::make('name')
                     ->label(label: __('category-resource.infolist.name'))
                     ->translateLabel()

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\ArticleResource\Actions;
 
+use App\Models\Article;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Forms\Components\Textarea;
@@ -15,7 +16,7 @@ use Filament\Forms\Components\Textarea;
  * It allows authorized users to unpublish a previously published article, making it no longer accessible to regular users.
  * This action is typically used when an article needs to be reworked or corrected.
  *
- * @property \App\Models\Article $record The dictionary article being unpublished.
+ * @property Article $record The dictionary article being unpublished.
  *
  * @package App\Filament\Resources\ArticleResource\Actions
  */
@@ -64,7 +65,7 @@ final class RevokePublication extends Action
         $this->modalSubmitActionLabel('Ongedaan maken');
 
         // Define the form for providing a reason for unpublishing.
-        $this->form([
+        $this->schema([
             Textarea::make('reason')
                 ->label('Reden van de handeling')
                 ->placeholder('Beschrijf kort waarom je de publicatie ongedaan wilt maken.')

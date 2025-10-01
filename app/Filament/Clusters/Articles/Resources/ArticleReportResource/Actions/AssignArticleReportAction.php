@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\ArticleReportResource\Actions;
 
+use App\Models\ArticleReport;
 use App\States\Reporting\Status;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
@@ -18,7 +19,7 @@ use Illuminate\Support\Facades\Gate;
  * The action is integrated into the Filament admin panel and provides a user-friendly interface for managing article reports.
  * It includes visual indicators, such as an icon and label, and displays success or failure notifications based on the outcome of the assignment process.
  *
- * @property \App\Models\ArticleReport $record  The database entity from the article report.
+ * @property ArticleReport $record The database entity from the article report.
  *
  * @package App\Filament\Clusters\Articles\Resources\ArticleReportResource\Actions
  */

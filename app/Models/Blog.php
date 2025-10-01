@@ -6,6 +6,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\States\Posts\DraftState;
+use App\States\Posts\PublishedState;
+use App\States\Posts\GuestArticle;
 use App\Builders\BlogBuilder;
 use App\Filament\Clusters\Blog\Resources\BlogResource\Enums\Status;
 use App\Models\Relations\BelongsToAuthor;
@@ -84,9 +87,9 @@ class Blog extends Model implements Feedable
     public function publicationStatus(): PublicationStateContract
     {
         return match ($this->status) {
-            Status::Draft => new Posts\DraftState($this),
-            Status::Published => new Posts\PublishedState($this),
-			Status::GuestArticle => new Posts\GuestArticle($this),
+            Status::Draft => new DraftState($this),
+            Status::Published => new PublishedState($this),
+			Status::GuestArticle => new GuestArticle($this),
         };
     }
 

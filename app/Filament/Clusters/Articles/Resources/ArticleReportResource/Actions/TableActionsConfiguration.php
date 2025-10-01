@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\ArticleReportResource\Actions;
 
+use Filament\Actions\Action;
+use Filament\Actions\ViewAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Tables;
-use Filament\Tables\Actions\Action;
 
 /**
  * Configures table actions for the Article Report resource.
@@ -43,8 +47,8 @@ final readonly class TableActionsConfiguration
     public static function rowActions(): array
     {
         return [
-            Tables\Actions\ViewAction::make()->hiddenLabel(),
-            Tables\Actions\DeleteAction::make()->hiddenLabel(),
+            ViewAction::make()->hiddenLabel(),
+            DeleteAction::make()->hiddenLabel(),
         ];
     }
 
@@ -52,13 +56,13 @@ final readonly class TableActionsConfiguration
      * Defines the actions available for individual rows in the table.
      * Row actions are specific to each record in the table. For example, the "View" and "Delete" actions allow users to view the details of a report or delete it.
      *
-     * @return array<Tables\Actions\BulkActionGroup> An array of configured row actions.
+     * @return array<\Filament\Actions\BulkActionGroup> An array of configured row actions.
      */
     public static function bulkActions(): array
     {
         return [
-            Tables\Actions\BulkActionGroup::make([
-                Tables\Actions\DeleteBulkAction::make(),
+            BulkActionGroup::make([
+                DeleteBulkAction::make(),
             ]),
         ];
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Fortify;
 
+use Illuminate\Validation\ValidationException;
 use App\Data\Account\UserRegistrationData;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
@@ -50,7 +51,7 @@ final class CreateNewUser implements CreatesNewUsers
      * @param  array<string, string> $input  An associative array containing the user's registration data, typically from a form submission. Expected keys include 'voornaam', 'achternaam', 'email', 'password', and 'agreement'.
      * @return User|Model                    The newly created `User` model instance.
      *
-     * @throws \Illuminate\Validation\ValidationException If any validation rule fails.
+     * @throws ValidationException If any validation rule fails.
      */
     public function create(array $input): User|Model
     {

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\ArticleResource\Schema;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
 use App\Enums\ArticleStates;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Actions\DisclaimerToolbarActions;
 use App\Models\Article;
 use Filament\Infolists\Components\KeyValueEntry;
-use Filament\Infolists\Components\Tabs;
-use Filament\Infolists\Components\Tabs\Tab;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Infolist;
 
 /**
  * WordInfolist is responsible for defining the schema of the detailed information display for articles.
@@ -38,14 +38,14 @@ final readonly class WordInfolist
      * Each tab is responsible for displaying a specific set of information about the article, such as its general details, editing history, or archiving information.
      * The schema is dynamically generated based on the article's state and other attributes.
      *
-     * @param  Infolist $infolist  The Filament Infolist instance to configure
-     * @return Infolist            The configured Infolist instance
+     * @param \Filament\Schemas\Schema $schema The Filament Infolist instance to configure
+     * @return \Filament\Schemas\Schema The configured Infolist instance
      */
-    public static function make(Infolist $infolist): Infolist
+    public static function make(Schema $schema): Schema
     {
-        $infolist->getRecord()->loadCount('audits');
+        $schema->getRecord()->loadCount('audits');
 
-        return $infolist->schema([
+        return $schema->components([
             Tabs::make('lemma-information')
                 ->columnSpan(12)
                 ->tabs([
@@ -65,7 +65,7 @@ final readonly class WordInfolist
      * It provides details about the archiving process, including the user who archived the article, the date it was archived, and the reason for archiving.
      * This information is critical for tracking the history and accountability of archived articles.
      *
-     * @return Tab The configured tab for archiving information
+     * @return \Filament\Schemas\Components\Tabs\Tab The configured tab for archiving information
      */
     private static function archiveInformationTab(): Tab
     {
@@ -103,7 +103,7 @@ final readonly class WordInfolist
      * where the key represents the name (labeled as "Naam") and the value represents the corresponding URL or article reference (labeled as "Url / Artikel").
      * The KeyValueEntry is configured to span the full width of the column layout, ensuring clear and complete display of the source data.
      *
-     * @return Tab The fully configured tab instance for displaying article source references.
+     * @return \Filament\Schemas\Components\Tabs\Tab The fully configured tab instance for displaying article source references.
      */
     private static function sourcesInformationTab(): Tab
     {
@@ -132,7 +132,7 @@ final readonly class WordInfolist
      * All components are arranged to occupy one quarter of the available width each, ensuring a balanced and visually clear layout for publication information.
      * This configuration encapsulates the settings and styling required for presenting essential publication metrics and details within the article's interface.
      *
-     * @return Tab The fully configured publication information tab.
+     * @return \Filament\Schemas\Components\Tabs\Tab The fully configured publication information tab.
      */
     private static function publicationInformationTab(): Tab
     {
@@ -182,7 +182,7 @@ final readonly class WordInfolist
      * to ensure a consistent and clear presentation. This configuration centralizes the display settings for lemma-related data
      * to facilitate easy review and maintenance.
      *
-     * @return Tab The configured "Lemma informatie" tab instance.
+     * @return \Filament\Schemas\Components\Tabs\Tab The configured "Lemma informatie" tab instance.
      */
     private static function lemmaInformationTab(): Tab
     {
@@ -247,7 +247,7 @@ final readonly class WordInfolist
      *
      * The configuration encapsulates all details pertaining to the editing history, ensuring that these components are consistently styled and grouped together in the editing information tab.
      *
-     * @return Tab The configured tab instance presenting editing information.
+     * @return \Filament\Schemas\Components\Tabs\Tab The configured tab instance presenting editing information.
      */
     private static function editInformationTab(): Tab
     {

@@ -14,7 +14,7 @@ use Filament\Forms\Components\Textarea;
  * This action handles the process of moving articles to an archived state, where they remain in the system but are hidden from end users.
  * The action includes confirmation dialogs and permission checks to ensure proper usage.
  *
- * @property \App\Models\Article $record The dictionary arcticle being archived
+ * @property Article $record The dictionary arcticle being archived
  *
  * @package App\Filament\Resources\ArticleResource\Actions\State
  */
@@ -59,7 +59,7 @@ final class ArchiveArticle extends Action
         $this->modalIcon($this->actionIcon);
         $this->modalHeading('Artikel archiveren');
         $this->modalDescription('Indien u het artikel in het archief stopt. Zal deze echter een beperkte zichtbaarheid hebben. En niet raadplaagbaar zijn voor eind gebruikers');
-        $this->form([
+        $this->schema([
             Textarea::make('archiving_reason')
                 ->rows(4)
                 ->label('Archiverings redenen')

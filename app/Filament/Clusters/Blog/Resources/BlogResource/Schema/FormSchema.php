@@ -4,10 +4,16 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources\BlogResource\Schema;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Field;
 use App\Filament\Clusters\Blog\Resources\BlogResource\Enums\Status;
 use App\Filament\Clusters\Blog\Resources\CategoryResource\Schema\FormSchema as SchemaFormSchema;
 use Filament\Forms\Components;
-use Filament\Forms\Form;
 use Filament\Support\Enums\IconSize;
 
 /**
@@ -33,13 +39,13 @@ final readonly class FormSchema
      * This method is responsible for attaching all the necessary input components, layouts, and validation rules that comprise the form's structure.
      * Developers should populate the `schema([])` array with their desired Filament form components.
      *
-     * @param  Form $form   The Filament Form instance to configure.
-     * @return Form         The configured form instance with its schema.
+     * @param \Filament\Schemas\Schema $schema The Filament Form instance to configure.
+     * @return \Filament\Schemas\Schema The configured form instance with its schema.
      */
-    public static function getComponents(Form $form): Form
+    public static function getComponents(Schema $schema): Schema
     {
-        return $form->schema([
-            Components\Section::make('Creatie van een nieuw nieuwsartikel')
+        return $schema->components([
+            Section::make('Creatie van een nieuw nieuwsartikel')
                 ->description('Informeer de gebruiker omtrent de evolutie van het Vlaams Woordenboek of de vlaamse taal')
                 ->icon('heroicon-o-pencil-square')
                 ->iconColor('primary')
@@ -52,12 +58,12 @@ final readonly class FormSchema
     }
 
     /**
-     * @return array<int, \Filament\Forms\Components\Field>
+     * @return array<int, Field>
      */
     private static function getFormComponents(): array
     {
         return [
-            Components\Select::make('status')
+            Select::make('status')
                 ->label('Artikel status')
                 ->required()
                 ->options(Status::class)
@@ -65,14 +71,14 @@ final readonly class FormSchema
                 ->default(Status::Draft->value)
                 ->native(false),
 
-            Components\TextInput::make('title')
+            TextInput::make('title')
                 ->label('Titel')
                 ->required()
                 ->maxLength(255)
                 ->placeholder('Titel van uw nieuwsbericht')
                 ->columnSpan(9),
 
-            Components\Select::make('category_id')
+            Select::make('category_id')
                 ->label('Categorieen')
                 ->translateLabel()
                 ->relationship(name: 'category', titleAttribute: 'name')
@@ -83,18 +89,18 @@ final readonly class FormSchema
                 ->preload()
                 ->columnspanFull(),
 			
-			Components\TextInput::make('original_url')
+			TextInput::make('original_url')
 				->label('Originele link naar het artikel')
 				->columnSpanFull(),
 
-            Components\MarkdownEditor::make('content')
+            MarkdownEditor::make('content')
                 ->label('Nieuwsbericht')
                 ->translateLabel()
                 ->required()
                 ->placeholder('De start van een mooi verhaal...')
                 ->columnSpanFull(),
 
-            Components\Toggle::make('comments_enabled')
+            Toggle::make('comments_enabled')
                 ->label('Gebruikers kunnen reageren op dit artikel?')
                 ->columnSpan(12)
                 ->onIcon('heroicon-o-check')

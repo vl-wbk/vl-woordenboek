@@ -4,6 +4,15 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\FeedbackResource\Schema;
 
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Actions\Action;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\ViewAction;
+use Filament\Actions\DeleteAction;
+use Exception;
 use App\Enums\FeedbackStatus;
 use App\Filament\Resources\FeedbackResource\Actions\MarkAsClosedBulkAction;
 use App\Filament\Resources\FeedbackResource\Actions\MarkAsOpenBulkAction;
@@ -11,10 +20,7 @@ use App\Models\Feedback;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Table;
 use Filament\Tables\Columns;
-use Filament\Tables\Actions\Action;
 use Filament\Tables;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\ViewAction;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -47,22 +53,22 @@ final readonly class TableSchema
             ->emptyStateHeading(heading: __('feedback-resource.table.empty-state.heading'))
             ->emptyStateDescription(description: __('feedback-resource.table.empty-state.description'))
             ->columns(components: self::configureTableComponents())
-            ->actions(actions: self::configureTableRowActions())
+            ->recordActions(actions: self::configureTableRowActions())
             ->filters(filters: self::configureTableFilters())
             ->headerActions(actions: self::configureHeaderActions())
-            ->bulkActions(self::configureTableBulkActions())
+            ->toolbarActions(self::configureTableBulkActions())
             ->deferLoading();
     }
 
     /**
-     * @return array <int, Tables\Filters\SelectFilter>
+     * @return array<int, SelectFilter>
      *
-     * @throws \Exception
+     * @throws Exception
      */
     private static function configureTableFilters(): array
     {
         return [
-            Tables\Filters\SelectFilter::make(name: __('feedback-resource.table.filters.status.label'))
+            SelectFilter::make(name: __('feedback-resource.table.filters.status.label'))
                 ->options(options: FeedbackStatus::class)
                 ->default(state: FeedbackStatus::Unprocessed->value),
         ];
@@ -79,38 +85,38 @@ final readonly class TableSchema
     private static function configureTableComponents(): array
     {
         return [
-            Columns\TextColumn::make('tracking_number')
+            TextColumn::make('tracking_number')
                 ->label(label: __('feedback-resource.table.columns.tracking-number'))
                 ->searchable()
                 ->weight(FontWeight::SemiBold)
                 ->color('primary')
                 ->placeholder('-'),
 
-            Columns\TextColumn::make('name')
+            TextColumn::make('name')
                 ->label(label: __('feedback-resource.table.columns.name'))
                 ->iconColor('primary')
                 ->icon('heroicon-o-user-circle')
                 ->searchable(),
 
-            Columns\TextColumn::make('email')
+            TextColumn::make('email')
                 ->label(label: __('feedback-resource.table.columns.email.label'))
                 ->searchable()
                 ->placeholder(placeholder: __('feedback-resource.table.columns.email.placeholder')),
 
-            Columns\IconColumn::make('contact_allowed')
+            IconColumn::make('contact_allowed')
                 ->label(label: __('feedback-resource.table.columns.contact-allowed'))
                 ->boolean(),
 
-            Columns\TextColumn::make('first_time_visit')
+            TextColumn::make('first_time_visit')
                 ->label(label: __('feedback-resource.table.columns.first-time-visit'))
                 ->badge()
                 ->sortable(),
 
-            Columns\TextColumn::make('results_found_easily')
+            TextColumn::make('results_found_easily')
                 ->label(label: __('feedback-resource.table.columns.results-found-easily'))
                 ->badge(),
 
-            Columns\TextColumn::make('created_at')
+            TextColumn::make('created_at')
                 ->label(label: __('feedback-resource.table.columns.created-at'))
                 ->sortable()
                 ->date(),
@@ -155,12 +161,12 @@ final readonly class TableSchema
      * Bulk actions allow administrators to perform operations on multiple selected records at once.
      * This configuration includes a delete bulk action with a custom modal description to warn the user about potential data loss.
      *
-     * @return array<int, \Filament\Tables\Actions\BulkActionGroup|\Filament\Tables\Actions\DeleteBulkAction> An array of Filament table bulk action components.
+     * @return array<int, \Filament\Actions\BulkActionGroup|\Filament\Actions\DeleteBulkAction> An array of Filament table bulk action components.
      */
     private static function configureTableBulkActions(): array
     {
         return [
-            Tables\Actions\BulkActionGroup::make([
+            BulkActionGroup::make([
                 MarkAsClosedBulkAction::make(),
                 MarkAsOpenBulkAction::make(),
             ])
@@ -168,7 +174,7 @@ final readonly class TableSchema
                 ->visible(Auth::user()->can('change_status_feedback'))
                 ->label(label: __('feedback-resource.table.actions.mark-as-bulk-group.label')),
 
-            Tables\Actions\DeleteBulkAction::make()
+            DeleteBulkAction::make()
                 // Custom modal description for the bulk delete action
                 ->modalDescription(description: __('feedback-resource.table.actions.delete-bulk-action.modal-description')),
         ];

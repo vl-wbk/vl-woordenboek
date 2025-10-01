@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\ArticleResource\Actions\States;
 
+use App\Models\Article;
 use Filament\Actions\Action;
 
 /**
@@ -14,7 +15,7 @@ use Filament\Actions\Action;
  * approve publications. The action uses visual cues through color and iconography
  * to clearly indicate its purpose as a positive, confirmatory action.
  *
- * @property \App\Models\Article $record The article being approved for publication
+ * @property Article $record The article being approved for publication
  *
  * @package
  */

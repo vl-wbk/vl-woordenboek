@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Articles;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use App\Data\SuggestionData;
 use Illuminate\Foundation\Http\FormRequest;
 use Spatie\LaravelData\WithData;
@@ -36,7 +37,7 @@ final class StoreSuggestionRequest extends FormRequest
      * This method defines the validation rules for each field in the suggestion submission form.
      * It ensures that required fields are present and that data types and lengths are appropriate.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string> An array of validation rules, where the keys are field names and the values are validation rules.
+     * @return array<string, ValidationRule|array<mixed>|string> An array of validation rules, where the keys are field names and the values are validation rules.
      */
     public function rules(): array
     {

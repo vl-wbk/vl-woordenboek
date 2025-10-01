@@ -11,7 +11,7 @@ final readonly class LastSeenAtListener
 {
     public function handle(Login $loginEvent): void
     {
-        /** @var \App\Models\User $userEntity */
+        /** @var User $userEntity */
         $userEntity = $loginEvent->user;
 
         $authenticatedUser = User::query()->findOrFail($userEntity->id);

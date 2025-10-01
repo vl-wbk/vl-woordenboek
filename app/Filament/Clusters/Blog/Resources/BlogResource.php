@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources;
 
+use Filament\Schemas\Schema;
+use App\Filament\Clusters\Blog\Resources\BlogResource\Pages\ListBlogs;
+use App\Filament\Clusters\Blog\Resources\BlogResource\Pages\CreateBlog;
+use App\Filament\Clusters\Blog\Resources\BlogResource\Pages\ViewBlog;
+use App\Filament\Clusters\Blog\Resources\BlogResource\Pages\EditBlog;
+use Filament\Resources\Pages\PageRegistration;
 use App\Filament\Clusters\Blog;
 use App\Filament\Clusters\Blog\Resources\BlogResource\Pages;
 use App\Filament\Clusters\Blog\Resources\BlogResource\RelationManagers\CommentsRelationManager;
@@ -13,8 +19,6 @@ use App\Filament\Clusters\Blog\Resources\BlogResource\Schema\ResourceActionDefin
 use App\Filament\Clusters\Blog\Resources\BlogResource\Schema\TableSchema;
 use App\Models\Blog as BlogPosts;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
-use Filament\Forms\Form;
-use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 
@@ -48,7 +52,7 @@ final class BlogResource extends Resource implements HasShieldPermissions
      * The icon displayed next to the navigation item for this resource.
      * Uses a Heroicons outline icon.
      */
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-text';
 
     /**
      * The label displayed in the Filament navigation sidebar for this resource.
@@ -88,20 +92,20 @@ final class BlogResource extends Resource implements HasShieldPermissions
      * Defines the structure of the form used for creating and editing blog posts.
      * It delegates the actual form component definition to the `FormSchema` class.
      *
-     * @param  Form $form  The Filament Form instance.
-     * @return Form        The configured Filament Form instance.
+     * @param \Filament\Schemas\Schema $schema The Filament Form instance.
+     * @return \Filament\Schemas\Schema The configured Filament Form instance.
      */
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return FormSchema::getComponents($form);
+        return FormSchema::getComponents($schema);
     }
 
     /**
      * @todo Document this function
      */
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return BlogPostInfolist::getComponent($infolist);
+        return BlogPostInfolist::getComponent($schema);
     }
 
     /**
@@ -123,8 +127,8 @@ final class BlogResource extends Resource implements HasShieldPermissions
             ->emptyStateDescription('Het lijkt erop dat er momenteel nog geen artikelen zijn aangemaakt of gevonden met opgegeven criteria. Maak een artikel aan of kom later nog eens terug.')
             ->columns(components: TableSchema::getColumnComponents())
             ->headerActions(actions: ResourceActionDefinitions::getHeaderActions())
-            ->actions(actions: ResourceActionDefinitions::getTableActions())
-            ->bulkActions(actions: ResourceActionDefinitions::getBulkActions());
+            ->recordActions(actions: ResourceActionDefinitions::getTableActions())
+            ->toolbarActions(actions: ResourceActionDefinitions::getBulkActions());
     }
 
     public static function getRelations(): array
@@ -138,15 +142,15 @@ final class BlogResource extends Resource implements HasShieldPermissions
      * Defines the routes and socciated page classes for this resource.
      * This maps URLs to specific Filament pages (list, create, view, edit)
      *
-     * @return array<string, \Filament\Resources\Pages\PageRegistration>  An array of page route definitions
+     * @return array<string, PageRegistration> An array of page route definitions
      */
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListBlogs::route('/'),
-            'create' => Pages\CreateBlog::route('/create'),
-            'view' => Pages\ViewBlog::route('/{record}'),
-            'edit' => Pages\EditBlog::route('/{record}/edit'),
+            'index' => ListBlogs::route('/'),
+            'create' => CreateBlog::route('/create'),
+            'view' => ViewBlog::route('/{record}'),
+            'edit' => EditBlog::route('/{record}/edit'),
         ];
     }
 }

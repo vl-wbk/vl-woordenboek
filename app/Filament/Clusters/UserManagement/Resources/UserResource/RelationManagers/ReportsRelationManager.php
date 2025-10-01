@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\UserManagement\Resources\UserResource\RelationManagers;
 
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\ViewAction;
+use Filament\Tables\Filters\BaseFilter;
 use App\Models\User;
 use App\Filament\Clusters\Articles\Resources\ArticleReportResource;
 use App\Filament\Resources\UserResource\Pages\ViewUser;
@@ -45,7 +48,7 @@ final class ReportsRelationManager extends RelationManager
      * This icon is displayed alongside the relation title in Filament's UI to visually denote the reports section.
      * It uses the 'heroicon-o-chat-bubble-bottom-center-text' icon to maintain a consistent look and feel.
      */
-    protected static ?string $icon = 'heroicon-o-chat-bubble-bottom-center-text';
+    protected static string | \BackedEnum | null $icon = 'heroicon-o-chat-bubble-bottom-center-text';
 
     /**
      * The badge color used to display the number of reports.
@@ -119,7 +122,7 @@ final class ReportsRelationManager extends RelationManager
             )
             ->columns($this->getTableColumnSchemaLayout())
             ->filters($this->getFilterImplementations())
-            ->actions($this->getTableActionRegistrations());
+            ->recordActions($this->getTableActionRegistrations());
     }
 
     /**
@@ -129,7 +132,7 @@ final class ReportsRelationManager extends RelationManager
      * based on specific criteria, such as report status or submission date. Currently, no filters
      * are implemented, but this method is designed to be extended in the future to support such functionality.
      *
-     * @return array<\Filament\Tables\Filters\BaseFilter> An array of filter implementations (currently empty).
+     * @return array<BaseFilter> An array of filter implementations (currently empty).
      */
     private function getFilterImplementations(): array
     {
@@ -149,28 +152,28 @@ final class ReportsRelationManager extends RelationManager
      * These columns are designed to provide a clear and concise overview of the reports, with support for sorting and searching where applicable.
      * This layout ensures that administrators or moderators can quickly find and review the information they need.
      *
-     * @return array<int, Tables\Columns\TextColumn> An array of configured TextColumn instances.
+     * @return array<int, TextColumn> An array of configured TextColumn instances.
      */
     private function getTableColumnSchemaLayout(): array
     {
         return [
-            Tables\Columns\TextColumn::make('id')
+            TextColumn::make('id')
                 ->weight(FontWeight::Bold)
                 ->label('#')
                 ->sortable()
                 ->color('primary'),
-            Tables\Columns\TextColumn::make('state')
+            TextColumn::make('state')
                 ->label('Status')
                 ->badge(),
-            Tables\Columns\TextColumn::make('assignee.name')
+            TextColumn::make('assignee.name')
                 ->label('Inbehandeling door')
                 ->searchable()
                 ->sortable()
                 ->placeholder('- niemand'),
-            Tables\Columns\TextColumn::make('description')
+            TextColumn::make('description')
                 ->label('Melding')
                 ->searchable(),
-            Tables\Columns\TextColumn::make('created_at')
+            TextColumn::make('created_at')
                 ->label('Registratiedatum')
                 ->date()
                 ->sortable(),
@@ -191,7 +194,7 @@ final class ReportsRelationManager extends RelationManager
     private function getTableActionRegistrations(): array
     {
         return [
-            Tables\Actions\ViewAction::make()
+            ViewAction::make()
                 ->url(fn(ArticleReport $articleReport): string => ArticleReportResource::getUrl('view', ['record' => $articleReport])),
         ];
     }

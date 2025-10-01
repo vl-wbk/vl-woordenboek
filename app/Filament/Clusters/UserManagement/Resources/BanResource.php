@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\UserManagement\Resources;
 
+use App\Filament\Clusters\UserManagement\Resources\BanResource\Concerns\TableSchemeLayout;
+use App\Filament\Clusters\UserManagement\Resources\BanResource\Concerns\TableActions;
+use Filament\Schemas\Schema;
+use Filament\Infolists\Components\TextEntry;
+use App\Filament\Clusters\UserManagement\Resources\BanResource\Pages\ListBans;
+use Filament\Resources\Pages\PageRegistration;
 use App\Filament\Clusters\UserManagement;
 use App\Filament\Clusters\UserManagement\Resources\BanResource\Concerns;
 use App\Filament\Clusters\UserManagement\Resources\BanResource\Pages;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Cog\Laravel\Ban\Models\Ban;
 use Filament\Infolists\Components;
-use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 
@@ -25,8 +30,8 @@ use Filament\Tables\Table;
  */
 final class BanResource extends Resource implements HasShieldPermissions
 {
-    use Concerns\TableSchemeLayout;
-    use Concerns\TableActions;
+    use TableSchemeLayout;
+    use TableActions;
 
     /**
      * We use a dutch interface label throughout the admin panel.
@@ -44,7 +49,7 @@ final class BanResource extends Resource implements HasShieldPermissions
      * For visual recognition, we use a shield-lock icon from the Tabler icon set.
      * This icon perfectly represents the security aspect of account deactivations while maintaining a clean, professional look.
      */
-    protected static ?string $navigationIcon = 'tabler-shield-lock';
+    protected static string | \BackedEnum | null $navigationIcon = 'tabler-shield-lock';
 
     /**
      * This resource belongs to the broader user management family.
@@ -72,28 +77,28 @@ final class BanResource extends Resource implements HasShieldPermissions
     /**
      * @todo Document this function
      */
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
+        return $schema
             ->columns(12)
-            ->schema([
-                Components\TextEntry::make('bannable.name')
+            ->components([
+                TextEntry::make('bannable.name')
                     ->columnSpan(4)
                     ->label('Gebruiker')
                     ->icon('heroicon-o-user-circle')
                     ->iconColor('primary'),
-                Components\TextEntry::make('bannable.created_at')
+                TextEntry::make('bannable.created_at')
                     ->columnSpan(4)
                     ->label('Gedeactiveerd op')
                     ->icon('heroicon-o-clock')
                     ->iconColor('primary'),
-                Components\TextEntry::make('expired_at')
+                TextEntry::make('expired_at')
                     ->columnSpan(4)
                     ->label('Reactiverings datum')
                     ->icon('heroicon-o-clock')
                     ->iconColor('primary')
                     ->default('tot nader order'),
-                Components\TextEntry::make('comment')
+                TextEntry::make('comment')
                     ->columnSpanFull()
                     ->label('Reden tot deactivering')
                     ->default('Geen reden tot deactivering opgegegeven'),
@@ -119,7 +124,7 @@ final class BanResource extends Resource implements HasShieldPermissions
             ->emptyStateHeading('Geen deactiveringen gevonden')
             ->emptyStateDescription('Het lijkt erop dat er momenteel geen gebruikers zijn gedactiveerd in het Vlaams Woordenboek')
             ->columns(self::getTableColumnLayout())
-            ->actions(self::getTableActions());
+            ->recordActions(self::getTableActions());
     }
 
     /**
@@ -127,10 +132,10 @@ final class BanResource extends Resource implements HasShieldPermissions
      * If you need to add more pages (like detailed views or custom forms), this is where you'd register them.
      * The routing is handled automatically by Filament's resource system.
      *
-     * @return array<string, \Filament\Resources\Pages\PageRegistration>
+     * @return array<string, PageRegistration>
      */
     public static function getPages(): array
     {
-        return ['index' => Pages\ListBans::route('/')];
+        return ['index' => ListBans::route('/')];
     }
 }

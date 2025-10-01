@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\Pages;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
 use App\Filament\Clusters\Settings;
 use App\Settings\ProjectInformationSettings as SettingsProjectInformationSettings;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Forms\Components\MarkdownEditor;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
 use Filament\Pages\SettingsPage;
 use Filament\Support\Enums\IconSize;
 
@@ -30,7 +30,7 @@ final class ProjectInformationSettings extends SettingsPage
     /**
      * Defines the icon used to represent this settings page in the Filament admin panel navigation menu. Uses a Tabler icon.
      */
-    protected static ?string $navigationIcon = 'tabler-file-info';
+    protected static string | \BackedEnum | null $navigationIcon = 'tabler-file-info';
 
     /**
      * Specifies the Filament cluster that this settings page belongs to.
@@ -47,7 +47,7 @@ final class ProjectInformationSettings extends SettingsPage
     /**
      * Defines the navigation group that this settings page belongs to in the Filament admin panel.
      */
-    protected static ?string $navigationGroup = "Pagina's";
+    protected static string | \UnitEnum | null $navigationGroup = "Pagina's";
 
     /**
      * Defines the title displayed at the top of this settings page in the Filament admin panel.
@@ -60,13 +60,13 @@ final class ProjectInformationSettings extends SettingsPage
      * This method defines the form schema, which includes a section for page configuration.
      * It uses Filament form components to create a user-friendly interface for managing these settings.
      *
-     * @param  Form $form   The Filament form builder instance.
-     * @return Form         The configured Filament form instance.
+     * @param \Filament\Schemas\Schema $schema The Filament form builder instance.
+     * @return \Filament\Schemas\Schema The configured Filament form instance.
      */
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Section::make('Project informatie pagina')
                     ->description('Configureer hier de inhoud van de project informatie pagina in de front-end van de applicatie')
                     ->icon(self::$navigationIcon)

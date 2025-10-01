@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use Filament\Support\Enums\Width;
 use CharrafiMed\GlobalSearchModal\GlobalSearchModalPlugin;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Cog\Laravel\Ban\Http\Middleware\ForbidBannedUser;
@@ -15,7 +16,6 @@ use Filament\Navigation\MenuItem;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\Support\Enums\MaxWidth;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -72,7 +72,7 @@ final class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->brandName('VL. woordenboek')
             ->favicon(asset('favicon/favicon-32x32.png'))
-            ->maxContentWidth(MaxWidth::Full)
+            ->maxContentWidth(Width::Full)
             ->topNavigation()
             ->font("Tilt Neon")
             ->login()

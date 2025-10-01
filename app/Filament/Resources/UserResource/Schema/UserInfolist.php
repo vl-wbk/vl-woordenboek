@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\UserResource\Schema;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
 use App\Models\User;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Infolist;
 use Illuminate\Support\Carbon;
-use Filament\Infolists\Components\Tabs;
-use Filament\Infolists\Components\Tabs\Tab;
 
 /**
  * InfolistSchema
@@ -29,10 +29,10 @@ use Filament\Infolists\Components\Tabs\Tab;
  */
 final readonly class UserInfolist
 {
-    public static function configure(Infolist $infolist): Infolist
+    public static function configure(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
+        return $schema
+            ->components([
                 Tabs::make('tabs')
                     ->columnSpan(12)
                     ->tabs([

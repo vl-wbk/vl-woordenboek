@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources\BlogResource\Actions;
 
+use App\Models\Comment;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 
@@ -16,7 +17,7 @@ use Filament\Actions\Concerns\CanCustomizeProcess;
  * This primary purpose of this action is to provide an administrative tool within the Filament interface to toggle off comments for a selected blog entry,
  * ensuring proper authorization checks and user confirmation before execution.
  *
- * @property \App\Models\Comment $record The database entity from the comment in the database
+ * @property Comment $record The database entity from the comment in the database
  *
  * @package App\Filament\lusters\Blog\Resources\BlogResource\Actions
  */

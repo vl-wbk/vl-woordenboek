@@ -4,6 +4,29 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use App\Filament\Resources\ArticleResource\RelationManagers\LabelsRelationManager;
+use App\Filament\Resources\ArticleResource\RelationManagers\NotesRelationManager;
+use App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\ReportsRelationManager;
+use App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\AuditsRelationManager;
+use App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\EtymologyRelationManager;
+use Filament\Actions\Action;
+use Filament\Actions\CreateAction;
+use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\RestoreAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\RestoreBulkAction;
+use Filament\Actions\ExportBulkAction;
+use Filament\Support\Enums\Width;
+use App\Filament\Resources\ArticleResource\Pages\ListWords;
+use App\Filament\Resources\ArticleResource\Pages\CreateWord;
+use App\Filament\Resources\ArticleResource\Pages\ViewWord;
+use App\Filament\Resources\ArticleResource\Pages\EditWord;
+use Filament\Clusters\Cluster;
+use Filament\Resources\Pages\PageRegistration;
 use App\Enums\ArticleStates;
 use App\Filament\Clusters\Articles;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets\ArticleRegistrationChart;
@@ -14,15 +37,10 @@ use App\Filament\Resources\ArticleResource\Schema\FormSchema;
 use App\Models\Article;
 use App\UserTypes;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
-use Filament\Tables\Actions\Action;
-use Filament\Forms\Form;
-use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconSize;
-use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
-use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
@@ -58,7 +76,7 @@ final class ArticleResource extends Resource implements HasShieldPermissions
     /**
      * The navigation icon used in the admin panel menu.
      */
-    protected static ?string $navigationIcon = 'heroicon-o-language';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-language';
 
     /**
      * The singular label for the model.
@@ -83,19 +101,19 @@ final class ArticleResource extends Resource implements HasShieldPermissions
      * The cluster used for grouping related resources.
      *
      * @todo Check if we can use inheritDoc here
-     * @var class-string<\Filament\Clusters\Cluster>|null
+     * @var class-string<Cluster>|null
      */
     protected static ?string $cluster = Articles::class;
 
     /**
      * Configures the infolist used to display article details.
      *
-     * @param  Infolist  $infolist  The Filament infolist instance.
-     * @return Infolist             The configured infolist.
+     * @param \Filament\Schemas\Schema $schema The Filament infolist instance.
+     * @return \Filament\Schemas\Schema The configured infolist.
      */
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return WordInfolist::make($infolist);
+        return WordInfolist::make($schema);
     }
 
     /**
@@ -106,11 +124,11 @@ final class ArticleResource extends Resource implements HasShieldPermissions
     public static function getRelations(): array
     {
         return [
-            \App\Filament\Resources\ArticleResource\RelationManagers\LabelsRelationManager::class,
-            \App\Filament\Resources\ArticleResource\RelationManagers\NotesRelationManager::class,
-            \App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\ReportsRelationManager::class,
-            \App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\AuditsRelationManager::class,
-            \App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\EtymologyRelationManager::class,
+            LabelsRelationManager::class,
+            NotesRelationManager::class,
+            ReportsRelationManager::class,
+            AuditsRelationManager::class,
+            EtymologyRelationManager::class,
         ];
     }
 
@@ -134,12 +152,12 @@ final class ArticleResource extends Resource implements HasShieldPermissions
      * The form consists of sections for general information and regional status,
      * each configured with an icon, description, and specific field schema.
      *
-     * @param  Form $form  The Filament form instance.
-     * @return Form        The configured form.
+     * @param \Filament\Schemas\Schema $schema The Filament form instance.
+     * @return \Filament\Schemas\Schema The configured form.
      */
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form->schema([
+        return $schema->components([
             FormSchema::sectionConfiguration('Algemene informatie')
                 ->collapsible()
                 ->collapsed()
@@ -223,11 +241,11 @@ final class ArticleResource extends Resource implements HasShieldPermissions
                     ->date()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make()->hiddenLabel(),
-                Tables\Actions\EditAction::make()->hiddenLabel(),
-                Tables\Actions\RestoreAction::make()->hiddenLabel()->color('danger'),
-                Tables\Actions\DeleteAction::make()->hiddenLabel(),
+            ->recordActions([
+                ViewAction::make()->hiddenLabel(),
+                EditAction::make()->hiddenLabel(),
+                RestoreAction::make()->hiddenLabel()->color('danger'),
+                DeleteAction::make()->hiddenLabel(),
             ])
             ->filters([
                 SelectFilter::make('state')
@@ -241,13 +259,13 @@ final class ArticleResource extends Resource implements HasShieldPermissions
                     ->label('Toegewezen aan mij')
                     ->query(fn(Builder $query): Builder => $query->where('editor_id', auth()->id())),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                    RestoreBulkAction::make(),
 
-                    Tables\Actions\ExportBulkAction::make()->exporter(ArticleExporter::class)
-                        ->modalWidth(MaxWidth::Large)
+                    ExportBulkAction::make()->exporter(ArticleExporter::class)
+                        ->modalWidth(Width::Large)
                         ->modalDescription('Gegevens nodig in een ander programma? Geen probleem! Selecteer de kolommen die je nodig hebt en je kunt vervolgens de gegevens downloaden in een .xlsx of .csv estanden downloaden')
                         ->icon('heroicon-o-arrow-down-tray')
                         ->slideOver(),
@@ -338,15 +356,15 @@ final class ArticleResource extends Resource implements HasShieldPermissions
      * Defines the routes for the resource's pages.
      * The pages include listing, creating, viewing, and editing articles.
      *
-     * @return array<string, \Filament\Resources\Pages\PageRegistration>  An associative array mapping page keys to their routes.
+     * @return array<string, PageRegistration> An associative array mapping page keys to their routes.
      */
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListWords::route('/'),
-            'create' => Pages\CreateWord::route('/create'),
-            'view' => Pages\ViewWord::route('/{record}'),
-            'edit' => Pages\EditWord::route('/{record}/edit'),
+            'index' => ListWords::route('/'),
+            'create' => CreateWord::route('/create'),
+            'view' => ViewWord::route('/{record}'),
+            'edit' => EditWord::route('/{record}/edit'),
         ];
     }
 }

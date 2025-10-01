@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Account;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use App\Data\Account\SocialMediaReferenceData;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,7 @@ final class UpdateSocialReferencesRequest extends FormRequest
 	protected string $dataClass = SocialMediaReferenceData::class;
 	
     /**
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {

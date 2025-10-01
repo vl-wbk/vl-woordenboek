@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\EtymologyResource\Actions;
 
+use App\Models\Etymology;
 use App\Enums\Articles\EtymologyStatus;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Actions\Action;
@@ -17,7 +18,7 @@ use Filament\Actions\Action;
  * The action leverages Filament's built-in features for process customization, confirmation dialogues, and notification management to ensure a robust and
  * user-friendly experience for managing etymology submissions, specifically placing them into a non-public, editable draft state.
  *
- * @property \App\Models\Etymology $record The Eloquent model instance of `Etymology`
+ * @property Etymology $record The Eloquent model instance of `Etymology`
  * on which this action is being performed. This property
  * is automatically resolved by Filament.
  * @package category

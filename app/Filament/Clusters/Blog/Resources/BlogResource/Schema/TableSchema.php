@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources\BlogResource\Schema;
 
+use Filament\Tables\Columns\TextColumn;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns;
 
@@ -26,7 +27,7 @@ final readonly class TableSchema
     public static function getColumnComponents(): array
     {
         return [
-            Columns\TextColumn::make('author.name')
+            TextColumn::make('author.name')
                 ->icon('heroicon-o-user-circle')
                 ->iconColor('primary')
                 ->weight(FontWeight::SemiBold)
@@ -34,24 +35,24 @@ final readonly class TableSchema
                 ->translateLabel()
                 ->searchable(),
 
-            Columns\TextColumn::make('status')
+            TextColumn::make('status')
                 ->label('status')
                 ->translateLabel()
                 ->badge()
                 ->sortable(),
 
-            Columns\TextColumn::make('views')
+            TextColumn::make('views')
                 ->label('weergaves')
                 ->icon('heroicon-o-eye')
                 ->translateLabel()
                 ->sortable(),
 
-            Columns\TextColumn::make('title')
+            TextColumn::make('title')
                 ->label('titel')
                 ->translateLabel()
                 ->searchable(),
 
-            Columns\TextColumn::make('updated_at')
+            TextColumn::make('updated_at')
                 ->label('Laatste wijziging')
                 ->translateLabel()
                 ->placeholder('-')

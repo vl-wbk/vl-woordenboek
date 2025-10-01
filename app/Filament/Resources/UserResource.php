@@ -4,6 +4,16 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\UserResource\Schema\UserForm;
+use App\Filament\Clusters\UserManagement\Resources\UserResource\RelationManagers\SuggestionsRelationManager;
+use App\Filament\Clusters\UserManagement\Resources\UserResource\RelationManagers\ReportsRelationManager;
+use App\Filament\Clusters\UserManagement\Resources\RoleResource\RelationManagers\RolesRelationManager;
+use App\Filament\Resources\UserResource\Schema\UserInfolist;
+use App\Filament\Resources\UserResource\Pages\ListUsers;
+use App\Filament\Resources\UserResource\Pages\CreateUser;
+use App\Filament\Resources\UserResource\Pages\ViewUser;
+use App\Filament\Resources\UserResource\Pages\EditUser;
+use Filament\Resources\Pages\PageRegistration;
 use App\Filament\Clusters\UserManagement;
 use App\Filament\Clusters\UserManagement\Resources\UserResource\RelationManagers;
 use App\Filament\Resources\UserResource\Pages;
@@ -12,8 +22,6 @@ use App\Filament\Resources\UserResource\Schema\UserTable;
 use App\Filament\Resources\UserResource\Widgets\UserRegistrationChartWidget;
 use App\Models\User;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
-use Filament\Forms\Form;
-use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 
@@ -61,7 +69,7 @@ final class UserResource extends Resource implements HasShieldPermissions
      * In the navigation menu, we use a simple users icon to mark this section.
      * We chose this particular icon because it's universally recognized and immediately tells administrators they're in the user management area.
      */
-    protected static ?string $navigationIcon = 'heroicon-o-users';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-users';
 
     /**
      * Organization matters, so we've grouped all user-related tools together under the UserManagement cluster.
@@ -99,12 +107,12 @@ final class UserResource extends Resource implements HasShieldPermissions
      *
      * Everything is labeled in Dutch, maintaining our commitment to a fully localized interface.
      *
-     * @param  Form $form   The Filament form builder instance
-     * @return Form         The configured form ready for display
+     * @param \Filament\Schemas\Schema $schema The Filament form builder instance
+     * @return \Filament\Schemas\Schema The configured form ready for display
      */
-    public static function form(Form $form): Form
+    public static function form(\Filament\Schemas\Schema $schema): \Filament\Schemas\Schema
     {
-        return Schema\UserForm::configure($form);
+        return UserForm::configure($schema);
     }
 
     /**
@@ -125,18 +133,18 @@ final class UserResource extends Resource implements HasShieldPermissions
     public static function getRelations(): array
     {
         return [
-            RelationManagers\SuggestionsRelationManager::class,
-            RelationManagers\ReportsRelationManager::class,
-            \App\Filament\Clusters\UserManagement\Resources\RoleResource\RelationManagers\RolesRelationManager::class,
+            SuggestionsRelationManager::class,
+            ReportsRelationManager::class,
+            RolesRelationManager::class,
         ];
     }
 
     /**
      * @todo Documênt this method
      */
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(\Filament\Schemas\Schema $schema): \Filament\Schemas\Schema
     {
-        return Schema\UserInfolist::configure($infolist);
+        return UserInfolist::configure($schema);
     }
 
     /**
@@ -175,15 +183,15 @@ final class UserResource extends Resource implements HasShieldPermissions
      *
      * Each route is carefully named in Dutch, matching our interface language.
      *
-     * @return array<string, \Filament\Resources\Pages\PageRegistration> The route definitions for user management
+     * @return array<string, PageRegistration> The route definitions for user management
      */
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUsers::route('/'),
-            'create' => Pages\CreateUser::route('/create'),
-            'view' => Pages\ViewUser::route('/{record}'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            'index' => ListUsers::route('/'),
+            'create' => CreateUser::route('/create'),
+            'view' => ViewUser::route('/{record}'),
+            'edit' => EditUser::route('/{record}/edit'),
         ];
     }
 }

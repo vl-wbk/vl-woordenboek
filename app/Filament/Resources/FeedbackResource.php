@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\FeedbackResource\Schema\TableSchema;
+use App\Filament\Resources\FeedbackResource\Schema\InfolistSchema;
+use App\Filament\Resources\FeedbackResource\Widgets\FeedbackStatisticsWidget;
+use App\Filament\Resources\FeedbackResource\Pages\ListFeedback;
 use App\Enums\FeedbackStatus;
 use App\Filament\Resources\FeedbackResource\Pages;
 use App\Filament\Resources\FeedbackResource\Schema;
 use App\Models\Feedback;
 use App\Policies\FeedbackPolicy;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
-use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Cache;
@@ -23,7 +26,7 @@ final class FeedbackResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = Feedback::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-chat-bubble-left-right';
 
     /**
      * @return list<string>
@@ -35,26 +38,26 @@ final class FeedbackResource extends Resource implements HasShieldPermissions
 
     public static function table(Table $table): Table
     {
-        return Schema\TableSchema::configure($table);
+        return TableSchema::configure($table);
     }
 
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(\Filament\Schemas\Schema $schema): \Filament\Schemas\Schema
     {
-        return Schema\InfolistSchema::configure($infolist);
+        return InfolistSchema::configure($schema);
     }
 
     public static function getWidgets(): array
     {
         /** @phpstan-ignore-next-line */
         return [
-            \App\Filament\Resources\FeedbackResource\Widgets\FeedbackStatisticsWidget::class,
+            FeedbackStatisticsWidget::class,
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListFeedback::route('/'),
+            'index' => ListFeedback::route('/'),
         ];
     }
 

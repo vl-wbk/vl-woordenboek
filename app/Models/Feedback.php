@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Database\Factories\FeedbackFactory;
 use App\Enums\FeedbackTrueFalse;
 use App\Enums\FeedbackStatus;
 use App\Models\Relations\BelongsToAuthor;
@@ -38,7 +39,7 @@ use Illuminate\Database\Eloquent\Model;
 #[ObservedBy(FeedbackObserver::class)]
 class Feedback extends Model
 {
-    /** @use HasFactory<\Database\Factories\FeedbackFactory> */
+    /** @use HasFactory<FeedbackFactory> */
     use HasFactory;
     use BelongsToAuthor;
 

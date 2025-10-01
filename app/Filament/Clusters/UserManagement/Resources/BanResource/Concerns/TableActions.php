@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\UserManagement\Resources\BanResource\Concerns;
 
+use Filament\Actions\ViewAction;
 use App\Filament\Clusters\UserManagement\Resources\BanResource\Actions\EditBanAction;
 use App\Filament\Resources\UserResource\Actions\UnbanAction;
 use Cog\Laravel\Ban\Models\Ban;
-use Filament\Tables\Actions\ViewAction;
 use Illuminate\Support\Facades\Gate;
 
 /**

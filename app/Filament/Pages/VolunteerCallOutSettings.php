@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Filament\Pages;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Actions\Action;
 use App\Filament\Clusters\Settings;
 use App\Settings\VolunteerSettings;
 use App\Enums\VolunteerPositions;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
-use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\MarkdownEditor;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
 use Filament\Pages\SettingsPage;
 use Filament\Support\Enums\IconSize;
 
@@ -36,7 +36,7 @@ final class VolunteerCallOutSettings extends SettingsPage
      * Defines the icon used to represent this settings page in the Filament admin panel navigation menu.
      * This helps users visually identify the page within the admin interface. Uses a Heroicon name.
      */
-    protected static ?string $navigationIcon = 'heroicon-o-megaphone';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-megaphone';
 
     /**
      * Specifies the Filament cluster that this settings page belongs to. Clusters are used to
@@ -68,7 +68,7 @@ final class VolunteerCallOutSettings extends SettingsPage
      * Defines the navigation group that this settings page belongs to in the Filament admin panel.
      * This is used to organize the settings page within the navigation menu.
      */
-    protected static ?string $navigationGroup = "Pagina's";
+    protected static string | \UnitEnum | null $navigationGroup = "Pagina's";
 
     /**
      * Configures the form used to display and edit the volunteer call-out settings.
@@ -76,13 +76,13 @@ final class VolunteerCallOutSettings extends SettingsPage
      * This method defines the form schema, which includes sections for page configuration and volunteer positions.
      * It uses Filament form components to create a user-friendly interface for managing these settings.
      *
-     * @param  Form $form  The Filament form builder instance.
-     * @return Form        The configured Filament form instance.
+     * @param \Filament\Schemas\Schema $schema The Filament form builder instance.
+     * @return \Filament\Schemas\Schema The configured Filament form instance.
      */
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Section::make('Pagina configuratie')
                     ->description('Hier kun je alle benodigde informatie configureren die te zal zijn op de informatieve pagina die gaat over de vrijwilligerswerving')
                     ->icon('heroicon-o-document-text')

@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\ArticleResource\Pages;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Wizard;
+use Filament\Schemas\Components\Wizard\Step;
+use App\Models\Article;
 use App\Enums\ArticleStates;
 use App\Filament\Resources\ArticleResource;
 use App\Filament\Resources\ArticleResource\Schema\FormSchema;
-use Filament\Forms\Components\Wizard;
-use Filament\Forms\Form;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Resources\Pages\CreateRecord\Concerns\HasWizard;
 
@@ -25,7 +27,7 @@ use Filament\Resources\Pages\CreateRecord\Concerns\HasWizard;
  * collects geographical context and publication status information. This separation helps
  * organize the data entry process in a logical and user-friendly manner.
  *
- * @property \App\Models\Article $record  The database entity from the created dictionary article.
+ * @property Article $record The database entity from the created dictionary article.
  *
  * @package App\Filament\Resources\ArticleResource\Pages
  */
@@ -48,13 +50,13 @@ final class CreateWord extends CreateRecord
      * action buttons for cancellation and submission, and step skipping capabilities.
      * The form uses a fluid layout without container constraints for maximum flexibility.
      *
-     * @param  Form $form  The base form instance to be enhanced with wizard functionality
-     * @return Form        The fully configured form with wizard implementation
+     * @param \Filament\Schemas\Schema $schema The base form instance to be enhanced with wizard functionality
+     * @return \Filament\Schemas\Schema The fully configured form with wizard implementation
      */
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return parent::form($form)
-            ->schema([
+        return parent::form($schema)
+            ->components([
                 Wizard::make($this->getSteps())
                     ->startOnStep($this->getStartStep())
                     ->cancelAction($this->getCancelFormAction())
@@ -94,20 +96,20 @@ final class CreateWord extends CreateRecord
      * - "General Information" step renders word details using a language icon
      * - "Region & Status" step displays location data using a map icon
      *
-     * @return array<int, Wizard\Step> The configured wizard steps
+     * @return array<int, \Filament\Schemas\Components\Wizard\Step> The configured wizard steps
      */
     protected function getSteps(): array
     {
         return [
-            Wizard\Step::make(trans('Algemene informatie'))
+            Step::make(trans('Algemene informatie'))
                 ->icon('heroicon-o-language')
                 ->columns(12)
                 ->schema([FormSchema::sectionConfiguration()->schema(FormSchema::getDetailSchema())]),
-            Wizard\Step::make(trans('Regio & status'))
+            Step::make(trans('Regio & status'))
                 ->icon('heroicon-o-map')
                 ->columns(12)
                 ->schema([FormSchema::sectionConfiguration()->schema(FormSchema::getStatusAndRegionDetails())]),
-            Wizard\Step::make(trans('Bronnen'))
+            Step::make(trans('Bronnen'))
                 ->icon('heroicon-o-book-open')
                 ->columns('12')
                 ->schema([FormSchema::sectionConfiguration()->schema(FormSchema::getSourceSchema())]),

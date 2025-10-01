@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\ArticleResource\Actions\States;
 
+use App\Models\Article;
 use Filament\Actions\Action;
 
 /**
@@ -13,7 +14,7 @@ use Filament\Actions\Action;
  * It provides a confirmation interface with clear messaging about the review process and ensures proper authorization before allowing submission.
  * The action maintains visual consistency through standarized icons and color schemes while supporting the Dutch-language interface requirements.
  *
- * @property \App\Models\Article $record The dictionary article being submitted for publication
+ * @property Article $record The dictionary article being submitted for publication
  *
  * @package App\Filament\Resources\ArticleResource\Actions\States;
  */

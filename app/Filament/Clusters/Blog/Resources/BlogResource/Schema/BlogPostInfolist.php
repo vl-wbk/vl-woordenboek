@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources\BlogResource\Schema;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
 use App\Models\Blog;
 use Filament\Infolists\Components\IconEntry;
-use Filament\Infolists\Components\Tabs;
-use Filament\Infolists\Components\Tabs\Tab;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Infolist;
 use Filament\Support\Enums\FontWeight;
 
 final readonly class BlogPostInfolist
 {
-    public static function getComponent(Infolist $infolist): Infolist
+    public static function getComponent(Schema $schema): Schema
     {
-        return $infolist
-            ->schema(components: [
+        return $schema
+            ->components(components: [
                 Tabs::make('article-information-tabs')
                     ->columnSpan(12)
                     ->tabs(tabs: [

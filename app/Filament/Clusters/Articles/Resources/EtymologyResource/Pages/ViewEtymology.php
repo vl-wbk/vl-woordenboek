@@ -2,6 +2,13 @@
 
 namespace App\Filament\Clusters\Articles\Resources\EtymologyResource\Pages;
 
+use App\Filament\Clusters\Articles\Resources\EtymologyResource\Actions\ArchiveEtymology;
+use App\Filament\Clusters\Articles\Resources\EtymologyResource\Actions\RejectEtymology;
+use App\Filament\Clusters\Articles\Resources\EtymologyResource\Actions\PublishEtymology;
+use App\Filament\Clusters\Articles\Resources\EtymologyResource\Actions\DraftEtymology;
+use App\Filament\Clusters\Articles\Resources\EtymologyResource\Actions\UnderReviewEtymology;
+use Filament\Support\Enums\Width;
+use App\Models\Etymology;
 use App\Filament\Clusters\Articles\Resources\EtymologyResource;
 use App\Filament\Resources\ArticleResource;
 use Filament\Actions\Action;
@@ -9,7 +16,6 @@ use Filament\Actions\ActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
-use Filament\Support\Enums\MaxWidth;
 
 /**
  * Represents the Filament page for viewing a single Etymology record in detail.
@@ -19,7 +25,7 @@ use Filament\Support\Enums\MaxWidth;
  * such as changing its status (e.g., publishing, archiving, rejecting) and performing other related operations like editing or viewing its associated article.
  * The design aims to provide a clear, actionable, and user-friendly display for etymology records.
  *
- * @property \App\Models\Etymology $record The database entity from the given etymology.
+ * @property Etymology $record The database entity from the given etymology.
  *
  * @package App\Filament\Clusters\Articles\Resources\EtymologyResource\Pages
  */
@@ -54,11 +60,11 @@ final class ViewEtymology extends ViewRecord
     {
         return [
             ActionGroup::make([
-                EtymologyResource\Actions\ArchiveEtymology::make(),
-                EtymologyResource\Actions\RejectEtymology::make(),
-                EtymologyResource\Actions\PublishEtymology::make(),
-                EtymologyResource\Actions\DraftEtymology::make(),
-                EtymologyResource\Actions\UnderReviewEtymology::make(),
+                ArchiveEtymology::make(),
+                RejectEtymology::make(),
+                PublishEtymology::make(),
+                DraftEtymology::make(),
+                UnderReviewEtymology::make(),
             ])
                 ->button()
                 ->label(label: __('etymology-resource.actions.view-etymology.view-article.mark-label'))
@@ -73,7 +79,7 @@ final class ViewEtymology extends ViewRecord
                     ->url(ArticleResource::getUrl('view', ['record' => $this->record->article])),
 
                 EditAction::make()->icon('heroicon-o-pencil-square')
-                    ->modalWidth(MaxWidth::SevenExtraLarge),
+                    ->modalWidth(Width::SevenExtraLarge),
 
                 ActionGroup::make([
                     DeleteAction::make()->icon('heroicon-s-trash'),

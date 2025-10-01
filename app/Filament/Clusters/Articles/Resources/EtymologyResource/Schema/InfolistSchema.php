@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Actions\Action;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
 use App\Enums\Articles\EtymologyStatus;
 use App\Filament\Resources\UserResource;
 use App\Models\Etymology;
-use Filament\Infolists\Components\Actions\Action;
-use Filament\Infolists\Components\Section;
-use Filament\Infolists\Components\Tabs;
-use Filament\Infolists\Components\Tabs\Tab;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Infolist;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconSize;
 use Illuminate\Support\Facades\Auth;
@@ -31,12 +31,12 @@ final readonly class InfolistSchema
      * Configures the Infolist for the Etymology resource.
      * This method defines the layout and components of the Infolist, including a section for author and registration data, and a set of tabs for various etymology-related information.
      *
-     * @param  Infolist $infolist   The Infolist instance to configure.
-     * @return Infolist             The configured Infolist instance.
+     * @param \Filament\Schemas\Schema $schema The Infolist instance to configure.
+     * @return \Filament\Schemas\Schema The configured Infolist instance.
      */
-    public static function configure(Infolist $infolist): Infolist
+    public static function configure(Schema $schema): Schema
     {
-        return $infolist->schema([
+        return $schema->components([
             Section::make(heading: __('etymology-resource.infolist.heading'))
                 ->visible(static fn(Etymology $etymology): bool => $etymology->author()->exists() && Auth::user()->can('viewAny', $etymology->author))
                 ->icon('heroicon-s-user-circle')
@@ -111,7 +111,7 @@ final readonly class InfolistSchema
      * Defines the 'Archiverings informatie' tab for the Etymology Infolist.
      * This tab is visible only if the etymology status is 'Archived' and displays details about who archived the record, when it was archived, and the reason.
      *
-     * @return Tab The configured 'Archiverings informatie' tab.
+     * @return \Filament\Schemas\Components\Tabs\Tab The configured 'Archiverings informatie' tab.
      */
     private static function archiveInformationTab(): Tab
     {
@@ -146,7 +146,7 @@ final readonly class InfolistSchema
      * Defines the 'Weigering informatie' tab for the Etymology Infolist.
      * This tab is visible only if the etymology status is 'Rejected' and displays details about who rejected the record, when it was rejected, and the reason.
      *
-     * @return Tab The configured 'Weigerings informatie' tab.
+     * @return \Filament\Schemas\Components\Tabs\Tab The configured 'Weigerings informatie' tab.
      */
     private static function rejectionInformationTab(): Tab
     {
@@ -248,7 +248,7 @@ final readonly class InfolistSchema
      * Defines the 'Bron gegevens' tab for the Etymology Infolist.
      * This tab displays information about the source of the etymology, including a text label for the hyperlink and the actual URL.
      *
-     * @return Tab The configured 'Bron gegevens' tab.
+     * @return \Filament\Schemas\Components\Tabs\Tab The configured 'Bron gegevens' tab.
      */
     private static function sourceInformationTab(): Tab
     {

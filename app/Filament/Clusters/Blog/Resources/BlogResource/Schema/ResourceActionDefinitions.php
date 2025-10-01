@@ -4,6 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources\BlogResource\Schema;
 
+use Filament\Actions\Action;
+use Filament\Actions\CreateAction;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use App\Features\DocumentationButtons;
 use Filament\Tables\Actions;
 use Laravel\Pennant\Feature;
@@ -24,17 +32,17 @@ final readonly class ResourceActionDefinitions
      * Defines actions that appear in the header of a Filament table.
      * These actions typically include global operations like creating new records or providing help.
      *
-     * @return array<int, Actions\Action|Actions\CreateAction>  An array of Filament Table Action instances.
+     * @return array<int, Action|CreateAction> An array of Filament Table Action instances.
      */
     public static function getHeaderActions(): array
     {
         return [
-            Actions\Action::make('help')
+            Action::make('help')
                 ->color('gray')
                 ->visible(Feature::active(DocumentationButtons::class))
                 ->icon('heroicon-o-lifebuoy'),
 
-            Actions\CreateAction::make('artikel aanmaken')
+            CreateAction::make('artikel aanmaken')
                 ->icon('heroicon-o-document-plus'),
         ];
     }
@@ -44,15 +52,15 @@ final readonly class ResourceActionDefinitions
      * These are often actions like 'Edit', 'View', or 'Delete' for specific records.
      * Actions can be grouped together under a dropdown menu using `ActionGroup`.
      *
-     * @return array<int, Actions\ActionGroup>  An array of Filament Table Action or ActionGroup instances.
+     * @return array<int, ActionGroup> An array of Filament Table Action or ActionGroup instances.
      */
     public static function getTableActions(): array
     {
         return [
-            Actions\ActionGroup::make(actions: [
-                Actions\ViewAction::make(),
-                Actions\EditAction::make(),
-                Actions\DeleteAction::make(),
+            ActionGroup::make(actions: [
+                ViewAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ]),
         ];
     }
@@ -62,13 +70,13 @@ final readonly class ResourceActionDefinitions
      * These are typically destructive actions like 'Delete' but can also include status updates or other bulk operations.
      * Actions are grouped using `BulkActionGroup`.
      *
-     * @return array<int, Actions\BulkActionGroup>  An array of Filament Bulk Action instances.
+     * @return array<int, \Filament\Actions\BulkActionGroup> An array of Filament Bulk Action instances.
      */
     public static function getBulkActions(): array
     {
         return [
-            Actions\BulkActionGroup::make([
-                Actions\DeleteBulkAction::make(),
+            BulkActionGroup::make([
+                DeleteBulkAction::make(),
             ]),
         ];
     }

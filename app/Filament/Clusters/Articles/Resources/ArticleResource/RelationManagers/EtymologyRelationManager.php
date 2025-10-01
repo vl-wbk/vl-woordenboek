@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers;
 
+use App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema\FormSchema;
+use Filament\Support\Enums\Width;
+use App\Models\Article;
 use App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema;
 use App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema\TableSchema;
 use App\Filament\Resources\ArticleResource\Pages\ViewWord;
-use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,7 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  * It also restricts visibility to the appropriate context (the ViewWord page).
  * Developers can extend or override the configuration by modifying the associated Schema and TableSchema classes, which encapsulate the form and table logic for etymology records.
  *
- * @property \App\Models\Article $ownerRecord
+ * @property Article $ownerRecord
  *
  * @package App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers
  */
@@ -44,7 +45,7 @@ final class EtymologyRelationManager extends RelationManager
      * The value should be a valid Heroicon identifier.
      * Using a clock icon ('heroicon-o-clock') here symbolizes the historical and time-related nature of etymological information.
      */
-    protected static ?string $icon = 'heroicon-o-clock';
+    protected static string | \BackedEnum | null $icon = 'heroicon-o-clock';
 
     /**
      * The display title for the etymology relation manager section.
@@ -81,12 +82,12 @@ final class EtymologyRelationManager extends RelationManager
      * Configures the form used to create or edit etymology records.
      * Delegates the form schema configuration to the EtymologyResource\Schema\FormSchema class, allowing for centralized and reusable form definitions.
      *
-     * @param  Form $form  The Filament form instance.
-     * @return Form        The configured form instance.
+     * @param \Filament\Schemas\Schema $schema The Filament form instance.
+     * @return \Filament\Schemas\Schema The configured form instance.
      */
-    public function form(Form $form): Form
+    public function form(\Filament\Schemas\Schema $schema): \Filament\Schemas\Schema
     {
-        return Schema\FormSchema::configure($form);
+        return FormSchema::configure($schema);
     }
 
     /**
@@ -107,9 +108,9 @@ final class EtymologyRelationManager extends RelationManager
             ->emptyStateDescription(description: 'Er zijn geen gevens gevonden voor de etymologie van het woord')
             ->columns(components: TableSchema::configureColumns())
             ->filters(filters: TableSchema::configureFilters())
-            ->filtersFormWidth(width: MaxWidth::Medium)
-            ->actions(actions: TableSchema::configureActions())
-            ->bulkActions(actions: TableSchema::configureBulkActions())
+            ->filtersFormWidth(width: Width::Medium)
+            ->recordActions(actions: TableSchema::configureActions())
+            ->toolbarActions(actions: TableSchema::configureBulkActions())
             ->headerActions(actions: TableSchema::configureHeaderActions($this->ownerRecord));
     }
 }

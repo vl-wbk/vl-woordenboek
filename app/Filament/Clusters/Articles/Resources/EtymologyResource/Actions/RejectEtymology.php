@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\EtymologyResource\Actions;
 
+use App\Models\Etymology;
 use App\Enums\Articles\EtymologyStatus;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
@@ -18,7 +19,7 @@ use Filament\Forms\Components\Textarea;
  * The action leverages Filament's built-in features for process customization, confirmation dialogues, and notification management to ensure a robust and auditable user experience
  * for rejecting etymology submissions.
  *
- * @property \App\Models\Etymology $record The Eloquent model instance of `Etymology` on which this action is being performed. This property is automatically resolved by Filament.
+ * @property Etymology $record The Eloquent model instance of `Etymology` on which this action is being performed. This property is automatically resolved by Filament.
  * @package  App\Filament\Clusters\Articles\Resources\EtymologyResource\Actions
  */
 final class RejectEtymology extends Action
@@ -78,7 +79,7 @@ final class RejectEtymology extends Action
         $this->modalDescription(description: __('etymology-resource.custom-actions.reject.modal.description'));
         $this->modalSubmitActionLabel(label: __('etymology-resource.custom-actions.reject.modal.submit-label'));
 
-        $this->form([
+        $this->schema([
             Textarea::make('reason')
                 ->label(label: __('etymology-resource.custom-actions.reject.form.label'))
                 ->placeholder(placeholder: __('etymology-resource.custom-actions.reject.modal.form.placeholder'))

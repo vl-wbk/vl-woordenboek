@@ -4,19 +4,24 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\ArticleResource\RelationManagers;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Actions\ViewAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
+use Filament\Support\Enums\Width;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\CreateAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use App\Filament\Resources\ArticleResource\Pages\ViewWord;
 use App\Models\Note;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Enums\FontWeight;
-use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -46,7 +51,7 @@ final class NotesRelationManager extends RelationManager
     /**
      * Sets the icon to be displayed for the NotesRelationManager in the Filament admin panel.
      */
-    protected static ?string $icon = 'heroicon-o-document-text';
+    protected static string | \BackedEnum | null $icon = 'heroicon-o-document-text';
 
     /**
      * Constructs the form interface for note creation and editing.
@@ -54,21 +59,21 @@ final class NotesRelationManager extends RelationManager
      * Users must provide both a title and body content.
      * The title field occupies 7 columns for optimal visual balance, while the body textarea spans the full width to accommodate longer content.
      *
-     * @param  Form $form  The Filament form builder instance
-     * @return Form        Thee fully configured form ready for display
+     * @param \Filament\Schemas\Schema $schema The Filament form builder instance
+     * @return \Filament\Schemas\Schema Thee fully configured form ready for display
      */
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->columns(12)
-            ->schema([
-                Forms\Components\TextInput::make('title')
+            ->components([
+                TextInput::make('title')
                     ->required()
                     ->label('Titel')
                     ->translateLabel()
                     ->columnSpan(7)
                     ->maxLength(255),
-                Forms\Components\Textarea::make('body')
+                Textarea::make('body')
                     ->required()
                     ->label('Notitie')
                     ->translateLabel()
@@ -93,14 +98,14 @@ final class NotesRelationManager extends RelationManager
      * The infolist provides a clean, full-width display of the note's content without uncessary labels or decorations.
      * This presentation choice emphasizes readability and content focus.
      *
-     * @param  Infolist $infolist The Filament infolist builder instance.
-     * @return Infolist           The configured display layout
+     * @param \Filament\Schemas\Schema $schema The Filament infolist builder instance.
+     * @return \Filament\Schemas\Schema The configured display layout
      */
-    public function infolist(Infolist $infolist): Infolist
+    public function infolist(Schema $schema): Schema
     {
-        return $infolist
+        return $schema
             ->columns(12)
-            ->schema([
+            ->components([
                 TextEntry::make('body')
                     ->label('Notitie')
                     ->hiddenLabel()
@@ -147,8 +152,8 @@ final class NotesRelationManager extends RelationManager
             ->recordTitleAttribute('title')
             ->columns($this->registerTableSchemaLayout())
             ->headerActions($this->registerTableHeaderActions())
-            ->bulkActions($this->registerTableBulkActions())
-            ->actions([
+            ->toolbarActions($this->registerTableBulkActions())
+            ->recordActions([
                 $this->getViewAction(),
                 $this->getEditAction(),
                 $this->getDeleteAction(),
@@ -161,7 +166,7 @@ final class NotesRelationManager extends RelationManager
      * Each note's title serves as the modal heading, creating a clear hierarchy of information.
      * The modal also displays valuable contextual information about the note's creation, including the author's name and the formatted creation date in Belgian date format (d/m/Y).
      *
-     * @return ViewAction  The configured view action ready for integration into the table interface.
+     * @return ViewAction The configured view action ready for integration into the table interface.
      */
     private function getViewAction(): ViewAction
     {
@@ -180,7 +185,7 @@ final class NotesRelationManager extends RelationManager
      * The interface uses clear, action-oriented language in the modal heading and confirmation button to ensure users understand the consequences of their action.
      * The label remains hidden in the table view to maintain a clean interface while preserving functionality.
      *
-     * @return DeleteAction  The configured delete action with full safety measures
+     * @return DeleteAction The configured delete action with full safety measures
      */
     private function getDeleteAction(): DeleteAction
     {
@@ -204,7 +209,7 @@ final class NotesRelationManager extends RelationManager
     private function getEditAction(): EditAction
     {
         return EditAction::make()
-            ->modalWidth(MaxWidth::ThreeExtraLarge)
+            ->modalWidth(Width::ThreeExtraLarge)
             ->modalIcon('heroicon-o-pencil-square')
             ->modalHeading('Notitie bewerken')
             ->modalDescription('Gegevens van een notitie dat gekoppeld is aan het woordenboek artikel bewerken.')
@@ -220,15 +225,15 @@ final class NotesRelationManager extends RelationManager
      * Temporal information is presented through sortable date columns for both last modification and creation times, helping users track the note's history and evolution.
      * All column headers use Dutch language labels to maintain consistency with the application's localization.
      *
-     * @return array<int, Tables\Columns\TextColumn> The complete column configuration for the notes table
+     * @return array<int, TextColumn> The complete column configuration for the notes table
      */
     private function registerTableSchemaLayout(): array
     {
         return [
-            Tables\Columns\TextColumn::make('author.name')->label('Autheur')->weight(FontWeight::Bold)->searchable()->icon('heroicon-o-user-circle')->iconColor('primary'),
-            Tables\Columns\TextColumn::make('title')->label('Titel')->searchable(),
-            Tables\Columns\TextColumn::make('updated_at')->label('Laatst bewerkt')->date()->sortable(),
-            Tables\Columns\TextColumn::make('created_at')->label('Registratie datum')->date()->sortable(),
+            TextColumn::make('author.name')->label('Autheur')->weight(FontWeight::Bold)->searchable()->icon('heroicon-o-user-circle')->iconColor('primary'),
+            TextColumn::make('title')->label('Titel')->searchable(),
+            TextColumn::make('updated_at')->label('Laatst bewerkt')->date()->sortable(),
+            TextColumn::make('created_at')->label('Registratie datum')->date()->sortable(),
         ];
     }
 
@@ -240,23 +245,23 @@ final class NotesRelationManager extends RelationManager
      * The implementation automatically associates new notes with the current user as the author, maintaining data integrity without additional user input.
      * The interface intentionally disables the 'create another' option to maintain focus on single, deliberate note creation.
      *
-     * @return array<int, Tables\Actions\CreateAction> The configured create action for the table header
+     * @return array<int, CreateAction> The configured create action for the table header
      */
     private function registerTableHeaderActions(): array
     {
         return [
-            Tables\Actions\CreateAction::make()
+            CreateAction::make()
                 ->label('Notitie aanmaken')
                 ->icon('heroicon-o-plus')
                 ->color('gray')
                 ->modalIcon('heroicon-o-pencil-square')
                 ->modalIconColor('gray')
-                ->modalWidth(MaxWidth::ThreeExtraLarge)
+                ->modalWidth(Width::ThreeExtraLarge)
                 ->modalDescription('Toevoegen van een notitie aan het woordenboek artikel.')
                 ->createAnother(false)
                 ->modalHeading('Notitie aanmaken')
-                ->modalWidth(MaxWidth::ThreeExtraLarge)
-                ->mutateFormDataUsing(function (array $data): array {
+                ->modalWidth(Width::ThreeExtraLarge)
+                ->mutateDataUsing(function (array $data): array {
                     $data['author_id'] = Auth::user()->getAuthIdentifier();
                     return $data;
                 }),
@@ -270,13 +275,13 @@ final class NotesRelationManager extends RelationManager
      * The confirmation process requires deliberate user acknowledgment, featuring explicit confirmation text to prevent accidental data loss.
      * The implementation groups these actions logically, preparing the structure for potential future bulk operations while maintaining a clean, focused interface for current functionality.
      *
-     * @return array<int, Tables\Actions\BulkActionGroup> The configured bulk actions for the notes table
+     * @return array<int, \Filament\Actions\BulkActionGroup> The configured bulk actions for the notes table
      */
     private function registerTableBulkActions(): array
     {
         return [
-            Tables\Actions\BulkActionGroup::make([
-                Tables\Actions\DeleteBulkAction::make()
+            BulkActionGroup::make([
+                DeleteBulkAction::make()
                     ->modalHeading('Notitie(s) verwijderen')
                     ->modalDescription('U staat op het punt om een of meerdere notities te verwijderen. Bent u zeker dat u deze actie wilt uitvoeren?')
                     ->modalSubmitActionLabel('Ja, ik ben zeker'),

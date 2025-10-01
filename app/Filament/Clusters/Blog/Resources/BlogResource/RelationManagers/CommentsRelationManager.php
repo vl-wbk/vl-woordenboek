@@ -4,10 +4,17 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources\BlogResource\RelationManagers;
 
+use Filament\Schemas\Schema;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\Action;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\ViewAction;
+use Filament\Actions\DeleteAction;
+use Filament\Tables\Columns\Column;
 use App\Features\DocumentationButtons;
 use App\Filament\Clusters\Blog\Resources\BlogResource\Pages\ViewBlog;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
@@ -65,14 +72,14 @@ final class CommentsRelationManager extends RelationManager
      * This infolist is displayed in a modal when the 'ViewAction' is triggered.
      * It uses a 12-column grid layout to present information clearly.
      *
-     * @param  Infolist  $infolist  The infolist builder instance.
-     * @return Infolist             The configured infolist with its schema components.
+     * @param \Filament\Schemas\Schema $schema The infolist builder instance.
+     * @return \Filament\Schemas\Schema The configured infolist with its schema components.
      */
-    public function infolist(Infolist $infolist): Infolist
+    public function infolist(Schema $schema): Schema
     {
-        return $infolist
+        return $schema
             ->columns(12)
-            ->schema(components: [
+            ->components(components: [
                 TextEntry::make('commentator.name')
                     ->label('Gebruiker')
                     ->translateLabel()
@@ -111,24 +118,24 @@ final class CommentsRelationManager extends RelationManager
             ->modifyQueryUsing(fn(Builder $query): Builder => $query->with('commentator'))
             ->columns(components: $this->getTableColumnComponents())
             ->headerActions(actions: $this->getHeaderActions())
-            ->actions(actions: $this->getRowActions())
-            ->bulkActions(actions: $this->getBulkTableActions());
+            ->recordActions(actions: $this->getRowActions())
+            ->toolbarActions(actions: $this->getBulkTableActions());
     }
 
     /**
      * Defines the header actions for the comments table.
      * This method adds a conditional "Help" action group that is only visible if the `DocumentationButtons` feature is active in the application.
      *
-     * @return array<int, Tables\Actions\ActionGroup> An array of table header actions.
+     * @return array<int, ActionGroup> An array of table header actions.
      */
     private function getHeaderActions(): array
     {
         return [
-            Tables\Actions\ActionGroup::make([
-                Tables\Actions\Action::make('documentatie')
+            ActionGroup::make([
+                Action::make('documentatie')
                     ->icon('heroicon-s-book-open')
                     ->label('documentatie'),
-                Tables\Actions\Action::make('moderatie-faq')
+                Action::make('moderatie-faq')
                     ->icon('heroicon-s-document-text')
                     ->label('moderatie FAQ'),
             ])
@@ -144,13 +151,13 @@ final class CommentsRelationManager extends RelationManager
      * Defines the bulk actions that can be performed on multiple selected comments.
      * Currently, this only includes the standard `DeleteBulkAction`, allowing users to delete multiple comments simultaneously.
      *
-     * @return array<int, Tables\Actions\BulkActionGroup> An array of bulk actions.
+     * @return array<int, \Filament\Actions\BulkActionGroup> An array of bulk actions.
      */
     private function getBulkTableActions(): array
     {
         return [
-            Tables\Actions\BulkActionGroup::make([
-                Tables\Actions\DeleteBulkAction::make(),
+            BulkActionGroup::make([
+                DeleteBulkAction::make(),
             ]),
         ];
     }
@@ -159,16 +166,16 @@ final class CommentsRelationManager extends RelationManager
      * Defines the actions available for each individual row in the table.
      * This provides quick access to view the comment details in a modal and to delete the comment.
      *
-     * @return array<int, Tables\Actions\ViewAction|Tables\Actions\DeleteAction> An array of row actions.
+     * @return array<int, ViewAction|DeleteAction> An array of row actions.
      */
     private function getRowActions(): array
     {
         return [
-            Tables\Actions\ViewAction::make()
+            ViewAction::make()
                 ->modalHeading('Reactie informatie')
                 ->modalIcon('heroicon-o-chat-bubble-bottom-center-text'),
 
-            Tables\Actions\DeleteAction::make()
+            DeleteAction::make()
                 ->modalHeading('Reactie verwijderen'),
         ];
     }
@@ -177,7 +184,7 @@ final class CommentsRelationManager extends RelationManager
      * Defines the table column components.
      * This method configures the columns that are displayed in the comments table, including their labels, icons, sorting, and searchability.
      *
-     * @return array<int, \Filament\Tables\Columns\Column> An array of table column components.
+     * @return array<int, Column> An array of table column components.
      */
     private function getTableColumnComponents(): array
     {

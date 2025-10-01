@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema;
 
+use Filament\Schemas\Schema;
 use App\Enums\Articles\EtymologySources;
 use App\Enums\Articles\EtymologyStatus;
 use Filament\Forms\Components\{DatePicker, Select, Textarea, TextInput};
-use Filament\Forms\Form;
 
 /**
  * Defines the Form schema for creating and editing Etymology records in Filament.
@@ -23,14 +23,14 @@ final readonly class FormSchema
      * Configures the main Filament Form for Etymology records.
      * This method sets up the form's column layout and includes all the necessary input fields by calling `configureColumns()`.
      *
-     * @param  Form $form   The Filament Form instance to configure.
-     * @return Form         The configured Filament Form instance.
+     * @param \Filament\Schemas\Schema $schema The Filament Form instance to configure.
+     * @return \Filament\Schemas\Schema The configured Filament Form instance.
      */
-    public static function configure(Form $form): Form
+    public static function configure(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->columns(12)
-            ->schema(self::configureColumns());
+            ->components(self::configureColumns());
     }
 
     /**

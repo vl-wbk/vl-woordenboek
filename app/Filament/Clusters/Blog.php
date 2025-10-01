@@ -27,7 +27,7 @@ final class Blog extends Cluster
      * This property sets the visual marker for the cluster using the `heroicon-o-newspaper` icon, which is a standard icon design intuitively linked to news or blog content.
      * This improves the visual clarity and accessibility of the administrator panel, enabling fast user recognition.
      */
-    protected static ?string $navigationIcon = 'heroicon-o-newspaper';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-newspaper';
 
     /**
      * Sets the label shown in the navigation sidebar for this cluster.

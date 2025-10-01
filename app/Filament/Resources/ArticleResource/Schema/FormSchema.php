@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\ArticleResource\Schema;
 
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\Radio;
+use Filament\Forms\Components\KeyValue;
 use App\Enums\ArticleStates;
 use App\Enums\LanguageStatus;
 use App\UserTypes;
 use Filament\Forms\Components;
 use Filament\Forms\Components\Component;
-use Filament\Forms\Components\Section;
 
 /**
  * Class FormSchema
@@ -28,7 +33,7 @@ final readonly class FormSchema
      * It can be used to group related form fields together visually and logically.
      *
      * @param  string|null $sectionTitle  The title to display for the section (optional).
-     * @return Section                    The configured Section component.
+     * @return \Filament\Schemas\Components\Section The configured Section component.
      */
     public static function sectionConfiguration(?string $sectionTitle = null): Section
     {
@@ -49,7 +54,7 @@ final readonly class FormSchema
     public static function getDetailSchema(): array
     {
         return [
-            Components\Select::make('state')
+            Select::make('state')
                 ->label('Artikel status')
                 ->required()
                 ->columnSpan(2)
@@ -57,35 +62,35 @@ final readonly class FormSchema
                 ->default(ArticleStates::New->value)
                 ->native(false)
                 ->options(self::getArticleStateOptions()),
-            Components\TextInput::make('word')
+            TextInput::make('word')
                 ->label('Woord')
                 ->columnSpan(2)
                 ->required()
                 ->maxLength(255),
-            Components\Select::make('partOfSpeech')
+            Select::make('partOfSpeech')
                 ->label('Woordsoort')
                 ->columnSpan(2)
                 ->relationship(titleAttribute: 'name')
                 ->optionsLimit(4)
                 ->searchable()
                 ->preload(),
-            Components\TextInput::make('characteristics')
+            TextInput::make('characteristics')
                 ->label('Kenmerken')
                 ->columnSpan(6)
                 ->required()
                 ->maxLength(255),
-            Components\TextInput::make('keywords')
+            TextInput::make('keywords')
                 ->label('Kernwoorden')
                 ->translateLabel()
                 ->placeholder('Kernwoord 1, Kernwoord 2, Kernwoord 3, etc...')
                 ->columnSpanFull(),
-            Components\Select::make('labels')
+            Select::make('labels')
                 ->relationship(titleAttribute: 'name')
                 ->multiple()
                 ->preload()
                 ->native(false)
                 ->columnSpanFull(),
-            Components\TextInput::make('image_url')
+            TextInput::make('image_url')
                 ->label('Afbeelding')
                 ->columnSpan(6)
                 ->url()
@@ -93,14 +98,14 @@ final readonly class FormSchema
                 ->prefixIconColor('primary')
                 ->helperText(str('**Gelieve enkel afbeeldingen van wikipedia te gebruiken**')->inlineMarkdown()->toHtmlString())
                 ->maxLength(255),
-            Components\TextInput::make('image_alt')
+            TextInput::make('image_alt')
                 ->label('Afbeelding alt tekst')
                 ->columnSpan(6)
                 ->maxLength(255)
                 ->placeholder('Beschrijf kort wat er op de afbeelding staat')
                 ->prefixIcon('heroicon-m-chat-bubble-bottom-center-text')
                 ->prefixIconColor('primary'),
-            Components\MarkdownEditor::make('description')
+            MarkdownEditor::make('description')
                 ->label('Beschrijving')
                 ->columnSpanFull()
                 ->toolbarButtons(['bold', 'italic', 'redo', 'strike', 'underline', 'undo'])
@@ -108,7 +113,7 @@ final readonly class FormSchema
                 ->maxHeight('200px')
                 ->helperText(str('Deze rich editor ondersteund enkel [**Markdown**](https://www.markdownguide.org/cheat-sheet/)')->inlineMarkdown()->toHtmlString())
                 ->required(),
-            Components\MarkdownEditor::make('example')
+            MarkdownEditor::make('example')
                 ->label('Voorbeeld')
                 ->toolbarButtons(['bold', 'italic', 'redo', 'strike', 'underline', 'undo'])
                 ->placeholder('Probeer zo helder mogelijk te zijn')
@@ -143,7 +148,7 @@ final readonly class FormSchema
     public static function getStatusAndRegionDetails(): array
     {
         return [
-            Components\Select::make('regions')
+            Select::make('regions')
                 ->columnSpanFull()
                 ->label("Regio's")
                 ->translateLabel()
@@ -153,7 +158,7 @@ final readonly class FormSchema
                 ->preload()
                 ->minItems(1)
                 ->required(),
-            Components\Radio::make('status')
+            Radio::make('status')
                 ->columnSpanFull()
                 ->options(LanguageStatus::class),
         ];
@@ -163,12 +168,12 @@ final readonly class FormSchema
      * Returns an array defining the schema for the sources section.
      * This method defines the form components used to capture the sources consulted for an article.
      *
-     * @return array<int, \Filament\Forms\Components\KeyValue>
+     * @return array<int, KeyValue>
      */
     public static function getSourceSchema(): array
     {
         return [
-            Components\KeyValue::make('sources')
+            KeyValue::make('sources')
                 ->label('Geraadpleegde bronnen')
                 ->reorderable()
                 ->keyLabel('Naam')

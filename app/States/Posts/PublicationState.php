@@ -30,7 +30,7 @@ class PublicationState implements PublicationStateContract
      * This ensures that all state transition methods operate on the correct blog post.
      * The `$blog` property is declared as `public readonly` to make it accessible but immutable after instantiation.
      *
-     * @param \App\Models\Blog $blog The Blog model instance whose publication state is being managed.
+     * @param Blog $blog The Blog model instance whose publication state is being managed.
      */
     public function __construct(
         public readonly Blog $blog,

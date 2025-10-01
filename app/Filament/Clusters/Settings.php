@@ -24,7 +24,7 @@ final class Settings extends Cluster
      *
      * @var ?string  A nullable string representing the icon name in Heroicon format.
      */
-    protected static ?string $navigationIcon = 'heroicon-o-cog-8-tooth';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-cog-8-tooth';
 
     /**
      * The label for this cluster that appears in the navigation menu.
