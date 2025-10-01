@@ -1,11 +1,10 @@
 <?php
 
 return [
-    'app_name' => null,
-
+    'app_name' => env('APP_NAME', 'Filament Footer'),
     'github' => [
-        'repository' => 'vl-wbk/vl-woordenboek',
-        'token' => null,
-        'cache_ttl' => 3600,
+        'repository' => env('GITHUB_REPOSITORY', ''),
+        'token' => env('GITHUB_TOKEN', ''),
+        'cache_ttl' => env('GITHUB_CACHE_TTL', 3600),
     ],
 ];
