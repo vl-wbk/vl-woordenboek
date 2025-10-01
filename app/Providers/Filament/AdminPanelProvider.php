@@ -78,14 +78,6 @@ final class AdminPanelProvider extends PanelProvider
             ->login()
             ->passwordReset()
             ->databaseNotifications()
-            ->colors([
-                'danger' => Color::Red,
-                'gray' => Color::Zinc,
-                'info' => Color::Blue,
-                'primary' => Color::Amber,
-                'success' => Color::Green,
-                'warning' => Color::Amber,
-            ])
             ->userMenuItems([
                 MenuItem::make()
                     ->label('Verlaat beheersconsole')
