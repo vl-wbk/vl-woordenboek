@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Queries;
 
-use App\Filament\Clusters\Blog\Resources\BlogResource\Enums\Status;
+use App\Filament\Clusters\Blog\Resources\Blogs\Enums\Status;
 use App\Models\Blog;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\Pagination\Paginator;

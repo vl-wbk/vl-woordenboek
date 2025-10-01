@@ -38,7 +38,7 @@ final readonly class ArticleProcessor
         try { // To create the article in the database.
             $article = Article::create(Arr::except($articleData, 'region'));
             $article->regions()->sync([$articleData['region']]);
-        } catch (\Throwable $th) { // Throw an exception if article creation fails
+        } catch (Throwable $th) { // Throw an exception if article creation fails
             throw new RuntimeException("Failed to create article '{$articleData['word']}': {$th->getMessage()}", 0, $th);
         }
 

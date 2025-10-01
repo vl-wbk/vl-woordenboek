@@ -2,6 +2,7 @@
 
 namespace App\Actions\Fortify;
 
+use Illuminate\Validation\ValidationException;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -46,7 +47,7 @@ final class UpdateUserPassword implements UpdatesUserPasswords
      * @param  array<string, string> $input     An associative array containing the `current_password` and the new `password` (and `password_confirmation`).
      * @return void                             This method does not return a value; it updates the user's password as a side effect.
      *
-     * @throws \Illuminate\Validation\ValidationException If any validation rule fails.
+     * @throws ValidationException If any validation rule fails.
      */
     public function update(User $user, array $input): void
     {

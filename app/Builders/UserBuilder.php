@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Builders;
 
+use App\Models\User;
 use App\UserTypes;
 use Deprecated;
 use Illuminate\Database\Eloquent\Builder;
@@ -13,7 +14,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 /**
  * @todo document this class
  *
- * @template-extends Builder<\App\Models\User>
+ * @template-extends Builder<User>
  */
 final class UserBuilder extends Builder
 {

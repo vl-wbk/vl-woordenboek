@@ -81,7 +81,7 @@ return [
     |
     */
 
-    'cluster' => \App\Filament\Clusters\Settings::class,
+    'cluster' => \App\Filament\Clusters\Settings\SettingsCluster::class,
 
     /*
     |--------------------------------------------------------------------------

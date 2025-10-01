@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Builders;
 
+use App\Models\Article;
+use Throwable;
 use App\Enums\ArticleStates;
 use App\Notifications\SendoutPublicationNotification;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,14 +20,14 @@ use JetBrains\PhpStorm\Deprecated;
  * It encapsulates the logic for these operations, ensuring that state transitions are handled consistently and securely within database transactions.
  *
  * @template TModelClass of \App\Models\Article
- * @extends Builder<\App\Models\Article>
+ * @extends Builder<Article>
  *
  * @package App\Builders
  */
 final class ArticleBuilder extends Builder
 {
     /**
-     * @return Builder<\App\Models\Article>
+     * @return Builder<Article>
      */
     public function published(): Builder
     {
@@ -40,7 +42,7 @@ final class ArticleBuilder extends Builder
      *
      * @param string|null $archivingReason The optional reason for archiving the article.
      *
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function archive(?string $archivingReason = null): void
     {
@@ -56,7 +58,7 @@ final class ArticleBuilder extends Builder
      * This method transitions the article's state back to "Published" and clears any archiving-related data, such as the archiving reason and timestamp.
      * The operation is wrapped in a database transaction to ensure data consistency.
      *
-     * @throws \Throwable
+     * @throws Throwable
      */
     #[Deprecated('Should be refactored to a general publish action in the ArticleBuilder')]
     public function unarchive(): void

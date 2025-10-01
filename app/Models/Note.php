@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Database\Factories\NoteFactory;
 use App\Models\Relations\BelongsToAuthor;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -29,7 +30,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 final class Note extends Model
 {
-    /** @use HasFactory<\Database\Factories\NoteFactory> */
+    /** @use HasFactory<NoteFactory> */
     use HasFactory;
     use BelongsToAuthor;
 

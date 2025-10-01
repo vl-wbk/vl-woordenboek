@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Messages;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use App\Data\MessageObjectData;
 use Illuminate\Foundation\Http\FormRequest;
 use Spatie\LaravelData\WithData;
@@ -13,7 +14,7 @@ final class SendMessageRequest extends FormRequest
 	protected string $dataClass = MessageObjectData::class;
 	
     /**
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {

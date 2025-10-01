@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Account;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
@@ -22,7 +23,7 @@ final class DeleteAccountRequest extends FormRequest
      * Requires the user's current password to be provided and validated against their stored credentials.
      * The 'current_password' rule automatically handles the password verification against the authenticated user's account.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {

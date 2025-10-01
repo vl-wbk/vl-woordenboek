@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\States\Articles;
 
+use Throwable;
 use App\Enums\ArticleStates;
 use Illuminate\Support\Facades\DB;
 
@@ -30,7 +31,7 @@ final class ExternalData extends ArticleState
      * @param string|null $reason An optional explanation for the transition.
      * @return  bool                  True if the transition was completed successfully, false otherwise.
      *
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function transitionToEditing(?string $reason = null): bool
     {

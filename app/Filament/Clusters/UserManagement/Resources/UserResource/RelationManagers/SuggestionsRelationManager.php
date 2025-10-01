@@ -4,9 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\UserManagement\Resources\UserResource\RelationManagers;
 
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\Column;
+use Filament\Tables\Columns\ColumnGroup;
+use Filament\Tables\Columns\Layout\Component;
 use App\Models\User;
-use App\Filament\Resources\ArticleResource;
-use App\Filament\Resources\UserResource\Pages\ViewUser;
+use App\Filament\Resources\Articles\ArticleResource;
+use App\Filament\Resources\Users\Pages\ViewUser;
 use App\Models\Article;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Enums\FontWeight;
@@ -50,7 +55,7 @@ final class SuggestionsRelationManager extends RelationManager
      * This icon is displayed alongside the relation title in Filament's UI to visually denote the suggestions section.
      * It uses the 'heroicon-o-document-text' icon, which is part of the Heroicons set, to maintain a consistent look and feel.
      */
-    protected static ?string $icon = 'heroicon-o-document-text';
+    protected static string | \BackedEnum | null $icon = 'heroicon-o-document-text';
 
     /**
      * Determines whether the suggestions relation view is allowed for a given record.
@@ -107,7 +112,7 @@ final class SuggestionsRelationManager extends RelationManager
             ->modelLabel('Suggestie')
             ->pluralModelLabel('Suggesties')
             ->columns($this->getTableColumnSchemaLayout())
-            ->actions($this->getTableActionDefinitions());
+            ->recordActions($this->getTableActionDefinitions());
     }
 
     /**
@@ -115,30 +120,30 @@ final class SuggestionsRelationManager extends RelationManager
      * TextColumn class and is configured to display specific fields such as the unique identifier, the state of the suggestion, the lemma, the part of speech, any characteristics, and the date the suggestion was submitted.
      * The columns support sorting, searching, and visual enhancements such as badges and color styling.
      *
-     * @return array<\Filament\Tables\Columns\Column|\Filament\Tables\Columns\ColumnGroup|\Filament\Tables\Columns\Layout\Component> An array of TextColumn instances defining the layout of the suggestions table.
+     * @return array<Column|ColumnGroup|Component> An array of TextColumn instances defining the layout of the suggestions table.
      */
     public function getTableColumnSchemaLayout(): array
     {
         return [
-            Tables\Columns\TextColumn::make('id')
+            TextColumn::make('id')
                 ->label('#')
                 ->weight(FontWeight::Bold)
                 ->sortable()
                 ->color('primary'),
-            Tables\Columns\TextColumn::make('state')
+            TextColumn::make('state')
                 ->label('Artikelstatus')
                 ->sortable()
                 ->badge(),
-            Tables\Columns\TextColumn::make('word')
+            TextColumn::make('word')
                 ->label('Lemma')
                 ->searchable(),
-            Tables\Columns\TextColumn::make('partOfSpeech.name')
+            TextColumn::make('partOfSpeech.name')
                 ->label('Woordsoort')
                 ->sortable(),
-            Tables\Columns\TextColumn::make('characteristics')
+            TextColumn::make('characteristics')
                 ->label('Kenmerken')
                 ->sortable(),
-            Tables\Columns\TextColumn::make('created_at')
+            TextColumn::make('created_at')
                 ->label('Ingezonden op')
                 ->sortable()
                 ->date(),
@@ -155,7 +160,7 @@ final class SuggestionsRelationManager extends RelationManager
     public function getTableActionDefinitions(): array
     {
         return [
-            Tables\Actions\ViewAction::make()
+            ViewAction::make()
                 ->url(fn(Article $article): string => ArticleResource::getUrl('view', ['record' => $article])),
         ];
     }

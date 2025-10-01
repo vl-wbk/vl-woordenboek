@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Articles;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use App\Data\ArticleReportData;
 use Illuminate\Foundation\Http\FormRequest;
 use Spatie\LaravelData\WithData;
@@ -41,7 +42,7 @@ final class StoreReportRequest extends FormRequest
      * Currently, it mandates that the 'melding' field is provided.
      * Future developers may extend this method to include additional rules as the reporting requirements evolve.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {

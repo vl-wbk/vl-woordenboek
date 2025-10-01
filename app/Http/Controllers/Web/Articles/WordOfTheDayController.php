@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Web\Articles;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Enums\Articles\EtymologyStatus;
 use App\Models\Article;
 use Illuminate\Contracts\Support\Renderable;
@@ -25,7 +26,7 @@ final readonly class WordOfTheDayController
     /**
      * Handles the incoming request for the Word of the Day.
      *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException if no article is marked as the word of the day.
+     * @throws ModelNotFoundException if no article is marked as the word of the day.
      */
     #[Get(uri: '/woord-van-de-dag', name: 'word-information.wtod')]
     public function __invoke(): Renderable

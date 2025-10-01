@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Web\Blog;
 
+use Spatie\LaravelData\Exceptions\InvalidDataClass;
 use App\Actions\Blog\StoreGuestArticle;
 use App\Http\Requests\Blog\StoreGuestArticleRequest;
 use App\Models\Blog;
@@ -36,9 +37,9 @@ final readonly class PostsController
 	}
 	
 	/**
-	 * @throws \Spatie\LaravelData\Exceptions\InvalidDataClass
-	 */
-	#[Post(uri: 'nieuws/artikel-insturen', name: 'news:store', middleware: ['auth', 'forbid-banned-user', 'can:submitPost,App\Models\Blog'])]
+     * @throws InvalidDataClass
+     */
+    #[Post(uri: 'nieuws/artikel-insturen', name: 'news:store', middleware: ['auth', 'forbid-banned-user', 'can:submitPost,App\Models\Blog'])]
 	public function store(StoreGuestArticleRequest $storeGuestArticleRequest, StoreGuestArticle $storeGuestArticle): RedirectResponse
 	{
 		$storeGuestArticle->handle($storeGuestArticleRequest->getData());

@@ -6,6 +6,12 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\States\Articles\ExternalData;
+use App\States\Articles\Suggestion;
+use App\States\Articles\Draft;
+use App\States\Articles\Approval;
+use App\States\Articles\Published;
+use App\States\Articles\Archived;
 use App\Builders\ArticleBuilder;
 use App\Models\Relations\HasNotables;
 use App\States\Articles;
@@ -124,12 +130,12 @@ final class Article extends Model implements AuditableContract
     public function articleStatus(): ArticleStateContract
     {
         return match ($this->state) {
-            ArticleStates::ExternalData => new Articles\ExternalData($this),
-            ArticleStates::New => new Articles\Suggestion($this),
-            ArticleStates::Draft => new Articles\Draft($this),
-            ArticleStates::Approval => new Articles\Approval($this),
-            ArticleStates::Published => new Articles\Published($this),
-            ArticleStates::Archived => new Articles\Archived($this),
+            ArticleStates::ExternalData => new ExternalData($this),
+            ArticleStates::New => new Suggestion($this),
+            ArticleStates::Draft => new Draft($this),
+            ArticleStates::Approval => new Approval($this),
+            ArticleStates::Published => new Published($this),
+            ArticleStates::Archived => new Archived($this),
         };
     }
 

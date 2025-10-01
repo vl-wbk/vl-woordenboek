@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Web\Account;
 
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Contracts\Support\Renderable;
 use Spatie\RouteAttributes\Attributes\Get;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,7 +34,7 @@ final readonly class BanController
      *
      * @return Renderable The banned account view
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @throws NotFoundHttpException
      */
     #[Get(uri: 'account-deactivatie', name: 'user.banned', middleware: ['auth'])]
     public function show(): Renderable

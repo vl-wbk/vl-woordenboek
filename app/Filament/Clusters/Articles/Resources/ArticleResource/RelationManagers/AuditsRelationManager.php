@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers;
 
-use App\Filament\Resources\ArticleResource\Pages\ViewWord;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\ViewAction;
+use App\Models\Article;
+use App\Filament\Resources\Articles\Pages\ViewWord;
 use App\UserTypes;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Enums\FontWeight;
@@ -17,11 +20,11 @@ final class AuditsRelationManager extends RelationManager
 {
     protected static string $relationship = 'audits';
 
-    protected static ?string $icon = 'heroicon-o-pencil-square';
+    protected static string | \BackedEnum | null $icon = 'heroicon-o-pencil-square';
 
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
     {
-        /** @var \App\Models\Article $ownerRecord */
+        /** @var Article $ownerRecord */
         return $ownerRecord->audits->count() > 0
             && new $pageClass() instanceof ViewWord
             && auth()->user()->user_type->isNot(UserTypes::Normal);
@@ -37,18 +40,18 @@ final class AuditsRelationManager extends RelationManager
             ->emptyStateHeading('Er zijn geen handelingen gevonden')
             ->emptyStateDescription('Het lijkt erop dat er momenteel nog geen handelingen zijn uitgevoerd voor dit artikel. Kom^later nog eens terug.')
             ->columns([
-                Tables\Columns\TextColumn::make('id')
+                TextColumn::make('id')
                     ->label('#')
                     ->weight(FontWeight::SemiBold)
                     ->color('primary'),
-                Tables\Columns\TextColumn::make('event')
+                TextColumn::make('event')
                     ->label('Handeling')
                     ->badge()
                     ->color('info')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('user.name')
+                TextColumn::make('user.name')
                     ->label('Uitgevoerd door'),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->label('Uitgevoerd op')
                     ->sortable()
                     ->since(),
@@ -56,8 +59,8 @@ final class AuditsRelationManager extends RelationManager
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make()
+            ->recordActions([
+                ViewAction::make()
                     ->url(fn(Audit $audit): string => route('change:information', $audit->getRouteKey()), shouldOpenInNewTab: true),
             ]);
     }

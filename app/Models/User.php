@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Support\Stringable;
 use App\Builders\UserBuilder;
 use App\Models\Relations\Contactable;
 use App\Notifications\RegistrationWelcomeNotification;
@@ -58,7 +59,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @method bans()
  * @method static UserBuilder|static query()
  * @method UserBuilder newQuery()
- * @method searchContributions(string $string, \Illuminate\Support\Stringable $string1, string $etymology)
+ * @method searchContributions(string $string, Stringable $string1, string $etymology)
  *
  * @package App\Models
  */

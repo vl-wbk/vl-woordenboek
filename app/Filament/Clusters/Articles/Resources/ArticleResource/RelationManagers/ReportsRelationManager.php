@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers;
 
-use App\Filament\Clusters\Articles\Resources\ArticleReportResource;
-use App\Filament\Clusters\Articles\Resources\ArticleReportResource\Actions\TableActionsConfiguration;
-use App\Filament\Clusters\Articles\Resources\ArticleReportResource\Schema\TableColumnSchema;
-use App\Filament\Resources\ArticleResource\Pages\ViewWord;
+use Filament\Support\Enums\Width;
+use Filament\Actions\ViewAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Clusters\Articles\Resources\ArticleReports\ArticleReportResource;
+use App\Filament\Clusters\Articles\Resources\ArticleReports\Actions\TableActionsConfiguration;
+use App\Filament\Clusters\Articles\Resources\ArticleReports\Schema\TableColumnSchema;
+use App\Filament\Resources\Articles\Pages\ViewWord;
 use App\Models\ArticleReport;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,7 +24,7 @@ final class ReportsRelationManager extends RelationManager
     protected static string $relationship = 'reports';
     protected static ?string $title = 'Meldingen';
     protected static ?string $navigationIcon = 'heroicon-o-flag';
-    protected static ?string $icon = 'heroicon-o-flag';
+    protected static string | \BackedEnum | null $icon = 'heroicon-o-flag';
 
     public function isReadOnly(): bool
     {
@@ -43,10 +45,10 @@ final class ReportsRelationManager extends RelationManager
             ->emptyStateHeading('Geen meldingen gevonden')
             ->emptyStateDescription('Het lijk erop dat er momenteel geen openstaande meldingen zijn die gerelateerd zijn aan de atikelen van het Vlaams Woordenboek.')
             ->columns(TableColumnSchema::make())
-            ->filtersFormWidth(MaxWidth::Medium)
+            ->filtersFormWidth(Width::Medium)
             ->filters(ArticleReportResource::getTableFilters())
             ->headerActions(TableActionsConfiguration::headerActions())
-            ->actions([
+            ->recordActions([
                 ViewAction::make()
                     ->hiddenLabel()
                     ->url(fn(ArticleReport $articleReport): string => ArticleReportResource::getUrl('view', ['record' => $articleReport->getRouteKey()])),
@@ -54,9 +56,9 @@ final class ReportsRelationManager extends RelationManager
                     ->modalHeading('Melding verwijderen')
                     ->hiddenLabel(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Blog;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use App\Data\Blog\GuestArticleData;
 use Illuminate\Foundation\Http\FormRequest;
 use Spatie\LaravelData\WithData;
@@ -13,7 +14,7 @@ final class StoreGuestArticleRequest extends FormRequest
 	protected string $dataClass = GuestArticleData::class;
 	
     /**
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
