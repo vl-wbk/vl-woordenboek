@@ -7,7 +7,7 @@ namespace App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManag
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\ViewAction;
 use App\Models\Article;
-use App\Filament\Resources\ArticleResource\Pages\ViewWord;
+use App\Filament\Resources\Articles\Pages\ViewWord;
 use App\UserTypes;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Enums\FontWeight;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Filament\Clusters\Blog\Resources\BlogResource\Enums\Status;
+use App\Filament\Clusters\Blog\Resources\Blogs\Enums\Status;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

@@ -6,7 +6,7 @@ namespace App\Filament\Pages;
 
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
-use App\Filament\Clusters\Settings;
+use App\Filament\Clusters\Settings\SettingsCluster;
 use App\Settings\ProjectInformationSettings as SettingsProjectInformationSettings;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Forms\Components\MarkdownEditor;
@@ -37,7 +37,7 @@ final class ProjectInformationSettings extends SettingsPage
      *
      * {@inheritDoc}
      */
-    protected static ?string $cluster = Settings::class;
+    protected static ?string $cluster = SettingsCluster::class;
 
     /**
      * Defines the settings class associated with this page.

@@ -6,7 +6,7 @@ namespace App\Actions\Blog;
 
 use Throwable;
 use App\Data\Blog\GuestArticleData;
-use App\Filament\Clusters\Blog\Resources\BlogResource\Enums\Status;
+use App\Filament\Clusters\Blog\Resources\Blogs\Enums\Status;
 use App\Models\Blog;
 use Illuminate\Support\Facades\DB;
 

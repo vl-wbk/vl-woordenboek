@@ -28,7 +28,7 @@ return [
     |
     */
     'resource' => [
-        'class' =>  \App\Filament\Resources\LockResource::class,
+        'class' =>  \App\Filament\Resources\Locks\LockResource::class,
     ],
 
     /*

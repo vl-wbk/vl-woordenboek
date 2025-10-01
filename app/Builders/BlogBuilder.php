@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Builders;
 
 use App\Models\Blog;
-use App\Filament\Clusters\Blog\Resources\BlogResource\Enums\Status;
+use App\Filament\Clusters\Blog\Resources\Blogs\Enums\Status;
 use Illuminate\Database\Eloquent\Builder;
 
 /**

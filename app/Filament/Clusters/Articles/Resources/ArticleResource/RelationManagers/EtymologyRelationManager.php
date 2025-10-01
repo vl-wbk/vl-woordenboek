@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers;
 
-use App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema\FormSchema;
+use App\Filament\Clusters\Articles\Resources\Etymologies\Schema\FormSchema;
 use Filament\Support\Enums\Width;
 use App\Models\Article;
 use App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema;
-use App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema\TableSchema;
-use App\Filament\Resources\ArticleResource\Pages\ViewWord;
+use App\Filament\Clusters\Articles\Resources\Etymologies\Schema\TableSchema;
+use App\Filament\Resources\Articles\Pages\ViewWord;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;

@@ -7,7 +7,7 @@ namespace App\Filament\Pages;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Actions\Action;
-use App\Filament\Clusters\Settings;
+use App\Filament\Clusters\Settings\SettingsCluster;
 use App\Settings\VolunteerSettings;
 use App\Enums\VolunteerPositions;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
@@ -44,7 +44,7 @@ final class VolunteerCallOutSettings extends SettingsPage
      *
      * {@inheritDoc}
      */
-    protected static ?string $cluster = Settings::class;
+    protected static ?string $cluster = SettingsCluster::class;
 
     /**
      * Defines the settings class associated with this page.

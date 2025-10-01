@@ -10,7 +10,7 @@ use App\States\Posts\DraftState;
 use App\States\Posts\PublishedState;
 use App\States\Posts\GuestArticle;
 use App\Builders\BlogBuilder;
-use App\Filament\Clusters\Blog\Resources\BlogResource\Enums\Status;
+use App\Filament\Clusters\Blog\Resources\Blogs\Enums\Status;
 use App\Models\Relations\BelongsToAuthor;
 use Carbon\Carbon;
 use Database\Factories\BlogFactory;

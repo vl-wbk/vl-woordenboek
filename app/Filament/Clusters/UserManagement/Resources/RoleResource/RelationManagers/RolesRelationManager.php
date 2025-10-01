@@ -10,7 +10,7 @@ use Filament\Actions\ActionGroup;
 use Filament\Actions\ViewAction;
 use Filament\Actions\DetachAction;
 use Filament\Actions\DetachBulkAction;
-use App\Filament\Resources\UserResource\Pages\ViewUser;
+use App\Filament\Resources\Users\Pages\ViewUser;
 use App\Models\User;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Enums\Alignment;
