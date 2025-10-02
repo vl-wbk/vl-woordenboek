@@ -46,7 +46,7 @@ final class EditRole extends EditRecord
     }
 
     /** @phpstan-ignore-next-line */
-    private function afterSave(): void
+    protected function afterSave(): void
     {
         $permissionModels = collect();
 
