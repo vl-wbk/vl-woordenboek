@@ -1037,21 +1037,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/vl-wbk/filament-factory-action.git",
-                "reference": "ff5c6af9d93eedb2e69182b1b0003bbc81bd107d"
+                "reference": "42ec22dbf1ce5d61acf3cc9f4cbad523bbdec0c1"
             },
             "require": {
                 "filament/tables": "^4.0",
-                "illuminate/contracts": "^10.0|^11.0|^12.0",
-                "php": "^8.1",
+                "illuminate/contracts": "^11.28|^12.0",
+                "php": "^8.2",
                 "spatie/laravel-package-tools": "^1.15.0"
             },
             "require-dev": {
                 "laravel/pint": "^1.0",
-                "nunomaduro/collision": "^7.9",
+                "nunomaduro/collision": "^8.6",
                 "orchestra/testbench": "^8.0|^9.0",
-                "pestphp/pest": "^2.0",
-                "pestphp/pest-plugin-arch": "^2.0",
-                "pestphp/pest-plugin-laravel": "^2.0"
+                "pestphp/pest": "^3.0",
+                "pestphp/pest-plugin-arch": "^3.1",
+                "pestphp/pest-plugin-laravel": "^3.1"
             },
             "type": "library",
             "extra": {
@@ -1111,7 +1111,7 @@
                 "issues": "https://github.com/codewithdennis/filament-factory-action/issues",
                 "source": "https://github.com/codewithdennis/filament-factory-action"
             },
-            "time": "2025-10-01T05:18:54+00:00"
+            "time": "2025-10-02T04:27:24+00:00"
         },
         {
             "name": "cybercog/laravel-ban",
