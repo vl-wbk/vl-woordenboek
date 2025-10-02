@@ -107,7 +107,6 @@ return [
     'widgets' => [
         'statistics' => [
             'heading' => ':count rapportering',
-            'label' => 'Statistiek omtrent de ingezonden feedback voor het Vlaams woordenboek',
 
             'filters' => [
                 'perWeek' => 'Op weekbasis',

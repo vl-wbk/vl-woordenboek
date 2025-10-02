@@ -6,8 +6,8 @@ namespace App\Filament\Clusters\Articles\Resources\Etymologies\Widgets;
 
 use App\Enums\Articles\EtymologyStatus;
 use App\Models\Etymology;
-use EightyNine\FilamentAdvancedWidget\AdvancedStatsOverviewWidget as BaseWidget;
-use EightyNine\FilamentAdvancedWidget\AdvancedStatsOverviewWidget\Stat;
+use Filament\Widgets\StatsOverviewWidget;
+use Filament\Widgets\StatsOverviewWidget\Stat;
 
 /**
  * EtymologyStatisticsWidget is a Filament widget that displays key statistics related to Etymology records within the application.
@@ -17,7 +17,7 @@ use EightyNine\FilamentAdvancedWidget\AdvancedStatsOverviewWidget\Stat;
  *
  * @package App\Filament\Clusters\Articles\Resources\EtymologyResource\Widgets
  */
-final class EtymologyStatisticsWidget extends BaseWidget
+final class EtymologyStatisticsWidget extends StatsOverviewWidget
 {
     /**
      * Retrieves an array of Stat objects to be displayed in the widget.
