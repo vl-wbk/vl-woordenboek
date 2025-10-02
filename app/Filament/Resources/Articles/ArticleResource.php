@@ -254,7 +254,7 @@ final class ArticleResource extends Resource implements HasShieldPermissions
                     ->options(ArticleStates::class),
                 TrashedFilter::make()
                     ->native(false)
-                    ->visible(fn(Article $article): bool => auth()->user()->canAny(['restore', 'restoreAny'], $article)),
+                    ->visible(fn(): bool => auth()->user()->canAny('restore', Article::class)),
                 Filter::make('assigned')
                     ->label('Toegewezen aan mij')
                     ->query(fn(Builder $query): Builder => $query->where('editor_id', auth()->id())),
