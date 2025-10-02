@@ -53,7 +53,7 @@ final class AppServiceProvider extends ServiceProvider
     #[Override]
     public function register(): void
     {
-        $this->app->singleton(ReadTimeCalculator::class, fn($app): ReadTimeCalculator => new ReadTimeCalculator());
+        $this->app->singleton(ReadTimeCalculator::class, fn ($app): ReadTimeCalculator => new ReadTimeCalculator());
     }
 
     /**
@@ -66,14 +66,14 @@ final class AppServiceProvider extends ServiceProvider
     {
         Gate::define(
             ability: 'access-backend',
-            callback: fn(User $user): bool => $user->roles()->exists() && $user->hasVerifiedEmail(),
+            callback: fn (User $user): bool => $user->roles()->exists() && $user->hasVerifiedEmail(),
         );
 
-        Gate::define('viewPulse', fn(User $user): Response => $user->user_type->is(UserTypes::Developer)
+        Gate::define('viewPulse', fn (User $user): Response => $user->user_type->is(UserTypes::Developer)
             ? Response::allow()
             : Response::denyAsNotFound());
 
-        Gate::define('use-translation-manager', fn(?User $user)
+        Gate::define('use-translation-manager', fn (?User $user)
             => $user->user_type->in([UserTypes::Developer, UserTypes::Administrators]));
     }
 }

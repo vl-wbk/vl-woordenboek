@@ -79,7 +79,7 @@ final class FortifyServiceProvider extends ServiceProvider
     private function configureAuthRateLimiters(): void
     {
         RateLimiter::for('login', function (Request $request) {
-            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())) . '|' . $request->ip());
+            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
 
             return Limit::perMinute(5)->by($throttleKey);
         });
@@ -106,6 +106,8 @@ final class FortifyServiceProvider extends ServiceProvider
         Fortify::loginView('auth.login');
         Fortify::registerView('auth.register');
         Fortify::verifyEmailView('auth.passwords.verify');
+        Fortify::twoFactorChallengeView('auth.two-factor-challenge');
+        Fortify::confirmPasswordView('auth.passwords.confirm');
         Fortify::requestPasswordResetLinkView('auth.passwords.forgot');
 
         Fortify::resetPasswordView(function (Request $request): Renderable {
