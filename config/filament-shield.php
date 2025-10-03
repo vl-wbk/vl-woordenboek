@@ -117,7 +117,7 @@ return [
 
     'policies' => [
         'path' => app_path('Policies'),
-        'merge' => true,
+        'merge' => false,
         'generate' => true,
         'methods' => [
             'viewAny', 'view', 'create', 'update', 'delete', 'restore',
@@ -163,16 +163,13 @@ return [
     'resources' => [
         'subject' => 'model',
         'manage' => [
-            \BezhanSalleh\FilamentShield\Resources\Roles\RoleResource::class => [
-                'viewAny',
-                'view',
-                'create',
-                'update',
-                'delete',
-            ],
+            \BezhanSalleh\FilamentShield\Resources\Roles\RoleResource::class => \App\Policies\RolePolicy::$permissionPrefixes,
+
+            // Own Resources
+
         ],
         'exclude' => [
-            //
+            \Kenepa\TranslationManager\Resources\LanguageLineResource::class,
         ],
     ],
 

@@ -4,67 +4,66 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
+use App\Models\User;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Foundation\Auth\User as AuthUser;
 use Spatie\Permission\Models\Role;
-use Illuminate\Auth\Access\HandlesAuthorization;
 
-class RolePolicy
+final class RolePolicy
 {
-    use HandlesAuthorization;
-    
-    public function viewAny(AuthUser $authUser): bool
+    public static array $permissionPrefixes = ['viewAny', 'view', 'create', 'update', 'delete'];
+
+    public function before(User $user, string $ability): ?Response
     {
-        return $authUser->can('ViewAny:Role');
+        if ($user->cannot('view:user-management-cluster')) {
+            return Response::denyAsNotFound();
+        }
+
+        return null;
     }
 
-    public function view(AuthUser $authUser, Role $role): bool
+    public function viewAny(AuthUser $authUser): Response
     {
-        return $authUser->can('View:Role');
+        if ($authUser->can('view-any:role')) {
+            return Response::allow();
+        }
+
+        return Response::deny();
     }
 
-    public function create(AuthUser $authUser): bool
+    public function view(AuthUser $authUser, Role $role): Response
     {
-        return $authUser->can('Create:Role');
+        if ($authUser->can('view:role')) {
+            return Response::allow();
+        }
+
+        return Response::deny();
     }
 
-    public function update(AuthUser $authUser, Role $role): bool
+    public function create(AuthUser $authUser): Response
     {
-        return $authUser->can('Update:Role');
+        if ($authUser->can('create:role')) {
+            return Response::allow();
+        }
+
+        return Response::deny();
     }
 
-    public function delete(AuthUser $authUser, Role $role): bool
+    public function update(AuthUser $authUser, Role $role): Response
     {
-        return $authUser->can('Delete:Role');
+        if ($authUser->can('update:role')) {
+            return Response::allow();
+        }
+
+        return Response::deny();
     }
 
-    public function restore(AuthUser $authUser, Role $role): bool
+    public function delete(AuthUser $authUser, Role $role): Response
     {
-        return $authUser->can('Restore:Role');
-    }
+        if ($authUser->can('delete:role')) {
+            return Response::allow();
+        }
 
-    public function forceDelete(AuthUser $authUser, Role $role): bool
-    {
-        return $authUser->can('ForceDelete:Role');
+        return Response::deny();
     }
-
-    public function forceDeleteAny(AuthUser $authUser): bool
-    {
-        return $authUser->can('ForceDeleteAny:Role');
-    }
-
-    public function restoreAny(AuthUser $authUser): bool
-    {
-        return $authUser->can('RestoreAny:Role');
-    }
-
-    public function replicate(AuthUser $authUser, Role $role): bool
-    {
-        return $authUser->can('Replicate:Role');
-    }
-
-    public function reorder(AuthUser $authUser): bool
-    {
-        return $authUser->can('Reorder:Role');
-    }
-
 }
