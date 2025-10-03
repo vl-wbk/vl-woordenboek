@@ -12,8 +12,6 @@ use App\Enums\FeedbackStatus;
 use App\Filament\Resources\FeedbackResource\Pages;
 use App\Filament\Resources\FeedbackResource\Schema;
 use App\Models\Feedback;
-use App\Policies\FeedbackPolicy;
-use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Cache;
@@ -22,19 +20,11 @@ use Illuminate\Support\Facades\Cache;
  * @todo Document this class
  * @todo Provide additional end user documentation
  */
-final class FeedbackResource extends Resource implements HasShieldPermissions
+final class FeedbackResource extends Resource
 {
     protected static ?string $model = Feedback::class;
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-chat-bubble-left-right';
-
-    /**
-     * @return list<string>
-     */
-    public static function getPermissionPrefixes(): array
-    {
-        return FeedbackPolicy::$permissionPrefixes;
-    }
 
     public static function table(Table $table): Table
     {

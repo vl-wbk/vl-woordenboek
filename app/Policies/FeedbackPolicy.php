@@ -17,11 +17,11 @@ final class FeedbackPolicy
     /**
      * @var list<string>
      */
-    public static array $permissionPrefixes = ['view_any', 'view', 'delete', 'delete_any', 'change_status'];
+    public static array $permissionPrefixes = ['viewAny', 'view', 'delete', 'deleteAny', 'changeStatus'];
 
     public function viewAny(User $user): Response
     {
-        if ($user->can('view_any_feedback')) {
+        if ($user->can('view-any:feedback')) {
             return Response::allow();
         }
 
@@ -30,7 +30,7 @@ final class FeedbackPolicy
 
     public function view(User $user, Feedback $feedback): Response
     {
-        if ($user->can('view_feedback')) {
+        if ($user->can('view:feedback')) {
             return Response::allow();
         }
 
@@ -39,7 +39,7 @@ final class FeedbackPolicy
 
     public function delete(User $user): Response
     {
-        if ($user->can('delete_feedback')) {
+        if ($user->can('delete:feedback')) {
             return Response::allow();
         }
 
@@ -48,7 +48,7 @@ final class FeedbackPolicy
 
     public function markAs(User $user): Response
     {
-        if ($user->can('change_status_feedback')) {
+        if ($user->can('change-status:feedback')) {
             return Response::allow();
         }
 
@@ -57,7 +57,7 @@ final class FeedbackPolicy
 
     public function deleteAny(User $user): Response
     {
-        if ($user->can('delete_any_feedback')) {
+        if ($user->can('delete-any:feedback')) {
             return Response::allow();
         }
 

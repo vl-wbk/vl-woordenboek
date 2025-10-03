@@ -167,6 +167,7 @@ return [
 
             // Own Resources
             \App\Filament\Resources\Users\UserResource::class => \App\Policies\UserPolicy::$permissionPrefixes,
+            \App\Filament\Resources\Feedback\FeedbackResource::class => \App\Policies\FeedbackPolicy::$permissionPrefixes,
         ],
         'exclude' => [
             \Kenepa\TranslationManager\Resources\LanguageLineResource::class,
