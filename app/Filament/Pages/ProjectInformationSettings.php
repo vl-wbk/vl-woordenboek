@@ -98,4 +98,9 @@ final class ProjectInformationSettings extends SettingsPage
                 ->live(),
         ];
     }
+
+    public static function canAccess(): bool
+    {
+        return auth()->user()->can('project_info_wijzigen');
+    }
 }

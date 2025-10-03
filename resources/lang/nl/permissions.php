@@ -36,6 +36,8 @@ return [
         'deactivate' => 'Accounts deactiveren',
         'deactivate_update' => 'Deactivatie gegevens aanpassen',
         'unlock_resource' => 'Resources deblokkeren',
-        'change_status' => 'Status aanpassen'
+        'change_status' => 'Status aanpassen',
+
+        'project_information_settings' => 'ween',
     ],
 ];

@@ -150,4 +150,9 @@ final class VolunteerCallOutSettings extends SettingsPage
                 ->columns(3),
         ];
     }
+
+    public static function canAccess(): bool
+    {
+        return auth()->user()->can('vrijwilligers_pagina_wijzigen');
+    }
 }
