@@ -15,8 +15,8 @@ return [
 
     'shield_resource' => [
         'slug' => 'shield/roles',
-        'show_model_path' => true,
-        'cluster' => null,
+        'show_model_path' => false,
+        'cluster' => \App\Filament\Clusters\UserManagement\UserManagementCluster::class,
         'tabs' => [
             'pages' => true,
             'widgets' => true,
@@ -64,7 +64,7 @@ return [
 
     'super_admin' => [
         'enabled' => true,
-        'name' => 'super_admin',
+        'name' => 'ontwikkelaar',
         'define_via_gate' => false,
         'intercept_gate' => 'before',
     ],
@@ -100,7 +100,7 @@ return [
 
     'permissions' => [
         'separator' => ':',
-        'case' => 'pascal',
+        'case' => 'kebab',
         'generate' => true,
     ],
 
