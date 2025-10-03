@@ -173,7 +173,9 @@ return [
             \App\Filament\Clusters\Blog\Resources\Categories\CategoryResource::class => \App\Policies\CategoryPolicy::$permissionPrefixes,
             \App\Filament\Clusters\Blog\Resources\Blogs\BlogResource::class => \App\Policies\BlogPolicy::$permissionPrefixes,
             \App\Filament\Clusters\Articles\Resources\Labels\LabelResource::class => \App\Policies\LabelPolicy::$permissionPrefixes,
-
+            \App\Filament\Clusters\Articles\Resources\Etymologies\EtymologyResource::class => \App\Policies\EtymologyPolicy::$permissionPrefixes,
+            \App\Filament\Clusters\Articles\Resources\Disclaimers\DisclaimerResource::class => \App\Policies\DisclaimerPolicy::$permissionPrefixes,
+            \App\Filament\Clusters\Articles\Resources\ArticleReports\ArticleReportResource::class => \App\Policies\ArticleReportPolicy::$permissionPrefixes,
         ],
         'exclude' => [
             \Kenepa\TranslationManager\Resources\LanguageLineResource::class,

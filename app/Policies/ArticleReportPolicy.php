@@ -24,8 +24,12 @@ use Illuminate\Auth\Access\Response;
  *
  * @package App\Policies
  */
-final readonly class ArticleReportPolicy
+final class ArticleReportPolicy
 {
+    public static array $permissionPrefixes = [
+        'viewAny', 'view', 'markInProgress', 'markAsClosed', 'delete', 'deleteAny'
+    ];
+
     /**
      * Determines whether the user can view the list of article reports.
      *
@@ -37,7 +41,7 @@ final readonly class ArticleReportPolicy
      */
     public function viewAny(User $user): Response
     {
-        if  ($user->can('view_any_article::report')) {
+        if  ($user->can('view-any:article-report')) {
 			return Response::allow();
 		}
 
@@ -46,7 +50,7 @@ final readonly class ArticleReportPolicy
 
     public function view(User $user, ArticleReport $articleReport): Response
     {
-        if ($user->can('view_article::report')) {
+        if ($user->can('view:article-report')) {
 			return Response::allow();
 		}
 
@@ -65,7 +69,7 @@ final readonly class ArticleReportPolicy
      */
     public function markInProgress(User $user, ArticleReport $articleReport): Response
     {
-        if ($user->cannot('mark_in_progress_article::report')) {
+        if ($user->cannot('mark-in-progress:article-report')) {
             return Response::deny();
         }
 
@@ -88,7 +92,7 @@ final readonly class ArticleReportPolicy
      */
     public function markAsClosed(User $user, ArticleReport $articleReport): Response
     {
-        if ($user->cannot('mark_as_closed_article::report')) {
+        if ($user->cannot('mark-as-closed:article-report')) {
             return Response::deny();
         }
 
@@ -110,7 +114,7 @@ final readonly class ArticleReportPolicy
      */
     public function delete(User $user): Response
     {
-        if ($user->can('delete_article::report')) {
+        if ($user->can('delete:article-report')) {
 			return Response::allow();
 		}
 
@@ -119,7 +123,7 @@ final readonly class ArticleReportPolicy
 
     public function deleteAny(User $user): Response
     {
-        if ($user->can('delete_any_article::report')) {
+        if ($user->can('delete-any:article-report')) {
 			return Response::allow();
 		}
 

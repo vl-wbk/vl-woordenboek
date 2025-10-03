@@ -24,7 +24,7 @@ use Filament\Tables\Table;
 /**
  * @todo document resource class
  */
-final class EtymologyResource extends Resource implements HasShieldPermissions
+final class EtymologyResource extends Resource
 {
     protected static ?string $modelLabel = 'Etymologie';
 
@@ -33,14 +33,6 @@ final class EtymologyResource extends Resource implements HasShieldPermissions
     protected static ?string $cluster = ArticlesCluster::class;
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-book-open';
-
-    /**
-     * @return list<string>
-     */
-    public static function getPermissionPrefixes(): array
-    {
-        return EtymologyPolicy::$defaultPermissions;
-    }
 
     public static function infolist(Schema $schema): Schema
     {

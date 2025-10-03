@@ -31,7 +31,7 @@ use App\Filament\Clusters\Articles\Resources\DisclaimerResource\Schema;
  *
  * @package App\Filament\Clusters\Articles\Resources
  */
-final class DisclaimerResource extends Resource implements HasShieldPermissions
+final class DisclaimerResource extends Resource
 {
     /**
      * This static property links the Filament resource to its corresponding database model.
@@ -54,19 +54,6 @@ final class DisclaimerResource extends Resource implements HasShieldPermissions
      * This is highly recommended for larger applications to prevent a cluttered sidebar and improve overall user experience.
      */
     protected static ?string $cluster = ArticlesCluster::class;
-
-    /**
-     * Defines the permission prefixes for this resource as required by the `HasShieldPermissions` contract.
-     *
-     * The values returned here are used by the Filament Shield plugin to automatically register granular permissions (e.g., `view_any`, `create`, `view`, `update`, `delete`)
-     * for the Disclaimer model, allowing for fine-grained access control based on user roles.
-     *
-     * @return list<string> An array of permission prefixes, typically based on the model's policy.
-     */
-    public static function getPermissionPrefixes(): array
-    {
-        return DisclaimerPolicy::$permissionPrefixes;
-    }
 
     /**
      * Configures the form used for creating and updating Disclaimer records.

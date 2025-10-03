@@ -28,7 +28,9 @@ final class DisclaimerPolicy
      *
      * @var list<string>
      */
-    public static array $permissionPrefixes = ['view', 'view_any', 'create', 'update', 'delete', 'delete_any'];
+    public static array $permissionPrefixes = [
+        'view', 'viewAny', 'create', 'update', 'delete', 'deleteAny'
+    ];
 
     /**
      * Determine whether the user can view a specific disclaimer.
@@ -39,7 +41,7 @@ final class DisclaimerPolicy
      */
     public function viewAny(User $user): Response
     {
-        if ($user->can('view_any_disclaimer')) {
+        if ($user->can('view-any:disclaimer')) {
             return Response::allow();
         }
 
@@ -56,7 +58,7 @@ final class DisclaimerPolicy
      */
     public function view(User $user, Disclaimer $disclaimer): Response
     {
-        if ($user->can('view_disclaimer')) {
+        if ($user->can('view:disclaimer')) {
             return Response::allow();
         }
 
@@ -72,7 +74,7 @@ final class DisclaimerPolicy
      */
     public function create(User $user): Response
     {
-        if ($user->can('create_disclaimer')) {
+        if ($user->can('create:disclaimer')) {
             return Response::allow();
         }
 
@@ -88,7 +90,7 @@ final class DisclaimerPolicy
      */
     public function update(User $user): Response
     {
-        if ($user->can('update_disclaimer')) {
+        if ($user->can('update:disclaimer')) {
             return Response::allow();
         }
 
@@ -104,7 +106,7 @@ final class DisclaimerPolicy
      */
     public function delete(User $user): Response
     {
-        if ($user->can('delete_disclaimer')) {
+        if ($user->can('delete:disclaimer')) {
             return Response::allow();
         }
 
@@ -120,7 +122,7 @@ final class DisclaimerPolicy
      */
     public function deleteAny(User $user): Response
     {
-        if ($user->can('delete_any_disclaimer')) {
+        if ($user->can('delete-any:disclaimer')) {
             return Response::allow();
         }
 

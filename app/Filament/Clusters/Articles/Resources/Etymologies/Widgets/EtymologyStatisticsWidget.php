@@ -51,7 +51,6 @@ final class EtymologyStatisticsWidget extends StatsOverviewWidget
 
         return Stat::make('Gepubliceerd', $count)
             ->icon('heroicon-o-globe-europe-africa')
-            ->iconColor('success')
             ->descriptionColor('success')
             ->description(trans(':percent van alle etymologieen', [
                 'percent' => toHumanReadablePercentage($this->getAllEtymoglogies(), (int) $count),
@@ -77,8 +76,7 @@ final class EtymologyStatisticsWidget extends StatsOverviewWidget
             ->description(trans(':percent van alle etymologieen', [
                 'percent' => toHumanReadablePercentage($this->getAllEtymoglogies(), (int) $count),
             ]))
-            ->descriptionColor('primary')
-            ->iconColor('primary');
+            ->descriptionColor('primary');
     }
 
     /**
@@ -103,8 +101,7 @@ final class EtymologyStatisticsWidget extends StatsOverviewWidget
             ->description(trans(':percent van alle etymologieen', [
                 'percent' => toHumanReadablePercentage($this->getAllEtymoglogies(), (int) $count),
             ]))
-            ->descriptionColor('primary')
-            ->iconColor('primary');
+            ->descriptionColor('primary');
     }
 
     /**
@@ -126,8 +123,7 @@ final class EtymologyStatisticsWidget extends StatsOverviewWidget
             ->description(trans(':percent van alle etymologieen', [
                 'percent' => toHumanReadablePercentage($this->getAllEtymoglogies(), (int) $count),
             ]))
-            ->descriptionColor('danger')
-            ->iconColor('danger');
+            ->descriptionColor('danger');
     }
 
     /**

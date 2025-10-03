@@ -20,27 +20,28 @@ use Illuminate\Auth\Access\Response;
  * are only available under the correct conditions, helping to maintain the integrity of the editorial workflow.
  *
  * @link file://tests/Unit/Authorization/EtymologyPolicyTest.php
- * @package App\Policies;
  */
 final class EtymologyPolicy
 {
     /**
      * @var list<string>
      */
-    public static array $defaultPermissions = ['view', 'view_any', 'update', 'delete', 'delete_any', 'archive', 'reject', 'publish', 'draft', 'under_review'];
+    public static array $permissionPrefixes = [
+        'view', 'viewAny', 'update', 'delete', 'deleteAny', 'archive', 'reject', 'publish', 'draft', 'underReview',
+    ];
 
     public function viewAny(User $user): Response
     {
-        return $user->can('view_any_etymology')
-			? Response::allow()
-			: Response::deny();
+        return $user->can('view-any:etymology')
+            ? Response::allow()
+            : Response::deny();
     }
 
     public function view(User $user, Etymology $etymology): Response
     {
-        return $user->can('view_etymology')
-			? Response::allow()
-			: Response::deny();
+        return $user->can('view:etymology')
+            ? Response::allow()
+            : Response::deny();
     }
 
     /**
@@ -50,15 +51,15 @@ final class EtymologyPolicy
      * This ensures that published or archived etymologies cannot be modified,
      * preserving the integrity of finalized records.
      *
-     * @param  User      $user       The user attempting to perform the update action.
-     * @param  Etymology $etymology  The etymology instance being considered for update.
-     * @return Response              Returns true if the etymology is in draft status and can be updated; false otherwise.
+     * @param  User  $user  The user attempting to perform the update action.
+     * @param  Etymology  $etymology  The etymology instance being considered for update.
+     * @return Response Returns true if the etymology is in draft status and can be updated; false otherwise.
      */
     public function update(User $user, Etymology $etymology): Response
     {
-        return ($etymology->status->is(enum: EtymologyStatus::Draft) && $user->can('update_etymology'))
-			? Response::allow()
-			: Response::deny();
+        return ($etymology->status->is(enum: EtymologyStatus::Draft) && $user->can('update:etymology'))
+            ? Response::allow()
+            : Response::deny();
     }
 
     /**
@@ -67,22 +68,22 @@ final class EtymologyPolicy
      * Only users with the administrators or developer roles are permited to delete etymologies.
      * This restriction helps prevent accidental or unauthorized removal of important records.
      *
-     * @param  User       $user         The user attempting the delete action.
-     * @param  Etymology  $etymology    The etymology instance being considered for deletion.
-     * @return Response                 Returns true if the user is authorized to delete, false otherwise.
+     * @param  User  $user  The user attempting the delete action.
+     * @param  Etymology  $etymology  The etymology instance being considered for deletion.
+     * @return Response Returns true if the user is authorized to delete, false otherwise.
      */
     public function delete(User $user, Etymology $etymology): Response
     {
-        return $user->can('delete_etymology')
-			? Response::allow()
-			: Response::deny();
+        return $user->can('delete:etymology')
+            ? Response::allow()
+            : Response::deny();
     }
 
     public function deleteAny(User $user): Response
     {
-        return $user->can('delete_any_etymology')
-			? Response::allow()
-			: Response::deny();
+        return $user->can('delete-any:etymology')
+            ? Response::allow()
+            : Response::deny();
     }
 
     /**
@@ -91,15 +92,15 @@ final class EtymologyPolicy
      * Archiving is only allowed if the etymology is not already archived.
      * This prevents redundant archiving actions and maintains clear status transitions.
      *
-     * @param  User       $user         The user attempting to perform the archive action.
-     * @param  Etymology  $etymology    The etymology instance being considered for archiving.
-     * @return Response                 Returns true if the etymology is not archived; false otherwise.
+     * @param  User  $user  The user attempting to perform the archive action.
+     * @param  Etymology  $etymology  The etymology instance being considered for archiving.
+     * @return Response Returns true if the etymology is not archived; false otherwise.
      */
     public function archive(User $user, Etymology $etymology): Response
     {
-        return ($etymology->status->isNot(enum: EtymologyStatus::Archived) && $user->can('archive_etymology'))
-			? Response::allow()
-			: Response::deny();
+        return ($etymology->status->isNot(enum: EtymologyStatus::Archived) && $user->can('archive:etymology'))
+            ? Response::allow()
+            : Response::deny();
     }
 
     /**
@@ -108,15 +109,15 @@ final class EtymologyPolicy
      * Rejection is only allowed if the etymology is currently under review.
      * This ensures that only etymologies in the appropriate workflow stage can be rejected.
      *
-     * @param  User         $user       The user attempting to perform the reject action.
-     * @param  Etymology    $etymology  The etymology instance being considered for rejection.
-     * @return Response                 Returns true if the etymology is under review; false otherwise.
+     * @param  User  $user  The user attempting to perform the reject action.
+     * @param  Etymology  $etymology  The etymology instance being considered for rejection.
+     * @return Response Returns true if the etymology is under review; false otherwise.
      */
     public function reject(User $user, Etymology $etymology): Response
     {
-        return ($etymology->status->in(enums: [EtymologyStatus::UnderReview]) && $user->can('reject_etymology'))
-			? Response::allow()
-			: Response::deny();
+        return ($etymology->status->in(enums: [EtymologyStatus::UnderReview]) && $user->can('reject:etymology'))
+            ? Response::allow()
+            : Response::deny();
     }
 
     /**
@@ -125,15 +126,15 @@ final class EtymologyPolicy
      * Publishing is allowed if the etymology is either under review or archived.
      * This enables the transition of etymologies to a published state from these statuses.
      *
-     * @param  User         $user       The user attempting to perform the publishing action.
-     * @param  Etymology    $etymology  The etymology instance being considered for publishing.
-     * @return Response                 Returns true if the etymology is under review or archived; false otherwise.
+     * @param  User  $user  The user attempting to perform the publishing action.
+     * @param  Etymology  $etymology  The etymology instance being considered for publishing.
+     * @return Response Returns true if the etymology is under review or archived; false otherwise.
      */
     public function publish(User $user, Etymology $etymology): Response
     {
-        return ($etymology->status->in(enums: [EtymologyStatus::UnderReview, EtymologyStatus::Archived]) && $user->can('publish_etymology'))
-			? Response::allow()
-			: Response::deny();
+        return ($etymology->status->in(enums: [EtymologyStatus::UnderReview, EtymologyStatus::Archived]) && $user->can('publish:etymology'))
+            ? Response::allow()
+            : Response::deny();
     }
 
     /**
@@ -142,17 +143,17 @@ final class EtymologyPolicy
      * This action is allowed if the etymology is currently under review, rejected, or archived.
      * It supports reverting etymologies to draft for further editing or reconsideration.
      *
-     * @param  User       $user         The user attempting to perform the draft action.
-     * @param  Etymology  $etymology    The etymology instance being considered for draft status.
-     * @return Response                 Returns true if the etymology is under review, rejected, or archived; false otherwise.
+     * @param  User  $user  The user attempting to perform the draft action.
+     * @param  Etymology  $etymology  The etymology instance being considered for draft status.
+     * @return Response Returns true if the etymology is under review, rejected, or archived; false otherwise.
      */
     public function draft(User $user, Etymology $etymology): Response
     {
-		$allowedStates = [EtymologyStatus::UnderReview, EtymologyStatus::Rejected, EtymologyStatus::Archived];
+        $allowedStates = [EtymologyStatus::UnderReview, EtymologyStatus::Rejected, EtymologyStatus::Archived];
 
-        return ($etymology->status->in(enums: $allowedStates) && $user->can('update_etymology'))
-			? Response::allow()
-			: Response::deny();
+        return ($etymology->status->in(enums: $allowedStates) && $user->can('update:etymology'))
+            ? Response::allow()
+            : Response::deny();
     }
 
     /**
@@ -161,14 +162,14 @@ final class EtymologyPolicy
      * Only etymologies in draft status can be moved to under review.
      * This supports the editorial workflow for reviewing new or revised etymologies.
      *
-     * @param  User $user            The user attempting to perform the under review action.
-     * @param  Etymology $etymology  The etymology instance being considered for under review status.
-     * @return bool                  Returns true if the etymology is in draft status; false otherwise.
+     * @param  User  $user  The user attempting to perform the under review action.
+     * @param  Etymology  $etymology  The etymology instance being considered for under review status.
+     * @return bool Returns true if the etymology is in draft status; false otherwise.
      */
     public function underReview(User $user, Etymology $etymology): Response
     {
-        return ($etymology->status->is(enum: EtymologyStatus::Draft) && $user->can('under_review_etymology'))
-			? Response::allow()
-			: Response::deny();
+        return ($etymology->status->is(enum: EtymologyStatus::Draft) && $user->can('under-review:etymology'))
+            ? Response::allow()
+            : Response::deny();
     }
 }

@@ -47,7 +47,7 @@ use Illuminate\Support\Facades\Cache;
  *
  * @package App\Filament\Clusters\Articles\Resources
  */
-final class ArticleReportResource extends Resource implements HasShieldPermissions
+final class ArticleReportResource extends Resource
 {
     /**
      * Specifies the model associated with this resource.
@@ -80,14 +80,6 @@ final class ArticleReportResource extends Resource implements HasShieldPermissio
      * {@inheritDoc}
      */
     protected static ?string $cluster = ArticlesCluster::class;
-
-    /**
-     * @return list<string>
-     */
-    public static function getPermissionPrefixes(): array
-    {
-        return ['view_any', 'view', 'mark_in_progress', 'mark_as_closed', 'delete', 'delete_any'];
-    }
 
     /**
      * Configures the infolist for displaying detailed information about a report.
