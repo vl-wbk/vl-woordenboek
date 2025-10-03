@@ -42,7 +42,7 @@ use Illuminate\Support\Str;
  *
  * @package App\Filament\Clusters\Articles\Resources
  */
-final class LabelResource extends Resource implements HasShieldPermissions
+final class LabelResource extends Resource
 {
     /**
      * The underlying Eloquent model that represents labels in our database. This model handles all
@@ -66,14 +66,6 @@ final class LabelResource extends Resource implements HasShieldPermissions
      * {@inheritDoc}
      */
     protected static ?string $cluster = ArticlesCluster::class;
-
-    /**
-     * @return list<string>
-     */
-    public static function getPermissionPrefixes(): array
-    {
-        return ['delete_any', 'detach', 'attach', 'create', 'delete', 'update', 'view', 'view_any'];
-    }
 
     /**
      * Configures the form interface for creating and editing labels. The form provides a user-friendly

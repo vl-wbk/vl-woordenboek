@@ -19,8 +19,12 @@ use Illuminate\Auth\Access\Response;
  * @link file://tests/Unit/Authorization/CategoryPolicyTest.php
  * @packlage App\Policies
  */
-final readonly class CategoryPolicy
+final class CategoryPolicy
 {
+    public static array $permissionPrefixes = [
+        'view', 'viewAny', 'create', 'update', 'delete', 'deleteAny',
+    ];
+
 	/**
 	 * Acts as a "fail-fast" gatekeeper for all category-related actions.
 	 *
@@ -33,13 +37,13 @@ final readonly class CategoryPolicy
 	 */
     public function before(User $user): ?Response
     {
-        if ($user->cannot('page_Blog')) {
+        if ($user->cannot('view:blog-cluster')) {
             return Response::denyAsNotFound();
         }
 
         return null;
     }
-	
+
 	/**
 	 * Determines whether the user can view a collection of categories.
 	 *
@@ -52,11 +56,11 @@ final readonly class CategoryPolicy
 	 */
     public function viewAny(User $user): Response
     {
-        return $user->can('view_any_category')
+        return $user->can('view-any:category')
 			? Response::allow()
 			: Response::deny();
     }
-	
+
 	/**
 	 *
 	 * @param User $user
@@ -65,35 +69,35 @@ final readonly class CategoryPolicy
 	 */
     public function view(User $user, Category $category): Response
     {
-        return $user->can('view_category')
+        return $user->can('view:category')
 			? Response::allow()
 			: Response::deny();
     }
 
     public function create(User $user): Response
     {
-        return $user->can('create_category')
+        return $user->can('create:category')
 			? Response::allow()
 			: Response::deny();
     }
 
     public function update(User $user, Category $category): Response
     {
-        return $user->can('update_category')
+        return $user->can('update:category')
 			? Response::allow()
 			: Response::deny();
     }
 
     public function delete(User $user, Category $category): Response
     {
-        return $user->can('delete_category')
+        return $user->can('delete:category')
 			? Response::allow()
 			: Response::deny();
     }
 
     public function deleteAny(User $user): Response
     {
-        return $user->can('delete_any_category')
+        return $user->can('delete-any:category')
 			? Response::allow()
 			: Response::deny();
     }

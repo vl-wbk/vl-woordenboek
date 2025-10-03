@@ -36,7 +36,6 @@ use App\Filament\Resources\ArticleResource\Pages;
 use App\Filament\Resources\Articles\Schema\FormSchema;
 use App\Models\Article;
 use App\UserTypes;
-use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconSize;
@@ -66,7 +65,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
  *
  * @package App\Filament\Resources
  */
-final class ArticleResource extends Resource implements HasShieldPermissions
+final class ArticleResource extends Resource
 {
     /**
      * The Eloquent model that this resource represents.
@@ -88,14 +87,6 @@ final class ArticleResource extends Resource implements HasShieldPermissions
      * The plural model label for the model.
      */
     protected static ?string $pluralModelLabel = "Artikelen";
-
-    /**
-     * @return list<string>
-     */
-    public static function getPermissionPrefixes(): array
-    {
-        return ['update', 'send_for_approval', 'publish', 'unpublish', 'detach_editor', 'attach_disclaimer', 'detach_disclaimer', 'archive', 'unarchive', 'delete', 'delete_any', 'restore', 'restore_any', 'export'];
-    }
 
     /**
      * The cluster used for grouping related resources.

@@ -19,11 +19,15 @@ use Illuminate\Auth\Access\Response;
  *
  * @package App\Policies
  */
-final readonly class BanPolicy
+final class BanPolicy
 {
+    public static array $permissionPrefixes = [
+        'viewAny', 'view', 'update', 'delete',
+    ];
+
     public function before(User $user, string $ability): ?Response
     {
-        if ($user->cannot('page_UserManagement')) {
+        if ($user->cannot('view:user-management-cluster')) {
             return Response::denyAsNotFound();
         }
 
@@ -40,10 +44,10 @@ final readonly class BanPolicy
      */
     public function viewAny(User $user): Response
     {
-        if ($user->can('view_any_ban')) {
+        if ($user->can('view-any:ban')) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 
@@ -55,10 +59,10 @@ final readonly class BanPolicy
      */
     public function view(User $user, Ban $ban): Response
     {
-        if ($user->can('view_ban')) {
+        if ($user->can('view:ban')) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 
@@ -70,10 +74,10 @@ final readonly class BanPolicy
      */
     public function update(User $user, Ban $ban): Response
     {
-        if ($user->can('update_ban')) {
+        if ($user->can('update:ban')) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 
@@ -85,10 +89,10 @@ final readonly class BanPolicy
      */
     public function delete(User $user, Ban $ban): Response
     {
-        if ($user->can('delete_ban')) {
+        if ($user->can('delete:ban')) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 }

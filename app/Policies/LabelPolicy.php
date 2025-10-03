@@ -17,32 +17,36 @@ use Illuminate\Auth\Access\Response;
  * @link file://tests/Unit/Authorization/CategoryPolicyTest.php
  * @package App\Policies
  */
-final readonly class LabelPolicy
+final class LabelPolicy
 {
+    public static array $permissionPrefixes = [
+        'deleteAny', 'detach', 'attach', 'create', 'delete', 'update', 'view', 'viewAny'
+    ];
+
     public function before(User $user): ?Response
     {
-        if ($user->cannot('page_Articles')) {
+        if ($user->cannot('view:articles_cluster')) {
             return Response::denyAsNotFound();
         }
 
         return null;
     }
-	
+
     public function viewAny(User $user): Response
     {
-        if ($user->can('view_any_label')) {
+        if ($user->can('view-any:label')) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
-	
+
     public function view(User $user, Label $label): Response
     {
-        if ($user->can('view_label')) {
+        if ($user->can('view:label')) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 
@@ -56,10 +60,10 @@ final readonly class LabelPolicy
      */
     public function update(User $user, Label $label): Response
     {
-        if ($user->can('update_label')) {
+        if ($user->can('update:label')) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 
@@ -73,10 +77,10 @@ final readonly class LabelPolicy
      */
     public function delete(User $user): Response
     {
-        if ($user->can('delete_label')) {
+        if ($user->can('delete:label')) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 
@@ -90,10 +94,10 @@ final readonly class LabelPolicy
      */
     public function create(User $user): Response
     {
-        if ($user->can('create_label')) {
+        if ($user->can('create:label')) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 
@@ -107,10 +111,10 @@ final readonly class LabelPolicy
      */
     public function attach(User $user): Response
     {
-        if ($user->can('attach_label')) {
+        if ($user->can('attach:label')) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 
@@ -124,19 +128,19 @@ final readonly class LabelPolicy
      */
     public function detach(User $user, Label $label): Response
     {
-		if ($user->can('detach_label')) {
+		if ($user->can('detach:label')) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
-	
+
     public function deleteAny(User $user): Response
     {
-        if ($user->can('delete_any_label')) {
+        if ($user->can('delete-any:label')) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 }

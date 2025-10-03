@@ -40,7 +40,7 @@ use Filament\Tables\Table;
  *
  * @package App\Filament\Clusters\Blog\Resources
  */
-final class BlogResource extends Resource implements HasShieldPermissions
+final class BlogResource extends Resource
 {
     /**
      * The model associated with this resource.
@@ -78,15 +78,6 @@ final class BlogResource extends Resource implements HasShieldPermissions
      * @todo Document this variable
      */
     protected static ?string $pluralModelLabel = 'Nieuwsberichten';
-
-    /**
-     * @todo Document this function
-     * @return list<string>
-     */
-    public static function getPermissionPrefixes(): array
-    {
-        return ['view_any', 'view', 'update', 'delete', 'delete_any', 'undo_publication'];
-    }
 
     /**
      * Defines the structure of the form used for creating and editing blog posts.

@@ -17,11 +17,16 @@ use Illuminate\Auth\Access\Response;
  *
  * @package App\Policies
  */
-final readonly class ArticlePolicy
+final class ArticlePolicy
 {
+    public static array $permissionPrefixes = [
+        'update', 'sendForApproval', 'publish', 'unpublish', 'detachEditor', 'attachDisclaimer', 'detachDisclaimer',
+        'archive', 'unarchive', 'delete', 'deleteAny', 'restore', 'restoreAny', 'export',
+    ];
+
     public function before(User $user): ?Response
     {
-        if ($user->cannot('page_Articles')) {
+        if ($user->cannot('view:articles_cluster')) {
             return Response::denyAsNotFound();
         }
 
@@ -42,15 +47,15 @@ final readonly class ArticlePolicy
     {
         $isPublishedOrAwaitingApproval = ($article->isPublished() || $article->state->is(ArticleStates::Approval));
 		$allowedStates = [ArticleStates::New, ArticleStates::ExternalData, ArticleStates::Draft, ArticleStates::Archived];
-		
-        if ($isPublishedOrAwaitingApproval && $user->can('update_article')) {
+
+        if ($isPublishedOrAwaitingApproval && $user->can('update:article')) {
             return Response::deny();
         }
 
-        if ($article->state->in(enums: $allowedStates) && $user->can('update_article')) {
+        if ($article->state->in(enums: $allowedStates) && $user->can('update:article')) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 
@@ -66,10 +71,10 @@ final readonly class ArticlePolicy
      */
     public function sendForApproval(User $user, Article $article): Response
     {
-        if ($article->state->in(enums: [ArticleStates::Draft]) && $user->can('send_for_approval_article')) {
+        if ($article->state->in(enums: [ArticleStates::Draft]) && $user->can('send-for-approval:article')) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 
@@ -94,14 +99,14 @@ final readonly class ArticlePolicy
             return Response::deny();
         }
 
-        if ($user->cannot('publish_article')) {
+        if ($user->cannot('publish:article')) {
             return Response::deny();
         }
 
         if ($article->editor()->exists() && $article->editor()->isNot($user)) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 
@@ -117,10 +122,10 @@ final readonly class ArticlePolicy
      */
     public function unpublish(User $user, Article $article): Response
     {
-        if ($article->isPublished() && $user->can('unpublish_article')) {
+        if ($article->isPublished() && $user->can('unpublish:article')) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 
@@ -151,10 +156,10 @@ final readonly class ArticlePolicy
             return Response::allow();
         }
 
-        if ($user->can('detach_disclaimer_article')) {
+        if ($user->can('detach-disclaimer:article')) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 
@@ -170,10 +175,10 @@ final readonly class ArticlePolicy
      */
     public function attachDisclaimer(User $user, Article $article): Response
     {
-		if ($article->disclaimer()->doesntExist() && $user->can('attach_disclaimer_article')) {
+		if ($article->disclaimer()->doesntExist() && $user->can('attach-disclaimer:article')) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 
@@ -189,10 +194,10 @@ final readonly class ArticlePolicy
      */
     public function detachDisclaimer(User $user, Article $article): Response
     {
-        if ($article->disclaimer()->exists() && $user->can('detach_disclaimer_article')) {
+        if ($article->disclaimer()->exists() && $user->can('detach-disclaimer:article')) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 
@@ -208,10 +213,10 @@ final readonly class ArticlePolicy
      */
     public function archiveArticle(User $user, Article $article): Response
     {
-		if ($article->state->in(enums: [ArticleStates::Published, ArticleStates::Approval]) && $user->can('archive_article')) {
+		if ($article->state->in(enums: [ArticleStates::Published, ArticleStates::Approval]) && $user->can('archive:article')) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 
@@ -227,10 +232,10 @@ final readonly class ArticlePolicy
      */
     public function unarchive(User $user, Article $article): Response
     {
-        if ($article->state->is(ArticleStates::Archived) && $user->can('unarchive_article')) {
+        if ($article->state->is(ArticleStates::Archived) && $user->can('unarchive:article')) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 
@@ -247,11 +252,11 @@ final readonly class ArticlePolicy
     public function delete(User $user, Article $article): Response
     {
 		$allowedStates = [ArticleStates::New, ArticleStates::Draft, ArticleStates::ExternalData, ArticleStates::Archived];
-		
-        if ($user->can('delete_article') && $article->state->in(enums: $allowedStates)) {
+
+        if ($user->can('delete:article') && $article->state->in(enums: $allowedStates)) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 
@@ -266,10 +271,10 @@ final readonly class ArticlePolicy
      */
     public function restore(User $user): Response
     {
-        if ($user->can('restore_article')) {
+        if ($user->can('restore:article')) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 
@@ -284,19 +289,19 @@ final readonly class ArticlePolicy
      */
     public function restoreAny(User $user): Response
     {
-        if ($user->can('restore_any_article')) {
+        if ($user->can('restore-any:article')) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
-	
+
     public function deleteAny(User $user): Response
     {
-        if ($user->can('delete_any_article')) {
+        if ($user->can('delete-any:article')) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 }

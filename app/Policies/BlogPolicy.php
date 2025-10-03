@@ -18,8 +18,12 @@ use Illuminate\Auth\Access\Response;
  * @link file://tests/Unit/Authorization/BlogPolicyTest.php
  * @package App\Policues
  */
-final readonly class BlogPolicy
+final class BlogPolicy
 {
+    public static array $permissionPrefixes = [
+        'viewAny', 'view', 'update', 'delete', 'deleteAny', 'undoPublication'
+    ];
+
     /**
      * Determines general access o the blog section of the application.
      *
@@ -32,7 +36,7 @@ final readonly class BlogPolicy
      */
     public function before(User $user): ?Response
     {
-        if ($user->cannot('page_Blog')) {
+        if ($user->cannot('view:blog-cluster')) {
             return Response::denyAsNotFound(message: __('U hebt niet de juiste globale machteging om nieuweberichten te beheren.'));
         }
 
@@ -66,7 +70,7 @@ final readonly class BlogPolicy
      */
     public function viewAny(User $user): Response
     {
-        return $user->can('view_any_blog')
+        return $user->can('view-any:blog')
             ? Response::allow()
             : Response::denyAsNotFound(message: __('U hebt niet de juiste machtiging om een overzicht van alle nieuwsberichten te bekijken.'));
     }
@@ -83,7 +87,7 @@ final readonly class BlogPolicy
      */
     public function view(User $user, Blog $blog): Response
     {
-        return $user->can('view_blog')
+        return $user->can('view:blog')
             ? Response::allow()
             : Response::denyAsNotFound();
     }
@@ -121,7 +125,7 @@ final readonly class BlogPolicy
      */
     public function update(User $user, Blog $blog): Response
     {
-        return ($blog->author()->is($user) || $user->can('update_blog'))
+        return ($blog->author()->is($user) || $user->can('update:blog'))
             ? Response::allow()
             : Response::denyAsNotFound();
     }
@@ -141,10 +145,10 @@ final readonly class BlogPolicy
 		if ($blog->status->isPublished()) {
 			return Response::denyAsNotFound();
 		}
-		
+
         return Response::allow();
     }
-	
+
 	/**
 	 * Authorizes a user to unpublish a blog post.
 	 *
@@ -158,10 +162,10 @@ final readonly class BlogPolicy
 	 */
 	public function undoPublication(User $user, Blog $blog): Response
 	{
-		if ($user->can('undo_publication_blog') && $blog->status->isPublished()) {
+		if ($user->can('undo-publication:blog') && $blog->status->isPublished()) {
 			return Response::allow();
 		}
-		
+
 		return Response::denyAsNotFound();
 	}
 
@@ -178,7 +182,7 @@ final readonly class BlogPolicy
      */
     public function delete(User $user, Blog $blog): Response
     {
-        return ($blog->author()->is($user) || $user->can('delete_blog'))
+        return ($blog->author()->is($user) || $user->can('delete:blog'))
             ? Response::allow()
             : Response::denyAsNotFound();
     }
@@ -194,7 +198,7 @@ final readonly class BlogPolicy
      */
     public function deleteAny(User $user): Response
     {
-        return $user->can('delete_any_blog')
+        return $user->can('delete-any:blog')
 			? Response::allow()
 			: Response::denyAsNotFound();
     }

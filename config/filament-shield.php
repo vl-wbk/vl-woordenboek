@@ -168,6 +168,12 @@ return [
             // Own Resources
             \App\Filament\Resources\Users\UserResource::class => \App\Policies\UserPolicy::$permissionPrefixes,
             \App\Filament\Resources\Feedback\FeedbackResource::class => \App\Policies\FeedbackPolicy::$permissionPrefixes,
+            \App\Filament\Resources\Articles\ArticleResource::class => \App\Policies\ArticlePolicy::$permissionPrefixes,
+            \App\Filament\Clusters\UserManagement\Resources\Bans\BanResource::class => \App\Policies\BanPolicy::$permissionPrefixes,
+            \App\Filament\Clusters\Blog\Resources\Categories\CategoryResource::class => \App\Policies\CategoryPolicy::$permissionPrefixes,
+            \App\Filament\Clusters\Blog\Resources\Blogs\BlogResource::class => \App\Policies\BlogPolicy::$permissionPrefixes,
+            \App\Filament\Clusters\Articles\Resources\Labels\LabelResource::class => \App\Policies\LabelPolicy::$permissionPrefixes,
+
         ],
         'exclude' => [
             \Kenepa\TranslationManager\Resources\LanguageLineResource::class,

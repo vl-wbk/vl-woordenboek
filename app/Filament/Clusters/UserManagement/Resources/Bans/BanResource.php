@@ -13,9 +13,7 @@ use Filament\Resources\Pages\PageRegistration;
 use App\Filament\Clusters\UserManagement\UserManagementCluster;
 use App\Filament\Clusters\UserManagement\Resources\BanResource\Concerns;
 use App\Filament\Clusters\UserManagement\Resources\BanResource\Pages;
-use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Cog\Laravel\Ban\Models\Ban;
-use Filament\Infolists\Components;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 
@@ -28,7 +26,7 @@ use Filament\Tables\Table;
  *
  * @package App\Filament\Clusters\UserManagement\Resources
  */
-final class BanResource extends Resource implements HasShieldPermissions
+final class BanResource extends Resource
 {
     use TableSchemeLayout;
     use TableActions;
@@ -58,21 +56,6 @@ final class BanResource extends Resource implements HasShieldPermissions
      * {@inheritDoc}
      */
     protected static ?string $cluster = UserManagementCluster::class;
-
-
-    /**
-     * @todo Document this function
-     * @return list<string>
-     */
-    public static function getPermissionPrefixes(): array
-    {
-        return [
-            'view_any',
-            'view',
-            'update',
-            'delete',
-        ];
-    }
 
     /**
      * @todo Document this function
