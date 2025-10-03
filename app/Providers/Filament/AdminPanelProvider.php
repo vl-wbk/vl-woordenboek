@@ -106,15 +106,17 @@ final class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 TranslationManagerPlugin::make(),
-                FilamentShieldPlugin::make(),
+                FilamentShieldPlugin::make()
+                    ->navigationGroup('Toegangsbeheer')
+                    ->navigationLabel('Rollen & permissies'),
                 ResourceLockPlugin::make(),
                 GlobalSearchModalPlugin::make()
-                ->searchItemTree(false)
-                ->expandedUrlTarget(enabled: false)
-                ->highlightQueryStyles([
-                    'background-color' => 'yellow',
-                    'font-weight' => 'bold',
-                ]),
+                    ->searchItemTree(false)
+                    ->expandedUrlTarget(enabled: false)
+                    ->highlightQueryStyles([
+                        'background-color' => 'yellow',
+                        'font-weight' => 'bold',
+                    ]),
                 EasyFooterPlugin::make()
                     ->withGithub()
                     ->withLoadTime()
