@@ -17,7 +17,7 @@ use Illuminate\Auth\Access\Response;
 final class UserPolicy
 {
     public static array $permissionPrefixes = [
-        'view_any', 'create', 'deactivate', 'deactivate_update', 'reactivate',
+        'viewAny', 'create', 'deactivate', 'deactivateUpdate', 'reactivate',
     ];
 
     public function before(User $user, string $ability): ?Response
