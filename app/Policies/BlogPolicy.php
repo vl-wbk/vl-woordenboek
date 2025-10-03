@@ -25,25 +25,6 @@ final class BlogPolicy
     ];
 
     /**
-     * Determines general access o the blog section of the application.
-     *
-     * This "Before" method a crucial gatekeeper, running before all other policy methods.
-     * It checks for a functional permission ('page_Blog').
-     * If a user lacks this, all other checks are short-circuited, effectively denying them access to any blog-related actions without further checks.
-     *
-     * @param  User  $user    The authenticated user.
-     * @return Response|null  Returns 'Response::denyAsNotFound()' if the uses cannot access the blog_page, otherwise 'null' to allow the specific policy method to execute.;
-     */
-    public function before(User $user): ?Response
-    {
-        if ($user->cannot('view:blog-cluster')) {
-            return Response::denyAsNotFound(message: __('U hebt niet de juiste globale machteging om nieuweberichten te beheren.'));
-        }
-
-        return null; // Proceed to resource-specific policy checks.
-    }
-
-    /**
      * Authorizes a user to create a new plog post.
      *
      * The core requirement for this action is a verified email address for now.

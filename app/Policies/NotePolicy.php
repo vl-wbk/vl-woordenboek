@@ -29,24 +29,6 @@ use Illuminate\Auth\Access\Response;
 final readonly class NotePolicy
 {
     /**
-     * Performs pre-authorization checks for all note-related operations.
-     * This method serves as a gateway for administrative access, automatically granting permission to users with administrator or developer roles.
-     * For all other users, the method allows the regular authorization flow to proceed by returning null.
-     *
-     * @param  User   $user     The user attempting the operation
-     * @param  string $ability  The authorization action being attempted
-     * @return Response|null    True for administrators, null for other users
-     */
-    public function before(User $user, string $ability): Response|null
-    {
-        if ($user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer])) {
-            return Response::allow();
-        }
-
-        return null;
-    }
-
-    /**
      * Controls authorization for note modification operations. This method enforces content ownership by verifying that the user attempting to update a note is its original author.
      * This restriction ensures that users can only modify their own content, maintaining data integrity and user trust in the system.
      *
@@ -59,7 +41,7 @@ final readonly class NotePolicy
         if ($note->author()->is($user)) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 
@@ -77,7 +59,7 @@ final readonly class NotePolicy
         if ($note->author()->is($user)) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 }

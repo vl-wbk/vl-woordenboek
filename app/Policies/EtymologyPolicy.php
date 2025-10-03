@@ -29,27 +29,13 @@ final class EtymologyPolicy
      */
     public static array $defaultPermissions = ['view', 'view_any', 'update', 'delete', 'delete_any', 'archive', 'reject', 'publish', 'draft', 'under_review'];
 
-    /**
-     * @param  User     $user       The user attempting the action.
-     * @param  string   $ability    The name of the policy being checked.
-     * @return Response|null        Returns a deny response or null to continu.
-     */
-    public function before(User $user, string $ability): ?Response
-    {
-        if ($user->cannot('page_Articles')) {
-            return Response::denyAsNotFound();
-        }
-
-        return null;
-    }
-	
     public function viewAny(User $user): Response
     {
         return $user->can('view_any_etymology')
 			? Response::allow()
 			: Response::deny();
     }
-	
+
     public function view(User $user, Etymology $etymology): Response
     {
         return $user->can('view_etymology')
@@ -91,7 +77,7 @@ final class EtymologyPolicy
 			? Response::allow()
 			: Response::deny();
     }
-	
+
     public function deleteAny(User $user): Response
     {
         return $user->can('delete_any_etymology')
@@ -163,7 +149,7 @@ final class EtymologyPolicy
     public function draft(User $user, Etymology $etymology): Response
     {
 		$allowedStates = [EtymologyStatus::UnderReview, EtymologyStatus::Rejected, EtymologyStatus::Archived];
-		
+
         return ($etymology->status->in(enums: $allowedStates) && $user->can('update_etymology'))
 			? Response::allow()
 			: Response::deny();

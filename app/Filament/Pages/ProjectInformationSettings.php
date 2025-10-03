@@ -25,8 +25,6 @@ use Filament\Support\Enums\IconSize;
  */
 final class ProjectInformationSettings extends SettingsPage
 {
-    use HasPageShield;
-
     /**
      * Defines the icon used to represent this settings page in the Filament admin panel navigation menu. Uses a Tabler icon.
      */

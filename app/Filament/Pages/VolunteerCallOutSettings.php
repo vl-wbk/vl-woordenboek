@@ -30,8 +30,6 @@ use Filament\Support\Enums\IconSize;
  */
 final class VolunteerCallOutSettings extends SettingsPage
 {
-    use HasPageShield;
-
     /**
      * Defines the icon used to represent this settings page in the Filament admin panel navigation menu.
      * This helps users visually identify the page within the admin interface. Uses a Heroicon name.

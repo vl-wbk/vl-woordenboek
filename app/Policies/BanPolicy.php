@@ -25,15 +25,6 @@ final class BanPolicy
         'viewAny', 'view', 'update', 'delete',
     ];
 
-    public function before(User $user, string $ability): ?Response
-    {
-        if ($user->cannot('view:user-management-cluster')) {
-            return Response::denyAsNotFound();
-        }
-
-        return null;
-    }
-
     /**
      * Determines whether the user can view any `Ban` models.
      *

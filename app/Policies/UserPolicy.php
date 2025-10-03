@@ -20,15 +20,6 @@ final class UserPolicy
         'viewAny', 'create', 'deactivate', 'deactivateUpdate', 'reactivate',
     ];
 
-    public function before(User $user, string $ability): ?Response
-    {
-        if ($user->cannot('view:user-management-cluster')) {
-            return Response::denyAsNotFound();
-        }
-
-        return null;
-    }
-
     /**
      * Determines whether a user can view the user management interface.
      *

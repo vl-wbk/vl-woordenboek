@@ -18,7 +18,7 @@ return [
         'show_model_path' => false,
         'cluster' => \App\Filament\Clusters\UserManagement\UserManagementCluster::class,
         'tabs' => [
-            'pages' => true,
+            'pages' => false,
             'widgets' => true,
             'resources' => true,
             'custom_permissions' => false,

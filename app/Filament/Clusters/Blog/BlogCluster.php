@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog;
 
-use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Clusters\Cluster;
 
 /**
@@ -19,8 +18,6 @@ use Filament\Clusters\Cluster;
  */
 final class BlogCluster extends Cluster
 {
-    use HasPageShield;
-
     /**
      * Defines the navigation icon that represents this cluster in the administrator panel sidebar.
      *
@@ -47,4 +44,13 @@ final class BlogCluster extends Cluster
      * The `Nieuwsberichten` breadcrumb reinforces the user's current position in the interface and aids in navigation.
      */
     protected static ?string $clusterBreadcrumb = 'Nieuwsberichten';
+
+    public static function canAccess(): bool
+    {
+        if (count((new self)->getSubNavigation()) > 0) {
+            return true;
+        }
+
+        return false;
+    }
 }

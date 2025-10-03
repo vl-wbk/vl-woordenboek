@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\UserManagement;
 
-use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Clusters\Cluster;
 
 /**
@@ -17,18 +16,14 @@ use Filament\Clusters\Cluster;
  *
  * When extending this cluster, remember that all child resources will inherit these navigation settings.
  * It's a great place to add new user management features while keeping everything neatly organized.
- *
- * @package App\Filament\Clusters
  */
 final class UserManagementCluster extends Cluster
 {
-    use HasPageShield;
-
     /**
      * The icon shown in the navigation menu.
      * This user management section is visually represented by the Heroicon users outline variant.
      */
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-users';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-users';
 
     /**
      * The Dutch label displayed in the navigation menu.
@@ -41,4 +36,13 @@ final class UserManagementCluster extends Cluster
      * This helps administrators understand their current location in the administrator interface.
      */
     protected static ?string $clusterBreadcrumb = 'Gebruikersbeheer';
+
+    public static function canAccess(): bool
+    {
+        if (count((new self)->getSubNavigation()) > 0) {
+            return true;
+        }
+
+        return false;
+    }
 }

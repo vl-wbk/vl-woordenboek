@@ -23,15 +23,6 @@ final class LabelPolicy
         'deleteAny', 'detach', 'attach', 'create', 'delete', 'update', 'view', 'viewAny'
     ];
 
-    public function before(User $user): ?Response
-    {
-        if ($user->cannot('view:articles_cluster')) {
-            return Response::denyAsNotFound();
-        }
-
-        return null;
-    }
-
     public function viewAny(User $user): Response
     {
         if ($user->can('view-any:label')) {

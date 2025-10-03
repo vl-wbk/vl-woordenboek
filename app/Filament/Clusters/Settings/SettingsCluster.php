@@ -43,4 +43,13 @@ final class SettingsCluster extends Cluster
      * @var ?string A nullable string containing the breadcrumb label in Dutch.
      */
     protected static ?string $clusterBreadcrumb = 'Applicatie instellingen';
+
+    public static function canAccess(): bool
+    {
+        if (count((new self)->getSubNavigation()) > 0) {
+            return true;
+        }
+
+        return false;
+    }
 }

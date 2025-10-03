@@ -27,24 +27,6 @@ use Illuminate\Auth\Access\Response;
 final readonly class ArticleReportPolicy
 {
     /**
-     * Provides global authorization logic for article reports.
-     *
-     * This method denies access to all actions for users with the "Editor" role.
-     * If no global rule applies, it defers to the specific policy methods for further authorization checks.
-     *
-     * @param  User $user  The user attempting to perform an action.
-     * @return bool|null   Returns `false` to deny access, or `null` to defer to specific methods.
-     */
-    public function before(User $user): ?Response
-    {
-        if ($user->cannot('page_Articles')) {
-            return Response::deny();
-        }
-
-        return null;
-    }
-
-    /**
      * Determines whether the user can view the list of article reports.
      *
      * This method allows all authenticated users to access the list of reports.
@@ -58,16 +40,16 @@ final readonly class ArticleReportPolicy
         if  ($user->can('view_any_article::report')) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
-	
+
     public function view(User $user, ArticleReport $articleReport): Response
     {
         if ($user->can('view_article::report')) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 
@@ -90,7 +72,7 @@ final readonly class ArticleReportPolicy
         if ($articleReport->assignee()->doesntExist() && $articleReport->state->is(enum: Status::Open)) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 
@@ -113,7 +95,7 @@ final readonly class ArticleReportPolicy
         if ($articleReport->assignee()->exists() && $articleReport->assignee()->is($user) && $articleReport->state->is(enum: Status::InProgress)) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 
@@ -131,16 +113,16 @@ final readonly class ArticleReportPolicy
         if ($user->can('delete_article::report')) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
-	
+
     public function deleteAny(User $user): Response
     {
         if ($user->can('delete_any_article::report')) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 }

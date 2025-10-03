@@ -26,25 +26,6 @@ final class CategoryPolicy
     ];
 
 	/**
-	 * Acts as a "fail-fast" gatekeeper for all category-related actions.
-	 *
-	 * This method is the first check that runs for any category action.
-	 * It immediately denies access and returns a '404 Not Found' response if the user doesn't have the foundational 'page_Blog' permission.
-	 * This is a smart security practice because it prevents unauthorized users from even knowing that a blog management section exists.
-	 *
-	 * @param  User $user		The authenticated user instance.
-	 * @return Response|null	Returns a `Response::denyAsNotFound()` if the user is not authorized to access the blog section, otherwise `null` to let the specific policy method run.
-	 */
-    public function before(User $user): ?Response
-    {
-        if ($user->cannot('view:blog-cluster')) {
-            return Response::denyAsNotFound();
-        }
-
-        return null;
-    }
-
-	/**
 	 * Determines whether the user can view a collection of categories.
 	 *
 	 * This policy is triggered when a user tries to access a list of all categories.

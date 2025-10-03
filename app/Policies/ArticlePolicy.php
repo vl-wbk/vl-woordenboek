@@ -24,15 +24,6 @@ final class ArticlePolicy
         'archive', 'unarchive', 'delete', 'deleteAny', 'restore', 'restoreAny', 'export',
     ];
 
-    public function before(User $user): ?Response
-    {
-        if ($user->cannot('view:articles_cluster')) {
-            return Response::denyAsNotFound();
-        }
-
-        return null;
-    }
-
     /**
      * Determines whether a user can update an article's content.
      *

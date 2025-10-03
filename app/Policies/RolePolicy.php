@@ -15,15 +15,6 @@ final class RolePolicy
         'viewAny', 'view', 'create', 'update', 'delete'
     ];
 
-    public function before(User $user, string $ability): ?Response
-    {
-        if ($user->cannot('view:user-management-cluster')) {
-            return Response::denyAsNotFound();
-        }
-
-        return null;
-    }
-
     public function viewAny(AuthUser $authUser): Response
     {
         if ($authUser->can('view-any:role')) {

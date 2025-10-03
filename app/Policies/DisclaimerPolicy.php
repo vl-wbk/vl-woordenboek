@@ -31,24 +31,6 @@ final class DisclaimerPolicy
     public static array $permissionPrefixes = ['view', 'view_any', 'create', 'update', 'delete', 'delete_any'];
 
     /**
-     * Method executed before any other policy checks.
-     *
-     * If the user lacks the permission to manage articles in the system, deny access with a consistent message.
-     * Returning null allows normal policy checks to proceed.
-     *
-     * @param  User $user		The currently authenticated user.
-     * @return Response|null	A denial response or null to continue checking other policies.
-     */
-    public function before(User $user): ?Response
-    {
-        if ($user->cannot('page_Articles')) {
-            return Response::deny(message: __('disclaimer-resource.policy.deny-messages.before'));
-        }
-
-        return null;
-    }
-
-    /**
      * Determine whether the user can view a specific disclaimer.
      * Grants access if the user has the 'view_disclaimer' permission, otherwise denies with a descriptive message.
      *
