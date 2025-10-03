@@ -170,6 +170,7 @@ return [
         ],
         'exclude' => [
             \Kenepa\TranslationManager\Resources\LanguageLineResource::class,
+            \App\Filament\Resources\Locks\LockResource::class,
         ],
     ],
 
