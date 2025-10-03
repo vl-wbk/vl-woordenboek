@@ -15,13 +15,11 @@ use App\Filament\Resources\Users\Pages\ViewUser;
 use App\Filament\Resources\Users\Pages\EditUser;
 use Filament\Resources\Pages\PageRegistration;
 use App\Filament\Clusters\UserManagement\UserManagementCluster;
-use App\Filament\Clusters\UserManagement\Resources\UserResource\RelationManagers;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\Schema;
 use App\Filament\Resources\Users\Schema\UserTable;
 use App\Filament\Resources\Users\Widgets\UserRegistrationChartWidget;
 use App\Models\User;
-use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 
@@ -41,7 +39,7 @@ use Filament\Tables\Table;
  *
  * @package App\Filament\Resources
  */
-final class UserResource extends Resource implements HasShieldPermissions
+final class UserResource extends Resource
 {
     /**
      * At the core of our system sits this connection to the User model.
@@ -78,20 +76,6 @@ final class UserResource extends Resource implements HasShieldPermissions
      * {@inheritDoc}
      */
     protected static ?string $cluster = UserManagementCluster::class;
-
-    /**
-     * @return list<string>
-     */
-    public static function getPermissionPrefixes(): array
-    {
-        return [
-            'view_any',
-            'create',
-            'deactivate',
-            'deactivate_update',
-            'reactivate',
-        ];
-    }
 
     /**
      * Our form builder - where we craft the perfect user creation experience.

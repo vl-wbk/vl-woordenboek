@@ -11,7 +11,9 @@ use Spatie\Permission\Models\Role;
 
 final class RolePolicy
 {
-    public static array $permissionPrefixes = ['viewAny', 'view', 'create', 'update', 'delete'];
+    public static array $permissionPrefixes = [
+        'viewAny', 'view', 'create', 'update', 'delete'
+    ];
 
     public function before(User $user, string $ability): ?Response
     {

@@ -14,11 +14,15 @@ use Illuminate\Auth\Access\Response;
  * @link file://tests/Unit/Authorization/CategoryPolicyTest.php
  * @package App\Policies
  */
-final readonly class UserPolicy
+final class UserPolicy
 {
+    public static array $permissionPrefixes = [
+        'view_any', 'create', 'deactivate', 'deactivate_update', 'reactivate',
+    ];
+
     public function before(User $user, string $ability): ?Response
     {
-        if ($user->cannot('page_UserManagement')) {
+        if ($user->cannot('view:user-management-cluster')) {
             return Response::denyAsNotFound();
         }
 
@@ -36,10 +40,10 @@ final readonly class UserPolicy
      */
     public function viewAny(User $user): Response
     {
-        if ($user->can('view_any_user')) {
+        if ($user->can('view-any:user')) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 
@@ -54,10 +58,10 @@ final readonly class UserPolicy
      */
     public function create(User $user): Response
     {
-        if ($user->can('create_user')) {
+        if ($user->can('create:user')) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 
@@ -75,10 +79,10 @@ final readonly class UserPolicy
      */
     public function deactivate(User $user, User $model): Response
     {
-        if ($user->can('deactivate_user') && $user->isNot($model) && $model->isNotBanned()) {
+        if ($user->can('deactivate:user') && $user->isNot($model) && $model->isNotBanned()) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 
@@ -96,10 +100,10 @@ final readonly class UserPolicy
      */
     public function reactivate(User $user, User $model): Response
     {
-        if ($user->can('reactivate_user') && $user->isNot($model) && $model->isBanned()) {
+        if ($user->can('reactivate:user') && $user->isNot($model) && $model->isBanned()) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 
@@ -119,10 +123,10 @@ final readonly class UserPolicy
      */
     public function updateDeactivation(User $user, User $model): Response
     {
-        if ($user->can('deactivate_update_user') && $user->isNot($model) && $model->isBanned()) {
+        if ($user->can('deactivate-update:user') && $user->isNot($model) && $model->isBanned()) {
 			return Response::allow();
 		}
-		
+
 		return Response::deny();
     }
 }
