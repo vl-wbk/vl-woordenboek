@@ -87,6 +87,7 @@ final class VolunteerCallOutSettings extends SettingsPage
                     ->iconSize(IconSize::Medium)
                     ->iconColor('primary')
                     ->columns(12)
+                    ->columnSpanFull()
                     ->compact()
                     ->headerActions([
                         Action::make('view-page')
@@ -106,6 +107,7 @@ final class VolunteerCallOutSettings extends SettingsPage
                     ->iconSize(IconSize::Medium)
                     ->iconColor('primary')
                     ->compact()
+                    ->columnSpanFull()
                     ->schema($this->volunteerOpeningsForm()),
             ]);
     }

@@ -72,6 +72,7 @@ final class ProjectInformationSettings extends SettingsPage
                     ->iconSize(IconSize::Medium)
                     ->compact()
                     ->columns(12)
+                    ->columnSpanFull()
                     ->schema($this->pageSettingsFormDefinition()),
             ]);
     }
