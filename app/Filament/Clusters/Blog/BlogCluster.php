@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog;
 
+use App\Filament\Support\Concerns\HasActiveIcon;
 use Filament\Clusters\Cluster;
 
 /**
@@ -18,6 +19,8 @@ use Filament\Clusters\Cluster;
  */
 final class BlogCluster extends Cluster
 {
+    use HasActiveIcon;
+
     /**
      * Defines the navigation icon that represents this cluster in the administrator panel sidebar.
      *

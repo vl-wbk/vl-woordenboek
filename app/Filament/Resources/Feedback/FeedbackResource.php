@@ -11,6 +11,7 @@ use App\Filament\Resources\Feedback\Pages\ListFeedback;
 use App\Enums\FeedbackStatus;
 use App\Filament\Resources\FeedbackResource\Pages;
 use App\Filament\Resources\FeedbackResource\Schema;
+use App\Filament\Support\Concerns\HasActiveIcon;
 use App\Models\Feedback;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
@@ -22,6 +23,8 @@ use Illuminate\Support\Facades\Cache;
  */
 final class FeedbackResource extends Resource
 {
+    use HasActiveIcon;
+
     protected static ?string $model = Feedback::class;
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-chat-bubble-left-right';

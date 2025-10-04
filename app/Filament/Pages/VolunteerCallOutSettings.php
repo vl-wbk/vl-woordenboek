@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Pages;
 
+use App\Filament\Support\Concerns\HasActiveIcon;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Actions\Action;
@@ -30,6 +31,8 @@ use Filament\Support\Enums\IconSize;
  */
 final class VolunteerCallOutSettings extends SettingsPage
 {
+    use HasActiveIcon;
+
     /**
      * Defines the icon used to represent this settings page in the Filament admin panel navigation menu.
      * This helps users visually identify the page within the admin interface. Uses a Heroicon name.

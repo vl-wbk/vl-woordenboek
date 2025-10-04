@@ -6,6 +6,7 @@ namespace App\Filament\Clusters\UserManagement\Resources\Bans;
 
 use App\Filament\Clusters\UserManagement\Resources\Bans\Concerns\TableSchemeLayout;
 use App\Filament\Clusters\UserManagement\Resources\Bans\Concerns\TableActions;
+use App\Filament\Support\Concerns\HasActiveIcon;
 use Filament\Schemas\Schema;
 use Filament\Infolists\Components\TextEntry;
 use App\Filament\Clusters\UserManagement\Resources\Bans\Pages\ListBans;
@@ -30,6 +31,7 @@ final class BanResource extends Resource
 {
     use TableSchemeLayout;
     use TableActions;
+    use HasActiveIcon;
 
     /**
      * We use a dutch interface label throughout the admin panel.
@@ -47,7 +49,7 @@ final class BanResource extends Resource
      * For visual recognition, we use a shield-lock icon from the Tabler icon set.
      * This icon perfectly represents the security aspect of account deactivations while maintaining a clean, professional look.
      */
-    protected static string | \BackedEnum | null $navigationIcon = 'tabler-shield-lock';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-shield-exclamation';
 
     /**
      * This resource belongs to the broader user management family.

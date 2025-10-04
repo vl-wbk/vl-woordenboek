@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Pages;
 
+use App\Filament\Support\Concerns\HasActiveIcon;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use App\Filament\Clusters\Settings\SettingsCluster;
@@ -25,10 +26,12 @@ use Filament\Support\Enums\IconSize;
  */
 final class ProjectInformationSettings extends SettingsPage
 {
+    use HasActiveIcon;
+
     /**
      * Defines the icon used to represent this settings page in the Filament admin panel navigation menu. Uses a Tabler icon.
      */
-    protected static string | \BackedEnum | null $navigationIcon = 'tabler-file-info';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-information-circle';
 
     /**
      * Specifies the Filament cluster that this settings page belongs to.

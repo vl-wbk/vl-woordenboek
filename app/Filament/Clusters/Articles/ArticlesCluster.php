@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles;
 
+use App\Filament\Support\Concerns\HasActiveIcon;
 use Filament\Clusters\Cluster;
 
 /**
@@ -11,6 +12,8 @@ use Filament\Clusters\Cluster;
  */
 final class ArticlesCluster extends Cluster
 {
+    use HasActiveIcon;
+
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-book-open';
     protected static ?string $navigationLabel = 'Woordenboek';
     protected static ?string $clusterBreadcrumb = 'Woordenboek';

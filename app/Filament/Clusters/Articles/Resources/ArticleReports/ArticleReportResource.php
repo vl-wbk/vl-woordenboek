@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\ArticleReports;
 
+use App\Filament\Support\Concerns\HasActiveIcon;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Actions\Action;
@@ -49,6 +50,8 @@ use Illuminate\Support\Facades\Cache;
  */
 final class ArticleReportResource extends Resource
 {
+    use HasActiveIcon;
+
     /**
      * Specifies the model associated with this resource.
      * This property links the `ArticleReportResource` to the `ArticleReport` model, ensuring that the resource operates on the correct data.

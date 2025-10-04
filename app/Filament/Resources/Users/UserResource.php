@@ -10,6 +10,7 @@ use App\Filament\Clusters\UserManagement\Resources\UserResource\RelationManagers
 use App\Filament\Clusters\UserManagement\UserManagementCluster;
 use App\Filament\Resources\Users\Schema as UserSchema;
 use App\Filament\Resources\Users\Widgets\UserRegistrationChartWidget;
+use App\Filament\Support\Concerns\HasActiveIcon;
 use App\Models\User;
 use Filament\Resources\Pages\PageRegistration;
 use Filament\Resources\Resource;
@@ -33,6 +34,8 @@ use BackedEnum;
  */
 final class UserResource extends Resource
 {
+    use HasActiveIcon;
+
     /**
      * At the core of our system sits this connection to the User model.
      *

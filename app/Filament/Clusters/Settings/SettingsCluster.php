@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Settings;
 
+use App\Filament\Support\Concerns\HasActiveIcon;
 use Filament\Clusters\Cluster;
 
 /**
@@ -16,6 +17,8 @@ use Filament\Clusters\Cluster;
  */
 final class SettingsCluster extends Cluster
 {
+    use HasActiveIcon;
+
     /**
      * Specifies the icon used in the navigation menu for the settings section.
      *

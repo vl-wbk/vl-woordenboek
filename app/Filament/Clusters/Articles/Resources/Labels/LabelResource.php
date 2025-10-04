@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\Labels;
 
+use App\Filament\Support\Concerns\HasActiveIcon;
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
@@ -44,6 +45,8 @@ use Illuminate\Support\Str;
  */
 final class LabelResource extends Resource
 {
+    use HasActiveIcon;
+
     /**
      * The underlying Eloquent model that represents labels in our database. This model handles all
      * database interactions and relationships with other models in the system. The Label model

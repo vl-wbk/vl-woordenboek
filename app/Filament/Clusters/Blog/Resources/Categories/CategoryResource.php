@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources\Categories;
 
+use App\Filament\Support\Concerns\HasActiveIcon;
 use Filament\Schemas\Schema;
 use App\Filament\Clusters\Blog\Resources\Categories\Pages\ListCategories;
 use Filament\Resources\Pages\PageRegistration;
@@ -32,6 +33,8 @@ use Filament\Tables\Table;
  */
 final class CategoryResource extends Resource
 {
+    use HasActiveIcon;
+
     /**
      * The Eloquent model that this resource is tied to.
      * This model will be used by Filament to retrieve, update, and delete category data in the database.

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources\Blogs;
 
+use App\Filament\Support\Concerns\HasActiveIcon;
 use Filament\Schemas\Schema;
 use App\Filament\Clusters\Blog\Resources\Blogs\Pages\ListBlogs;
 use App\Filament\Clusters\Blog\Resources\Blogs\Pages\CreateBlog;
@@ -42,6 +43,8 @@ use Filament\Tables\Table;
  */
 final class BlogResource extends Resource
 {
+    use HasActiveIcon;
+
     /**
      * The model associated with this resource.
      * This tells Filament which Eloquent model this resource will manage.

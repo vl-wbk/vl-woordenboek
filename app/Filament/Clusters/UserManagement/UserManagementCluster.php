@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\UserManagement;
 
+use App\Filament\Support\Concerns\HasActiveIcon;
 use Filament\Clusters\Cluster;
 
 /**
@@ -19,6 +20,8 @@ use Filament\Clusters\Cluster;
  */
 final class UserManagementCluster extends Cluster
 {
+    use HasActiveIcon;
+
     /**
      * The icon shown in the navigation menu.
      * This user management section is visually represented by the Heroicon users outline variant.

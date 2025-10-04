@@ -11,6 +11,7 @@ use App\Filament\Clusters\Articles\Resources\Disclaimers\Pages\ListDisclaimers;
 use App\Filament\Clusters\Articles\Resources\Disclaimers\Pages\CreateDisclaimer;
 use App\Filament\Clusters\Articles\Resources\Disclaimers\Pages\ViewDisclaimer;
 use App\Filament\Clusters\Articles\Resources\Disclaimers\Pages\EditDisclaimer;
+use App\Filament\Support\Concerns\HasActiveIcon;
 use Filament\Resources\Pages\PageRegistration;
 use App\Filament\Clusters\Articles\ArticlesCluster;
 use App\Filament\Clusters\Articles\Resources\DisclaimerResource\Pages;
@@ -33,6 +34,8 @@ use App\Filament\Clusters\Articles\Resources\DisclaimerResource\Schema;
  */
 final class DisclaimerResource extends Resource
 {
+    use HasActiveIcon;
+
     /**
      * This static property links the Filament resource to its corresponding database model.
      * By setting this, Filament can automatically handle all data-related operations, including querying records for

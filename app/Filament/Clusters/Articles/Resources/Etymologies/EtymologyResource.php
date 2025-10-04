@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\Etymologies;
 
+use App\Filament\Support\Concerns\HasActiveIcon;
 use Filament\Schemas\Schema;
 use Filament\Actions\Action;
 use App\Filament\Clusters\Articles\Resources\Etymologies\Pages\ListEtymologies;
@@ -15,24 +16,25 @@ use App\Filament\Clusters\Articles\Resources\Etymologies\Schema\FormSchema;
 use App\Filament\Clusters\Articles\Resources\Etymologies\Schema\InfolistSchema;
 use App\Filament\Clusters\Articles\Resources\Etymologies\Schema\TableSchema;
 use App\Filament\Clusters\Articles\Resources\Etymologies\Widgets\EtymologyStatisticsWidget;
-use App\Policies\EtymologyPolicy;
-use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use BackedEnum;
 
 /**
  * @todo document resource class
  */
 final class EtymologyResource extends Resource
 {
+    use HasActiveIcon;
+
     protected static ?string $modelLabel = 'Etymologie';
 
     protected static ?string $pluralLabel = 'Etymologieën';
 
     protected static ?string $cluster = ArticlesCluster::class;
 
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-book-open';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-book-open';
 
     public static function infolist(Schema $schema): Schema
     {

@@ -20,6 +20,7 @@ use App\Filament\Resources\Articles\RelationManagers\LabelsRelationManager;
 use App\Filament\Resources\Articles\RelationManagers\NotesRelationManager;
 use App\Filament\Resources\Articles\Schema\FormSchema;
 use App\Filament\Resources\Articles\Schema\WordInfolist;
+use App\Filament\Support\Concerns\HasActiveIcon;
 use App\Models\Article;
 use App\UserTypes;
 use Filament\Actions\Action;
@@ -66,6 +67,8 @@ use BackedEnum;
  */
 final class ArticleResource extends Resource
 {
+    use HasActiveIcon;
+
     /**
      * The Eloquent model that this resource represents.
      */
