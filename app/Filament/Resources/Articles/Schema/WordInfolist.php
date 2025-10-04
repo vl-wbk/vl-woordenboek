@@ -143,6 +143,7 @@ final readonly class WordInfolist
             ->schema([
                 TextEntry::make('disclaimer.message')
                     ->columnSpanFull()
+                    ->label('Disclaimer')
                     ->placeholder('- er is momenteel geen disclaimer actief voor dit artikel')
                     ->hintActions(DisclaimerToolbarActions::register()),
                 TextEntry::make('publisher.name')
