@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\Etymologies\Actions;
 
-use App\Models\Etymology;
 use App\Enums\Articles\EtymologyStatus;
+use App\Models\Etymology;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 
@@ -15,9 +15,6 @@ use Filament\Actions\Concerns\CanCustomizeProcess;
  * This action provides a declarative interface for integrating a specific state transition into the Filament administration panel.
  * It encapsulates the logic for user authorization, visual presentation, user interaction (via a confirmation modal), and the execution of the underlying state change on the `Etymology` model.
  * The action leverages Filament's built-in features for process customization, confirmation dialogues, and notification management to ensure a robust user experience.
- *
- * @property Etymology $record The Eloquent model instance of `Etymology` on which this action is being performed. This property is automatically resolved by Filament.
- * @package  App\Filament\Clusters\Articles\Resources\EtymologyResource\Actions
  */
 final class UnderReviewEtymology extends Action
 {
@@ -58,7 +55,7 @@ final class UnderReviewEtymology extends Action
     {
         parent::setUp();
 
-        $this->authorize('underReview', $this->record);
+        $this->authorize('underReview');
 
         $this->icon('heroicon-o-paper-airplane');
         $this->color('success');
@@ -76,8 +73,9 @@ final class UnderReviewEtymology extends Action
         $this->failureNotificationTitle(title: __('etymology-resource.custom-actions.under-review.notifications.failure-title'));
 
         $this->action(function (): void {
-            if ($this->process(fn(): bool|int => $this->record->state()->transitionToUnderReview())) {
+            if ($this->process(fn (Etymology $etymology): bool|int => $etymology->state()->transitionToUnderReview())) {
                 $this->success();
+
                 return;
             }
 

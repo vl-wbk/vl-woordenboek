@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\Etymologies\Actions;
 
-use App\Models\Etymology;
 use App\Enums\Articles\EtymologyStatus;
-use Filament\Actions\Concerns\CanCustomizeProcess;
+use App\Models\Etymology;
 use Filament\Actions\Action;
+use Filament\Actions\Concerns\CanCustomizeProcess;
 
 /**
  * Represents a custom Filament Action designed to transition an `Etymology` record
@@ -17,11 +17,6 @@ use Filament\Actions\Action;
  * It encapsulates the logic for user authorization, visual presentation, user interaction (via a confirmation modal), and the execution of the underlying state change on the `Etymology` model.
  * The action leverages Filament's built-in features for process customization, confirmation dialogues, and notification management to ensure a robust and
  * user-friendly experience for managing etymology submissions, specifically placing them into a non-public, editable draft state.
- *
- * @property Etymology $record The Eloquent model instance of `Etymology`
- * on which this action is being performed. This property
- * is automatically resolved by Filament.
- * @package category
  */
 final class DraftEtymology extends Action
 {
@@ -60,7 +55,7 @@ final class DraftEtymology extends Action
     {
         parent::setUp();
 
-        $this->authorize('draft', $this->record);
+        $this->authorize('draft');
 
         $this->icon('heroicon-o-pencil-square');
         $this->color('warning');
@@ -77,8 +72,9 @@ final class DraftEtymology extends Action
         $this->failureNotificationTitle(title: __('etymology-resource.custom-actions.draft.notifications.failure-title'));
 
         $this->action(function (): void {
-            if ($this->process(fn(): bool|int => $this->record->state()->transitionToDraft())) {
+            if ($this->process(fn (Etymology $etymology): bool|int => $etymology->state()->transitionToDraft())) {
                 $this->success();
+
                 return;
             }
 

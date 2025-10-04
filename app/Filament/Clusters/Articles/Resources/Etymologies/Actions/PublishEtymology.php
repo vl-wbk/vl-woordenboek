@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\Etymologies\Actions;
 
-use App\Models\Etymology;
 use App\Enums\Articles\EtymologyStatus;
+use App\Models\Etymology;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 
@@ -15,9 +15,6 @@ use Filament\Actions\Concerns\CanCustomizeProcess;
  * This action provides a declarative interface for integrating a specific state transition into the Filament administration panel.
  * It encapsulates the logic for user authorization, visual presentation, user interaction (via a confirmation modal), and the execution of the underlying state change on the `Etymology` model.
  * The action leverages Filament's built-in features for process customization, confirmation dialogues, and notification management to ensure a robust and user-friendly experience for publishing etymology submissions.
- *
- * @property Etymology $record The Eloquent model instance of `Etymology` on which this action is being performed. This property is automatically resolved by Filament.
- * @package  App\Filament\Clusters\Articles\Resources\EtymologyResource\Actions
  */
 final class PublishEtymology extends Action
 {
@@ -59,7 +56,7 @@ final class PublishEtymology extends Action
     {
         parent::setUp();
 
-        $this->authorize('publish', $this->record);
+        $this->authorize('publish');
 
         $this->icon('heroicon-o-globe-europe-africa');
         $this->color('success');
@@ -76,8 +73,9 @@ final class PublishEtymology extends Action
         $this->failureNotificationTitle(title: __('etymology-resource.custom-actions.publish.notifications.failure-title'));
 
         $this->action(function (): void {
-            if ($this->process(fn(): bool|int => $this->record->state()->transitionToPublished())) {
+            if ($this->process(fn (Etymology $etymology): bool|int => $etymology->state()->transitionToPublished())) {
                 $this->success();
+
                 return;
             }
 

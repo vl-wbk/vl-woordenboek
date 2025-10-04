@@ -18,9 +18,6 @@ use Filament\Forms\Components\Textarea;
  * and the execution of the underlying state change on the `Etymology` model.
  * The action leverages Filament's built-in features for process customization, confirmation dialogues, and notification management to ensure a robust and auditable user experience
  * for archiving etymology submissions.
- *
- * @property Etymology $record The Eloquent model instance of `Etymology` on which this action is being performed. This property is automatically resolved by Filament.
- * @package App\Filament\Clusters\Articles\Resources\EtymologyResource\Actions
  */
 final class ArchiveEtymology extends Action
 {
@@ -67,7 +64,7 @@ final class ArchiveEtymology extends Action
     {
         parent::setUp();
 
-        $this->authorize('archive', $this->record);
+        $this->authorize('archive');
 
         $this->icon('heroicon-o-archive-box');
         $this->color('warning');
@@ -92,7 +89,7 @@ final class ArchiveEtymology extends Action
         ]);
 
         $this->action(function (): void {
-            if ($this->process(fn(array $data): bool|int => $this->record->state()->transitionToArchived($data['reason']))) {
+            if ($this->process(fn(Etymology $etymology, array $data): bool|int => $etymology->state()->transitionToArchived($data['reason']))) {
                 $this->success();
                 return;
             }

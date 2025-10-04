@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\Etymologies\Actions;
 
-use App\Models\Etymology;
 use App\Enums\Articles\EtymologyStatus;
+use App\Models\Etymology;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Forms\Components\Textarea;
@@ -18,9 +18,6 @@ use Filament\Forms\Components\Textarea;
  * and the execution of the underlying state change on the `Etymology` model.
  * The action leverages Filament's built-in features for process customization, confirmation dialogues, and notification management to ensure a robust and auditable user experience
  * for rejecting etymology submissions.
- *
- * @property Etymology $record The Eloquent model instance of `Etymology` on which this action is being performed. This property is automatically resolved by Filament.
- * @package  App\Filament\Clusters\Articles\Resources\EtymologyResource\Actions
  */
 final class RejectEtymology extends Action
 {
@@ -66,7 +63,7 @@ final class RejectEtymology extends Action
     {
         parent::setUp();
 
-        $this->authorize('reject', $this->record);
+        $this->authorize('reject');
 
         $this->icon('heroicon-o-hand-thumb-down');
         $this->color('danger');
@@ -91,8 +88,9 @@ final class RejectEtymology extends Action
         $this->failureNotificationTitle(title: __('etymology-resource.custom-actions.reject.notifications.failure-title'));
 
         $this->action(function (): void {
-            if ($this->process(fn(array $data): bool|int => $this->record->state()->transitionToRejected($data['reason']))) {
+            if ($this->process(fn (Etymology $etymology, array $data): bool|int => $etymology->state()->transitionToRejected($data['reason']))) {
                 $this->success();
+
                 return;
             }
 

@@ -157,11 +157,11 @@ return [
                 'heading' => 'Etymologie afwijzen',
                 'description' => 'U staat op het punt om een etymology af te wijzen in het systeem. Bij afwijzing zal deze niet gepubliceerd worden. Bent u zeker dat u dit wilt doen?',
                 'submit-label' => 'Ja, ik ben zeker',
+            ],
 
-                'form' => [
-                    'label' => 'Reden van de afwijzing',
-                    'placeholder' => 'Beschrijf kort waarom je de gegevens wilt afwijzen.',
-                ],
+            'form' => [
+                'label' => 'Reden van de afwijzing',
+                'placeholder' => 'Beschrijf kort waarom je de gegevens wilt afwijzen.',
             ],
             'notifications' => [
                 'success-title' => 'De etymologische gegevens of bijdragen zijn afgewezen',

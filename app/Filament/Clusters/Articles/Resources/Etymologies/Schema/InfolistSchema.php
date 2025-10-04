@@ -53,6 +53,7 @@ final readonly class InfolistSchema
                 ->description(description: __('etymology-resource.infolist.description'))
                 ->compact()
                 ->collapsed()
+                ->columnSpanFull()
                 ->columns(12)
                 ->schema(self::authorInformationTab()),
 
