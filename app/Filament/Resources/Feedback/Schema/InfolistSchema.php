@@ -38,6 +38,7 @@ final readonly class InfolistSchema
             ->components([
                 Fieldset::make(label: __('feedback-resource.infolist.fieldsets.sender'))
                     ->columns(12)
+                    ->columnSpanFull()
                     ->schema([
                         TextEntry::make('name')
                             ->weight(FontWeight::SemiBold)
@@ -55,6 +56,7 @@ final readonly class InfolistSchema
 
                 Fieldset::make(label: __('feedback-resource.infolist.fieldsets.feedback'))
                     ->columns(12)
+                    ->columnSpanFull()
                     ->schema([
                         TextEntry::make('first_time_visit')
                             ->badge()
