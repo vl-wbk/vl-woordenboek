@@ -104,7 +104,14 @@ final class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
-            ->colors(['primary' => Color::Blue])
+            ->colors([
+                'primary' => Color::Blue,
+                'gray' => Color::Slate,      // Cool gray for backgrounds/text
+                'success' => Color::Emerald, // High-contrast green for success
+                'danger' => Color::Rose,     // Standard warning red
+                'warning' => Color::Amber,   // Standard warning orange
+                'info' => Color::Cyan,       // Lighter blue/cyan for info
+            ])
             ->plugins([
                 TranslationManagerPlugin::make(),
                 FilamentShieldPlugin::make()
