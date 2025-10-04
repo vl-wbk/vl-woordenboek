@@ -4,22 +4,21 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Users;
 
-use App\Filament\Resources\Users\Schema\UserForm;
-use App\Filament\Clusters\UserManagement\Resources\UserResource\RelationManagers\SuggestionsRelationManager;
-use App\Filament\Clusters\UserManagement\Resources\UserResource\RelationManagers\ReportsRelationManager;
 use App\Filament\Clusters\UserManagement\Resources\RoleResource\RelationManagers\RolesRelationManager;
-use App\Filament\Resources\Users\Schema\UserInfolist;
-use App\Filament\Resources\Users\Pages\ListUsers;
-use App\Filament\Resources\Users\Pages\CreateUser;
-use App\Filament\Resources\Users\Pages\ViewUser;
-use App\Filament\Resources\Users\Pages\EditUser;
-use Filament\Resources\Pages\PageRegistration;
+use App\Filament\Clusters\UserManagement\Resources\UserResource\RelationManagers\ReportsRelationManager;
+use App\Filament\Clusters\UserManagement\Resources\UserResource\RelationManagers\SuggestionsRelationManager;
 use App\Filament\Clusters\UserManagement\UserManagementCluster;
 use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\Schema;
+use App\Filament\Resources\Users\Pages\CreateUser;
+use App\Filament\Resources\Users\Pages\EditUser;
+use App\Filament\Resources\Users\Pages\ListUsers;
+use App\Filament\Resources\Users\Pages\ViewUser;
+use App\Filament\Resources\Users\Schema\UserForm;
+use App\Filament\Resources\Users\Schema\UserInfolist;
 use App\Filament\Resources\Users\Schema\UserTable;
 use App\Filament\Resources\Users\Widgets\UserRegistrationChartWidget;
 use App\Models\User;
+use Filament\Resources\Pages\PageRegistration;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 
@@ -36,8 +35,6 @@ use Filament\Tables\Table;
  *
  * Security was a top priority in our design. Every sensitive action requires proper permissions, and we keep detailed logs of important changes.
  * If someone tries something they shouldn't, our system will politely decline. We've also built in tools for account suspension, just in case they're needed.
- *
- * @package App\Filament\Resources
  */
 final class UserResource extends Resource
 {
@@ -67,7 +64,7 @@ final class UserResource extends Resource
      * In the navigation menu, we use a simple users icon to mark this section.
      * We chose this particular icon because it's universally recognized and immediately tells administrators they're in the user management area.
      */
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-users';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-users';
 
     /**
      * Organization matters, so we've grouped all user-related tools together under the UserManagement cluster.
@@ -91,7 +88,7 @@ final class UserResource extends Resource
      *
      * Everything is labeled in Dutch, maintaining our commitment to a fully localized interface.
      *
-     * @param \Filament\Schemas\Schema $schema The Filament form builder instance
+     * @param  \Filament\Schemas\Schema  $schema  The Filament form builder instance
      * @return \Filament\Schemas\Schema The configured form ready for display
      */
     public static function form(\Filament\Schemas\Schema $schema): \Filament\Schemas\Schema
@@ -104,14 +101,12 @@ final class UserResource extends Resource
      */
     public static function getWidgets(): array
     {
-        /** @phpstan-ignore-next-line */
-        return [
-            UserRegistrationChartWidget::class,
-        ];
+        return [UserRegistrationChartWidget::class];
     }
 
     /**
      * @odo Implement a relation manager for the permission roles.
+     *
      * @todo Document this method
      */
     public static function getRelations(): array
@@ -145,8 +140,8 @@ final class UserResource extends Resource
      * Security is built right in - actions like banning users are only visible
      * to administrators with the right permissions.
      *
-     * @param  Table $table  The Filament table builder instance
-     * @return Table         The fully configured table ready for display
+     * @param  Table  $table  The Filament table builder instance
+     * @return Table The fully configured table ready for display
      */
     public static function table(Table $table): Table
     {

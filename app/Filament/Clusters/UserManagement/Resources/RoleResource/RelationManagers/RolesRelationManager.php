@@ -4,24 +4,21 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\UserManagement\Resources\RoleResource\RelationManagers;
 
-use Filament\Tables\Columns\TextColumn;
-use Filament\Actions\AttachAction;
-use Filament\Actions\ActionGroup;
-use Filament\Actions\ViewAction;
-use Filament\Actions\DetachAction;
-use Filament\Actions\DetachBulkAction;
 use App\Filament\Resources\Users\Pages\ViewUser;
 use App\Models\User;
+use BezhanSalleh\FilamentShield\Resources\Roles\RoleResource;
+use Filament\Actions;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\FontWeight;
-use Filament\Tables;
+use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Spatie\Permission\Models\Role;
-use BezhanSalleh\FilamentShield\Resources\Roles\RoleResource;
+use BackedEnum;
 
 /**
  * Class RolesRelationManager
@@ -29,8 +26,6 @@ use BezhanSalleh\FilamentShield\Resources\Roles\RoleResource;
  * This class serves as a Filament Relation Manager for the `roles` relationship on a User model.
  * It provides a comprehensive interface within the Filament admin panel to manage (view, attach, and detach) Spatie roles associated with a specific user.
  * It enhances the user management experience by displaying roles in a table, offering actions for assignment and removal, and providing relevant metadata.
- *
- * @package App\Filament\Clusters\UserManagement\Resources\RoleResource\RelationManagers
  */
 final class RolesRelationManager extends RelationManager
 {
@@ -50,7 +45,7 @@ final class RolesRelationManager extends RelationManager
      * The Heroicon string used to represent this relation manager in the Filament UI.
      * This icon is typically displayed next to the title or in empty states.
      */
-    protected static string | \BackedEnum | null $icon = 'heroicon-o-users';
+    protected static string|BackedEnum|null $icon = Heroicon::OutlinedUsers;
 
     /**
      * Determines if the relation manager's table and actions should be read-only.
@@ -68,29 +63,28 @@ final class RolesRelationManager extends RelationManager
      * This method ensures the relation manager is only active when the current page is an instance of `ViewUser`, preventing it from appearing on other user-related pages where role management might not be appropriate.
      *
      * @param  Model  $ownerRecord  The Eloquent model instance that owns this relationship (e.g., `App\Models\User`).
-     * @param  string $pageClass    The fully qualified class name of the current Filament page.
-     * @return bool                 `true` if the relation manager can be viewed, `false` otherwise.
+     * @param  string  $pageClass  The fully qualified class name of the current Filament page.
+     * @return bool `true` if the relation manager can be viewed, `false` otherwise.
      */
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
     {
-        return new $pageClass() instanceof ViewUser && Auth::user()->can('view_role');
+        return new $pageClass instanceof ViewUser && Auth::user()->can('view:role');
     }
-
 
     /**
      * Retrieves the badge count to be displayed next to the relation manager's title.
      * This method efficiently retrieves the count of roles associated with the user by leveraging Laravel's `Cache::flexible` to cache the result for 30 to 60 seconds, reducing database load on subsequent requests.
      *
-     * @param  User    $ownerRecord  The Eloquent model instance that owns this relationship (e.g., `App\Models\User`).
-     * @param  string  $pageClass    The fully qualified class name of the current Filament page.
-     * @return string|null           The number of associated roles as a string, or `null` if no roles are found.
+     * @param  User  $ownerRecord  The Eloquent model instance that owns this relationship (e.g., `App\Models\User`).
+     * @param  string  $pageClass  The fully qualified class name of the current Filament page.
+     * @return string|null The number of associated roles as a string, or `null` if no roles are found.
      */
     public static function getBadge(Model $ownerRecord, string $pageClass): ?string
     {
         $recordCount = Cache::flexible(
-            key: 'permission_group_count' . $ownerRecord->id,
+            key: 'permission_group_count'.$ownerRecord->id,
             ttl: [30, 60],
-            callback: fn(): int => $ownerRecord->roles()->count(),
+            callback: fn (): int => $ownerRecord->roles()->count(),
         );
 
         return ($recordCount > 0) ? (string) $recordCount : null;
@@ -100,8 +94,8 @@ final class RolesRelationManager extends RelationManager
      * Defines the structure and behavior of the Filament table for displaying roles.
      * This method configures columns, empty states, descriptions, header actions (like attaching roles), row actions (like viewing or detaching roles), and bulk actions.
      *
-     * @param  Table $table The Filament `Table` instance to configure.
-     * @return Table        The configured `Table` instance.
+     * @param  Table  $table  The Filament `Table` instance to configure.
+     * @return Table The configured `Table` instance.
      */
     public function table(Table $table): Table
     {
@@ -136,7 +130,7 @@ final class RolesRelationManager extends RelationManager
                     ->date(),
             ])
             ->headerActions([
-                AttachAction::make()
+                Actions\AttachAction::make()
                     ->recordTitleAttribute('name')
                     ->modalHeading('Permissiegroep toekennen')
                     ->modalIcon(self::$icon)
@@ -144,20 +138,20 @@ final class RolesRelationManager extends RelationManager
                     ->modalAlignment(Alignment::Center)
                     ->modalFooterActionsAlignment(Alignment::Center)
                     ->attachAnother(false)
-                    ->icon('heroicon-o-link')
+                    ->icon(Heroicon::OutlinedLink)
                     ->color('primary')
                     ->label('Permissiegroep koppelen')
                     ->preloadRecordSelect(),
             ])
             ->recordActions([
-                ActionGroup::make([
-                    ViewAction::make()
-                        ->url(fn(Role $role): string => RoleResource::getUrl('view', ['record' => $role])),
-                    DetachAction::make(),
+                Actions\ActionGroup::make([
+                    Actions\ViewAction::make()
+                        ->url(fn (Role $role): string => RoleResource::getUrl('view', ['record' => $role])),
+                    Actions\DetachAction::make(),
                 ]),
             ])
             ->toolbarActions([
-                DetachBulkAction::make(),
+                Actions\DetachBulkAction::make(),
             ]);
     }
 }

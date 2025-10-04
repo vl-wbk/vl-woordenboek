@@ -4,14 +4,20 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Users\Widgets;
 
+use App\Filament\Support\Filters\Charts\DateRangeFilterChart;
 use App\Models\User;
+use Filament\Schemas\Schema;
 use Filament\Widgets\ChartWidget;
+use Filament\Widgets\ChartWidget\Concerns\HasFiltersSchema;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 
 final class UserRegistrationChartWidget extends ChartWidget
 {
-    public ?string $filter = 'perWeek';
+    use DateRangeFilterChart;
+    use HasFiltersSchema;
+
+    protected bool $isCollapsible = true;
 
     /**
      * The maximum height of the chart.
@@ -32,35 +38,36 @@ final class UserRegistrationChartWidget extends ChartWidget
      * These settings, such as scale configurations and legend display options, help tailor the appearance of the chart.
      *
      * @see https://www.chartjs.org/docs/latest/api/ For detailed documentation.
+     *
      * @var array<string, mixed>|null
      */
     protected ?array $options = [
         'scales' => [
             'y' => [
+                'stacked' => true,
                 'beginAtZero' => true,
                 'ticks' => ['stepSize' => 1],
             ],
+            'x' => ['stacked' => true],
         ],
         'plugins' => [
             'legend' => ['display' => true, 'fill' => true],
         ],
     ];
 
-    /**
-     * Defines the available filters for the chart.
-     *
-     * This method returns an array of filters that allow users to change the granularity of the data displayed in the chart.
-     * The keys of the array are used internally to determine the data aggregation period, while the values are the human-readable labels displayed in the filter dropdown.
-     *
-     * @return array<string, string> An array of filters, where the key is the filter identifier and the value is the filter label.
-     */
-    protected function getFilters(): array
+    public function filtersSchema(Schema $schema): Schema
     {
-        return [
-            'perDay' => 'Op dagelijkse basis',
-            'perWeek' => 'Op weekbasis',
-            'perMonth' => 'Op maandbasis',
-        ];
+        return $schema->components(
+            components: $this->dateRangeFilterSchema()
+        );
+    }
+
+    public function getDescription(): string
+    {
+        return trans(key: 'In de periode tussen :start en :end', replace: [
+            'start' => $this->getFilterStartDate()->translatedFormat('l d F Y'),
+            'end' => $this->getFilterEndDate()->translatedFormat('l d F Y'),
+        ]);
     }
 
     /**
@@ -73,11 +80,7 @@ final class UserRegistrationChartWidget extends ChartWidget
      */
     public function getHeading(): string
     {
-        $today = now();
-        $todayPreviousYear = now()->subYear();
-        $userCount = User::query()->whereBetween('created_at', [$todayPreviousYear, $today])->count();
-
-        return trans(':count nieuwe gebruikers', ['count' => $userCount]);
+        return trans('Gebruikerstrend in het :app', ['app' => 'Vlaams Woordenboek']);
     }
 
     /**
@@ -90,29 +93,17 @@ final class UserRegistrationChartWidget extends ChartWidget
      */
     protected function getData(): array
     {
-        $chartData = Trend::model(User::class)
-            ->between(start: now()->subYear(), end: now())
-            ->{$this->filter}()
-            ->count();
-
-        $registrationData = Trend::model(User::class)
-            ->between(start: now()->subYear(), end: now())
-            ->{$this->filter}()
-            ->dateColumn('email_verified_at')
-            ->count();
+        $emailVerificationData = $this->dateRangeFilterQuery(User::class, 'email_verified_at');
+        $registrationData = $this->dateRangeFilterQuery(User::class, 'created_at');
+        $twoFactorAuthData = $this->dateRangeFilterQuery(User::class, 'two_factor_confirmed_at');
 
         return [
             'datasets' => [
-                [
-                    'label' => 'Nieuwe registraties',
-                    'data' => $chartData->map(fn(TrendValue $value): mixed => $value->aggregate),
-                ],
-                [
-                    'label' => 'Aantal verificaties',
-                    'data' => $registrationData->map(fn(TrendValue $value): mixed => $value->aggregate),
-                ],
+                $this->getTrendData($registrationData, '#22c55e', 'Nieuwe registraties'),
+                $this->getTrendData($emailVerificationData, '#dc2626', 'Email verificaties'),
+                $this->getTrendData($twoFactorAuthData, '#eab308', '2FA verificaties')
             ],
-            'labels' => $chartData->map(fn(TrendValue $value): string => $value->date),
+            'labels' => $registrationData->map(fn (TrendValue $value): string => $value->date),
         ];
     }
 
