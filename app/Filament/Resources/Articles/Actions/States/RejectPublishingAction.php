@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Articles\Actions\States;
 
-use Filament\Support\Enums\Width;
 use App\Models\Article;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Forms\Components\Textarea;
+use Filament\Support\Enums\Width;
 
 /**
  * RejectPublishingAction handles the rejection of articles submitted for publication.
@@ -18,8 +18,6 @@ use Filament\Forms\Components\Textarea;
  * The action uses clear visual indicators through red coloring and X-mark iconography to signify its negative nature.
  *
  * @property Article $record The articles being rejected for publication.
- *
- * @package App\Filament\Resources\ArticleResource\Actions\States
  */
 final class RejectPublishingAction extends Action
 {
@@ -53,7 +51,7 @@ final class RejectPublishingAction extends Action
 
         $this->color('danger');
         $this->icon($this->actionIcon);
-        $this->authorize('publish', $this->record);
+        $this->authorize('publish');
 
         // Confirmation config
         $this->requiresConfirmation();
@@ -68,8 +66,9 @@ final class RejectPublishingAction extends Action
         $this->failureNotificationTitle('Helaas! Er is iets misgelopen');
 
         $this->action(function (array $data): void {
-            if ($this->process(fn() => $this->record->articleStatus()->transitionToEditing($data['reason']))) {
+            if ($this->process(fn (Article $article) => $article->articleStatus()->transitionToEditing($data['reason']))) {
                 $this->success();
+
                 return;
             }
 

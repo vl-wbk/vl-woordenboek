@@ -77,7 +77,7 @@ final class CreateWord extends CreateRecord
     public function afterCreate(): void
     {
         $this->record->author()->associate(auth()->user())->save();
-		
+
 		if ($this->record->state->is(ArticleStates::Published)) {
 			$this->record->update(['publisher_id' => auth()->id(), 'published_at' => now()]);
 		}
@@ -103,15 +103,15 @@ final class CreateWord extends CreateRecord
         return [
             Step::make(trans('Algemene informatie'))
                 ->icon('heroicon-o-language')
-                ->columns(12)
+                ->columnSpanFull()
                 ->schema([FormSchema::sectionConfiguration()->schema(FormSchema::getDetailSchema())]),
             Step::make(trans('Regio & status'))
                 ->icon('heroicon-o-map')
-                ->columns(12)
+                ->columnSpanFull()
                 ->schema([FormSchema::sectionConfiguration()->schema(FormSchema::getStatusAndRegionDetails())]),
             Step::make(trans('Bronnen'))
                 ->icon('heroicon-o-book-open')
-                ->columns('12')
+                ->columnSpanFull()
                 ->schema([FormSchema::sectionConfiguration()->schema(FormSchema::getSourceSchema())]),
         ];
     }

@@ -48,7 +48,7 @@ final class RevokePublication extends Action
         parent::setUp();
 
         // Authorize the action based on the 'unpublish' ability and the current record.
-        $this->authorize('unpublish', $this->record);
+        $this->authorize('unpublish');
 
         // Customize the action's appearance.
         $this->icon('tabler-arrow-back-up');
@@ -80,7 +80,7 @@ final class RevokePublication extends Action
         // Define the action's execution logic.
         $this->action(function (): void {
             // Attempt to transition the article to the "editing" state, providing the reason.
-            if ($this->process(fn(array $data): bool => $this->record->articleStatus()->transitionToEditing($data['reason']))) {
+            if ($this->process(fn(Article $article, array $data): bool => $article->articleStatus()->transitionToEditing($data['reason']))) {
                 // If successful, display a success message.
                 $this->success();
                 return;

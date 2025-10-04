@@ -40,7 +40,7 @@ final class PublishArticleAction extends Action
     {
         parent::setUp();
 
-        $this->authorize('sendForApproval', $this->record);
+        $this->authorize('sendForApproval');
 
         $this->icon('heroicon-o-paper-airplane');
         $this->color('gray');
@@ -52,8 +52,8 @@ final class PublishArticleAction extends Action
         $this->modalSubmitActionLabel('Insturen');
         $this->modalIcon('heroicon-o-paper-airplane');
 
-        $this->action(function (): void {
-            $this->record->articleStatus()->transitionToApproved();
+        $this->action(function (Article $article): void {
+            $article->articleStatus()->transitionToApproved();
             $this->success();
         });
     }

@@ -108,19 +108,30 @@ final readonly class FormSchema
             MarkdownEditor::make('description')
                 ->label('Beschrijving')
                 ->columnSpanFull()
-                ->toolbarButtons(['bold', 'italic', 'redo', 'strike', 'underline', 'undo'])
+                ->toolbarButtons(self::getToolbarOptions())
                 ->placeholder('De beschrijving van het woord dat je wenst toe te voegen.')
                 ->maxHeight('200px')
                 ->helperText(str('Deze rich editor ondersteund enkel [**Markdown**](https://www.markdownguide.org/cheat-sheet/)')->inlineMarkdown()->toHtmlString())
                 ->required(),
             MarkdownEditor::make('example')
                 ->label('Voorbeeld')
-                ->toolbarButtons(['bold', 'italic', 'redo', 'strike', 'underline', 'undo'])
+                ->toolbarButtons(self::getToolbarOptions())
                 ->placeholder('Probeer zo helder mogelijk te zijn')
                 ->helperText(str('Deze rich editor ondersteund enkel [**Markdown**](https://www.markdownguide.org/cheat-sheet/)')->inlineMarkdown()->toHtmlString())
                 ->columnSpanFull()
                 ->maxHeight('200px')
                 ->required(),
+        ];
+    }
+
+    private static function getToolbarOptions(): array
+    {
+        return [
+            ['bold', 'italic', 'strike', 'link'],
+            ['heading'],
+            ['blockquote', 'bulletList', 'orderedList'],
+            ['table'],
+            ['undo', 'redo'],
         ];
     }
 

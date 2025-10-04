@@ -63,23 +63,22 @@ final class RemoveEditorAction extends Action
         $this->label('Loskoppelen');
         $this->icon(self::$navigationIcon);
         $this->color('danger');
-        $this->authorize('detachEditor', $this->record);
-
+        $this->authorize('detachEditor');
 
         $this->requiresConfirmation();
         $this->modalWidth(Width::Large);
 
         $this->modalCloseButton(false);
         $this->modalIcon(self::$navigationIcon);
-        $this->modalHeading($this->getCustomUserBasedModalHeading());
-        $this->modalDescription($this->getCustomUserBasedModalDescription());
+        $this->modalHeading(fn (Article $article): string => $this->getCustomUserBasedModalHeading($article));
+        $this->modalDescription(fn (Article $article): string => $this->getCustomUserBasedModalDescription($article));
         $this->modalSubmitActionLabel('Ja, ik ben zeker');
 
         $this->successNotificationTitle('De redacteur is losgekoppeld van het artikel');
         $this->failureNotificationTitle('We konden de redacteur niet loskoppelen van het artikel');
 
         $this->action(function (): void {
-            if ($this->process(fn(): bool => $this->transitionBackBasedOnOrigin($this->record))) {
+            if ($this->process(fn(Article $article): bool => $this->transitionBackBasedOnOrigin($article))) {
                 $this->success();
                 return;
             }
@@ -92,8 +91,7 @@ final class RemoveEditorAction extends Action
     {
         return match ($article->origin) {
             DataOrigin::External => $article->articleStatus()->transitionToExternalData(),
-            /** @phpstan-ignore-next-line */
-            DataOrigin::Suggestion => $this->record->articleStatus()->transitionToSuggestion(),
+            DataOrigin::Suggestion => $article->articleStatus()->transitionToSuggestion(),
             default => throw new LogicException('Could not found the correct origin to transtion'),
         };
     }
@@ -106,9 +104,9 @@ final class RemoveEditorAction extends Action
      *
      * @return string The modal heading text.
      */
-    private function getCustomUserBasedModalHeading(): string
+    private function getCustomUserBasedModalHeading(Article $article): string
     {
-        $heading = ($this->isAuthenticatedUser())
+        $heading = ($article->editor()->is(auth()->user()))
             ? 'Redacteurschap beëindigen'
             : 'Redacteur loskoppelen';
 
@@ -124,25 +122,12 @@ final class RemoveEditorAction extends Action
      *
      * @return string The modal description text.
      */
-    private function getCustomUserBasedModalDescription(): string
+    private function getCustomUserBasedModalDescription(Article $article): string
     {
-        $description = ($this->isAuthenticatedUser())
+        $description = ($article->editor()->is(auth()->user()))
             ? 'Weet je zeker dat je jezelf wilt loskoppelen van dit artikel? Je verliest toegang en het artikel wordt opnieuw gemarkeerd als suggestie, ook als je al bewerkingen hebt gedaan. Deze actie kan niet ongedaan worden.'
             : 'Weet je zeker dat je deze redacteur wilt loskoppelen? Dit kan niet ongedaan worden gemaakt. Het artikel wordt teruggezet als suggestie en de redacteur verliest toegang.';
 
         return trans($description);
-    }
-
-    /**
-     * Checks if the authenticated user is the same as the editor assigned to the article.
-     *
-     * This helper method determines whether the current user attempting the action is removing themselves instead of another editor.
-     * It is used by the modal configuration methods to influence the displayed text accordingly.
-     *
-     * @return bool True if the authenticated user is the assigned editor, false otherwise.
-     */
-    private function isAuthenticatedUser(): bool
-    {
-        return $this->record->editor()->is(auth()->user());
     }
 }

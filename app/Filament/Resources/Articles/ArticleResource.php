@@ -4,41 +4,41 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Articles;
 
-use Filament\Schemas\Schema;
-use App\Filament\Resources\Articles\RelationManagers\LabelsRelationManager;
-use App\Filament\Resources\Articles\RelationManagers\NotesRelationManager;
-use App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\ReportsRelationManager;
-use App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\AuditsRelationManager;
-use App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\EtymologyRelationManager;
-use Filament\Actions\Action;
-use Filament\Actions\CreateAction;
-use Filament\Actions\ViewAction;
-use Filament\Actions\EditAction;
-use Filament\Actions\RestoreAction;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\RestoreBulkAction;
-use Filament\Actions\ExportBulkAction;
-use Filament\Support\Enums\Width;
-use App\Filament\Resources\Articles\Pages\ListWords;
-use App\Filament\Resources\Articles\Pages\CreateWord;
-use App\Filament\Resources\Articles\Pages\ViewWord;
-use App\Filament\Resources\Articles\Pages\EditWord;
-use Filament\Clusters\Cluster;
-use Filament\Resources\Pages\PageRegistration;
 use App\Enums\ArticleStates;
 use App\Filament\Clusters\Articles\ArticlesCluster;
+use App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\AuditsRelationManager;
+use App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\EtymologyRelationManager;
+use App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\ReportsRelationManager;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets\ArticleRegistrationChart;
 use App\Filament\Exports\ArticleExporter;
-use App\Filament\Resources\Articles\Schema\WordInfolist;
 use App\Filament\Resources\ArticleResource\Pages;
+use App\Filament\Resources\Articles\Pages\CreateWord;
+use App\Filament\Resources\Articles\Pages\EditWord;
+use App\Filament\Resources\Articles\Pages\ListWords;
+use App\Filament\Resources\Articles\Pages\ViewWord;
+use App\Filament\Resources\Articles\RelationManagers\LabelsRelationManager;
+use App\Filament\Resources\Articles\RelationManagers\NotesRelationManager;
 use App\Filament\Resources\Articles\Schema\FormSchema;
+use App\Filament\Resources\Articles\Schema\WordInfolist;
 use App\Models\Article;
 use App\UserTypes;
+use Filament\Actions\Action;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\CreateAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ExportBulkAction;
+use Filament\Actions\RestoreAction;
+use Filament\Actions\RestoreBulkAction;
+use Filament\Actions\ViewAction;
+use Filament\Clusters\Cluster;
+use Filament\Resources\Pages\PageRegistration;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconSize;
+use Filament\Support\Enums\Width;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
@@ -47,8 +47,9 @@ use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Cache;
+use BackedEnum;
 
 /**
  * Class ArticleResource
@@ -62,8 +63,6 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
  *
  * Labels can be linked to articles through the relation manager, and the navigation badge dynamically displays
  * the number of available articles using caching.
- *
- * @package App\Filament\Resources
  */
 final class ArticleResource extends Resource
 {
@@ -75,23 +74,23 @@ final class ArticleResource extends Resource
     /**
      * The navigation icon used in the admin panel menu.
      */
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-language';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-language';
 
     /**
      * The singular label for the model.
-
      */
     protected static ?string $modelLabel = 'Artikel';
 
     /**
      * The plural model label for the model.
      */
-    protected static ?string $pluralModelLabel = "Artikelen";
+    protected static ?string $pluralModelLabel = 'Artikelen';
 
     /**
      * The cluster used for grouping related resources.
      *
      * @todo Check if we can use inheritDoc here
+     *
      * @var class-string<Cluster>|null
      */
     protected static ?string $cluster = ArticlesCluster::class;
@@ -99,7 +98,7 @@ final class ArticleResource extends Resource
     /**
      * Configures the infolist used to display article details.
      *
-     * @param \Filament\Schemas\Schema $schema The Filament infolist instance.
+     * @param  \Filament\Schemas\Schema  $schema  The Filament infolist instance.
      * @return \Filament\Schemas\Schema The configured infolist.
      */
     public static function infolist(Schema $schema): Schema
@@ -110,7 +109,7 @@ final class ArticleResource extends Resource
     /**
      * Returns an array of relation manager classes that define related resources.
      *
-     * @return array<int, class-string>  The relation manager classes.
+     * @return array<int, class-string> The relation manager classes.
      */
     public static function getRelations(): array
     {
@@ -143,7 +142,7 @@ final class ArticleResource extends Resource
      * The form consists of sections for general information and regional status,
      * each configured with an icon, description, and specific field schema.
      *
-     * @param \Filament\Schemas\Schema $schema The Filament form instance.
+     * @param  \Filament\Schemas\Schema  $schema  The Filament form instance.
      * @return \Filament\Schemas\Schema The configured form.
      */
     public static function form(Schema $schema): Schema
@@ -174,8 +173,8 @@ final class ArticleResource extends Resource
      * The table includes columns for author, article (lemma), description, creation date and last updated date.
      * It also configures invidual and builk actions for managing articles.
      *
-     * @param  Table $table  The Filament table instance.
-     * @return Table         The configured table.
+     * @param  Table  $table  The Filament table instance.
+     * @return Table The configured table.
      */
     public static function table(Table $table): Table
     {
@@ -245,10 +244,10 @@ final class ArticleResource extends Resource
                     ->options(ArticleStates::class),
                 TrashedFilter::make()
                     ->native(false)
-                    ->visible(fn(): bool => auth()->user()->canAny('restore', Article::class)),
+                    ->visible(fn (): bool => auth()->user()->canAny('restore', Article::class)),
                 Filter::make('assigned')
                     ->label('Toegewezen aan mij')
-                    ->query(fn(Builder $query): Builder => $query->where('editor_id', auth()->id())),
+                    ->query(fn (Builder $query): Builder => $query->where('editor_id', auth()->id())),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
@@ -289,8 +288,8 @@ final class ArticleResource extends Resource
      *
      * For example: If searching for "duusterzot", the result will show "duusterzot" as the title.
      *
-     * @param   Article $record    The article record being displayed in search results
-     * @return  string             The word/lemma to display as the search result title
+     * @param  Article  $record  The article record being displayed in search results
+     * @return string The word/lemma to display as the search result title
      */
     public static function getGlobalSearchResultTitle(Model $record): string
     {
@@ -321,8 +320,8 @@ final class ArticleResource extends Resource
      *
      * This helps users quickly identify if they've found the right word entry.
      *
-     * @param  Article $record       The article record being displayed
-     * @return array<string, mixed>  Key-value pairs of labels and their values
+     * @param  Article  $record  The article record being displayed
+     * @return array<string, mixed> Key-value pairs of labels and their values
      */
     public static function getGlobalSearchResultDetails(Model $record): array
     {
@@ -336,11 +335,11 @@ final class ArticleResource extends Resource
      * Retrieves the navigation badge count for the articles.
      * This count is cached to reduce database queries and improve performance.
      *
-     * @return string|null  THe navigation badge displaying the numbver or articles.
+     * @return string|null THe navigation badge displaying the numbver or articles.
      */
     public static function getNavigationBadge(): ?string
     {
-        return Cache::flexible('lemma_count', [10, 60], fn(): string => (string) self::$model::count());
+        return Cache::flexible('lemma_count', [10, 60], fn (): string => (string) self::$model::count());
     }
 
     /**

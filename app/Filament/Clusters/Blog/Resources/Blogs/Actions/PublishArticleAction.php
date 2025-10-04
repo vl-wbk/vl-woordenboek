@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources\Blogs\Actions;
 
+use App\Models\Article;
 use App\Models\Blog;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
@@ -28,8 +29,8 @@ final class PublishArticleAction extends Action
         $this->label('Publiceren');
         $this->icon('tabler-eye-check');
         $this->color('success');
-		
-        $this->authorize('publish', $this->record);
+
+        $this->authorize('publish');
 
         $this->requiresConfirmation();
 
@@ -42,7 +43,7 @@ final class PublishArticleAction extends Action
         $this->failureNotificationTitle('Helaas pindaklaas! Er is iets misgelopen');
 
         $this->action(function (): void {
-            if ($this->process(fn(): bool => $this->record->publicationStatus()->transitionToPublished())) {
+            if ($this->process(fn(Article $article): bool => $article->publicationStatus()->transitionToPublished())) {
                 $this->success();
                 return;
             }

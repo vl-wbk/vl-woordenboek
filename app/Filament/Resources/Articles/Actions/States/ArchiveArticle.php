@@ -52,7 +52,7 @@ final class ArchiveArticle extends Action
 
         $this->color('gray');
         $this->icon($this->actionIcon);
-        $this->authorize('archive-article', $this->record);
+        $this->authorize('archive-article');
 
         // Confirmation box configuration
         $this->requiresConfirmation();

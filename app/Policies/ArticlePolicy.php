@@ -36,10 +36,9 @@ final class ArticlePolicy
      */
     public function update(User $user, Article $article): Response
     {
-        $isPublishedOrAwaitingApproval = ($article->isPublished() || $article->state->is(ArticleStates::Approval));
 		$allowedStates = [ArticleStates::New, ArticleStates::ExternalData, ArticleStates::Draft, ArticleStates::Archived];
 
-        if ($isPublishedOrAwaitingApproval && $user->can('update:article')) {
+        if ($article->isPublished() || $article->state->is(ArticleStates::Approval)) {
             return Response::deny();
         }
 
@@ -150,6 +149,7 @@ final class ArticlePolicy
         if ($user->can('detach-disclaimer:article')) {
 			return Response::allow();
 		}
+
 
 		return Response::deny();
     }

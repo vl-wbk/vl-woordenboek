@@ -55,7 +55,7 @@ final class UnarchiveAction extends Action
         parent::setUp();
 
         // Authorize the action based on the 'unarchive' ability and the current record.
-        $this->authorize('unarchive', $this->record);
+        $this->authorize('unarchive');
 
         // Customize the action's appearance.
         $this->color('gray');
@@ -78,7 +78,7 @@ final class UnarchiveAction extends Action
         // Define the action's execution logic.
         $this->action(function (): void {
             // Attempt to transition the article to the "released" state within a process that can be customized.
-            if ($this->process(fn() => $this->record->articleStatus()->transitionToReleased())) {
+            if ($this->process(fn(Article $article) => $article->articleStatus()->transitionToReleased())) {
                 // If successful, display a success message.
                 $this->success();
                 return;
