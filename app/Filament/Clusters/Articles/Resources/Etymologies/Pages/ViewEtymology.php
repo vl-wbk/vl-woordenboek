@@ -82,10 +82,9 @@ final class ViewEtymology extends ViewRecord
                     ->modalWidth(Width::SevenExtraLarge),
 
                 ActionGroup::make([
-                    DeleteAction::make()->icon('heroicon-s-trash'),
-                ])
-                    ->authorize('delete', $this->record)
-                    ->dropdown(false),
+                    DeleteAction::make()->icon('heroicon-s-trash')
+                        ->authorize('delete'),
+                ])->dropdown(false),
             ])
                 ->button()
                 ->label(label: __('etymology-resource.actions.view-etymology.label'))

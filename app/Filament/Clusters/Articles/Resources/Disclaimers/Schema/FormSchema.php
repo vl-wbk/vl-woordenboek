@@ -25,7 +25,7 @@ final readonly class FormSchema
             ->iconColor('primary')
             ->description($description)
             ->collapsible()
-            ->columns(12)
+            ->columnSpanFull()
             ->compact();
     }
 
