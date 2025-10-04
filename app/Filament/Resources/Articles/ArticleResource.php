@@ -296,7 +296,7 @@ final class ArticleResource extends Resource
      */
     public static function getGlobalSearchResultTitle(Model $record): string
     {
-        return $record->word;
+        return "#$record->id " . $record->word;
     }
 
     /**
@@ -329,8 +329,7 @@ final class ArticleResource extends Resource
     public static function getGlobalSearchResultDetails(Model $record): array
     {
         return [
-            'woord ID' => $record->id,
-            'kenmerken' => $record->characteristics,
+            $record->characteristics,
         ];
     }
 

@@ -48,10 +48,12 @@ trait DateRangeFilterChart
         return [
             DatePicker::make('startDate')
                 ->label(__('Start date'))
+                ->native(false)
                 ->default(now()->subMonths(6))
                 ->required(),
             DatePicker::make('endDate')
                 ->label(__('End date'))
+                ->native(false)
                 ->default(now()),
         ];
     }

@@ -16,6 +16,7 @@ use Filament\Navigation\MenuItem;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -25,6 +26,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Kenepa\ResourceLock\ResourceLockPlugin;
 use Kenepa\TranslationManager\TranslationManagerPlugin;
+use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
 
 /**
  * The AdminPanelProvider class is responsible for configuring the main Filament administration panel for the application, specifically for the "VL. woordenboek" (Flemish Dictionary) project.
@@ -113,8 +115,13 @@ final class AdminPanelProvider extends PanelProvider
                 'info' => Color::Cyan,       // Lighter blue/cyan for info
             ])
             ->plugins([
+                EnvironmentIndicatorPlugin::make()
+                    ->visible(! app()->isProduction())
+                    ->showGitBranch()
+                    ->color(Color::Blue),
                 TranslationManagerPlugin::make(),
                 FilamentShieldPlugin::make()
+                    ->globallySearchable(false)
                     ->navigationGroup('Toegangsbeheer')
                     ->navigationLabel('Rollen & permissies'),
                 ResourceLockPlugin::make(),

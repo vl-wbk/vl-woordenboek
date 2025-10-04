@@ -35,6 +35,7 @@
         "mobiledetect/mobiledetectlib": "^4.8",
         "overtrue/laravel-like": "^5.3",
         "owen-it/laravel-auditing": "^14.0",
+        "pxlrbt/filament-environment-indicator": "*",
         "secondnetwork/blade-tabler-icons": "^3.29",
         "sentry/sentry-laravel": "^4.14",
         "spatie/laravel-backup": "^9.3",
