@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\InteractsWithTwoFactorState;
 use Spatie\WelcomeNotification\ReceivesWelcomeNotification;
 use Overtrue\LaravelLike\Traits\Liker;
 use Cog\Contracts\Ban\Bannable as BannableInterface;
@@ -25,6 +26,7 @@ use Cog\Laravel\Ban\Traits\Bannable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Pennant\Concerns\HasFeatures;
 use Laravel\Sanctum\HasApiTokens;
 use Override;
@@ -74,8 +76,9 @@ class User extends Authenticatable implements FilamentUser, BannableInterface, M
     use HasApiTokens;
     use HasFeatures;
     use HasRoles;
-	use Messagable;
-	use Contactable;
+    use Messagable;
+    use Contactable;
+    use TwoFactorAuthenticatable;
 
     /**
      * Specifies which attributes can be mass assigned when creating or updating user records.
@@ -115,13 +118,13 @@ class User extends Authenticatable implements FilamentUser, BannableInterface, M
     }
 
     /**
-    * Returns all article suggestions submitted by this user.
-    *
-    * Each suggested article is linked back to the user via the 'author_id' field.
-    * Use this relationship to fetch or query the suggestions made by the user.
-    *
-    * @return HasMany<Article, covariant $this> A collection of Article instances representing the user's suggestions.
-    */
+     * Returns all article suggestions submitted by this user.
+     *
+     * Each suggested article is linked back to the user via the 'author_id' field.
+     * Use this relationship to fetch or query the suggestions made by the user.
+     *
+     * @return HasMany<Article, covariant $this> A collection of Article instances representing the user's suggestions.
+     */
     public function suggestions(): HasMany
     {
         return $this->hasMany(Article::class, 'author_id');
@@ -139,16 +142,16 @@ class User extends Authenticatable implements FilamentUser, BannableInterface, M
     {
         return $this->hasMany(ArticleReport::class, 'author_id');
     }
-	
-	public function articles(): HasMany
-	{
-		return $this->hasMany(Blog::class, 'author_id');
-	}
-	
-	public function etymologies(): HasMany
-	{
-		return $this->hasMany(Etymology::class, 'author_id');
-	}
+
+    public function articles(): HasMany
+    {
+        return $this->hasMany(Blog::class, 'author_id');
+    }
+
+    public function etymologies(): HasMany
+    {
+        return $this->hasMany(Etymology::class, 'author_id');
+    }
 
     /**
      * Defines the relationship between a user and their bookmarked articles.
