@@ -23,6 +23,7 @@ use App\Filament\Resources\Articles\Schema\WordInfolist;
 use App\Filament\Support\Concerns\HasActiveIcon;
 use App\Models\Article;
 use App\UserTypes;
+use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\CreateAction;
@@ -50,7 +51,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Cache;
-use BackedEnum;
 
 /**
  * Class ArticleResource
@@ -182,6 +182,8 @@ final class ArticleResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->deferLoading()
+            ->striped()
             ->headerActions([
                 Action::make('docs')
                     ->label('Help')
@@ -296,7 +298,7 @@ final class ArticleResource extends Resource
      */
     public static function getGlobalSearchResultTitle(Model $record): string
     {
-        return "#$record->id " . $record->word;
+        return "#$record->id ".$record->word;
     }
 
     /**

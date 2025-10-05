@@ -24,11 +24,11 @@ trait DateRangeFilterChart
         return now()->parse($this->filters['endDate']);
     }
 
-    private function dateRangeFilterQuery(string $model, string $dateColumn): Collection
+    private function dateRangeFilterQuery(string $model, string $dateColumn, string $grouping = 'perDay'): Collection
     {
         return Trend::model($model)
             ->between(start: $this->getFilterStartDate(), end: $this->getFilterEndDate())
-            ->perDay()
+            ->{$grouping}()
             ->dateColumn($dateColumn)
             ->count();
     }

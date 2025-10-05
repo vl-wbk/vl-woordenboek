@@ -21,7 +21,7 @@ final readonly class FormSchema
     {
         return Section::make($title)
             ->icon($icon)
-            ->iconSize(IconSize::Medium)
+            ->iconSize(IconSize::Large)
             ->iconColor('primary')
             ->description($description)
             ->collapsible()

@@ -4,14 +4,20 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets;
 
+use App\Filament\Support\Filters\Charts\DateRangeFilterChart;
 use App\Models\Article;
+use Filament\Schemas\Schema;
 use Filament\Widgets\ChartWidget;
+use Filament\Widgets\ChartWidget\Concerns\HasFiltersSchema;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 use Illuminate\Support\Collection;
 
 final class ArticleRegistrationChart extends ChartWidget
 {
+    use HasFiltersSchema;
+    use DateRangeFilterChart;
+
     public ?string $filter = 'perWeek';
 
     /**
@@ -19,6 +25,8 @@ final class ArticleRegistrationChart extends ChartWidget
      * This CSS value ensures that the chart does not exceed a defined vertical space, helping to maintain a uniform layout in the admin panel.
      */
     protected ?string $maxHeight = '150px';
+
+    protected bool $isCollapsible = true;
 
     /**
      * Determines how many columns the widget should span in the layout.
@@ -47,6 +55,13 @@ final class ArticleRegistrationChart extends ChartWidget
         ],
     ];
 
+    public function filtersSchema(Schema $schema): Schema
+    {
+        return $schema->components(
+            components: $this->dateRangeFilterSchema()
+        );
+    }
+
     /**
      * Generates the data for the chart.
      * This method fetches the chart information using the `fetchChartInformation()` method and formats it into an array suitable for the chart.js library.
@@ -55,14 +70,26 @@ final class ArticleRegistrationChart extends ChartWidget
      */
     protected function getData(): array
     {
-        $trendData = $this->fetchChartInformation();
+        $registrationData = $this->dateRangeFilterQuery(Article::class, 'created_at', 'perWeek');
+        $publishingData = $this->dateRangeFilterQuery(Article::class, 'published_at', 'perWeek');
+        $archivedData = $this->dateRangeFilterQuery(Article::class, 'archived_at', 'perWeek');
 
         return [
             'datasets' => [
-                ['label' => 'Aantal aangemaakte artikelen', 'data' => $trendData->map(fn(TrendValue $value): mixed => $value->aggregate)],
+                $this->getTrendData($registrationData, '	#5983D9', 'Nieuwe artikelen'),
+                $this->getTrendData($publishingData, '#9BB9F5', 'Artikelen gepubliceerd'),
+                $this->getTrendData($archivedData, '#3D6EB9', 'Artikelen gearchiveerd'),
             ],
-            'labels' => $trendData->map(fn(TrendValue $value): string => $value->date),
+            'labels' => $registrationData->map(fn(TrendValue $value): string => $value->date),
         ];
+    }
+
+    public function getDescription(): string
+    {
+        return trans(key: 'In de periode tussen :start en :end, gegroepeerd op weekbasis', replace: [
+            'start' => $this->getFilterStartDate()->translatedFormat('l d F Y'),
+            'end' => $this->getFilterEndDate()->translatedFormat('l d F Y'),
+        ]);
     }
 
     /**
@@ -79,40 +106,6 @@ final class ArticleRegistrationChart extends ChartWidget
     }
 
     /**
-     * Fetches the chart information from the database.
-     * This method uses the `flowframe/trend` package to generate a trend of article registrations over the past year, based on the selected filter.
-     *
-     * @return Collection<int, TrendValue> A collection of TrendValue objects representing the chart data.
-     */
-    private function fetchChartInformation(): Collection
-    {
-        $startData = now()->subYear();
-        $endDate = now();
-
-        return Trend::model(Article::class)
-            ->between($startData, $endDate)
-            ->{$this->filter}()
-            ->count();
-    }
-
-    /**
-     * Defines the available filters for the chart.
-     *
-     * This method returns an array of filters that allow users to change the granularity of the data displayed in the chart.
-     * The keys of the array are used internally to determine the data aggregation period, while the values are the human-readable labels displayed in the filter dropdown.
-     *
-     * @return array<string, string> An array of filters, where the key is the filter identifier and the value is the filter label.
-     */
-    protected function getFilters(): array
-    {
-        return [
-            'perDay' => 'Op dagelijkse basis',
-            'perWeek' => 'Op weekbasis',
-            'perMonth' => 'Op maandbasis',
-        ];
-    }
-
-    /**
      * Returns the heading for the chart.
      *
      * This method returns a string representing the heading for the chart.
@@ -122,6 +115,6 @@ final class ArticleRegistrationChart extends ChartWidget
      */
     public function getHeading(): string
     {
-        return trans(':amount artikelen', ['amount' => number_format(Article::count(), thousands_separator: '.')]);
+        return 'Artikelen trend';
     }
 }
