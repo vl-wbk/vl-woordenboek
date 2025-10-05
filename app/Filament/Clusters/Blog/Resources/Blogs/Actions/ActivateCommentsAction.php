@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources\Blogs\Actions;
 
+use App\Models\Blog;
 use App\Models\Comment;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
@@ -31,7 +32,7 @@ final class ActivateCommentsAction extends Action
         $this->icon(icon: $this->actionIcon);
         $this->label('Reacties inschakelen');
         $this->color('success');
-        $this->visible(condition: $this->canPerformTheAction());
+        $this->authorize('activate-comments');
 
         // Require user confirmation before proceeding
         $this->requiresConfirmation();
@@ -48,7 +49,7 @@ final class ActivateCommentsAction extends Action
 
         // Define the action's execution logic.
         $this->action(function (): void {
-            if ($this->process(fn(): bool => $this->record->update(attributes: ['comments_enabled' => true]))) {
+            if ($this->process(fn(Blog $blog): bool => $blog->update(attributes: ['comments_enabled' => true]))) {
                 $this->success(); // If successful, display a success message.
                 return;
             }
@@ -56,11 +57,5 @@ final class ActivateCommentsAction extends Action
             // If the transition fails, display a failure message.
             $this->failure();
         });
-    }
-
-    private function canPerformTheAction(): bool
-    {
-        return ($this->record->hasCommentsDisabled() && $this->record->isPublished())
-            && (auth()->user()->isDeveloper() || auth()->user()->isAdministrator());
     }
 }

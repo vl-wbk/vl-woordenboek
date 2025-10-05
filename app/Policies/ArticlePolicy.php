@@ -7,6 +7,7 @@ namespace App\Policies;
 use App\Enums\ArticleStates;
 use App\Models\User;
 use App\Models\Article;
+use Filament\Support\Authorization\DenyResponse;
 use Illuminate\Auth\Access\Response;
 
 /**
@@ -39,14 +40,14 @@ final class ArticlePolicy
 		$allowedStates = [ArticleStates::New, ArticleStates::ExternalData, ArticleStates::Draft, ArticleStates::Archived];
 
         if ($article->isPublished() || $article->state->is(ArticleStates::Approval)) {
-            return Response::deny();
+            return DenyResponse::deny('Niet toegestaan');
         }
 
         if ($article->state->in(enums: $allowedStates) && $user->can('update:article')) {
 			return Response::allow();
 		}
 
-		return Response::deny();
+		return DenyResponse::deny('Niet toegestaan');
     }
 
     /**
@@ -248,7 +249,7 @@ final class ArticlePolicy
 			return Response::allow();
 		}
 
-		return Response::deny();
+		return DenyResponse::deny('Niet toegestaan');
     }
 
     /**

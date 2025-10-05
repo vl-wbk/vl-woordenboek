@@ -98,9 +98,12 @@ final class ArticleReportResource extends Resource
         return $schema
             ->components(components: [
                 Section::make()
+                    ->columnSpanFull()
+                    ->columns(12)
                     ->heading('Algemene informatie van de melding')
                     ->headerActions([
                         Action::make('reporter-information')
+                            ->hidden(fn (ArticleReport $articleReport): bool => $articleReport->author()->doesntExist())
                             ->authorize('viewAny', User::class)
                             ->label('bekijk melder')
                             ->icon('tabler-user-search')
@@ -234,6 +237,7 @@ final class ArticleReportResource extends Resource
     {
         return Fieldset::make('Gegevens omtrent de opvolging')
             ->columns(12)
+            ->columnSpanFull()
             ->schema(components: [
                 TextEntry::make('state')
                     ->label('Status')
@@ -272,6 +276,7 @@ final class ArticleReportResource extends Resource
     private static function feedbackFieldset(): Fieldset
     {
         return Fieldset::make('Door de gebruiker gegeven feedback')
+            ->columnSpanFull()
             ->schema(components: [
                 TextEntry::make('description')
                     ->columnSpan(12)

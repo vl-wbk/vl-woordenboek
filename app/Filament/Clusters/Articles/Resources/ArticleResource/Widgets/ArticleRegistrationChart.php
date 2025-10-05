@@ -76,7 +76,7 @@ final class ArticleRegistrationChart extends ChartWidget
 
         return [
             'datasets' => [
-                $this->getTrendData($registrationData, '	#5983D9', 'Nieuwe artikelen'),
+                $this->getTrendData($registrationData, '	#5983D9', 'Nieuwe artikelen (suggesties)'),
                 $this->getTrendData($publishingData, '#9BB9F5', 'Artikelen gepubliceerd'),
                 $this->getTrendData($archivedData, '#3D6EB9', 'Artikelen gearchiveerd'),
             ],

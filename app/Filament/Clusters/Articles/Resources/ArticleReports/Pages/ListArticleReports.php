@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Filament\Clusters\Articles\Resources\ArticleReports\Pages;
 
 use App\Filament\Clusters\Articles\Resources\ArticleReports\ArticleReportResource;
+use CodeWithDennis\FactoryAction\FactoryAction;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Support\Icons\Heroicon;
 
 /**
  * ListArticleReports is a Filament page class for managing and displaying article reports.
@@ -38,6 +40,19 @@ final class ListArticleReports extends ListRecords
      * It ensures that the page displays and manages records of the correct type.
      */
     protected static string $resource = ArticleReportResource::class;
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            FactoryAction::make()
+                ->icon(Heroicon::OutlinedCog8Tooth)
+                ->modalIcon(Heroicon::OutlinedCog8Tooth)
+                ->modalDescription('Deze actie zal nieuwe artikel meldingen aanmaken in de databank. Met als doel om dingen te testen tijdens de ontwikkeling van het vlaams woordenboek. Weet je zeker dat je wilt verder gaan?')
+                ->modalHeading('Genereer meldingen')
+                ->label('Genereer meldingen')
+                ->color('danger'),
+        ];
+    }
 
     /**
      * Retrieves the widgets to be displayed in the header section of the list view.

@@ -9,7 +9,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
 use App\Models\Blog;
 use App\Filament\Clusters\Blog\Resources\Blogs\BlogResource;
-use App\Filament\Clusters\Blog\Resources\BlogResource\Actions as ResourceSpecificActions;
+use App\Filament\Clusters\Blog\Resources\Blogs\Actions as ResourceSpecificActions;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
 

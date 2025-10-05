@@ -183,4 +183,11 @@ final class BlogPolicy
 			? Response::allow()
 			: Response::denyAsNotFound();
     }
+
+
+    private function activateComments(User $user, Blog $blog): bool
+    {
+        return ($blog->hasCommentsDisabled() && $blog->isPublished())
+            && ($user->isDeveloper() || $user->isAdministrator());
+    }
 }

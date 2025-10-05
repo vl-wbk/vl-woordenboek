@@ -238,9 +238,11 @@ final class ArticleResource extends Resource
             ])
             ->recordActions([
                 ViewAction::make()->hiddenLabel(),
-                EditAction::make()->hiddenLabel(),
+                EditAction::make()->hiddenLabel()
+                    ->authorizationTooltip(),
                 RestoreAction::make()->hiddenLabel()->color('danger'),
-                DeleteAction::make()->hiddenLabel(),
+                DeleteAction::make()->hiddenLabel()
+                    ->authorizationTooltip(),
             ])
             ->filters([
                 SelectFilter::make('state')

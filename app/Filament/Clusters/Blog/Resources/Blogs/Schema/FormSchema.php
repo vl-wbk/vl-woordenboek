@@ -52,6 +52,7 @@ final readonly class FormSchema
                 ->iconSize(IconSize::Medium)
                 ->compact()
                 ->columns(12)
+                ->columnSpanFull()
                 ->compact()
                 ->schema(self::getFormComponents()),
         ]);
@@ -88,7 +89,7 @@ final readonly class FormSchema
                 ->searchable()
                 ->preload()
                 ->columnspanFull(),
-			
+
 			TextInput::make('original_url')
 				->label('Originele link naar het artikel')
 				->columnSpanFull(),
