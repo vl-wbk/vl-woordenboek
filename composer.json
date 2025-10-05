@@ -32,6 +32,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/socialite": "^5.23",
         "laravel/tinker": "^2.10.1",
+        "marcelweidum/filament-expiration-notice": "^1.0",
         "mobiledetect/mobiledetectlib": "^4.8",
         "overtrue/laravel-like": "^5.3",
         "owen-it/laravel-auditing": "^14.0",

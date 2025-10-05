@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b2fd1a468d00df914dbd5a56f2037e95",
+    "content-hash": "4c134e0e68f6f9e90e97853303d2f352",
     "packages": [
         {
             "name": "aaronfrancis/fast-paginate",
@@ -5254,6 +5254,83 @@
                 }
             ],
             "time": "2025-07-17T05:12:15+00:00"
+        },
+        {
+            "name": "marcelweidum/filament-expiration-notice",
+            "version": "v1.0.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MarcelWeidum/filament-expiration-notice.git",
+                "reference": "0b8c70465807056958e1d56b2d1fa23ebe22b704"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MarcelWeidum/filament-expiration-notice/zipball/0b8c70465807056958e1d56b2d1fa23ebe22b704",
+                "reference": "0b8c70465807056958e1d56b2d1fa23ebe22b704",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0|^4.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.15.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.22",
+                "nunomaduro/collision": "^7.9",
+                "nunomaduro/larastan": "^2.0.1",
+                "orchestra/testbench": "^8.0",
+                "pestphp/pest": "^2.1",
+                "pestphp/pest-plugin-arch": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.0",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "spatie/laravel-ray": "^1.26"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "ExpirationNoticePlugin": "MarcelWeidum\\ExpirationNoticePlugin\\Facades\\ExpirationNoticePlugin"
+                    },
+                    "providers": [
+                        "MarcelWeidum\\ExpirationNoticePlugin\\ExpirationNoticeServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MarcelWeidum\\ExpirationNoticePlugin\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "MarcelWeidum",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Customize the livewire expiration notice",
+            "homepage": "https://github.com/marcelweidum/filament-expiration-notice",
+            "keywords": [
+                "MarcelWeidum",
+                "filament-expiration-notice",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/marcelweidum/filament-expiration-notice/issues",
+                "source": "https://github.com/marcelweidum/filament-expiration-notice"
+            },
+            "funding": [
+                {
+                    "url": "https://www.buymeacoffee.com/MarcelWeidum",
+                    "type": "buy_me_a_coffee"
+                }
+            ],
+            "time": "2025-08-18T15:57:23+00:00"
         },
         {
             "name": "masterminds/html5",
