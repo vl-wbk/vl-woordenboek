@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources\Blogs\Actions;
 
+use App\Models\Blog;
 use App\Models\Comment;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
@@ -61,8 +62,8 @@ final class DeactivateCommentsAction extends Action
         // Customize the action's appearance.
         $this->icon(icon: $this->actionIcon);
         $this->label('Reacties uitschakelen');
-        $this->color('danger');
-        $this->visible(condition: $this->canPerformTheAction());
+        $this->color('gray');
+        $this->authorize('deactivate-comments');
 
         // Require user confirmation before proceeding.
         $this->requiresConfirmation();
@@ -79,7 +80,7 @@ final class DeactivateCommentsAction extends Action
 
         // Define the action's execution logic.
         $this->action(function (): void {
-            if ($this->process(fn(): bool => $this->record->update(attributes: ['comments_enabled' => false]))) {
+            if ($this->process(fn(Blog $article): bool => $article->update(attributes: ['comments_enabled' => false]))) {
                 $this->success(); // If successful, display a success message.
                 return;
             }
@@ -87,22 +88,5 @@ final class DeactivateCommentsAction extends Action
             // If the transition fails, display a failure message.
             $this->failure();
         });
-    }
-
-    /**
-     * Determines whether the current action can be performed by the authenticated user on the specific record.
-     *
-     * This private method encapsulates the business logic for action authorization and relevance.
-     * The action is made visible and executable only under two strict conditions, ensuring proper access control and user experience:
-     *
-     * 1. The associated record (e.g., a blog post) must currently have its comments enabled. This prevents showing the "Deactivate Comments" action if comments are already disabled.
-     * 2. The currently authenticated user must possess either the 'developer' role or the 'administrator' role. This ensures that only privileged users can modify comment settings for blog posts.
-     *
-     * @return bool True if the action is permitted and relevant in the current context, false otherwise.
-     */
-    private function canPerformTheAction(): bool
-    {
-        return ($this->record->hasCommentsEnabled() && $this->record->isPublished())
-            && (auth()->user()->isDeveloper() || auth()->user()->isAdministrator());
     }
 }

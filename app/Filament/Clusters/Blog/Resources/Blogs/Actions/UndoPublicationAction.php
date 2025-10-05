@@ -43,7 +43,7 @@ final class UndoPublicationAction extends Action
         // Configure the action's visual properties.
         $this->label('Offline halen');
         $this->icon('tabler-eye-cancel');
-        $this->color('danger');
+        $this->color('gray');
 
         // The action is only authorized if the user has permission to "undo-publication"
         $this->authorize('undo-publication', $this->record);
@@ -53,6 +53,7 @@ final class UndoPublicationAction extends Action
         $this->modalHeading('Nieuwsartikel offline halen');
         $this->modalDescription('U staat op het punt om een nieuwsartikel offline te halen. Ij het offline halen zal het nog wel zichtbaar zijn in de beheersconsole. Maar niet meer voor het brede publiek. Bent u zeker dat u de actie wilt uitvoeren?');
         $this->modalIcon('tabler-eye-cancel');
+        $this->modalIconColor('primary');
         $this->modalSubmitActionLabel('Ja, ik ben zeker');
 
         // Configure the notification messages

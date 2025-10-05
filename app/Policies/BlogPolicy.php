@@ -21,7 +21,7 @@ use Illuminate\Auth\Access\Response;
 final class BlogPolicy
 {
     public static array $permissionPrefixes = [
-        'viewAny', 'view', 'update', 'delete', 'deleteAny', 'undoPublication'
+        'viewAny', 'view', 'update', 'delete', 'deleteAny', 'undoPublication', 'disableComments', 'enableComments',
     ];
 
     /**
@@ -184,10 +184,21 @@ final class BlogPolicy
 			: Response::denyAsNotFound();
     }
 
-
-    private function activateComments(User $user, Blog $blog): bool
+    public function activateComments(User $user, Blog $blog): Response
     {
-        return ($blog->hasCommentsDisabled() && $blog->isPublished())
-            && ($user->isDeveloper() || $user->isAdministrator());
+        if (($blog->hasCommentsDisabled() && $blog->isPublished()) && $user->can('enable-comments:blog')) {
+            return Response::allow();
+        }
+
+        return Response::deny();
+    }
+
+    public function deactivateComments(User $user, Blog $blog): Response
+    {
+        if (($blog->hasCommentsEnabled() && $blog->isPublished()) && $user->can('disable-comments:blog')) {
+            return Response::allow();
+        }
+
+        return Response::deny();
     }
 }

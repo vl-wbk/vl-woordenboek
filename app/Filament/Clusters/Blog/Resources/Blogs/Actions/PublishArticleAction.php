@@ -28,7 +28,7 @@ final class PublishArticleAction extends Action
 
         $this->label('Publiceren');
         $this->icon('tabler-eye-check');
-        $this->color('success');
+        $this->color('gray');
 
         $this->authorize('publish');
 
@@ -43,7 +43,7 @@ final class PublishArticleAction extends Action
         $this->failureNotificationTitle('Helaas pindaklaas! Er is iets misgelopen');
 
         $this->action(function (): void {
-            if ($this->process(fn(Article $article): bool => $article->publicationStatus()->transitionToPublished())) {
+            if ($this->process(fn(Blog $article): bool => $article->publicationStatus()->transitionToPublished())) {
                 $this->success();
                 return;
             }

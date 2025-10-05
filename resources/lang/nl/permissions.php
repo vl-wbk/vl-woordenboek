@@ -37,6 +37,8 @@ return [
         'deactivate_update' => 'Deactivatie gegevens aanpassen',
         'unlock_resource' => 'Resources deblokkeren',
         'change_status' => 'Status aanpassen',
+        'enable_comments' => 'Reacties inschakelen',
+        'disable_comments' => 'Reacties uitschakelen',
 
         'project_information_settings' => 'ween',
     ],

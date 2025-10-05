@@ -57,16 +57,16 @@ final class ViewBlog extends ViewRecord
 
                 // Allows deleting the current blog record.
                 // It's wrapped in its own ActionGroup to apply authorization specifically to the delete action.
-                ActionGroup::make([
-                    DeleteAction::make()
-                        ->icon('heroicon-o-trash'),
-                ])
-                    ->dropdown(false)
-                    ->authorize('delete', $this->record),
+
+
+
             ])
-                ->button()
+                ->buttonGroup()
                 ->color('gray')
                 ->icon('heroicon-o-cog-8-tooth'),
+
+            DeleteAction::make()
+                ->icon('heroicon-o-trash'),
         ];
     }
 }

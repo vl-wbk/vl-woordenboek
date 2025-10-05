@@ -31,7 +31,7 @@ final class ActivateCommentsAction extends Action
         // Customize the action's appearance.
         $this->icon(icon: $this->actionIcon);
         $this->label('Reacties inschakelen');
-        $this->color('success');
+        $this->color('gray');
         $this->authorize('activate-comments');
 
         // Require user confirmation before proceeding
@@ -39,6 +39,7 @@ final class ActivateCommentsAction extends Action
 
         // Configure the confirmation modal.
         $this->modalIcon(icon: $this->actionIcon);
+        $this->modalIconColor('primary');
         $this->modalCloseButton(false);
         $this->modalHeading('Reacties inschakelen');
         $this->modalDescription('Indien u de reacties inschakeled kunnen gebruikers reageren op het nieuwsartikel. Bent u zeker dat u ze wilt inschakelen?');
