@@ -28,7 +28,7 @@ return [
     |
     */
     'resource' => [
-        'class' =>  \App\Filament\Resources\Locks\LockResource::class,
+        'class' => \Kenepa\ResourceLock\Resources\LockResource::class,
     ],
 
     /*
@@ -44,8 +44,8 @@ return [
     */
 
     'unlocker' => [
-        'limited_access' => false,
-        'gate' => 'unlock_resource_lock',
+        'limited_access' => true,
+        'gate' => 'release-resource-lock'
     ],
 
     /*
@@ -79,7 +79,7 @@ return [
         'navigation_label' => 'Resource Lock Manager',
         'plural_label' => 'Resource Locks',
         'navigation_group' => 'Settings',
-        'navigation_sort' => 19,
+        'navigation_sort' => 1,
         'limited_access' => false,
         'should_register_navigation' => false,
         //        'gate' => ''
@@ -90,13 +90,13 @@ return [
     | Lock timeout (in minutes)
     |--------------------------------------------------------------------------
     |
-    | The lock_timeout configuration specifies the time interval, in minutes,
+    | The lock_timeout configuration specifies the time interval, in seconds,
     | after which a lock on a resource will expire if it has not been manually
     | unlocked or released by the user.
     |
     */
 
-    'lock_timeout' => 10,
+    'lock_timeout' => 600,
 
     /*
     |--------------------------------------------------------------------------

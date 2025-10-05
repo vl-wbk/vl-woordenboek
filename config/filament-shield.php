@@ -236,6 +236,7 @@ return [
     'custom_permissions' => [
         'projectInfoWijzigen',
         'vrijwilligersPaginaWijzigen',
+        'ontgrendelResources',
     ],
 
     /*

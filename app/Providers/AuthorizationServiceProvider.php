@@ -37,5 +37,7 @@ final class AuthorizationServiceProvider extends ServiceProvider
         Gate::policy(Ban::class, BanPolicy::class);
         Gate::policy(Export::class, ExportPolicy::class);
 		Gate::policy(Thread::class, ThreadPolicy::class);
+
+
     }
 }

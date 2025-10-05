@@ -73,6 +73,10 @@ final class AppServiceProvider extends ServiceProvider
             ? Response::allow()
             : Response::denyAsNotFound());
 
+        Gate::define('release-resource-lock', function (User $user): bool {
+           return $user->can('ontgrendel_resources');
+        });
+
         Gate::define('use-translation-manager', fn (?User $user)
             => $user->user_type->in([UserTypes::Developer, UserTypes::Administrators]));
     }
