@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\UserManagement\Resources\Bans\Pages;
 
-use App\Features\DocumentationButtons;
 use App\Filament\Clusters\UserManagement\Resources\Bans\BanResource;
-use Filament\Actions\Action;
 use Filament\Resources\Pages\ListRecords;
-use Laravel\Pennant\Feature;
 
 /**
  * This page class servers as the cental hub for managing account deactivations in the Flemish Dictionary.
@@ -31,25 +28,4 @@ final class ListBans extends ListRecords
      * This connection ensures that any changes made to the resource's table schema or octions are automatically reflected in this listing page.
      */
     protected static string $resource = BanResource::class;
-
-    /**
-     * Configures the actions displayed in the page header.
-     * These actions provides quick access to important functionality related to ban management.
-     *
-     * Currently includes a link to our documentation to help authorized users understand our deactivation policies and procedures.
-     * This link open in a new tab to preserve the current work context.
-     *
-     * @return array<Action> An array of configured header actions
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            Action::make('Documfentatie')
-                ->visible(Feature::active(DocumentationButtons::class))
-                ->color('gray')
-                ->icon('tabler-book')
-                ->url('https://www.google.com')
-                ->openUrlInNewTab(),
-        ];
-    }
 }

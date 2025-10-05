@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\DisclaimerTypes;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -29,6 +30,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Disclaimer extends Model
 {
+    use HasFactory;
+
     /**
      * Specifies which attributes can be mass assigned when creating or updating user records.
      * This provides a security layer against mass-assignment vulnerabilities by explicitly listing allowed fields.

@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\Disclaimers\Schema;
 
+use CodeWithDennis\FactoryAction\FactoryAction;
 use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\CreateAction;
 use Filament\Actions\ViewAction;
 use Filament\Actions\EditAction;
@@ -12,6 +14,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Support\Enums\FontWeight;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Tables;
@@ -43,12 +46,21 @@ final readonly class TableSchema
         return [
             Action::make('help')
                 ->label(label: __('buttons.help'))
-                ->icon('heroicon-o-lifebuoy')
-                ->color('gray'),
+                ->icon('heroicon-o-lifebuoy'),
 
-            CreateAction::make()
-                ->label(label: __('disclaimer-resource.header-actions.create.label'))
-                ->icon('heroicon-o-plus-circle'),
+            ActionGroup::make([
+                CreateAction::make()
+                    ->label(label: __('disclaimer-resource.header-actions.create.label'))
+                    ->color('gray')
+                    ->icon('heroicon-o-plus-circle'),
+                FactoryAction::make()
+                    ->color('gray')
+                    ->hiddenLabel()
+                    ->modalIcon(Heroicon::OutlinedCog8Tooth)
+                    ->modalIconColor('primary')
+                    ->modalHeading('Genereer disclaimers')
+                    ->modalDescription('Genereer test disclaimers voor het woordenboek, deze kunnen worden gebruikt om te testen of de applicatie werkt zoals verwacht.')
+            ])->buttonGroup()
         ];
     }
 
