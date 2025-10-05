@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Users\Schema;
 
+use CodeWithDennis\FactoryAction\FactoryAction;
 use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
 use Filament\Actions\ActionGroup;
@@ -15,6 +16,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use App\Filament\Resources\Users\UserResource;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
@@ -34,12 +36,18 @@ final readonly class UserTable
             ->description(description: __('user-resource.tables.description'))
             ->headerActions([
                 Action::make('documentation-reference')
-                    ->color('gray')
                     ->icon('heroicon-o-book-open')
                     ->label(label: __('buttons.help')),
-                CreateAction::make()
-                    ->label(label: __('user-resource.buttons.create-user'))
-                    ->icon('heroicon-o-user-plus'),
+
+                ActionGroup::make([
+                    CreateAction::make()
+                        ->label(label: __('user-resource.buttons.create-user'))
+                        ->color('gray')
+                        ->icon('heroicon-o-user-plus'),
+                    FactoryAction::make()->color('gray')
+                        ->hiddenLabel()
+                        ->icon(Heroicon::OutlinedCog8Tooth)
+                ])->buttonGroup(),
             ])
             ->recordUrl(fn(User $user): string => UserResource::getUrl('view', ['record' => $user]))
             ->columns([

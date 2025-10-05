@@ -42,22 +42,6 @@ final class ListWords extends ListRecords
     protected static string $resource = ArticleResource::class;
 
     /**
-     * @todo Document this function
-     * @return array<mixed>
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            FactoryAction::make()
-                ->color('danger')
-                ->label('Genereer records')
-                ->icon('heroicon-o-cog-8-tooth')
-                ->hasMany([Note::class, Etymology::class])
-                ->belongsToMany([Label::class]),
-        ];
-    }
-
-    /**
      * Retrieves the header widgets for the page.
      *
      * This method returns an array of Filament widgets that should be displayed in the header of the page.

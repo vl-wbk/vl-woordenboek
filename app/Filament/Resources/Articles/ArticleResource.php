@@ -22,9 +22,14 @@ use App\Filament\Resources\Articles\Schema\FormSchema;
 use App\Filament\Resources\Articles\Schema\WordInfolist;
 use App\Filament\Support\Concerns\HasActiveIcon;
 use App\Models\Article;
+use App\Models\Etymology;
+use App\Models\Label;
+use App\Models\Note;
 use App\UserTypes;
 use BackedEnum;
+use CodeWithDennis\FactoryAction\Facades\FactoryAction;
 use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
@@ -41,6 +46,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconSize;
 use Filament\Support\Enums\Width;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
@@ -188,11 +194,23 @@ final class ArticleResource extends Resource
                 Action::make('docs')
                     ->label('Help')
                     ->icon('heroicon-o-lifebuoy')
-                    ->color('gray')
                     ->url('https://vl-wbk.github.io/documentatie-portaal/artikelen/')
                     ->openUrlInNewTab(),
-                CreateAction::make()
-                    ->icon('heroicon-o-document-plus'),
+
+                ActionGroup::make([
+                    CreateAction::make()
+                        ->color('gray')
+                        ->icon('heroicon-o-document-plus'),
+                    FactoryAction::make()
+                        ->color('gray')
+                        ->hiddenLabel()
+                        ->modalHeading('Genereer test artikelen')
+                        ->modalIcon(Heroicon::OutlinedCog8Tooth)
+                        ->modalDescription('Genereer test artikelen voor het woordenboek, deze kunnen worden gebruikt om te testen of de applicatie werkt zoals verwacht.')
+                        ->icon('heroicon-s-cog-8-tooth')
+                        ->hasMany([Note::class, Etymology::class])
+                        ->belongsToMany([Label::class]),
+                ])->buttonGroup()
             ])
             ->heading('Woordenboek artikelen')
             ->description('Een overzicht van alle artikelen die geregistreerd staan In het Vlaams Woordenboek gebruik de filters om de woorden te verkrijgen per status.')
