@@ -72,7 +72,7 @@ final class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->brandLogo(fn () => view('components.logo'))
+            ->brandName(config('app.name'))
             ->favicon(asset('favicon/favicon-32x32.png'))
             ->maxContentWidth(Width::Full)
             ->topNavigation()
@@ -117,8 +117,9 @@ final class AdminPanelProvider extends PanelProvider
             ->plugins([
                 EnvironmentIndicatorPlugin::make()
                     ->visible(! app()->isProduction())
-                    ->showGitBranch()
-                    ->color(Color::Blue),
+                    ->showBorder(false)
+                    ->color(Color::Red)
+                    ->showGitBranch(),
                 TranslationManagerPlugin::make(),
                 FilamentShieldPlugin::make()
                     ->globallySearchable(false)
