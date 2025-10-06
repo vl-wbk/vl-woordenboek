@@ -124,6 +124,9 @@ final readonly class FormSchema
         ];
     }
 
+    /**
+     * @return array<int, array<string>>
+     */
     private static function getToolbarOptions(): array
     {
         return [

@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\DisclaimerTypes;
 use Carbon\Carbon;
+use Database\Factories\DisclaimerFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -30,6 +31,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Disclaimer extends Model
 {
+    /** @use HasFactory<DisclaimerFactory> */
     use HasFactory;
 
     /**

@@ -164,7 +164,7 @@ final class EtymologyPolicy
      *
      * @param  User  $user  The user attempting to perform the under review action.
      * @param  Etymology  $etymology  The etymology instance being considered for under review status.
-     * @return bool Returns true if the etymology is in draft status; false otherwise.
+     * @return Response Returns true if the etymology is in draft status; false otherwise.
      */
     public function underReview(User $user, Etymology $etymology): Response
     {

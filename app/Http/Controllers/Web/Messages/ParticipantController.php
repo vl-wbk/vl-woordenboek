@@ -18,22 +18,25 @@ use Spatie\RouteAttributes\Attributes\Post;
 #[Middleware(middleware: ['auth', 'verified', 'forbid-banned-user'])]
 final readonly class ParticipantController
 {
-	use AuthorizesRequests;
-	
-	#[Get(uri: '/thread/{thread}/verwijder-persoon/{participant}', name: 'thread:leave')]
-	public function leave(Thread $thread, Participant $participant): RedirectResponse
-	{
-		Gate::any(['leave', 'remove-participants'], [$thread, $participant]);
-		
-		$thread->removeParticipant($participant->user->id);
-		
-		return redirect()->back();
-	}
-	
-	#[Post('/thread/{thread}/persoon-toevoegen', name: 'thread:add-participant', middleware: ['can:add-participants,thread'])]
-	public function create(Request $request, Thread $thread, AddParticipant $addParticipant): RedirectResponse
-	{
-		$addParticipant($thread, $request);
-		return back();
-	}
+    use AuthorizesRequests;
+
+    #[Get(uri: '/thread/{thread}/verwijder-persoon/{participant}', name: 'thread:leave')]
+    public function leave(Thread $thread, Participant $participant): RedirectResponse
+    {
+        Gate::any(['leave', 'remove-participants'], [$thread, $participant]);
+
+        /** @var \App\Models\User $participantUserModel */
+        $participantUserModel = $participant->user;
+
+        $thread->removeParticipant($participantUserModel->id);
+
+        return redirect()->back();
+    }
+
+    #[Post('/thread/{thread}/persoon-toevoegen', name: 'thread:add-participant', middleware: ['can:add-participants,thread'])]
+    public function create(Request $request, Thread $thread, AddParticipant $addParticipant): RedirectResponse
+    {
+        $addParticipant($thread, $request);
+        return back();
+    }
 }

@@ -43,6 +43,7 @@ final readonly class WordInfolist
      */
     public static function make(Schema $schema): Schema
     {
+        /** @phpstan-ignore-next-line */
         $schema->getRecord()->loadCount('audits');
 
         return $schema->components([

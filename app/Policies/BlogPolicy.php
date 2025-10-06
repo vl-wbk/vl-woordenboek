@@ -20,6 +20,9 @@ use Illuminate\Auth\Access\Response;
  */
 final class BlogPolicy
 {
+    /**
+     * @var list<string>
+     */
     public static array $permissionPrefixes = [
         'viewAny', 'view', 'update', 'delete', 'deleteAny', 'undoPublication', 'disableComments', 'enableComments',
     ];
@@ -123,32 +126,32 @@ final class BlogPolicy
      */
     public function publish(User $user, Blog $blog): Response
     {
-		if ($blog->status->isPublished()) {
-			return Response::denyAsNotFound();
-		}
+        if ($blog->status->isPublished()) {
+            return Response::denyAsNotFound();
+        }
 
         return Response::allow();
     }
 
-	/**
-	 * Authorizes a user to unpublish a blog post.
-	 *
-	 * Authorization is granted if either of these conditions is met:
-	 * 1. The user is the original author of the blog post.
-	 * 2. The user has the specific `undo_publication_blog` permission.
-	 *
-	 * @param  User $user   The authenticated user.
-	 * @param  Blog $blog   The blog post whose publication status is being undone.
-	 * @return              Response Grants access if the user is the author or has the permission, otherwise denies it.
-	 */
-	public function undoPublication(User $user, Blog $blog): Response
-	{
-		if ($user->can('undo-publication:blog') && $blog->status->isPublished()) {
-			return Response::allow();
-		}
+    /**
+     * Authorizes a user to unpublish a blog post.
+     *
+     * Authorization is granted if either of these conditions is met:
+     * 1. The user is the original author of the blog post.
+     * 2. The user has the specific `undo_publication_blog` permission.
+     *
+     * @param  User $user   The authenticated user.
+     * @param  Blog $blog   The blog post whose publication status is being undone.
+     * @return              Response Grants access if the user is the author or has the permission, otherwise denies it.
+     */
+    public function undoPublication(User $user, Blog $blog): Response
+    {
+        if ($user->can('undo-publication:blog') && $blog->status->isPublished()) {
+            return Response::allow();
+        }
 
-		return Response::denyAsNotFound();
-	}
+        return Response::denyAsNotFound();
+    }
 
     /**
      * Authorizes a user to delete an existing blog post.
@@ -180,8 +183,8 @@ final class BlogPolicy
     public function deleteAny(User $user): Response
     {
         return $user->can('delete-any:blog')
-			? Response::allow()
-			: Response::denyAsNotFound();
+            ? Response::allow()
+            : Response::denyAsNotFound();
     }
 
     public function activateComments(User $user, Blog $blog): Response

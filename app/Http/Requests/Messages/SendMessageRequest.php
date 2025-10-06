@@ -9,19 +9,20 @@ use Spatie\LaravelData\WithData;
 
 final class SendMessageRequest extends FormRequest
 {
-	use WithData;
-	
-	protected string $dataClass = MessageObjectData::class;
-	
+    /** @use WithData<MessageObjectData> */
+    use WithData;
+
+    protected string $dataClass = MessageObjectData::class;
+
     /**
      * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-			'ontvanger' => ['required', 'exists:App\Models\User,name'],
-			'onderwerp' => ['required', 'max:255'],
-			'bericht' => ['required'],
+            'ontvanger' => ['required', 'exists:App\Models\User,name'],
+            'onderwerp' => ['required', 'max:255'],
+            'bericht' => ['required'],
         ];
     }
 }

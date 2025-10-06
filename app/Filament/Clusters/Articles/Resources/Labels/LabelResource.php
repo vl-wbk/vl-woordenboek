@@ -4,31 +4,33 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\Labels;
 
-use App\Filament\Support\Concerns\HasActiveIcon;
-use Filament\Schemas\Schema;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
-use Filament\Schemas\Components\Section;
-use Filament\Actions\ViewAction;
-use Filament\Actions\EditAction;
-use Filament\Support\Enums\Width;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use App\Filament\Clusters\Articles\Resources\Labels\RelationManagers\ArticlesRelationManager;
-use App\Filament\Clusters\Articles\Resources\Labels\Pages\ListLabels;
-use App\Filament\Clusters\Articles\Resources\Labels\Pages\ViewLabel;
 use App\Filament\Clusters\Articles\ArticlesCluster;
 use App\Filament\Clusters\Articles\Resources\LabelResource\Pages;
-use App\Filament\Clusters\Articles\Resources\LabelResource\RelationManagers;
+use App\Filament\Clusters\Articles\Resources\Labels\Pages\ListLabels;
+use App\Filament\Clusters\Articles\Resources\Labels\Pages\ViewLabel;
+use App\Filament\Clusters\Articles\Resources\Labels\RelationManagers\ArticlesRelationManager;
+use App\Filament\Support\Concerns\HasActiveIcon;
+use App\Models\Article;
 use App\Models\Label;
-use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
-use Filament\Forms\Components;
+use CodeWithDennis\FactoryAction\FactoryAction;
+use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\CreateAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconSize;
-use Filament\Tables;
+use Filament\Support\Enums\Width;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Cache;
@@ -40,8 +42,6 @@ use Illuminate\Support\Str;
  * This Filament resource handles all label management functionality within the system. Labels are used
  * to categorize and organize dictionary articles, making them easier to find and manage. The resource
  * provides a complete interface for administrators to create, view, edit, and delete labels.
- *
- * @package App\Filament\Clusters\Articles\Resources
  */
 final class LabelResource extends Resource
 {
@@ -59,7 +59,7 @@ final class LabelResource extends Resource
      * styling across the application. The tag icon was chosen as it best represents the labeling concept.
      * See https://heroicons.com for the complete icon set.
      */
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-tag';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-tag';
 
     /**
      * Organizational grouping for this resource. The Articles cluster contains all resources related to
@@ -76,7 +76,7 @@ final class LabelResource extends Resource
      * system to ensure proper layout across different screen sizes. Required fields are clearly marked,
      * and helpful placeholder text guides users through the input process.
      *
-     * @param \Filament\Schemas\Schema $schema The Filament form builder instance used to construct the interface
+     * @param  \Filament\Schemas\Schema  $schema  The Filament form builder instance used to construct the interface
      * @return \Filament\Schemas\Schema The fully configured form ready for rendering
      */
     public static function form(Schema $schema): Schema
@@ -111,7 +111,7 @@ final class LabelResource extends Resource
      * It presents the label's core attributes including name, timestamps, and description in a visually appealing format with consistent styling.
      * The interface uses the Filament design system, incorporating icons and responsive column layouts to ensure optimal presentation across different screen sizes.
      *
-     * @param \Filament\Schemas\Schema $schema The Filament infolist builder instance
+     * @param  \Filament\Schemas\Schema  $schema  The Filament infolist builder instance
      * @return \Filament\Schemas\Schema The configured infolist ready for rendering
      */
     public static function infolist(Schema $schema): Schema
@@ -157,12 +157,41 @@ final class LabelResource extends Resource
      * The interface includes real-time updates for article counts and optimized performance through
      * strategic database queries. Modal dialogs ensure safe deletion with clear warning messages.
      *
-     * @param  Table $table  The Filament table builder instance
-     * @return Table         The fully configured table interface
+     * @param  Table  $table  The Filament table builder instance
+     * @return Table The fully configured table interface
      */
     public static function table(Table $table): Table
     {
         return $table
+            ->striped()
+            ->deferLoading()
+            ->heading('Label overzicht')
+            ->headerActions([
+                Action::make('docs')
+                    ->label('Help')
+                    ->icon(Heroicon::OutlinedLifebuoy)
+                    ->url('https://vl-wbk.github.io/documentatie-portaal/artikelen/labelsysteem.html', shouldOpenInNewTab: true),
+
+                ActionGroup::make([
+                    CreateAction::make()
+                        ->color('gray')
+                        ->modalWidth(Width::SevenExtraLarge)
+                        ->modalHeading('Label toevoegen')
+                        ->modalIcon('heroicon-o-plus')
+                        ->modalIconColor('success')
+                        ->modalDescription('U staat op het punt om een label toe te voegen voor het woordenboek en zijn artikels.')
+                        ->icon('heroicon-o-plus'),
+
+                    FactoryAction::make()
+                        ->color('gray')
+                        ->icon(Heroicon::Cog8Tooth)
+                        ->hiddenLabel()
+                        ->modalIconColor('primary')
+                        ->modalHeading('Labels genereren')
+                        ->modalDescription('Deze actie zal nieuwe labels aanmaken in de databank. Met als doel om dingen te testen tijdens de ontwikkeling van het vlaams woordenboek. Weet je zeker dat je wilt verder gaan?')
+                        ->belongsToMany([Article::class]),
+                ])->buttonGroup(),
+            ])
             ->emptyStateIcon(self::$navigationIcon)
             ->emptyStateHeading('Geen labels gevonden')
             ->emptyStateDescription('Momenteel zijn er geen labels gevonden die aan woordenboek artikelen gekoppeld kunnen worden.')

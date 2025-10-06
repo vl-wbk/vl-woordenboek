@@ -11,10 +11,11 @@ use Spatie\LaravelData\WithData;
 
 final class StoreReplyRequest extends FormRequest
 {
-	use WithData;
-	
-	protected string $dataClass = ReplyDataObject::class;
-	
+    /** @use WithData<ReplyDataObject> */
+    use WithData;
+
+    protected string $dataClass = ReplyDataObject::class;
+
     public function authorize(): bool
     {
         return $this->user()->can('reply', $this->thread);

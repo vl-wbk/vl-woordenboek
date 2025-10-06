@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\Support\Filters\Charts;
 
-use App\Models\User;
 use Filament\Forms\Components\DatePicker;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
@@ -24,6 +22,9 @@ trait DateRangeFilterChart
         return now()->parse($this->filters['endDate']);
     }
 
+    /**
+     * @return Collection<int, TrendValue>
+     */
     private function dateRangeFilterQuery(string $model, string $dateColumn, string $grouping = 'perDay'): Collection
     {
         return Trend::model($model)
@@ -33,16 +34,23 @@ trait DateRangeFilterChart
             ->count();
     }
 
+    /**
+     * @param Collection<int, TrendValue> $data
+     * @return array{backgroundColor: string, borderColor: string, label: string, data: Collection<int, mixed>}
+     */
     public function getTrendData(Collection $data, string $color, string $label): array
     {
         return [
             'backgroundColor' => $color,
             'borderColor' => $color,
             'label' => $label,
-            'data' => $data->map(fn (TrendValue $value): mixed => $value->aggregate)
+            'data' => $data->map(fn(TrendValue $value): mixed => $value->aggregate),
         ];
     }
 
+    /**
+     * @return array<int, DatePicker>
+     */
     public function dateRangeFilterSchema(): array
     {
         return [

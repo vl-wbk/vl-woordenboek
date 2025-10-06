@@ -26,8 +26,11 @@ use Illuminate\Auth\Access\Response;
  */
 final class ArticleReportPolicy
 {
+    /**
+     * @var list<string>
+     */
     public static array $permissionPrefixes = [
-        'viewAny', 'view', 'markInProgress', 'markAsClosed', 'delete', 'deleteAny'
+        'viewAny', 'view', 'markInProgress', 'markAsClosed', 'delete', 'deleteAny',
     ];
 
     /**
@@ -37,24 +40,24 @@ final class ArticleReportPolicy
      * It's a permissive rule that grants access to the `viewAny` action for all users.
      *
      * @param  User $user  The user attempting to view the list of article reports.
-     * @return bool        Always returns `true`, allowing access.
+     * @return Response        Always returns `true`, allowing access.
      */
     public function viewAny(User $user): Response
     {
-        if  ($user->can('view-any:article-report')) {
-			return Response::allow();
-		}
+        if ($user->can('view-any:article-report')) {
+            return Response::allow();
+        }
 
-		return Response::deny();
+        return Response::deny();
     }
 
     public function view(User $user, ArticleReport $articleReport): Response
     {
         if ($user->can('view:article-report')) {
-			return Response::allow();
-		}
+            return Response::allow();
+        }
 
-		return Response::deny();
+        return Response::deny();
     }
 
     /**
@@ -74,10 +77,10 @@ final class ArticleReportPolicy
         }
 
         if ($articleReport->assignee()->doesntExist() && $articleReport->state->is(enum: Status::Open)) {
-			return Response::allow();
-		}
+            return Response::allow();
+        }
 
-		return Response::deny();
+        return Response::deny();
     }
 
     /**
@@ -97,10 +100,10 @@ final class ArticleReportPolicy
         }
 
         if ($articleReport->assignee()->exists() && $articleReport->assignee()->is($user) && $articleReport->state->is(enum: Status::InProgress)) {
-			return Response::allow();
-		}
+            return Response::allow();
+        }
 
-		return Response::deny();
+        return Response::deny();
     }
 
     /**
@@ -115,18 +118,18 @@ final class ArticleReportPolicy
     public function delete(User $user): Response
     {
         if ($user->can('delete:article-report')) {
-			return Response::allow();
-		}
+            return Response::allow();
+        }
 
-		return Response::deny();
+        return Response::deny();
     }
 
     public function deleteAny(User $user): Response
     {
         if ($user->can('delete-any:article-report')) {
-			return Response::allow();
-		}
+            return Response::allow();
+        }
 
-		return Response::deny();
+        return Response::deny();
     }
 }

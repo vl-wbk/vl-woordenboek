@@ -16,6 +16,9 @@ use Illuminate\Auth\Access\Response;
  */
 final class UserPolicy
 {
+    /**
+     * @var list<string>
+     */
     public static array $permissionPrefixes = [
         'viewAny', 'create', 'deactivate', 'deactivateUpdate', 'reactivate',
     ];
@@ -32,10 +35,10 @@ final class UserPolicy
     public function viewAny(User $user): Response
     {
         if ($user->can('view-any:user')) {
-			return Response::allow();
-		}
+            return Response::allow();
+        }
 
-		return Response::deny();
+        return Response::deny();
     }
 
     /**
@@ -50,10 +53,10 @@ final class UserPolicy
     public function create(User $user): Response
     {
         if ($user->can('create:user')) {
-			return Response::allow();
-		}
+            return Response::allow();
+        }
 
-		return Response::deny();
+        return Response::deny();
     }
 
     /**
@@ -71,10 +74,10 @@ final class UserPolicy
     public function deactivate(User $user, User $model): Response
     {
         if ($user->can('deactivate:user') && $user->isNot($model) && $model->isNotBanned()) {
-			return Response::allow();
-		}
+            return Response::allow();
+        }
 
-		return Response::deny();
+        return Response::deny();
     }
 
     /**
@@ -92,10 +95,10 @@ final class UserPolicy
     public function reactivate(User $user, User $model): Response
     {
         if ($user->can('reactivate:user') && $user->isNot($model) && $model->isBanned()) {
-			return Response::allow();
-		}
+            return Response::allow();
+        }
 
-		return Response::deny();
+        return Response::deny();
     }
 
     /**
@@ -115,9 +118,9 @@ final class UserPolicy
     public function updateDeactivation(User $user, User $model): Response
     {
         if ($user->can('deactivate-update:user') && $user->isNot($model) && $model->isBanned()) {
-			return Response::allow();
-		}
+            return Response::allow();
+        }
 
-		return Response::deny();
+        return Response::deny();
     }
 }

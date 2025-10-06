@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Users\Schema;
 
-use App\Filament\Resources\Users\Schema\UserInfolist;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
@@ -40,13 +39,13 @@ final readonly class UserInfolist
                         Tab::make(label: __('user-resource.infolist.tabs.general'))
                             ->columns(12)
                             ->icon('heroicon-o-identification')
-                            ->schema(UserInfolist::renderGeneralInformation()),
+                            ->schema(self::renderGeneralInformation()),
 
                         Tab::make(label: __('user-resource.infolist.tabs.deactivation'))
                             ->columns(12)
                             ->visible(fn(User $user): bool => $user->isBanned())
                             ->icon('heroicon-o-lock-closed')
-                            ->schema(UserInfolist::renderDeactivationInformation()),
+                            ->schema(self::renderDeactivationInformation()),
                     ]),
             ]);
     }

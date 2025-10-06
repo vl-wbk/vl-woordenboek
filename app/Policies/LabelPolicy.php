@@ -19,26 +19,29 @@ use Illuminate\Auth\Access\Response;
  */
 final class LabelPolicy
 {
+    /**
+     * @var list<string>
+     */
     public static array $permissionPrefixes = [
-        'deleteAny', 'detach', 'attach', 'create', 'delete', 'update', 'view', 'viewAny'
+        'deleteAny', 'detach', 'attach', 'create', 'delete', 'update', 'view', 'viewAny',
     ];
 
     public function viewAny(User $user): Response
     {
         if ($user->can('view-any:label')) {
-			return Response::allow();
-		}
+            return Response::allow();
+        }
 
-		return Response::deny();
+        return Response::deny();
     }
 
     public function view(User $user, Label $label): Response
     {
         if ($user->can('view:label')) {
-			return Response::allow();
-		}
+            return Response::allow();
+        }
 
-		return Response::deny();
+        return Response::deny();
     }
 
     /**
@@ -52,10 +55,10 @@ final class LabelPolicy
     public function update(User $user, Label $label): Response
     {
         if ($user->can('update:label')) {
-			return Response::allow();
-		}
+            return Response::allow();
+        }
 
-		return Response::deny();
+        return Response::deny();
     }
 
     /**
@@ -69,10 +72,10 @@ final class LabelPolicy
     public function delete(User $user): Response
     {
         if ($user->can('delete:label')) {
-			return Response::allow();
-		}
+            return Response::allow();
+        }
 
-		return Response::deny();
+        return Response::deny();
     }
 
     /**
@@ -86,10 +89,10 @@ final class LabelPolicy
     public function create(User $user): Response
     {
         if ($user->can('create:label')) {
-			return Response::allow();
-		}
+            return Response::allow();
+        }
 
-		return Response::deny();
+        return Response::deny();
     }
 
     /**
@@ -103,10 +106,10 @@ final class LabelPolicy
     public function attach(User $user): Response
     {
         if ($user->can('attach:label')) {
-			return Response::allow();
-		}
+            return Response::allow();
+        }
 
-		return Response::deny();
+        return Response::deny();
     }
 
     /**
@@ -119,19 +122,19 @@ final class LabelPolicy
      */
     public function detach(User $user, Label $label): Response
     {
-		if ($user->can('detach:label')) {
-			return Response::allow();
-		}
+        if ($user->can('detach:label')) {
+            return Response::allow();
+        }
 
-		return Response::deny();
+        return Response::deny();
     }
 
     public function deleteAny(User $user): Response
     {
         if ($user->can('delete-any:label')) {
-			return Response::allow();
-		}
+            return Response::allow();
+        }
 
-		return Response::deny();
+        return Response::deny();
     }
 }

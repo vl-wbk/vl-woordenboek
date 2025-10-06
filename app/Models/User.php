@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Support\Stringable;
 use App\Builders\UserBuilder;
 use App\Models\Relations\Contactable;
 use App\Notifications\RegistrationWelcomeNotification;
@@ -18,7 +17,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Fortify\InteractsWithTwoFactorState;
 use Spatie\WelcomeNotification\ReceivesWelcomeNotification;
 use Overtrue\LaravelLike\Traits\Liker;
 use Cog\Contracts\Ban\Bannable as BannableInterface;
@@ -61,7 +59,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @method bans()
  * @method static UserBuilder|static query()
  * @method UserBuilder newQuery()
- * @method searchContributions(string $string, Stringable $string1, string $etymology)
+ * @method searchContributions(string $string,?string $string1, string $etymology)
  *
  * @package App\Models
  */
@@ -143,11 +141,17 @@ class User extends Authenticatable implements FilamentUser, BannableInterface, M
         return $this->hasMany(ArticleReport::class, 'author_id');
     }
 
+    /**
+     * @return HasMany<Blog, covariant $this>
+     */
     public function articles(): HasMany
     {
         return $this->hasMany(Blog::class, 'author_id');
     }
 
+    /**
+     * @return HasMany<Etymology, covariant $this>
+     */
     public function etymologies(): HasMany
     {
         return $this->hasMany(Etymology::class, 'author_id');

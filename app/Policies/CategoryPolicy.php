@@ -21,65 +21,68 @@ use Illuminate\Auth\Access\Response;
  */
 final class CategoryPolicy
 {
+    /**
+     * @var list<string>
+     */
     public static array $permissionPrefixes = [
         'view', 'viewAny', 'create', 'update', 'delete', 'deleteAny',
     ];
 
-	/**
-	 * Determines whether the user can view a collection of categories.
-	 *
-	 * This policy is triggered when a user tries to access a list of all categories.
-	 * For example, this is the check that allows them to see the category management page or a dropdown list of categories.
-	 * The user needs the 'view_any_category' permission to be allowed.
-	 *
-	 * @param  User $user	The authenticated user instance.
-	 * @return Response		Returns a `Response::denyAsNotFound()` if the user is not authorized to access the blog section, otherwise `null` to let the specific policy method run.
-	 */
+    /**
+     * Determines whether the user can view a collection of categories.
+     *
+     * This policy is triggered when a user tries to access a list of all categories.
+     * For example, this is the check that allows them to see the category management page or a dropdown list of categories.
+     * The user needs the 'view_any_category' permission to be allowed.
+     *
+     * @param  User $user	The authenticated user instance.
+     * @return Response		Returns a `Response::denyAsNotFound()` if the user is not authorized to access the blog section, otherwise `null` to let the specific policy method run.
+     */
     public function viewAny(User $user): Response
     {
         return $user->can('view-any:category')
-			? Response::allow()
-			: Response::deny();
+            ? Response::allow()
+            : Response::deny();
     }
 
-	/**
-	 *
-	 * @param User $user
-	 * @param Category $category
-	 * @return Response
-	 */
+    /**
+     *
+     * @param User $user
+     * @param Category $category
+     * @return Response
+     */
     public function view(User $user, Category $category): Response
     {
         return $user->can('view:category')
-			? Response::allow()
-			: Response::deny();
+            ? Response::allow()
+            : Response::deny();
     }
 
     public function create(User $user): Response
     {
         return $user->can('create:category')
-			? Response::allow()
-			: Response::deny();
+            ? Response::allow()
+            : Response::deny();
     }
 
     public function update(User $user, Category $category): Response
     {
         return $user->can('update:category')
-			? Response::allow()
-			: Response::deny();
+            ? Response::allow()
+            : Response::deny();
     }
 
     public function delete(User $user, Category $category): Response
     {
         return $user->can('delete:category')
-			? Response::allow()
-			: Response::deny();
+            ? Response::allow()
+            : Response::deny();
     }
 
     public function deleteAny(User $user): Response
     {
         return $user->can('delete-any:category')
-			? Response::allow()
-			: Response::deny();
+            ? Response::allow()
+            : Response::deny();
     }
 }

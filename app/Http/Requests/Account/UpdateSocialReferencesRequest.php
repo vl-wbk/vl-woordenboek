@@ -11,19 +11,20 @@ use Spatie\LaravelData\WithData;
 
 final class UpdateSocialReferencesRequest extends FormRequest
 {
-	use WithData;
-	
-	protected string $dataClass = SocialMediaReferenceData::class;
-	
+    /** @use WithData<SocialMediaReferenceData> */
+    use WithData;
+
+    protected string $dataClass = SocialMediaReferenceData::class;
+
     /**
      * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-			'twitter' => ['max:255', 'nullable', Rule::unique('users', 'twitter')->ignore(Auth::id())],
-			'bluesky' => ['max:255', 'nullable', Rule::unique('users','bluesky')->ignore(Auth::id())],
-			'website' => ['nullable', 'max:255', 'url'],
+            'twitter' => ['max:255', 'nullable', Rule::unique('users', 'twitter')->ignore(Auth::id())],
+            'bluesky' => ['max:255', 'nullable', Rule::unique('users', 'bluesky')->ignore(Auth::id())],
+            'website' => ['nullable', 'max:255', 'url'],
         ];
     }
 }

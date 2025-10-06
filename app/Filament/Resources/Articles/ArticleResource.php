@@ -27,7 +27,7 @@ use App\Models\Label;
 use App\Models\Note;
 use App\UserTypes;
 use BackedEnum;
-use CodeWithDennis\FactoryAction\Facades\FactoryAction;
+use CodeWithDennis\FactoryAction\FactoryAction;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
@@ -346,7 +346,7 @@ final class ArticleResource extends Resource
      * This helps users quickly identify if they've found the right word entry.
      *
      * @param  Article  $record  The article record being displayed
-     * @return array<string, mixed> Key-value pairs of labels and their values
+     * @return array<int, string|null> Key-value pairs of labels and their values
      */
     public static function getGlobalSearchResultDetails(Model $record): array
     {

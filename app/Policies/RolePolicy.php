@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
-use App\Models\User;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Foundation\Auth\User as AuthUser;
 use Spatie\Permission\Models\Role;
 
 final class RolePolicy
 {
+    /**
+     * @var list<string>
+     */
     public static array $permissionPrefixes = [
-        'viewAny', 'view', 'create', 'update', 'delete'
+        'viewAny', 'view', 'create', 'update', 'delete',
     ];
 
     public function viewAny(AuthUser $authUser): Response

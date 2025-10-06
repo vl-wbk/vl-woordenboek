@@ -8,8 +8,9 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Middleware;
+use Spatie\RouteAttributes\Attributes\Prefix;
 
-#[Prefix('instellingen')]
+#[Prefix(prefix: 'instellingen')]
 #[Middleware(middleware: ['auth', 'forbid-banned-user'])]
 final readonly class TwoFactorAuthenticationController
 {

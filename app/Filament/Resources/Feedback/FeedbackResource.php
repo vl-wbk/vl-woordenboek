@@ -41,7 +41,6 @@ final class FeedbackResource extends Resource
 
     public static function getWidgets(): array
     {
-        /** @phpstan-ignore-next-line */
         return [
             FeedbackStatisticsWidget::class,
         ];
