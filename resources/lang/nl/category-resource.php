@@ -29,6 +29,13 @@ return [
                     'description' => 'Via het onderstaande formulier kunt u een nieuwe categorie aanmaken voor een nieuwsbericht',
                 ],
             ],
+
+            'factory-action' => [
+                'modal' => [
+                    'heading' => 'Categorieen genereren',
+                    'description' => 'Genereer een aantal test categorieen voor nieuwberichten. Met als doel het de categorie functionaliteit te testen in het Vlaams Woordenboek. Deze actie kan niet ongedaan worden gemaakt.'
+                ]
+            ]
         ],
 
         'row-actions' => [

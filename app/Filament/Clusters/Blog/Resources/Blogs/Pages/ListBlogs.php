@@ -4,9 +4,15 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources\Blogs\Pages;
 
+use App\Features\DocumentationButtons;
 use App\Filament\Clusters\Blog\Resources\Blogs\BlogResource;
 use CodeWithDennis\FactoryAction\FactoryAction;
+use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Support\Icons\Heroicon;
+use Laravel\Pennant\Feature;
 
 /**
  * ListBlogs
@@ -24,20 +30,21 @@ final class ListBlogs extends ListRecords
      */
     protected static string $resource = BlogResource::class;
 
-    /**
-     * Defines the header actions available on the ListBlogs page.
-     *
-     * This method configures actions that appear at the top of the list records page.
-     * Currently, it includes a `FactoryAction` which is set to a 'danger' color.
-     * This action likely provides functionality to generate new blog records, possibly for testing or seeding purposes.
-     *
-     * @return array<int, FactoryAction>
-     */
     protected function getHeaderActions(): array
     {
         return [
-            FactoryAction::make()
-                ->color('danger'),
+            Action::make('help')
+                ->visible(Feature::active(DocumentationButtons::class))
+                ->icon('heroicon-o-lifebuoy'),
+
+            ActionGroup::make([
+                CreateAction::make('artikel aanmaken')
+                    ->color('gray')
+                    ->icon('heroicon-o-document-plus'),
+                FactoryAction::make()
+                    ->modalHeading('Genereer test nieuweberichten')
+                    ->modalDescription('Genereer test nieuweberichten voor de blogsectie, deze kunnen worden gebruikt om te testen of de applicatie werkt zoals verwacht.'),
+            ])->buttonGroup(),
         ];
     }
 }

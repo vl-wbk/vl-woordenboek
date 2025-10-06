@@ -54,23 +54,4 @@ final readonly class TableActionsDefinitions
                 ->modalDescription(description: __('category-resource.table.row-actions.delete-action.modal.description')),
         ];
     }
-
-    /**
-     * @return array<int, Action|CreateAction>
-     */
-    public static function getHeaderActions(): array
-    {
-        return [
-            Action::make(name: __('buttons.help'))
-                ->color('gray')
-                ->icon('heroicon-o-lifebuoy'),
-
-            CreateAction::make()
-                ->icon('heroicon-o-plus')
-                ->label(label: __('category-resource.table.header-actions.create-action.label'))
-                ->modalHeading(heading: __('category-resource.table.header-actions.create-action.modal.heading'))
-                ->modalIcon('heroicon-o-plus')
-                ->modalDescription(description: __('category-resource.table.header-actions.create-action.modal.description')),
-        ];
-    }
 }

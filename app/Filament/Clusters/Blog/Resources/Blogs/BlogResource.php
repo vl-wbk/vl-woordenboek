@@ -22,6 +22,7 @@ use App\Models\Blog as BlogPosts;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
+use BackedEnum;
 
 /**
  * Class BlogResource
@@ -55,7 +56,7 @@ final class BlogResource extends Resource
      * The icon displayed next to the navigation item for this resource.
      * Uses a Heroicons outline icon.
      */
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-text';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-document-text';
 
     /**
      * The label displayed in the Filament navigation sidebar for this resource.
@@ -112,6 +113,8 @@ final class BlogResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->striped()
+            ->deferLoading()
             ->modelLabel('Artikel')
             ->pluralModelLabel('Artikelen')
             ->heading('Overzicht artikelen')
@@ -120,7 +123,6 @@ final class BlogResource extends Resource
             ->emptyStateHeading('Geen artikelen gevonden of aangemaakt')
             ->emptyStateDescription('Het lijkt erop dat er momenteel nog geen artikelen zijn aangemaakt of gevonden met opgegeven criteria. Maak een artikel aan of kom later nog eens terug.')
             ->columns(components: TableSchema::getColumnComponents())
-            ->headerActions(actions: ResourceActionDefinitions::getHeaderActions())
             ->recordActions(actions: ResourceActionDefinitions::getTableActions())
             ->toolbarActions(actions: ResourceActionDefinitions::getBulkActions());
     }

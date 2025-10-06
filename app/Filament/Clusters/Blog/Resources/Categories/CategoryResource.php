@@ -120,7 +120,6 @@ final class CategoryResource extends Resource
             ->emptyStateDescription(description: __('category-resource.table.empty-state.description'))
             ->columns(components: TableColumnSchema::getComponents())
             ->recordActions(actions: TableActionsDefinitions::getRowActions())
-            ->headerActions(actions: TableActionsDefinitions::getHeaderActions())
             ->toolbarActions(actions: TableActionsDefinitions::getBulkActions());
     }
 
