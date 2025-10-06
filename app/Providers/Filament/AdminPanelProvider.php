@@ -72,7 +72,7 @@ final class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->brandName('VL. woordenboek')
+            ->brandLogo(fn () => view('components.logo'))
             ->favicon(asset('favicon/favicon-32x32.png'))
             ->maxContentWidth(Width::Full)
             ->topNavigation()
