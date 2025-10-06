@@ -178,7 +178,6 @@ return [
             \App\Filament\Clusters\Articles\Resources\ArticleReports\ArticleReportResource::class => \App\Policies\ArticleReportPolicy::$permissionPrefixes,
         ],
         'exclude' => [
-            \Kenepa\TranslationManager\Resources\LanguageLineResource::class,
             \Kenepa\ResourceLock\Resources\LockResource::class,
         ],
     ],

@@ -16,7 +16,6 @@ use Filament\Navigation\MenuItem;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\View\PanelsRenderHook;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -25,7 +24,6 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Config;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Kenepa\ResourceLock\ResourceLockPlugin;
-use Kenepa\TranslationManager\TranslationManagerPlugin;
 use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
 
 /**
@@ -120,7 +118,6 @@ final class AdminPanelProvider extends PanelProvider
                     ->showBorder(false)
                     ->color(Color::Red)
                     ->showGitBranch(),
-                TranslationManagerPlugin::make(),
                 FilamentShieldPlugin::make()
                     ->globallySearchable(false)
                     ->navigationGroup('Toegangsbeheer')
