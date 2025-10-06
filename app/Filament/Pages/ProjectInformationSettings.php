@@ -46,11 +46,6 @@ final class ProjectInformationSettings extends SettingsPage
     protected static string $settings = SettingsProjectInformationSettings::class;
 
     /**
-     * Defines the navigation group that this settings page belongs to in the Filament admin panel.
-     */
-    protected static string | \UnitEnum | null $navigationGroup = "Pagina's";
-
-    /**
      * Defines the title displayed at the top of this settings page in the Filament admin panel.
      */
     protected static ?string $title = 'Project informatie';

@@ -66,12 +66,6 @@ final class VolunteerCallOutSettings extends SettingsPage
     protected static ?string $title = 'Oproep voor vrijwilligers';
 
     /**
-     * Defines the navigation group that this settings page belongs to in the Filament admin panel.
-     * This is used to organize the settings page within the navigation menu.
-     */
-    protected static string | \UnitEnum | null $navigationGroup = "Pagina's";
-
-    /**
      * Configures the form used to display and edit the volunteer call-out settings.
      *
      * This method defines the form schema, which includes sections for page configuration and volunteer positions.

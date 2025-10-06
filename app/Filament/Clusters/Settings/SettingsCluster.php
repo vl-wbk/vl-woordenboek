@@ -27,7 +27,7 @@ final class SettingsCluster extends Cluster
      *
      * @var ?string  A nullable string representing the icon name in Heroicon format.
      */
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-cog-8-tooth';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-text';
 
     /**
      * The label for this cluster that appears in the navigation menu.
@@ -35,7 +35,7 @@ final class SettingsCluster extends Cluster
      *
      * @var ?string A nullable string for the navigation label, allowing for dynamic configuration.
      */
-    protected static ?string $navigationLabel = 'Instellingen';
+    protected static ?string $navigationLabel = "Pagina's";
 
     /**
      * Defines the breadcrumb label for the settings cluster in the app's UI.
@@ -45,7 +45,7 @@ final class SettingsCluster extends Cluster
      *
      * @var ?string A nullable string containing the breadcrumb label in Dutch.
      */
-    protected static ?string $clusterBreadcrumb = 'Applicatie instellingen';
+    protected static ?string $clusterBreadcrumb = "Pagina's";
 
     public static function canAccess(): bool
     {
