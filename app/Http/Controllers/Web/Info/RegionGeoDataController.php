@@ -22,6 +22,8 @@ final readonly class RegionGeoDataController
                 ->select('name', 'region_id', 'postal', DB::raw('ST_AsGeoJSON(geometry) as geometry_geojson'))
                 ->get();
 
+            dd($geoFeatures);
+
             $collection = [
                 "type" => "FeatureCollection",
                 "features" => [],
