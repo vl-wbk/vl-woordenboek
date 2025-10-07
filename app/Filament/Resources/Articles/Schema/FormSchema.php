@@ -78,7 +78,8 @@ final readonly class FormSchema
                 ->label('Kenmerken')
                 ->columnSpan(6)
                 ->required()
-                ->maxLength(255),
+                ->maxLength(255)
+                ->helperText('Dit veld is verplicht. Maar als er geen kenmerken zijn, vul dan \'-\' in.'),
             TextInput::make('keywords')
                 ->label('Kernwoorden')
                 ->translateLabel()
