@@ -6,24 +6,18 @@ namespace App\Filament\Clusters\Articles\Resources\Etymologies;
 
 use App\Filament\Support\Concerns\HasActiveIcon;
 use Filament\Schemas\Schema;
-use Filament\Actions\Action;
 use App\Filament\Clusters\Articles\Resources\Etymologies\Pages\ListEtymologies;
 use App\Filament\Clusters\Articles\Resources\Etymologies\Pages\ViewEtymology;
 use Filament\Resources\Pages\PageRegistration;
 use App\Filament\Clusters\Articles\ArticlesCluster;
-use App\Filament\Clusters\Articles\Resources\EtymologyResource\Pages;
 use App\Filament\Clusters\Articles\Resources\Etymologies\Schema\FormSchema;
 use App\Filament\Clusters\Articles\Resources\Etymologies\Schema\InfolistSchema;
 use App\Filament\Clusters\Articles\Resources\Etymologies\Schema\TableSchema;
 use App\Filament\Clusters\Articles\Resources\Etymologies\Widgets\EtymologyStatisticsWidget;
 use Filament\Resources\Resource;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use BackedEnum;
 
-/**
- * @todo document resource class
- */
 final class EtymologyResource extends Resource
 {
     use HasActiveIcon;
@@ -57,19 +51,10 @@ final class EtymologyResource extends Resource
             ->filters(filters: TableSchema::configureFilters())
             ->recordActions(actions: TableSchema::configureActions())
             ->toolbarActions(actions: TableSchema::configureBulkActions())
-            ->headerActions([
-                Action::make('help')
-                    ->label(label: __('buttons.help'))
-                    ->color('gray')
-                    ->translateLabel()
-                    ->icon('heroicon-o-lifebuoy')
-                    ->url('https://www.google.com', shouldOpenInNewTab: true),
-            ])
             ->columns(components: TableSchema::configureColumns());
     }
 
     /**
-     * @todo Document this function
      * @return array<int, string>
      */
     public static function getWidgets(): array
@@ -80,7 +65,6 @@ final class EtymologyResource extends Resource
     }
 
     /**
-     * @todo Document this function
      * @return array<string, PageRegistration>
      */
     public static function getPages(): array

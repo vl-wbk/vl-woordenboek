@@ -81,6 +81,11 @@ return [
             ],
         ],
 
+        'generate' => [
+            'heading' => 'Gebruikers genereren',
+            'description' => 'Genereer een aantal test gebruikers in het Vlaams Woordenboek. Met als doel het de gebruikers functionaliteit te testen.'
+        ],
+
         'reactivate-user' => [
             'label' => 'Reactiveer',
 

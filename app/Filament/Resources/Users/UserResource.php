@@ -94,27 +94,16 @@ final class UserResource extends Resource
         return UserSchema\UserForm::configure($schema);
     }
 
-    /**
-     * @todo Documênt this method
-     */
     public static function infolist(\Filament\Schemas\Schema $schema): \Filament\Schemas\Schema
     {
         return UserSchema\UserInfolist::configure($schema);
     }
 
-    /**
-     * @todo document this method
-     */
     public static function getWidgets(): array
     {
         return [UserRegistrationChartWidget::class];
     }
 
-    /**
-     * @odo Implement a relation manager for the permission roles.
-     *
-     * @todo Document this method
-     */
     public static function getRelations(): array
     {
         return [

@@ -41,8 +41,9 @@ final readonly class TableSchema
      * It sets up the table's overall layout, messaging, and delegates to helper methods for defining columns and actions.
      * The `deferLoading` method is used to improve initial page load performance by fetching data only when the user interacts with the table.
      *
-     * @param  Table $table  The table instance to configure.
+     * @param Table $table The table instance to configure.
      * @return Table         The fully configured table instance.
+     * @throws Exception
      */
     public static function configure(Table $table): Table
     {
@@ -55,7 +56,6 @@ final readonly class TableSchema
             ->columns(components: self::configureTableComponents())
             ->recordActions(actions: self::configureTableRowActions())
             ->filters(filters: self::configureTableFilters())
-            ->headerActions(actions: self::configureHeaderActions())
             ->toolbarActions(self::configureTableBulkActions())
             ->deferLoading();
     }
@@ -120,24 +120,6 @@ final readonly class TableSchema
                 ->label(label: __('feedback-resource.table.columns.created-at'))
                 ->sortable()
                 ->date(),
-        ];
-    }
-
-    /**
-     * Configures actions that appear in the table's header.
-     * This is where global actions for the table can be defined. In this case, it includes a "Help" action to provide quick access to documentation.
-     *
-     * @return array<int, Action> An array of Filament table header action components.
-     */
-    private static function configureHeaderActions(): array
-    {
-        return [
-            Action::make(name: 'documentation')
-                ->label(label: __('buttons.help'))
-                ->color('primary')
-                ->color('gray')
-                ->icon('heroicon-o-lifebuoy')
-                ->url('https://www.google.com', shouldOpenInNewTab: true),
         ];
     }
 

@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\UserManagement\Resources\Bans\Pages;
 
+use App\Features\DocumentationButtons;
 use App\Filament\Clusters\UserManagement\Resources\Bans\BanResource;
+use Filament\Actions\Action;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Support\Icons\Heroicon;
+use Laravel\Pennant\Feature;
 
 /**
  * This page class servers as the cental hub for managing account deactivations in the Flemish Dictionary.
@@ -28,4 +32,16 @@ final class ListBans extends ListRecords
      * This connection ensures that any changes made to the resource's table schema or octions are automatically reflected in this listing page.
      */
     protected static string $resource = BanResource::class;
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Action::make('docs')
+                ->label('Help')
+                ->visible(Feature::active(DocumentationButtons::class))
+                ->icon(Heroicon::OutlinedLifebuoy)
+                ->url('https://www.google.com')
+                ->openUrlInNewTab(),
+        ];
+    }
 }

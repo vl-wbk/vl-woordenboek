@@ -22,16 +22,9 @@ use App\Filament\Resources\Articles\Schema\FormSchema;
 use App\Filament\Resources\Articles\Schema\WordInfolist;
 use App\Filament\Support\Concerns\HasActiveIcon;
 use App\Models\Article;
-use App\Models\Etymology;
-use App\Models\Label;
-use App\Models\Note;
 use App\UserTypes;
 use BackedEnum;
-use CodeWithDennis\FactoryAction\FactoryAction;
-use Filament\Actions\Action;
-use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
-use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -46,7 +39,6 @@ use Filament\Schemas\Schema;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconSize;
 use Filament\Support\Enums\Width;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
@@ -190,28 +182,6 @@ final class ArticleResource extends Resource
         return $table
             ->deferLoading()
             ->striped()
-            ->headerActions([
-                Action::make('docs')
-                    ->label('Help')
-                    ->icon('heroicon-o-lifebuoy')
-                    ->url('https://vl-wbk.github.io/documentatie-portaal/artikelen/')
-                    ->openUrlInNewTab(),
-
-                ActionGroup::make([
-                    CreateAction::make()
-                        ->color('gray')
-                        ->icon('heroicon-o-document-plus'),
-                    FactoryAction::make()
-                        ->color('gray')
-                        ->hiddenLabel()
-                        ->modalHeading('Genereer test artikelen')
-                        ->modalIcon(Heroicon::OutlinedCog8Tooth)
-                        ->modalDescription('Genereer test artikelen voor het woordenboek, deze kunnen worden gebruikt om te testen of de applicatie werkt zoals verwacht.')
-                        ->icon('heroicon-s-cog-8-tooth')
-                        ->hasMany([Note::class, Etymology::class])
-                        ->belongsToMany([Label::class]),
-                ])->buttonGroup()
-            ])
             ->heading('Woordenboek artikelen')
             ->description('Een overzicht van alle artikelen die geregistreerd staan In het Vlaams Woordenboek gebruik de filters om de woorden te verkrijgen per status.')
             ->emptyStateIcon(self::$navigationIcon)
@@ -269,10 +239,10 @@ final class ArticleResource extends Resource
                     ->options(ArticleStates::class),
                 TrashedFilter::make()
                     ->native(false)
-                    ->visible(fn (): bool => auth()->user()->canAny('restore', Article::class)),
+                    ->visible(fn(): bool => auth()->user()->canAny('restore', Article::class)),
                 Filter::make('assigned')
                     ->label('Toegewezen aan mij')
-                    ->query(fn (Builder $query): Builder => $query->where('editor_id', auth()->id())),
+                    ->query(fn(Builder $query): Builder => $query->where('editor_id', auth()->id())),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
@@ -318,7 +288,7 @@ final class ArticleResource extends Resource
      */
     public static function getGlobalSearchResultTitle(Model $record): string
     {
-        return "#$record->id ".$record->word;
+        return "#$record->id " . $record->word;
     }
 
     /**
@@ -363,7 +333,7 @@ final class ArticleResource extends Resource
      */
     public static function getNavigationBadge(): ?string
     {
-        return Cache::flexible('lemma_count', [10, 60], fn (): string => (string) self::$model::count());
+        return Cache::flexible('lemma_count', [10, 60], fn(): string => (string) self::$model::count());
     }
 
     /**

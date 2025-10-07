@@ -9,7 +9,6 @@ use Filament\Actions\ViewAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use Filament\Tables;
 
 /**
  * Configures table actions for the Article Report resource.
@@ -23,21 +22,6 @@ use Filament\Tables;
  */
 final readonly class TableActionsConfiguration
 {
-    /**
-     * Returns the actions displayed in the table header.
-     * Currently provides a help action with a gray lifebuoy icon, offering access to documentation or guidance for administrators managing reports.
-     *
-     * @return array<Action> The configured header actions
-     */
-    public static function headerActions(): array
-    {
-        return [
-            Action::make('Help')
-                ->icon('heroicon-o-lifebuoy')
-                ->color('gray'),
-        ];
-    }
-
     /**
      * Defines the actions displayed in the table header.
      * The header actions are global actions that apply to the entire table or provide additional functionality, such as accessing help or documentation.

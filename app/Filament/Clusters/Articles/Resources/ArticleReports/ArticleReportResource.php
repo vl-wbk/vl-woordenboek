@@ -22,7 +22,6 @@ use App\Filament\Resources\Users\UserResource;
 use App\Models\ArticleReport;
 use App\Models\User;
 use App\States\Reporting\Status;
-use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
@@ -62,7 +61,7 @@ final class ArticleReportResource extends Resource
      * Specifies the icon used for the resource in the navigation menu.
      * The icon visually represents the resource in the admin panel's navigation.
      */
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-flag';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-flag';
 
     /**
      * Specifies the singular label for the resource.
@@ -103,7 +102,7 @@ final class ArticleReportResource extends Resource
                     ->heading('Algemene informatie van de melding')
                     ->headerActions([
                         Action::make('reporter-information')
-                            ->hidden(fn (ArticleReport $articleReport): bool => $articleReport->author()->doesntExist())
+                            ->hidden(fn(ArticleReport $articleReport): bool => $articleReport->author()->doesntExist())
                             ->authorize('viewAny', User::class)
                             ->label('bekijk melder')
                             ->icon('tabler-user-search')
@@ -141,7 +140,6 @@ final class ArticleReportResource extends Resource
         return $table
             ->heading(self::$pluralModelLabel)
             ->description(self::tableDescription())
-            ->headerActions(TableActionsConfiguration::headerActions())
             ->emptyStateIcon(self::$navigationIcon)
             ->emptyStateHeading('Geen meldingen gevonden')
             ->emptyStateDescription('Het lijk erop dat er momenteel geen openstaande meldingen zijn die gerelateerd zijn aan de atikelen van het Vlaams Woordenboek.')

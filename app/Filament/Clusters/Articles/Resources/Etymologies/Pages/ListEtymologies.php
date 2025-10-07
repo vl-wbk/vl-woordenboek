@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Clusters\Articles\Resources\Etymologies\Pages;
 
 use App\Filament\Clusters\Articles\Resources\Etymologies\EtymologyResource;
+use Filament\Actions\Action;
 use Filament\Resources\Pages\ListRecords;
 
 /**
@@ -39,5 +40,25 @@ final class ListEtymologies extends ListRecords
     protected function getHeaderWidgets(): array
     {
         return EtymologyResource::getWidgets();
+    }
+
+    /**
+     * Retrieves the array of actions to be displayed in the header of the list page.
+     *
+     * This method defines and returns an array of Filament `Action` objects, which appear
+     * as buttons or links in the header area of the list page. In this case, it defines
+     * a 'help' action that links to an external resource.
+     *
+     * @return array<\Filament\Actions\Action> An array of Filament action objects.
+     */
+    protected function getHeaderActions(): array
+    {
+        return [
+            Action::make('help')
+                ->label(label: __('buttons.help'))
+                ->translateLabel()
+                ->icon('heroicon-o-lifebuoy')
+                ->url('https://www.google.com', shouldOpenInNewTab: true),
+        ];
     }
 }

@@ -7,8 +7,8 @@ namespace App\Filament\Clusters\Articles\Resources\ArticleReports\Pages;
 use App\Filament\Clusters\Articles\Resources\ArticleReports\ArticleReportResource;
 use CodeWithDennis\FactoryAction\FactoryAction;
 use Filament\Actions;
+use Filament\Actions\Action;
 use Filament\Resources\Pages\ListRecords;
-use Filament\Support\Icons\Heroicon;
 
 /**
  * ListArticleReports is a Filament page class for managing and displaying article reports.
@@ -44,13 +44,13 @@ final class ListArticleReports extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            Action::make('Help')
+                ->icon('heroicon-o-lifebuoy'),
             FactoryAction::make()
-                ->icon(Heroicon::OutlinedCog8Tooth)
-                ->modalIcon(Heroicon::OutlinedCog8Tooth)
                 ->modalDescription('Deze actie zal nieuwe artikel meldingen aanmaken in de databank. Met als doel om dingen te testen tijdens de ontwikkeling van het vlaams woordenboek. Weet je zeker dat je wilt verder gaan?')
                 ->modalHeading('Genereer meldingen')
                 ->label('Genereer meldingen')
-                ->color('danger'),
+                ->hiddenLabel(false),
         ];
     }
 

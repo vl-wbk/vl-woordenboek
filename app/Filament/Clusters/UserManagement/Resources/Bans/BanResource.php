@@ -108,14 +108,6 @@ final class BanResource extends Resource
     {
         return $table
             ->heading('Gedeactiveerde gebruikeraccounts')
-            ->headerActions([
-                Action::make('docs')
-                    ->label('Help')
-                    ->visible(Feature::active(DocumentationButtons::class))
-                    ->icon(Heroicon::OutlinedBookOpen)
-                    ->url('https://www.google.com')
-                    ->openUrlInNewTab(),
-            ])
             ->description('Overzicht van alle gedeactiveerde gebruiker accounts. Wanneer een deactivering verloopt zal deze automatisch terug geactiveerd worden in het systeem.')
             ->emptyStateIcon(self::$navigationIcon)
             ->emptyStateHeading('Geen deactiveringen gevonden')

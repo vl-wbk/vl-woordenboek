@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Users\Pages;
 
+use CodeWithDennis\FactoryAction\FactoryAction;
+use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\CreateAction;
+use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\Widget;
 use App\Filament\Resources\Users\UserResource;
 use Filament\Resources\Pages\ListRecords;
@@ -35,5 +40,38 @@ final class ListUsers extends ListRecords
     protected function getHeaderWidgets(): array
     {
         return UserResource::getWidgets();
+    }
+
+    /**
+     * Retrieves the array of actions and action groups to be displayed in the header of the list page.
+     *
+     * This method defines the primary interactive elements (buttons) that appear in the
+     * header area of the list page, allowing users to perform various tasks.
+     *
+     * The returned array typically includes:
+     * 1. A standalone 'documentation-reference' Action for help or external links.
+     * 2. An ActionGroup containing common creation and utility actions like:
+     * - A 'CreateAction' for adding a new record.
+     * - A 'FactoryAction' for generating dummy data, presented as a button group.
+     *
+     * @return array<int, \Filament\Actions\Action | \Filament\Actions\ActionGroup> An array of Filament actions and action groups.
+     */
+    protected function getHeaderActions(): array
+    {
+        return [
+            Action::make('documentation-reference')
+                ->icon(Heroicon::OutlinedLifebuoy)
+                ->label(label: __('buttons.help')),
+
+            ActionGroup::make([
+                CreateAction::make()
+                    ->label(label: __('user-resource.buttons.create-user'))
+                    ->color('gray')
+                    ->icon('heroicon-o-user-plus'),
+                FactoryAction::make()->color('gray')
+                    ->modalHeading(heading: __('user-resource.actions.generate.heading'))
+                    ->modalDescription(description: __('user-resource.actions.generate.description'))
+            ])->buttonGroup(),
+        ];
     }
 }

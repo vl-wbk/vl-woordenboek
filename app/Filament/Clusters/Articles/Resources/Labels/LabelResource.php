@@ -5,18 +5,12 @@ declare(strict_types=1);
 namespace App\Filament\Clusters\Articles\Resources\Labels;
 
 use App\Filament\Clusters\Articles\ArticlesCluster;
-use App\Filament\Clusters\Articles\Resources\LabelResource\Pages;
 use App\Filament\Clusters\Articles\Resources\Labels\Pages\ListLabels;
 use App\Filament\Clusters\Articles\Resources\Labels\Pages\ViewLabel;
 use App\Filament\Clusters\Articles\Resources\Labels\RelationManagers\ArticlesRelationManager;
 use App\Filament\Support\Concerns\HasActiveIcon;
-use App\Models\Article;
 use App\Models\Label;
-use CodeWithDennis\FactoryAction\FactoryAction;
-use Filament\Actions\Action;
-use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
-use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -30,7 +24,6 @@ use Filament\Schemas\Schema;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconSize;
 use Filament\Support\Enums\Width;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Cache;
@@ -166,32 +159,7 @@ final class LabelResource extends Resource
             ->striped()
             ->deferLoading()
             ->heading('Label overzicht')
-            ->headerActions([
-                Action::make('docs')
-                    ->label('Help')
-                    ->icon(Heroicon::OutlinedLifebuoy)
-                    ->url('https://vl-wbk.github.io/documentatie-portaal/artikelen/labelsysteem.html', shouldOpenInNewTab: true),
-
-                ActionGroup::make([
-                    CreateAction::make()
-                        ->color('gray')
-                        ->modalWidth(Width::SevenExtraLarge)
-                        ->modalHeading('Label toevoegen')
-                        ->modalIcon('heroicon-o-plus')
-                        ->modalIconColor('success')
-                        ->modalDescription('U staat op het punt om een label toe te voegen voor het woordenboek en zijn artikels.')
-                        ->icon('heroicon-o-plus'),
-
-                    FactoryAction::make()
-                        ->color('gray')
-                        ->icon(Heroicon::Cog8Tooth)
-                        ->hiddenLabel()
-                        ->modalIconColor('primary')
-                        ->modalHeading('Labels genereren')
-                        ->modalDescription('Deze actie zal nieuwe labels aanmaken in de databank. Met als doel om dingen te testen tijdens de ontwikkeling van het vlaams woordenboek. Weet je zeker dat je wilt verder gaan?')
-                        ->belongsToMany([Article::class]),
-                ])->buttonGroup(),
-            ])
+            ->description('Overzicht van alle labels die gekoppeld kunnen worden aan artikelen in het Vlaams Woordenboek')
             ->emptyStateIcon(self::$navigationIcon)
             ->emptyStateHeading('Geen labels gevonden')
             ->emptyStateDescription('Momenteel zijn er geen labels gevonden die aan woordenboek artikelen gekoppeld kunnen worden.')

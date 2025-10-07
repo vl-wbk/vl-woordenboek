@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Feedback\Pages;
 
+use Filament\Actions\Action;
 use Filament\Widgets\Widget;
 use App\Filament\Resources\Feedback\FeedbackResource;
 use CodeWithDennis\FactoryAction\FactoryAction;
@@ -49,9 +50,16 @@ final class ListFeedback extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            Action::make(name: 'documentation')
+                ->label(label: __('buttons.help'))
+                ->icon('heroicon-o-lifebuoy')
+                ->url('https://www.google.com', shouldOpenInNewTab: true),
+
             FactoryAction::make()
-                ->label('Genereer records')
-                ->color('danger'),
+                ->label('Genereer feedback')
+                ->modalHeading('Genereer feedback')
+                ->hiddenLabel(false)
+                ->modalDescription('Genereer test feedback van gebruikers. Om functionaliteiten omtrent het feedback systeem te testen in het Vlaams woordenboek.'),
         ];
     }
 }

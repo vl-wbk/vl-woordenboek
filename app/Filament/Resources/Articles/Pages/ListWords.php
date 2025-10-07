@@ -9,8 +9,12 @@ use App\Filament\Resources\Articles\ArticleResource;
 use App\Models\Etymology;
 use App\Models\Label;
 use App\Models\Note;
-use CodeWithDennis\FactoryAction\Facades\FactoryAction;
+use CodeWithDennis\FactoryAction\FactoryAction;
+use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Support\Icons\Heroicon;
 
 /**
  * Dictionary Article Management Interface
@@ -52,5 +56,31 @@ final class ListWords extends ListRecords
     protected function getHeaderWidgets(): array
     {
         return [ArticleRegistrationChart::class];
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Action::make('docs')
+                ->label('Help')
+                ->icon('heroicon-o-lifebuoy')
+                ->url('https://vl-wbk.github.io/documentatie-portaal/artikelen/')
+                ->openUrlInNewTab(),
+
+            ActionGroup::make([
+                CreateAction::make()
+                    ->color('gray')
+                    ->icon('heroicon-o-document-plus'),
+                FactoryAction::make()
+                    ->color('gray')
+                    ->hiddenLabel()
+                    ->modalHeading('Genereer test artikelen')
+                    ->modalIcon(Heroicon::OutlinedCog8Tooth)
+                    ->modalDescription('Genereer test artikelen voor het woordenboek, deze kunnen worden gebruikt om te testen of de applicatie werkt zoals verwacht.')
+                    ->icon('heroicon-s-cog-8-tooth')
+                    ->hasMany([Note::class, Etymology::class])
+                    ->belongsToMany([Label::class]),
+            ])->buttonGroup(),
+        ];
     }
 }
