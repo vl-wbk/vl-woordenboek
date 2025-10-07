@@ -25,7 +25,7 @@ final class ArticlePolicy
      */
     public static array $permissionPrefixes = [
         'update', 'sendForApproval', 'publish', 'unpublish', 'detachEditor', 'attachDisclaimer', 'detachDisclaimer',
-        'archive', 'unarchive', 'delete', 'deleteAny', 'restore', 'restoreAny', 'export',
+        'archive', 'unarchive', 'delete', 'deleteAny', 'restore', 'restoreAny', 'export', 'updatePublished'
     ];
 
     /**
@@ -41,6 +41,10 @@ final class ArticlePolicy
     public function update(User $user, Article $article): Response
     {
         $allowedStates = [ArticleStates::New, ArticleStates::ExternalData, ArticleStates::Draft, ArticleStates::Archived];
+
+        if ($article->isPublished() && $user->can('update-published:article')) {
+            return Response::allow();
+        }
 
         if ($article->isPublished() || $article->state->is(ArticleStates::Approval)) {
             return DenyResponse::deny('Niet toegestaan');

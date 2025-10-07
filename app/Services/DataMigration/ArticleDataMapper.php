@@ -79,7 +79,7 @@ final class ArticleDataMapper
         return [
             'origin' => DataOrigin::External, // Indicates the data source is external.
             'region' => $this->convertLinguisticRegion($articleData->regio),
-            'state' => ArticleStates::ExternalData, // Sets the article state to external data.
+            'state' => ArticleStates::Published, // Sets the article state to an published state.
             'word' => $articleData->word, // The word or term for the article.
             'views' => $articleData->rating ?? 0, // The number of views or rating, defaults to 0.
             'description' => $articleData->description, // The main description of the article.

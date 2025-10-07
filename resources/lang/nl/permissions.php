@@ -39,6 +39,7 @@ return [
         'change_status' => 'Status aanpassen',
         'enable_comments' => 'Reacties inschakelen',
         'disable_comments' => 'Reacties uitschakelen',
+        'update_published' => 'Publicaties aanpassen',
 
         'project_information_settings' => 'ween',
     ],
