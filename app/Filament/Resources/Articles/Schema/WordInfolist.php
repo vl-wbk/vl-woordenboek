@@ -282,7 +282,7 @@ final readonly class WordInfolist
                     ->badge()
                     ->columnSpan(4),
                 TextEntry::make('updated_at')
-                    ->label('Laast gewijzigd')
+                    ->label('Laatst gewijzigd')
                     ->icon('heroicon-o-clock')
                     ->iconColor('primary')
                     ->date()
