@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers;
 
+use Filament\Actions\Action;
 use Filament\Support\Enums\Width;
 use Filament\Actions\ViewAction;
 use Filament\Actions\DeleteAction;
@@ -47,7 +48,10 @@ final class ReportsRelationManager extends RelationManager
             ->columns(TableColumnSchema::make())
             ->filtersFormWidth(Width::Medium)
             ->filters(ArticleReportResource::getTableFilters())
-            ->headerActions(TableActionsConfiguration::headerActions())
+            ->headerActions([
+                Action::make('Help')
+                    ->icon('heroicon-o-lifebuoy')
+            ])
             ->recordActions([
                 ViewAction::make()
                     ->hiddenLabel()
