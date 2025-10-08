@@ -24,12 +24,27 @@ use Illuminate\Auth\Access\Response;
 final class EtymologyPolicy
 {
     /**
-     * @var list<string>
+     * The list of Action Names used to construct the full Permissions required by this policy.
+     *
+     * These actions correspond to the methods in the Policy and are combined with the resource identifier (':etymology')
+     * to form the required permissions (e.g., 'update:etymology', 'publish:etymology').
+     * This array is essential for permission seeding.
+     *
+     * @var list<string> The list of canonical action names.
      */
     public static array $permissionPrefixes = [
         'view', 'viewAny', 'update', 'delete', 'deleteAny', 'archive', 'reject', 'publish', 'draft', 'underReview',
     ];
 
+    /**
+     * Allows the user to view the list or overview of all etymologies.
+     *
+     * This requires the 'view-any:etymology' Permission.
+     * This grants general access to the administrative screen where all records are listed (the index view).
+     *
+     * @param  User $user  The authenticated user attempting the action.
+     * @return Response    Grants access if the required permission is present.
+     */
     public function viewAny(User $user): Response
     {
         return $user->can('view-any:etymology')
@@ -37,6 +52,16 @@ final class EtymologyPolicy
             : Response::deny();
     }
 
+    /**
+     * Allows the user to view the details of a specific etymology record.
+     *
+     * This requires the 'view:etymology' Permission. This check is performed before retrieving the details of a single
+     * Etymology model, ensuring the user has the general right to view this resource.
+     *
+     * @param  User $user            The authenticated user attempting the action.
+     * @param  Etymology $etymology  The specific etymology record being viewed.
+     * @return Response              Grants access if the required permission is present.
+     */
     public function view(User $user, Etymology $etymology): Response
     {
         return $user->can('view:etymology')
@@ -79,6 +104,13 @@ final class EtymologyPolicy
             : Response::deny();
     }
 
+    /**
+     * Allows the user to delete multiple etymology records in bulk.
+     * This requires the 'delete-any:etymology' Permission. This is a separate, often higher-level permission used for mass deletion actions.
+     *
+     * @param  User $user  The user attempting to perform the bulk delete.
+     * @return Response    Allowed if the required permission is granted.
+     */
     public function deleteAny(User $user): Response
     {
         return $user->can('delete-any:etymology')
@@ -92,9 +124,9 @@ final class EtymologyPolicy
      * Archiving is only allowed if the etymology is not already archived.
      * This prevents redundant archiving actions and maintains clear status transitions.
      *
-     * @param  User  $user  The user attempting to perform the archive action.
+     * @param  User       $user       The user attempting to perform the archive action.
      * @param  Etymology  $etymology  The etymology instance being considered for archiving.
-     * @return Response Returns true if the etymology is not archived; false otherwise.
+     * @return Response               Returns true if the etymology is not archived; false otherwise.
      */
     public function archive(User $user, Etymology $etymology): Response
     {
@@ -109,9 +141,9 @@ final class EtymologyPolicy
      * Rejection is only allowed if the etymology is currently under review.
      * This ensures that only etymologies in the appropriate workflow stage can be rejected.
      *
-     * @param  User  $user  The user attempting to perform the reject action.
+     * @param  User       $user       The user attempting to perform the reject action.
      * @param  Etymology  $etymology  The etymology instance being considered for rejection.
-     * @return Response Returns true if the etymology is under review; false otherwise.
+     * @return Response               Returns true if the etymology is under review; false otherwise.
      */
     public function reject(User $user, Etymology $etymology): Response
     {
@@ -126,9 +158,9 @@ final class EtymologyPolicy
      * Publishing is allowed if the etymology is either under review or archived.
      * This enables the transition of etymologies to a published state from these statuses.
      *
-     * @param  User  $user  The user attempting to perform the publishing action.
+     * @param  User       $user       The user attempting to perform the publishing action.
      * @param  Etymology  $etymology  The etymology instance being considered for publishing.
-     * @return Response Returns true if the etymology is under review or archived; false otherwise.
+     * @return Response               Returns true if the etymology is under review or archived; false otherwise.
      */
     public function publish(User $user, Etymology $etymology): Response
     {
@@ -143,9 +175,9 @@ final class EtymologyPolicy
      * This action is allowed if the etymology is currently under review, rejected, or archived.
      * It supports reverting etymologies to draft for further editing or reconsideration.
      *
-     * @param  User  $user  The user attempting to perform the draft action.
+     * @param  User       $user       The user attempting to perform the draft action.
      * @param  Etymology  $etymology  The etymology instance being considered for draft status.
-     * @return Response Returns true if the etymology is under review, rejected, or archived; false otherwise.
+     * @return Response               Returns true if the etymology is under review, rejected, or archived; false otherwise.
      */
     public function draft(User $user, Etymology $etymology): Response
     {
@@ -162,9 +194,9 @@ final class EtymologyPolicy
      * Only etymologies in draft status can be moved to under review.
      * This supports the editorial workflow for reviewing new or revised etymologies.
      *
-     * @param  User  $user  The user attempting to perform the under review action.
+     * @param  User       $user       The user attempting to perform the under review action.
      * @param  Etymology  $etymology  The etymology instance being considered for under review status.
-     * @return Response Returns true if the etymology is in draft status; false otherwise.
+     * @return Response               Returns true if the etymology is in draft status; false otherwise.
      */
     public function underReview(User $user, Etymology $etymology): Response
     {
