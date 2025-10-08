@@ -54,8 +54,8 @@ final class ArticleFactory extends Factory
         return [
             'state' => $this->faker->randomElement(ArticleStates::cases())->value,
             'part_of_speech_id' => null,
-            'author_id' => null,
-            'editor_id' => null,
+            'author_id' => User::factory()->create()->id,
+            'editor_id' => User::factory()->create()->id,
             'word' => fake()->word(),
             'views' => fake()->numberBetween(0, 1000),
             'status' => LanguageStatus::Onbekend,
