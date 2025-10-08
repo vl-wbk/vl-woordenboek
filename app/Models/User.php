@@ -142,6 +142,11 @@ class User extends Authenticatable implements FilamentUser, BannableInterface, M
     }
 
     /**
+     * Finds and collects all the articles that this user has written.
+     *
+     * This function connects a single author (this user) to multiple articles.
+     * Think of it as opening a file cabinet labeled with this user's name: everything inside is the articles they have contributed.
+     *
      * @return HasMany<Blog, covariant $this>
      */
     public function articles(): HasMany
@@ -150,6 +155,11 @@ class User extends Authenticatable implements FilamentUser, BannableInterface, M
     }
 
     /**
+     * Finds and collects all the etymology records that this user has worked on.
+     *
+     * This function connects this author to many etymology records. It is the system's way of efficiently tracking authorship and managing the editorial workflow.
+     * When you need to see a list of everything this author has touched—from drafts to final versions—this is the method the system uses.
+     *
      * @return HasMany<Etymology, covariant $this>
      */
     public function etymologies(): HasMany
