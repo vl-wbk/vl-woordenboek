@@ -189,7 +189,7 @@ final readonly class FormSchema
     {
         return [
             KeyValue::make('sources')
-                ->label('Geraadpleegde bronnen')
+                ->hiddenLabel()
                 ->reorderable()
                 ->keyLabel('Naam')
                 ->keyPlaceholder('- naam van de bron')

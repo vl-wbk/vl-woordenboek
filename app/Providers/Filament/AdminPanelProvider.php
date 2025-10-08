@@ -76,6 +76,7 @@ final class AdminPanelProvider extends PanelProvider
             ->topNavigation()
             ->font("Tilt Neon")
             ->login()
+            ->unsavedChangesAlerts()
             ->passwordReset()
             ->databaseNotifications()
             ->viteTheme('resources/css/filament/admin/theme.css')

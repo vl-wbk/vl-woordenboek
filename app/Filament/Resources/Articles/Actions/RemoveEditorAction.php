@@ -62,7 +62,7 @@ final class RemoveEditorAction extends Action
 
         $this->label('Loskoppelen');
         $this->icon(self::$navigationIcon);
-        $this->color('danger');
+        $this->color('gray');
         $this->authorize('detachEditor');
 
         $this->requiresConfirmation();
@@ -70,6 +70,7 @@ final class RemoveEditorAction extends Action
 
         $this->modalCloseButton(false);
         $this->modalIcon(self::$navigationIcon);
+        $this->modalIconColor('danger');
         $this->modalHeading(fn (Article $article): string => $this->getCustomUserBasedModalHeading($article));
         $this->modalDescription(fn (Article $article): string => $this->getCustomUserBasedModalDescription($article));
         $this->modalSubmitActionLabel('Ja, ik ben zeker');
