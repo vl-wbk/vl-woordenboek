@@ -75,7 +75,7 @@ final readonly class FormSchema
     {
         return [
             TextInput::make('name')
-                ->label(label: __('disclaimer-resource.form.sections.management-info..fields.name'))
+                ->label(label: __('disclaimer-resource.form.sections.management-info.fields.name'))
                 ->maxLength(255)
                 ->required()
                 ->unique(ignoreRecord: true)
