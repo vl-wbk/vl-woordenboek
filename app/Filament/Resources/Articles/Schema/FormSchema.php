@@ -112,13 +112,13 @@ final readonly class FormSchema
                 ->toolbarButtons(self::getToolbarOptions())
                 ->placeholder('De beschrijving van het woord dat je wenst toe te voegen.')
                 ->maxHeight('200px')
-                ->helperText(str('Deze rich editor ondersteund enkel [**Markdown**](https://www.markdownguide.org/cheat-sheet/)')->inlineMarkdown()->toHtmlString())
+                ->helperText(str('Dit veld ondersteunt enkel [**Markdown**](https://www.markdownguide.org/cheat-sheet/)')->inlineMarkdown()->toHtmlString())
                 ->required(),
             MarkdownEditor::make('example')
                 ->label('Voorbeeld')
                 ->toolbarButtons(self::getToolbarOptions())
                 ->placeholder('Probeer zo helder mogelijk te zijn')
-                ->helperText(str('Deze rich editor ondersteund enkel [**Markdown**](https://www.markdownguide.org/cheat-sheet/)')->inlineMarkdown()->toHtmlString())
+                ->helperText(str('Dit veld ondersteunt enkel [**Markdown**](https://www.markdownguide.org/cheat-sheet/)')->inlineMarkdown()->toHtmlString())
                 ->columnSpanFull()
                 ->maxHeight('200px')
                 ->required(),
