@@ -15,6 +15,6 @@ final readonly class LastSeenAtListener
         $userEntity = $loginEvent->user;
 
         $authenticatedUser = User::query()->findOrFail($userEntity->id);
-        $authenticatedUser->update(['last_seen_at' => now()]);
+        $authenticatedUser->update(['last_seen_at' => now(), 'inactivity_warning_sent_at' => null]);
     }
 }
