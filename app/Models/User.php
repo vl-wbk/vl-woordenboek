@@ -9,12 +9,14 @@ use App\Mail\AccountPrunedMailable;
 use App\Models\Relations\Contactable;
 use App\Notifications\AccountDeletedNotification;
 use App\Notifications\RegistrationWelcomeNotification;
+use App\Observers\UserObserver;
 use App\UserTypes;
 use Carbon\Carbon;
 use Cmgmyr\Messenger\Traits\Messagable;
 use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Prunable;
@@ -68,6 +70,7 @@ use Spatie\Permission\Traits\HasRoles;
  *
  * @package App\Models
  */
+#[ObservedBy(UserObserver::class)]
 class User extends Authenticatable implements FilamentUser, BannableInterface, MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */
@@ -225,8 +228,6 @@ class User extends Authenticatable implements FilamentUser, BannableInterface, M
 
     protected function pruning(): void
     {
-        $this->suggestions()->update(['contributor_name' => $this->name]);
-
         Mail::to($this->email)->queue(new AccountPrunedMailable());
     }
 
