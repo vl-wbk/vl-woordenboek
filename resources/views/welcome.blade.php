@@ -41,7 +41,8 @@
                         <form action="{{ route('search.results') }}" method="GET">
                             <div class="row g-3">
                                 <div class="col-lg-2">
-                                    <select name="zoekpatroon" class="form-select">
+                                    <label for="searchPatternSelect" class="visually-hidden">Zoekpartoon selectie</label>
+                                    <select name="zoekpatroon" class="form-select" id="searchPatternSelect">
                                         @foreach ($searchPatterns as $searchPattern)
                                             <option value="{{ $searchPattern->value }}" @selected(old('zoekpatroon', request()->get('zoekpatroon')) === $searchPattern->value)>
                                                 {{ $searchPattern->getLabel() }}
