@@ -295,6 +295,16 @@ final class ArticlePolicy
         return Response::deny();
     }
 
+    /**
+     * Determines whether a user can permanently delete multiple articles simultaneously.
+     *
+     * This method grants permission based solely on the presence of the 'delete-any:article' permission.
+     * This permission is typically reserved for administrative roles and allows the user to perform
+     * bulk deletion operations on articles, regardless of their current state.
+     *
+     * @param  User $user  The user attempting to delete articles.
+     * @return Response    True if the user has permission to delete any article, false otherwise.
+     */
     public function deleteAny(User $user): Response
     {
         if ($user->can('delete-any:article')) {
