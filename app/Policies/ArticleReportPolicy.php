@@ -27,6 +27,12 @@ use Illuminate\Auth\Access\Response;
 final class ArticleReportPolicy
 {
     /**
+     * Defines the list of action prefixes used for generating granular permissions.
+     *
+     * These prefixes correspond directly to the policy methods (e.g., 'viewAny' matches the viewAny method).
+     * They are typically combined with the resource name (e.g., 'view-any:article-report')
+     * by the permission management system to check specific user authorizations for each action.
+     *
      * @var list<string>
      */
     public static array $permissionPrefixes = [
@@ -51,6 +57,16 @@ final class ArticleReportPolicy
         return Response::deny();
     }
 
+    /**
+     * Determines whether the user can view a specific article report.
+     *
+     * This action allows access only if the user possesses the necessary permission specified by 'view:article-report'.
+     * This is a standard permission check to ensure that only authorized individuals can view detailed report information.
+     *
+     * @param User $user                    The user attempting to view the report.
+     * @param ArticleReport $articleReport  The specific article report being viewed.
+     * @return Response                     Returns 'true' if the user has the 'view:article-report' permission.
+     */
     public function view(User $user, ArticleReport $articleReport): Response
     {
         if ($user->can('view:article-report')) {
@@ -124,6 +140,15 @@ final class ArticleReportPolicy
         return Response::deny();
     }
 
+    /**
+     * Determines whether the user can delete multiple article reports simultaneously.
+     *
+     * This method enforces a strict permission check, allowing the action only if the user has the 'delete-any:article-report' permission.
+     * This typically grants the user the ability to perform bulk deletions of reports, which is often reserved for high-level roles.
+     *
+     * @param  User $user  The user attempting to delete multiple article reports.
+     * @return Response    Returns `true` if the user has the 'delete-any:article-report' permission, otherwise `false`.
+     */
     public function deleteAny(User $user): Response
     {
         if ($user->can('delete-any:article-report')) {
