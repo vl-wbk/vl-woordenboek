@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace App\Filament\Clusters\Articles\Resources\Etymologies\Pages;
 
 use App\Filament\Clusters\Articles\Resources\Etymologies\EtymologyResource;
+use App\Models\Article;
+use CodeWithDennis\FactoryAction\FactoryAction;
 use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Resources\Pages\ListRecords;
 
 /**
@@ -59,6 +62,15 @@ final class ListEtymologies extends ListRecords
                 ->translateLabel()
                 ->icon('heroicon-o-lifebuoy')
                 ->url('https://www.google.com', shouldOpenInNewTab: true),
+
+            ActionGroup::make([
+                FactoryAction::make()
+                    ->label('Genereer etymologieën')
+                    ->hiddenLabel(false)
+                    ->visible(fn(): bool => Article::query()->count() > 0)
+                    ->modalHeading('Genereer etymologieën')
+                    ->modalDescription('Genereer etymologieën van artikelen om de functionaliteit(en) te testen in je lokale omgeving.')
+            ])->buttonGroup()
         ];
     }
 }
