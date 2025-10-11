@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Listeners\AuthSubscriber;
 use App\Models\User;
 use App\Services\ReadTimeCalculator;
 use App\UserTypes;
 use BezhanSalleh\FilamentShield\Facades\FilamentShield;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
