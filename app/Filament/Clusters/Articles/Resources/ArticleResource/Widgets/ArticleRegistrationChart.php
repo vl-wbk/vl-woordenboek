@@ -9,16 +9,12 @@ use App\Models\Article;
 use Filament\Schemas\Schema;
 use Filament\Widgets\ChartWidget;
 use Filament\Widgets\ChartWidget\Concerns\HasFiltersSchema;
-use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
-use Illuminate\Support\Collection;
 
 final class ArticleRegistrationChart extends ChartWidget
 {
     use HasFiltersSchema;
     use DateRangeFilterChart;
-
-    public ?string $filter = 'perWeek';
 
     /**
      * The maximum height of the chart.
