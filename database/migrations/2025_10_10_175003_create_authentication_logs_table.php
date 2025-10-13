@@ -12,7 +12,7 @@ return new class extends Migration
         Schema::create('authentication_logs', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->string('event');
+            $table->smallInteger('event');
             $table->string('guard')->nullable();
             $table->string('message')->nullable();
             $table->ipAddress();

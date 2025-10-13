@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Listeners;
 
+use App\Enums\AuthenticationEvents;
 use App\Models\AuthenticationLog;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Auth\Events;
@@ -12,7 +13,7 @@ use Laravel\Fortify\Events as FortifyEvents;
 
 final readonly class AuthSubscriber
 {
-    protected function logEvent(string $eventType, string $message, object $event, array $context = []): void
+    protected function logEvent(AuthenticationEvents $eventType, object $event, array $context = []): void
     {
         $userId = null;
         $guard = $event->guard ?? null;
@@ -23,9 +24,9 @@ final readonly class AuthSubscriber
 
         AuthenticationLog::query()->create([
             'user_id'    => $userId,
-            'event' => $eventType,
+            'event' =>  $eventType,
             'guard'      => $guard,
-            'message'    => $message,
+            'message'    => $eventType->getDescription(),
             'ip_address' => request()->ip(),
             'user_agent' => request()->header('User-Agent'),
             'context'    => $context,
@@ -35,8 +36,7 @@ final readonly class AuthSubscriber
     public function handleAttempting(Events\Attempting $event): void
     {
         $this->logEvent(
-            eventType: 'Attempting',
-            message: 'Inlogpoging gestart.',
+            eventType: AuthenticationEvents::Attempting,
             event: $event,
             context:  [
                 'credentials' => array_filter($event->credentials, fn($key) => $key !== 'password', ARRAY_FILTER_USE_KEY),
@@ -47,8 +47,7 @@ final readonly class AuthSubscriber
     public function handleFailed(Events\Failed $event): void
     {
         $this->logEvent(
-            eventType: 'Failed',
-            message: 'Inlogpoging mislukt.',
+            eventType: AuthenticationEvents::Failed,
             event: $event,
             context: [
                 'credentials' => array_filter($event->credentials, fn($key) => $key !== 'password', ARRAY_FILTER_USE_KEY),
@@ -60,8 +59,7 @@ final readonly class AuthSubscriber
     public function handleLogin(Events\Login $event): void
     {
         $this->logEvent(
-            eventType: 'Login',
-            message: 'Gebruiker succesvol ingelogd.',
+            eventType: AuthenticationEvents::Login,
             event: $event,
             context: ['remember_me' => $event->remember]
         );
@@ -70,8 +68,7 @@ final readonly class AuthSubscriber
     public function handleLogout(Events\Logout $event): void
     {
         $this->logEvent(
-            eventType: 'Logout',
-            message: 'Gebruiker succesvol uitgelogd.',
+            eventType: AuthenticationEvents::Logout,
             event: $event,
             context: ['logout_type' => 'Gebruiker heeft handmatig uitgelogd.'],
         );
@@ -80,8 +77,7 @@ final readonly class AuthSubscriber
     public function handleLockout(Events\Lockout $event): void
     {
         $this->logEvent(
-            eventType: 'Lockout',
-            message: 'Account/IP is geblokkeerd vanwege te veel mislukte pogingen.',
+            eventType: AuthenticationEvents::Lockout,
             event: $event,
             context: [
                 'lockout_at' => now()->toDateTimeString(),
@@ -93,8 +89,7 @@ final readonly class AuthSubscriber
     public function handleCurrentDeviceLogout(Events\CurrentDeviceLogout $event): void
     {
         $this->logEvent(
-            eventType: 'CurrentDeviceLogout',
-            message: 'Uitgelogd van de huidige sessie.',
+            eventType: AuthenticationEvents::CurrentDeviceLogout,
             event: $event,
             context: [
                 'action' => 'Huidige sessie is beëindigd.',
@@ -106,8 +101,7 @@ final readonly class AuthSubscriber
     public function handleOtherDeviceLogout(Events\OtherDeviceLogout $event): void
     {
         $this->logEvent(
-            eventType: 'OtherDeviceLogout',
-            message: 'Uitgelogd van andere apparaten/sessies.',
+            eventType: AuthenticationEvents::OtherDeviceLogout,
             event: $event,
             context: [
                 'action' => 'Alle andere sessies beëindigd.',
@@ -119,8 +113,7 @@ final readonly class AuthSubscriber
     public function handleRegistered(Events\Registered $event): void
     {
         $this->logEvent(
-            eventType: 'Registered',
-            message: 'Nieuwe gebruiker succesvol geregistreerd.',
+            eventType: AuthenticationEvents::Registered,
             event: $event,
             context: ['new_user_id' => $event->user->id ?? 'N/A',]
         );
@@ -129,8 +122,7 @@ final readonly class AuthSubscriber
     public function handleVerified(Events\Verified $event): void
     {
         $this->logEvent(
-            eventType:'Verified',
-            message: 'E-mailadres succesvol geverifieerd.',
+            eventType:AuthenticationEvents::Verified,
             event: $event,
             context: ['verification_time' => now()->toDateTimeString()]
         );
@@ -139,8 +131,7 @@ final readonly class AuthSubscriber
     public function handlePasswordReset(Events\PasswordReset $event): void
     {
         $this->logEvent(
-            eventType: 'PasswordReset',
-            message: 'Wachtwoord succesvol gereset.',
+            eventType: AuthenticationEvents::PasswordReset,
             event: $event,
             context: ['reset_method' => 'Via wachtwoord reset mechanisme.'],
         );
@@ -149,8 +140,7 @@ final readonly class AuthSubscriber
     public function handlePasswordUpdatedViaController(FortifyEvents\PasswordUpdatedViaController $event): void
     {
         $this->logEvent(
-            eventType: 'PasswordUpdatedViaController',
-            message: 'Wachtwoord bijgewerkt via de controller. (profiel instellingen).)',
+            eventType: AuthenticationEvents::PasswordUpdatedViaController,
             event: $event,
         );
     }
@@ -158,8 +148,7 @@ final readonly class AuthSubscriber
     public function handleRecoveryCodeReplaced(FortifyEvents\RecoveryCodeReplaced $event): void
     {
         $this->logEvent(
-            eventType: 'RecoveryCodeReplaced',
-            message: 'Een herstelcode is vervangen.',
+            eventType: AuthenticationEvents::RecoveryCodeReplaced,
             event: $event,
         );
     }
@@ -167,8 +156,7 @@ final readonly class AuthSubscriber
     public function handleRecoveryCodesGenerated(FortifyEvents\RecoveryCodesGenerated $event): void
     {
         $this->logEvent(
-            eventType: 'RecoveryCodesGenerated',
-            message: 'Nieuwe herstelcodes zijn gegenereerd.',
+            eventType: AuthenticationEvents::RecoveryCodesGenerated,
             event: $event,
         );
     }
@@ -176,8 +164,7 @@ final readonly class AuthSubscriber
     public function handleTwoFactorAuthenticationChallenged(FortifyEvents\TwoFactorAuthenticationChallenged $event): void
     {
         $this->logEvent(
-            eventType: 'TwoFactorAuthenticationChallenged',
-            message: 'Uitgedaagd voor Twee-Factor Authenticatie (TFA).',
+            eventType: AuthenticationEvents::TwoFactorAuthenticationChallenged,
             event: $event,
         );
     }
@@ -185,8 +172,7 @@ final readonly class AuthSubscriber
     public function handleTwoFactorAuthenticationConfirmed(FortifyEvents\TwoFactorAuthenticationConfirmed $event): void
     {
         $this->logEvent(
-            eventType: 'TwoFactorAuthenticationConfirmed',
-            message: 'Twee-Factor Authenticatie (TFA) is succesvol bevestigd.',
+            eventType: AuthenticationEvents::TwoFacotrAuthenticationConfirmed,
             event: $event,
         );
     }
@@ -194,8 +180,7 @@ final readonly class AuthSubscriber
     public function handleTwoFactorAuthenticationDisabled(FortifyEvents\TwoFactorAuthenticationDisabled $event): void
     {
         $this->logEvent(
-            eventType: 'TwoFactorAuthenticationDisabled',
-            message: 'Twee-Factor Authenticatie (TFA) is uitgeschakeld.',
+            eventType: AuthenticationEvents::TwoFactorAuthenticationDisabled,
             event: $event,
         );
     }
@@ -203,8 +188,7 @@ final readonly class AuthSubscriber
     public function handleTwoFactorAuthenticationEnabled(FortifyEvents\TwoFactorAuthenticationEnabled $event): void
     {
         $this->logEvent(
-            eventType: 'TwoFactorAuthenticationEnabled',
-            message: 'Twee-Factor Authenticatie (TFA) is ingeschakeld.',
+            eventType: AuthenticationEvents::TwoFactorAuthenticationEnabled,
             event: $event,
         );
     }

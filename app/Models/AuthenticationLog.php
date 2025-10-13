@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\AuthenticationEvents;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -30,6 +31,7 @@ final class AuthenticationLog extends Model
     protected function casts(): array
     {
         return [
+            'event' => AuthenticationEvents::class,
             'context' => 'array',
         ];
     }
