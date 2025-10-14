@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+use Filament\Support\Colors\Color;
+use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasDescription;
+use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
+use Filament\Support\Icons\Heroicon;
 
-enum AuthenticationEvents: int implements HasLabel, HasDescription
+enum AuthenticationEvents: int implements HasLabel, HasDescription, HasIcon, HasColor
 {
     case Attempting = 1;
     case Failed = 2;
@@ -50,6 +54,18 @@ enum AuthenticationEvents: int implements HasLabel, HasDescription
         };
     }
 
+    public function getColor(): string|array|null
+    {
+        return match($this) {
+            self::Failed, self::Lockout => Color::hex('#004c99'),
+            self::Attempting, self::Login, self::Registered, self::Verified => Color::hex('#99c2ff'),
+            self::PasswordReset, self::PasswordUpdatedViaController => Color::hex('#cce0ff'),
+            self::Logout, self::CurrentDeviceLogout, self::OtherDeviceLogout => Color::hex('#e6f0ff'),
+            self::RecoveryCodeReplaced, self::RecoveryCodesGenerated, self::TwoFactorAuthenticationChallenged, self::TwoFactorAuthenticationConfirmed, self::TwoFactorAuthenticationEnabled => Color::hex('#0088cc'),
+            self::TwoFactorAuthenticationDisabled => Color::hex('#192c40'),
+        };
+    }
+
     public function getDescription(): string
     {
         return match ($this) {
@@ -71,5 +87,10 @@ enum AuthenticationEvents: int implements HasLabel, HasDescription
             self::TwoFactorAuthenticationEnabled => 'Twee-Factor Authenticatie (TFA) is ingeschakeld.',
             self::TwoFactorAuthenticationDisabled => 'Twee-Factor Authenticatie (TFA) is uitgeschakeld.',
         };
+    }
+
+    public function getIcon(): Heroicon
+    {
+        return Heroicon::Tag;
     }
 }

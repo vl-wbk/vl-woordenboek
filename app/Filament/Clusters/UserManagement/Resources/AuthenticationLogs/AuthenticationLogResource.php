@@ -52,7 +52,6 @@ final class AuthenticationLogResource extends Resource
     {
         return [
             'index' => ListAuthenticationLogs::route('/'),
-            'view' => ViewAuthenticationLog::route('/{record}'),
         ];
     }
 }

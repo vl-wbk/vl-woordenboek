@@ -39,7 +39,7 @@ final readonly class AuthSubscriber
             eventType: AuthenticationEvents::Attempting,
             event: $event,
             context:  [
-                'credentials' => array_filter($event->credentials, fn($key) => $key !== 'password', ARRAY_FILTER_USE_KEY),
+                'attempted_email' => $event->credentials['email'],
                 'login_type' => 'Attempting',
             ]);
     }
@@ -50,8 +50,8 @@ final readonly class AuthSubscriber
             eventType: AuthenticationEvents::Failed,
             event: $event,
             context: [
-                'credentials' => array_filter($event->credentials, fn($key) => $key !== 'password', ARRAY_FILTER_USE_KEY),
-                'user_found' => (bool) $event->user,
+                'attempted_email' => $event->credentials['email'],
+                'user_found' => $event->user ? '0' : '1',
             ]
         );
     }
@@ -61,7 +61,7 @@ final readonly class AuthSubscriber
         $this->logEvent(
             eventType: AuthenticationEvents::Login,
             event: $event,
-            context: ['remember_me' => $event->remember]
+            context: ['remember_me' => $event->remember ? '0': '1'],
         );
     }
 
@@ -172,7 +172,7 @@ final readonly class AuthSubscriber
     public function handleTwoFactorAuthenticationConfirmed(FortifyEvents\TwoFactorAuthenticationConfirmed $event): void
     {
         $this->logEvent(
-            eventType: AuthenticationEvents::TwoFacotrAuthenticationConfirmed,
+            eventType: AuthenticationEvents::TwoFactorAuthenticationConfirmed,
             event: $event,
         );
     }

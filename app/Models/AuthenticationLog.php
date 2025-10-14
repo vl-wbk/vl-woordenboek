@@ -2,8 +2,13 @@
 
 namespace App\Models;
 
+use App\Casts\BrowserCast;
+use App\Casts\DeviceCast;
+use App\Casts\OperatingSystemCast;
 use App\Enums\AuthenticationEvents;
+use App\Services\AgentService;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -18,6 +23,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string   $context       Additional data that is relative to the logged authentication event.
  * @property Carbon   $created_at    The unique timestamp that indicates when the record was created.
  * @property Carbon   $updated_at    The unique timestamp that indicates when the record was last modified.
+ *
+ * @property-read string $device            The device type that we extract from the user agent through a cast.
+ * @property-read string $browser           The browser type from the user that we extract of the user agent.
+ * @property-read string $operating_system  The operating system that we extract out of the user agent through a cast.
  */
 final class AuthenticationLog extends Model
 {
@@ -25,14 +34,17 @@ final class AuthenticationLog extends Model
 
     public function causer(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     protected function casts(): array
     {
         return [
             'event' => AuthenticationEvents::class,
-            'context' => 'array',
+            'context' => 'json',
+            'device' => DeviceCast::class,
+            'browser' => BrowserCast::class,
+            'operating_system' => OperatingSystemCast::class,
         ];
     }
 }
