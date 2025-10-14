@@ -11,6 +11,11 @@
     @include button-variant(#e7e5e4, #e7e5e4);
 }
 
+.badge-xsm {
+    font-size: 0.65em;
+    padding: 0.25em 0.4em;
+}
+
 body {
     background-image: url('../img/app-background.png');
 }
