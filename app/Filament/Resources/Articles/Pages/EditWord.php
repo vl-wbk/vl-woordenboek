@@ -18,6 +18,7 @@ use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Resources\Pages\EditRecord\Concerns\HasWizard;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Contracts\Support\Htmlable;
 use Kenepa\ResourceLock\Resources\Pages\Concerns\UsesResourceLock;
 use App\Filament\Resources\Articles\Schema\FormSchema;
 use Filament\Actions\Action;
@@ -199,5 +200,10 @@ final class EditWord extends EditRecord
         return static::getResource()::getUrl('view', [
             'record' => $this->record,
         ]);
+    }
+
+    public function getTitle(): string|Htmlable
+    {
+        return ucfirst($this->record->word);
     }
 }
