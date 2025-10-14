@@ -74,7 +74,7 @@
 
                         <div class="form-group">
                             <label for="beschrijving" class="col-form-label">Beschrijving <span class="text-danger fw-bold">*</span></label>
-                            <textarea name="beschrijving" class="form-control @error('beschrijving') is-invalid @enderror" id="beschrijvingHelpText" cols="4">{{ old('beschrijving') }}</textarea>
+                            <textarea name="beschrijving" class="form-control @error('beschrijving') is-invalid @enderror" id="beschrijvingHelpText" rows="4">{{ old('beschrijving') }}</textarea>
 
                             @if ($errors->has('beschrijving'))
                                 <x-forms.validation-error field="beschrijving"/>
@@ -85,7 +85,7 @@
 
                         <div class="form-group">
                             <label for="regio" class="col-form-label">Regio <span class="text-danger fw-bold">*</span></label>
-                            <select id="regioHelpText" class="form-control @error('regio') is-invalid @enderror" name="regio[]" multiple size="10">
+                            <select id="regioHelpText" class="form-control @error('regio') is-invalid @enderror" name="regio[]" multiple size="6">
                                 @foreach ($regions as $region => $value)
                                     <option value="{{ $region }}" {{ in_array($region, old('regio', [])) ? 'selected' : '' }}>
                                         {{ $value }}
@@ -109,7 +109,7 @@
 
                         <div class="form-group">
                             <label for="voorbeeld" class="col-form-label">Voorbeelden <span class="fw-bold text-danger">*</span></label>
-                            <textarea name="voorbeeld" id="voorbeeldHelpText" class="form-control @error('voorbeeld') is-invalid @enderror" cols="6">{{ old('voorbeeld') }}</textarea>
+                            <textarea name="voorbeeld" id="voorbeeldHelpText" class="form-control @error('voorbeeld') is-invalid @enderror" rows="6">{{ old('voorbeeld') }}</textarea>
 
                             @if ($errors->has('voorbeeld'))
                                 <x-forms.validation-error field="voorbeeld"/>
