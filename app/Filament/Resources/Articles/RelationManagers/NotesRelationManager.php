@@ -230,7 +230,7 @@ final class NotesRelationManager extends RelationManager
     private function registerTableSchemaLayout(): array
     {
         return [
-            TextColumn::make('author.name')->label('Autheur')->weight(FontWeight::Bold)->searchable()->icon('heroicon-o-user-circle')->iconColor('primary'),
+            TextColumn::make('author.name')->label('Auteur')->weight(FontWeight::Bold)->searchable()->icon('heroicon-o-user-circle')->iconColor('primary'),
             TextColumn::make('title')->label('Titel')->searchable(),
             TextColumn::make('updated_at')->label('Laatst bewerkt')->date()->sortable(),
             TextColumn::make('created_at')->label('Registratie datum')->date()->sortable(),
