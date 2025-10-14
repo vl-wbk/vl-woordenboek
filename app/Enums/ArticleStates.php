@@ -70,7 +70,7 @@ enum ArticleStates: int implements HasLabel, HasIcon, HasColor
     {
         return match ($this) {
             self::New => 'Suggestie',
-            self::Draft => 'Klad versie',
+            self::Draft => 'Kladversie',
             self::Approval => 'In afwachting',
             self::Published => 'Publicatie',
             self::Archived => 'Gearchiveerd',
