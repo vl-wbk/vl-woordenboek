@@ -17,6 +17,9 @@ use Illuminate\Auth\Access\Response;
 final class UserPolicy
 {
     /**
+     * Lists the action prefixes for all policy permission checks.
+     * These prefixes combine with the resource name (e.g., ':user') for authorization.
+     *
      * @var list<string>
      */
     public static array $permissionPrefixes = [

@@ -22,6 +22,9 @@ use Illuminate\Auth\Access\Response;
 final class BanPolicy
 {
     /**
+     * Lists the permission action prefixes defined in this policy.
+     * These prefixes combine with the resource name (e.g., ':ban') for authorization checks.
+     *
      * @var list<string>
      */
     public static array $permissionPrefixes = [

@@ -21,6 +21,9 @@ use Illuminate\Auth\Access\Response;
 final class BlogPolicy
 {
     /**
+     * Lists the action prefixes used for all policy permission checks.
+     * These prefixes combine with the resource name (e.g., ':blog') for authorization.
+     *
      * @var list<string>
      */
     public static array $permissionPrefixes = [

@@ -21,6 +21,9 @@ use Illuminate\Auth\Access\Response;
 final class ArticlePolicy
 {
     /**
+     * Defines all action prefixes used for policy permission checks.
+     * These combine with the resource name (e.g., ':article') to create full permission strings (e.g., 'update:article').
+     *
      * @var list<string>
      */
     public static array $permissionPrefixes = [
