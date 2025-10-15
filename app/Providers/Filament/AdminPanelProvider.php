@@ -123,9 +123,7 @@ final class AdminPanelProvider extends PanelProvider
                     ->navigationGroup('Toegangsbeheer')
                     ->navigationLabel('Rollen & permissies'),
                 ResourceLockPlugin::make()
-                    ->limitedAccessToResourceLockManager()
-                    ->usesPollingToDetectPresence()
-                    ->presencePollingInterval(10),
+                    ->limitedAccessToResourceLockManager(),
                 GlobalSearchModalPlugin::make()
                     ->searchItemTree(false)
                     ->expandedUrlTarget(enabled: false)
