@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Articles\Schema;
 
+use App\Models\User;
+use Filament\Forms\Components\Repeater;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -188,15 +190,24 @@ final readonly class FormSchema
     public static function getSourceSchema(): array
     {
         return [
-            KeyValue::make('sources')
-                ->hiddenLabel()
-                ->reorderable()
-                ->keyLabel('Naam')
-                ->keyPlaceholder('- naam van de bron')
-                ->valueLabel('Url / Artikel')
-                ->valuePlaceholder('https://woordenlijst.org/')
-                ->addActionLabel('Nieuwe bron toevoegen')
-                ->columnSpanFull(),
+            Repeater::make('sources')
+                ->relationship()
+                ->compact()
+                ->table([
+                    Repeater\TableColumn::make('bron'),
+                    Repeater\TableColumn::make('referentie')
+                ])
+                ->schema([
+                    Select::make('source_id')
+                        ->label('bron')
+                        ->options(User::query()->pluck('name', 'id'))
+                        ->required()
+                        ->distinct()
+                        ->searchable()
+                        ->disableOptionsWhenSelectedInSiblingRepeaterItems(),
+                    TextInput::make('referentie')
+                        ->required()
+                ])
         ];
     }
 }

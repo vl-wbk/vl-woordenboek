@@ -242,7 +242,7 @@ final class Article extends Model implements AuditableContract
 
     public function sources(): BelongsToMany
     {
-        return $this->belongsToMany(Source::class, 'article_sources', 'source_id')
+        return $this->belongsToMany(Source::class, 'article_source', 'source_id')
             ->withPivot('reference');
     }
 
