@@ -240,6 +240,12 @@ final class Article extends Model implements AuditableContract
         return $this->belongsToMany(User::class, table: 'article_bookmarks');
     }
 
+    public function sources(): BelongsToMany
+    {
+        return $this->belongsToMany(Source::class, 'article_sources', 'source_id')
+            ->withPivot('reference');
+    }
+
     /**
      * Overrides the default Eloquent builder with a custom ArticleBuilder.
      *
@@ -269,7 +275,6 @@ final class Article extends Model implements AuditableContract
             'origin' => DataOrigin::class,
             'state' => ArticleStates::class,
             'status' => LanguageStatus::class,
-            'sources' => 'array',
 			'published_at' => 'datetime'
         ];
     }

@@ -65,7 +65,6 @@ final class ArticleFactory extends Factory
             'keywords' => implode(',', fake()->words(3)),
             'example' => fake()->sentence,
             'characteristics' => fake()->paragraph,
-            'sources' => [],
             'created_at' => now(),
             'published_at' => now(),
             'updated_at' => now(),
