@@ -11,6 +11,7 @@ use App\Filament\Resources\Articles\Actions\States as ArticleStateActions;
 use Filament\Actions as FilamentActions;
 use Filament\Actions\ActionGroup;
 use Filament\Resources\Pages\ViewRecord;
+use Illuminate\Contracts\Support\Htmlable;
 
 /**
  * Represents the page for viewing a single article in the admin panel.
@@ -64,5 +65,10 @@ final class ViewWord extends ViewRecord
             FilamentActions\DeleteAction::make()->icon('heroicon-o-trash'),
             FilamentActions\RestoreAction::make()->icon('heroicon-m-arrow-uturn-left'),
         ];
+    }
+
+    public function getTitle(): string|Htmlable
+    {
+        return ucfirst($this->record->word);
     }
 }
