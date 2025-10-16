@@ -240,10 +240,9 @@ final class Article extends Model implements AuditableContract
         return $this->belongsToMany(User::class, table: 'article_bookmarks');
     }
 
-    public function sources(): BelongsToMany
+    public function sources(): HasMany
     {
-        return $this->belongsToMany(Source::class, 'article_source', 'source_id')
-            ->withPivot('reference');
+        return $this->hasMany(ArticleSource::class);
     }
 
     /**

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Articles\Schema;
 
+use Filament\Forms\Components\Repeater\TableColumn;
+use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
@@ -12,6 +14,7 @@ use App\Filament\Clusters\Articles\Resources\ArticleResource\Actions\DisclaimerT
 use App\Models\Article;
 use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Support\Icons\Heroicon;
 
 /**
  * WordInfolist is responsible for defining the schema of the detailed information display for articles.
@@ -114,11 +117,21 @@ final readonly class WordInfolist
             /** @phpstan-ignore-next-line */
             ->visible(fn(Article $article): bool => ! is_null($article->sources) && json_encode(count($article->sources)) > 0)
             ->schema([
-                KeyValueEntry::make('sources')
+                RepeatableEntry::make('sources')
+                    ->table([
+                        TableColumn::make('#')->alignStart()->width(100),
+                        TableColumn::make('naslagwerk')->alignStart(),
+                        TableColumn::make('referentie')->alignStart()
+                    ])
+                ->schema([
+                    TextEntry::make('reference.abbreviation')
+                        ->badge()
+                        ->icon(Heroicon::BookOpen),
+                    TextEntry::make('reference.name'),
+                    TextEntry::make('notation'),
+                ])
                     ->hiddenLabel()
-                    ->keyLabel('Naam')
-                    ->valueLabel('Url / Artikel')
-                    ->columnSpanFull(),
+                    ->columnSpan(12),
             ]);
     }
 

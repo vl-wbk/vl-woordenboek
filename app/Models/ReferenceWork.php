@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Source extends Model
+class ReferenceWork extends Model
 {
     //
 }

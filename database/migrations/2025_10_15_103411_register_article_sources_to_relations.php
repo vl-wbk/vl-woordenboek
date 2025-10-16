@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Article;
+use App\Models\ReferenceWork;
 use App\Models\Source;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -13,18 +14,18 @@ return new class extends Migration {
             $table->dropColumn('sources');
         });
 
-        Schema::create('sources', function (Blueprint $table) {
+        Schema::create('reference_works', function (Blueprint $table): void {
             $table->id();
-            $table->string('abbreviation');
-            $table->string('name');
+            $table->string('abbreviation')->nullable()->unique();
+            $table->string('name')->unique();
             $table->timestamps();
         });
 
         Schema::create('article_sources', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Source::class)->nullable()->constrained()->nullOnDelete();
+            $table->foreignIdFor(ReferenceWork::class)->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(Article::class)->constrained()->cascadeOnDelete();
-            $table->text('reference')->nullable();
+            $table->text('notation')->nullable();
             $table->timestamps();
         });
     }

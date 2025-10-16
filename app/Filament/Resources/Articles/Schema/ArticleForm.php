@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Articles\Schema;
 use App\Enums\ArticleStates;
 use App\Enums\LanguageStatus;
 use App\Models\Article;
+use App\Models\ReferenceWork;
 use App\Models\User;
 use App\UserTypes;
 use Filament\Forms\Components\MarkdownEditor;
@@ -158,14 +159,14 @@ final readonly class ArticleForm
                     Repeater\TableColumn::make('referentie')
                 ])
                 ->schema([
-                    Select::make('source_id')
+                    Select::make('reference_work_id')
                         ->label('bron')
-                        ->options(User::query()->pluck('name', 'id'))
+                        ->options(ReferenceWork::query()->pluck('name', 'id'))
                         ->required()
                         ->distinct()
                         ->searchable()
                         ->disableOptionsWhenSelectedInSiblingRepeaterItems(),
-                    Textarea::make('referentie')->rows(1)
+                    Textarea::make('notation')->rows(1)
                         ->required()
                 ])
                 ->addActionLabel('Naslagwerk toevoegen')
