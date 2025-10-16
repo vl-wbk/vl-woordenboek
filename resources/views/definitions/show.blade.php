@@ -206,16 +206,53 @@
                             </button>
                         </li>
                     @endif
+
+                    @if ($word->sources()->exists())
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="sources-tab" data-bs-toggle="tab" data-bs-target="#sources-tab-pane" type="button" role="tab" aria-controls="sources-tab-pane" aria-selected="false">
+                                <x-heroicon-o-book-open class="icon color-green me-1"/> Bronnen
+                            </button>
+                        </li>
+                    @endif
                 </ul>
             </div>
 
-            <div class="card-body">
+            <div class="card-body bg-white">
                 <div class="tab-content" id="articleInformationTab">
                     <div class="tab-pane fade show active" id="example-tab-pane" role="tabpanel" aria-labelledby="example-tab" tabindex="0">
                         <div class="markdown-text">
                             {!! str($word->example)->markdown()->sanitizeHtml() !!}
                         </div>
                     </div>
+
+                    @if ($word->sources()->exists())
+                        <div class="tab-pane fade" id="sources-tab-pane" role="tabpanel" aria-labelledby="sources-tab" tabindex="0">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-sm mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Naslagwerk</th>
+                                            <th scope="col">Referentie</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($word->sources as $source)
+                                            <tr>
+                                                <td>
+                                                    <span class="badge badge-primary">
+                                                        <x:heroicon-s-book-open class="icon icon-sm me-1"/> {{ $source->reference->abbreviation }}
+                                                    </span>
+                                                </td>
+                                                <td>{{ $source->reference->name }}</td>
+                                                <td>{{ $source->notation }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    @endif
 
                     @if (count($etymologies) > 0)
                         <div class="tab-pane fade" id="etymologie-tab-pane" role="tabpanel" aria-labelledby="example-tab" tabindex="0">
