@@ -23,16 +23,8 @@
 
                         <div class="float-end">
                             @if (\App\Models\Article::published()->count('id') > 0)
-                                <a href="{{ route('word-information.show', $randomArticle) }}" class="text-muted text-decoration-none">
+                                <a href="{{ route('search.results', ['zoekterm' => $randomArticle->word]) }}" class="text-muted text-decoration-none">
                                     <x-heroicon-o-language class="icon color-green" /> Willekeurig woord
-                                </a>
-                            @endif
-
-                            <div class="vr mx-1 bg-black"></div>
-
-                            @if (\App\Models\Article::where('wotd', true)->count('id') > 0)
-                                <a href="{{ route('word-information.wtod') }}" class="text-muted text-decoration-none">
-                                    <x-heroicon-o-calendar-days class="icon color-green" /> Woord van de dag
                                 </a>
                             @endif
                         </div>
