@@ -16,56 +16,66 @@
 
 @section ('content')
     <div class="container">
-        <div class="d-flex justify-content-between align-items-start mb-2">
+        <div class="d-flex justify-content-between align-items-start">
             <div class="w-100">
                 <h3 class="color-green w-100 mb-2">
-                    <a href="{{ route('home') }}" class="text-muted text-decoration-none">
-                        <x-heroicon-o-arrow-uturn-left class="icon icon-back-to-results"/>
-                    </a>
+                    @if ($word->isPublished())
+                        <a href="{{ route('home') }}" class="text-muted text-decoration-none">
+                            <x-heroicon-o-arrow-uturn-left class="icon icon-back-to-results"/>
+                        </a>
+                    @else
+                        <span class="fw-bolder text-danger">
+                            <x-heroicon-s-eye class="icon icon-back-to-results"/>
+                            preview
+                        </span>
+                    @endif
 
-                    <span class="text-muted">/</span>{{ $word->word }}
+                    <span class="text-muted">/</span>
+                    {{ $word->word }}
 
-                    <div class="d-flex gap-2 float-end align-items-center">
-                        @auth
-                            <livewire:like-words :article="$word" />
+                    @if ($word->isPublished())
+                        <div class="d-flex gap-2 float-end align-items-center">
+                            @auth
+                                <livewire:like-words :article="$word" />
 
-                            @if ($word->bookmarkers->contains(auth()->user()))
-                                <a href="{{ route('bookmark:remove', $word) }}" class="btn btn-light shadow-sm" title="Vergeet dit woord">
-                                    <x:heroicon-o-bookmark-slash class="icon text-danger"/>
-                                </a>
-                            @else
-                                <a href="{{ route('bookmark:create', $word) }}" class="btn btn-light shadow-sm" title="bewaar dit woord">
-                                    <x:heroicon-o-bookmark class="icon text-success"/>
-                                </a>
-                            @endif
-                        @endauth
-
-                        <div class="dropdown">
-                            <button class="btn btn-light dropdown-toggle shadow-sm" title="Bijdragen aan het woordenboek" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <x:heroicon-o-plus class="icon color-green"/>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm">
-                                <li>
-                                    <a class="dropdown-item" href="{{ route('definitions.create') }}">
-                                        <x:heroicon-o-document-plus class="icon text-muted me-1"/>Suggestie voor een nieuw woord
+                                @if ($word->bookmarkers->contains(auth()->user()))
+                                    <a href="{{ route('bookmark:remove', $word) }}" class="btn btn-light shadow-sm" title="Vergeet dit woord">
+                                        <x:heroicon-o-bookmark-slash class="icon text-danger"/>
                                     </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="{{ route('etymology:create', $word) }}">
-                                        <x:heroicon-o-plus class="icon text-muted me-1"/>Etymologie toevoegen
+                                @else
+                                    <a href="{{ route('bookmark:create', $word) }}" class="btn btn-light shadow-sm" title="bewaar dit woord">
+                                        <x:heroicon-o-bookmark class="icon text-success"/>
                                     </a>
-                                </li>
-                            </ul>
+                                @endif
+                            @endauth
+
+                            <div class="dropdown">
+                                <button class="btn btn-light dropdown-toggle shadow-sm" title="Bijdragen aan het woordenboek" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <x:heroicon-o-plus class="icon color-green"/>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm">
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('definitions.create') }}">
+                                            <x:heroicon-o-document-plus class="icon text-muted me-1"/>Suggestie voor een nieuw woord
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('etymology:create', $word) }}">
+                                            <x:heroicon-o-plus class="icon text-muted me-1"/>Etymologie toevoegen
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            @auth
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#reportModal" class="btn btn-danger shadow-sm" title="Fout in het artikel melden">
+                                    <x:heroicon-s-exclamation-triangle class="icon"/>
+                                </a>
+                            @endauth
                         </div>
-
-                        @auth
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#reportModal" class="btn btn-danger shadow-sm" title="Fout in het artikel melden">
-                                <x:heroicon-s-exclamation-triangle class="icon"/>
-                            </a>
-                        @endauth
-                    </div>
+                   @endif
                 </h3>
-                <p class="mt-3">
+                <p class="my-2">
                     @if ($word->partOfSpeech)
                         <span class="badge bg-secondary me-2">{{ $word->partOfSpeech->name }}</span>
                     @endif
