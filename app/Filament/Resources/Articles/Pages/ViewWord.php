@@ -11,6 +11,7 @@ use App\Filament\Resources\Articles\Actions\States as ArticleStateActions;
 use Filament\Actions as FilamentActions;
 use Filament\Actions\ActionGroup;
 use Filament\Resources\Pages\ViewRecord;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Contracts\Support\Htmlable;
 
 /**
@@ -48,6 +49,12 @@ final class ViewWord extends ViewRecord
     {
         return [
             FilamentActions\EditAction::make()->icon('heroicon-o-pencil-square')->color('gray'),
+
+            FilamentActions\Action::make('preview')
+                ->color('gray')
+                ->icon(Heroicon::OutlinedEye)
+                ->url(route('word-information.show', $this->record), shouldOpenInNewTab: true),
+
             ArticleStateActions\PublishArticleAction::make(),
             ArticleStateActions\ArchiveArticle::make(),
 
