@@ -9,6 +9,8 @@ use App\Models\Article;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -26,23 +28,8 @@ use Spatie\QueryBuilder\QueryBuilder;
  *
  * @package App\QueryBuilders
  */
-final class UserSuggestionQueryBuilder extends QueryBuilder
+final class UserSuggestionQueryBuilder
 {
-    /**
-     * Constructs a new UserSuggestionQueryBuilder instance.
-     *
-     * This constructor initializes the query builder by first building the base suggestion query using the `suggestionQuery` private method.
-     * This base query already filters articles to only include those authored by the currently authenticated user and applies general search terms.
-     * The constructed query is then passed to the parent QueryBuilder's constructor, allowing Spatie's functionalities (like allowed filters, sorts, etc.) to be built upon this foundation.
-     *
-     * @param Request $request  The current HTTP request instance, used to determine which filters and search terms to apply.
-     */
-    public function __construct(Request $request)
-    {
-        $suggestionQuery = $this->suggestionQuery($request);
-        parent::__construct($suggestionQuery);
-    }
-
     /**
      * Builds the base Eloquent query for user-specific article suggestions.
      *
@@ -55,78 +42,49 @@ final class UserSuggestionQueryBuilder extends QueryBuilder
      *
      * Additionally, it includes a `where` clause to enable searching within the `word` and `description` fields of the articles, using a `like` operator with the value from the `zoekterm` (search term) request parameter.
      *
-     * @param   Request $request  The current HTTP request instance, used to access filter parameters and search terms.
+     * @param Request $request The current HTTP request instance, used to access filter parameters and search terms.
      * @return  Builder|Relation  An Eloquent query builder instance or a relation instance, configured for fetching user suggestions.
      *
      * @phpstan-ignore-next-line    This annotation is used to suppress a potential PhpStan warning regarding the return type, as it can be either a Builder or a Relation.
      */
-    private function suggestionQuery(Request $request): Builder|Relation
+    public function fetch(Request $request)
     {
-        return Article::query()
+        return QueryBuilder::for(Article::class)
             ->with(['editor'])
             ->where('author_id', auth()->id())
-            ->when($this->needsToApplyFilter('inProgress'), fn(Builder $builder): Builder => $this->onlyInProgressSuggestions($builder))
-            ->when($this->needsToApplyFilter('done'), fn(Builder $builder): Builder => $this->onlyProcessedSuggestions($builder))
-            ->when($this->needsToApplyFilter('new'), fn(Builder $builder): Builder => $this->onlyNewSuggestions($builder))
-
+            ->allowedSorts($this->getAllowedSorts())
+            ->allowedFilters($this->getAllowedFilters())
             // Search between the suggestions
-            ->where(function ($query) use ($request): void {
+            ->where(function (Builder  $query) use ($request): void {
                 $query->where('word', 'like', "%{$request->get('zoekterm')}%")
                     ->orWhere('description', 'like', "%{$request->get('zoekterm')}%");
-            });
+            })
+            ->orderBy('word')
+            ->fastPaginate(6)
+            ->appends(request()->query());
     }
 
     /**
-     * Applies a filter to only include new suggestions.
-     * This method filters the query to only include articles with the 'New' state.
+     * Provides the available sorting options for the search results.
      *
-     * @param Builder<Article>  $builder  The Eloquent query builder instance.
-     * @return Builder<Article>           The Eloquent query builder instance with the filter applied.
+     * This method defines which fields can be used for sorting and maps user-friendly names to actual database columns.
+     * The alphabetical option sorts by the word itself, publication sorts by the publication date, and the views sorts by the number of times an articles has been viewed.
+     *
+     * @return array<int, AllowedSort> Collection of permitted sorting options
      */
-    private function onlyNewSuggestions(Builder $builder): Builder
+    private function getAllowedSorts(): array
     {
-        return $builder->where('state', ArticleStates::New);
+        return [
+            AllowedSort::field('created', 'created_at'),
+            AllowedSort::field('edited', 'updated_at'),
+            AllowedSort::field('word'),
+        ];
     }
 
-    /**
-     * Applies a filter to only include in-progress suggestions.
-     * This method filters the query to only include articles with the 'Approval' or 'Draft' state.
-     *
-     * @param  Builder<Article> $builder  The Eloquent query builder instance.
-     * @return Builder<Article>           The Eloquent query builder instance with the filter applied.
-     */
-    private function onlyInProgressSuggestions(Builder $builder): Builder
+    private function getAllowedFilters(): array
     {
-        return $builder->where([
-            ['state', '=', ArticleStates::Approval],
-            ['state', '=', ArticleStates::Draft],
-        ]);
-    }
-
-    /**
-     * Applies a filter to only include processed suggestions.
-     * This method filters the query to only include articles with the 'Approval' or 'Draft' state.
-     *
-     * @param  Builder<Article> $builder  The Eloquent query builder instance.
-     * @return Builder<Article>           The Eloquent query builder instance with the filter applied.
-     */
-    private function onlyProcessedSuggestions(Builder $builder): Builder
-    {
-        return $builder->where([
-            ['state', '=', ArticleStates::Approval],
-            ['state', '=', ArticleStates::Draft],
-        ]);
-    }
-
-    /**
-     * Determines if a given filter needs to be applied based on the request.
-     * This method checks if the request has a 'filter' parameter and if its value matches the given filter name.
-     *
-     * @param  string|null $filter  The name of the filter to check.
-     * @return bool                 True if the filter needs to be applied, false otherwise.
-     */
-    private function needsToApplyFilter(?string $filter = null): bool
-    {
-        return request()->has('filter') && request()->get('filter') === $filter;
+        return [
+            AllowedFilter::scope('published_after'),
+        ];
     }
 }

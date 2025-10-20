@@ -1,4 +1,4 @@
-@foreach($results as $result)
+@forelse($results as $result)
     <div class="card {{ $result->wotd ? 'border-danger-subtle' : 'border-0' }} @if (! $loop->last) mb-3 @endif shadow-sm">
         <div class="card-header bg-white">
             <a href="{{ route('word-information.show', $result) }}" class="h5 text-decoration-none card-title fw-bold color-green d-flex justify-content-between align-items-center">
@@ -44,4 +44,21 @@
             @endif
         </div>
     </div>
-@endforeach
+@empty
+    <div class="card bg-sidenav border-0 shadow-sm text-center">
+        <div class="card-body p-4">
+            <x-heroicon-o-book-open class="icon color-green icon-blankslate pb-3"/>
+            <h5 class="card-title fw-bold">Spijtig, niks gevonden</h5>
+
+            <p class="card-text text-muted mb-2">
+                We vonden geen enkel artikel dat bij jouw zoekterm past.
+                Heb je een typfout gemaakt? Misschien is het wel een woord dat of woordcombinatie die (nog) niet in ons woordenboek zit.
+                Probeer het eens met een andere zoekterm of een andere schrijfwijze.
+            </p>
+
+            <p class="card-text text-muted">
+                Nog steeds niks? Je mag altijd een suggestie indienen. Dat kan met de knop links bovenaan.
+            </p>
+        </div>
+    </div>
+@endforelse

@@ -1,7 +1,7 @@
 @extends('layouts.application-blank', ['title' => 'wachtwoord vergeten'])
 
 @section('content')
-<div class="container">
+<div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card bg-white border-0 shadow-sm">

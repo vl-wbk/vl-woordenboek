@@ -27,12 +27,10 @@ final readonly class OverviewController
      * @return Renderable        The rendered view of user suggestions.
      */
     #[Get(uri: 'mijn-suggesties', name: 'suggestions:index', middleware: ['auth', 'verified', 'forbid-banned-user'])]
-    public function __invoke(Request $request): Renderable
+    public function __invoke(Request $request, UserSuggestionQueryBuilder $suggestionQuery): Renderable
     {
-        $suggestionQuery = new UserSuggestionQueryBuilder($request);
-
         return view('suggestions.index', [
-            'results' => $suggestionQuery->fastPaginate()->appends(request()->query()),
+            'results' => $suggestionQuery->fetch($request),
         ]);
     }
 }

@@ -1,7 +1,7 @@
 @extends ('layouts.application-blank', ['title' => $user->name, 'paddingContent' => 'pb-4 mb-5'])
 
 @section('content')
-    <div class="container-lg py-4">
+    <div class="container-fluid py-4">
         <div class="row">
             <div class="col-12 pb-4">
                 <div class="d-flex justify-content-between align-items-center border-bottom pb-2">
@@ -44,8 +44,8 @@
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-5 mx-auto">
-                <div class="card border-0 shadow-sm p-4" style="max-width: 500px;">
+            <div class="col-3">
+                <div class="card border-0 shadow-sm p-4">
                     <div class="d-flex align-items-center mb-3">
                         <x-heroicon-s-user-circle class="icon icon-lg me-3 text-muted" style="width: 80px; height: 80px;"/>
                         <div>
@@ -137,7 +137,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-8 col-md-7">
+            <div class="col-9">
                 <ul class="nav nav-tabs border-bottom-2" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <a href="{{ route('account:public', $user) }}" class="nav-link {{ active('account:public', 'border-primary border-bottom fw-semibold') }} border-0 border-3 rounded-0 bg-transparent text-dark">

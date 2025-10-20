@@ -56,15 +56,9 @@ final readonly class RegionAnalytics
      */
     private function getArticleAnalytics(Region $region): array
     {
-        $articles = $region->articles()->published()->count();
-        $total = Article::query()->published()->count();
-
-        return [
-            'statistic' => toHumanReadableNumber($articles),
-            'altText' => trans(':percentage van het aantal woorden', [
-                'percentage' => toHumanReadablePercentage($total, $articles),
-            ]),
-        ];
+        return ['statistic' => toHumanReadableNumber(
+            $region->articles()->published()->count()
+        )];
     }
 
     /**
@@ -76,15 +70,9 @@ final readonly class RegionAnalytics
      */
     private function getViewAnalytics(Region $region): array
     {
-        $views = (int) $region->articles()->whereNotNull('published_at')->sum('views');
-        $totalViews = (int) Article::query()->whereNotNull('published_at')->sum('views');
-
-        return [
-            'statistic' => toHumanReadableNumber($views),
-            'altText' => trans(':percentage van de totale weergaves', [
-                'percentage' => toHumanReadablePercentage($totalViews, $views),
-            ]),
-        ];
+        return ['statistic' => toHumanReadableNumber(
+            (int) $region->articles()->whereNotNull('published_at')->sum('views')
+        )];
     }
 
     /**
@@ -96,14 +84,6 @@ final readonly class RegionAnalytics
      */
     private function getContributorAnalytics(Region $region): array
     {
-        $totalArticles = Article::query()
-            ->whereNotNull('published_at')
-            ->whereHas('author')
-            ->whereHas('regions', function ($regionQuery) use ($region): void {
-                // Ensure the suggestion is linked to the specific label
-                $regionQuery->where('regions.id', $region->id);
-            })->count();
-
         $totalUniqueAuthors = User::whereHas('suggestions', function ($suggestionQuery) use ($region): void {
             $suggestionQuery->whereNotNull('published_at');
 
@@ -113,12 +93,7 @@ final readonly class RegionAnalytics
             });
         })->count();
 
-        return [
-            'statistic' => toHumanReadableNumber($totalUniqueAuthors),
-            'altText' => trans('Goed voor een :amount bijdrages', [
-                'amount' => toHumanReadableNumber($totalArticles),
-            ]),
-        ];
+        return ['statistic' => toHumanReadableNumber($totalUniqueAuthors)];
     }
 
     /**
@@ -139,13 +114,6 @@ final readonly class RegionAnalytics
             });
         })->count();
 
-        $totalReports = ArticleReport::count();
-
-        return [
-            'statistic' => toHumanReadableNumber($totalAttachedReports),
-            'altText' => trans('Goed voor :percent van de meldingen', [
-                'percent' => toHumanReadablePercentage($totalReports, $totalAttachedReports),
-            ]),
-        ];
+        return ['statistic' => toHumanReadableNumber($totalAttachedReports)];
     }
 }

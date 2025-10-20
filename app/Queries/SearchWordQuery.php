@@ -10,6 +10,7 @@ use App\Models\Article;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Database\Eloquent\Model;
@@ -46,6 +47,7 @@ final readonly class SearchWordQuery
         /** @phpstan-ignore-next-line */
         return QueryBuilder::for(Article::class)
             ->allowedSorts($this->getAllowedSorts())
+            ->allowedFilters($this->getAllowedFilters())
             ->with(['author', 'bookmarkers'])
             ->published()
             ->where(function ($query) use ($request, $includeDescription): void {
@@ -105,6 +107,13 @@ final readonly class SearchWordQuery
             AllowedSort::field('alfabetisch', 'word'),
             AllowedSort::field('publicatie', 'published_at'),
             AllowedSort::field('weergaves', 'views'),
+        ];
+    }
+
+    private function getAllowedFilters(): array
+    {
+        return [
+            AllowedFilter::scope('published_after'),
         ];
     }
 }

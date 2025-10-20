@@ -1,6 +1,6 @@
 @extends ('layouts.application-blank', ['title' => 'Nieuws', 'paddingContent' => 'pb-4 mb-5'])
 
-@section('content')
+@section('jumbotron')
     <header class="bg-light border-border-0 mb-4 py-5 shadow-sm">
         <div class="container">
             <div class="my-5 text-center">
@@ -31,11 +31,14 @@
             </div>
         </div>
     </header>
+@endsection
 
-    <div class="container">
+@section('content')
+
+    <div class="container-fluid mt-3">
         <div class="row">
             <!-- Blog entries-->
-            <div class="col-lg-8">
+            <div class="col-lg-9">
                 @if (request()->has('zoekterm') && request()->get('zoekterm') !== null)
                     <h5 class="color-green border-bottom border-green mb-3 pb-2">
                         Resulaten voor de zoekterm: <span
@@ -91,7 +94,7 @@
 
             </div>
             <!-- Side widgets-->
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <!-- Search widget-->
                 <h5 class="border-bottom border-green color-green fw-bold pb-2"><x-heroicon-o-magnifying-glass-circle
                         class="icon me-1" /> Nieuwsbericht opzoeken</h5>

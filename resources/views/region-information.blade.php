@@ -1,7 +1,7 @@
 @extends('layouts.application-blank', ['title' => 'Regio informatie'])
 
 @section ('content')
-    <div class="container">
+    <div class="container-fluid mt-5">
         <div class="row">
             <div class="col-12">
                 <div class="card bg-white border-0 shadow-sm">

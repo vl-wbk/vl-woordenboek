@@ -1,104 +1,132 @@
+@extends('layouts.application-blank', ["title" => 'welkom'])
 
-@extends('layouts.application-blank', ['title' => 'Welkom'])
+@section('jumbotron')
+    <div class="bg-light bg-blend-hard-light rounded-3 shadow-sm">
+        <div class="container-fluid">
+            <div class="px-5 py-5">
+                <div class="row">
+                    <h1 class="display-6 fw-bold">Welkom op het <span class="text-warning">Vlaams Woordenboek</span></h1>
 
-@section('content')
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="float-start">
-                    <h3 class="color-green">Opzoeken in het woordenboek</h3>
-                </div>
-
-                <x-articles.overview-toolbar/>
-            </div>
-        </div>
-    </div>
-
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card bg-white border-0 shadow-sm">
-                    <div class="card-header bg-white">
-                        <span class="color-green fw-bold">Zoek een artikel in ons woordenboek met {{ $articleCount }} termen</span>
-
-                        <div class="float-end">
-                            @if (\App\Models\Article::published()->count('id') > 0)
-                                <a href="{{ route('search.results', ['zoekterm' => $randomArticle->word]) }}" class="text-muted text-decoration-none">
-                                    <x-heroicon-o-language class="icon color-green" /> Willekeurig woord
-                                </a>
-                            @endif
-                        </div>
+                    <div class="col-12">
+                        <p class="border-bottom pb-3 fs-5">
+                            Een community-driven woordenboek van {{ $articleCount }} artikelen.
+                            Waar de maatschappelijke waarden van belang is. Met dank aan onze vele bijdragers.
+                        </p>
                     </div>
-                    <div class="card-body">
-                        <form action="{{ route('search.results') }}" method="GET">
-                            <div class="row g-3">
-                                <div class="col-lg-2">
-                                    <label for="searchPatternSelect" class="visually-hidden">Zoekpartoon selectie</label>
-                                    <select name="zoekpatroon" class="form-select" id="searchPatternSelect">
-                                        @foreach ($searchPatterns as $searchPattern)
-                                            <option value="{{ $searchPattern->value }}" @selected(old('zoekpatroon', request()->get('zoekpatroon')) === $searchPattern->value)>
-                                                {{ $searchPattern->getLabel() }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
 
-                                <div class="col-lg-8 col-sm-8">
-                                    <input type="text" class="form-control" name="zoekterm" value="{{ request()->get('zoekterm') }}" placeholder="Zoekterm" aria-label="searchterm">
-                                </div>
-                                <div class="col-lg-2 col-sm-4">
-                                    <button type="submit" class="btn w-100 btn-submit">
-                                        <x-heroicon-o-magnifying-glass class="icon me-1"/> Zoeken
-                                    </button>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-check form-switch mb-0">
-                                        <input class="form-check-input" name="uitgebreid" type="checkbox" id="checkChecked" value="1" @checked(request()->boolean('uitgebreid') === true) switch>
-                                        <label class="form-check-label" for="checkChecked">
-                                            Ik wens ook uitgebreid te zoeken in de beschrijving
-                                        </label>
-                                    </div>
+                    <form class="col-md-7 mt-4" action="{{ route('search.results') }}" method="GET">
+                        <div class="row g-3">
+                            <div class="col-lg-3">
+                                <label for="searchPatternSelect" class="visually-hidden">Zoekpartoon selectie</label>
+                                <select name="zoekpatroon" class="form-select bg-white shadow-sm" id="searchPatternSelect">
+                                    @foreach ($searchPatterns as $searchPattern)
+                                        <option value="{{ $searchPattern->value }}" @selected(old('zoekpatroon', request()->get('zoekpatroon')) === $searchPattern->value)>
+                                            {{ $searchPattern->getLabel() }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-lg-7 col-sm-8">
+                                <input type="text" class="form-control bg-white shadow-sm" name="zoekterm" value="{{ request()->get('zoekterm') }}" placeholder="Zoekterm" aria-label="searchterm">
+                            </div>
+                            <div class="col-lg-2 col-sm-4">
+                                <button type="submit" class="btn shadow-sm w-100 btn-submit">
+                                    <x-heroicon-o-magnifying-glass class="icon me-1"/> Zoeken
+                                </button>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-check form-switch mb-0">
+                                    <input class="form-check-input" name="uitgebreid" type="checkbox" id="checkChecked" value="1" @checked(request()->boolean('uitgebreid') === true) switch>
+                                    <label class="form-check-label" for="checkChecked">
+                                        Ik wens ook uitgebreid te zoeken in de beschrijving
+                                    </label>
                                 </div>
                             </div>
-                        </form>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('content')
+    <div class="py-4">
+        <div class="container-fluid">
+            <div class="row my-4 pb-2">
+                <div class="col-md-3">
+                    <div class="card h-100 border-0 bg-sidenav shadow-sm">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title fw-bold color-green">Snuisteren in het woordenboek?</h5>
+                            <h6 class="card-subtitle mb-2 fst-italic text-body-secondary">Ontdek een nieuw woord.</h6>
+
+                            <p class="card-text mb-3">
+                                Zoek je geen specifiek woord? Of heb je geen inspiratie? Maar toch de goesting om te snuisteren?
+                                Dan kun je ook kiezen voor een willekeurig woord.
+                            </p>
+
+                            <a href="{{ route('search.results', ['zoekterm' => $randomArticle->word]) }}" class="btn btn-sm btn-outline-dark mt-auto">
+                                Start met snuisteren
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card h-100 bg-sidenav border-0 shadow-sm">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title fw-bold color-green">Weet van een leuk Vlaams woord?!</h5>
+                            <h6 class="card-subtitle mb-2 fst-italic text-body-secondary">Dat verdiend een plaats in ons woordenboek.</h6>
+
+                            <p class="card-text mb-3">
+                                We proberen zoveel mogelijk woorden te verzamelen in ons Woordenboek.
+                                Ook jouw woord verdiend een plaats? Wil je dat? Dan kun je een suggestie indienen.
+                            </p>
+
+                            <a href="{{ route('definitions.create') }}" class="btn btn-sm btn-outline-dark mt-auto">
+                                Suggestie indienen
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card bg-sidenav border-0 shadow-sm h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title fw-bold color-green">Versterk jij onze ploeg?</h5>
+                            <h6 class="card-subtitle mb-2 fst-italic text-body-secondary">Word vrijwilliger, uw inzet onze kracht.</h6>
+
+                            <p class="card-text mb-3">
+                                We ontvangen suggesties van mensen en de code van het Vlaams Woordenboek is open-source.
+                                Daarom zoeken we mensen die samen met onze ploeg het in leven willen houden.
+                            </p>
+
+                            <a href="{{ route('support.volunteers') }}" class="btn btn-sm btn-outline-dark mt-auto">
+                                Ja, ik heb interesse
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card bg-sidenav border-0 shadow-sm h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title fw-bold color-green">Wil je meer weten over dit project?</h5>
+                            <h6 class="card-subtitle mb-2 fst-italic text-body-secondary">Onze missie en doelen uitgelegd.</h6>
+
+                            <p class="card-text mb-3">
+                                Omdat we ons willen focussen op duurzaamheid en de toekomst.
+                                Vinden we het belangrijk om je daar duidelijk me de nodige transparantie over te informeren.
+                            </p>
+
+                            <a href="{{ route('project-information') }}" class="btn btn-sm btn-outline-dark mt-auto">
+                                Ja, ik wil meer weten.
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="container"> {{-- Results & sidebar --}}
-        <div class="row mt-4">
-            <div class="col-lg-4 col-sm-12">
-                <div class="card bg-callout-card shadow-sm border-0 card-body mb-sm-4">
-                    <h5 class="card-title fw-bold fst-italic">Helpende handen gezocht!</h5>
-
-                    <p class="card-text mt-2">
-                        Goesting om een handje toe te steken bij het Vlaams Woordenboek?
-                        We zijn op zoek naar taalgevoelige vrijwilligers die de inhoud van deze site mee naar een hoger niveau willen tillen.
-                    </p>
-
-                    <p class="card-text">
-                        <a href="{{ route('support.volunteers') }}" class="btn btn-white mt-3">
-                            Ik wil meer weten
-                        </a>
-                    </p>
-                </div>
-            </div>
-
-            <div class="col-lg-8 col-sm-12">
-                @includeWhen($termPresent, 'components.definitions.filters', ['results' => $results->total()])
-
-                {{-- Blankslate for when the user starts using the application. --}}
-                @includeWhen(! $termPresent, 'components.definitions.blankslates.new-visit')
-                @includeWhen($termPresent && (request('zoekterm') === null || $results->total() === 0), 'components.definitions.blankslates.no-results')
-
-                {{-- When Search term and results are present --}}
-                @includeWhen($termPresent && $results->total() > 0 && request('zoekterm') !== null, 'components.definitions.results', ['results' => $results])
-
-                {{-- Indien men vraagt waarom hier dat paginatie zinnetje wel vertroond word. Antwoord gewoon dat alleen god wist wat ik aan het doen was --}}
-                @includeWhen($termPresent && (request('zoekterm') !== null || $results->total() === 0), 'components.definitions.pagination', ['results' => $results])
-            </div>
-        </div>
-    </div> {{-- END results & sidebar --}}
 @endsection

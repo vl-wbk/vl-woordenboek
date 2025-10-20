@@ -47,15 +47,9 @@ final readonly class LabelAnalytics
      */
     private function getArticleAnalytics(Label $label): array
     {
-        $articles = $label->articles()->published()->count(); // Count published articles directly associated with this label
-        $total = Article::query()->published()->count(); // Count all published articles in the system
-
-        return [
-            'statistic' => toHumanReadableNumber($articles),
-            'altText' => trans(':percentage van het aantal woorden', [
-                'percentage' => toHumanReadablePercentage($total, $articles),
-            ]),
-        ];
+        return ['statistic' => toHumanReadableNumber(
+            $label->articles()->published()->count() // Count published articles directly associated with this label
+        )];
     }
 
     /**
@@ -69,15 +63,9 @@ final readonly class LabelAnalytics
      */
     private function getViewAnalytics(Label $label): array
     {
-        $views = (int) $label->articles()->published()->sum('views'); // Sum views for published articles directly associated with this label
-        $totalViews = (int) Article::query()->published()->sum('views'); // Sum views for all published articles in the system
-
-        return [
-            'statistic' => toHumanReadableNumber($views),
-            'altText' => trans(':percentage van de totale weergaves', [
-                'percentage' => toHumanReadablePercentage($totalViews, $views),
-            ]),
-        ];
+        return ['statistic' => toHumanReadableNumber(
+            (int) $label->articles()->published()->sum('views') // Sum views for published articles directly associated with this label
+        )];
     }
 
     /**
@@ -91,14 +79,6 @@ final readonly class LabelAnalytics
      */
     private function getContributorAnalytics(Label $label): array
     {
-        // Count published articles associated with this label that have an author
-        $totalArticles = Article::query()
-            ->published()
-            ->whereHas('author')
-            ->whereHas('labels', function ($labelQuery) use ($label): void {
-                $labelQuery->where('labels.id', $label->id); // Ensure the article is linked to the specific label
-            })->count();
-
         // Count unique users who have published articles (suggestions) associated with this label
         $totalUniqueAuthors = User::whereHas('suggestions', function ($suggestionQuery) use ($label): void {
             $suggestionQuery->whereNotNull('published_at');
@@ -109,12 +89,7 @@ final readonly class LabelAnalytics
             });
         })->count();
 
-        return [
-            'statistic' => toHumanReadableNumber($totalUniqueAuthors),
-            'altText' => trans('Goed voor een :amount bijdrages', [
-                'amount' => toHumanReadableNumber($totalArticles),
-            ]),
-        ];
+        return ['statistic' => toHumanReadableNumber($totalUniqueAuthors)];
     }
 
     /**
@@ -138,13 +113,6 @@ final readonly class LabelAnalytics
             });
         })->count();
 
-        $totalReports = ArticleReport::count(); // Count all article reports in the system
-
-        return [
-            'statistic' => toHumanReadableNumber($totalAttachedReports),
-            'altText' => trans('Goed voor :percent van de meldingen', [
-                'percent' => toHumanReadablePercentage($totalReports, $totalAttachedReports),
-            ]),
-        ];
+        return ['statistic' => toHumanReadableNumber($totalAttachedReports)];
     }
 }

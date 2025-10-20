@@ -1,97 +1,98 @@
 @extends('layouts.application-blank', ['title' => 'Contacten'])
 
 @section('content')
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <h3 class="color-green border-bottom pb-2">Berichtencentrum - mijn contacten</h3>
-            </div>
-        </div>
-
-        <div class="row pt-3">
-            <div class="col-md-4">
-                <div class="d-flex justify-content-start gap-2">
-                    <a href="{{ route('contacts:create') }}" class="btn btn-light border-0 shadow-sm w-50">
-                        <x-heroicon-o-plus class="icon me-1"/> contact toevoegen
-                    </a>
-
-                    <a href="{{ route('inbox:create') }}" class="btn btn-submit border-0 shadow-sm w-50">
-                        <x-heroicon-o-envelope-open class="icon me-1"/> nieuw bericht
-                    </a>
+    <div class="py-4">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="color-green border-bottom pb-2">Berichtencentrum - mijn contacten</h3>
                 </div>
+            </div>
 
-                <hr>
+            <div class="row pt-3">
+                <div class="col-md-4">
+                    <div class="d-flex justify-content-start gap-2">
+                        <a href="{{ route('contacts:create') }}" class="btn btn-light border-0 shadow-sm w-50">
+                            <x-heroicon-o-plus class="icon me-1"/> contact toevoegen
+                        </a>
 
-                <div class="list-group border-0 shadow-sm">
-                    <a href="{{ route('profile:inbox') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
-                        <div class="me-auto">
-                            <x-heroicon-s-inbox class="icon me-2 color-green"/> Ongelezen berichten
-                        </div>
+                        <a href="{{ route('inbox:create') }}" class="btn btn-submit border-0 shadow-sm w-50">
+                            <x-heroicon-o-envelope-open class="icon me-1"/> nieuw bericht
+                        </a>
+                    </div>
 
-                        @if(auth()->user()->unreadMessagesCount() > 0)
-                            <span class="badge badge-gray rounded-pill">
+                    <hr>
+
+                    <div class="list-group border-0 shadow-sm">
+                        <a href="{{ route('profile:inbox') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
+                            <div class="me-auto">
+                                <x-heroicon-s-inbox class="icon me-2 color-green"/> Ongelezen berichten
+                            </div>
+
+                            @if(auth()->user()->unreadMessagesCount() > 0)
+                                <span class="badge badge-gray rounded-pill">
                                 {{ auth()->user()->unreadMessagesCount() }}
                             </span>
-                        @endif
-                    </a>
+                            @endif
+                        </a>
 
-                    <a href="{{ route('profile:inbox', ['type' => \App\Enums\Inbox::All]) }}" class="list-group-item list-group-item-action">
-                        <x-heroicon-s-inbox class="icon me-2 color-green"/> Alle berichten
-                    </a>
+                        <a href="{{ route('profile:inbox', ['type' => \App\Enums\Inbox::All]) }}" class="list-group-item list-group-item-action">
+                            <x-heroicon-s-inbox class="icon me-2 color-green"/> Alle berichten
+                        </a>
+                    </div>
+
+                    <hr>
+
+                    <div class="list-group border-0 shadow-sm">
+                        <a href="{{ route('contacts:index') }}" class="list-group-item list-group-item-action">
+                            <x-heroicon-s-queue-list class="icon me-2 color-green"/>Contacten
+                        </a>
+                    </div>
                 </div>
 
-                <hr>
+                <div class="col-md-8">
+                    <x-messages.flash-alert/>
 
-                <div class="list-group border-0 shadow-sm">
-                    <a href="{{ route('contacts:index') }}" class="list-group-item list-group-item-action">
-                        <x-heroicon-s-queue-list class="icon me-2 color-green"/>Contacten
-                    </a>
-                </div>
-            </div>
-
-            <div class="col-md-8">
-                <x-messages.flash-alert/>
-
-                @if ($contacts->total() > 0 || ($contacts->total() === 0 && request()->has('zoekterm')))
-                    <div class="card border-0 bg-white shadow-sm">
-                        <div class="card-header bg-light-subtle">
-                            <form action="">
-                                <div class="form-group row g-2">
-                                    <div class="col-10">
-                                        <input type="text" name="zoekterm" value="{{ request()->get('zoekterm') }}" placeholder="Zoek persoon op basis van zijn gebruikersnaam" class="form-control bg-white">
+                    @if ($contacts->total() > 0 || ($contacts->total() === 0 && request()->has('zoekterm')))
+                        <div class="card border-0 bg-white shadow-sm">
+                            <div class="card-header bg-light-subtle">
+                                <form action="">
+                                    <div class="form-group row g-2">
+                                        <div class="col-10">
+                                            <input type="text" name="zoekterm" value="{{ request()->get('zoekterm') }}" placeholder="Zoek persoon op basis van zijn gebruikersnaam" class="form-control bg-white">
+                                        </div>
+                                        <div class="col-2">
+                                            <button type="submit" class="btn btn-submit w-100">
+                                                <x-heroicon-o-magnifying-glass class="icon me-1"/>Zoeken
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div class="col-2">
-                                        <button type="submit" class="btn btn-submit w-100">
-                                            <x-heroicon-o-magnifying-glass class="icon me-1"/>Zoeken
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="card-body">
-                            @if($contacts->total() === 0 && request()->filled('zoekterm'))
-                                <div class="card bg-sidenav text-center border-0">
-                                    <div class="card-body p-4">
-                                        <x-heroicon-o-queue-list class="icon-blankslate color-green icon pb-3"/>
-                                        <h5 class="card-title fw-bold">Geen contacten gevonden</h5>
+                                </form>
+                            </div>
+                            <div class="card-body">
+                                @if($contacts->total() === 0 && request()->filled('zoekterm'))
+                                    <div class="card bg-sidenav text-center border-0">
+                                        <div class="card-body p-4">
+                                            <x-heroicon-o-queue-list class="icon-blankslate color-green icon pb-3"/>
+                                            <h5 class="card-title fw-bold">Geen contacten gevonden</h5>
 
-                                        <p class="card-text text-muted">
-                                            Het lijkt erop dat er geen contacten zijn gevonden met de opgegeven zoekterm.<br>
-                                            Verwijder de zoekterm of probeer het opnieuw.
-                                        </p>
+                                            <p class="card-text text-muted">
+                                                Het lijkt erop dat er geen contacten zijn gevonden met de opgegeven zoekterm.<br>
+                                                Verwijder de zoekterm of probeer het opnieuw.
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                            @else
-                                <div class="table-responsive">
-                                    <table class="table table-sm table-hover mb-0">
-                                        <thead>
+                                @else
+                                    <div class="table-responsive">
+                                        <table class="table table-sm table-hover mb-0">
+                                            <thead>
                                             <tr>
                                                 <th scope="col" class="border-top-0 text-muted">Gebruiker</th>
                                                 <th scope="col" class="border-top-0 text-muted">Laatst online</th>
                                                 <th scope="col" class="border-top-0 text-muted" colspan="2">Toegevoegd op</th>
                                             </tr>
-                                        </thead>
-                                        <tbody>
+                                            </thead>
+                                            <tbody>
                                             @foreach ($contacts as $contact)
                                                 <tr>
                                                     <th class="color-green" scope="row">
@@ -122,15 +123,15 @@
                                                     </td>
                                                 </tr>
                                             @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            @endif
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                @endif
+                            </div>
                         </div>
-                    </div>
 
-                    <x-definitions.pagination :results=$contacts />
-                @elseif($contacts->total() === 0) {{-- There is no search param present and the user has no saved contacts --}}
+                        <x-definitions.pagination :results=$contacts />
+                    @elseif($contacts->total() === 0) {{-- There is no search param present and the user has no saved contacts --}}
                     <div class="card bg-sidenav text-center border-0">
                         <div class="card-body p-4">
                             <x-heroicon-o-queue-list class="icon-blankslate color-green icon pb-3"/>
@@ -141,7 +142,8 @@
                             </p>
                         </div>
                     </div>
-                @endif
+                    @endif
+                </div>
             </div>
         </div>
     </div>

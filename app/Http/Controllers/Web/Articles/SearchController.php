@@ -30,16 +30,14 @@ final readonly class SearchController
      * @param  SearchWordQuery $searchWordQuery  The search query service
      * @return Renderable                        The view with optional search results
      */
-    #[Get(uri: '/', name: 'home')]
     #[Get(uri: '/resultaten', name: 'search.results')]
     public function __invoke(Request $request, SearchWordQuery $searchWordQuery): Renderable
     {
         $baseQuery = Article::query()->published();
 
-        return view('welcome', [
+        return view('search', [
             'searchPatterns' => SearchPatterns::cases(),
             'randomArticle' => $baseQuery->inRandomOrder()->first(),
-            'articleCount' => $baseQuery->count('id'),
             'results' => $searchWordQuery->execute($request),
             'termPresent' => $request->has('zoekterm'),
         ]);

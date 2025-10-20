@@ -34,7 +34,17 @@
 </head>
 
 <body class="d-flex flex-column h-100">
-    <nav class="navbar navbar-expand-md navbar-dark bg-navbar shadow-sm">
+    {{--  TE VERWIJDEREN WANNEER DE PUBLIEKE FASE IS AFGELOPEN --}}
+    <div class="alert alert-warning border-0 mb-0 rounded-0 shadow-sm py-2" role="alert">
+        <div class="px-5">
+            <strong><x-heroicon-s-exclamation-triangle class="icon me-1"/> Ter info:</strong>
+            dit is een bètaversie van het nieuwe Vlaamse Woordenboek om uitgebreid te testen. De data zijn van april 2025. Alle  <a href="{{ route('feedback:create') }}" target="_blank" class="alert-link">feedback</a> is welkom.
+            welkom. De recentste artikelen vind je op het oude <a href="https://www.vlaamswoordenboek.be/" class="alert-link">vlaamswoordenboek.be</a>.
+
+        </div>
+    </div>
+    {{-- EINDE --}}
+    <nav class="navbar navbar-expand-md navbar-dark bg-navbar shadow-sm px-5">
         <div class="{{ $containerSize ?? 'container-fluid' }}">
             <a class="navbar-brand" href="{{ url('/') }}">
                 {{ config('app.name', 'Laravel') }}
@@ -65,28 +75,13 @@
                         </li>
                     @endauth
 
-                    <li class="nav-item dropdown">
-                        <a id="infoDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            <x-heroicon-s-information-circle class="icon me-1" /> Info
-                        </a>
-
-                        <div class="dropdown-menu bg-white shadow-sm border-0 dropdown-menu">
-                            @if (app(\App\Settings\ProjectInformationSettings::class)->pageActive)
-                                <a href="{{ route('project-information')}}" class="dropdown-item">
-                                    <x-tabler-info-square-rounded class="icon text-muted me-1" /> Project informatie
-                                </a>
-                            @endif
-
-                            <a href="{{ route('terms-of-service') }}" class="dropdown-item">
-                                <x-tabler-gavel class="icon text-muted me-1" /> Disclaimer
+                    @if (app(\App\Settings\ProjectInformationSettings::class)->pageActive)
+                        <li class="nav-item">
+                            <a href="{{ route('project-information')}}" class="nav-link">
+                                <x-tabler-info-square-rounded class="icon  me-1" /> Project informatie
                             </a>
-
-                            <a class="dropdown-item" href="https://vl-wbk.github.io/documentatie-portaal/" target="_blank">
-                                <x-tabler-book-2 class="icon text-muted me-1" /> Gebruikershandleiding
-                            </a>
-                        </div>
-                    </li>
+                        </li>
+                   @endif
 
                     <li class="nav-item">
                         <a href="https://www.forum.chimpy.be" class="nav-link" target="_blank">
@@ -167,21 +162,16 @@
         </div>
     </nav>
 
-    {{--  TE VERWIJDEREN WANNEER DE PUBLIEKE FASE IS AFGELOPEN --}}
-    <div class="alert alert-warning border-0 mb-0 rounded-0 shadow-sm py-2" role="alert">
-        <strong><x-heroicon-s-exclamation-triangle class="icon me-1"/> Ter info:</strong>
-        dit is een bètaversie van het nieuwe Vlaamse Woordenboek om uitgebreid te testen. De data zijn van april 2025. Alle  <a href="{{ route('feedback:create') }}" target="_blank" class="alert-link">feedback</a> is welkom.
-        welkom. De recentste artikelen vind je op het oude <a href="https://www.vlaamswoordenboek.be/" class="alert-link">vlaamswoordenboek.be</a>.
-    </div>
-    {{-- EINDE --}}
+    @yield('jumbotron')
 
-    <main class="{{ $paddingContent ?? 'py-4 mb-5' }} flex-shrink-0">
+    <main class="{{ $paddingContent ?? 'mb-5' }} px-5 flex-shrink-0">
         @yield('content')
     </main>
 
-    <footer class="footer mt-auto pt-4 pt-md-5 mt-5">
-        <div class="container py-4 py-md-4 px-4 px-md-3 text-body-secondary">
-            <div class="row"> <div class="col-lg-3">
+    <footer class="footer mt-auto px-5 pt-4 pt-md-5 mt-5">
+        <div class="container-fluid pt-4 pb-2 py-md-4 px-md-3 text-body-secondary">
+            <div class="row">
+                <div class="col-lg-3">
                 <a class="d-inline-flex align-items-center mb-2 text-white text-decoration-none" href="/" aria-label="Bootstrap">
                     <x:heroicon-s-book-open class="icon icon-back-to-results brand-gradient"/>
                     <span class="fs-5 brand-gradient fw-bold ms-2">{{ config('app.name', 'Laravel') }}</span>
@@ -325,6 +315,25 @@
         </div>
     </div>
 </footer>
+    <div class="footer px-5 py-2" style="background-color: oklch(21.6% 0.006 56.043)">
+        <div class="container-fluid px-4 px-md-3">
+            <div class="row">
+                <div class="col-12">
+                    <span class="text-yellow">
+                        &copy; {{ date('Y') }} Vlaams Woordenboek, Alle rechten voorbehouden
+                    </span>
+
+                    <div class="float-end">
+                        <a href="{{ route('terms-of-service') }}" class="text-white text-decoration-none">
+                            <x-tabler-gavel class="icon me-1"/> Gebruiksvoorwaarden
+                        </a>
+                        <a href="https://vl-wbk.github.io/documentatie-portaal/" class="text-white ms-3 text-decoration-none" target="_blank">
+                            <x-tabler-book-2 class="icon me-1"/> Documentatie
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Google tag (gtag.js) -->
