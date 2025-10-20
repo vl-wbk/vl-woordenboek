@@ -21,7 +21,7 @@ final class AccountPrunedMailable extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Account Pruned Mailable',
+            subject: 'Account verwijderd van het Vlaams Woordenboek',
         );
     }
 
