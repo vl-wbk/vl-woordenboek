@@ -39,7 +39,6 @@ use Filament\Schemas\Components\Section;
 final class EditWord extends EditRecord
 {
     use UsesResourceLock;
-    use HasWizard;
 
     /**
      * The resource class this page component belongs to, establishing the connection between this editing interface and the ArticleResource management system.
@@ -75,93 +74,6 @@ final class EditWord extends EditRecord
                 RestoreAction::make()->icon('heroicon-m-arrow-uturn-left'),
             ])->buttonGroup()
         ];
-    }
-
-    /**
-     * Constructs the form interface using a wizard component for a guided editing experience.
-     * The wizard provides intuitive navigation between steps, with cancel and submit actions clearly presented.
-     * The interface supports optional step skipping and uses a full-width layout for optimal content presentation.
-     * The form inherits base functionality while adding specialized behavior for dictionary article editing.
-     *
-     * @param \Filament\Schemas\Schema $schema The Filament form instance that needs to be configured.
-     * @return \Filament\Schemas\Schema The configured Filament form instance.
-     */
-    public function form(Schema $schema): Schema
-    {
-        return parent::form($schema)
-            ->components([
-                FormSchema::sectionConfiguration()
-                    ->collapsible()
-                    ->heading('Algemene informatie')
-                    ->icon(Heroicon::OutlinedInformationCircle)
-                    ->iconColor('primary')
-                    ->description('De algemene basis informatie van het woord: ' . $this->record->word)
-                    ->schema(FormSchema::getDetailSchema())
-                    ->collapsed()
-                    ->footerActions([
-                        fn (string $operation): Action => Action::make('saveGeneralInformation')
-                            ->label('Opslaan')
-                            ->icon(Heroicon::OutlinedPaperAirplane)
-                            ->color('gray')
-                            ->action(function (Section $component, EditRecord $livewire) {
-                                $livewire->saveFormComponentOnly($component);
-
-                                Notification::make()
-                                    ->title('Artikel opgeslagen')
-                                    ->body('De algemene gegevens van het artikel zijn opgeslagen.')
-                                    ->success()
-                                    ->send();
-                            })->visible($operation === 'edit'),
-                    ]),
-
-                FormSchema::sectionConfiguration()
-                    ->schema(FormSchema::getStatusAndRegionDetails())
-                    ->collapsible()
-                    ->collapsed()
-                    ->icon(Heroicon::GlobeEuropeAfrica)
-                    ->iconColor('primary')
-                    ->heading('Regio en status gegevens')
-                    ->description('Gegevens omtrent de regio en status van het woord')
-                    ->footerActions([
-                        fn (string $operation): Action => Action::make('save')
-                            ->label('Opslaan')
-                            ->icon(Heroicon::OutlinedPaperAirplane)
-                            ->color('gray')
-                            ->action(function (Section $component, EditRecord $livewire) {
-                                $livewire->saveFormComponentOnly($component);
-
-                                Notification::make()
-                                    ->title('Artikel opgeslagen')
-                                    ->body('De status en regio gegevens van het artikel zijn opgeslagen.')
-                                    ->success()
-                                    ->send();
-                            })->visible($operation === 'edit'),
-                    ]),
-
-                FormSchema::sectionConfiguration()
-                    ->schema(FormSchema::getSourceSchema())
-                    ->collapsible()
-                    ->collapsed()
-                    ->icon(Heroicon::OutlinedQueueList)
-                    ->iconColor('primary')
-                    ->heading('Brongegevens')
-                    ->description('Registratie van alle geraadpleegde gegevensbronnen die gebruikt zijn voor het opmaken van dit artikel')
-                    ->footerActions([
-                        fn (string $operation): Action => Action::make('saveSource')
-                            ->label('Opslaan')
-                            ->icon(Heroicon::OutlinedPaperAirplane)
-                            ->color('gray')
-                            ->action(function (Section $component, EditRecord $livewire) {
-                                $livewire->saveFormComponentOnly($component);
-
-                                Notification::make()
-                                    ->title('Artikel opgeslagen')
-                                    ->body('De brongegegevens van het artikel zijn opgeslagen')
-                                    ->success()
-                                    ->send();
-                            })->visible($operation === 'edit'),
-                        ]),
-            ])->columns(null);
     }
 
     /**

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Articles;
 
 use App\Enums\ArticleStates;
+use App\Enums\LanguageStatus;
 use App\Filament\Clusters\Articles\ArticlesCluster;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\AuditsRelationManager;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\EtymologyRelationManager;
@@ -18,10 +19,12 @@ use App\Filament\Resources\Articles\Pages\ListWords;
 use App\Filament\Resources\Articles\Pages\ViewWord;
 use App\Filament\Resources\Articles\RelationManagers\LabelsRelationManager;
 use App\Filament\Resources\Articles\RelationManagers\NotesRelationManager;
+use App\Filament\Resources\Articles\Schema\ArticleForm;
 use App\Filament\Resources\Articles\Schema\FormSchema;
 use App\Filament\Resources\Articles\Schema\WordInfolist;
 use App\Filament\Support\Concerns\HasActiveIcon;
 use App\Models\Article;
+use App\Models\User;
 use App\UserTypes;
 use BackedEnum;
 use Filament\Actions\BulkActionGroup;
@@ -33,12 +36,22 @@ use Filament\Actions\RestoreAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Clusters\Cluster;
+use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\Radio;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Pages\PageRegistration;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Group;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconSize;
 use Filament\Support\Enums\Width;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
@@ -141,32 +154,14 @@ final class ArticleResource extends Resource
     /**
      * Defines the form used for creating and editing articles.
      * The form consists of sections for general information and regional status,
-     * each configured with an icon, description, and specific field schema.
+     * each configured with an icon, d`escription, and specific field schema.
      *
      * @param  \Filament\Schemas\Schema  $schema  The Filament form instance.
      * @return \Filament\Schemas\Schema The configured form.
      */
     public static function form(Schema $schema): Schema
     {
-        return $schema->components([
-            FormSchema::sectionConfiguration('Algemene informatie')
-                ->collapsible()
-                ->collapsed()
-                ->icon('heroicon-o-language')
-                ->iconColor('primary')
-                ->iconSize(IconSize::Medium)
-                ->description('De basis informatie omtrent het lemma in het woordenboek')
-                ->schema(FormSchema::getDetailSchema()),
-
-            FormSchema::sectionConfiguration('Regio en status van het lemma')
-                ->collapsible()
-                ->collapsed()
-                ->icon('heroicon-o-map')
-                ->iconColor('primary')
-                ->iconSize(IconSize::Medium)
-                ->description('Gegevens omtrent de regio en status van het lemma gebruik')
-                ->schema(FormSchema::getStatusAndRegionDetails()),
-        ]);
+        return ArticleForm::configure($schema);
     }
 
     /**

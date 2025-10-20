@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Articles\Pages;
 
+use App\Filament\Resources\Articles\Schema\ArticleForm;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Wizard;
 use Filament\Schemas\Components\Wizard\Step;
@@ -104,15 +106,31 @@ final class CreateWord extends CreateRecord
             Step::make(trans('Algemene informatie'))
                 ->icon('heroicon-o-language')
                 ->columnSpanFull()
-                ->schema([FormSchema::sectionConfiguration()->schema(FormSchema::getDetailSchema())]),
+                ->schema([self::sectionConfiguration()->schema(ArticleForm::generalInformationComponent())]),
             Step::make(trans('Regio & status'))
                 ->icon('heroicon-o-map')
                 ->columnSpanFull()
-                ->schema([FormSchema::sectionConfiguration()->schema(FormSchema::getStatusAndRegionDetails())]),
+                ->schema([self::sectionConfiguration()->schema(ArticleForm::regionInformationComponent())]),
             Step::make(trans('Bronnen'))
                 ->icon('heroicon-o-book-open')
                 ->columnSpanFull()
-                ->schema([FormSchema::sectionConfiguration()->schema(FormSchema::getSourceSchema())]),
+                ->schema([Section::make()->schema(ArticleForm::sourceRepeater())]),
         ];
+    }
+
+    /**
+     * Creates a configured Section component for Filament forms.
+     *
+     * This method generates a Section component with predefined styling and layout settings.
+     * It can be used to group related form fields together visually and logically.
+     *
+     * @param  string|null $sectionTitle  The title to display for the section (optional).
+     * @return \Filament\Schemas\Components\Section The configured Section component.
+     */
+    public static function sectionConfiguration(?string $sectionTitle = null): Section
+    {
+        return Section::make($sectionTitle)
+            ->compact()
+            ->columns(12);
     }
 }

@@ -76,9 +76,9 @@ final class AdminPanelProvider extends PanelProvider
             ->topNavigation()
             ->font("Tilt Neon")
             ->login()
-            ->unsavedChangesAlerts()
             ->passwordReset()
             ->databaseNotifications()
+            ->databaseNotificationsPolling(null)
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->userMenuItems([
                 MenuItem::make()
@@ -124,9 +124,7 @@ final class AdminPanelProvider extends PanelProvider
                     ->navigationGroup('Toegangsbeheer')
                     ->navigationLabel('Rollen & permissies'),
                 ResourceLockPlugin::make()
-                    ->limitedAccessToResourceLockManager()
-                    ->usesPollingToDetectPresence()
-                    ->presencePollingInterval(10),
+                    ->limitedAccessToResourceLockManager(),
                 GlobalSearchModalPlugin::make()
                     ->searchItemTree(false)
                     ->expandedUrlTarget(enabled: false)

@@ -199,6 +199,7 @@
                                 <x:heroicon-o-language class="icon color-green me-1"/>Voorbeeld gebruik
                             </button>
                         </li>
+<<<<<<< HEAD
 
                         @if (count($etymologies) > 0)
                             <li class="nav-item" role="presentation">
@@ -215,6 +216,107 @@
                         <div class="tab-pane fade show active" id="example-tab-pane" role="tabpanel" aria-labelledby="example-tab" tabindex="0">
                             <div class="markdown-text">
                                 {!! str($word->example)->markdown()->sanitizeHtml() !!}
+=======
+                    @endif
+
+                    @if ($word->sources()->exists())
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="sources-tab" data-bs-toggle="tab" data-bs-target="#sources-tab-pane" type="button" role="tab" aria-controls="sources-tab-pane" aria-selected="false">
+                                <x-heroicon-o-book-open class="icon color-green me-1"/> Bronnen
+                            </button>
+                        </li>
+                    @endif
+                </ul>
+            </div>
+
+            <div class="card-body bg-white">
+                <div class="tab-content" id="articleInformationTab">
+                    <div class="tab-pane fade show active" id="example-tab-pane" role="tabpanel" aria-labelledby="example-tab" tabindex="0">
+                        <div class="markdown-text">
+                            {!! str($word->example)->markdown()->sanitizeHtml() !!}
+                        </div>
+                    </div>
+
+                    @if ($word->sources()->exists())
+                        <div class="tab-pane fade" id="sources-tab-pane" role="tabpanel" aria-labelledby="sources-tab" tabindex="0">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-sm mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Naslagwerk</th>
+                                            <th scope="col">Referentie</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($word->sources as $source)
+                                            <tr>
+                                                <td>
+                                                    <span class="badge badge-primary">
+                                                        <x:heroicon-s-book-open class="icon icon-sm me-1"/> {{ $source->reference->abbreviation }}
+                                                    </span>
+                                                </td>
+                                                <td>{{ $source->reference->name }}</td>
+                                                <td>{{ $source->notation }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    @endif
+
+                    @if (count($etymologies) > 0)
+                        <div class="tab-pane fade" id="etymologie-tab-pane" role="tabpanel" aria-labelledby="example-tab" tabindex="0">
+                            <div class="accordion shadow-sm" id="etymologyAccordion">
+                                @foreach ($etymologies as $etymology)
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button show shadow-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $etymology->id }}" aria-expanded="true" aria-controls="{{ $etymology->id }}">
+                                                <strong>{{ $etymology->origin_period }} - {{ $etymology->origin }}</strong>
+                                            </button>
+                                        </h2>
+
+                                        <div id="{{ $etymology->id }}" class="accordion-collapse collapse" data-bs-parent="#etymologyAccordion">
+                                            <div class="accordion-body">
+                                                <div class="row g-3">
+                                                    <div class="col-md-6">
+                                                        <h6 class="text-primary">Oorsprong</h6>
+                                                        <p class="mb-0"><strong>Oorsprong:</strong> {{ $etymology->origin }}</p>
+                                                        <p class="mb-0"><strong>Periode:</strong> {{ $etymology->origin_period }}</p>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <h6 class="text-primary">Vindplaats</h6>
+                                                        <p class="mb-0"><strong>Oudste vindplaats:</strong> {{ $etymology->oldest_find_spot }}</p>
+                                                        <p class="mb-0"><strong>Vindperiode:</strong> {{ $etymology->oldest_find_period }}</p>
+                                                    </div>
+                                                </div>
+
+                                                <hr class="my-3">
+                                                <h6 class="text-primary">Etymologie</h6>
+
+                                                <p>{{ $etymology->etymology }}</p>
+
+                                                <hr class="my-3">
+                                                <h6 class="text-primary">Verdere Ontwikkeling</h6>
+
+                                                <p class="mb-1"><strong>Periode:</strong> {{ $etymology->further_development_period }}</p>
+                                                <p class="mb-0"><strong>Info:</strong> {{ $etymology->further_development }}</p>
+
+                                                @if ($etymology->additional_info)
+                                                    <hr class="my-3">
+                                                    <h6 class="text-primary">Aanvullende informatie</h6>
+
+                                                    <p>{{ $etymology->additional_info ?? '-' }}</p>
+
+                                                @endif
+
+                                                <small class="text-muted d-block mt-3">Bron: <a href="{{ $etymology->source_hyperlink }}">{{ $etymology->source_name->getLabel() }}</a></small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+>>>>>>> v2-fix/rewrite-source-connection
                             </div>
                         </div>
 
