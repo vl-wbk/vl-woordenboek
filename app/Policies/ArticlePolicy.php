@@ -20,6 +20,8 @@ use Illuminate\Auth\Access\Response;
  */
 final class ArticlePolicy
 {
+    const string DisplayArticle = 'display';
+
     /**
      * Defines all action prefixes used for policy permission checks.
      * These combine with the resource name (e.g., ':article') to create full permission strings (e.g., 'update:article').
@@ -30,6 +32,28 @@ final class ArticlePolicy
         'update', 'sendForApproval', 'publish', 'unpublish', 'detachEditor', 'attachDisclaimer', 'detachDisclaimer',
         'archive', 'unarchive', 'delete', 'deleteAny', 'restore', 'restoreAny', 'export', 'updatePublished'
     ];
+
+    /**
+     * Determines whether the user can view in the frontend of the application.
+     * This policy method differs from the 'view' method because of the usage location of the policy.
+     *
+     * While the view policy is only used in the filament management method while the display method
+     * is used in the frontend for the guests and is modified to allow preview articles from the backend.
+     *
+     * @param  User|null $user
+     * @param  Article   $article
+     * @return Response
+     */
+    public function display(?User $user, Article $article): Response
+    {
+        $allowedStates = $article->state->in([ArticleStates::Draft, ArticleStates::Approval]);
+
+        if ($article->isPublished() || ($user?->canAny(['update-published:article', 'update:article']) && $allowedStates)) {
+            return Response::allow();
+        }
+
+        return Response::denyAsNotFound();
+    }
 
     /**
      * Determines whether a user can update an article's content.

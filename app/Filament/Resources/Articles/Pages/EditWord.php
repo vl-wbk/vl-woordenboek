@@ -68,6 +68,11 @@ final class EditWord extends EditRecord
                 RemoveEditorAction::make(),
             ])->buttonGroup(),
 
+            Actions\Action::make('preview')
+                ->color('gray')
+                ->icon(Heroicon::OutlinedEye)
+                ->url(route('word-information.show', $this->record), shouldOpenInNewTab: true),
+
             Actions\ActionGroup::make([
                 DeleteAction::make()
                     ->icon('heroicon-o-trash'),
