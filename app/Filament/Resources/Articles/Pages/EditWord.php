@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Articles\Pages;
 
+use App\Models\User;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\RestoreAction;
 use Filament\Schemas\Schema;
@@ -17,6 +18,7 @@ use App\Filament\Resources\Articles\Actions\States\PublishArticleAction;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Resources\Pages\EditRecord\Concerns\HasWizard;
+use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Contracts\Support\Htmlable;
 use Kenepa\ResourceLock\Resources\Pages\Concerns\UsesResourceLock;
@@ -24,6 +26,7 @@ use App\Filament\Resources\Articles\Schema\FormSchema;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Section;
+use Kirschbaum\Commentions\Filament\Actions\CommentsAction;
 
 /**
  * EditWord provides a wizard-based interface for editing dictionary articles in the Vlaams Woordenboek.
@@ -63,6 +66,16 @@ final class EditWord extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            CommentsAction::make()
+                ->modalWidth(Width::SevenExtraLarge)
+                ->modalIconColor('primary')
+                ->modalIcon(Heroicon::ChatBubbleLeftRight)
+                ->modalHeading(fn (Article $article): string => "$article->word - opmerkingen")
+                ->modalDescription('Alle opmerkingen en reacties omtrent het artikel')
+                ->slideOver()
+                ->mentionables(User::permission(['update:article', 'update-published:article'])->get())
+                ->perPage(5),
+
             Actions\ActionGroup::make([
                 PublishArticleAction::make(),
                 RemoveEditorAction::make(),

@@ -34,6 +34,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Kirschbaum\Commentions\Contracts\Commentable;
+use Kirschbaum\Commentions\HasComments;
 use Overtrue\LaravelLike\Traits\Likeable;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
@@ -72,7 +74,7 @@ use Override;
  *
  * @package App\Models
  */
-final class Article extends Model implements AuditableContract
+final class Article extends Model implements AuditableContract, Commentable
 {
     /**
      * @use HasFactory<ArticleFactory>
@@ -88,6 +90,7 @@ final class Article extends Model implements AuditableContract
     use SoftDeletes;
     use Prunable;
     use HasNotables;
+    use HasComments;
 
     /**
      * Specifies attributes that are protected from mass assignment.

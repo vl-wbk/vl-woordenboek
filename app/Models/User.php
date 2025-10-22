@@ -24,6 +24,7 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Mail;
+use Kirschbaum\Commentions\Contracts\Commenter;
 use Spatie\WelcomeNotification\ReceivesWelcomeNotification;
 use Overtrue\LaravelLike\Traits\Liker;
 use Cog\Contracts\Ban\Bannable as BannableInterface;
@@ -71,7 +72,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @package App\Models
  */
 #[ObservedBy(UserObserver::class)]
-class User extends Authenticatable implements FilamentUser, BannableInterface, MustVerifyEmail
+class User extends Authenticatable implements FilamentUser, BannableInterface, MustVerifyEmail, Commenter
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory;
