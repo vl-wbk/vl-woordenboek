@@ -1,0 +1,31 @@
+name: "Sub issue - Taak"
+description: "Rapporteer een taak voor een issue ticket in het Vlaams Woordenboek. Alvorens de taak in te sturen, vragen we u om zeker te zijn dat het nog niet is registreerd in de issue tracker"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Issues tickets kunnen soms een hoge workload hebben, vandaar dat we er soms voor kiezen om deze op te breken in tasks (sub-issues).
+  - type: textarea
+    id: "verwachte-uitkomst"
+    attributes:
+      label: "Verwachte uitkomst"
+      description: "Beschrijf zo goed mogelijk wat de verwachte uitkomst is van de taak"
+      placeholder: "Beschrijving van de verwachte uitkomst"
+    validations:
+      required: true
+  - type: textarea
+    id: "actuele-uitkomst"
+    attributes:
+      label: "Actuele uitkomst"
+      description: "Wat is de actuele uitkomst waardoor deze taak word aangemaakt"
+      placeholder: "Beschrijf zo goed mogelijk de actuele uitkomst"
+    validations:
+      required: true
+  - type: textarea
+    id: "varia"
+    attributes:
+      label: "Overige informatie"
+      description: "Andere nuttige informatie die kan helpen bij het uitvoeren van deze taak"
+      placeholder: "Niet vereist, maar wel handig in sommige gevallen"
+    validations:
+      required: false
