@@ -8,11 +8,14 @@ use App\Models\Article;
 use App\Filament\Resources\Articles\ArticleResource;
 use App\Filament\Resources\Articles\Actions\RevokePublication;
 use App\Filament\Resources\Articles\Actions\States as ArticleStateActions;
+use App\Models\User;
 use Filament\Actions as FilamentActions;
 use Filament\Actions\ActionGroup;
 use Filament\Resources\Pages\ViewRecord;
+use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Contracts\Support\Htmlable;
+use Kirschbaum\Commentions\Filament\Actions\CommentsAction;
 
 /**
  * Represents the page for viewing a single article in the admin panel.
@@ -48,6 +51,16 @@ final class ViewWord extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
+            CommentsAction::make()
+                ->modalWidth(Width::SevenExtraLarge)
+                ->modalIconColor('primary')
+                ->modalIcon(Heroicon::ChatBubbleLeftRight)
+                ->modalHeading(fn (Article $article): string => "$article->word - opmerkingen")
+                ->modalDescription('Alle opmerkingen en reacties omtrent het artikel')
+                ->slideOver()
+                ->mentionables(User::permission(['update:article', 'update-published:article'])->get())
+                ->perPage(5),
+
             FilamentActions\EditAction::make()->icon('heroicon-o-pencil-square')->color('gray'),
 
             FilamentActions\Action::make('preview')
