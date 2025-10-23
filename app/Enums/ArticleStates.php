@@ -6,8 +6,10 @@ namespace App\Enums;
 
 use ArchTech\Enums\Comparable;
 use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasDescription;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
+use Illuminate\Contracts\Support\Htmlable;
 
 /**
  * ArticleStates defines the possible lifecycle states of an article.
@@ -29,7 +31,7 @@ use Filament\Support\Contracts\HasLabel;
  *
  * @package App\Enums
  */
-enum ArticleStates: int implements HasLabel, HasIcon, HasColor
+enum ArticleStates: int implements HasLabel, HasIcon, HasColor, HasDescription
 {
     use Comparable;
 
@@ -75,6 +77,17 @@ enum ArticleStates: int implements HasLabel, HasIcon, HasColor
             self::Published => 'Publicatie',
             self::Archived => 'Gearchiveerd',
             self::ExternalData => 'Externe data',
+        };
+    }
+
+    public function getDescription(): string
+    {
+        return match ($this) {
+            self::New, self::ExternalData => __('Artikelen die zijn ingevoegd als suggestie of afkomstig zijn van een externe bron'),
+            self::Draft => __('Artikelen waar momenteel aan word gewerkt door een redacteur'),
+            self::Approval => __('Artikelen die zijn ingediend ter controle alvorens de publicatie plaatsvind'),
+            self::Published => __('Artikelen die reeds zijn gepubliceerd in het Vlaams Woordenboek'),
+            self::Archived => __('Artikelen die niet meer relevant zijn en daarom gearchiveerd zijn'),
         };
     }
 
