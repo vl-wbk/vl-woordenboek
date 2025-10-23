@@ -212,12 +212,12 @@ final class ArticleResource extends Resource
                     ->label('Toegevoegd op')
                     ->sortable()
                     ->date()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(),
                 TextColumn::make('updated_at')
                     ->label('Laast gewijzigd')
                     ->sortable()
                     ->date()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(),
             ])
             ->recordActions([
                 ViewAction::make()->hiddenLabel(),
