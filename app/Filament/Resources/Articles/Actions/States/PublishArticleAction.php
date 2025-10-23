@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Articles\Actions\States;
 
 use App\Models\Article;
 use Filament\Actions\Action;
+use Filament\Support\Icons\Heroicon;
 
 /**
  * PublishArticleAction handles the submission for publication review.
@@ -42,15 +43,15 @@ final class PublishArticleAction extends Action
 
         $this->authorize('sendForApproval');
 
-        $this->icon('heroicon-o-paper-airplane');
+        $this->icon(Heroicon::OutlinedPaperAirplane);
         $this->color('gray');
 
         // Configuration on the confirmation model
         $this->requiresConfirmation();
         $this->modalHeading(fn(): string => trans('Artikel insturen voor publicatie.'));
-        $this->modalDescription('Nadat u het artikel instuurt voor nazicht zal hij/zij het artikel nakijken en mogelijks goedkeuren voor publicatie');
+        $this->modalDescription('Nadat je het artikel instuurt voor nazicht zal de eindredacteur het artikel nakijken en goedkeuren voor publicatie of verzoeken om bijkomende correcties aan te brengen.');
         $this->modalSubmitActionLabel('Insturen');
-        $this->modalIcon('heroicon-o-paper-airplane');
+        $this->modalIcon(Heroicon::OutlinedPaperAirplane);
 
         $this->action(function (Article $article): void {
             $article->articleStatus()->transitionToApproved();
