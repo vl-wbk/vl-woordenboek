@@ -83,6 +83,7 @@ final readonly class TableSchema
             TextColumn::make('characteristics')
                 ->label(label: __('kenmerken'))
                 ->placeholder(placeholder: __('-'))
+                ->toggleable(isToggledHiddenByDefault: true)
                 ->sortable(),
 
             TextColumn::make('created_at')

@@ -98,6 +98,8 @@ final class EtymologyRelationManager extends RelationManager
      *
      * @param  Table $table The Filament table instance.
      * @return Table        The configured table instance.
+     *
+     * @throws \Exception
      */
     public function table(Table $table): Table
     {
