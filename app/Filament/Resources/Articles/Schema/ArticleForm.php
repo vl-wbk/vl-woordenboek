@@ -170,9 +170,8 @@ final readonly class ArticleForm
                         ->required()
                 ])
                 ->addActionLabel('Naslagwerk toevoegen')
-                ->defaultItems(1)
-                ->hiddenLabel()
-                ->required()
+                ->defaultItems(0)
+                ->hiddenLabel(),
         ];
     }
 
