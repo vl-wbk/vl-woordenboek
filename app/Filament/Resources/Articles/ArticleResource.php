@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Articles;
 
-use App\Enums\ArticleStates;
-use App\Enums\LanguageStatus;
 use App\Filament\Clusters\Articles\ArticlesCluster;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\AuditsRelationManager;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\EtymologyRelationManager;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\ReportsRelationManager;
+use App\Filament\Clusters\Articles\Resources\ArticleResource\Schema\TableSchema;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets\ArticleRegistrationChart;
-use App\Filament\Exports\ArticleExporter;
 use App\Filament\Resources\ArticleResource\Pages;
 use App\Filament\Resources\Articles\Pages\CreateWord;
 use App\Filament\Resources\Articles\Pages\EditWord;
@@ -24,39 +22,12 @@ use App\Filament\Resources\Articles\Schema\FormSchema;
 use App\Filament\Resources\Articles\Schema\WordInfolist;
 use App\Filament\Support\Concerns\HasActiveIcon;
 use App\Models\Article;
-use App\Models\User;
 use App\UserTypes;
 use BackedEnum;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
-use Filament\Actions\ExportBulkAction;
-use Filament\Actions\RestoreAction;
-use Filament\Actions\RestoreBulkAction;
-use Filament\Actions\ViewAction;
 use Filament\Clusters\Cluster;
-use Filament\Forms\Components\MarkdownEditor;
-use Filament\Forms\Components\Radio;
-use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Pages\PageRegistration;
 use Filament\Resources\Resource;
-use Filament\Schemas\Components\Group;
-use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
-use Filament\Support\Enums\FontWeight;
-use Filament\Support\Enums\IconSize;
-use Filament\Support\Enums\Width;
-use Filament\Support\Icons\Heroicon;
-use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\Filter;
-use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -112,8 +83,8 @@ final class ArticleResource extends Resource
     /**
      * Configures the infolist used to display article details.
      *
-     * @param  \Filament\Schemas\Schema  $schema  The Filament infolist instance.
-     * @return \Filament\Schemas\Schema The configured infolist.
+     * @param  Schema $schema  The Filament infolist instance.
+     * @return Schema The configured infolist.
      */
     public static function infolist(Schema $schema): Schema
     {
@@ -156,8 +127,8 @@ final class ArticleResource extends Resource
      * The form consists of sections for general information and regional status,
      * each configured with an icon, d`escription, and specific field schema.
      *
-     * @param  \Filament\Schemas\Schema  $schema  The Filament form instance.
-     * @return \Filament\Schemas\Schema The configured form.
+     * @param Schema $schema  The Filament form instance.
+     * @return Schema The configured form.
      */
     public static function form(Schema $schema): Schema
     {
@@ -174,83 +145,7 @@ final class ArticleResource extends Resource
      */
     public static function table(Table $table): Table
     {
-        return $table
-            ->deferLoading()
-            ->striped()
-            ->heading('Woordenboek artikelen')
-            ->description('Een overzicht van alle artikelen die geregistreerd staan In het Vlaams Woordenboek gebruik de filters om de woorden te verkrijgen per status.')
-            ->emptyStateIcon(self::$navigationIcon)
-            ->emptyStateHeading('Geen artikelen gevonden')
-            ->emptyStateDescription("Momenteel konden we geen artikelen (lemma's) vinden met de matchende criteria. Kom later nog eens terug.")
-            ->paginated([10, 25, 50, 75])
-            ->columns([
-                TextColumn::make('author.name')
-                    ->label('Ingevoegd door')
-                    ->searchable()
-                    ->placeholder('onbekende gebruiker')
-                    ->icon('heroicon-o-user-circle')
-                    ->iconColor('primary')
-                    ->toggleable(),
-                TextColumn::make('state')
-                    ->label('Status')
-                    ->badge(),
-                TextColumn::make('word')
-                    ->searchable()
-                    ->weight(FontWeight::SemiBold)
-                    ->color('primary')
-                    ->label('Lemma'),
-                TextColumn::make('partOfSpeech.name')
-                    ->label('woordsoort')
-                    ->sortable()
-                    ->placeholder('-')
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('characteristics')
-                    ->label('kenmerken')
-                    ->placeholder('-')
-                    ->sortable(),
-                TextColumn::make('created_at')
-                    ->label('Toegevoegd op')
-                    ->sortable()
-                    ->date()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
-                    ->label('Laast gewijzigd')
-                    ->sortable()
-                    ->date()
-                    ->toggleable(isToggledHiddenByDefault: true),
-            ])
-            ->recordActions([
-                ViewAction::make()->hiddenLabel(),
-                EditAction::make()->hiddenLabel()
-                    ->authorizationTooltip(),
-                RestoreAction::make()->hiddenLabel()->color('danger'),
-                DeleteAction::make()->hiddenLabel()
-                    ->authorizationTooltip(),
-            ])
-            ->filters([
-                SelectFilter::make('state')
-                    ->label('status')
-                    ->multiple()
-                    ->options(ArticleStates::class),
-                TrashedFilter::make()
-                    ->native(false)
-                    ->visible(fn(): bool => auth()->user()->canAny('restore', Article::class)),
-                Filter::make('assigned')
-                    ->label('Toegewezen aan mij')
-                    ->query(fn(Builder $query): Builder => $query->where('editor_id', auth()->id())),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                    RestoreBulkAction::make(),
-
-                    ExportBulkAction::make()->exporter(ArticleExporter::class)
-                        ->modalWidth(Width::Large)
-                        ->modalDescription('Gegevens nodig in een ander programma? Geen probleem! Selecteer de kolommen die je nodig hebt en je kunt vervolgens de gegevens downloaden in een .xlsx of .csv estanden downloaden')
-                        ->icon('heroicon-o-arrow-down-tray')
-                        ->slideOver(),
-                ]),
-            ]);
+        return TableSchema::configure($table);
     }
 
     /**
