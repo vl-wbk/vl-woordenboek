@@ -15,6 +15,7 @@ use Filament\Resources\Pages\ViewRecord;
 use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Database\Eloquent\Model;
 use Kirschbaum\Commentions\Filament\Actions\CommentsAction;
 
 /**
