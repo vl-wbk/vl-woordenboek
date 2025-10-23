@@ -66,6 +66,11 @@ final readonly class ArticleForm
     public static function generalInformationComponent(): array
     {
         return [
+            TextInput::make('word')
+                ->label('Woord')
+                ->columnSpan(3)
+                ->required()
+                ->maxLength(255),
             Select::make('partOfSpeech')
                 ->label('Woordsoort')
                 ->columnSpan(3)
@@ -73,11 +78,6 @@ final readonly class ArticleForm
                 ->optionsLimit(4)
                 ->searchable()
                 ->preload(),
-            TextInput::make('word')
-                ->label('Woord')
-                ->columnSpan(3)
-                ->required()
-                ->maxLength(255),
             TextInput::make('characteristics')
                 ->label('Kenmerken')
                 ->columnSpan(6)
