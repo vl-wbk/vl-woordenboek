@@ -40,7 +40,7 @@ final class StoreArticleSuggestionController
     {
         return view('definitions.create', [
             'regions' => Region::query()->pluck('name', 'id'),
-            'partOfSpeeches' => PartOfSpeech::query()->pluck('name', 'id'),
+            'partOfSpeeches' => PartOfSpeech::query()->where('suggestible', true)->pluck('name', 'id'),
         ]);
     }
 

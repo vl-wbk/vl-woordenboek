@@ -6,6 +6,8 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Part of the speech model
@@ -16,11 +18,12 @@ use Illuminate\Database\Eloquent\Model;
  * The model serves as a fundamental building block for linguistic categorization, enabling proper classification of dictionary entries.
  * It Maintains a clear separation between Dutch terminology and English equivalents.
  *
- * @property int             $id          The unique identifier for this part of speech
- * @property string          $name        The Dutch name of the grammatical category
- * @property string          $value       The English equivalent or supplementary information
- * @property Carbon|null     $created_at  When the record was created
- * @property Carbon|null     $updated_at  When the record was last modified
+ * @property int             $id           The unique identifier for this part of speech
+ * @property string          $name         The Dutch name of the grammatical category
+ * @property string          $value        The English equivalent or supplementary information
+ * @property bool            $suggestible. The column that indicates is the data can be used in the suggestion form.
+ * @property Carbon|null     $created_at   When the record was created
+ * @property Carbon|null     $updated_at   When the record was last modified
  *
  * @package App\Models
  */
@@ -38,5 +41,19 @@ final class PartOfSpeech extends Model
      *
      * @var list<string>
      */
-    protected $fillable = ['name', 'value'];
+    protected $fillable = ['name', 'value', 'suggestible'];
+
+    protected $with = ['articles'];
+
+    public function articles(): HasMany
+    {
+        return $this->hasMany(Article::class);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'suggestible' => 'boolean',
+        ];
+    }
 }

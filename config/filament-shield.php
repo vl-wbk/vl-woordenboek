@@ -236,6 +236,7 @@ return [
         'projectInfoWijzigen',
         'vrijwilligersPaginaWijzigen',
         'ontgrendelResources',
+        'woordenboekOndersteuning'
     ],
 
     /*
