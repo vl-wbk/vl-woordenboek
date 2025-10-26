@@ -52,17 +52,36 @@
                     </div>
                     <div class="card-body bg-white">
                         <h5 class="mb-3 card-title color-green">
-                            Ingestuurd sinds
+                            <x-heroicon-s-funnel class="icon me-1"/> Ingestuurd sinds
                         </h5>
 
-                        <x-filter-link field="published_after" value="{{ now()->subWeek  ()->format('Y-m-d') }}">
+                        <x-filter-link field="created_after" value="{{ now()->subWeek  ()->format('Y-m-d') }}">
                             Afgelopen week
                         </x-filter-link>
-                        <x-filter-link field="published_after" value="{{ now()->subMonth()->format('Y-m-d') }}">
+                        <x-filter-link field="created_after" value="{{ now()->subMonth()->format('Y-m-d') }}">
                             Afgelopen maand
                         </x-filter-link>
-                        <x-filter-link field="published_after" value="{{ now()->subYear()->format('Y-m-d') }}">
+                        <x-filter-link field="created_after" value="{{ now()->subYear()->format('Y-m-d') }}">
                             Afgelopen jaar
+                        </x-filter-link>
+
+                        <hr>
+
+                        <h5 class="mb-3 card-title color-green">
+                            <x-heroicon-s-funnel class="icon me-1"/> Filteren op status
+                        </h5>
+
+                        <x-filter-link field="status" value="{{ \App\Enums\ArticleStates::New }}">
+                            Suggestie
+                        </x-filter-link>
+                        <x-filter-link field="status" value="{{ \App\Enums\ArticleStates::Draft }}">
+                            Klad versie
+                        </x-filter-link>
+                        <x-filter-link field="status" value="{{ \App\Enums\ArticleStates::Approval }}">
+                            In afwachting
+                        </x-filter-link>
+                        <x-filter-link field="status" value="{{ \App\Enums\ArticleStates::Published }}">
+                            Publicatie
                         </x-filter-link>
 
                         <hr>

@@ -16,6 +16,8 @@
             @else
                 <x-tabler-sort-descending class="icon color-green"/>
             @endif
+        @else
+            <x-heroicon-o-chevron-up-down class="icon color-green"/>
         @endif
     </span>
 </a>

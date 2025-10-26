@@ -266,9 +266,15 @@ final class Article extends Model implements AuditableContract, Commentable
     }
 
     #[Scope]
-    protected function publishedAfter(EloquentBuilder $builder, $date)
+    protected function publishedAfter(EloquentBuilder $builder, $date): void
     {
         $builder->where('published_at', '>', now()->parse($date));
+    }
+
+    #[Scope]
+    protected function createdAfter(EloquentBuilder $builder, $date): void
+    {
+        $builder->where('created_at', '>', now()->parse($date));
     }
 
     /**

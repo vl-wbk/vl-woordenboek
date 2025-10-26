@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedSort;
+use Spatie\QueryBuilder\Enums\FilterOperator;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -60,6 +61,7 @@ final class UserSuggestionQueryBuilder
                     ->orWhere('description', 'like', "%{$request->get('zoekterm')}%");
             })
             ->orderBy('word')
+            ->whereNotIn('state', [ArticleStates::Archived, ArticleStates::ExternalData])
             ->fastPaginate(6)
             ->appends(request()->query());
     }
@@ -84,7 +86,8 @@ final class UserSuggestionQueryBuilder
     private function getAllowedFilters(): array
     {
         return [
-            AllowedFilter::scope('published_after'),
+            AllowedFilter::scope('created_after'),
+            AllowedFilter::operator(name: 'status', filterOperator: FilterOperator::EQUAL, internalName: 'state'),
         ];
     }
 }
