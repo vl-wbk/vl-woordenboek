@@ -26,15 +26,15 @@
                                 </div>
                                 <div class="col-3">
                                     <span class="fw-bold">Gebruikersgroep:</span><br>
-                                    {{ $audit->user->user_type->getLabel() }}
+                                    {{ optional($audit->user)->user_type->getLabel() ?? '-' }}
                                 </div>
                                 <div class="col-3">
                                     <span class="fw-bold">Laatste aamelding:</span><br>
-                                    {{ $audit->user->last_seen_at }}
+                                    {{ optional($audit->user)->last_seen_at }}
                                 </div>
                                 <div class="col-3">
                                     <span class="fw-bold">Registratie datum:</span><br>
-                                    {{ $audit->user->created_at }}
+                                    {{ optional($audit->user)->created_at }}
                                 </div>
                             </div>
                         </div>
