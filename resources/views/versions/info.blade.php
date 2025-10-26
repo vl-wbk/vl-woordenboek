@@ -26,7 +26,12 @@
                                 </div>
                                 <div class="col-3">
                                     <span class="fw-bold">Gebruikersgroep:</span><br>
-                                    {{ optional($audit->user->user_type)->getLabel() ?? '-' }}
+
+                                    @if ($audit->user)
+                                        {{ optional($audit->user->user_type)->getLabel() ?? '-' }}
+                                    @else
+                                        -
+                                    @endif
                                 </div>
                                 <div class="col-3">
                                     <span class="fw-bold">Laatste aamelding:</span><br>
