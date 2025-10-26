@@ -22,7 +22,7 @@
                             <div class="row">
                                 <div class="col-3">
                                     <span class="fw-bold">Naam:</span><br>
-                                    {{ $audit->user->name }}
+                                    {{ optional($audit->user)->name ?? __('anonieme gebruiker') }}
                                 </div>
                                 <div class="col-3">
                                     <span class="fw-bold">Gebruikersgroep:</span><br>
