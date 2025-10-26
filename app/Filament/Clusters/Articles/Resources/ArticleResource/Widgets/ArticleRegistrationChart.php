@@ -117,4 +117,9 @@ final class ArticleRegistrationChart extends ChartWidget
     {
         return 'Artikelen trend';
     }
+
+    public static function canView(): bool
+    {
+        return auth()->user()->getPreference('uitgeschakelde grafieken');
+    }
 }

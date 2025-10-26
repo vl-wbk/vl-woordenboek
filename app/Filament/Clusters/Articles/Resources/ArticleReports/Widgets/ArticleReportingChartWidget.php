@@ -177,14 +177,8 @@ final class ArticleReportingChartWidget extends ChartWidget
         return 'bar';
     }
 
-    /**
-     * Determines if the current user is allowed to view this widget.
-     * This method enforces that only users with the roles of Administrator or Developer, as defined in the UserTypes enum, are permitted to see the chart.
-     *
-     * @return bool True if the widget should be displayed; false otherwise.
-     */
     public static function canView(): bool
     {
-        return auth()->user()->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer]);
+        return auth()->user()->getPreference('uitgeschakelde grafieken');
     }
 }

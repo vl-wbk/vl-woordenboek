@@ -135,6 +135,55 @@
                                 </div>
                             </div>
 
+                            @if ($user->can('access-backend'))
+                                <hr class="my-3 text-body-tertiary">
+
+                                <div class="col-12">
+                                    <div class="card bg-white border-0 shadow-sm">
+                                        <div class="card-body">
+                                            <h5 class="card-title fw-bold color-green">Account voorkeuren</h5>
+                                            <h6 class="card-subtitle text-muted border-bottom pb-2">Zie je bepaalden dingen liever niet, of heb je geen nood aan die informatie kan je het hier uitschakelen.</h6>
+
+                                            <form action="{{ route('profile.update-preferences') }}" method="POST" id="preferenceForm" class="mt-3">
+                                                @csrf {{-- Form field protection --}}
+                                                @method('PATCH')
+
+                                               <div class="row">
+                                                   @foreach ($preferences as $preference)
+                                                       <div class="col">
+                                                           <div class="form-check form-switch">
+                                                               <input
+                                                                   class="form-check-input"
+                                                                   type="checkbox"
+                                                                   id="preference-switch-{{ $preference->id }}"
+                                                                   name="preferences[]"
+                                                                   value="{{ $preference->id }}"
+                                                                   @checked(! $user->getPreference($preference->preference))
+                                                               >
+                                                               <label class="form-check-label fw-bold" for="preference-switch-{{ $preference->id }}">{{ ucfirst($preference->preference) }}</label>
+                                                               <div class="form-text mt-0">{{ ucfirst($preference->description) }}</div>
+                                                           </div>
+                                                       </div>
+                                                   @endforeach
+                                               </div>
+                                            </form>
+                                        </div>
+
+                                        <div class="bg-light card-footer border-top-0">
+                                            <div class="float-end">
+                                                <button type="reset" class="btn btn-sm btn-link">
+                                                    reset
+                                                </button>
+
+                                                <button type="submit" form="preferenceForm" class="btn btn-sm btn-submit">
+                                                    <x-heroicon-o-pencil-square class="icon me-1"/> aanpassen
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+
                             <hr class="my-3 text-body-tertiary">
 
                             <div class="col-12">

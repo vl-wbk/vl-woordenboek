@@ -7,9 +7,11 @@ namespace App\Http\Controllers\Web\Account;
 use App\Actions\Account\UpdateSocialRefences;
 use App\Http\Requests\Account\DeleteBrowserSessionsRequest;
 use App\Http\Requests\Account\UpdateSocialReferencesRequest;
+use App\Models\Preferences;
 use App\Services\BrowserSessionService;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Spatie\LaravelData\Exceptions\InvalidDataClass;
 use Spatie\RouteAttributes\Attributes\Delete;
 use Spatie\RouteAttributes\Attributes\Get;
@@ -23,13 +25,15 @@ final readonly class AccountSettingsController
 {
     public function __construct(
         private BrowserSessionService $browserSessionService,
-    ) {
+    )
+    {
     }
 
     #[Get(uri: 'account-informatie', name: 'profile.settings')]
     public function information(): Renderable
     {
         return view('account.settings-information', data: [
+            'preferences' => Preferences::all(),
             'user' => auth()->user(),
         ]);
     }
@@ -41,6 +45,15 @@ final readonly class AccountSettingsController
             'user' => auth()->user(),
             'sessions' => $this->browserSessionService->getSessionProperty(),
         ]);
+    }
+
+    #[Patch('account-references', name: 'profile.update-preferences')]
+    public function updatePreferences(Request $request): RedirectResponse
+    {
+        $request->user()->preferences()->sync($request->get('preferences'));
+        flash(text: __('Je account voorkeuren zijn met succes aangepast.'), class: 'alert-success');
+
+        return back();
     }
 
     /**

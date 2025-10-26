@@ -39,5 +39,6 @@ final class DatabaseSeeder extends Seeder
         $this->call(PartOfSpeechTableSeeder::class);
         $this->call(DisclaimerTableSeeder::class);
         $this->call(ReferenceWorkSeeder::class);
+        $this->call(PreferenceTableSeeder::class);
     }
 }

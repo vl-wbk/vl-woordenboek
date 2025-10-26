@@ -136,4 +136,9 @@ final class EtymologyStatisticsWidget extends StatsOverviewWidget
     {
         return (int) Etymology::count();
     }
+
+    public static function canView(): bool
+    {
+        return auth()->user()->getPreference('uitgeschakelde grafieken');
+    }
 }

@@ -117,4 +117,9 @@ final class UserRegistrationChartWidget extends ChartWidget
     {
         return 'bar';
     }
+
+    public static function canView(): bool
+    {
+        return auth()->user()->getPreference('uitgeschakelde grafieken');
+    }
 }

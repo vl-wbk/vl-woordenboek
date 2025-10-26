@@ -134,4 +134,9 @@ final class FeedbackStatisticsWidget extends ChartWidget
     {
         return 'line';
     }
+
+    public static function canView(): bool
+    {
+        return auth()->user()->getPreference('uitgeschakelde grafieken');
+    }
 }

@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Builders\UserBuilder;
 use App\Mail\AccountPrunedMailable;
 use App\Models\Relations\Contactable;
+use App\Models\Relations\UsesPreferences;
 use App\Notifications\AccountDeletedNotification;
 use App\Notifications\RegistrationWelcomeNotification;
 use App\Observers\UserObserver;
@@ -87,6 +88,7 @@ class User extends Authenticatable implements FilamentUser, BannableInterface, M
     use Contactable;
     use TwoFactorAuthenticatable;
     use Prunable;
+    use UsesPreferences;
 
     /**
      * Specifies which attributes can be mass assigned when creating or updating user records.
