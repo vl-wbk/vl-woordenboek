@@ -96,7 +96,7 @@ final class LabelsRelationManager extends RelationManager
     {
         return $table
             ->heading('Gekoppelde labels')
-            ->description('Overzicht van alle gekoppelde labels aan het woord.')
+            ->description('Overzicht van alle aan het woord gekoppelde labels.')
             ->emptyStateHeading('Geen label gevonden')
             ->emptyStateIcon('heroicon-o-tag')
             ->emptyStateDescription('Momenteel zijn er geen labels gekoppeld aan het artikel gebruik de bovenstaande knop om een label te koppelen')

@@ -266,7 +266,7 @@ final readonly class WordInfolist
      */
     private static function editInformationTab(): Tab
     {
-        return Tab::make('Bewerkings informatie')
+        return Tab::make('Bewerking informatie')
             ->icon('heroicon-o-pencil-square')
             ->columns(12)
             ->schema([
