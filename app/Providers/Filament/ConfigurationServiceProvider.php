@@ -14,7 +14,12 @@ class ConfigurationServiceProvider extends ServiceProvider
         $this->developmentActionButtonConfigurations();
 
         Table::configureUsing(function (Table $table): void {
-            $table->striped()->deferLoading()->persistsFiltersInSession();
+            $table
+                ->striped()
+                ->deferLoading()
+                ->persistFiltersInSession()
+                ->persistSortInSession()
+                ->persistSearchInSession();
         });
     }
 
