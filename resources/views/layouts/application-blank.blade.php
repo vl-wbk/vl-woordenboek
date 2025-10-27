@@ -178,59 +178,63 @@
                 </a>
                 <ul class="list-unstyled small text-white">
                     <li class="mb-2">
-                        Een community-driven woordenboek. Waar de maatschappijke waarden van belang is. Met dank aan onze vele bijdragers.
+                        {{ __('layout/application.footer.information-section.info-paragraph') }}
                     </li>
 
                     <li class="mb-2">
-                        De code is gelicenseerd onder de MIT-licentie. De documentatie is beschikbaar onder de Creative Commons-licentie CC BY 3.0.
+                        {{ __('layout/application.footer.information-section.license-paragraph') }}
                     </li>
 
                     <li class="mb-2 fst-italic brand-gradient">
-                        huidige versie: v0.1.0
+                        {{ __('layout/application.footer.information-section.version-paragraph', ['version' => 'v0.1.0']) }}
                     </li>
                 </ul>
             </div>
 
             <div class="col-6 col-lg-2 offset-lg-1 mb-3">
-                <h5 class="brand-gradient">Links</h5>
+                <h5 class="brand-gradient">{{ __('layout/application.footer.links-section.heading') }}</h5>
 
                 <ul class="list-unstyled">
                     <li class="mb-2">
-                        <a href="/" class="text-white">Home</a>
+                        <a href="/" class="text-white">
+                            {{ __('layout/application.footer.links-section.home') }}
+                        </a>
                     </li>
 
                     @auth
                         <li class="mb-2">
                             <a href="{{ route('statistics') }}" class="text-white">
-                                Statistieken
+                                {{ __('layout/application.footer.links-section.statistics') }}
                             </a>
                         </li>
                     @endauth
 
                     @if (app(\App\Settings\ProjectInformationSettings::class)->pageActive)
                         <li class="mb-2">
-                            <a href="{{ route('project-information') }}" class="text-white">Project informatie</a>
+                            <a href="{{ route('project-information') }}" class="text-white">
+                                {{ __('layout/application.footer.links-section.project-information') }}
+                            </a>
                         </li>
                     @endif
 
                     @if (\App\Models\Blog::count('id') > 0)
                         <li class="mb-2">
                             <a href="{{ route('news:index') }}" class="text-white">
-                                Nieuws
+                                {{ __('layout/application.footer.links-section.news') }}
                             </a>
                         </li>
                     @endif
 
                     <li class="mb-2">
                         <a href="mailto:contact@vlaamswoordenboek.be" class="text-white">
-                            Contact
+                            {{ __('layout/application.footer.links-section.contact') }}
                         </a>
                     </li>
                 </ul>
             </div>
 
             <div class="col-6 col-lg-2 mb-3">
-                <h5 class="brand-gradient">Andere bronnen</h5>
+                <h5 class="brand-gradient">{{ __('layout/application.footer.sources-section.heading') }}</h5>
 
                 <ul class="list-unstyled">
                     <li class="mb-2">
@@ -260,31 +264,31 @@
             </div>
 
             <div class="col-6 col-lg-2 mb-3">
-                <h5 class="brand-gradient">Bijdragen</h5>
+                <h5 class="brand-gradient">{{ __('layout/application.footer.contribution-section.heading') }}</h5>
 
                 <ul class="list-unstyled">
                     <li class="mb-2">
                         <a href="{{ route('definitions.create') }}" target="_blank" rel="noopener" class="text-white">
-                            Suggestie indienen
+                            {{ __('layout/application.footer.contribution-section.submit-suggestion') }}
                         </a>
                     </li>
 
                     <li class="mb-2">
                         <a href="{{ route('feedback:create') }}" target="_blank" rel="noopener" class="text-white">
-                            Feedback insturen
+                            {{ __('layout/application.footer.contribution-section.submit-feedback') }}
                         </a>
                     </li>
 
                     <li class="mb-2">
                         <a href="https://github.com/vl-wbk/vl-woordenboek/issues" target="_blank" rel="noopener" class="text-white">
-                            Github issues
+                            {{ __('layout/application.footer.contribution-section.github-issues') }}
                         </a>
                     </li>
                 </ul>
             </div>
 
             <div class="col-6 col-lg-2 mb-3">
-                <h5 class="brand-gradient">Community</h5>
+                <h5 class="brand-gradient">{{ __('layout/application.footer.community-section.heading') }}</h5>
 
                 <ul class="list-unstyled">
                     <li class="mb-2">
@@ -307,7 +311,7 @@
 
                     <li class="mb-2">
                         <a href="https://www.forum.chimpy.be" target="_blank" rel="noopener" class="text-white">
-                            <x:tabler-messages class="icon me-2"/>Forum
+                            <x:tabler-messages class="icon me-2"/>{{ __('layout/application.footer.community-section.forum') }}
                         </a>
                     </li>
                 </ul>
@@ -320,15 +324,15 @@
             <div class="row">
                 <div class="col-12">
                     <span class="text-yellow">
-                        &copy; {{ date('Y') }} Vlaams Woordenboek, Alle rechten voorbehouden
+                        &copy; {{ __('layout/application.footer.copyright', ['date' => date('Y'), 'application' => config('app.name', 'laravel')]) }}
                     </span>
 
                     <div class="float-end">
                         <a href="{{ route('terms-of-service') }}" class="text-white text-decoration-none">
-                            <x-tabler-gavel class="icon me-1"/> Gebruiksvoorwaarden
+                            <x-tabler-gavel class="icon me-1"/> {{ __('layout/application.footer.terms') }}
                         </a>
                         <a href="https://vl-wbk.github.io/documentatie-portaal/" class="text-white ms-3 text-decoration-none" target="_blank">
-                            <x-tabler-book-2 class="icon me-1"/> Documentatie
+                            <x-tabler-book-2 class="icon me-1"/> {{ __('layout/application.footer.documentation') }}
                         </a>
                     </div>
                 </div>
