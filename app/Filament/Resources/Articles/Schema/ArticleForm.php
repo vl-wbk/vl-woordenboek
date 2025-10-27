@@ -70,7 +70,9 @@ final readonly class ArticleForm
                 ->label('Woord')
                 ->columnSpan(3)
                 ->required()
-                ->maxLength(255),
+                ->maxLength(255)
+                ->autofocus(false),
+
             Select::make('partOfSpeech')
                 ->label('Woordsoort')
                 ->columnSpan(3)
@@ -78,23 +80,29 @@ final readonly class ArticleForm
                 ->optionsLimit(4)
                 ->searchable()
                 ->preload(),
+
             TextInput::make('characteristics')
                 ->label('Kenmerken')
                 ->columnSpan(6)
                 ->required()
+                ->autofocus(false)
                 ->maxLength(255)
                 ->helperText('Dit veld is verplicht. Maar als er geen kenmerken zijn, vul dan \'-\' in.'),
+
             TextInput::make('keywords')
                 ->label('Kernwoorden')
                 ->translateLabel()
                 ->placeholder('Kernwoord 1, Kernwoord 2, Kernwoord 3, etc...')
+                ->autofocus(false)
                 ->columnSpanFull(),
+
             Select::make('labels')
                 ->relationship(titleAttribute: 'name')
                 ->multiple()
                 ->preload()
                 ->native(false)
                 ->columnSpanFull(),
+
             TextInput::make('image_url')
                 ->label('Afbeelding')
                 ->columnSpan(6)
@@ -102,14 +110,18 @@ final readonly class ArticleForm
                 ->prefixIcon('heroicon-m-globe-alt')
                 ->prefixIconColor('primary')
                 ->helperText(str('**Gelieve enkel afbeeldingen van wikipedia te gebruiken**')->inlineMarkdown()->toHtmlString())
+                ->autofocus(false)
                 ->maxLength(255),
+
             TextInput::make('image_alt')
                 ->label('Afbeelding alt tekst')
                 ->columnSpan(6)
+                ->autofocus(false)
                 ->maxLength(255)
                 ->placeholder('Beschrijf kort wat er op de afbeelding staat')
                 ->prefixIcon('heroicon-m-chat-bubble-bottom-center-text')
                 ->prefixIconColor('primary'),
+
             MarkdownEditor::make('description')
                 ->label('Beschrijving')
                 ->columnSpanFull()
@@ -117,13 +129,16 @@ final readonly class ArticleForm
                 ->placeholder('De beschrijving van het woord dat je wenst toe te voegen.')
                 ->helperText(str('Dit veld ondersteunt enkel [**Markdown**](https://www.markdownguide.org/cheat-sheet/)')->inlineMarkdown()->toHtmlString())
                 ->maxHeight('125px')
-                ->required(),
+                ->required()
+                ->autofocus(false),
+
             MarkdownEditor::make('example')
                 ->label('Voorbeeld')
                 ->toolbarButtons(self::getToolbarOptions())
                 ->placeholder('Probeer zo helder mogelijk te zijn')
                 ->helperText(str('Dit veld ondersteunt enkel [**Markdown**](https://www.markdownguide.org/cheat-sheet/)')->inlineMarkdown()->toHtmlString())
                 ->columnSpanFull()
+                ->autofocus(false)
                 ->maxHeight('125px')
                 ->required(),
         ];
@@ -142,6 +157,7 @@ final readonly class ArticleForm
                 ->preload()
                 ->minItems(1)
                 ->required(),
+
             Radio::make('status')
                 ->columnSpanFull()
                 ->options(LanguageStatus::class),
