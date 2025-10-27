@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Models\User;
 use App\Policies\BanPolicy;
 use App\Policies\ExportPolicy;
 use App\Policies\ThreadPolicy;
+use App\UserTypes;
 use Cmgmyr\Messenger\Models\Thread;
 use Cog\Laravel\Ban\Models\Ban;
 use Filament\Actions\Exports\Models\Export;
@@ -38,6 +40,8 @@ final class AuthorizationServiceProvider extends ServiceProvider
         Gate::policy(Export::class, ExportPolicy::class);
 		Gate::policy(Thread::class, ThreadPolicy::class);
 
-
+        Gate::define('translator', function (User $user): bool {
+            return $user->user_type->in([UserTypes::Administrators, UserTypes::Developer]);
+        });
     }
 }
