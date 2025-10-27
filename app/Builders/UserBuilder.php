@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Builders;
 
+use App\Models\Article;
 use App\Models\User;
 use App\UserTypes;
 use Deprecated;
@@ -36,6 +37,12 @@ final class UserBuilder extends Builder
         return $this->model->user_type->is(UserTypes::Developer);
     }
 
+    /**
+     * @param  string                   $relation
+     * @param  string|Stringable|null   $searchParam
+     * @param  string                   $searchColumn
+     * @return LengthAwarePaginator<int, Article>
+     */
     public function searchContributions(string $relation, string|Stringable|null $searchParam, string $searchColumn): LengthAwarePaginator
     {
         return $this->model->{$relation}()

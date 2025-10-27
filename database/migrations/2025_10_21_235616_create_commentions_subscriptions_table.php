@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up()
+    public function up(): void
     {
-        Schema::create(config('commentions.tables.comment_subscriptions', 'comment_subscriptions'), function (Blueprint $table) {
+        Schema::create(config('commentions.tables.comment_subscriptions', 'comment_subscriptions'), static function (Blueprint $table) {
             $table->id();
             $table->morphs('subscribable');
             $table->morphs('subscriber');

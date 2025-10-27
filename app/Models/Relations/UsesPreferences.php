@@ -5,10 +5,14 @@ declare(strict_types=1);
 namespace App\Models\Relations;
 
 use App\Models\Preferences;
+use Illuminate\Database\Eloquent\Relations\MorphPivot;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 trait UsesPreferences
 {
+    /**
+     * @return MorphToMany<Preferences, covariant $this, MorphPivot>
+     */
     public function preferences(): MorphToMany
     {
         return $this->morphToMany(Preferences::class, 'preferable');

@@ -141,6 +141,9 @@ final readonly class TableSchema
         ];
     }
 
+    /**
+     * @return array<int, Group>
+     */
     private static function getTableGroups(): array
     {
         return [

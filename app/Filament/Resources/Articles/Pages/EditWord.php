@@ -61,7 +61,7 @@ final class EditWord extends EditRecord
      * This modular configuration ensures that these actions are prominent and easily accessible,
      * while also allowing future developers to add or modify actions as requirements evolve.
      *
-     * @return array<int, Actions\ActionGroup> The set of actions displayed in the header.
+     * @return array<int, Actions\Action|Actions\ActionGroup> The set of actions displayed in the header.
      */
     protected function getHeaderActions(): array
     {
@@ -132,7 +132,7 @@ final class EditWord extends EditRecord
         ]);
     }
 
-    public function getTitle(): string|Htmlable
+    public function getTitle(): string
     {
         return ucfirst($this->record->word);
     }

@@ -245,6 +245,9 @@ final class Article extends Model implements AuditableContract, Commentable
         return $this->belongsToMany(User::class, table: 'article_bookmarks');
     }
 
+    /**
+     * @return HasMany<ArticleSource, covariant $this>
+     */
     public function sources(): HasMany
     {
         return $this->hasMany(ArticleSource::class);
@@ -265,14 +268,24 @@ final class Article extends Model implements AuditableContract, Commentable
         return new ArticleBuilder($query);
     }
 
+    /**
+     * @param  EloquentBuilder<covariant $this> $builder
+     * @param  string $date
+     * @return void
+     */
     #[Scope]
-    protected function publishedAfter(EloquentBuilder $builder, $date): void
+    protected function publishedAfter(EloquentBuilder $builder, string $date): void
     {
         $builder->where('published_at', '>', now()->parse($date));
     }
 
+    /**
+     * @param  EloquentBuilder<covariant $this> $builder
+     * @param  string $date
+     * @return void
+     */
     #[Scope]
-    protected function createdAfter(EloquentBuilder $builder, $date): void
+    protected function createdAfter(EloquentBuilder $builder, string $date): void
     {
         $builder->where('created_at', '>', now()->parse($date));
     }

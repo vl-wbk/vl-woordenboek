@@ -29,6 +29,8 @@ final class SendUserMentionedNotification implements ShouldQueue
                     ->label('Bekijk artikel')
                     ->url(route('filament.admin.articles.resources.articles.view', $event->comment->commentable) . '#comment-' . $event->comment->getId())
                     ->markAsRead()
-            ])->sendToDatabase($event->user);
+            ])
+            /** @phpstan-ignore-next-line  */
+            ->sendToDatabase($event->user);
     }
 }

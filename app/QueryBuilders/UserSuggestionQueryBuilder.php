@@ -25,8 +25,6 @@ use Spatie\QueryBuilder\QueryBuilder;
  * @see ArticleStates   - The enum defining the possible states of an article.
  * @see QueryBuilder    - The base query builder provided by Spatie.
  *
- * @extends QueryBuilder<Article>
- *
  * @package App\QueryBuilders
  */
 final class UserSuggestionQueryBuilder
@@ -50,6 +48,7 @@ final class UserSuggestionQueryBuilder
      */
     public function fetch(Request $request)
     {
+        /** @phpstan-ignore-next-line  */
         return QueryBuilder::for(Article::class)
             ->with(['editor'])
             ->where('author_id', auth()->id())
@@ -83,6 +82,9 @@ final class UserSuggestionQueryBuilder
         ];
     }
 
+    /**
+     * @return array<int, AllowedFilter>
+     */
     private function getAllowedFilters(): array
     {
         return [

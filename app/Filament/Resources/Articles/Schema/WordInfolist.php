@@ -118,6 +118,7 @@ final readonly class WordInfolist
             ->visible(fn(Article $article): bool => ! is_null($article->sources) && json_encode(count($article->sources)) > 0)
             ->schema([
                 RepeatableEntry::make('sources')
+                    /** @phpstan-ignore-next-line  */
                     ->table([
                         TableColumn::make('#')->alignStart()->width(100),
                         TableColumn::make('naslagwerk')->alignStart(),

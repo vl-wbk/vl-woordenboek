@@ -63,6 +63,9 @@ final readonly class ArticleForm
         ])->columns(12);
     }
 
+    /**
+     * @return array<int, TextInput|Select|MarkdownEditor>
+     */
     public static function generalInformationComponent(): array
     {
         return [
@@ -144,6 +147,9 @@ final readonly class ArticleForm
         ];
     }
 
+    /**
+     * @return array<int, Select|Radio>
+     */
     public static function regionInformationComponent(): array
     {
         return [
@@ -164,6 +170,9 @@ final readonly class ArticleForm
         ];
     }
 
+    /**
+     * @return array<int, Repeater>
+     */
     public static function sourceRepeater(): array
     {
         return [
@@ -205,21 +214,6 @@ final readonly class ArticleForm
         ];
     }
 
-    /**
-     * @return array<int, string>|string
-     */
-    private static function getArticleStateOptions(): array|string
-    {
-        if (auth()->user()->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer])) {
-            return ArticleStates::class;
-        }
-
-        return [
-            ArticleStates::New->value => ArticleStates::New->getLabel(),
-            ArticleStates::Draft->value => ArticleStates::Draft->getLabel(),
-        ];
-    }
-
     private static function redactionInformationSection(): Section
     {
         return Section::make()
@@ -249,14 +243,14 @@ final readonly class ArticleForm
                     ->label('Ingevoerd op')
                     ->icon(Heroicon::OutlinedCalendar)
                     ->iconColor('primary')
-                    ->state(fn (Article $record): ?string => $record->created_at?->format('d/m/Y'))
+                    ->state(fn (Article $record): string => $record->created_at->format('d/m/Y'))
                     ->columnSpan(6),
 
                 TextEntry::make('updated_at')
                     ->icon(Heroicon::OutlinedClock)
                     ->iconColor('primary')
                     ->label('Laatst bewerkt')
-                    ->state(fn (Article $record): ?string => $record->updated_at?->diffForHumans())
+                    ->state(fn (Article $record): string => $record->updated_at->diffForHumans())
                     ->columnSpan(6),
             ])->columnSpan(3);
     }

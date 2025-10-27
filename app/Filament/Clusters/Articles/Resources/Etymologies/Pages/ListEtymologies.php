@@ -52,7 +52,7 @@ final class ListEtymologies extends ListRecords
      * as buttons or links in the header area of the list page. In this case, it defines
      * a 'help' action that links to an external resource.
      *
-     * @return array<\Filament\Actions\Action> An array of Filament action objects.
+     * @return array<int, Action|ActionGroup> An array of Filament action objects.
      */
     protected function getHeaderActions(): array
     {

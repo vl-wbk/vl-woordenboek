@@ -40,7 +40,7 @@ final class ViewBlog extends ViewRecord
      *
      * The actions are grouped logically to improve the user interface and ensure proper authorization where necessary.
      *
-     * @return array<int, Actions\ActionGroup> The array of configured header actions.
+     * @return array<int, DeleteAction|Actions\ActionGroup> The array of configured header actions.
      */
     protected function getHeaderActions(): array
     {

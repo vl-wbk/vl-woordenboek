@@ -88,7 +88,7 @@ final class ViewWord extends ViewRecord
         ];
     }
 
-    public function getTitle(): string|Htmlable
+    public function getTitle(): string
     {
         return ucfirst($this->record->word);
     }

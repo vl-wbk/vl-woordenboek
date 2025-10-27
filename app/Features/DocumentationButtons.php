@@ -23,7 +23,7 @@ final readonly class DocumentationButtons
      * In its current implementation, it always returns `true`, meaning the documentation buttons are always enabled.
      * This can be extended in the future to include more complex logic, such as checking environment variables, database configurations, or user permissions.
      */
-    public function resolve(): bool
+    public function resolve(): true
     {
         return true;
     }

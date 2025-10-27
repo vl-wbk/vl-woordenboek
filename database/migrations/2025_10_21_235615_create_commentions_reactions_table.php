@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up()
+    public function up(): void
     {
-        Schema::create(config('commentions.tables.comment_reactions', 'comment_reactions'), function (Blueprint $table) {
+        Schema::create(config('commentions.tables.comment_reactions', 'comment_reactions'), static function (Blueprint $table) {
             $table->id();
             $table->foreignId('comment_id')->constrained(config('commentions.tables.comments'))->cascadeOnDelete();
             $table->morphs('reactor');

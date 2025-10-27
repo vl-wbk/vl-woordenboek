@@ -43,13 +43,22 @@ final class PartOfSpeech extends Model
      */
     protected $fillable = ['name', 'value', 'suggestible'];
 
+    /**
+     * @var list<string>
+     */
     protected $with = ['articles'];
 
+    /**
+     * @return HasMany<Article, covariant $this>
+     */
     public function articles(): HasMany
     {
         return $this->hasMany(Article::class);
     }
 
+    /**
+     * @return string[]
+     */
     protected function casts(): array
     {
         return [

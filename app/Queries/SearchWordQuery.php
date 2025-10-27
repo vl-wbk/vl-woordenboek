@@ -110,6 +110,9 @@ final readonly class SearchWordQuery
         ];
     }
 
+    /**
+     * @return array<int, AllowedFilter>
+     */
     private function getAllowedFilters(): array
     {
         return [

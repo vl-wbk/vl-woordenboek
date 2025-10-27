@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up()
+    public function up(): void
     {
-        Schema::create(config('commentions.tables.comments', 'comments'), function (Blueprint $table) {
+        Schema::create(config('commentions.tables.comments', 'comments'), static function (Blueprint $table): void {
             $table->id();
             $table->morphs('author');
             $table->morphs('commentable');

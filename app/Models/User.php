@@ -223,7 +223,7 @@ class User extends Authenticatable implements FilamentUser, BannableInterface, M
         return $this->is_beta_tester;
     }
 
-    public function prunable(): EloquentBuilder
+    public function prunable(): UserBuilder
     {
         return static::where('last_seen_at', '<', now()->subMonths(6))
             ->whereNotNull('inactivity_warning_sent_at');
