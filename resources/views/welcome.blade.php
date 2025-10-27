@@ -9,8 +9,7 @@
 
                     <div class="col-12">
                         <p class="border-bottom pb-3 fs-5">
-                            Een community-driven woordenboek van {{ $articleCount }} artikelen.
-                            Waar de maatschappelijke waarden van belang is. Met dank aan onze vele bijdragers.
+                            {{ __('pages/welcome.jumbotron.leading-paragraph', ['articleCount' => $articleCount]) }}
                         </p>
                     </div>
 
@@ -58,16 +57,15 @@
                 <div class="col-md-3">
                     <div class="card h-100 border-0 bg-sidenav shadow-sm">
                         <div class="card-body d-flex flex-column">
-                            <h5 class="card-title fw-bold color-green">Snuisteren in het woordenboek?</h5>
-                            <h6 class="card-subtitle mb-2 fst-italic text-body-secondary">Ontdek een nieuw woord.</h6>
+                            <h5 class="card-title fw-bold color-green">{{ __('pages/welcome.call-outs.search.title') }}</h5>
+                            <h6 class="card-subtitle mb-2 fst-italic text-body-secondary">{{ __('pages/welcome.call-outs.search.subtitle') }}</h6>
 
                             <p class="card-text mb-3">
-                                Zoek je geen specifiek woord? Of heb je geen inspiratie? Maar toch de goesting om te snuisteren?
-                                Dan kun je ook kiezen voor een willekeurig woord.
+                                {{ __('pages/welcome.call-outs.search.text') }}
                             </p>
 
                             <a href="{{ route('search.results', ['zoekterm' => $randomArticle->word]) }}" class="btn btn-sm btn-outline-dark mt-auto">
-                                Start met snuisteren
+                                {{ __('pages/welcome.call-outs.search.actionText') }}
                             </a>
                         </div>
                     </div>
@@ -76,16 +74,15 @@
                 <div class="col-md-3">
                     <div class="card h-100 bg-sidenav border-0 shadow-sm">
                         <div class="card-body d-flex flex-column">
-                            <h5 class="card-title fw-bold color-green">Weet van een leuk Vlaams woord?!</h5>
-                            <h6 class="card-subtitle mb-2 fst-italic text-body-secondary">Dat verdiend een plaats in ons woordenboek.</h6>
+                            <h5 class="card-title fw-bold color-green">{{ __('pages/welcome.call-outs.suggestion.title') }}</h5>
+                            <h6 class="card-subtitle mb-2 fst-italic text-body-secondary">{{ __('pages/welcome.call-outs.suggestion.subtitle') }}</h6>
 
                             <p class="card-text mb-3">
-                                We proberen zoveel mogelijk woorden te verzamelen in ons Woordenboek.
-                                Ook jouw woord verdiend een plaats? Wil je dat? Dan kun je een suggestie indienen.
+                                {{ __('pages/welcome.call-outs.suggestion.text') }}
                             </p>
 
                             <a href="{{ route('definitions.create') }}" class="btn btn-sm btn-outline-dark mt-auto">
-                                Suggestie indienen
+                                {{ __('pages/welcome.call-outs.suggestion.actionText') }}
                             </a>
                         </div>
                     </div>
@@ -94,16 +91,15 @@
                 <div class="col-md-3">
                     <div class="card bg-sidenav border-0 shadow-sm h-100">
                         <div class="card-body d-flex flex-column">
-                            <h5 class="card-title fw-bold color-green">Versterk jij onze ploeg?</h5>
-                            <h6 class="card-subtitle mb-2 fst-italic text-body-secondary">Word vrijwilliger, uw inzet onze kracht.</h6>
+                            <h5 class="card-title fw-bold color-green">{{ __('pages/welcome.call-outs.volunteer.title') }}</h5>
+                            <h6 class="card-subtitle mb-2 fst-italic text-body-secondary">{{ __('pages/welcome.call-outs.volunteer.subtitle') }}</h6>
 
                             <p class="card-text mb-3">
-                                We ontvangen suggesties van mensen en de code van het Vlaams Woordenboek is open-source.
-                                Daarom zoeken we mensen die samen met onze ploeg het in leven willen houden.
+                                {{ __('pages/welcome.call-outs.volunteer.text') }}
                             </p>
 
                             <a href="{{ route('support.volunteers') }}" class="btn btn-sm btn-outline-dark mt-auto">
-                                Ja, ik heb interesse
+                                {{ __('pages/welcome.call-outs.volunteer.actionText') }}
                             </a>
                         </div>
                     </div>
@@ -112,16 +108,15 @@
                 <div class="col-md-3">
                     <div class="card bg-sidenav border-0 shadow-sm h-100">
                         <div class="card-body d-flex flex-column">
-                            <h5 class="card-title fw-bold color-green">Wil je meer weten over dit project?</h5>
-                            <h6 class="card-subtitle mb-2 fst-italic text-body-secondary">Onze missie en doelen uitgelegd.</h6>
+                            <h5 class="card-title fw-bold color-green">{{ __('pages/welcome.call-outs.information.title') }}</h5>
+                            <h6 class="card-subtitle mb-2 fst-italic text-body-secondary">{{ __('pages/welcome.call-outs.information.subtitle') }}</h6>
 
                             <p class="card-text mb-3">
-                                Omdat we ons willen focussen op duurzaamheid en de toekomst.
-                                Vinden we het belangrijk om je daar duidelijk me de nodige transparantie over te informeren.
+                                {{ __('pages/welcome.call-outs.information.text') }}
                             </p>
 
                             <a href="{{ route('project-information') }}" class="btn btn-sm btn-outline-dark mt-auto">
-                                Ja, ik wil meer weten.
+                                {{ __('pages/welcome.call-outs.information.actionText') }}
                             </a>
                         </div>
                     </div>
