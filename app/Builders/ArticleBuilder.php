@@ -65,10 +65,12 @@ final class ArticleBuilder extends Builder
     {
         DB::transaction(function (): void {
             $this->model->update(attributes: [
-                'state' => ArticleStates::Published,
+                'state' => ArticleStates::New,
                 'archiving_reason' => null,
                 'published_at' => now(),
                 'archived_at' => null,
+                'publisher_id' => null,
+                'editor_id' => null,
             ]);
 
             $this->model->author->notify(new SendoutPublicationNotification($this->model));
