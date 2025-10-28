@@ -160,9 +160,13 @@
 
                     <div class="col-9">
                         <div class="row g-4">
-
-
                             <div class="col-12">
+                                @if (flash()->message)
+                                    <div class="alert alert-info">
+                                        {{ flash()->message }}
+                                    </div>
+                                @endif
+
                                 @include('components.definitions.results', ['results' => $results])
                                 @include('components.definitions.pagination', ['results' => $results])
                             </div>

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Shared\Authentication\MyWelcomeController;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Spatie\WelcomeNotification\WelcomesNewUsers;
 
@@ -17,5 +19,14 @@ Route::get('google-authenticatie/redirect', [\App\Http\Controllers\Shared\Authen
     ->name('login.google.redirect');
 
 Route::get('google-authenticatie/callback', [\App\Http\Controllers\Shared\Authentication\GoogleOAuthController::class, 'callback']);
+
+// Article routes
+Route::get('/woordenboek-artikel/{word}', \App\Http\Controllers\Web\Articles\DictionaryArticleController::class)
+    ->name('word-information.show')
+    ->missing(function (Request $request): RedirectResponse {
+        flash('Het woordenboek dat je probeert te bekijken is momenteel in onderhoud. Probeer het later nog eens');
+        return redirect()->route('search.results');
+    });
+// ---
 
 Route::feeds();
