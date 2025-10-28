@@ -22,11 +22,7 @@ Route::get('google-authenticatie/callback', [\App\Http\Controllers\Shared\Authen
 
 // Article routes
 Route::get('/woordenboek-artikel/{word}', \App\Http\Controllers\Web\Articles\DictionaryArticleController::class)
-    ->name('word-information.show')
-    ->missing(function (Request $request): RedirectResponse {
-        flash('Het woordenboek dat je probeert te bekijken is momenteel in onderhoud. Probeer het later nog eens');
-        return redirect()->route('search.results');
-    });
+    ->name('word-information.show');
 // ---
 
 Route::feeds();
