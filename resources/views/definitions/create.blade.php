@@ -35,9 +35,6 @@
                         <form action="{{ route('definitions.store') }}" id="createSuggestionForm" method="POST" class="card-body">
                             @csrf {{--  Form field protection --}}
 
-                            {{-- This hidoden form input connects the currently authenticated user (if there is a user authenticated) --}}
-                            <input type="hidden" name="creator" value="{{ optional(auth()->user())->id }}">
-
                             <div class="form-group">
                                 <label for="woord" class="col-form-label">Jouw suggestie <span class="fw-bold text-danger">*</span></label>
                                 <input type="text" name="woord" id="woordHelptext" value="{{ old('woord') }}" class="form-control @error('woord') is-invalid @enderror">

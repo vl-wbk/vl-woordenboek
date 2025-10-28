@@ -53,8 +53,8 @@ final readonly class StoreArticleSuggestion
             $suggestion = Article::query()->create($suggestionData->except('regions')->toArray());
             $suggestion->regions()->sync($suggestionData->regions);
 
-            if (! is_null($suggestionData->creator_id)) {
-                $suggestion->author()->associate($suggestionData->creator_id)->save();
+            if (auth()->check()) {
+                $suggestion->author()->associate(auth()->user()->getAuthIdentifier())->save();
             }
         });
 
