@@ -7,8 +7,8 @@ return [
         'documentation' => 'Documentatie',
 
         'information-section' => [
-            'info-paragraph' => 'Een community-driven woordenboek. Waar de maatschappijke waarden van belang is. Met dank aan onze vele bijdragers.',
-            'license-paragraph' => 'De code is gelicenseerd onder de MIT-licentie. De documentatie is beschikbaar onder de Creative Commons-licentie CC BY 3.0.',
+            'info-paragraph' => 'Een woordenboek van gewone mensen voor iedereen met een hart voor de Nederlandse taal.',
+            'license-paragraph' => 'De code is gelicensieerd onder de MIT-licentie. De documentatie hiervan is beschikbaar onder de Creative Commons-licentie CC BY 3.0.',
             'version-paragraph' => 'huidige versie: :version'
         ],
 
@@ -32,8 +32,8 @@ return [
 
         'contribution-section' => [
             'heading' => 'Bijdragen',
-            'submit-suggestion' => 'Suggestie indienen',
-            'submit-feedback' => 'Feedback insturen',
+            'submit-suggestion' => 'Dien een suggestie in',
+            'submit-feedback' => 'Bezorg ons je feedback',
             'github-issues' => 'Github Issues'
         ],
     ],

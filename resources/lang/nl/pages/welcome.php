@@ -2,36 +2,36 @@
 
 return [
     'jumbotron' => [
-        'leading-paragraph' => 'Een community-driven woordenboek van :articleCount artikelen. Waar de maatschappelijke waarden van belang is. Met dank aan onze vele bijdragers.'
+        'leading-paragraph' => 'Het Vlaams Woordenboek is een woordenboek van :articleCount artikelen dat bestaat dankzij een gemeenschap enthousiastelingen. En dankzij al die mensen die ooit een of meerdere bijdragen hebben geleverd.'
     ],
 
     'call-outs' => [
         'information' => [
-            'title' => 'Wil je meer weten of dit project?',
+            'title' => 'Wil je meer weten over dit project?',
             'subtitle' => 'Onze missie en doelen uitgelegd.',
-            'text' => 'Omdat we ons willen focussen op duurzaamheid en de toekomst. Vinden we het belangrijk om je daar duidelijk me de nodige transparantie over te informeren.',
+            'text' => 'Met het oog op een duurzame toekomst voor het Vlaams Woordenboek hechten wij veel belang aan correcte en transparante informatie.',
             'actionText' => 'Ja, ik wil meer weten.',
         ],
 
         'volunteer' => [
-            'title' => 'Versterk jij onze ploeg?',
-            'subtitle' => 'Word vrijwilliger, uw inzet onze kracht.',
-            'text' => 'We ontvangen suggesties van mensen en de code van het Vlaams Woordenboek is open-source. Daarom zoeken we mensen die samen met onze ploeg het in leven willen houden.',
-            'actionText' => 'Ja, ik heb interesse'
+            'title' => 'Wil jij onze ploeg versterken?',
+            'subtitle' => 'Word vrijwilliger! Jouw inzet is onze kracht.',
+            'text' => 'Met een klein en fijn team vrijwilligers verwerken we de suggesties van mensen en en werken we aan de code (open-source) van het Vlaams Woordenboek. We zijn daarom altijd op zoek naar mensen die hier samen met ons aan willen werken.',
+            'actionText' => 'Ja, ik heb interesse.'
         ],
 
         'suggestion' => [
-            'title' => 'Weet van een leuk Vlaams woord?!',
+            'title' => 'Ken je een leuk Vlaams woord?!',
             'subtitle' => 'Dat verdiend een plaats in ons woordenboek.',
-            'text' => 'We proberen zoveel mogelijk woorden te verzamelen in ons Woordenboek. Ook jouw woord verdiend een plaats? Wil je dat? Dan kun je een suggestie indienen.',
-            'actionText' => 'Suggestie indienen'
+            'text' => 'We willen ons woordenboek zo breed en rijk mogelijk maken. Elk woord dat eigen is aan Vlaanderen, verdient zijn plaatsje. Ken je er een dat nog ontbreekt en dat volgens jou een plekje verdient in het Vlaams Woordenboek? Dien het in als suggestie.',
+            'actionText' => 'Dien een suggestie in!'
         ],
 
         'search' => [
             'title' => 'Snuisteren in het woordenboek?',
             'subtitle' => 'Ontdek een nieuw woord.',
-            'text' => 'Zoek je geen specifiek woord? Of heb je geen inspiratie? Maar toch de goesting om te snuisteren? Dan kun je ook kiezen voor een willekeurig woord.',
-            'actionText' => 'Start met snuisteren',
+            'text' => 'Niet op zoek naar een specifiek woord? Of gewoon geen inspiratie? En toch goesting om te ontdekken? Kies dan voor een willekeurig woord.',
+            'actionText' => 'Begin maar te snuisteren.',
         ],
     ],
 ];
