@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Articles\RelationManagers;
 
+use BackedEnum;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\DetachAction;
@@ -24,7 +25,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class LabelsRelationManager
  *
- * Manages the relationshop^ bewteen articles and lebels within the Filament admin panel.
+ * Manages the relationship between articles and labels within the Filament admin panel.
  * This relation manager allows users to view, attach, and detach labels associated with an dictionary article.
  *
  * The class defines the form structure, table layout, and available actions for managing labels.
@@ -48,14 +49,14 @@ final class LabelsRelationManager extends RelationManager
      * Defines the icon to be displayed alongside the relation manager's tab or heading.
      * The 'heroicon-o-tag' icon visually represents the concept of tagging or labeling.
      */
-    protected static string | \BackedEnum | null $icon = "heroicon-o-tag";
+    protected static string|BackedEnum|null $icon = "heroicon-o-tag";
 
     /**
      * Returns the form configuration for creating and editing labels.
      * The form setup is delegated to LabelResource to maintain consistency across the application.
      *
-     * @param \Filament\Schemas\Schema $schema The filament form instance.
-     * @return \Filament\Schemas\Schema THe configured form instance.
+     * @param  Schema $schema  The filament form instance.
+     * @return Schema          The configured form instance.
      */
     public function form(Schema $schema): Schema
     {
@@ -64,7 +65,7 @@ final class LabelsRelationManager extends RelationManager
 
     /**
      * Determines if the relation manager should be read-only.
-     * Returns false, aloowing users to modify label assignments on the edit section of the dictionary article.
+     * Returns false, allowing users to modify label assignments on the edit section of the dictionary article.
      */
     public function isReadOnly(): bool
     {
@@ -72,12 +73,12 @@ final class LabelsRelationManager extends RelationManager
     }
 
     /**
-     * Controls whether the label realtionship is visible on a specific page.
+     * Controls whether the label relationship is visible on a specific page.
      * It ensures that labels are only shown when viewing an article through the 'ViewWord' page.
      *
      * @param  Model   $ownerRecord  The related article model.
-     * @param  string  $pageClass    The class-strintg of the current Filament page of the dictionary article.
-     * @return bool                  Whether ther user can view the relation manager or not.
+     * @param  string  $pageClass    The class-string of the current Filament page of the dictionary article.
+     * @return bool                  Whether the user can view the relation manager or not.
      */
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
     {
@@ -110,7 +111,7 @@ final class LabelsRelationManager extends RelationManager
                 TextColumn::make('description')
                     ->label('Beschrijving')
                     ->placeholder('- geen beschrijving opgegeven')
-                    ->formatStateUsing(fn(Label $label): string => Str::limit($label->description, 60, '...', preserveWords: true)),
+                    ->formatStateUsing(fn(Label $label): string => Str::limit($label->description, 60, preserveWords: true)),
                 TextColumn::make('pivot.created_at')
                     ->label('Gekoppeld op')
                     ->date()
@@ -132,7 +133,7 @@ final class LabelsRelationManager extends RelationManager
 
     /**
      * Configures the action for creating a new label.
-     * This action opens a modal allowing users to define a ne label, which will be automatically atteched to the article upon creation.
+     * This action opens a modal allowing users to define a ne label, which will be automatically attached to the article upon creation.
      */
     private function getCreateAction(): CreateAction
     {

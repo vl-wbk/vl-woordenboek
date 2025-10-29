@@ -107,7 +107,7 @@ final class WordOfTheDayCommand extends Command
      */
     private function clearVotes(): void
     {
-        Article::where('votes_today', '>', 0)
+        Article::query()->where('votes_today', '>', 0)
             ->update(['votes_today' => 0]);
     }
 }
