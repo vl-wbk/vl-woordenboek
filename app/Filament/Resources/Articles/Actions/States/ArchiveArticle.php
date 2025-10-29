@@ -32,7 +32,7 @@ final class ArchiveArticle extends Action
      */
     public static function getDefaultName(): string
     {
-        return trans('Artikel archiveren');
+        return 'archive-article';
     }
 
     /**
@@ -53,17 +53,18 @@ final class ArchiveArticle extends Action
         $this->color('gray');
         $this->icon($this->actionIcon);
         $this->authorize('archive-article');
+        $this->label(label: __('filament/actions/archiveArticle.label'));
 
         // Confirmation box configuration
         $this->requiresConfirmation();
         $this->modalIcon($this->actionIcon);
-        $this->modalHeading('Artikel archiveren');
-        $this->modalDescription('Indien u het artikel in het archief stopt. Zal deze echter een beperkte zichtbaarheid hebben. En niet raadplaagbaar zijn voor eind gebruikers');
+        $this->modalHeading(heading: __('filament/actions/archiveArticle.modal.heading'));
+        $this->modalDescription(description: __('filament/actions/archiveArticle.modal.description'));
         $this->schema([
             Textarea::make('archiving_reason')
                 ->rows(4)
-                ->label('Archiverings redenen')
-                ->placeholder('Beschrijf kort waarom het artikel gearchiveerd word')
+                ->label(label: __('filament/actions/archiveArticle.form.archiving-reason.label'))
+                ->placeholder(placeholder: __('filament/actions/archiveArticle.form.archiving-reason.placeholder'))
                 ->maxLength(350),
         ]);
 
