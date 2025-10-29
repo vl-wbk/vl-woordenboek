@@ -20,9 +20,4 @@ Route::get('google-authenticatie/redirect', [\App\Http\Controllers\Shared\Authen
 
 Route::get('google-authenticatie/callback', [\App\Http\Controllers\Shared\Authentication\GoogleOAuthController::class, 'callback']);
 
-// Article routes
-Route::get('/woordenboek-artikel/{word}', \App\Http\Controllers\Web\Articles\DictionaryArticleController::class)
-    ->name('word-information.show');
-// ---
-
 Route::feeds();

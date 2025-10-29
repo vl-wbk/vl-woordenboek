@@ -36,6 +36,7 @@ final readonly class DictionaryArticleController
      * @param Article $word The dictionary entry to display
      * @return Renderable     The view containing article details
      */
+    #[Get(uri: '/woordenboek-artikel/{word}', name: 'word-information.show')]
     public function __invoke(Request $request, Article $word): Renderable|RedirectResponse
     {
         if (Gate::allows(ArticlePolicy::DisplayArticle, $word)) {
