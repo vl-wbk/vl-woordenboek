@@ -8,7 +8,6 @@ use App\Enums\ArticleStates;
 use App\Filament\Exports\ArticleExporter;
 use App\Models\Article;
 use Filament\Actions\{BulkActionGroup, DeleteAction, DeleteBulkAction, EditAction, ExportBulkAction, RestoreAction, RestoreBulkAction, ViewAction};
-use Filament\Tables\Grouping\Group;
 use Filament\Support\Enums\{FontWeight, Width};
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
@@ -29,14 +28,10 @@ final readonly class TableSchema
             ->emptyStateHeading(heading: __('Geen artikelen gevonden'))
             ->emptyStateDescription(description: __("Momenteel konden we geen artikelen (lemma's) vinden met de matchende criteria. Kom later nog eens terug."))
             ->paginated(condition: [10, 25, 50, 75])
-            ->defaultGroup(group:'state')
-            ->groups(groups: self::getTableGroups())
-            ->collapsedGroupsByDefault()
             ->columns(components: self::getTableColumns())
             ->recordActions(actions: self::getRecordActions())
             ->filters(filters: self::getFilters())
-            ->toolbarActions(actions: self::getToolbarActions())
-            ->groupingDirectionSettingHidden();
+            ->toolbarActions(actions: self::getToolbarActions());
     }
 
     /**
@@ -73,6 +68,11 @@ final readonly class TableSchema
                 ->weight(FontWeight::SemiBold)
                 ->color('primary')
                 ->label(label: __('Lemma')),
+
+            TextColumn::make('state')
+                ->label('status')
+                ->badge()
+                ->searchable(),
 
             TextColumn::make('partOfSpeech.name')
                 ->label(label: __('woordsoort'))
@@ -138,34 +138,6 @@ final readonly class TableSchema
             Filter::make(name: __('assigned'))
                 ->label(label: __('Toegewezen aan mij'))
                 ->query(fn(Builder $query): Builder => $query->where('editor_id', auth()->id())),
-        ];
-    }
-
-    /**
-     * @return array<int, Group>
-     */
-    private static function getTableGroups(): array
-    {
-        return [
-            Group::make('state')
-                ->label(label: __('Status'))
-                ->getDescriptionFromRecordUsing(fn (Article $article): string => $article->state->getDescription())
-                ->collapsible(),
-
-            Group::make('created_at')
-                ->label(label: 'Registratiedatum')
-                ->collapsible()
-                ->date(),
-
-            Group::make('updated_at')
-                ->collapsible()
-                ->label(label: __('Laatst bewerkt'))
-                ->date(),
-
-            Group::make('published_at')
-                ->label(label: __('Publicatiedatum'))
-                ->collapsible()
-                ->date(),
         ];
     }
 }
