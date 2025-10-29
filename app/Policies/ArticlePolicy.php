@@ -41,7 +41,7 @@ final class ArticlePolicy
      * is used in the frontend for the guests and is modified to allow preview articles from the backend.
      *
      * @param  User|null $user
-     * @param  Article   $article
+     * @param  Article   $article The database entity of the article that the user is trying to view.
      * @return Response
      */
     public function display(?User $user, Article $article): Response

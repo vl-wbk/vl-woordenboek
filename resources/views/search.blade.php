@@ -46,6 +46,20 @@
             </div>
         </div>
     </div>
+
+    @if (flash()->message)
+        <div class="alert alert-warning shadow-sm mb-0 border-0">
+            <div class="px-5">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <x-heroicon-o-bell-alert class="icon me-1"/> {{ flash()->message }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 @endsection
 
 @section('content')
@@ -160,8 +174,6 @@
 
                     <div class="col-9">
                         <div class="row g-4">
-
-
                             <div class="col-12">
                                 @include('components.definitions.results', ['results' => $results])
                                 @include('components.definitions.pagination', ['results' => $results])

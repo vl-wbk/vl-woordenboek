@@ -9,8 +9,10 @@ use App\Models\Article;
 use App\Policies\ArticlePolicy;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 use Spatie\RouteAttributes\Attributes\Get;
 
 /**
@@ -35,15 +37,18 @@ final readonly class DictionaryArticleController
      * @return Renderable     The view containing article details
      */
     #[Get(uri: '/woordenboek-artikel/{word}', name: 'word-information.show')]
-    public function __invoke(Request $request, Article $word): Renderable
+    public function __invoke(Request $request, Article $word): Renderable|RedirectResponse
     {
-        $this->authorize(ArticlePolicy::DisplayArticle, $word);
+        if (Gate::allows(ArticlePolicy::DisplayArticle, $word)) {
+            $word->increment('views', 1); // Increment the view counter for thearticle by one. Because the user decided to view the article.
 
-        $word->increment('views', 1); // Increment the view counter for thearticle by one. Because the user decided to view the article.
+            return view('definitions.show', data: [
+                'word' => $word,
+                'etymologies' => $word->etymologies()->whereNotIn('status', [EtymologyStatus::Draft, EtymologyStatus::Rejected, EtymologyStatus::Archived])->get(),
+            ]);
+        }
 
-        return view('definitions.show', data: [
-            'word' => $word,
-            'etymologies' => $word->etymologies()->whereNotIn('status', [EtymologyStatus::Draft, EtymologyStatus::Rejected, EtymologyStatus::Archived])->get(),
-        ]);
+        flash('Het artikel is momenteel in onderhoud. Kom later nog eens terug');
+        return redirect()->route('search.results');
     }
 }
