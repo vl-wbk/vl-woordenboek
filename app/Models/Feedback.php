@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * The feedback helps improve the app's usability and user experience.
  *
  * @property int                $id                       Unique identifier for the feedback entry
- * @property string             $tracking_number          THe unique tracking number for the feedback submission. Can be used on ithub commits and such.
+ * @property string             $tracking_number          THe unique tracking number for the feedback submission. Can be used on GitHub commits and such.
  * @property ?int               $author_id                The unique identifier form the user who created the feedback submission, null if no user is authenticated
  * @property string             $name                     The first and last name of the user who submitted the feedback
  * @property FeedbackTrueFalse  $first_time_visit         Indicates if this the user's first visit

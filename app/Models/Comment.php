@@ -18,7 +18,7 @@ use Overtrue\LaravelLike\Traits\Likeable;
  *
  * @method hasCommentsEnabled()     Indicates that the comments are enabled on the child resource.
  * @method hasCommentsDisabled()    Indicates that the comments are disabled on the child resource.
- * @method isPublished()            INdicates that the comment has been published in the application.
+ * @method isPublished()            Indicates that the comment has been published in the application.
  *
  * @package App\Models
  */

@@ -10,7 +10,6 @@ use App\States\Reporting\ClosedReportState;
 use App\Models\Relations\BelongsToAuthor;
 use App\States\Reporting\Status;
 use App\States\Reporting\ReportStateContract;
-use App\States\Reporting;
 use Carbon\Carbon;
 use Database\Factories\ArticleReportFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

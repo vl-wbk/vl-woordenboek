@@ -73,6 +73,7 @@ use Override;
  * @property-read User $author
  *
  * @package App\Models
+ * @method isPublished()
  */
 final class Article extends Model implements AuditableContract, Commentable
 {

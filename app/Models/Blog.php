@@ -25,14 +25,12 @@ use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
 use App\Services\ReadTimeCalculator;
 use App\States\Posts\PublicationStateContract;
-use App\States\Posts;
 use BeyondCode\Comments\Traits\HasComments;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Override;
 
 /**
  * Represents a blog post within the application.
- * This model handles the data and logic associated with invidual blog entries, including their content, publication status, authorship, and related features like comment and read time calculations.
+ * This model handles the data and logic associated with individual blog entries, including their content, publication status, authorship, and related features like comment and read time calculations.
  *
  * @property  string        $id                The unique ULID (Universally Unique Lexicographically Sortable Identifier) for the blog post, serving as its primary key.
  * @property  int|null      $author_id         The foreign key linking to the `User` model, representing the author of the blog post. This can be null if the author is not specified or has been removed.
@@ -146,9 +144,7 @@ class Blog extends Model implements Feedable
      */
     public function getReadTimeAttribute(): string
     {
-        $calculator = app(ReadTimeCalculator::class);
-
-        return $calculator->calculate($this->content);
+        return app(ReadTimeCalculator::class)->calculate($this->content);
     }
 
     /**
@@ -161,9 +157,7 @@ class Blog extends Model implements Feedable
      */
     public function getReadTimeInMinutesAttribute(): int
     {
-        $calculator = app(ReadTimeCalculator::class);
-
-        return $calculator->calculateInMinutes($this->content);
+        return app(ReadTimeCalculator::class)->calculateInMinutes($this->content);
     }
 
     /**
@@ -191,11 +185,11 @@ class Blog extends Model implements Feedable
      * This static method is required by the `Feedable` interface and returns a collection of blog posts that should be included in the RSS feed.
      * It specifically fetches posts that are `Published` and eager-loads their authors.
      *
-     * @return Collection<int, \App\Models\Blog> A collection of `Blog` models.
+     * @return Collection<int, Blog> A collection of `Blog` models.
      */
     public static function getFeedItems(): Collection
     {
-        return Blog::with('author')->where('status', Status::Published)->get();
+        return self::with('author')->where('status', Status::Published)->get();
     }
 
     /**
@@ -216,12 +210,11 @@ class Blog extends Model implements Feedable
      * @param  \Illuminate\Database\Query\Builder $query The underlying query builder instance.
      * @return BlogBuilder A new instance of `BlogBuilder`.
      */
-    #[Override]
     public function newEloquentBuilder($query): BlogBuilder
     {
         return new BlogBuilder($query);
     }
-	
+
 	/** @phpstan-ignore-next-line */
 	#[Scope] protected function published(Builder $query): void
 	{

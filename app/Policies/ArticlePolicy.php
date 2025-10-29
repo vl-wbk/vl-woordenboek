@@ -13,7 +13,7 @@ use Illuminate\Auth\Access\Response;
 /**
  * ArticlePolicy enforces authorization rules for dictionary article management.
  *
- * This policy class defines access control for all article-related operations, implementing a state-based permission system that considers both users's role and article's current state.
+ * This policy class defines access control for all article-related operations, implementing a state-based permission system that considers both user's role and article's current state.
  * The policy ensures proper workflow progression while maintaining content quality and editorial oversight.
  *
  * @package App\Policies
@@ -40,8 +40,8 @@ final class ArticlePolicy
      * While the view policy is only used in the filament management method while the display method
      * is used in the frontend for the guests and is modified to allow preview articles from the backend.
      *
-     * @param  User|null $user
-     * @param  Article   $article The database entity of the article that the user is trying to view.
+     * @param  User|null $user      The entity of the authenticated user
+     * @param  Article   $article   The entity of the article that user tries to view.
      * @return Response
      */
     public function display(?User $user, Article $article): Response
@@ -90,8 +90,8 @@ final class ArticlePolicy
      * Submission is allowed for New or Draft articles but restricted from normal users to ensure a proper editorial workflow.
      * This gate controls entry into the formal review process.
      *
-     * @param  User     $user     The user attempting to submit the article
-     * @param  Article  $article  The article that is being submitted
+     * @param User      $user     The user attempting to submit the article
+     * @param Article   $article  The article that is being submitted
      * @return Response           True if the user has permission to submit, false otherwise
      */
     public function sendForApproval(User $user, Article $article): Response
@@ -201,7 +201,7 @@ final class ArticlePolicy
      */
     public function attachDisclaimer(User $user, Article $article): Response
     {
-        if ($article->disclaimer()->doesntExist() && $user->can('attach-disclaimer:article')) {
+        if ($user->can('attach-disclaimer:article') && $article->disclaimer()->doesntExist()) {
             return Response::allow();
         }
 
@@ -220,7 +220,7 @@ final class ArticlePolicy
      */
     public function detachDisclaimer(User $user, Article $article): Response
     {
-        if ($article->disclaimer()->exists() && $user->can('detach-disclaimer:article')) {
+        if ($user->can('detach-disclaimer:article') && $article->disclaimer()->exists()) {
             return Response::allow();
         }
 
