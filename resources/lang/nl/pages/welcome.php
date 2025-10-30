@@ -22,7 +22,7 @@ return [
 
         'suggestion' => [
             'title' => 'Ken je een leuk Vlaams woord?!',
-            'subtitle' => 'Dat verdiend een plaats in ons woordenboek.',
+            'subtitle' => 'Dat verdient een plaats in ons woordenboek.',
             'text' => 'We willen ons woordenboek zo breed en rijk mogelijk maken. Elk woord dat eigen is aan Vlaanderen, verdient zijn plaatsje. Ken je er een dat nog ontbreekt en dat volgens jou een plekje verdient in het Vlaams Woordenboek? Dien het in als suggestie.',
             'actionText' => 'Dien een suggestie in!'
         ],
