@@ -25,6 +25,7 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Mail;
+use JaysonTemporas\PageBookmarks\Traits\HasBookmarks;
 use Kirschbaum\Commentions\Contracts\Commenter;
 use Spatie\WelcomeNotification\ReceivesWelcomeNotification;
 use Overtrue\LaravelLike\Traits\Liker;
@@ -90,6 +91,7 @@ class User extends Authenticatable implements FilamentUser, BannableInterface, M
     use TwoFactorAuthenticatable;
     use Prunable;
     use UsesPreferences;
+    use HasBookmarks;
 
     /**
      * Specifies which attributes can be mass assigned when creating or updating user records.
