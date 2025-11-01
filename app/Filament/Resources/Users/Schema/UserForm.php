@@ -11,10 +11,40 @@ use Filament\Forms\Components;
 use Filament\Support\Icons\Heroicon;
 
 /**
- * @todo Document this class
+ * UserForm schema configuration class.
+ *
+ * This class defines the form structure for the user resource in Filament.
+ * It provides a centralized configuration for creating and editing user records, including fields for user type,
+ * credentials, personal information, and role assignments.
+ *
+ * The form is designed to work with Laravel's authorization and validation systems, with centrain fields being
+ * conditionally disabled based on the form context (create vs. edit).
  */
 final readonly class UserForm
 {
+    /**
+     * Configures and returns the user form schema.
+     *
+     * This method builds a complete form schema with a single section containing
+     * all necessary input fields for user management. The form includes:
+     *
+     * - User type selection (required)
+     * - Username (required, unique, disabled on edit)
+     * - First name (required)
+     * - Last name (required)
+     * - Email address (required, unique, validated)
+     * - Role assignments (multiple selection with constraints)
+     *
+     * Field behavior:
+     *
+     * - The username field is disabled in edit mode to prevent changes
+     * - All fields marked as required must be filled before submission
+     * - Unique validation is applied to username and email, ignoring the current record on updates
+     * - Role selection is limited to a maximum of 6 items
+     *
+     * @param  Schema $schema   The base schema instance to be configured
+     * @return Schema           The configured schema with all form components
+     */
     public static function configure(Schema $schema): Schema
     {
         return $schema

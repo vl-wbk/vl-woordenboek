@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Feedback\Pages;
 
 use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Widgets\Widget;
 use App\Filament\Resources\Feedback\FeedbackResource;
 use CodeWithDennis\FactoryAction\FactoryAction;
@@ -47,6 +48,12 @@ final class ListFeedback extends ListRecords
         return FeedbackResource::getWidgets();
     }
 
+    /**
+     * Defines the actions that will be displayed in the page header.
+     * This method sets up actions for utility and development purposes: a link to documentation and a factory action for generating test data.
+     *
+     * @return array<Action | ActionGroup> An array of Action or ActionGroup objects.
+     */
     protected function getHeaderActions(): array
     {
         return [

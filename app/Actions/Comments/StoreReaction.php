@@ -43,11 +43,13 @@ final readonly class StoreReaction
      * @param  Blog $blog                                The blog post to which the comment will be added.
      * @param  StoreCommentRequest $storeCommentRequest  The validated request object containing the comment's content. The `reactie` string is extracted from this request.
      * @return Comment|Model                             The newly created Comment model instance.
+     *
+     * @throws \Throwable
      */
     public function handle(Blog $blog, StoreCommentRequest $storeCommentRequest): Comment|Model
     {
         return DB::transaction(
-            callback: fn(): Comment|Model => $blog->comment($storeCommentRequest->string('reactie')->toString()),
+            callback: static fn(): Comment|Model => $blog->comment($storeCommentRequest->string('reactie')->toString()),
         );
     }
 }
