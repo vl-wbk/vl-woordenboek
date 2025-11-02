@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Articles\Pages;
 
+use App\Filament\Resources\Articles\Actions\DuplicationArticleAction;
 use App\Models\Article;
 use App\Filament\Resources\Articles\ArticleResource;
 use App\Filament\Resources\Articles\Actions\RevokePublication;
@@ -62,15 +63,18 @@ final class ViewWord extends ViewRecord
                 ->mentionables(User::permission(['update:article', 'update-published:article'])->get())
                 ->perPage(5),
 
-            FilamentActions\EditAction::make()->icon('heroicon-o-pencil-square')->color('gray'),
-
             FilamentActions\Action::make('preview')
                 ->color('gray')
                 ->icon(Heroicon::OutlinedEye)
                 ->url(route('word-information.show', $this->record), shouldOpenInNewTab: true),
 
-            ArticleStateActions\PublishArticleAction::make(),
-            ArticleStateActions\ArchiveArticle::make(),
+            ActionGroup::make([
+                FilamentActions\EditAction::make()->icon('heroicon-o-pencil-square')->color('gray'),
+                DuplicationArticleAction::make(),
+                ArticleStateActions\ArchiveArticle::make(),
+                ArticleStateActions\UnarchiveAction::make(),
+                ArticleStateActions\PublishArticleAction::make(),
+            ])->buttonGroup(),
 
             ActionGroup::make([
                 ArticleStateActions\AcceptPublishingProposal::make(),
@@ -82,7 +86,6 @@ final class ViewWord extends ViewRecord
             ->label('Publicatie')
             ->button(),
 
-            ArticleStateActions\UnarchiveAction::make(),
             FilamentActions\DeleteAction::make()->icon('heroicon-o-trash'),
             FilamentActions\RestoreAction::make()->icon('heroicon-m-arrow-uturn-left'),
         ];
