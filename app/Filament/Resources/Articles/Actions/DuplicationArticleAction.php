@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Articles\Actions;
 
 use App\Enums\ArticleStates;
+use App\Filament\Resources\Articles\ArticleResource;
 use App\Models\Article;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
@@ -14,6 +15,8 @@ use Illuminate\Support\Facades\DB;
 final class DuplicationArticleAction extends Action
 {
     use CanCustomizeProcess;
+
+    private ?Article $newArticleInstance = null;
 
     public static function getDefaultName(): ?string
     {
@@ -38,8 +41,10 @@ final class DuplicationArticleAction extends Action
         $this->successNotificationTitle('Het artikel is met succes gedupliceerd');
 
         $this->action(function (): void {
-            if ($this->process(fn (Article $article): bool => $this->duplicateArticle($article))) {
+            if ($this->process(fn(Article $article): bool => $this->duplicateArticle($article)) && $this->newArticleInstance !== null) {
+                $url = ArticleResource::getUrl('edit', ['record' => $this->newArticleInstance]);
                 $this->success();
+                $this->redirect($url);
                 return;
             }
 
@@ -53,7 +58,12 @@ final class DuplicationArticleAction extends Action
             $newArticle = $article->replicate($this->excludedFields());
             $newArticle->fill($this->getResetFieldsForDuplicate($article));
 
-            return $newArticle->save();
+            if ($newArticle->save()) {
+                $this->newArticleInstance = $newArticle; // Store the article
+                return true;
+            }
+
+            return false;
         });
     }
 
@@ -64,6 +74,7 @@ final class DuplicationArticleAction extends Action
         return [
             // Append ' - duplicatie' to the word/title
             'word' => "{$originalArticle->word} - duplicatie",
+
             // Reset state-related fields
             'contributor_name' => null,
             'prune_reminder_sent_at' => null,
@@ -75,10 +86,12 @@ final class DuplicationArticleAction extends Action
             'archiever_id' => null,
             'state' => ArticleStates::Draft,
             'notify_author' => false,
+
             // Reset counters/flags
             'wotd' => false, // Word of the day
             'votes_today' => 0,
             'views' => 0,
+
             // Set authorship to the current user
             'author_id' => $currentUserId,
             'editor_id' => $currentUserId,
