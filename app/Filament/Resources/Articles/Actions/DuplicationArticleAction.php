@@ -11,6 +11,7 @@ use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 final class DuplicationArticleAction extends Action
 {
@@ -52,21 +53,43 @@ final class DuplicationArticleAction extends Action
         });
     }
 
+    /**
+     * @throws Throwable
+     */
     private function duplicateArticle(Article $article): bool
     {
         return DB::transaction(function () use ($article) {
+            $regions = $article->regions()->pluck('regions.id')->toArray();
+
             $newArticle = $article->replicate($this->excludedFields());
             $newArticle->fill($this->getResetFieldsForDuplicate($article));
 
             if ($newArticle->save()) {
+                $newArticle->regions()->sync($regions);
+
+                foreach ($article->sources as $source) {
+                    $newArticle->sources()->save($source);
+                }
+
                 $this->newArticleInstance = $newArticle; // Store the article
                 return true;
+
             }
 
             return false;
         });
     }
 
+    /**
+     * Defines the fields to be reset of modified when duplicating an article.
+     *
+     * This method returns an array of field values that will be applied to the duplicated article.
+     * It handles three main categories of field modifications:
+     *
+     * 1. Title modification: Appends '- Duplicatie' to the original word/title
+     * 2. State resets: Clears publication, archiving, and contributor metadata
+     *
+     */
     private function getResetFieldsForDuplicate(Article $originalArticle): array
     {
         $currentUserId = auth()->id();
@@ -98,6 +121,16 @@ final class DuplicationArticleAction extends Action
         ];
     }
 
+    /**
+     * Returns an array of field names to exclude from the duplication process.
+     *
+     * These fields should not be copied from the original article to the duplicate.
+     *
+     * Currently, excludes:
+     * - audits_count: Prevents copying the audit count, as the new article should start fresh.
+     *
+     * @return list<string> Array of field names to exclude during duplication.
+     */
     private function excludedFields(): array
     {
         return ['audits_count'];
