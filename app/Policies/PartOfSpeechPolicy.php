@@ -12,7 +12,9 @@ final readonly class PartOfSpeechPolicy
 {
     public function view(User $user, PartOfSpeech $partOfSpeech): Response
     {
-        return Response::deny();
+        return $user->can('woordenboek_ondersteuning')
+            ? Response::allow()
+            : Response::deny();
     }
 
     public function viewAny(User $user): Response
