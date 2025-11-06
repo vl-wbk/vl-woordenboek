@@ -5,6 +5,7 @@ namespace App\Filament\Clusters\Articles\Resources\ReferenceWorks\Pages;
 use App\Filament\Clusters\Articles\Resources\ReferenceWorks\ReferenceWorkResource;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Support\Icons\Heroicon;
 
 class ListReferenceWorks extends ListRecords
 {
@@ -13,7 +14,8 @@ class ListReferenceWorks extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make(),
+            CreateAction::make()
+                ->icon(Heroicon::OutlinedPlus),
         ];
     }
 }

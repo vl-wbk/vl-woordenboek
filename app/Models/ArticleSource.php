@@ -41,6 +41,11 @@ final class ArticleSource extends Model
      */
     protected $with = ['reference'];
 
+    public function article(): BelongsTo
+    {
+        return $this->belongsTo(Article::class);
+    }
+
     /**
      * Defines the BelongsTo relationship with the ReferenceWork model.
      *

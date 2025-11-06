@@ -191,7 +191,7 @@ final readonly class ArticleForm
                         ->distinct()
                         ->searchable()
                         ->disableOptionsWhenSelectedInSiblingRepeaterItems(),
-                    Textarea::make('notation')->rows(1)
+                    Textarea::make('pivot.notation')->rows(1)
                         ->required()
                 ])
                 ->addActionLabel('Naslagwerk toevoegen')

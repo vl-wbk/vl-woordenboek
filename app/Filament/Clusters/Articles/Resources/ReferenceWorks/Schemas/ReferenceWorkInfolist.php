@@ -13,12 +13,14 @@ class ReferenceWorkInfolist
             ->components([
                 TextEntry::make('abbreviation')
                     ->placeholder('-'),
-                TextEntry::make('name'),
+                TextEntry::make('name')
+                    ->label('Naam'),
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->placeholder('-'),
                 TextEntry::make('updated_at')
                     ->dateTime()
+                    ->label('Laatst aangepast')
                     ->placeholder('-'),
             ]);
     }

@@ -249,9 +249,10 @@ final class Article extends Model implements AuditableContract, Commentable
     /**
      * @return HasMany<ArticleSource, covariant $this>
      */
-    public function sources(): HasMany
+    public function sources(): BelongsToMany
     {
-        return $this->hasMany(ArticleSource::class);
+        return $this->belongsToMany(ArticleSource::class)
+            ->withPivot('notation');
     }
 
     /**

@@ -9,6 +9,7 @@ use App\Filament\Clusters\Articles\Resources\ReferenceWorks\Pages\CreateReferenc
 use App\Filament\Clusters\Articles\Resources\ReferenceWorks\Pages\EditReferenceWork;
 use App\Filament\Clusters\Articles\Resources\ReferenceWorks\Pages\ListReferenceWorks;
 use App\Filament\Clusters\Articles\Resources\ReferenceWorks\Pages\ViewReferenceWork;
+use App\Filament\Clusters\Articles\Resources\ReferenceWorks\RelationManagers\ArticlesRelationManager;
 use App\Filament\Clusters\Articles\Resources\ReferenceWorks\Schemas\ReferenceWorkForm;
 use App\Filament\Clusters\Articles\Resources\ReferenceWorks\Schemas\ReferenceWorkInfolist;
 use App\Filament\Clusters\Articles\Resources\ReferenceWorks\Tables\ReferenceWorksTable;
@@ -49,6 +50,13 @@ final class ReferenceWorkResource extends Resource
     public static function table(Table $table): Table
     {
         return ReferenceWorksTable::configure($table);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            ArticlesRelationManager::class,
+        ];
     }
 
     public static function getPages(): array
