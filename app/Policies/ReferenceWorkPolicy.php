@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
-use App\Models\PartOfSpeech;
+use App\Models\ReferenceWork;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-final readonly class PartOfSpeechPolicy
+final readonly class ReferenceWorkPolicy
 {
-    public function view(User $user, PartOfSpeech $partOfSpeech): Response
+    public function view(User $user, ReferenceWork $referenceWork): Response
     {
         return $user->can('woordenboek_ondersteuning')
             ? Response::allow()
@@ -26,29 +26,22 @@ final readonly class PartOfSpeechPolicy
 
     public function create(User $user): Response
     {
-
         return $user->can('woordenboek_ondersteuning')
             ? Response::allow()
             : Response::deny();
     }
 
-    public function update(User $user, PartOfSpeech $partOfSpeech): Response
+    public function update(User $user, ReferenceWork $referenceWork): Response
     {
         return $user->can('woordenboek_ondersteuning')
             ? Response::allow()
             : Response::deny();
     }
 
-    public function delete(User $user, PartOfSpeech $partOfSpeech): Response
+    public function delete(User $user, ReferenceWork $referenceWork): Response
     {
-        if ($user->can('woordenboek_ondersteuning')) {
-            return Response::deny(message: __('U hebt geen machtiging om de woordsoort te verwijderen'));
-        }
-
-        if ($partOfSpeech->articles()->exists()) {
-            return Response::deny(message: __('De woordsoort kan niet verwijderd worden omdat er artikelen aan zijn gekoppeld.'));
-        }
-
-        return Response::deny();
+        return $user->can('woordenboek_ondersteuning')
+            ? Response::allow()
+            : Response::deny();
     }
 }

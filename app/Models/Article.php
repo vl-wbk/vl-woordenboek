@@ -251,7 +251,7 @@ final class Article extends Model implements AuditableContract, Commentable
      */
     public function sources(): HasMany
     {
-        return $this->hasMany(ArticleSource::class);
+        return $this->hasMany(ArticleReferenceWork::class);
     }
 
     /**

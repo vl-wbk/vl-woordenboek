@@ -186,6 +186,7 @@ final readonly class ArticleForm
                 ->schema([
                     Select::make('reference_work_id')
                         ->label('bron')
+                        ->relationship('referenceWork', 'name')
                         ->options(ReferenceWork::query()->pluck('name', 'id'))
                         ->required()
                         ->distinct()

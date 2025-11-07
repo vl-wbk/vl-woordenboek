@@ -164,7 +164,6 @@ final class ArticleResource extends Resource
         }
 
         return parent::getEloquentQuery()
-            ->with('sources', 'sources.reference')
             ->withoutGlobalScopes([SoftDeletingScope::class]);
     }
 

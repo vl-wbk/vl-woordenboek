@@ -88,7 +88,13 @@ final class DuplicationArticleAction extends Action
      *
      * 1. Title modification: Appends '- Duplicatie' to the original word/title
      * 2. State resets: Clears publication, archiving, and contributor metadata
+     * 3. Counter restes: Resets view counts, votes and feature flags
+     * 4. Authorship: Assigns the current authenticated user as author and editor
      *
+     * The duplicated article is always created in Draft state, ensuring it requires review befire publication.
+     *
+     * @param  Article $originalArticle  The article being duplicated
+     * @return array<string, mixed>      Associative array of field names and their new values
      */
     private function getResetFieldsForDuplicate(Article $originalArticle): array
     {
