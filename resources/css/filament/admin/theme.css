@@ -3,4 +3,4 @@
 @source '../../../../app/Filament/**/*';
 @source '../../../../resources/views/filament/**/*';
 @source '../../../../vendor/devonab/filament-easy-footer';
-@source '../../../../vendor/kenepa/translation-manager/resources/**/*.blade.php';
+@source '../../../../vendor/jaysontemporas/page-bookmarks/resources/**/*.blade.php';

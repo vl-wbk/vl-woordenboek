@@ -15,6 +15,7 @@
         "charrafimed/global-search-modal": "^4.0",
         "cmgmyr/messenger": "^2.31",
         "codewithdennis/filament-factory-action": "4.x-dev",
+        "jaysontemporas/page-bookmarks": "4.x-dev",
         "cybercog/laravel-ban": "^4.10",
         "devonab/filament-easy-footer": "^2.0",
         "dutchcodingcompany/filament-developer-logins": "^2.0",
@@ -129,6 +130,10 @@
     "repositories": [
         {
             "url": "https://github.com/vl-wbk/filament-factory-action.git",
+            "type": "git"
+        },
+        {
+            "url": "https://github.com/vl-wbk/page-bookmarks.git",
             "type": "git"
         }
     ],
