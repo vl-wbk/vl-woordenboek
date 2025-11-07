@@ -7,7 +7,6 @@ namespace App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManag
 use App\Filament\Clusters\Articles\Resources\Etymologies\Schema\FormSchema;
 use Filament\Support\Enums\Width;
 use App\Models\Article;
-use App\Filament\Clusters\Articles\Resources\EtymologyResource\Schema;
 use App\Filament\Clusters\Articles\Resources\Etymologies\Schema\TableSchema;
 use App\Filament\Resources\Articles\Pages\ViewWord;
 use Filament\Resources\RelationManagers\RelationManager;

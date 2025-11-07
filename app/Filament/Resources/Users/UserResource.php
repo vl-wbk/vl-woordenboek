@@ -94,16 +94,64 @@ final class UserResource extends Resource
         return UserSchema\UserForm::configure($schema);
     }
 
+    /**
+     * Configures the "record view" panel for a single user.
+     *
+     * The infolist page provides a structured read-only overview for a user's account details.
+     * This includes:
+     *
+     * - Personal information
+     * - Account status and verification indicators
+     * - Creation, modification, and login timestamps
+     *
+     * The layout and component definitions are maintained externally in the
+     * `UserInfolist` schema so that visual and structural changes can be shared
+     * across multiple resources if needed.
+     *
+     * This page is typically accessed from the index table using a "view" action.
+ *
+     * @param  Schema $schema The Filament infolist builder instance.
+     * @return Schema         Configured schema ready for rendering
+     */
     public static function infolist(\Filament\Schemas\Schema $schema): \Filament\Schemas\Schema
     {
         return UserSchema\UserInfolist::configure($schema);
     }
 
+    /**
+     * Registers dashboard widgets related to user insights.
+     *
+     * These widgets appear above the resource's index table, giving administrators quick access
+     * to key user analytics such as:
+     *
+     * - Total new users over time
+     * - Registration trends and growth indicators
+     *
+     * The widget area can be extended by third-party modules or custom development
+     * simply by pushing additional widget classes into this array.
+     *
+     * @return array<class-string>
+     */
     public static function getWidgets(): array
     {
         return [UserRegistrationChartWidget::class];
     }
 
+    /**
+     * Declares the relationship managers that can be accessed from this resource.
+     *
+     * These provide administratively useful insight and control over associated
+     * data that a user interacts with in the platform, including:
+     *
+     * - Suggestions they’ve submitted to improve the dictionary
+     * - Reports they’ve filed (e.g. flagged terms)
+     * - Roles that define their permissions and access control
+     *
+     * Each relation manager routes to its respective CRUD interface, and all
+     * visibility and access control follows Filament’s authorization system.
+     *
+     * @return array<class-string>
+     */
     public static function getRelations(): array
     {
         return [

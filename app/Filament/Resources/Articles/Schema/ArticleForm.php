@@ -186,6 +186,7 @@ final readonly class ArticleForm
                 ->schema([
                     Select::make('reference_work_id')
                         ->label('bron')
+                        ->relationship('referenceWork', 'name')
                         ->options(ReferenceWork::query()->pluck('name', 'id'))
                         ->required()
                         ->distinct()
@@ -228,17 +229,20 @@ final readonly class ArticleForm
                     ->icon(Heroicon::OutlinedUserCircle)
                     ->iconColor('primary')
                     ->columnSpanFull(),
+
                 TextEntry::make('editor.name')
                     ->label('Redacteur')
                     ->icon(Heroicon::OutlinedUserCircle)
                     ->iconColor('primary')
                     ->columnSpanFull(),
+
                 TextEntry::make('publisher.name')
-                    ->label('Eindredacteut')
+                    ->label('Eindredacteur')
                     ->icon(Heroicon::OutlinedUserCircle)
                     ->iconColor('primary')
                     ->placeholder('-')
                     ->columnSpanFull(),
+
                 TextEntry::make('created_at')
                     ->label('Ingevoerd op')
                     ->icon(Heroicon::OutlinedCalendar)

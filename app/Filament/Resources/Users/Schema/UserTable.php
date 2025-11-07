@@ -18,12 +18,35 @@ use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Support\Facades\Gate;
-use App\Filament\Resources\UserResource\Actions;
 use App\UserTypes;
 use App\Models\User;
 
+/**
+ * Defines how user accounts are presented inside the Filament panel.
+ *
+ * This table highlights the most important operational information for admins:
+ * status (banned or not), user type, roles, contact details, and activity timestamps.
+ *
+ * Actions such as banning and unbanning are shown only if permitted by policies, keeping security roles separate from UI logic.
+ * Clicking a record takes administrators directly to the user detail page for quick moderation.
+ *
+ * Any updates to the administrator's user overview - new fields, new actions or visual changes should be made here to
+ * keep the UserResource maintainable.
+ */
 final readonly class UserTable
 {
+    /**
+     * Configures the table columns, filters, and actions.
+     *
+     * Columns are choses for clarity. Banned users are visually marked.
+     * Filtering is intentionally simple to avoid overwhelming the interface.
+     * Actions are grouped for cleaner navigation and bulk destructive operations are moved to the toolbar for safety.
+     *
+     * Extend here when adding new user-related functionality visible to admins.
+     *
+     * @param  Table $table  The Laravel Filament Table build instance.
+     * @return Table         The configured Filament Table instance.
+     */
     public static function configure(Table $table): Table
     {
         return $table

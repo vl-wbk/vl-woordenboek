@@ -35,8 +35,10 @@ final readonly class DeleteReaction
      * Developers should note that any authorization checks for deleting a comment (e.g., ensuring the current user has permission to delete this specific comment)
      * should ideally be performed *before* calling this action, perhaps in a policy or a request class. This action focuses purely on the deletion logic.
      *
-     * @param  Comment  $comment  The comment model instance to be deleted.
+     * @param  Comment $comment   The comment model instance to be deleted.
      * @return bool               Returns `true` if the comment was successfully deleted (or soft-deleted), `false` otherwise. The result is derived from the `delete()` method of the Eloquent model.
+     *
+     * @throws \Throwable
      */
     public function handle(Comment $comment): bool
     {

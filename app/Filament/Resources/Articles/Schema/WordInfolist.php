@@ -69,23 +69,23 @@ final readonly class WordInfolist
      * It provides details about the archiving process, including the user who archived the article, the date it was archived, and the reason for archiving.
      * This information is critical for tracking the history and accountability of archived articles.
      *
-     * @return \Filament\Schemas\Components\Tabs\Tab The configured tab for archiving information
+     * @return Tab The configured tab for archiving information
      */
     private static function archiveInformationTab(): Tab
     {
         return Tab::make('Archiverings informatie')
             ->visible(fn(Article $article): bool => $article->state->is(ArticleStates::Archived))
-            ->icon('heroicon-o-archive-box')
+            ->icon(Heroicon::OutlinedArchiveBox)
             ->columns(12)
             ->schema([
                 TextEntry::make('archiever.name')
                     ->label('Gearchiveerd door')
-                    ->icon('heroicon-o-user-circle')
+                    ->icon(Heroicon::OutlinedUserCircle)
                     ->iconColor('primary')
                     ->columnSpan(3),
                 TextEntry::make('archived_at')
                     ->label('Gearchiveerd op')
-                    ->icon('heroicon-o-clock')
+                    ->icon(Heroicon::OutlinedClock)
                     ->iconColor('primary')
                     ->columnSpan(3)
                     ->date(),
@@ -105,14 +105,14 @@ final readonly class WordInfolist
      *
      * Within the tab, the schema is defined using a KeyValueEntry component that presents each source as a pair,
      * where the key represents the name (labeled as "Naam") and the value represents the corresponding URL or article reference (labeled as "Url / Artikel").
-     * The KeyValueEntry is configured to span the full width of the column layout, ensuring clear and complete display of the source data.
+     * The KeyValueEntry is configured to span the full width of the column layout, ensuring the article is a clear and complete display of the source data.
      *
-     * @return \Filament\Schemas\Components\Tabs\Tab The fully configured tab instance for displaying article source references.
+     * @return Tab The fully configured tab instance for displaying article source references.
      */
     private static function sourcesInformationTab(): Tab
     {
         return Tab::make('Bron vermeldingen')
-            ->icon('heroicon-o-book-open')
+            ->icon(Heroicon::OutlinedBookOpen)
             ->columns(12)
             /** @phpstan-ignore-next-line */
             ->visible(fn(Article $article): bool => ! is_null($article->sources) && json_encode(count($article->sources)) > 0)
@@ -122,14 +122,17 @@ final readonly class WordInfolist
                     ->table([
                         TableColumn::make('#')->alignStart()->width(100),
                         TableColumn::make('naslagwerk')->alignStart(),
-                        TableColumn::make('referentie')->alignStart()
+                        TableColumn::make('referentie')->alignStart(),
+                        TableColumn::make('Toegevoegd op')->alignStart(),
                     ])
                 ->schema([
-                    TextEntry::make('reference.abbreviation')
+                    TextEntry::make('referenceWork.abbreviation')
                         ->badge()
                         ->icon(Heroicon::BookOpen),
-                    TextEntry::make('reference.name'),
+                    TextEntry::make('referenceWork.name'),
                     TextEntry::make('notation'),
+                    TextEntry::make('created_at')
+                        ->date(),
                 ])
                     ->hiddenLabel()
                     ->columnSpan(12),
@@ -147,7 +150,7 @@ final readonly class WordInfolist
      * All components are arranged to occupy one quarter of the available width each, ensuring a balanced and visually clear layout for publication information.
      * This configuration encapsulates the settings and styling required for presenting essential publication metrics and details within the article's interface.
      *
-     * @return \Filament\Schemas\Components\Tabs\Tab The fully configured publication information tab.
+     * @return Tab The fully configured publication information tab.
      */
     private static function publicationInformationTab(): Tab
     {
@@ -198,7 +201,7 @@ final readonly class WordInfolist
      * to ensure a consistent and clear presentation. This configuration centralizes the display settings for lemma-related data
      * to facilitate easy review and maintenance.
      *
-     * @return \Filament\Schemas\Components\Tabs\Tab The configured "Lemma informatie" tab instance.
+     * @return Tab The configured "Lemma informatie" tab instance.
      */
     private static function lemmaInformationTab(): Tab
     {
@@ -263,7 +266,7 @@ final readonly class WordInfolist
      *
      * The configuration encapsulates all details pertaining to the editing history, ensuring that these components are consistently styled and grouped together in the editing information tab.
      *
-     * @return \Filament\Schemas\Components\Tabs\Tab The configured tab instance presenting editing information.
+     * @return Tab The configured tab instance presenting editing information.
      */
     private static function editInformationTab(): Tab
     {

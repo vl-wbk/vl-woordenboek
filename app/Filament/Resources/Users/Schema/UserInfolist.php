@@ -58,8 +58,6 @@ final readonly class UserInfolist
      * - **Last Seen At**: The last login time, displayed as a relative time (e.g., "2 hours ago").
      * - **Created At**: The registration date, formatted as a date.
      *
-     * @todo On the translations branch translate the changes on the infolist
-     *
      * @return array<int, TextEntry> The array of `TextEntry` components for general user information.
      */
     public static function renderGeneralInformation(): array
