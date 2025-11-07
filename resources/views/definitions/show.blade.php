@@ -252,10 +252,10 @@
                                            <tr>
                                                <td>
                                                     <span class="badge badge-primary">
-                                                        <x:heroicon-s-book-open class="icon icon-sm me-1"/> {{ $source->reference->abbreviation }}
+                                                        <x:heroicon-s-book-open class="icon icon-sm me-1"/> {{ $source->referenceWork->abbreviation }}
                                                     </span>
                                                </td>
-                                               <td>{{ $source->reference->name }}</td>
+                                               <td>{{ $source->referenceWork->name }}</td>
                                                <td>{{ $source->notation }}</td>
                                            </tr>
                                        @endforeach

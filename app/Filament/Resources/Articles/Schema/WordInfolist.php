@@ -122,14 +122,17 @@ final readonly class WordInfolist
                     ->table([
                         TableColumn::make('#')->alignStart()->width(100),
                         TableColumn::make('naslagwerk')->alignStart(),
-                        TableColumn::make('referentie')->alignStart()
+                        TableColumn::make('referentie')->alignStart(),
+                        TableColumn::make('Toegevoegd op')->alignStart(),
                     ])
                 ->schema([
-                    TextEntry::make('reference.abbreviation')
+                    TextEntry::make('referenceWork.abbreviation')
                         ->badge()
                         ->icon(Heroicon::BookOpen),
-                    TextEntry::make('reference.name'),
+                    TextEntry::make('referenceWork.name'),
                     TextEntry::make('notation'),
+                    TextEntry::make('created_at')
+                        ->date(),
                 ])
                     ->hiddenLabel()
                     ->columnSpan(12),

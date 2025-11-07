@@ -12,8 +12,8 @@ final class ReferenceWork extends Model
 {
     protected $guarded = ['id'];
 
-    public function articles(): BelongsToMany
+    public function articles(): HasMany
     {
-        return $this->hasMany(ArticleSource::class);
+        return $this->hasMany(ArticleReferenceWork::class);
     }
 }

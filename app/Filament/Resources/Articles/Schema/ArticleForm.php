@@ -186,12 +186,13 @@ final readonly class ArticleForm
                 ->schema([
                     Select::make('reference_work_id')
                         ->label('bron')
+                        ->relationship('referenceWork', 'name')
                         ->options(ReferenceWork::query()->pluck('name', 'id'))
                         ->required()
                         ->distinct()
                         ->searchable()
                         ->disableOptionsWhenSelectedInSiblingRepeaterItems(),
-                    Textarea::make('pivot.notation')->rows(1)
+                    Textarea::make('notation')->rows(1)
                         ->required()
                 ])
                 ->addActionLabel('Naslagwerk toevoegen')
