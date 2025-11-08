@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Users\Pages;
 
+use App\Features\DocumentationButtons;
 use CodeWithDennis\FactoryAction\FactoryAction;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
@@ -12,6 +13,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\Widget;
 use App\Filament\Resources\Users\UserResource;
 use Filament\Resources\Pages\ListRecords;
+use Laravel\Pennant\Feature;
 
 /**
  * Retrieves the header widgets to be displayed on the "List Users" page.
@@ -60,6 +62,7 @@ final class ListUsers extends ListRecords
     {
         return [
             Action::make('documentation-reference')
+                ->visible(Feature::active(DocumentationButtons::class))
                 ->icon(Heroicon::OutlinedLifebuoy)
                 ->label(label: __('buttons.help')),
 

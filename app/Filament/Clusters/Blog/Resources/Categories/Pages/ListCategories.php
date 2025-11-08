@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources\Categories\Pages;
 
+use App\Features\DocumentationButtons;
 use App\Filament\Clusters\Blog\Resources\Categories\CategoryResource;
 use CodeWithDennis\FactoryAction\FactoryAction;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
+use Laravel\Pennant\Feature;
 
 final class ListCategories extends ListRecords
 {
@@ -19,7 +21,8 @@ final class ListCategories extends ListRecords
     {
         return [
             Action::make(name: __('buttons.help'))
-                ->icon('heroicon-o-lifebuoy'),
+                ->icon('heroicon-o-lifebuoy')
+                ->visible(Feature::active(DocumentationButtons::class)),
 
             ActionGroup::make([
                 CreateAction::make()

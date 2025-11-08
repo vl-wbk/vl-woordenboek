@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\Disclaimers\Pages;
 
+use App\Features\DocumentationButtons;
 use App\Filament\Clusters\Articles\Resources\Disclaimers\DisclaimerResource;
 use CodeWithDennis\FactoryAction\FactoryAction;
 use Filament\Actions\Action;
@@ -11,6 +12,7 @@ use Filament\Actions\ActionGroup;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Support\Icons\Heroicon;
+use Laravel\Pennant\Feature;
 
 final class ListDisclaimers extends ListRecords
 {
@@ -21,6 +23,7 @@ final class ListDisclaimers extends ListRecords
         return [
             Action::make('help')
                 ->label(label: __('buttons.help'))
+                ->visible(Feature::active(DocumentationButtons::class))
                 ->icon('heroicon-o-lifebuoy'),
 
             ActionGroup::make([
