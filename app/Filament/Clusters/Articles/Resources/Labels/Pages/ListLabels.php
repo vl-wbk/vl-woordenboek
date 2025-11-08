@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\Labels\Pages;
 
+use App\Features\DocumentationButtons;
 use App\Filament\Clusters\Articles\Resources\Labels\LabelResource;
 use App\Models\Article;
 use CodeWithDennis\FactoryAction\FactoryAction;
@@ -13,6 +14,7 @@ use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
+use Laravel\Pennant\Feature;
 
 final class ListLabels extends ListRecords
 {
@@ -23,6 +25,7 @@ final class ListLabels extends ListRecords
         return [
             Action::make('docs')
                 ->label('Help')
+                ->visible(Feature::active(DocumentationButtons::class))
                 ->icon(Heroicon::OutlinedLifebuoy)
                 ->url('https://vl-wbk.github.io/documentatie-portaal/artikelen/labelsysteem.html', shouldOpenInNewTab: true),
 

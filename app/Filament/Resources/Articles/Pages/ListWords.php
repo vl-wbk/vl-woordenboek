@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Articles\Pages;
 
+use App\Features\DocumentationButtons;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets\ArticleRegistrationChart;
 use App\Filament\Resources\Articles\ArticleResource;
 use App\Models\Etymology;
@@ -15,6 +16,7 @@ use Filament\Actions\ActionGroup;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Support\Icons\Heroicon;
+use Laravel\Pennant\Feature;
 
 /**
  * Dictionary Article Management Interface
@@ -63,6 +65,7 @@ final class ListWords extends ListRecords
         return [
             Action::make('docs')
                 ->label('Help')
+                ->visible(Feature::active(DocumentationButtons::class))
                 ->icon('heroicon-o-lifebuoy')
                 ->url('https://vl-wbk.github.io/documentatie-portaal/artikelen/')
                 ->openUrlInNewTab(),

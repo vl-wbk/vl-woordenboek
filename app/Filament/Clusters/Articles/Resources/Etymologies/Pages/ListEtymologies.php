@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\Etymologies\Pages;
 
+use App\Features\DocumentationButtons;
 use App\Filament\Clusters\Articles\Resources\Etymologies\EtymologyResource;
 use App\Models\Article;
 use CodeWithDennis\FactoryAction\FactoryAction;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Resources\Pages\ListRecords;
+use Laravel\Pennant\Feature;
 
 /**
  * Represents the Filament page for listing Etymology records.
@@ -61,6 +63,7 @@ final class ListEtymologies extends ListRecords
                 ->label(label: __('buttons.help'))
                 ->translateLabel()
                 ->icon('heroicon-o-lifebuoy')
+                ->visible(Feature::active(DocumentationButtons::class))
                 ->url('https://www.google.com', shouldOpenInNewTab: true),
 
             ActionGroup::make([

@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Feedback\Pages;
 
+use App\Features\DocumentationButtons;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Widgets\Widget;
 use App\Filament\Resources\Feedback\FeedbackResource;
 use CodeWithDennis\FactoryAction\FactoryAction;
 use Filament\Resources\Pages\ListRecords;
+use Laravel\Pennant\Feature;
 
 /**
  * The ListFeedback class is a Filament page component responsible for displaying a list of feedback records.
@@ -59,6 +61,7 @@ final class ListFeedback extends ListRecords
         return [
             Action::make(name: 'documentation')
                 ->label(label: __('buttons.help'))
+                ->visible(Feature::active(DocumentationButtons::class))
                 ->icon('heroicon-o-lifebuoy')
                 ->url('https://www.google.com', shouldOpenInNewTab: true),
 
