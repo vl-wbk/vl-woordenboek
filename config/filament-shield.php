@@ -179,6 +179,8 @@ return [
         ],
         'exclude' => [
             \Kenepa\ResourceLock\Resources\LockResource::class,
+            \App\Filament\Clusters\Articles\Resources\PartOfSpeeches\PartOfSpeechResource::class,
+            \App\Filament\Clusters\Articles\Resources\ReferenceWorks\ReferenceWorkResource::class,
         ],
     ],
 
