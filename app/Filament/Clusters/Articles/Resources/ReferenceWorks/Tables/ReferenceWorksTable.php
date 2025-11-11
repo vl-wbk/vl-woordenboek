@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Clusters\Articles\Resources\ReferenceWorks\Tables;
 
 use Filament\Actions\BulkActionGroup;
@@ -11,8 +13,24 @@ use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class ReferenceWorksTable
+/**
+ * Defines the static table schema components used for listing and managing 'referenceWork'
+ * records within the Filament administrative panel.
+ *
+ * This utility class configures the columns, search settings, record actions, and bulk actions for the main
+ * ReferenceWork index page. This class is marked as 'final readonly' to enforce its status as a static configuration utility.
+ *
+ * @package App\Filament\Clusters\Articles\Resources\ReferenceWorks\Tables
+ */
+final readonly class ReferenceWorksTable
 {
+    /**
+     * This static method defines how the list of all ReferenceWork records is presented,
+     * including searchable fields, sortable fields, and associated actions.
+     *
+     * @param  Table $table  The base Table object to configure.
+     * @return Table         The configured Table object, ready to be use by the Resource.
+     */
     public static function configure(Table $table): Table
     {
         return $table
