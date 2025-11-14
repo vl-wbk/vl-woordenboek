@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\Disclaimers;
 
+use App\Filament\Clusters\Articles\Resources\Disclaimers\RelationManagers\ArticlesRelationManager;
 use App\Filament\Clusters\Articles\Resources\Disclaimers\Schema\FormSchema;
 use App\Filament\Clusters\Articles\Resources\Disclaimers\Schema\InfolistSchema;
 use App\Filament\Clusters\Articles\Resources\Disclaimers\Schema\TableSchema;
@@ -117,6 +118,13 @@ final class DisclaimerResource extends Resource
             'create' => CreateDisclaimer::route('/create'),
             'view' => ViewDisclaimer::route('/{record}'),
             'edit' => EditDisclaimer::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            ArticlesRelationManager::class,
         ];
     }
 
