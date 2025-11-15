@@ -153,7 +153,7 @@ final class ArticleResource extends Resource
      *
      * This method overrides the default Eloquent query to remove the global scope that automatically excludes soft-deleted records.
      * This allows administrators and other privileged users to see soft-deleted articles in the list.
-     * Editor and EditorInChief users will see all records.
+     * Editor and Editor-in-Chief users will see all records.
      *
      * @return Builder<Article> The modified Eloquent query builder.
      */

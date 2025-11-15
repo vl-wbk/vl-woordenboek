@@ -131,6 +131,10 @@ final readonly class TableSchema
                 ->multiple()
                 ->options(ArticleStates::class),
 
+            SelectFilter::make('disclaimer')
+                ->native(false)
+                ->relationship('disclaimer', 'name'),
+
             TrashedFilter::make()
                 ->native(false)
                 ->visible(fn(): bool => auth()->user()->canAny('restore', Article::class)),

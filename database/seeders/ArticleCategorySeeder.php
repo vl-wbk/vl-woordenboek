@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Models\Category;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
 
@@ -35,14 +36,19 @@ final class ArticleCategorySeeder extends Seeder
      * This comprehensive and automated procedure guarantees that all category data is accurately and efficiently inserted into the database, providing a solid foundation for organizing and managing articles within the application.
      *
      * @return void     This method does not return any value. Its primary effect is the creation of records within the 'categories' database table.
+     *
+     * @throws FileNotFoundException
      */
     public function run(): void
     {
         $jsonDataFile = File::get(database_path('data/categories.json'));
-        $regions = json_decode($jsonDataFile);
+        $regions = json_decode($jsonDataFile, true);
 
         foreach ($regions as $value) {
-            Category::create(['description' => $value->description, 'name' => $value->name]);
+            Category::query()->create([
+                'description' => $value['description'],
+                'name' => $value['name'],
+            ]);
         }
     }
 }

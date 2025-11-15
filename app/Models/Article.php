@@ -247,7 +247,7 @@ final class Article extends Model implements AuditableContract, Commentable
     }
 
     /**
-     * @return HasMany<ArticleSource, covariant $this>
+     * @return HasMany<ArticleReferenceWork, covariant $this>
      */
     public function sources(): HasMany
     {
