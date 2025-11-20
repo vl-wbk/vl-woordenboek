@@ -111,10 +111,10 @@ final readonly class UserInfolist
                 ->dateTimeTooltip()
                 ->columnSpan(3),
 
-            TextEntry::make('roles.name')
+            TextEntry::make('user_type')
                 ->label(label: __('user-resource.tables.columns.user-type'))
                 ->badge()
-                ->columnSpan(12)
+                ->columnSpan(3)
                 ->placeholder('- Geen gebruikersrollen toegewezen'),
         ];
     }
