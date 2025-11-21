@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Articles\Actions\States;
 
+use App\Filament\Resources\Articles\ArticleResource;
 use App\Models\Article;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Forms\Components\Textarea;
+use Filament\Notifications\Notification;
 use Filament\Support\Enums\Width;
+use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Facades\DB;
 
 /**
  * RejectPublishingAction handles the rejection of articles submitted for publication.
@@ -17,7 +21,7 @@ use Filament\Support\Enums\Width;
  * It implement authorization checks to ensure only authorized editors can reject publication requests.
  * The action uses clear visual indicators through red coloring and X-mark iconography to signify its negative nature.
  *
- * @property Article $record The articles being rejected for publication.
+ * @package App\Filament\Resources\Articles\Actions\States
  */
 final class RejectPublishingAction extends Action
 {
@@ -66,7 +70,7 @@ final class RejectPublishingAction extends Action
         $this->failureNotificationTitle('Helaas! Er is iets misgelopen');
 
         $this->action(function (array $data): void {
-            if ($this->process(fn (Article $article) => $article->articleStatus()->transitionToEditing($data['reason']))) {
+            if ($this->process(fn (Article $article) => $this->handleArticleRejection($article, $data['reason']))) {
                 $this->success();
 
                 return;
@@ -76,6 +80,44 @@ final class RejectPublishingAction extends Action
         });
     }
 
+    /**
+     * Handles the core logic for rejecting the article.
+     * This method attempts to transition the article's status back to 'editing' and sends a detailed notification to the article's assigned editor if the transition is successful.
+     *
+     * @param  Article  $article The article model instance to be rejected.
+     * @param  string   $reason  The mandatory reason provided by the reviewer for the rejection.
+     * @return bool              True if the status transition was successful and the editor exists, false otherwise.
+     */
+    public function handleArticleRejection(Article $article, string $reason): bool
+    {
+        $transition = $article->articleStatus()->transitionToEditing($reason);
+
+        if ($transition && $article->editor()->exists()) {
+            $article->editor->notify(
+                Notification::make()
+                    ->title('Publicatieverzoek afgewezen')
+                    ->danger()
+                    ->icon(Heroicon::XCircle)
+                    ->body('Een eindredacteur heeft het publicatieverzoek voor een artikel afgewezen. In de notities kan je de beweegredenen raadplegen.')
+                    ->actions([
+                        Action::make('view-article')
+                            ->label('Bekijk artikel')
+                            ->url(ArticleResource::getUrl('view', ['record' => $article]))
+                            ->markAsRead()
+                    ])
+                    ->toDatabase()
+            );
+        }
+
+        return $transition;
+    }
+
+    /**
+     * Provides the descriptive text for the confirmation modal.
+     * This text informs the user that the article will return to the editing queue and emphasizes the need for a rejection reason so the editor can proceed.
+     *
+     * @return string The descriptive text (in Dutch).
+     */
     public function getModalDescription(): string
     {
         return '
@@ -85,7 +127,10 @@ final class RejectPublishingAction extends Action
     }
 
     /**
-     * @return array<int, Textarea>
+     * Defines the form components for the rejection confirmation modal.
+     * The form consists of a single, required Textarea field for capturing the rejection reason.
+     *
+     * @return array<int, Textarea> An array containing the form schema components.
      */
     private function getModalForm(): array
     {
