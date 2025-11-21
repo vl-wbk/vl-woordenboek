@@ -6,7 +6,9 @@ namespace App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets;
 
 use App\Filament\Support\Filters\Charts\DateRangeFilterChart;
 use App\Models\Article;
+use Filament\Actions\Action;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\ChartWidget;
 use Filament\Widgets\ChartWidget\Concerns\HasFiltersSchema;
 use Flowframe\Trend\Trend;
@@ -18,7 +20,7 @@ final class ArticleRegistrationChart extends ChartWidget
     use HasFiltersSchema;
     use DateRangeFilterChart;
 
-    public ?string $filter = 'perWeek';
+    protected ?string $pollingInterval = null;
 
     /**
      * The maximum height of the chart.
@@ -57,9 +59,10 @@ final class ArticleRegistrationChart extends ChartWidget
 
     public function filtersSchema(Schema $schema): Schema
     {
-        return $schema->components(
-            components: $this->dateRangeFilterSchema()
-        );
+        return $schema
+            ->columns(12)
+            ->dense()
+            ->components(components: $this->dateRangeFilterSchema());
     }
 
     /**
@@ -70,9 +73,9 @@ final class ArticleRegistrationChart extends ChartWidget
      */
     protected function getData(): array
     {
-        $registrationData = $this->dateRangeFilterQuery(Article::class, 'created_at', 'perWeek');
-        $publishingData = $this->dateRangeFilterQuery(Article::class, 'published_at', 'perWeek');
-        $archivedData = $this->dateRangeFilterQuery(Article::class, 'archived_at', 'perWeek');
+        $registrationData = $this->dateRangeFilterQuery(Article::class, 'created_at');
+        $publishingData = $this->dateRangeFilterQuery(Article::class, 'published_at');
+        $archivedData = $this->dateRangeFilterQuery(Article::class, 'archived_at');
 
         return [
             'datasets' => [
@@ -116,6 +119,20 @@ final class ArticleRegistrationChart extends ChartWidget
     public function getHeading(): string
     {
         return 'Artikelen trend';
+    }
+
+    public function getFiltersTriggerAction(): Action
+    {
+        $label = __(':startDate - :endDate', [
+            'startDate' => $this->getFilterStartDate()->format('d M Y'),
+            'endDate' => $this->getFilterEndDate()->format('d M Y'),
+        ]);
+
+        return Action::make('filter')
+            ->label($label)
+            ->icon(Heroicon::CalendarDateRange)
+            ->color('gray')
+            ->livewireClickHandlerEnabled(false);
     }
 
     public static function canView(): bool

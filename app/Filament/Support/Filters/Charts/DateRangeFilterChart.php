@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Support\Filters\Charts;
 
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 use Illuminate\Support\Carbon;
@@ -25,11 +26,11 @@ trait DateRangeFilterChart
     /**
      * @return Collection<int, TrendValue>
      */
-    private function dateRangeFilterQuery(string $model, string $dateColumn, string $grouping = 'perDay'): Collection
+    private function dateRangeFilterQuery(string $model, string $dateColumn): Collection
     {
         return Trend::model($model)
             ->between(start: $this->getFilterStartDate(), end: $this->getFilterEndDate())
-            ->{$grouping}()
+            ->{$this->filters['grouping']}()
             ->dateColumn($dateColumn)
             ->count();
     }
@@ -55,14 +56,38 @@ trait DateRangeFilterChart
     {
         return [
             DatePicker::make('startDate')
-                ->label(__('Start date'))
+                ->label(__('Startdatum'))
                 ->native(false)
-                ->default(now()->subMonths(6))
+                ->columnSpan(6)
+                ->default(now()->subMonths(3))
+                ->closeOnDateSelection()
                 ->required(),
+
             DatePicker::make('endDate')
-                ->label(__('End date'))
+                ->label(__('Einddatum'))
+                ->columnSpan(6)
+                ->required()
                 ->native(false)
+                ->closeOnDateSelection()
                 ->default(now()),
+
+            Select::make('grouping')
+                ->label('groepering')
+                ->columnSpanFull()
+                ->options($this->getGroupingOptions())
+                ->required()
+                ->selectablePlaceholder(false)
+                ->default($this->filters['grouping'] ?? 'perDay')
+        ];
+    }
+
+    private function getGroupingOptions(): array
+    {
+        return [
+            'perDay' => __('Op dagelijkse basis'),
+            'perWeek' => __('Op Weekbasis'),
+            'perMonth' => __('Op maandbasis'),
+            'perYear' => __('Op jaarbasis')
         ];
     }
 }
