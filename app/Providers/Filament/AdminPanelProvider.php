@@ -23,6 +23,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Config;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use JaysonTemporas\PageBookmarks\PageBookmarksPlugin;
 use Kenepa\ResourceLock\ResourceLockPlugin;
 use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
 
@@ -132,6 +133,7 @@ final class AdminPanelProvider extends PanelProvider
                         'background-color' => 'yellow',
                         'font-weight' => 'bold',
                     ]),
+                PageBookmarksPlugin::make(),
                 EasyFooterPlugin::make()
                     ->withGithub()
                     ->withLoadTime()
