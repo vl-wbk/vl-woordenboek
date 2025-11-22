@@ -51,7 +51,9 @@ trait DateRangeFilterChart
      * It uses the Flowframe/Trend package to count records within the filters date range, grouped by the selected
      * period (day, week, month, year).
      *
-     * @return Collection<int, TrendValue>
+     * @param  string $model                The fully qualified class name of the Eloquent model (e.g., \App\Models\Post::class).
+     * @param  string $dateColumn           The name of the database column containing the date/timestamp (e.g., 'created_at').
+     * @return Collection<int, TrendValue>  The collection of time-series aggregate values.
      */
     private function dateRangeFilterQuery(string $model, string $dateColumn): Collection
     {
@@ -63,7 +65,14 @@ trait DateRangeFilterChart
     }
 
     /**
-     * @param Collection<int, TrendValue> $data
+     * Transforms the raw Trend data into a format suitable for use in Filament charts (e.g., Livewire charts).
+     *
+     * This method maps the collection of TrendValue object to extract only the aggregate value,
+     * adding necessary styling and labeling for the chart dataset.
+     *
+     * @param  Collection<int, TrendValue> $data  The raw aggregate data from the dateRangeFilterQuery method.
+     * @param  string $color                      The desired color (e.g., hex code or CSS color name) for the chart line/bar.
+     * @param  string $label                      The label for the dataset (e.g., 'Total Users').
      * @return array{backgroundColor: string, borderColor: string, label: string, data: Collection<int, mixed>}
      */
     public function getTrendData(Collection $data, string $color, string $label): array
@@ -77,7 +86,12 @@ trait DateRangeFilterChart
     }
 
     /**
-     * @return array<int, DatePicker>
+     * Defines the filament form schema for the date range and grouping filters.
+     *
+     * Creates two DatePicker components for 'startDate' and 'endDate', and a Select component for grouping options.
+     * All components are required and utilize column spanning for layout.
+     *
+     * @return array<int, DatePicker|Select> An array of Filament form components.
      */
     public function dateRangeFilterSchema(): array
     {
@@ -99,7 +113,7 @@ trait DateRangeFilterChart
                 ->default(now()),
 
             Select::make('grouping')
-                ->label('Groepering')
+                ->label(__('Groepering'))
                 ->columnSpanFull()
                 ->options($this->getGroupingOptions())
                 ->required()
@@ -109,6 +123,14 @@ trait DateRangeFilterChart
         ];
     }
 
+    /**
+     * Retrieves the available grouping options for the chart query.
+     *
+     * These options correspond to methods on the FlowFrame\Trend builder (e.g., perDay, perWeek, ...).
+     * The values are localized (Dutch).
+     *
+     * @return array<string, string> A key-value array where the key is the Trend method name and the valie us the localized label.
+     */
     private function getGroupingOptions(): array
     {
         return [
