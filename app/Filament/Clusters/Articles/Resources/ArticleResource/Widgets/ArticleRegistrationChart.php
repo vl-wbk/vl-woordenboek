@@ -6,19 +6,32 @@ namespace App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets;
 
 use App\Filament\Support\Filters\Charts\DateRangeFilterChart;
 use App\Models\Article;
+use Filament\Actions\Action;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\ChartWidget;
 use Filament\Widgets\ChartWidget\Concerns\HasFiltersSchema;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 use Illuminate\Support\Collection;
 
+/**
+ * ArticleRegistrationChart
+ *
+ * A Filament Chart Widget designed to visualize the entire lifecycle trend of articles (registration/suggestions, publishing, and archiving) over a filterable date range.
+ * It utilizes the DateRangeFilterChart trait to provide filtering functionality and time-series aggregation via Flowframe Trend.
+ *
+ * @package App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets
+ */
 final class ArticleRegistrationChart extends ChartWidget
 {
     use HasFiltersSchema;
     use DateRangeFilterChart;
 
-    public ?string $filter = 'perWeek';
+    /**
+     * @var string|null Disables automatic polling for chart updates.
+     */
+    protected ?string $pollingInterval = null;
 
     /**
      * The maximum height of the chart.
@@ -26,6 +39,9 @@ final class ArticleRegistrationChart extends ChartWidget
      */
     protected ?string $maxHeight = '150px';
 
+    /**
+     * @var bool Controls whether the cidget can be collapsed by the user.
+     */
     protected bool $isCollapsible = true;
 
     /**
@@ -55,11 +71,19 @@ final class ArticleRegistrationChart extends ChartWidget
         ],
     ];
 
+    /**
+     * Defines the filter form schema for the widget.
+     * It includes the date range and grouping selectors by the trait.
+     *
+     * @param  Schema $schema  The base schema object
+     * @return Schema          The configured schema containing the date and grouping filters.
+     */
     public function filtersSchema(Schema $schema): Schema
     {
-        return $schema->components(
-            components: $this->dateRangeFilterSchema()
-        );
+        return $schema
+            ->columns(12)
+            ->dense()
+            ->components(components: $this->dateRangeFilterSchema());
     }
 
     /**
@@ -70,9 +94,9 @@ final class ArticleRegistrationChart extends ChartWidget
      */
     protected function getData(): array
     {
-        $registrationData = $this->dateRangeFilterQuery(Article::class, 'created_at', 'perWeek');
-        $publishingData = $this->dateRangeFilterQuery(Article::class, 'published_at', 'perWeek');
-        $archivedData = $this->dateRangeFilterQuery(Article::class, 'archived_at', 'perWeek');
+        $registrationData = $this->dateRangeFilterQuery(Article::class, 'created_at');
+        $publishingData = $this->dateRangeFilterQuery(Article::class, 'published_at');
+        $archivedData = $this->dateRangeFilterQuery(Article::class, 'archived_at');
 
         return [
             'datasets' => [
@@ -84,6 +108,12 @@ final class ArticleRegistrationChart extends ChartWidget
         ];
     }
 
+    /**
+     * Provides a descriptive subtitle for the widget.
+     * The description indicates the specific period and grouping method being displayed in the chart.
+     *
+     * @return string The formatted description text (in Dutch).
+     */
     public function getDescription(): string
     {
         return trans(key: 'In de periode tussen :start en :end, gegroepeerd op weekbasis', replace: [
@@ -118,6 +148,32 @@ final class ArticleRegistrationChart extends ChartWidget
         return 'Artikelen trend';
     }
 
+    /**
+     * Defines the action that triggers the filter modal.
+     * The action label dynamically displays the currently selected date range.
+     *
+     * @return Action The configured filter trigger action.
+     */
+    public function getFiltersTriggerAction(): Action
+    {
+        $label = __(':startDate - :endDate', [
+            'startDate' => $this->getFilterStartDate()->format('d M Y'),
+            'endDate' => $this->getFilterEndDate()->format('d M Y'),
+        ]);
+
+        return Action::make('filter')
+            ->label($label)
+            ->icon(Heroicon::CalendarDateRange)
+            ->color('gray')
+            ->livewireClickHandlerEnabled(false);
+    }
+
+    /**
+     * Determines whether the current authenticated user is authorized to view this widget.
+     * Authorization is based on a specific user preference check.
+     *
+     * @return bool True if the user is authorized to view the widget, false otherwise.
+     */
     public static function canView(): bool
     {
         return auth()->user()->getPreference('uitgeschakelde grafieken');
