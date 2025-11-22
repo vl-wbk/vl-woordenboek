@@ -11,26 +11,53 @@ use Flowframe\Trend\TrendValue;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
+/**
+ * DateRangeFilterChart
+ *
+ * Provides reusable methods and schema definitions for implementing date range and grouping filters within Filament chart widgets.
+ *
+ * This trait assumes the consuming class had a protected property '$filters' (or equivalent array access via $this->filters)
+ * containing 'startDate', 'endDate', and 'grouping' keys. It primarily leverages the 'Flowframe\Trend' package for time-series data aggregation.
+ *
+ * @package App\Filament\Support\Filters\Charts
+ */
 trait DateRangeFilterChart
 {
+    /**
+     * Retrieves the start date from the filters array and returns it as a Carbon instance.
+     *
+     * @return Carbon The start date for the chart query.
+     */
     private function getFilterStartDate(): Carbon
     {
+        // Assumes $this->filters is available in the consuming class.
         return now()->parse($this->filters['startDate']);
     }
 
+    /**
+     * Retrieves the end date from the filters array and returns it as a Carbon instance.
+     *
+     * @return Carbon The end date for the chart query.
+     */
     private function getFilterEndDate(): Carbon
     {
+        // Assumes $this->filters is available in the consuming class.
         return now()->parse($this->filters['endDate']);
     }
 
     /**
+     * Executes a time-series query against a given Eloquent model using the filters.
+     *
+     * It uses the Flowframe/Trend package to count records within the filters date range, grouped by the selected
+     * period (day, week, month, year).
+     *
      * @return Collection<int, TrendValue>
      */
     private function dateRangeFilterQuery(string $model, string $dateColumn): Collection
     {
         return Trend::model($model)
             ->between(start: $this->getFilterStartDate(), end: $this->getFilterEndDate())
-            ->{$this->filters['grouping']}()
+            ->{$this->filters['grouping']}() // Dynamically calls perDay(), perMonth(), etc.
             ->dateColumn($dateColumn)
             ->count();
     }
@@ -72,10 +99,11 @@ trait DateRangeFilterChart
                 ->default(now()),
 
             Select::make('grouping')
-                ->label('groepering')
+                ->label('Groepering')
                 ->columnSpanFull()
                 ->options($this->getGroupingOptions())
                 ->required()
+                ->native(false)
                 ->selectablePlaceholder(false)
                 ->default($this->filters['grouping'] ?? 'perDay')
         ];

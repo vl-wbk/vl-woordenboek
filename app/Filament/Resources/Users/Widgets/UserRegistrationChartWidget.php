@@ -6,7 +6,9 @@ namespace App\Filament\Resources\Users\Widgets;
 
 use App\Filament\Support\Filters\Charts\DateRangeFilterChart;
 use App\Models\User;
+use Filament\Actions\Action;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\ChartWidget;
 use Filament\Widgets\ChartWidget\Concerns\HasFiltersSchema;
 use Flowframe\Trend\Trend;
@@ -57,9 +59,24 @@ final class UserRegistrationChartWidget extends ChartWidget
 
     public function filtersSchema(Schema $schema): Schema
     {
-        return $schema->components(
-            components: $this->dateRangeFilterSchema()
-        );
+        return $schema
+            ->columns(12)
+            ->dense()
+            ->components(components: $this->dateRangeFilterSchema());
+    }
+
+    public function getFiltersTriggerAction(): Action
+    {
+        $label = __(':startDate - :endDate', [
+            'startDate' => $this->getFilterStartDate()->format('d M Y'),
+            'endDate' => $this->getFilterEndDate()->format('d M Y'),
+        ]);
+
+        return Action::make('filter')
+            ->label($label)
+            ->icon(Heroicon::CalendarDateRange)
+            ->color('gray')
+            ->livewireClickHandlerEnabled(false);
     }
 
     public function getDescription(): string
