@@ -4,3 +4,4 @@
 @source '../../../../resources/views/filament/**/*';
 @source '../../../../vendor/devonab/filament-easy-footer';
 @source '../../../../vendor/jaysontemporas/page-bookmarks/resources/**/*.blade.php';
+@source '../../../../vendor/statikbe/laravel-filament-chained-translation-manager/resources/**/*.blade.php';

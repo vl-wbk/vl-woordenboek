@@ -515,20 +515,6 @@ CREATE TABLE `likes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `ltm_translations`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `ltm_translations` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `status` int NOT NULL DEFAULT '0',
-  `locale` varchar(255) COLLATE utf8mb4_bin NOT NULL,
-  `group` varchar(255) COLLATE utf8mb4_bin NOT NULL,
-  `key` text COLLATE utf8mb4_bin NOT NULL,
-  `value` text COLLATE utf8mb4_bin,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `messages`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -1034,7 +1020,6 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (81,'2025_05_23_232
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (82,'2025_05_27_034637_create_personal_access_tokens_table',1);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (83,'2025_06_01_032455_create_blogs_table',1);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (84,'2025_06_04_055458_create_comments_table',1);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (85,'2014_04_02_193005_create_translations_table',2);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (86,'2014_10_28_175635_create_threads_table',2);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (87,'2014_10_28_175710_create_messages_table',2);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (88,'2014_10_28_180224_create_participants_table',2);
