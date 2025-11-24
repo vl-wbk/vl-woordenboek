@@ -26,6 +26,7 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use JaysonTemporas\PageBookmarks\PageBookmarksPlugin;
 use Kenepa\ResourceLock\ResourceLockPlugin;
 use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
+use Statikbe\FilamentTranslationManager\FilamentChainedTranslationManagerPlugin;
 
 /**
  * The AdminPanelProvider class is responsible for configuring the main Filament administration panel for the application, specifically for the "VL. woordenboek" (Flemish Dictionary) project.
@@ -134,6 +135,7 @@ final class AdminPanelProvider extends PanelProvider
                         'font-weight' => 'bold',
                     ]),
                 PageBookmarksPlugin::make(),
+                FilamentChainedTranslationManagerPlugin::make(),
                 EasyFooterPlugin::make()
                     ->withGithub()
                     ->withLoadTime()
