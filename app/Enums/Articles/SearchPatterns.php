@@ -73,15 +73,11 @@ enum SearchPatterns: string implements HasLabel
      */
     public function getLabel(): string
     {
-        $label = match ($this) { // The `match` expression (PHP 8+) is used here for concise mapping of enum cases to their labels.
-            self::Contains => 'Bevat',
-            self::StartsWith => 'Start met',
-            self::Endswith => 'Eindigt met',
-            self::Exact => 'Exact',
+        return match ($this) { // The `match` expression (PHP 8+) is used here for concise mapping of enum cases to their labels.
+            self::Contains => __('components/search-form.patterns.contains'),
+            self::StartsWith => __('components/search-form.patterns.startsWith'),
+            self::Endswith => __('components/search-form.patterns.endsWith'),
+            self::Exact => __('components/search-form.patterns.exact'),
         };
-
-        // The `trans()` helper function attempts to find a translation for the given key.
-        // If no translation is found for the current locale, it will return the key itself.
-        return trans($label);
     }
 }

@@ -1,11 +1,11 @@
-@extends('layouts.application-blank', ["title" => 'welkom'])
+@extends('layouts.application-blank', ["title" => __('pages/welcome.page-title')])
 
 @section('jumbotron')
     <div class="bg-light bg-blend-hard-light rounded-3 shadow-sm">
         <div class="container-fluid">
             <div class="px-5 py-5">
                 <div class="row">
-                    <h1 class="display-6 fw-bold">Welkom op het <span class="text-warning">Vlaams Woordenboek</span></h1>
+                    <h1 class="display-6 fw-bold">{!! __('pages/welcome.jumbotron.headings.welcome', ['applicationName' => config('app.name', 'Laravel')]) !!}</h1>
 
                     <div class="col-12">
                         <p class="border-bottom pb-3 fs-5">
@@ -16,7 +16,7 @@
                     <form class="col-md-7 mt-4" action="{{ route('search.results') }}" method="GET">
                         <div class="row g-3">
                             <div class="col-lg-3">
-                                <label for="searchPatternSelect" class="visually-hidden">Zoekpartoon selectie</label>
+                                <label for="searchPatternSelect" class="visually-hidden">{{ __('components/search-form.pattern-select') }}</label>
                                 <select name="zoekpatroon" class="form-select bg-white shadow-sm" id="searchPatternSelect">
                                     @foreach ($searchPatterns as $searchPattern)
                                         <option value="{{ $searchPattern->value }}" @selected(old('zoekpatroon', request()->get('zoekpatroon')) === $searchPattern->value)>
@@ -27,18 +27,18 @@
                             </div>
 
                             <div class="col-lg-7 col-sm-8">
-                                <input type="text" class="form-control bg-white shadow-sm" name="zoekterm" value="{{ request()->get('zoekterm') }}" placeholder="Zoekterm" aria-label="searchterm">
+                                <input type="text" class="form-control bg-white shadow-sm" name="zoekterm" value="{{ request()->get('zoekterm') }}" placeholder="{{ __('components/search-form.inputs.search-term.placeholder') }}" aria-label="searchterm">
                             </div>
                             <div class="col-lg-2 col-sm-4">
                                 <button type="submit" class="btn shadow-sm w-100 btn-submit">
-                                    <x-heroicon-o-magnifying-glass class="icon me-1"/> Zoeken
+                                    <x-heroicon-o-magnifying-glass class="icon me-1"/> {{ __('components/search-form.buttons.submit') }}
                                 </button>
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-check form-switch mb-0">
                                     <input class="form-check-input" name="uitgebreid" type="checkbox" id="checkChecked" value="1" @checked(request()->boolean('uitgebreid') === true) switch>
                                     <label class="form-check-label" for="checkChecked">
-                                        Ik wens ook uitgebreid te zoeken in de beschrijving
+                                        {{ __('components/search-form.toggles.description-search') }}
                                     </label>
                                 </div>
                             </div>

@@ -2,6 +2,10 @@
 
 return [
     'jumbotron' => [
+        'headings' => [
+            'welcome' => 'Welkom op het <span class="text-warning">:applicationName</span>',
+        ],
+
         'leading-paragraph' => 'Het Vlaams Woordenboek is een woordenboek van :articleCount artikelen dat bestaat dankzij een gemeenschap enthousiastelingen. En dankzij al die mensen die ooit een of meerdere bijdragen hebben geleverd.'
     ],
 
@@ -34,4 +38,5 @@ return [
             'actionText' => 'Begin maar te snuisteren.',
         ],
     ],
+    'page-title' => 'welkom',
 ];

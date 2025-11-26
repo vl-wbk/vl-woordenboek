@@ -37,4 +37,15 @@ return [
             'github-issues' => 'Github Issues'
         ],
     ],
+    'navigation' => [
+        'user-menu' => [
+            'lgout' => 'Uitloggen',
+            'saved-words' => 'Bewaarde woorden',
+            'my-suggestions' => 'Mijn suggesties',
+            'settings' => 'Instellingen',
+            'public-profile' => 'Openbaar profiel',
+            'management-console' => 'Beheersconsole',
+        ],
+        'news' => 'Nieuwsberichten',
+    ],
 ];

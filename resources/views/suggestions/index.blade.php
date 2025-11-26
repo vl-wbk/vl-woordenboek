@@ -1,34 +1,34 @@
-@extends ('layouts.application-blank', ['title' => 'Mijn suggesties'])
+@extends ('layouts.application-blank', ['title' => __('pages/suggestions/index.page-title')])
 
 @section ('jumbotron')
     <div class="bg-light bg-blend-hard-light rounded-3 shadow-sm">
         <div class="container-fluid">
             <div class="px-5 py-5">
                 <div class="row">
-                    <h1 class="display-6 fw-bold">Uw suggesties in het <span class="text-warning">Vlaams Woordenboek</span></h1>
+                    <h1 class="display-6 fw-bold">{!! __('pages/suggestions/index.jumbotron.heading', ['applicationName' => config('app.name', 'Laravel')]) !!}</h1>
                     <p class="col-12 fs-5 pb-3 border-bottom">
-                        Het lijkt erop dat je al {{ $results->total() }} suggesties hebt aangeleverd of zijn gevonden in het Vlaams Woordenboek, waarvoor onze dank. <br>
-                        Via het onderstaande formulier kun je snuisteren tussen uw suggesties.
+                        {{ __('pages/suggestions/index.jumbotron.text.first-sentence', ['count' => $results->count()]) }} <br>
+                        {{ __('pages/suggestions/index.jumbotron.text.second-sentence') }}
                     </p>
 
                     <form class="col-md-7 mt-4" action="{{ route('suggestions:index') }}" method="GET">
                         <div class="row g-3">
                             <div class="col-lg-10 col-sm-8">
-                                <input type="text" class="form-control bg-white shadow-sm" name="zoekterm" value="{{ request()->get('zoekterm') }}" placeholder="Zoeken tussen mijn suggesties" aria-label="searchterm">
+                                <input type="text" class="form-control bg-white shadow-sm" name="zoekterm" value="{{ request()->get('zoekterm') }}" placeholder="{{ __('pages/suggestions/index.jumbotron.form.search-placeholder') }}" aria-label="searchterm">
                             </div>
                             <div class="col-lg-2 col-sm-4">
                                 <button type="submit" class="btn shadow-sm w-100 btn-submit">
-                                    <x-heroicon-o-magnifying-glass class="icon me-1"/> Zoeken
+                                    <x-heroicon-o-magnifying-glass class="icon me-1"/> {{ __('pages/suggestions/index.jumbotron.form.buttons.submit') }}
                                 </button>
                             </div>
                             <div class="col-12">
                                 <x-sortable-reset>
-                                    Reset sortering
+                                    {{ __('pages/suggestions/index.jumbotron.form.buttons.reset') }}
                                 </x-sortable-reset>
 
                                 @if (request()->has('zoekterm'))
                                     <a href="{{ route('suggestions:index') }}" class="btn btn-sm btn-outline-danger">
-                                        <x-tabler-x class="icon me-1"/> Zoekopdracht: <strong>{{ request()->get('zoekterm') }}</strong>
+                                        <x-tabler-x class="icon me-1"/> {{ __('pages/suggestions/index.jumbotron.form.current-search-term') }}: <strong>{{ request()->get('zoekterm') }}</strong>
                                     </a>
                                 @endif
                             </div>
@@ -47,41 +47,41 @@
                 <div class="card border-0 shadow-sm">
                     <div class="card-header bg-white">
                         <a href="{{ route('definitions.create') }}" class="btn btn-submit w-100 shadow-sm">
-                            <x-heroicon-o-plus class="icon me-1"/> Suggestie indienen
+                            <x-heroicon-o-plus class="icon me-1"/> {{ __('pages/search.sidenav.buttons.submit-suggestion') }}
                         </a>
                     </div>
                     <div class="card-body bg-white">
                         <h5 class="mb-3 card-title color-green">
-                            <x-heroicon-s-funnel class="icon me-1"/> Ingestuurd sinds
+                            <x-heroicon-s-funnel class="icon me-1"/> {{ __('pages/suggestions/index.sidenav.headings.submitted-since') }}
                         </h5>
 
                         <x-filter-link field="created_after" value="{{ now()->subWeek  ()->format('Y-m-d') }}">
-                            Afgelopen week
+                            {{ __('pages/search.sidenav.filters.last-week') }}
                         </x-filter-link>
                         <x-filter-link field="created_after" value="{{ now()->subMonth()->format('Y-m-d') }}">
-                            Afgelopen maand
+                            {{ __('pages/search.sidenav.filters.last-month') }}
                         </x-filter-link>
                         <x-filter-link field="created_after" value="{{ now()->subYear()->format('Y-m-d') }}">
-                            Afgelopen jaar
+                            {{ __('pages/search.sidenav.filters.last-year') }}
                         </x-filter-link>
 
                         <hr>
 
                         <h5 class="mb-3 card-title color-green">
-                            <x-heroicon-s-funnel class="icon me-1"/> Filteren op status
+                            <x-heroicon-s-funnel class="icon me-1"/> {{ __('pages/suggestions/index.sidenav.state-filters.heading') }}
                         </h5>
 
                         <x-filter-link field="status" value="{{ \App\Enums\ArticleStates::New }}">
-                            Suggestie
+                            {{ __('pages/suggestions/index.sidenav.state-filters.sggestion') }}
                         </x-filter-link>
                         <x-filter-link field="status" value="{{ \App\Enums\ArticleStates::Draft }}">
-                            Klad versie
+                            {{ __('pages/suggestions/index.sidenav.state-filters.draft') }}
                         </x-filter-link>
                         <x-filter-link field="status" value="{{ \App\Enums\ArticleStates::Approval }}">
-                            In afwachting
+                            {{ __('pages/suggestions/index.sidenav.state-filters.under-review') }}
                         </x-filter-link>
                         <x-filter-link field="status" value="{{ \App\Enums\ArticleStates::Published }}">
-                            Publicatie
+                            {{ __('pages/suggestions/index.sidenav.state-filters.publication') }}
                         </x-filter-link>
 
                         <hr>
@@ -92,7 +92,7 @@
                                     <x-heroicon-o-pencil-square class="icon color-green me-2"/>
 
                                     <a href="{{ route('suggestions:index') }}" class="text-decoration-none text-muted">
-                                        Mijn suggesties
+                                        {{ __('pages/search.sidenav.my-suggestions') }}
                                     </a>
                                 </div>
 
@@ -108,7 +108,7 @@
                                     <x-heroicon-o-bookmark class="icon color-green me-2"/>
 
                                     <a href="{{ route('bookmarks:index') }}" class="text-decoration-none text-muted">
-                                        Mijn bewaarde woorden
+                                        {{ __('pages/search.sidenav.my-saved-words') }}
                                     </a>
                                 </div>
 
@@ -132,21 +132,21 @@
                                     <thead>
                                         <tr>
                                             <th scope="col" class="ps-2">#</th>
-                                            <th scope="col" class="text-muted">Status</th>
-                                            <th scope="col" class="text-muted">Redacteur</th>
+                                            <th scope="col" class="text-muted">{{ __('pages/suggestions/index.table.columns.status') }}</th>
+                                            <th scope="col" class="text-muted">{{ __('pages/suggestions/index.table.columns.editor') }}</th>
                                             <th scope="col" class="text-muted">
                                                 <x-sortable-header field="word" :current-sort="request('sort')">
-                                                    Lemma
+                                                    {{ __('pages/suggestions/index.table.columns.lemma') }}
                                                 </x-sortable-header>
                                             </th>
                                             <th scope="col" class="text-muted">
                                                 <x-sortable-header field="edited" :current-sort="request('sort')">
-                                                    Laatste wijziging
+                                                    {{ __('pages/suggestions/index.table.columns.last-edited') }}
                                                 </x-sortable-header>
                                             </th>
                                             <th scope="col" class="text-muted" colspan="2">
                                                 <x-sortable-header field="created" :current-sort="request('sort')">
-                                                    Ingediend op
+                                                    {{ __('pages/suggestions/index.table.columns.submitted_at') }}
                                                 </x-sortable-header>
                                             </th>
                                         </tr>
@@ -182,7 +182,7 @@
                                                 <td>
                                                     @if ($result->isPublished())
                                                         <a href="{{ route('word-information.show', $result) }}" class="text-muted me-2 text-decoration-none float-end">
-                                                            <x-heroicon-o-eye class="icon me-1"/> Bekijk
+                                                            <x-heroicon-o-eye class="icon me-1"/> {{ __('pages/suggestions/index.table.actions.view') }}
                                                         </a>
                                                     @endif
                                                 </td>
@@ -199,11 +199,11 @@
                     <div class="card bg-sidenav text-center shadow-sm border-0">
                         <div class="card-body p-4">
                             <x-tabler-inbox class="icon-blankslate color-green icon pb-3"/>
-                            <h5 class="card-title fw-bold">Geen suggesties gevonden</h5>
+                            <h5 class="card-title fw-bold">{{ __('pages/suggestions/index.no-results.heading') }}</h5>
 
                             <p class="card-text text-muted">
-                                Als je nog geen suggesties hebt toegevoegd, blijft dit lijstje natuurlijk leeg.<br>
-                                Je hebt wel een lijst suggesties, maar je opzoeking levert niks op? Kijk dan even of je zoekterm klopt, voer iets anders in of pas je filters aan om meer resultaten te zien.
+                                {{ __('pages/suggestions/index.no-results.first-sentence') }}<br>
+                                {{ __('pages/suggestions/index.no-results.second-sentence') }}
                             </p>
                         </div>
                     </div>
