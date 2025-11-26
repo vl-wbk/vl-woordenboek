@@ -96,12 +96,15 @@
                     <div class="col-3">
                         <div class="card border-0 shadow-sm">
                             <div class="card-header bg-white d-flex justify-content-between">
-                                <a href="{{ route('definitions.create') }}" class="btn btn-submit w-50 me-1">
+                                <a href="{{ route('definitions.create') }}" class="btn btn-submit @if ($randomArticle) w-50 @else w-100 @endif me-1">
                                     <x-heroicon-o-plus class="icon me-1"/> {{ __('pages/search.sidenav.buttons.submit-suggestion') }}
                                 </a>
-                                <a href="{{ route('search.results', ['zoekterm' => $randomArticle->word]) }}" class="btn btn-outline-secondary w-50 ms-1">
-                                    <x-heroicon-s-book-open class="icon me-1"/> {{ __('pages/search.sidenav.buttons.random-article') }}
-                                </a>
+
+                                @if ($randomArticle)
+                                    <a href="{{ route('search.results', ['zoekterm' => $randomArticle->word]) }}" class="btn btn-outline-secondary w-50 ms-1">
+                                        <x-heroicon-s-book-open class="icon me-1"/> {{ __('pages/search.sidenav.buttons.random-article') }}
+                                    </a>
+                                @endif
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title color-green mb-3">{{ __('pages/search.sidenav.filters.heading') }}</h5>

@@ -54,24 +54,26 @@
     <div class="py-4">
         <div class="container-fluid">
             <div class="row my-4 pb-2">
-                <div class="col-md-3">
-                    <div class="card h-100 border-0 bg-sidenav shadow-sm">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title fw-bold color-green">{{ __('pages/welcome.call-outs.search.title') }}</h5>
-                            <h6 class="card-subtitle mb-2 fst-italic text-body-secondary">{{ __('pages/welcome.call-outs.search.subtitle') }}</h6>
+                @if ($randomArticle)
+                    <div class="col">
+                        <div class="card h-100 border-0 bg-sidenav shadow-sm">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title fw-bold color-green">{{ __('pages/welcome.call-outs.search.title') }}</h5>
+                                <h6 class="card-subtitle mb-2 fst-italic text-body-secondary">{{ __('pages/welcome.call-outs.search.subtitle') }}</h6>
 
-                            <p class="card-text mb-3">
-                                {{ __('pages/welcome.call-outs.search.text') }}
-                            </p>
+                                <p class="card-text mb-3">
+                                    {{ __('pages/welcome.call-outs.search.text') }}
+                                </p>
 
-                            <a href="{{ route('search.results', ['zoekterm' => $randomArticle->word]) }}" class="btn btn-sm btn-outline-dark mt-auto">
-                                {{ __('pages/welcome.call-outs.search.actionText') }}
-                            </a>
+                                <a href="{{ route('search.results', ['zoekterm' => $randomArticle->word]) }}" class="btn btn-sm btn-outline-dark mt-auto">
+                                    {{ __('pages/welcome.call-outs.search.actionText') }}
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endif
 
-                <div class="col-md-3">
+                <div class="col">
                     <div class="card h-100 bg-sidenav border-0 shadow-sm">
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title fw-bold color-green">{{ __('pages/welcome.call-outs.suggestion.title') }}</h5>
@@ -88,7 +90,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col">
                     <div class="card bg-sidenav border-0 shadow-sm h-100">
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title fw-bold color-green">{{ __('pages/welcome.call-outs.volunteer.title') }}</h5>
@@ -105,7 +107,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col">
                     <div class="card bg-sidenav border-0 shadow-sm h-100">
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title fw-bold color-green">{{ __('pages/welcome.call-outs.information.title') }}</h5>
