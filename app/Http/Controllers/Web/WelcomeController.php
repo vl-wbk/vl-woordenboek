@@ -19,7 +19,7 @@ final readonly class WelcomeController
         return view('welcome', data: [
             'searchPatterns' => SearchPatterns::cases(),
             'randomArticle' => $baseQuery->inRandomOrder()->first(),
-            'articleCount' => $baseQuery->count('id'),
+            'articleCount' => $articleCount = $baseQuery->count('id'),
         ]);
     }
 }
