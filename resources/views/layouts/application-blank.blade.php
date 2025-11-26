@@ -63,14 +63,14 @@
                         @can('access-backend')
                             <li class="nav-item">
                                 <a href="{{ url('admin') }}" class="nav-link">
-                                    <x-heroicon-s-arrows-right-left class="icon me-1" /> Beheersconsole
+                                    <x-heroicon-s-arrows-right-left class="icon me-1" /> {{ __('layout/application.navigation.user-menu.management-console') }}
                                 </a>
                             </li>
                         @endcan
 
                         <li class="nav-item">
                             <a href="{{ route('statistics') }}" class="nav-link">
-                                <x-heroicon-o-presentation-chart-line class="icon"/> Statistieken
+                                <x-heroicon-o-presentation-chart-line class="icon"/> {{ __('pages/statistics.page-title') }}
                             </a>
                         </li>
                     @endauth
@@ -78,28 +78,28 @@
                     @if (app(\App\Settings\ProjectInformationSettings::class)->pageActive)
                         <li class="nav-item">
                             <a href="{{ route('project-information')}}" class="nav-link">
-                                <x-tabler-info-square-rounded class="icon  me-1" /> Project informatie
+                                <x-tabler-info-square-rounded class="icon  me-1" /> {{ __('layout/application.footer.links-section.project-information') }}
                             </a>
                         </li>
                    @endif
 
                     <li class="nav-item">
                         <a href="https://www.forum.chimpy.be" class="nav-link" target="_blank">
-                            <x-heroicon-o-chat-bubble-left-right class="icon me-1"/> Forum
+                            <x-heroicon-o-chat-bubble-left-right class="icon me-1"/> {{ __('layout/application.footer.community-section.forum') }}
                         </a>
                     </li>
 
                     @if (\App\Models\Blog::count('id') > 0)
                         <li class="nav-item">
                             <a href="{{ route('news:index') }}" class="nav-link">
-                                <x-heroicon-s-newspaper class="icon"/> Nieuwsberichten
+                                <x-heroicon-s-newspaper class="icon"/> {{ __('layout/application.navigation.news') }}
                             </a>
                         </li>
                     @endif
 
                     <li class="nav-item">
                         <a href="mailto:contact@vlaamswoordenboek.be" class="nav-link">
-                            <x-heroicon-s-envelope class="icon me-1" /> Contact
+                            <x-heroicon-s-envelope class="icon me-1" /> {{ __('layout/application.footer.links-section.contact') }}
                         </a>
                     </li>
                 </ul>
@@ -129,26 +129,26 @@
 
                             <div class="dropdown-menu border-0 bg-white shadow-sm dropdown-menu-end">
                                 <a class="dropdown-item" href="{{ route('account:public', auth()->user()) }}">
-                                    <x-heroicon-o-user-circle class="text-muted icon me-1"/> Openbaar profiel
+                                    <x-heroicon-o-user-circle class="text-muted icon me-1"/> {{ __('layout/application.navigation.user-menu.public-profile') }}
                                 </a>
                                 <a class="dropdown-item" href="{{ route('profile.settings') }}">
-                                    <x-heroicon-o-cog-8-tooth class="text-muted icon me-1"/> Instellingen
+                                    <x-heroicon-o-cog-8-tooth class="text-muted icon me-1"/> {{ __('layout/application.navigation.user-menu.settings') }}
                                 </a>
 
                                 <div class="dropdown-divider"></div>
 
                                 <a class="dropdown-item" href="{{ route('suggestions:index') }}">
-                                    <x-heroicon-o-queue-list class="text-muted icon me-1"/> Mijn suggesties
+                                    <x-heroicon-o-queue-list class="text-muted icon me-1"/> {{ __('layout/application.navigation.user-menu.my-suggestions') }}
                                 </a>
 
                                 <a class="dropdown-item" href="{{ route('bookmarks:index') }}">
-                                    <x-heroicon-o-book-open class="text-muted icon me-1"/> Bewaarde woorden
+                                    <x-heroicon-o-book-open class="text-muted icon me-1"/> {{ __('layout/application.navigation.user-menu.saved-words') }}
                                 </a>
 
                                 <div class="dropdown-divider"></div>
 
                                 <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    <x-heroicon-s-power class="icon text-danger me-1" /> Uitloggen
+                                    <x-heroicon-s-power class="icon text-danger me-1" /> {{ __('layout/application.navigation.user-menu.lgout') }}
                                 </a>
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

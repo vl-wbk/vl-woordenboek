@@ -1,4 +1,4 @@
-@extends('layouts.application-blank', ['title' => 'Feedback insturen'])
+@extends('layouts.application-blank', ['title' => __('pages/feedback.page-title')])
 
 @section('content')
     <div class="my-4">
@@ -7,9 +7,8 @@
                 <div class="col-md-12">
                     <div class="card border-0 bg-white shadow-sm">
                         <div class="card-header bg-white">
-                            <h4 class="card-title color-green mb-1">Website feedback</h4>
-                            <h6 class="text-muted mb-0">We willen het Vlaams Woordenboek continu verbeteren. Daarvoor hebben we feedback nodig, ook die van jou. Vertel ons hier wat volgens jou beter kan, dan gaat de redactie ermee aan de slag.
-                            </h6>
+                            <h4 class="card-title color-green mb-1">{{ __('pages/feedback.page-heading') }}</h4>
+                            <h6 class="text-muted mb-0">{{ __('pages/feedback.page-description') }}</h6>
                         </div>
                         <form action="{{ route('feedback:store') }}" method="POST" id="suggestionForm" class="card-body">
                             @csrf
@@ -22,7 +21,7 @@
 
                             <div class="row">
                                 <div class="form-group col-6 mb-3">
-                                    <label for="name" class="col-form-label">Voor- en achternaam <span
+                                    <label for="name" class="col-form-label">{{ __('pages/feedback.form.labels.name') }}<span
                                             class="fw-bold text-danger">*</span></label>
                                     <input type="text" name="naam" id="name" value="{{ old('naam', auth()->user()?->name) }}"
                                            class="form-control @error('naam') is-invalid @enderror">
@@ -30,7 +29,7 @@
                                 </div>
 
                                 <div class="form-group col-6 mb-3">
-                                    <label for="emailAddress" class="col-form-label">E-mailadres</label>
+                                    <label for="emailAddress" class="col-form-label">{{ __('pages/feedback.form.labels.email') }}</label>
                                     <input type="email" name="email" class="form-control" id="emailHelpText"
                                            value="{{ old('email') }}">
                                 </div>
@@ -38,7 +37,7 @@
 
                             <div class="row">
                                 <div class="form-group col-6 mb-3">
-                                    <label for="firstTimeVisitor" class="col-form-label">Was dit je eerste bezoek aan het Vlaams Woordenboek? <span class="fw-bold text-danger">*</span></label>
+                                    <label for="firstTimeVisitor" class="col-form-label">{{ __('pages/feedback.form.labels.first-visit') }} <span class="fw-bold text-danger">*</span></label>
 
                                     <div>
                                         @foreach ($radioButtons::cases() as $radioButton)
@@ -53,14 +52,14 @@
 
                                         @error('eerste_bezoek')
                                         <div class="invalid-feedback fw-bold d-block" role="alert">
-                                            {{ __('Dit moet ingevuld zijn alvorens de feedback te kunnen verzenden') }}
+                                            {{ __('pages/feedback.validation-errors.required') }}
                                         </div>
                                         @enderror
                                     </div>
                                 </div>
 
                                 <div class="form-group col-6 mb-3">
-                                    <label for="yoda" class="col-form-label">Kon je makkelijk vinden wat je zocht?. <span
+                                    <label for="yoda" class="col-form-label">{{ __('pages/feedback.form.labels.easy-find') }}<span
                                             class="fw-bold text-danger">*</span></label>
 
                                     <div>
@@ -77,25 +76,25 @@
 
                                         @error('resultaten_gevonden')
                                         <div class="invalid-feedback fw-bold d-block" role="alert">
-                                            {{ __('Dit moet ingevuld zijn alvorens de feedback te kunnen verzenden') }}
+                                            {{ __('pages/feedback.validation-errors.required') }}
                                         </div>
                                         @enderror
                                     </div>
                                 </div>
 
                                 <div class="form-group col-6 mb-3">
-                                    <label for="visitReason" class="col-form-label">Wat is de belangrijkste reden waarom je deze website bezoekt?</label>
+                                    <label for="visitReason" class="col-form-label">{{ __('pages/feedback.form.labels.visit-reason') }}</label>
                                     <textarea name="bezoek_redenen" class="form-control" id="visitreason" rows="4">{{ old('bezoek_redenen') }}</textarea>
                                 </div>
 
                                 <div class="form-group col-6 mb-3">
-                                    <label for="extraInformationResults" class="col-form-label">Wat kon er beter in je zoektocht?</label>
+                                    <label for="extraInformationResults" class="col-form-label">{{ __('pages/feedback.form.labels.search-improvement') }}</label>
                                     <textarea name="extra_informatie_zoektocht" class="form-control" id="extraInformationResults" rows="4">{{ old('extra_informatie_zoektocht') }}</textarea>
                                 </div>
                             </div>
 
                             <div class="form-group col-12 mb-3">
-                                <label for="suggestion" class="col-form-label">Heb je nog andere opmerkingen of suggesties waarmee we het Vlaams Woordenboek kunnen verbeteren?</label>
+                                <label for="suggestion" class="col-form-label">{{ __('pages/feedback.form.labels.other-improvements') }}</label>
                                 <textarea name="extra_informatie" class="form-control" id="suggestion" rows="4">{{ old('extra_informatie') }}</textarea>
                             </div>
 
@@ -103,17 +102,17 @@
                                 <div class="form-check form-switch mb-0">
                                     <input class="form-check-input" type="checkbox" name="contact" role="switch"
                                            value="1">
-                                    <label class="form-check-label ms-1" for="switchCheckCheckedDisabled">Het beheer van het Vlaams Woordenboek mag me contacteren als dat nodig is. (Indien ja: geef een mailadres op)</label>
+                                    <label class="form-check-label ms-1" for="switchCheckCheckedDisabled">{{ __('pages/feedback.form.switch.can-contact') }}</label>
                                 </div>
                             </div>
                         </form>
 
                         <div class="card-footer bg-white">
                             <button type="submit" form="suggestionForm" class="btn btn-sm btn-submit">
-                                Verzenden
+                                {{ __('pages/feedback.form.buttons.submit') }}
                             </button>
                             <button type="reset" form="suggestionForm" class="btn btn-sm btn-link">
-                                Reset
+                                {{ __('pages/feedback.form.buttons.reset') }}
                             </button>
                         </div>
                     </div>

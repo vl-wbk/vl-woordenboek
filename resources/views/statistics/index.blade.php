@@ -1,11 +1,11 @@
-@extends('layouts.application-blank', ['title' => 'Statistieken'])
+@extends('layouts.application-blank', ['title' => __('pages/statistics.page-title')])
 
 @section('content')
    <div class="py-4">
        <div class="container-fluid">
            <div class="row">
                <div class="col-12">
-                   <h3 class="color-green border-bottom pb-2">Insights in onze statistieken en performantie</h3>
+                   <h3 class="color-green border-bottom pb-2">{{ __('pages/statistics.page-heading') }}</h3>
                </div>
            </div>
        </div>
@@ -14,37 +14,37 @@
            <div class="row">
                <div class="col-lg-2 mb-4 col-sm-12">
                    <div class="card border-0 shadow-sm card-body">
-                       <h6 class="color-green fw-bold">Artikel weergaves</h6>
+                       <h6 class="color-green fw-bold">{{ __('pages/statistics.widget.article-views') }}</h6>
                        <h3 class="text-muted mb-0"><x-heroicon-o-eye class="icon icon-statistic"/> {{ $articleViews }}</h3>
                    </div>
                </div>
                <div class="col-lg-2 mb-4 col-sm-12">
                    <div class="card border-0 shadow-sm card-body">
-                       <h6 class="color-green fw-bold">Aantal artikelen</h6>
+                       <h6 class="color-green fw-bold">{{ __('pages/statistics.widget.article-count') }}</h6>
                        <h3 class="text-muted mb-0"><x-heroicon-o-document-text class="icon icon-statistic"/> {{ $articleCount }}</h3>
                    </div>
                </div>
                <div class="col-lg-2 mb-4 col-sm-12">
                    <div class="card border-0 shadow-sm card-body">
-                       <h6 class="color-green fw-bold">Aantal edits</h6>
+                       <h6 class="color-green fw-bold">{{ __('pages/statistics.widget.edit-count') }}</h6>
                        <h3 class="text-muted mb-0"><x-heroicon-o-pencil-square class="icon icon-statistic"/> {{ $editCount }}</h3>
                    </div>
                </div>
                <div class="col-lg-2 mb-4 col-sm-12">
                    <div class="card border-0 shadow-sm card-body">
-                       <h6 class="color-green fw-bold">Aantal gebruikers</h6>
+                       <h6 class="color-green fw-bold">{{ __('pages/statistics.widget.user-count') }}</h6>
                        <h3 class="text-muted mb-0"><x-heroicon-o-users class="icon icon-statistic"/> {{ $getUserCount }}</h3>
                    </div>
                </div>
                <div class="col-lg-2 mb-4 col-sm-12">
                    <div class="card border-0 shadow-sm card-body">
-                       <h6 class="color-green fw-bold">Vrijwillligers</h6>
+                       <h6 class="color-green fw-bold">{{ __('pages/statistics.widget.volunteer-count') }}</h6>
                        <h3 class="text-muted mb-0"><x-heroicon-o-users class="icon icon-statistic"/> {{ $getVolunteerCount }}</h3>
                    </div>
                </div>
                <div class="col-lg-2 mb-4 col-sm-12">
                    <div class="card border-0 shadow-sm card-body">
-                       <h6 class="color-green fw-bold">Registraties vandaag</h6>
+                       <h6 class="color-green fw-bold">{{ __('pages/statistics.widget.registration-count') }}</h6>
                        <h3 class="text-muted mb-0"><x-heroicon-o-user-plus class="icon icon-statistic"/> {{ $getRegisteredToday }}</h3>
                    </div>
                </div>
@@ -54,8 +54,8 @@
        <div class="container-fluid">
            <div class="card bg-white border-0 shadow-sm">
                <div class="card-header bg-white">
-                   <h5 class="pt-2 fw-bold color-green mb-1">Gebruikersevolutie</h5>
-                   <p class="mb-0 text-muted">Hoeveel accounts werden er het afgelopen jaar per week aangemaakt op het Vlaams woordenboek.</p>
+                   <h5 class="pt-2 fw-bold color-green mb-1">{{ __('pages/statistics.user-evolution.heading') }}</h5>
+                   <p class="mb-0 text-muted">{{ __('pages/statistics.user-evolution.description') }}</p>
                </div>
                <div class="card-body">
                    <canvas id="myChart" style="max-height:250px;"></canvas>
@@ -66,8 +66,8 @@
        <div class="container-fluid mt-4">
            <div class="card bg-white border-0 shadow-sm">
                <div class="card-header bg-white">
-                   <h5 class="pt-2 fw-bold color-green mb-1">Artikelen evolutie</h5>
-                   <p class="mb-0 text-muted">Hoeveel artikelen werden er aangemaakt op het Vlaams woordenboek en wat is ermee gebeurd?</p>
+                   <h5 class="pt-2 fw-bold color-green mb-1">{{ __('pages/statistics.article-evolution.heading') }}</h5>
+                   <p class="mb-0 text-muted">{{ __('pages/statistics.article-evolution.description') }}</p>
                </div>
                <div class="card-body">
                    <canvas id="articleEdits" style="max-height:250px;"></canvas>
