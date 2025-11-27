@@ -73,26 +73,26 @@ final readonly class WordInfolist
      */
     private static function archiveInformationTab(): Tab
     {
-        return Tab::make('Archiverings informatie')
+        return Tab::make(__('filament/resources/articles.infolist.archive-information-tab.heading'))
             ->visible(fn(Article $article): bool => $article->state->is(ArticleStates::Archived))
             ->icon(Heroicon::OutlinedArchiveBox)
             ->columns(12)
             ->schema([
                 TextEntry::make('archiever.name')
-                    ->label('Gearchiveerd door')
+                    ->label(__('etymology-resource.infolist.archive-information-tab.entries.archiver'))
                     ->icon(Heroicon::OutlinedUserCircle)
                     ->iconColor('primary')
                     ->columnSpan(3),
                 TextEntry::make('archived_at')
-                    ->label('Gearchiveerd op')
+                    ->label(__('filament/resources/articles.infolist.archive-information-tab.archived-at'))
                     ->icon(Heroicon::OutlinedClock)
                     ->iconColor('primary')
                     ->columnSpan(3)
                     ->date(),
                 TextEntry::make('archiving_reason')
-                    ->label('Beweegredenen')
+                    ->label(__('filament/resources/articles.infolist.archive-information-tab.reason.label'))
                     ->columnSpan(6)
-                    ->placeholder('- geen beweegredenen opgegeven'),
+                    ->placeholder(__('filament/resources/articles.infolist.archive-information-tab.reason.placeholder')),
             ]);
     }
 
@@ -111,7 +111,7 @@ final readonly class WordInfolist
      */
     private static function sourcesInformationTab(): Tab
     {
-        return Tab::make('Bron vermeldingen')
+        return Tab::make(__('filament/resources/articles.infolist.source-information-tab.heading'))
             ->icon(Heroicon::OutlinedBookOpen)
             ->columns(12)
             /** @phpstan-ignore-next-line */
@@ -121,9 +121,9 @@ final readonly class WordInfolist
                     /** @phpstan-ignore-next-line  */
                     ->table([
                         TableColumn::make('#')->alignStart()->width(100),
-                        TableColumn::make('naslagwerk')->alignStart(),
-                        TableColumn::make('referentie')->alignStart(),
-                        TableColumn::make('Toegevoegd op')->alignStart(),
+                        TableColumn::make(__('filament/resources/articles.infolist.archive-information-tab.reason.table-columns.name'))->alignStart(),
+                        TableColumn::make(__('filament/resources/articles.infolist.archive-information-tab.reason.table-columns.reference'))->alignStart(),
+                        TableColumn::make(__('filament/resources/articles.infolist.archive-information-tab.reason.table-columns.added-at'))->alignStart(),
                     ])
                 ->schema([
                     TextEntry::make('referenceWork.abbreviation')
@@ -154,34 +154,34 @@ final readonly class WordInfolist
      */
     private static function publicationInformationTab(): Tab
     {
-        return Tab::make('Publicatie gegevens')
+        return Tab::make(__('filament/resources/articles.infolist.publication-information-tab.heading'))
             ->icon('tabler-file-signal')
             ->visible(fn(Article $article): bool => $article->isPublished())
             ->columns(12)
             ->schema([
                 TextEntry::make('disclaimer.message')
                     ->columnSpanFull()
-                    ->label('Disclaimer')
-                    ->placeholder('- er is momenteel geen disclaimer actief voor dit artikel')
+                    ->label(__('filament/resources/articles.infolist.publication-information-tab.text-entries.disclaimer.label'))
+                    ->placeholder(__('filament/resources/articles.infolist.publication-information-tab.text-entries.disclaimer.placeholder'))
                     ->hintActions(DisclaimerToolbarActions::register()),
                 TextEntry::make('publisher.name')
-                    ->label('Gepubliceerd door')
+                    ->label(__('filament/resources/articles.infolist.publication-information-tab.text-entries.publisher'))
                     ->icon('heroicon-o-user-circle')
                     ->iconColor('primary')
-                    ->placeholder('- onbekend')
+                    ->placeholder(__('filament/resources/articles.infolist.publication-information-tab.text-entries.publisher-placeholder'))
                     ->columnSpan(3),
                 TextEntry::make('views')
-                    ->label('Aantal weergaves')
+                    ->label(__('filament/resources/articles.infolist.publication-information-tab.text-entries.views'))
                     ->icon('tabler-chart-bar')
                     ->iconColor('primary')
                     ->columnSpan(3),
                 TextEntry::make('editor.name')
-                    ->label('Redactie door')
+                    ->label(__('filament/resources/articles.infolist.publication-information-tab.text-entries.editor'))
                     ->icon('heroicon-o-user-circle')
                     ->iconColor('primary')
                     ->columnSpan(3),
                 TextEntry::make('published_at')
-                    ->label('Gepubliceerd sinds')
+                    ->label(__('filament/resources/articles.infolist.publication-information-tab.text-entries.published-at'))
                     ->icon('heroicon-o-clock')
                     ->iconColor('primary')
                     ->date()
@@ -205,31 +205,28 @@ final readonly class WordInfolist
      */
     private static function lemmaInformationTab(): Tab
     {
-        return Tab::make('Lemma informatie')
+        return Tab::make(__('filament/resources/articles.infolist.article-information-tab.heading'))
             ->icon('heroicon-o-information-circle')
             ->columns(12)
             ->schema([
                 TextEntry::make('state')
-                    ->label('Artikel status')
+                    ->label(__('filament/resources/articles.infolist.article-information-tab.text-entries.state'))
                     ->badge()
-                    ->translateLabel()
                     ->columnSpan(4),
                 TextEntry::make('word')
-                    ->label('Woord')
-                    ->columnSpan(4)
-                    ->translateLabel(),
+                    ->label(__('filament/resources/articles.infolist.article-information-tab.text-entries.word'))
+                    ->columnSpan(4),
                 TextEntry::make('keywords')
                     ->label('Kernwoorden')
-                    ->translateLabel()
                     ->placeholder('-')
                     ->columnSpan(4),
                 TextEntry::make('partOfSpeech.name')
-                    ->label('Woordsoort')
+                    ->label(__('filament/resources/articles.infolist.article-information-tab.text-entries.part-of-speech'))
                     ->columnSpan(4)
                     ->placeholder('-')
                     ->translateLabel(),
                 TextEntry::make('characteristics')
-                    ->label('Kenmerken')
+                    ->label(__('filament/resources/articles.infolist.article-information-tab.text-entries.characteristics'))
                     ->columnSpan(4)
                     ->placeholder('-')
                     ->translateLabel(),
@@ -238,17 +235,17 @@ final readonly class WordInfolist
                     ->translateLabel()
                     ->columnSpan(4),
                 TextEntry::make('regions.name')
-                    ->label("Regio's")
+                    ->label(__('filament/resources/articles.infolist.article-information-tab.text-entries.regions'))
                     ->badge()
                     ->icon('heroicon-o-map')
                     ->color('success')
                     ->columnSpan(12),
                 TextEntry::make('description')
-                    ->label('Beschrijving')
+                    ->label(__('filament/resources/articles.infolist.article-information-tab.text-entries.description'))
                     ->markdown()
                     ->columnSpan(12),
                 TextEntry::make('example')
-                    ->label('Voorbeeld')
+                    ->label(__('filament/resources/articles.infolist.edit-information-tab.text-entries.example'))
                     ->markdown()
                     ->columnSpan(12),
             ]);
@@ -270,36 +267,36 @@ final readonly class WordInfolist
      */
     private static function editInformationTab(): Tab
     {
-        return Tab::make('Bewerking informatie')
+        return Tab::make(__('filament/resources/articles.infolist.edit-information-tab.heading'))
             ->icon('heroicon-o-pencil-square')
             ->columns(12)
             ->schema([
                 TextEntry::make('author.name')
-                    ->label('Toegevoegd door')
+                    ->label(__('filament/resources/articles.infolist.edit-information-tab.text-entries.author.label'))
                     ->icon('heroicon-o-user-circle')
                     ->iconColor('primary')
-                    ->placeholder('onbekend')
+                    ->placeholder(__('filament/resources/articles.infolist.edit-information-tab.text-entries.author.placeholder'))
                     ->columnSpan(8),
                 TextEntry::make('created_at')
-                    ->label('Toegevoegd op')
+                    ->label(__('filament/resources/articles.infolist.edit-information-tab.text-entries.created-at'))
                     ->icon('heroicon-o-clock')
                     ->iconColor('primary')
                     ->date()
                     ->columnSpan(4),
                 TextEntry::make('editor.name')
-                    ->label('Redactie door')
+                    ->label(__('filament/resources/articles.infolist.edit-information-tab.text-entries.editor.label'))
                     ->icon('heroicon-o-user-circle')
                     ->iconColor('primary')
-                    ->placeholder('- onbekend / niet toegewezen')
+                    ->placeholder(__('filament/resources/articles.infolist.edit-information-tab.text-entries.editor.placeholder'))
                     ->columnSpan(4),
                 TextEntry::make('audits_count')
-                    ->label('Aantal bewerkingen')
+                    ->label(__('filament/resources/articles.infolist.edit-information-tab.text-entries.audit-count'))
                     ->icon('heroicon-o-pencil-square')
                     ->iconColor('primary')
                     ->badge()
                     ->columnSpan(4),
                 TextEntry::make('updated_at')
-                    ->label('Laatst gewijzigd')
+                    ->label(__('filament/resources/articles.infolist.edit-information-tab.text-entries.updated-at'))
                     ->icon('heroicon-o-clock')
                     ->iconColor('primary')
                     ->date()
