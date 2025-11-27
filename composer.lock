@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2292147454d212420bc082e2c8bb7703",
+    "content-hash": "43e1af9f3bf864d3a2f219de9b8e20ff",
     "packages": [
         {
             "name": "aaronfrancis/fast-paginate",
@@ -1080,6 +1080,71 @@
                 }
             ],
             "time": "2025-03-09T17:39:31+00:00"
+        },
+        {
+            "name": "cmsmaxinc/filament-error-pages",
+            "version": "v2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cmsmaxinc/filament-error-pages.git",
+                "reference": "7beaf77e770857aeaa705a036c4d291040411523"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cmsmaxinc/filament-error-pages/zipball/7beaf77e770857aeaa705a036c4d291040411523",
+                "reference": "7beaf77e770857aeaa705a036c4d291040411523",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^4.0.0",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.15.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.22",
+                "nunomaduro/collision": "^7.9",
+                "orchestra/testbench": "^8.0",
+                "pestphp/pest": "^2.1",
+                "pestphp/pest-plugin-arch": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "FilamentErrorPages": "Cmsmaxinc\\FilamentErrorPages\\Facades\\FilamentErrorPages"
+                    },
+                    "providers": [
+                        "Cmsmaxinc\\FilamentErrorPages\\FilamentErrorPagesServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Cmsmaxinc\\FilamentErrorPages\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "CMS Max"
+                }
+            ],
+            "description": "Users don’t see blank 404 or 503 error pages. Instead, it shows helpful messages or guides them when something goes wrong.",
+            "homepage": "https://github.com/cmsmaxinc/filament-error-pages",
+            "keywords": [
+                "error-pages",
+                "filament-error-pages",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/cmsmaxinc/filament-error-pages/issues",
+                "source": "https://github.com/cmsmaxinc/filament-error-pages"
+            },
+            "time": "2025-09-01T11:21:34+00:00"
         },
         {
             "name": "codewithdennis/filament-factory-action",
