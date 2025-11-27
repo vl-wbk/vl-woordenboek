@@ -19,31 +19,66 @@ use Filament\Support\Contracts\HasLabel;
  */
 enum LanguageStatus: int implements HasLabel, HasDescription
 {
+    /**
+     * Respresents a word/suggestion accepted as Standard Dutch.
+     */
     case StandaardNederlands = 1;
+
+    /**
+     * Represents a word/suggestion accepted as standard Belgian Dutch.
+     */
     case StandaardBelgischNederlands = 2;
+
+    /**
+     * Represents a word/suggestion that is a candidate for standard Belgian Dutch but has not yet been officially accepted.
+     */
     case KandidaatBelgischNederlands = 3;
+
+    /**
+     * Represents a word/suggestion whose language status is unknown or not yet determined.
+     */
     case Onbekend = 4;
+
+    /**
+     * Represents a word/suggestion that is a candidate for standard Belgian Dutch but has not yet been officially accepted.
+     */
     case GeenStandaardTaal = 5;
 
+    /**
+     * Retrieves the displayable label for the enum case.
+     *
+     * This method uses a match expression to return a translated string corresponding to the current enum case,
+     * which is useful for ui display.
+     *
+     * @return string The translated display label.
+     */
     public function getLabel(): string
     {
         return match ($this) {
-            self::StandaardNederlands => 'Standaard nederlands',
-            self::StandaardBelgischNederlands => 'Standaard Belgisch-Nederlands',
-            self::KandidaatBelgischNederlands => 'Kandidaat Belgisch-Nederlands',
-            self::Onbekend => 'Onbekend',
-            self::GeenStandaardTaal => 'Geen standaardtaal',
+            self::StandaardNederlands => __('enums/language-status.standaard-nederlands'),
+            self::StandaardBelgischNederlands => __('enums/language-status.standaard-belgisch-nederlands'),
+            self::KandidaatBelgischNederlands => __('enums/language-status.kandidaat-belgisch-nederlands'),
+            self::Onbekend => __('enums/language-status.onbekend'),
+            self::GeenStandaardTaal => __('enums/language-status.geen-standaard-taal'),
         };
     }
 
+    /**
+     * Retrieves a more detailed description for the enum case.
+     *
+     * This method uses a match expression to return a translated descriptive string corresponding to the current enum case,
+     * often used as tooltips or help text.
+     *
+     * @return string The translated detailed description.
+     */
     public function getDescription(): string
     {
         return match ($this) {
-            self::StandaardNederlands => 'Een officieel erkend woord dat voorkomt in Nederlandse woordenboeken en algemeen gebruikt wordt in Nederland en Belgie in formele en informele contexten.',
-            self::StandaardBelgischNederlands => 'Een officieel erkend woord dat specifiek is voor het Belgisch Nederlands, voorkomt in Belgische woordenboeken en algemeen aanvaard is in België.',
-            self::KandidaatBelgischNederlands => 'Een woord dat frequent gebruikt wordt in België maar (nog) niet officieel erkend is als standaardtaal, mogelijk op weg naar erkenning.',
-            self::Onbekend => 'Een woord waarvan de status nog niet bepaald is of waarover onvoldoende informatie beschikbaar is',
-            self::GeenStandaardTaal => 'Een woord dat niet tot de standaardtaal behoort, zoals dialect of streektaal, en niet algemeen aanvaard is in formele contexten.',
+            self::StandaardNederlands => __('enums/language-status.descriptions.standaard-nederlands'),
+            self::StandaardBelgischNederlands => __('enums/language-status.descriptions.standaard-belgisch-nederlands'),
+            self::KandidaatBelgischNederlands => __('enums/language-status.descriptions.kandidaat-belgisch-nederlands'),
+            self::Onbekend => __('enums/language-status.descriptions.onbekend'),
+            self::GeenStandaardTaal => __('enums/language-`status.descriptions.geen-standaard-taal'),
         };
     }
 }
