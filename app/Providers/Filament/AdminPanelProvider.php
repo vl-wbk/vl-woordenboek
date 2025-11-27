@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use Cmsmaxinc\FilamentErrorPages\FilamentErrorPagesPlugin;
 use Filament\Support\Enums\Width;
 use CharrafiMed\GlobalSearchModal\GlobalSearchModalPlugin;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
@@ -116,6 +117,7 @@ final class AdminPanelProvider extends PanelProvider
                 'info' => Color::Cyan,       // Lighter blue/cyan for info
             ])
             ->plugins([
+                FilamentErrorPagesPlugin::make(),
                 EnvironmentIndicatorPlugin::make()
                     ->visible(! app()->isProduction())
                     ->showBorder(false)

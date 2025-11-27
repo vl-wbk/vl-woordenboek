@@ -149,25 +149,6 @@ final class ArticleResource extends Resource
     }
 
     /**
-     * Modifies the Eloquent query to exclude soft deleted articles for non-editor users.
-     *
-     * This method overrides the default Eloquent query to remove the global scope that automatically excludes soft-deleted records.
-     * This allows administrators and other privileged users to see soft-deleted articles in the list.
-     * Editor and Editor-in-Chief users will see all records.
-     *
-     * @return Builder<Article> The modified Eloquent query builder.
-     */
-    public static function getEloquentQuery(): Builder
-    {
-        if (auth()->user()->user_type->in(enums: [UserTypes::Editor, UserTypes::EditorInChief])) {
-            return parent::getEloquentQuery();
-        }
-
-        return parent::getEloquentQuery()
-            ->withoutGlobalScopes([SoftDeletingScope::class]);
-    }
-
-    /**
      * Determines what text should be shown as the main title in global search results.
      * In this case, we display the word (lemma) itself as the primary identifier.
      *

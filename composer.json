@@ -13,6 +13,7 @@
         "bezhansalleh/filament-shield": "^4.0",
         "charrafimed/global-search-modal": "^4.0",
         "cmgmyr/messenger": "^2.31",
+        "cmsmaxinc/filament-error-pages": "^2.0",
         "codewithdennis/filament-factory-action": "4.x-dev",
         "cybercog/laravel-ban": "^4.10",
         "devonab/filament-easy-footer": "^2.0",
