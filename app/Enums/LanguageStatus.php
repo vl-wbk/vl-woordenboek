@@ -20,7 +20,7 @@ use Filament\Support\Contracts\HasLabel;
 enum LanguageStatus: int implements HasLabel, HasDescription
 {
     /**
-     * Respresents a word/suggestion accepted as Standard Dutch.
+     * Respresents a word/suggestion accepted as Standard Dutch.enu
      */
     case StandaardNederlands = 1;
 
@@ -78,7 +78,7 @@ enum LanguageStatus: int implements HasLabel, HasDescription
             self::StandaardBelgischNederlands => __('enums/language-status.descriptions.standaard-belgisch-nederlands'),
             self::KandidaatBelgischNederlands => __('enums/language-status.descriptions.kandidaat-belgisch-nederlands'),
             self::Onbekend => __('enums/language-status.descriptions.onbekend'),
-            self::GeenStandaardTaal => __('enums/language-`status.descriptions.geen-standaard-taal'),
+            self::GeenStandaardTaal => __('enums/language-status.descriptions.geen-standaard-taal'),
         };
     }
 }
