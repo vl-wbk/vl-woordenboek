@@ -26,6 +26,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon|null         $created_at  The timestamp of note creation
  * @property Carbon|null         $updated_at  The timestamp of the last modification
  *
+ * @property-read User $author  The variable that holds all the information about the user who authored the note
+ *
  * @package App\Models
  */
 final class Note extends Model

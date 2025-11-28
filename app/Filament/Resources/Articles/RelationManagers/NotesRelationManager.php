@@ -69,13 +69,13 @@ final class NotesRelationManager extends RelationManager
             ->components([
                 TextInput::make('title')
                     ->required()
-                    ->label('Titel')
+                    ->label(__('filament/RelationManagers/NotesRelationManager.form.title'))
                     ->translateLabel()
                     ->columnSpan(7)
                     ->maxLength(255),
                 Textarea::make('body')
                     ->required()
-                    ->label('Notitie')
+                    ->label(__('filament/RelationManagers/NotesRelationManager.form.body'))
                     ->translateLabel()
                     ->rows(4)
                     ->columnSpanFull(),
@@ -107,7 +107,7 @@ final class NotesRelationManager extends RelationManager
             ->columns(12)
             ->components([
                 TextEntry::make('body')
-                    ->label('Notitie')
+                    ->label(__('filament/RelationManagers/NotesRelationManager.infolist.body.label'))
                     ->hiddenLabel()
                     ->columnSpanFull(),
             ]);
@@ -144,11 +144,11 @@ final class NotesRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->heading('Notities')
-            ->description('Overzicht van alle geregistreerde notities omtrent het woordenboek artikel.')
+            ->heading(__('filament/RelationManagers/NotesRelationManager.table.heading'))
+            ->description(__('filament/RelationManagers/NotesRelationManager.description'))
             ->emptyStateIcon('heroicon-o-document-text')
-            ->emptyStateHeading('Geen notities')
-            ->emptyStateDescription('Momenteel zijn er geen notities gevonden voor het woordenboek artikel.')
+            ->emptyStateHeading(__('filament/RelationManagers/NotesRelationManager.empty-state.heading'))
+            ->emptyStateDescription(__('filament/RelationManagers/NotesRelationManager.empty-state.desciption'))
             ->recordTitleAttribute('title')
             ->columns($this->registerTableSchemaLayout())
             ->headerActions($this->registerTableHeaderActions())
@@ -175,7 +175,10 @@ final class NotesRelationManager extends RelationManager
             ->modalIcon('heroicon-o-document-text')
             ->modalIconColor('gray')
             ->modalHeading(fn(Note $note): string => $note->title)
-            ->modalDescription(fn(Note $note): string => trans('Aangemaakt door :author op :date', ['author' => $note->author->name, 'date' => $note->created_at->format('d/m/Y')]));
+            ->modalDescription(fn(Note $note): string => trans(__('filament/RelationManagers/NotesRelationManager.actions.view-action.modal.description'), [
+                'author' => $note->author->name,
+                'date' => $note->created_at->format('d/m/Y')
+            ]));
     }
 
     /**
@@ -190,9 +193,9 @@ final class NotesRelationManager extends RelationManager
     private function getDeleteAction(): DeleteAction
     {
         return DeleteAction::make()
-            ->modalHeading('Notitie verwijderen')
-            ->modalDescription('U staat op het punt om een notitie te verwijderen. Bent u zeker dat u deze actie wilt uitvoeren?')
-            ->modalSubmitActionLabel('Ja, ik ben zeker')
+            ->modalHeading(__('filament/RelationManagers/NotesRelationManager.actions.delete-action.modal.heading'))
+            ->modalDescription(__('filament/RelationManagers/NotesRelationManager.actions.delete-action.modal.description'))
+            ->modalSubmitActionLabel(__('filament/RelationManagers/NotesRelationManager.actions.delete-action.modal.submit-label'))
             ->hiddenLabel();
     }
 
@@ -211,8 +214,8 @@ final class NotesRelationManager extends RelationManager
         return EditAction::make()
             ->modalWidth(Width::ThreeExtraLarge)
             ->modalIcon('heroicon-o-pencil-square')
-            ->modalHeading('Notitie bewerken')
-            ->modalDescription('Gegevens van een notitie dat gekoppeld is aan het woordenboek artikel bewerken.')
+            ->modalHeading(__('filament/RelationManagers/NotesRelationManager.actions.edit-action.modal.heading'))
+            ->modalDescription(__('filament/RelationManagers/NotesRelationManager.actions.edit-action.description'))
             ->modalIconColor('warning')
             ->hiddenLabel();
     }
@@ -230,10 +233,26 @@ final class NotesRelationManager extends RelationManager
     private function registerTableSchemaLayout(): array
     {
         return [
-            TextColumn::make('author.name')->label('Auteur')->weight(FontWeight::Bold)->searchable()->icon('heroicon-o-user-circle')->iconColor('primary'),
-            TextColumn::make('title')->label('Titel')->searchable(),
-            TextColumn::make('updated_at')->label('Laatst bewerkt')->date()->sortable(),
-            TextColumn::make('created_at')->label('Registratie datum')->date()->sortable(),
+            TextColumn::make('author.name')
+                ->label(__('filament/RelationManagers/NotesRelationManager.colums.author'))
+                ->weight(FontWeight::Bold)
+                ->searchable()
+                ->icon('heroicon-o-user-circle')
+                ->iconColor('primary'),
+
+            TextColumn::make('title')
+                ->label(__('filament/RelationManagers/NotesRelationManager.colums.title'))
+                ->searchable(),
+
+            TextColumn::make('updated_at')
+                ->label(__('filament/RelationManagers/NotesRelationManager.colums.updated-at'))
+                ->date()
+                ->sortable(),
+
+            TextColumn::make('created_at')
+                ->label(__('filament/RelationManagers/NotesRelationManager.colums.created-at'))
+                ->date()
+                ->sortable(),
         ];
     }
 
@@ -251,15 +270,15 @@ final class NotesRelationManager extends RelationManager
     {
         return [
             CreateAction::make()
-                ->label('Notitie aanmaken')
+                ->label(__('filament/RelationManagers/NotesRelationManager.actions.create-action.label'))
                 ->icon('heroicon-o-plus')
                 ->color('gray')
                 ->modalIcon('heroicon-o-pencil-square')
                 ->modalIconColor('gray')
                 ->modalWidth(Width::ThreeExtraLarge)
-                ->modalDescription('Toevoegen van een notitie aan het woordenboek artikel.')
+                ->modalDescription(__('filament/RelationManagers/NotesRelationManager.actions.create-action.modal.description'))
                 ->createAnother(false)
-                ->modalHeading('Notitie aanmaken')
+                ->modalHeading(__('filament/RelationManagers/NotesRelationManager.actions.create-action.label'))
                 ->modalWidth(Width::ThreeExtraLarge)
                 ->mutateDataUsing(function (array $data): array {
                     $data['author_id'] = Auth::user()->getAuthIdentifier();
@@ -282,9 +301,9 @@ final class NotesRelationManager extends RelationManager
         return [
             BulkActionGroup::make([
                 DeleteBulkAction::make()
-                    ->modalHeading('Notitie(s) verwijderen')
-                    ->modalDescription('U staat op het punt om een of meerdere notities te verwijderen. Bent u zeker dat u deze actie wilt uitvoeren?')
-                    ->modalSubmitActionLabel('Ja, ik ben zeker'),
+                    ->modalHeading(__('filament/RelationManagers/NotesRelationManager.actions.bulk-delete.modal.heading'))
+                    ->modalDescription(__('filament/RelationManagers/NotesRelationManager.actions.bulk-delete.modal.description'))
+                    ->modalSubmitActionLabel(__('filament/RelationManagers/NotesRelationManager.actions.bulk-delete.modal.submit-label')),
             ]),
         ];
     }
