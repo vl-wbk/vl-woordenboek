@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Articles\RelationManagers;
 
 use BackedEnum;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\DetachAction;
 use Filament\Actions\BulkActionGroup;
@@ -96,24 +97,24 @@ final class LabelsRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->heading('Gekoppelde labels')
-            ->description('Overzicht van alle aan het woord gekoppelde labels.')
-            ->emptyStateHeading('Geen label gevonden')
-            ->emptyStateIcon('heroicon-o-tag')
-            ->emptyStateDescription('Momenteel zijn er geen labels gekoppeld aan het artikel gebruik de bovenstaande knop om een label te koppelen')
-            ->recordTitleAttribute('name')
-            ->columns([
+            ->heading(heading: __('filament/RelationManagers/LabelsRelationManager.table.heading'))
+            ->description(description: __('filament/RelationManagers/LabelsRelationManager.table.description'))
+            ->emptyStateHeading(heading: __('filament/RelationManagers/LabelsRelationManager.empty-state.heading'))
+            ->emptyStateIcon(icon: Heroicon::OutlinedTag)
+            ->emptyStateDescription(description: __('filament/RelationManagers/LabelsRelationManager.empty-state.description'))
+            ->recordTitleAttribute(attribute: 'name')
+            ->columns(components: [
                 TextColumn::make('name')
-                    ->label('Naam')
+                    ->label(label: __('filament/RelationManagers/LabelsRelationManager.table.columns.name'))
                     ->badge()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('description')
-                    ->label('Beschrijving')
-                    ->placeholder('- geen beschrijving opgegeven')
+                    ->label(label: __('filament/RelationManagers/LabelsRelationManager.table.columns.description'))
+                    ->placeholder(placeholder:__('filament/RelationManagers/LabelsRelationManager.table.columns.description-placeholder'))
                     ->formatStateUsing(fn(Label $label): string => Str::limit($label->description, 60, preserveWords: true)),
                 TextColumn::make('pivot.created_at')
-                    ->label('Gekoppeld op')
+                    ->label(label: __('filament/RelationManagers/LabelsRelationManager.table.columns.attached-at'))
                     ->date()
                     ->sortable(),
             ])
@@ -138,11 +139,11 @@ final class LabelsRelationManager extends RelationManager
     private function getCreateAction(): CreateAction
     {
         return CreateAction::make()
-            ->modalIcon('heroicon-o-plus')
+            ->modalIcon(icon: Heroicon::OutlinedPlus)
             ->modalIconColor('gray')
             ->createAnother(false)
-            ->modalDescription('Na het aanmaken van een label zal deze automatisch aan heb woordenboek artikel worden gekoppeld.')
-            ->icon('heroicon-o-plus');
+            ->modalDescription(description:__('filament/RelationManagers/LabelsRelationManager.actions.create.modal.description'))
+            ->icon(icon: Heroicon::OutlinedPlus);
     }
 
     /**
@@ -153,14 +154,14 @@ final class LabelsRelationManager extends RelationManager
     {
         return AttachAction::make()
             ->modalWidth(Width::TwoExtraLarge)  // S
-            ->modalIcon('heroicon-o-link')
+            ->modalIcon(icon: Heroicon::OutlinedLink)
             ->modalIconColor('gray')
             ->attachAnother(false)
             ->multiple()
             ->preloadRecordSelect()
             ->modalAutofocus(false)
             ->color('gray')
-            ->icon('heroicon-o-link')
-            ->label('Labels koppelen');
+            ->icon(icon: Heroicon::OutlinedLink)
+            ->label(__('filament/RelationManagers/LabelsRelationManager.actions.attach.label'));
     }
 }
