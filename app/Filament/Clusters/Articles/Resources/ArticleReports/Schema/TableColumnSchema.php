@@ -37,21 +37,24 @@ final readonly class TableColumnSchema
     {
         return [
             TextColumn::make('author.name')
-                ->label('Gemeld door')
+                ->label(label: __('filament/resources/article-reports.table.columns.reported-by'))
                 ->weight(FontWeight::Bold)
                 ->icon('heroicon-o-user-circle')
                 ->color('primary')
                 ->iconColor('primary')
                 ->searchable(),
+
             TextColumn::make('state')
-                ->label('Status')
+                ->label(label: __('filament/resources/article-reports.table.columns.status'))
                 ->badge(),
+
             TextColumn::make('description')
                 ->label('Melding')
                 ->searchable()
                 ->limit(50),
+
             TextColumn::make('created_at')
-                ->label('Gemeld op')
+                ->label(label: __('filament/resources/article-reports.table.columns.created-at'))
                 ->date()
                 ->sortable(),
         ];

@@ -89,6 +89,8 @@ final class ArticleReportResource extends Resource
      * The infolist includes sections and fieldsets that display general information about the report, follow-up details, and user feedback.
      * It also provides header actions for viewing related user and article information.
      *
+     * @todo Refactor it to an infolist scheme.
+     *
      * @param \Filament\Schemas\Schema $schema The infolist instance to configure.
      * @return \Filament\Schemas\Schema The configured infolist instance.
      */
@@ -141,8 +143,8 @@ final class ArticleReportResource extends Resource
             ->heading(self::$pluralModelLabel)
             ->description(self::tableDescription())
             ->emptyStateIcon(self::$navigationIcon)
-            ->emptyStateHeading('Geen meldingen gevonden')
-            ->emptyStateDescription('Het lijk erop dat er momenteel geen openstaande meldingen zijn die gerelateerd zijn aan de atikelen van het Vlaams Woordenboek.')
+            ->emptyStateHeading(heading: __('filament/resources/article-reports.table.empty-state.heading'))
+            ->emptyStateDescription(description: __('filament/resources/article-reports.table.empty-state.description'))
             ->columns(SchemaTableColumnSchema::make())
             ->recordActions(TableActionsConfiguration::rowActions())
             ->toolbarActions(TableActionsConfiguration::bulkActions())
@@ -158,7 +160,7 @@ final class ArticleReportResource extends Resource
      */
     private static function tableDescription(): string
     {
-        return trans('Soms kan het zijn dat er een foutje sluipt in een woordenboek artikel en gebruikers deze melden. Deze table is een overzicht van alle meldingen die zijn uitgevoerd door een gebruiker.');
+        return __('filament/resources/article-reports.table.description');
     }
 
     /**
@@ -170,11 +172,11 @@ final class ArticleReportResource extends Resource
         return [
             SelectFilter::make('state')
                 ->options(Status::class)
-                ->label('Status')
+                ->label(__('filament/resources/article-reports.table.filters.status'))
                 ->multiple()
                 ->default([Status::Open->value, Status::InProgress->value]),
             Filter::make('assigned')
-                ->label('Toegewezen aan mij')
+                ->label(__('filament/resources/article-reports.table.filters.assigned'))
                 ->query(fn(Builder $query): Builder => $query->where('assignee_id', auth()->id())),
         ];
     }
@@ -233,30 +235,33 @@ final class ArticleReportResource extends Resource
      */
     private static function followUpFieldset(): Fieldset
     {
-        return Fieldset::make('Gegevens omtrent de opvolging')
+        return Fieldset::make(label: __('filament/resources/article-reports.fieldsets.feedback.follow-up.label'))
             ->columns(12)
             ->columnSpanFull()
             ->schema(components: [
                 TextEntry::make('state')
-                    ->label('Status')
+                    ->label(label: __('filament/resources/article-reports.fieldsets.follow-up.entries.status'))
                     ->badge()
                     ->columnSpan(3),
+
                 TextEntry::make('assignee.name')
-                    ->label('Opgevolgd door')
+                    ->label(label: __('filament/resources/article-reports.fieldsets.follow-up.entries.assignee'))
                     ->color('highlight')
                     ->iconColor('highlight')
                     ->weight(FontWeight::SemiBold)
                     ->icon('heroicon-o-user-circle')
                     ->columnSpan(3)
-                    ->placeholder('geen opvolger geregistreerd'),
+                    ->placeholder(__('filament/resources/article-reports.fieldsets.follow-up.entries.assignee-placeholder')),
+
                 TextEntry::make('assigned_at')
-                    ->label('Toegewezen op')
+                    ->label(label: __('filament/resources/article-reports.fieldsets.follow-up.entries.assigned-at'))
                     ->icon('heroicon-o-clock')
                     ->iconColor('highlight')
                     ->columnSpan(3)
                     ->date(),
+
                 TextEntry::make('closed_at')
-                    ->label('Afgesloten op')
+                    ->label(__('filament/resources/article-reports.fieldsets.follow-up.entries.closed-at'))
                     ->icon('heroicon-o-clock')
                     ->iconColor('highlight')
                     ->columnSpan(3)
@@ -273,7 +278,7 @@ final class ArticleReportResource extends Resource
      */
     private static function feedbackFieldset(): Fieldset
     {
-        return Fieldset::make('Door de gebruiker gegeven feedback')
+        return Fieldset::make(label: __('filament/resources/article-reports.fieldsets.feedback.label'))
             ->columnSpanFull()
             ->schema(components: [
                 TextEntry::make('description')
