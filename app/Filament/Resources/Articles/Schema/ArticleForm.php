@@ -180,8 +180,9 @@ final readonly class ArticleForm
                 ->relationship()
                 ->compact()
                 ->table([
-                    Repeater\TableColumn::make('bron')->width(400),
-                    Repeater\TableColumn::make('referentie')
+                    Repeater\TableColumn::make('Naslagwerk')->alignLeft()->width(275),
+                    Repeater\TableColumn::make('Notatie')->alignLeft(),
+                    Repeater\TableColumn::make('Pagina')->alignLeft()->width(175),
                 ])
                 ->schema([
                     Select::make('reference_work_id')
@@ -192,8 +193,10 @@ final readonly class ArticleForm
                         ->distinct()
                         ->searchable()
                         ->disableOptionsWhenSelectedInSiblingRepeaterItems(),
-                    Textarea::make('notation')->rows(1)
-                        ->required()
+                    Textarea::make('container_section')->rows(1)
+                        ->required(),
+                    TextInput::make('page_reference')
+                        ->placeholder('p. 12 of pp. 20-30'),
                 ])
                 ->addActionLabel('Naslagwerk toevoegen')
                 ->defaultItems(0)

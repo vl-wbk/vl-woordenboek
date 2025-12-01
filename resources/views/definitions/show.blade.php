@@ -238,30 +238,14 @@
 
                        @if ($word->sources()->exists())
                            <div class="tab-pane fade" id="sources-tab-pane" role="tabpanel" aria-labelledby="sources-tab" tabindex="0">
-                               <div class="table-responsive">
-                                   <table class="table table-hover table-sm mb-0">
-                                       <thead>
-                                       <tr>
-                                           <th scope="col">#</th>
-                                           <th scope="col">Naslagwerk</th>
-                                           <th scope="col">Referentie</th>
-                                       </tr>
-                                       </thead>
-                                       <tbody>
-                                       @foreach ($word->sources as $source)
-                                           <tr>
-                                               <td>
-                                                    <span class="badge badge-primary">
-                                                        <x:heroicon-s-book-open class="icon icon-sm me-1"/> {{ $source->referenceWork->abbreviation }}
-                                                    </span>
-                                               </td>
-                                               <td>{{ $source->referenceWork->name }}</td>
-                                               <td>{{ $source->notation }}</td>
-                                           </tr>
-                                       @endforeach
-                                       </tbody>
-                                   </table>
-                               </div>
+                               <ul class="list-unstyled mb-0">
+                                   @foreach($word->sources as $source)
+                                       <li>
+                                           <span class="fw-bolder me-1">{{ $loop->iteration }}.</span>
+                                           <span class="text-muted fst-italic">{!! str($source->source_citation)->sanitizeHtml() !!}</span>
+                                       </li>
+                                   @endforeach
+                               </ul>
                            </div>
                        @endif
 

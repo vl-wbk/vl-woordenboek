@@ -120,17 +120,18 @@ final readonly class WordInfolist
                 RepeatableEntry::make('sources')
                     /** @phpstan-ignore-next-line  */
                     ->table([
-                        TableColumn::make('#')->alignStart()->width(100),
-                        TableColumn::make(__('filament/resources/articles.infolist.archive-information-tab.reason.table-columns.name'))->alignStart(),
+                        TableColumn::make('Type')->alignStart()->width(100),
+                        TableColumn::make(__('filament/resources/articles.infolist.archive-information-tab.reason.table-columns.name'))->width(250)->alignStart(),
                         TableColumn::make(__('filament/resources/articles.infolist.archive-information-tab.reason.table-columns.reference'))->alignStart(),
-                        TableColumn::make(__('filament/resources/articles.infolist.archive-information-tab.reason.table-columns.added-at'))->alignStart(),
+                        TableColumn::make('Pagina')->alignLeft()->width(175),
+                        TableColumn::make(__('filament/resources/articles.infolist.archive-information-tab.reason.table-columns.added-at'))->width(200)->alignStart(),
                     ])
                 ->schema([
-                    TextEntry::make('referenceWork.abbreviation')
-                        ->badge()
-                        ->icon(Heroicon::BookOpen),
+                    TextEntry::make('referenceWork.type')
+                        ->badge(),
                     TextEntry::make('referenceWork.name'),
-                    TextEntry::make('notation'),
+                    TextEntry::make('container_section'),
+                    TextEntry::make('page_reference')->placeholder('-'),
                     TextEntry::make('created_at')
                         ->date(),
                 ])

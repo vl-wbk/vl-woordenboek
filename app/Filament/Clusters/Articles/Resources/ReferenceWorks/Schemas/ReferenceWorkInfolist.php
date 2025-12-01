@@ -63,9 +63,27 @@ final readonly class ReferenceWorkInfolist
                 ->columnSpan(3) // Occupies 3 out of 12 columns in the grid
                 ->placeholder('-'), // Displayed if the value is null,
 
+            TextEntry::make('type')
+                ->columnSpan(3)
+                ->badge(),
+
             TextEntry::make('name')
                 ->columnSpan(3)
                 ->label('Naam'),
+
+            TextEntry::make('url')
+                ->placeholder('-')
+                ->columnSpan(3),
+
+            TextEntry::make('publisher')
+                ->label('Uitgever')
+                ->columnSpan(3),
+
+            TextEntry::make('published_at')
+                ->label('Publicatiedatum')
+                ->date()
+                ->columnSpan(3)
+                ->placeholder('-'),
 
             TextEntry::make('created_at')
                 ->columnSpan(3)

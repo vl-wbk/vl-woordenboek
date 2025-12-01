@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\ReferenceWorks\Schemas;
 
+use App\Enums\Articles\ReferenceWorkType;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -33,6 +36,7 @@ final readonly class ReferenceWorkForm
         return $schema
             ->components([
                 Section::make()
+                    ->icon(Heroicon::OutlinedQueueList)
                     ->heading('Naslagwerk formulier')
                     ->description('Via dit formulier kun je een nieuw naslagwerk toevoegen of een bestaan naslagwerk aanpassen.')
                     ->iconColor('primary')
@@ -54,15 +58,38 @@ final readonly class ReferenceWorkForm
         return [
             TextInput::make('abbreviation')
                 ->label('Afkorting')
-                ->columnSpan(4) // Occupies 4 out of 12 columns in the grid
+                ->columnSpan(2) // Occupies 4 out of 12 columns in the grid
+                ->unique()
                 ->required(),
+
+            Select::make('type')
+                ->columnSpan(3)
+                ->native(false)
+                ->required()
+                ->options(ReferenceWorkType::class),
 
             TextInput::make('name')
                 ->label('Naam')
                 ->required()
                 ->unique()
-                ->columnSpan(8) // Occupies 8 out of 12 columns in the grid
+                ->columnSpan(7) // Occupies 8 out of 12 columns in the grid
                 ->maxLength(255),
+
+            TextInput::make('publisher')
+                ->label('Uitgever')
+                ->required()
+                ->columnSpan(6),
+
+            DatePicker::make('published_at')
+                ->label('Publicatiedatum')
+                ->closeOnDateSelection()
+                ->native(false)
+                ->columnSpan(6),
+            TextInput::make('source-hyperlink')
+                ->label('Url')
+                ->columnSpanFull()
+                ->prefixIconColor('primary')
+                ->prefixIcon(Heroicon::OutlinedGlobeEuropeAfrica)
         ];
     }
 }

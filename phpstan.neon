@@ -7,7 +7,6 @@ parameters:
 
     excludePaths:
         - database/seeders/ShieldSeeder.php
-        - database\migrations\2025_09_02_233112_create_pulse_tables.php
 
     paths:
         - app

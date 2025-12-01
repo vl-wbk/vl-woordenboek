@@ -43,16 +43,26 @@ final readonly class ReferenceWorksTable
                     ->color('primary')
                     ->searchable(),
 
-                TextColumn::make('articles_count')->counts('articles'),
+                TextColumn::make('type')
+                    ->label('Type naslagwerk')
+                    ->badge(),
+
+                TextColumn::make('publisher')
+                    ->label('Uitgever'),
 
                 TextColumn::make('name')
                     ->label('Naam')
                     ->searchable(),
+
+                TextColumn::make('published_at')
+                    ->label('Publicatiedatum'),
+
                 TextColumn::make('created_at')
                     ->label('Aangemaakt op')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
                 TextColumn::make('updated_at')
                     ->label('Laatst aangepast')
                     ->dateTime()

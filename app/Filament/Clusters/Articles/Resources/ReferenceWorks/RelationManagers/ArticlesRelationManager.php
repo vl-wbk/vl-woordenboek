@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Filament\Clusters\Articles\Resources\ReferenceWorks\RelationManagers;
 
 use App\Filament\Clusters\Articles\Resources\ArticleReports\ArticleReportResource;
+use App\Filament\Clusters\Articles\Resources\ReferenceWorks\Pages\ViewReferenceWork;
 use App\Filament\Resources\Articles\ArticleResource;
+use App\Models\ArticleReferenceWork;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DetachAction;
@@ -15,6 +17,7 @@ use Filament\Support\Enums\FontWeight;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Manages the articles relationship for the ReferenceWork resource.
@@ -47,6 +50,11 @@ final class ArticlesRelationManager extends RelationManager
         return false;
     }
 
+    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
+    {
+        return new $pageClass() instanceof ViewReferenceWork;
+    }
+
     /**
      * Configures the structure, columns, and behavior of the related records table.
      * This method defines how the list of associated articles is presented within the parent ReferenceWork's page.
@@ -63,27 +71,30 @@ final class ArticlesRelationManager extends RelationManager
             ->emptyStateHeading('Geen gekoppelde artikelen')
             ->emptyStateDescription('Het lijkt erop dat er momenteel geen gekoppelde artikelen zijn gevonden voor het naslagwerk')
             ->columns([
-                TextColumn::make('article.id')
-                    ->label('Artikel ID')
-                    ->weight(FontWeight::Bold)
-                    ->color('primary'),
+                TextColumn::make('article.word')
+                    ->label('Lemma')
+                    ->weight(FontWeight::ExtraBold)
+                    ->color('primary')
+                    ->url(fn (ArticleReferenceWork $articleReferenceWork): string => ArticleResource::getUrl('view', ['record' => $articleReferenceWork->article])),
 
                 TextColumn::make('article.editor.name')
                     ->label('Redacteur'),
-                TextColumn::make('article.word')
-                    ->label('Lemma'),
 
-                TextColumn::make('article.status')
+                TextColumn::make('article.state')
                     ->label('Status')
                     ->badge(),
 
-                TextColumn::make('notation')
+                TextColumn::make('container_section')
                     ->label('Referentie'),
+
+                TextColumn::make('page_reference')
+                    ->placeholder('-'),
+
                 TextColumn::make('created_at')
                     ->label('Gekoppeld sinds'),
             ])
             ->recordActions([
-                DeleteAction::make()->label('Koppeling verwijderen')
+                DeleteAction::make()->label('Ontkoppelen')
             ]);
     }
 }
