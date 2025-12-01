@@ -238,12 +238,6 @@
 
                 <ul class="list-unstyled">
                     <li class="mb-2">
-                        <a href="https://www.vandale.nl/pages/gratis-woordenboek" class="text-white" target="_blank" rel="noopener">
-                            Van Dale
-                        </a>
-                    </li>
-
-                    <li class="mb-2">
                         <a href="https://ivdnt.org/woordenboeken/historische-woordenboeken/woordenboek-der-nederlandsche-taal/" class="text-white" target="_blank" rel="noopener" title="Woordenboek der Nederlandsche Taal">
                             WNT
                         </a>
