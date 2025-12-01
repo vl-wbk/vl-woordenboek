@@ -40,7 +40,7 @@ final readonly class DictionaryArticleController
     public function __invoke(Request $request, Article $word): Renderable|RedirectResponse
     {
         if (Gate::allows(ArticlePolicy::DisplayArticle, $word)) {
-            $word->increment('views', 1); // Increment the view counter for thearticle by one. Because the user decided to view the article.
+            $word->incrementQuietly(column: 'views', extra: ['updated_at' => $word->updated_at]); // Increment the view counter for thearticle by one. Because the user decided to view the article.
 
             return view('definitions.show', data: [
                 'word' => $word,

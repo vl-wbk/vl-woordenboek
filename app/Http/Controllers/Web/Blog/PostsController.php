@@ -29,13 +29,13 @@ final readonly class PostsController
             'categories' => Category::with('posts')->get(),
         ]);
     }
-	
+
 	#[Get(uri: 'nieuws/artikel-insturen', name: 'news:create', middleware: ['auth', 'forbid-banned-user', 'can:submitPost,App\Models\Blog'])]
 	public function create(): Renderable
 	{
 		return view('blog.create');
 	}
-	
+
 	/**
      * @throws InvalidDataClass
      */
@@ -44,14 +44,14 @@ final readonly class PostsController
 	{
 		$storeGuestArticle->handle($storeGuestArticleRequest->getData());
 		flash('We hebben uw artikel goed ontvangen een kernlid zal er spoedig naar kijken.', 'alert-success');
-		
+
 		return back();
 	}
 
     #[Get(uri: '/nieuws/{blog}', name: 'news:show')]
     public function show(Blog $blog): Renderable
     {
-        $blog->increment('views');
+        $blog->incrementQuietly(column: 'views', extra: ['updated_at' => $blog->updated_at]);
 
         return view('blog.show', data: [
             'post' => $blog,
