@@ -47,7 +47,7 @@ final readonly class ArticleProcessor
                 new ConvertHardReturns($article),
                 new StandarizeInternalHyperlinks($article),
             ])
-            ->onQueue('data-migration')
+            ->onQueue(config('platform.migration.queue', 'default'))
             ->dispatch();
         } catch (Throwable $th) { // Throw an exception if the job dispatching fails
             throw new RuntimeException("Failed to dispatch jobs for article #{$article->id} - '{$article->word}': {$th->getMessage()}", 0, $th);

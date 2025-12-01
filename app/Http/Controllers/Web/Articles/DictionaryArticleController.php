@@ -33,8 +33,8 @@ final readonly class DictionaryArticleController
      * This method renders the detailed view for a specific word entry, showing its definition, usage examples, and regional information.
      * Route model binding automatically resolves the {word} parameter to a full Article model instance.
      *
-     * @param Article $word The dictionary entry to display
-     * @return Renderable     The view containing article details
+     * @param  Article $word The dictionary entry to display
+     * @return Renderable    The view containing article details
      */
     #[Get(uri: '/woordenboek-artikel/{word}', name: 'word-information.show')]
     public function __invoke(Request $request, Article $word): Renderable|RedirectResponse
