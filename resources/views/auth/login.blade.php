@@ -19,17 +19,19 @@
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
-                        <div class="row mb-3">
-                            <div class="offset-md-1 col-10">
-                                <div class="border-bottom pb-3">
-                                    <a href="{{ route('login.google.redirect') }}">
-                                        <button type="button" class="btn w-100 btn-social-google border-0 shadow-sm">
-                                            <x-tabler-brand-google class="icon mx-1"/> Aanmelden met je Google account
-                                        </button>
-                                    </a>
+                        @if (\Laravel\Pennant\Feature::active(\App\Features\GoogleSocialAuthentication::class))
+                            <div class="row mb-3">
+                                <div class="offset-md-1 col-10">
+                                    <div class="border-bottom pb-3">
+                                        <a href="{{ route('login.google.redirect') }}">
+                                            <button type="button" class="btn w-100 btn-social-google border-0 shadow-sm">
+                                                <x-tabler-brand-google class="icon mx-1"/> Aanmelden met je Google account
+                                            </button>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
 
                         <div class="row mb-3">
                             <div class="offset-md-1 col-md-10">
