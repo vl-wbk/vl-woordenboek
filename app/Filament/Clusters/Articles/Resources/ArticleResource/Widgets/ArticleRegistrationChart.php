@@ -63,7 +63,7 @@ final class ArticleRegistrationChart extends ChartWidget
         'scales' => [
             'y' => [
                 'beginAtZero' => true,
-                'ticks' => ['stepSize' => 1],
+                'ticks' => ['stepSize' => 40000],
             ],
         ],
         'plugins' => [
