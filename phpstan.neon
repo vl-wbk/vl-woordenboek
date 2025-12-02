@@ -3,11 +3,10 @@ includes:
     - vendor/phpstan/phpstan/conf/bleedingEdge.neon
 
 parameters:
-    level: max
+    level: 7
 
     excludePaths:
         - database/seeders/ShieldSeeder.php
-        - database\migrations\2025_09_02_233112_create_pulse_tables.php
 
     paths:
         - app

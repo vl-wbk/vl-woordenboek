@@ -12,6 +12,9 @@ final class ReferenceWork extends Model
 {
     protected $guarded = ['id'];
 
+    /**
+     * @return HasMany<ArticleReferenceWork, covariant $this>
+     */
     public function articles(): HasMany
     {
         return $this->hasMany(ArticleReferenceWork::class);

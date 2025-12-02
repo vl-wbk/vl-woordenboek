@@ -19,7 +19,7 @@ final class DuplicationArticleAction extends Action
 
     private ?Article $newArticleInstance = null;
 
-    public static function getDefaultName(): ?string
+    public static function getDefaultName(): string
     {
         return 'duplication-action';
     }

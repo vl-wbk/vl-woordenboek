@@ -18,7 +18,6 @@ use Illuminate\Database\Eloquent\Model;
  * efficiently triage multiple selected items by resetting their status to the initial, waiting for review status.
  *
  * @package App\Filament\Resources\Feedback\Actions
- * @extends BulkAction
  */
 final class MarkAsOpenBulkAction extends BulkAction
 {

@@ -26,7 +26,7 @@ final class ViewReferenceWork extends ViewRecord
      * This required static property links the View âhe tp the defined resource, allowing it to retrieve the view
      * schema and the underlying Eloquent model used for displaying the record details.
      *
-     * @var string. Thz Fully qualified Class Name (FQCN) of the ReferenceWorkResource
+     * @var string The Fully qualified Class Name (FQCN) of the ReferenceWorkResource
      */
     protected static string $resource = ReferenceWorkResource::class;
 

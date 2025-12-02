@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * This action allows a user to perform a batch operation directly from the Filament table,
  * updating the status of multiple records to ensure they are marked as handled.
  *
- * @extends BulkAction
+ * @package App\Filament\Resources\Feedback\Actions
  */
 final class MarkAsClosedBulkAction extends BulkAction
 {

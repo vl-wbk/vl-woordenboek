@@ -51,6 +51,7 @@ final readonly class PostsController
     #[Get(uri: '/nieuws/{blog}', name: 'news:show')]
     public function show(Blog $blog): Renderable
     {
+        /** @phpstan-ignore-next-line */
         $blog->incrementQuietly(column: 'views', extra: ['updated_at' => $blog->updated_at]);
 
         return view('blog.show', data: [

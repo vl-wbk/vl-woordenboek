@@ -8,7 +8,7 @@ use Illuminate\Support\Lottery;
 
 final readonly class GoogleSocialAuthentication
 {
-    public function resolve(mixed $scope): bool
+    public function resolve(mixed $scope): false
     {
         return false;
     }

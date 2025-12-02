@@ -27,6 +27,9 @@ class ArticlesRelationManager extends RelationManager
             ->headerActions(actions: $this->getHeaderActions());
     }
 
+    /**
+     * @return array<CreateAction>
+     */
     protected function getHeaderActions(): array
     {
         return [

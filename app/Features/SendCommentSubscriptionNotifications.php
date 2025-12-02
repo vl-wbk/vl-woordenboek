@@ -23,9 +23,9 @@ final readonly class SendCommentSubscriptionNotifications
      * Resolve the current state of the feature flag.
      * This method determines whether the feature is active for the current context (user, tenant, etc.)
      *
-     * @return bool - Return true, indicating the feature is permanently active.
+     * Return true, indicating the feature is permanently active.
      */
-    public function resolve(): bool
+    public function resolve(): true
     {
         return true;
     }

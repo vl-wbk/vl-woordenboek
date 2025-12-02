@@ -37,7 +37,7 @@ final class ListUsers extends ListRecords
      * This method delegates to the `UserResource` to get any widgets defined for its header,
      * allowing for custom components or summaries to be shown preceding the main record listing.
      *
-     * @return array<int, class-string<Widget>> An array of header widget classes.
+     * @return array<class-string> An array of header widget classes.
      */
     protected function getHeaderWidgets(): array
     {

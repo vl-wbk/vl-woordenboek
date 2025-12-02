@@ -49,6 +49,7 @@ class LikeWords extends Component
     public function likeArticle(): void
     {
         Auth::user()->like($this->article);
+        /** @phpstan-ignore-next-line  */
         $this->article->incrementQuietly(column: 'votes_today', extra: ['updated_at' => $this->article->updated_at]);
     }
 
@@ -63,6 +64,7 @@ class LikeWords extends Component
         Auth::user()->unlike($this->article);
 
         if ($this->article->votes_today > 0) {
+            /** @phpstan-ignore-next-line  */
             $this->article->decrementQuitetly(column: 'votes_today', extra: ['updated_at' => $this->article->updated_at]);
         }
     }

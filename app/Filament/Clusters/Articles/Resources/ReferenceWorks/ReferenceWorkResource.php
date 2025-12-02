@@ -16,10 +16,12 @@ use App\Filament\Clusters\Articles\Resources\ReferenceWorks\Tables\ReferenceWork
 use App\Filament\Support\Concerns\HasActiveIcon;
 use App\Models\ReferenceWork;
 use BackedEnum;
+use Filament\Clusters\Cluster;
 use Filament\Resources\Pages\PageRegistration;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use UnitEnum;
 
 final class ReferenceWorkResource extends Resource
@@ -29,7 +31,7 @@ final class ReferenceWorkResource extends Resource
     /**
      * The eloquent model associated with the resource.
      *
-     * @var string|null
+     * @var class-string<Model>|null
      */
     protected static ?string $model = ReferenceWork::class;
 
@@ -51,7 +53,7 @@ final class ReferenceWorkResource extends Resource
      * The cluster this resource belongs to
      * This organizes the resource under a logical grouping in the navigation.
      *
-     * @var string|null
+     * @var class-string<Cluster>|null
      */
     protected static ?string $cluster = ArticlesCluster::class;
 

@@ -6,6 +6,8 @@ namespace App\Listeners;
 
 use App\Features\SendCommentSubscriptionNotifications;
 use App\Filament\Resources\Articles\ArticleResource;
+use App\Models\Article;
+use App\Models\User;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Support\Icons\Heroicon;
@@ -57,14 +59,20 @@ final class SendSubscribedUserNotification implements ShouldQueue, ShouldBeEncry
      */
     public function handle(UserIsSubscribedToCommentableEvent $event): void
     {
-        $event->user->notify(Notification::make()
+        /** @var User $user */
+        $user = $event->user;
+
+        /** @var Article $article */
+        $article = $event->comment->commentable;
+
+        $user->notify(Notification::make()
             ->title('Reactie toegevoegd')
             ->icon(Heroicon::ChatBubbleLeftRight)
-            ->body('Er is een nieuwe reactie toegevoegd in de opmerkingen van het artikel: ' . $event->comment->commentable->word)
+            ->body('Er is een nieuwe reactie toegevoegd in de opmerkingen van het artikel: ' . $article->word)
             ->actions([
                 Action::make('view-article')
                     ->label('Bekijk artikel')
-                    ->url(ArticleResource::getUrl('view', ['record' => $event->comment->commentable]))
+                    ->url(ArticleResource::getUrl('view', ['record' => $article]))
                     ->markAsRead()
             ])
             ->toDatabase());
