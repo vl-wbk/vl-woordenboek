@@ -17,7 +17,7 @@ final readonly class SelectRandomArticle
             ->max('id');
 
         if ($randomIdentifier) {
-            $randomIdentifier = rand(1, $randomIdentifier);
+            $randomIdentifier = rand(1, (int) $randomIdentifier);
 
             return Article::published()
                 ->whereNull('deleted_at')
