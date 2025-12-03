@@ -153,6 +153,6 @@ final class VolunteerCallOutSettings extends SettingsPage
 
     public static function canAccess(): bool
     {
-        return auth()->user()->can('vrijwilligers_pagina_wijzigen');
+        return auth()->user()->can('vrijwilligers-pagina-wijzigen');
     }
 }

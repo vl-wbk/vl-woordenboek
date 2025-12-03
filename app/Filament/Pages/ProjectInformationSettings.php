@@ -100,6 +100,6 @@ final class ProjectInformationSettings extends SettingsPage
 
     public static function canAccess(): bool
     {
-        return auth()->user()->can('project_info_wijzigen');
+        return auth()->user()->can('project-info-wijzigen');
     }
 }
