@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web\Articles;
 
 use App\Models\Article;
+use App\Queries\Articles\SelectRandomArticle;
 use App\Queries\SearchWordQuery;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
@@ -33,11 +34,9 @@ final readonly class SearchController
     #[Get(uri: '/resultaten', name: 'search.results')]
     public function __invoke(Request $request, SearchWordQuery $searchWordQuery): Renderable
     {
-        $baseQuery = Article::query()->published();
-
         return view('search', [
             'searchPatterns' => SearchPatterns::cases(),
-            'randomArticle' => $baseQuery->inRandomOrder()->first(),
+            'randomArticle' => SelectRandomArticle::fetch(),
             'results' => $searchWordQuery->execute($request),
             'termPresent' => $request->has('zoekterm'),
         ]);

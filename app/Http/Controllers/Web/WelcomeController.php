@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Enums\Articles\SearchPatterns;
 use App\Models\Article;
+use App\Queries\Articles\SelectRandomArticle;
 use Illuminate\Contracts\Support\Renderable;
 use Spatie\RouteAttributes\Attributes\Get;
 
@@ -14,12 +15,10 @@ final readonly class WelcomeController
     #[Get(uri: '/', name: 'home')]
     public function index(): Renderable
     {
-        $baseQuery = Article::published();
-
         return view('welcome', data: [
             'searchPatterns' => SearchPatterns::cases(),
-            'randomArticle' => $baseQuery->inRandomOrder()->first(),
-            'articleCount' => $articleCount = $baseQuery->count('id'),
+            'randomArticle' => SelectRandomArticle::fetch(),
+            'articleCount' => Article::published()->count('id'),
         ]);
     }
 }
