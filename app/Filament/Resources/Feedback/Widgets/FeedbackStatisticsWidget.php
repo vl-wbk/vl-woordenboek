@@ -132,7 +132,7 @@ final class FeedbackStatisticsWidget extends ChartWidget
 
     protected function getType(): string
     {
-        return 'line';
+        return 'bar';
     }
 
     public static function canView(): bool

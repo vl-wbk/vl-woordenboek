@@ -3,7 +3,7 @@
 @section('jumbotron')
     <div class="bg-light bg-blend-hard-light rounded-3 shadow-sm">
         <div class="container-fluid">
-            <div class="px-5 py-5">
+            <div class="px-3 py-5 px-sm-5">
                 <div class="row">
                     <h1 class="display-6 fw-bold">{!! __('pages/welcome.jumbotron.headings.welcome', ['applicationName' => config('app.name', 'Laravel')]) !!}</h1>
 
@@ -13,9 +13,9 @@
                         </p>
                     </div>
 
-                    <form class="col-md-7 mt-4" action="{{ route('search.results') }}" method="GET">
+                    <form class="col-lg-7" action="{{ route('search.results') }}" method="GET">
                         <div class="row g-3">
-                            <div class="col-lg-3">
+                            <div class="col-12 col-lg-3">
                                 <label for="searchPatternSelect" class="visually-hidden">{{ __('components/search-form.pattern-select') }}</label>
                                 <select name="zoekpatroon" class="form-select bg-white shadow-sm" id="searchPatternSelect">
                                     @foreach ($searchPatterns as $searchPattern)
@@ -26,15 +26,15 @@
                                 </select>
                             </div>
 
-                            <div class="col-lg-7 col-sm-8">
+                            <div class="col-12 col-sm-8 col-lg-7">
                                 <input type="text" class="form-control bg-white shadow-sm" name="zoekterm" value="{{ request()->get('zoekterm') }}" placeholder="{{ __('components/search-form.inputs.search-term.placeholder') }}" aria-label="searchterm">
                             </div>
-                            <div class="col-lg-2 col-sm-4">
+                            <div class="col-12 col-sm-4 col-lg-2">
                                 <button type="submit" class="btn shadow-sm w-100 btn-submit">
                                     <x-heroicon-o-magnifying-glass class="icon me-1"/> {{ __('components/search-form.buttons.submit') }}
                                 </button>
                             </div>
-                            <div class="col-lg-12">
+                            <div class="col-lg-12 mt-2">
                                 <div class="form-check form-switch mb-0">
                                     <input class="form-check-input" name="uitgebreid" type="checkbox" id="checkChecked" value="1" @checked(request()->boolean('uitgebreid') === true) switch>
                                     <label class="form-check-label" for="checkChecked">
@@ -53,9 +53,9 @@
 @section('content')
     <div class="py-4">
         <div class="container-fluid">
-            <div class="row my-4 pb-2">
+            <div class="row my-4 pb-2 g-3">
                 @if ($randomArticle)
-                    <div class="col">
+                    <div class="col-12 col-md-6 col-lg-3">
                         <div class="card h-100 border-0 bg-sidenav shadow-sm">
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title fw-bold color-green">{{ __('pages/welcome.call-outs.search.title') }}</h5>
@@ -73,7 +73,7 @@
                     </div>
                 @endif
 
-                <div class="col">
+                <div class="col-12 col-md-6 col-lg-3">
                     <div class="card h-100 bg-sidenav border-0 shadow-sm">
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title fw-bold color-green">{{ __('pages/welcome.call-outs.suggestion.title') }}</h5>
@@ -90,7 +90,7 @@
                     </div>
                 </div>
 
-                <div class="col">
+                <div class="col-12 col-md-6 col-lg-3">
                     <div class="card bg-sidenav border-0 shadow-sm h-100">
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title fw-bold color-green">{{ __('pages/welcome.call-outs.volunteer.title') }}</h5>
@@ -107,7 +107,7 @@
                     </div>
                 </div>
 
-                <div class="col">
+                <div class="col-12 col-md-6 col-lg-3">
                     <div class="card bg-sidenav border-0 shadow-sm h-100">
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title fw-bold color-green">{{ __('pages/welcome.call-outs.information.title') }}</h5>
