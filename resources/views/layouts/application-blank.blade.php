@@ -168,7 +168,7 @@
         @yield('content')
     </main>
 
-    <footer class="footer mt-auto pt-4 pt-md-5 mt-5">
+    <footer class="footer mt-auto pt-4 pt-md-3 mt-5">
         <div class="container-fluid pt-4 pb-2 py-md-4x text-body-secondary">
             <div class="row">
                 <div class="col-lg-3">
