@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Articles\RelationManagers;
 
+use Filament\Actions\ActionGroup;
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
@@ -155,8 +156,11 @@ final class NotesRelationManager extends RelationManager
             ->toolbarActions($this->registerTableBulkActions())
             ->recordActions([
                 $this->getViewAction(),
-                $this->getEditAction(),
-                $this->getDeleteAction(),
+
+                ActionGroup::make([
+                    $this->getEditAction(),
+                    $this->getDeleteAction(),
+                ])
             ]);
     }
 
@@ -171,7 +175,6 @@ final class NotesRelationManager extends RelationManager
     private function getViewAction(): ViewAction
     {
         return ViewAction::make()
-            ->hiddenLabel()
             ->modalIcon('heroicon-o-document-text')
             ->modalIconColor('gray')
             ->modalHeading(fn(Note $note): string => $note->title)
@@ -195,8 +198,7 @@ final class NotesRelationManager extends RelationManager
         return DeleteAction::make()
             ->modalHeading(__('filament/RelationManagers/NotesRelationManager.actions.delete-action.modal.heading'))
             ->modalDescription(__('filament/RelationManagers/NotesRelationManager.actions.delete-action.modal.description'))
-            ->modalSubmitActionLabel(__('filament/RelationManagers/NotesRelationManager.actions.delete-action.modal.submit-label'))
-            ->hiddenLabel();
+            ->modalSubmitActionLabel(__('filament/RelationManagers/NotesRelationManager.actions.delete-action.modal.submit-label'));
     }
 
     /**
@@ -216,8 +218,7 @@ final class NotesRelationManager extends RelationManager
             ->modalIcon('heroicon-o-pencil-square')
             ->modalHeading(__('filament/RelationManagers/NotesRelationManager.actions.edit-action.modal.heading'))
             ->modalDescription(__('filament/RelationManagers/NotesRelationManager.actions.edit-action.description'))
-            ->modalIconColor('warning')
-            ->hiddenLabel();
+            ->modalIconColor('warning');
     }
 
     /**

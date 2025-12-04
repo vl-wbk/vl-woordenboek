@@ -54,11 +54,9 @@ final class ReportsRelationManager extends RelationManager
             ])
             ->recordActions([
                 ViewAction::make()
-                    ->hiddenLabel()
                     ->url(fn(ArticleReport $articleReport): string => ArticleReportResource::getUrl('view', ['record' => $articleReport->getRouteKey()])),
                 DeleteAction::make()
-                    ->modalHeading('Melding verwijderen')
-                    ->hiddenLabel(),
+                    ->modalHeading('Melding verwijderen'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

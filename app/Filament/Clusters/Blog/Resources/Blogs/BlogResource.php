@@ -107,6 +107,9 @@ final class BlogResource extends Resource
      * Defines the structure and behavior of the table used to list blog posts.
      * It configures labels, descriptions, empty states, and delegates column and action definitions to `TableSchema` and `ResourceActionDefinitions`.
      *
+     * @todo Implement the needed status filter for the articles.
+     * @todo Add translation support for the table.
+     *
      * @param  Table $table  The Filament Table instance.
      * @return Table         The configured Filament Table instance.
      */

@@ -39,10 +39,14 @@ final readonly class ResourceActionDefinitions
     public static function getTableActions(): array
     {
         return [
+            ViewAction::make(),
+
             ActionGroup::make(actions: [
-                ViewAction::make(),
                 EditAction::make(),
-                DeleteAction::make(),
+
+                ActionGroup::make([
+                    DeleteAction::make(),
+                ])->dropdown(false)
             ]),
         ];
     }

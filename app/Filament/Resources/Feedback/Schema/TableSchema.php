@@ -185,7 +185,6 @@ final readonly class TableSchema
                 // Re-uses the delete action for convenience within the modal
                 self::deleteAction()->hiddenLabel(false),
             ])
-            ->hiddenLabel()
             ->tooltip(tooltip: __('feedback-resource.table.actions.view-action.tooltip'))
             ->modalIcon('heroicon-o-information-circle')
             ->modalIconColor('info')
@@ -211,7 +210,6 @@ final readonly class TableSchema
     public static function deleteAction(): DeleteAction
     {
         return DeleteAction::make()
-            ->hiddenLabel()
             ->tooltip(tooltip: __('feedback-resource.table.actions.delete-action.tooltip'))
             // Custom warning message for the delete confirmation modal
             ->modalDescription(description: __('feedback-resource.table.actions.delete-action.modal.description'));

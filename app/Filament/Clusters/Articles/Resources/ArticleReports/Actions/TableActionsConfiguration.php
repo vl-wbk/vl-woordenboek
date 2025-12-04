@@ -31,8 +31,8 @@ final readonly class TableActionsConfiguration
     public static function rowActions(): array
     {
         return [
-            ViewAction::make()->hiddenLabel(),
-            DeleteAction::make()->hiddenLabel(),
+            ViewAction::make(),
+            DeleteAction::make(),
         ];
     }
 

@@ -7,7 +7,15 @@ namespace App\Filament\Clusters\Articles\Resources\ArticleResource\Schema;
 use App\Enums\ArticleStates;
 use App\Filament\Exports\ArticleExporter;
 use App\Models\Article;
-use Filament\Actions\{BulkActionGroup, DeleteAction, DeleteBulkAction, EditAction, ExportBulkAction, RestoreAction, RestoreBulkAction, ViewAction};
+use Filament\Actions\{ActionGroup,
+    BulkActionGroup,
+    DeleteAction,
+    DeleteBulkAction,
+    EditAction,
+    ExportBulkAction,
+    RestoreAction,
+    RestoreBulkAction,
+    ViewAction};
 use Filament\Support\Enums\{FontWeight, Width};
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
@@ -40,12 +48,15 @@ final readonly class TableSchema
     private static function getRecordActions(): array
     {
         return [
-            ViewAction::make()->hiddenLabel(),
-            EditAction::make()->hiddenLabel()
-                ->authorizationTooltip(),
-            RestoreAction::make()->hiddenLabel()->color('danger'),
-            DeleteAction::make()->hiddenLabel()
-                ->authorizationTooltip(),
+            ViewAction::make(),
+
+            ActionGroup::make([
+                EditAction::make()->authorizationNotification(),
+                ActionGroup::make([
+                    RestoreAction::make()->color('danger'),
+                    DeleteAction::make()->authorizationNotification(),
+                ])->dropdown(false)
+            ])
         ];
     }
 

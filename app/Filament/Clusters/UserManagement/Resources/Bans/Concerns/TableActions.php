@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\UserManagement\Resources\Bans\Concerns;
 
+use Filament\Actions\ActionGroup;
 use Filament\Actions\ViewAction;
 use App\Filament\Clusters\UserManagement\Resources\Bans\Actions\EditBanAction;
 use App\Filament\Resources\Users\Actions\UnbanAction;
@@ -47,16 +48,18 @@ trait TableActions
                 ->modalIcon('heroicon-o-eye')
                 ->modalIconColor('primary'),
 
-            EditBanAction::make()
-                ->visible(fn(Ban $ban): bool => Gate::allows('update-deactivation', $ban->bannable))
-                ->hiddenLabel()
-                ->tooltip('Wijzigen'),
+            ActionGroup::make([
+                EditBanAction::make()
+                    ->visible(fn(Ban $ban): bool => Gate::allows('update-deactivation', $ban->bannable))
+                    ->hiddenLabel()
+                    ->tooltip('Wijzigen'),
 
-            UnbanAction::make()
-                ->visible(fn(Ban $ban): bool => Gate::allows('reactivate', $ban->bannable))
-                ->hiddenLabel()
-                ->color('danger')
-                ->tooltip('Reactiveren'),
+                UnbanAction::make()
+                    ->visible(fn(Ban $ban): bool => Gate::allows('reactivate', $ban->bannable))
+                    ->hiddenLabel()
+                    ->color('danger')
+                    ->tooltip('Reactiveren'),
+            ]),
         ];
     }
 }

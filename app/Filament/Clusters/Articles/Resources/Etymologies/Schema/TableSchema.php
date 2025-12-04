@@ -171,15 +171,14 @@ final readonly class TableSchema
     public static function configureActions(): array
     {
         return [
+            ViewAction::make()->url(fn(Etymology $record): string => EtymologyResource::getUrl('view', ['record' => $record])),
+
             ActionGroup::make([
-                ViewAction::make()
-                    ->url(fn(Etymology $record): string => EtymologyResource::getUrl('view', ['record' => $record])),
+                EditAction::make()->modalWidth(Width::SevenExtraLarge),
 
-                EditAction::make()
-                    ->modalWidth(Width::SevenExtraLarge),
-
-                DeleteAction::make()
-                    ->modalHeading(heading: __('etymology-resource.table.actions.delete.modal.heading')),
+                ActionGroup::make([
+                    DeleteAction::make()->modalHeading(heading: __('etymology-resource.table.actions.delete.modal.heading')),
+                ])->dropdown(false),
             ]),
         ];
     }

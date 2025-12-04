@@ -98,16 +98,18 @@ final readonly class UserTable
                     ->options(UserTypes::class),
             ])
             ->recordActions([
+                ViewAction::make(),
+
                 ActionGroup::make([
-                    ViewAction::make(),
                     EditAction::make(),
 
                     // Custom actions for activating/deactivating user accounts in the application platform.
                     BanAction::make()->visible(fn(User $user): bool => Gate::allows('deactivate', $user)),
                     UnbanAction::make()->authorize(fn(User $user): bool => Gate::allows('reactivate', $user)),
 
-                    // Default delete actions
-                    DeleteAction::make(),
+                    ActionGroup::make([
+                        DeleteAction::make(),
+                    ])->dropdown(false)
                 ]),
             ])
             ->toolbarActions([

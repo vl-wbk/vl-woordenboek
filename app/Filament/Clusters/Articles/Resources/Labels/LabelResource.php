@@ -10,6 +10,7 @@ use App\Filament\Clusters\Articles\Resources\Labels\Pages\ViewLabel;
 use App\Filament\Clusters\Articles\Resources\Labels\RelationManagers\ArticlesRelationManager;
 use App\Filament\Support\Concerns\HasActiveIcon;
 use App\Models\Label;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -35,6 +36,11 @@ use Illuminate\Support\Str;
  * This Filament resource handles all label management functionality within the system. Labels are used
  * to categorize and organize dictionary articles, making them easier to find and manage. The resource
  * provides a complete interface for administrators to create, view, edit, and delete labels.
+ *
+ * @TODO Implement translation support for this resource.
+ * @todo Clean this resource up through their respective schema classes.
+ *
+ * @package App\Filament\Clustsers\Articles\Resources\Labels
  */
 final class LabelResource extends Resource
 {
@@ -184,19 +190,24 @@ final class LabelResource extends Resource
                     ->date(),
             ])
             ->recordActions([
-                ViewAction::make()
-                    ->hiddenLabel(),
-                EditAction::make()
-                    ->hiddenLabel()
-                    ->color('gray')
-                    ->modalWidth(Width::SevenExtraLarge)
-                    ->modalHeading('Label Wijzigen')
-                    ->modalIcon('heroicon-o-pencil-square')
-                    ->modalIconColor('gray')
-                    ->modalDescription('U staat op het punt om een label te wijzigen voor het woordenboek en zijn artikels.'),
-                DeleteAction::make()->hiddenLabel()
-                    ->icon('heroicon-o-trash')
-                    ->modalDescription('Indien u het label verwijderd zal het label ook loskoppeld worden van de woorden. Bent u zeker dat u het label wilt verwijderen?'),
+                ViewAction::make(),
+
+                ActionGroup::make([
+                    EditAction::make()
+                        ->hiddenLabel()
+                        ->color('gray')
+                        ->modalWidth(Width::SevenExtraLarge)
+                        ->modalHeading('Label Wijzigen')
+                        ->modalIcon('heroicon-o-pencil-square')
+                        ->modalIconColor('gray')
+                        ->modalDescription('U staat op het punt om een label te wijzigen voor het woordenboek en zijn artikels.'),
+
+                    ActionGroup::make([
+                        DeleteAction::make()->hiddenLabel()
+                            ->icon('heroicon-o-trash')
+                            ->modalDescription('Indien u het label verwijderd zal het label ook loskoppeld worden van de woorden. Bent u zeker dat u het label wilt verwijderen?'),
+                    ])->dropdown(false)
+                ])
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

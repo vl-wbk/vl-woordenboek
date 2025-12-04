@@ -144,11 +144,9 @@ final class RolesRelationManager extends RelationManager
                     ->preloadRecordSelect(),
             ])
             ->recordActions([
-                Actions\ActionGroup::make([
-                    Actions\ViewAction::make()
-                        ->url(fn (Role $role): string => RoleResource::getUrl('view', ['record' => $role])),
-                    Actions\DetachAction::make(),
-                ]),
+                Actions\ViewAction::make()
+                    ->url(fn (Role $role): string => RoleResource::getUrl('view', ['record' => $role])),
+                Actions\DetachAction::make(),
             ])
             ->toolbarActions([
                 Actions\DetachBulkAction::make(),

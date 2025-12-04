@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\Disclaimers\Schema;
 
+use Filament\Actions\ActionGroup;
 use Filament\Actions\ViewAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
@@ -67,18 +68,17 @@ final readonly class TableSchema
     private static function configureActions(): array
     {
         return [
-            ViewAction::make()
-                ->hiddenLabel()
-                ->tooltip(tooltip: __('disclaimer-resource.table.actions.view-action.label')),
+            ViewAction::make()->tooltip(tooltip: __('disclaimer-resource.table.actions.view-action.label')),
 
-            EditAction::make()
-                ->hiddenLabel()
-                ->tooltip(tooltip: __('disclaimer-resource.table.actions.edit-action.label')),
+            ActionGroup::make([
+                EditAction::make()->tooltip(tooltip: __('disclaimer-resource.table.actions.edit-action.label')),
 
-            DeleteAction::make()
-                ->modalDescription(description: __('disclaimer-resource.table.actions.delete-action.modal.description'))
-                ->hiddenLabel()
-                ->tooltip(tooltip: __('disclaimer-resource.table.actions.delete-action.label')),
+                ActionGroup::make([
+                    DeleteAction::make()
+                        ->modalDescription(description: __('disclaimer-resource.table.actions.delete-action.modal.description'))
+                        ->tooltip(tooltip: __('disclaimer-resource.table.actions.delete-action.label')),
+                ])->dropdown(false)
+            ]),
         ];
     }
 
