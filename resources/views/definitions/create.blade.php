@@ -1,17 +1,17 @@
-@extends ('layouts.application-blank', ['title' => 'Nieuwe suggestie'])
+@extends('layouts.application-blank', ['title' => 'Nieuwe suggestie'])
 
-@section ('jumbotron')
+@section('jumbotron')
     <div class="bg-light-subtle bg-blend-hard-light rounded-3 shadow-sm">
         <div class="container-fluid">
-            <div class="px-5 py-5">
+            <div class="px-3 px-md-5 py-4 py-md-5">
                 <h1 class="display-6 fw-bold">Suggestie in het <span class="text-warning">Vlaams Woordenboek</span></h1>
 
-                <p class="col-md-12 fs-5">
+                <p class="col-12 col-lg-10 fs-5">
                     Elke bezoeker kan nieuwe suggesties met definities indienen bij het Vlaams Woordenboek. Die worden beoordeeld en bewerkt door een redacteur voor ze online verschijnen.<br>
                     Met dit formulier kun je nieuwe typisch Vlaamse woorden, termen en uitdrukkingen voorstellen voor het woordenboek.
                 </p>
 
-                <a href="{{ route('home') }}" class="btn mt-4 btn-outline-danger shadow-sm">
+                <a href="{{ route('home') }}" class="btn mt-3 mt-md-4 btn-outline-danger shadow-sm">
                     <x-heroicon-o-arrow-uturn-left class="icon me-1"/> Annuleren
                 </a>
             </div>
@@ -19,13 +19,13 @@
     </div>
 @endsection
 
-@section ('content')
+@section('content')
     <div>
         <div class="container-fluid">
-            <div class="row my-4 pt-4 mb-2">
-                <div class="col-md-12">
+            <div class="row my-4 pt-3 pt-md-4 mb-2">
+                <div class="col-12">
                     @if (flash()->message)
-                        <div class="alert {{ flash()->class }} alert-dismissible fade show border-0 shadow-sm">
+                        <div class="alert {{ flash()->class }} alert-dismissible fade show border-0 shadow-sm" role="alert">
                             <h6 class="alert-heading fw-bold"><x-heroicon-o-bell-alert class="icon icon-lg me-1"/> Gelukt!</h6>
                             {{ flash()->message }}
                         </div>
@@ -35,114 +35,138 @@
                         <form action="{{ route('definitions.store') }}" id="createSuggestionForm" method="POST" class="card-body">
                             @csrf {{--  Form field protection --}}
 
-                            <div class="form-group">
-                                <label for="woord" class="col-form-label">Jouw suggestie <span class="fw-bold text-danger">*</span></label>
-                                <input type="text" name="woord" id="woordHelptext" value="{{ old('woord') }}" class="form-control @error('woord') is-invalid @enderror">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label for="woord" class="form-label">Jouw suggestie <span class="fw-bold text-danger">*</span></label>
+                                    <input
+                                        type="text"
+                                        name="woord"
+                                        id="woord"
+                                        value="{{ old('woord') }}"
+                                        class="form-control @error('woord') is-invalid @enderror"
+                                        aria-describedby="woordHelptext"
+                                        autocomplete="off"
+                                    >
+                                    @if ($errors->has('woord'))
+                                        <x-forms.validation-error field="woord"/>
+                                    @else
+                                        <x-forms.help-text field="woordHelptext" icon="true" text="Het woord, de term of de uitdrukking die je voorstelt. Gebruik alleen hoofdletters als het echt nodig is (bijv. bij namen)"/>
+                                    @endif
+                                </div>
 
-                                @if ($errors->has('woord'))
-                                    <x-forms.validation-error field="woord"/>
-                                @else
-                                    <x-forms.help-text field="woordHelptext" icon="true" text="Het woord, de term of de uitdrukking die je voorstelt. Gebruik alleen hoofdletters als het echt nodig is (bijv. bij namen)"/>
-                                @endif
-                            </div>
-
-                            <div class="row">
-                                <div class="form-group col-4">
-                                    <label for="woordsoort" class="col-form-label">Woordsoort</label>
-
-                                    <select name="woordsoort" id="woordsoort" class="form-select">
+                                <div class="col-12 col-md-4">
+                                    <label for="woordsoort" class="form-label">Woordsoort</label>
+                                    <select name="woordsoort" id="woordsoort" class="form-select" aria-describedby="kenmerkenHelpText">
                                         <option value="">-- selecteer woordsoort --</option>
-
                                         @foreach ($partOfSpeeches as $partOfSpeech => $value)
                                             <option value="{{ $partOfSpeech }}" @selected(old('woordsoort') == $partOfSpeech)>
                                                 {{ $value }}
                                             </option>
                                         @endforeach
                                     </select>
-
                                     <x-forms.help-text field="kenmerkenHelpText" icon="true" text="Selecteer de woordsoort uit de keuzelijst"/>
                                 </div>
 
-                                <div class="form-group col-8">
-                                    <label for="kenmerken" class="col-form-label">Kenmerken</label>
-                                    <input type="text" name="kenmerken" value=" {{ old('kenmerken') }}" id="kenmerkenHelpText" class="form-control">
+                                <div class="col-12 col-md-8">
+                                    <label for="kenmerken" class="form-label">Kenmerken</label>
+                                    <input
+                                        type="text"
+                                        name="kenmerken"
+                                        id="kenmerken"
+                                        value="{{ old('kenmerken') }}"
+                                        class="form-control"
+                                        aria-describedby="kenmerkenHelpText"
+                                    >
                                     <x-forms.help-text field="kenmerkenHelpText" icon="true" text="bij zelfstandige naamwoorden: lidwoord, geslacht en meervoud, bijv. de ~ (v.), ~sen; bij werkwoorden: de stamtijden, bijv. neutte, geneut; bij bijvoeglijke naamwoorden: de trappen van vergelijking, bijv. ~er, ~st"/>
                                 </div>
-                            </div>
 
-                            <div class="form-group">
-                                <label for="beschrijving" class="col-form-label">Beschrijving <span class="text-danger fw-bold">*</span></label>
-                                <textarea name="beschrijving" class="form-control @error('beschrijving') is-invalid @enderror" id="beschrijvingHelpText" rows="4">{{ old('beschrijving') }}</textarea>
+                                <div class="col-12">
+                                    <label for="beschrijving" class="form-label">Beschrijving <span class="text-danger fw-bold">*</span></label>
+                                    <textarea
+                                        name="beschrijving"
+                                        id="beschrijving"
+                                        rows="4"
+                                        class="form-control @error('beschrijving') is-invalid @enderror"
+                                        aria-describedby="beschrijvingHelpText"
+                                    >{{ old('beschrijving') }}</textarea>
 
-                                @if ($errors->has('beschrijving'))
-                                    <x-forms.validation-error field="beschrijving"/>
-                                @else
-                                    <x-forms.help-text icon="true" field="beschrijvingHelpText" text="Beschrijf de gesuggereerde toevoeging in Algemeen (Belgisch-)Nederlands. Beperk je tot één betekenis per suggestie. Meerdere betekenissen? Dien dan extra suggesties in."/>
-                                @endif
-                            </div>
-
-                            <div class="form-group">
-                                <label for="regio" class="col-form-label">Regio <span class="text-danger fw-bold">*</span></label>
-                                <select id="regioHelpText" class="form-control @error('regio') is-invalid @enderror" name="regio[]" multiple size="6">
-                                    @foreach ($regions as $region => $value)
-                                        <option value="{{ $region }}" {{ in_array($region, old('regio', [])) ? 'selected' : '' }}>
-                                            {{ $value }}
-                                        </option>
-                                    @endforeach
-                                </select>
-
-                                @if ($errors->has('regio'))
-                                    <x-forms.validation-error field="regio"/>
-                                @else
-                                    <span id="regioHelptext" class="form-text text-muted">
-                                    <x-tabler-info-circle class="icon icon-sm me-1"/> Als dit woord of deze uitdrukking alleen in een bepaalde regio of een lokaal dialect wordt gebruikt, geef dan ook de juiste regio(‘s) aan.
-                                    - <a href="{{ route('definitions.region-info') }}" target="_blank">Meer info over de regio's.</a> <br>
-
-                                    Wil je meer dan één regio aanduiden? Hou de CTRL-toets ingedrukt terwijl je een voor een op de regio’s klikt.
-                                </span>
-                                @endif
-                            </div>
-
-                            <hr class="mb-1">
-
-                            <div class="form-group">
-                                <label for="voorbeeld" class="col-form-label">Voorbeelden <span class="fw-bold text-danger">*</span></label>
-                                <textarea name="voorbeeld" id="voorbeeldHelpText" class="form-control @error('voorbeeld') is-invalid @enderror" rows="6">{{ old('voorbeeld') }}</textarea>
-
-                                @if ($errors->has('voorbeeld'))
-                                    <x-forms.validation-error field="voorbeeld"/>
-                                @else
-                                    <small id="voorbeeld" class="form-text text-muted">
-                                        <x-tabler-info-circle class="icon icon-sm me-1"/>  Geef een voorbeeldzin in het Algemeen (Belgisch–)Nederlands waaruit de hierboven beschreven betekenis duidelijk wordt. Voeg zeker een bronvermelding toe.
-
-                                        <a href="#" data-bs-toggle="modal" data-bs-target="#sourceInformation">
-                                            meer info
-                                        </a>
-                                    </small>
-                                @endif
-                            </div>
-
-                            @auth
-                                <hr class="mb-2">
-
-                                <div class="form-group">
-                                    <div class="form-check form-switch mb-0">
-                                        <input class="form-check-input" name="notificatie" type="checkbox" id="checkChecked" value="1" @checked(old('notificatie') == 1) switch>
-                                        <label class="form-check-label" for="checkChecked">
-                                            Ik wens een mail notificatie te ontvangen wanneer mijn suggestie word gepubliceerd.
-                                        </label>
-                                    </div>
+                                    @if ($errors->has('beschrijving'))
+                                        <x-forms.validation-error field="beschrijving"/>
+                                    @else
+                                        <x-forms.help-text icon="true" field="beschrijvingHelpText" text="Beschrijf de gesuggereerde toevoeging in Algemeen (Belgisch-)Nederlands. Beperk je tot één betekenis per suggestie. Meerdere betekenissen? Dien dan extra suggesties in."/>
+                                    @endif
                                 </div>
-                            @endauth
+
+                                <div class="col-12">
+                                    <label for="regio" class="form-label">Regio <span class="text-danger fw-bold">*</span></label>
+                                    <select
+                                        id="regio"
+                                        class="form-select @error('regio') is-invalid @enderror"
+                                        name="regio[]"
+                                        multiple
+                                        size="6"
+                                        aria-describedby="regioHelpText"
+                                    >
+                                        @foreach ($regions as $region => $value)
+                                            <option value="{{ $region }}" {{ in_array($region, old('regio', [])) ? 'selected' : '' }}>
+                                                {{ $value }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+
+                                    @if ($errors->has('regio'))
+                                        <x-forms.validation-error field="regio"/>
+                                    @else
+                                        <span id="regioHelpText" class="form-text text-muted">
+                                            <x-tabler-info-circle class="icon icon-sm me-1"/> Als dit woord of deze uitdrukking alleen in een bepaalde regio of een lokaal dialect wordt gebruikt, geef dan ook de juiste regio(‘s) aan.
+                                            - <a href="{{ route('definitions.region-info') }}" target="_blank" rel="noopener">Meer info over de regio's.</a> <br>
+                                            Wil je meer dan één regio aanduiden? Hou de CTRL-toets ingedrukt terwijl je een voor een op de regio’s klikt.
+                                        </span>
+                                    @endif
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="voorbeeld" class="form-label">Voorbeelden <span class="fw-bold text-danger">*</span></label>
+                                    <textarea
+                                        name="voorbeeld"
+                                        id="voorbeeld"
+                                        class="form-control @error('voorbeeld') is-invalid @enderror"
+                                        rows="6"
+                                        aria-describedby="voorbeeldHelpText"
+                                    >{{ old('voorbeeld') }}</textarea>
+
+                                    @if ($errors->has('voorbeeld'))
+                                        <x-forms.validation-error field="voorbeeld"/>
+                                    @else
+                                        <small id="voorbeeldHelpText" class="form-text text-muted d-block">
+                                            <x-tabler-info-circle class="icon icon-sm me-1"/>  Geef een voorbeeldzin in het Algemeen (Belgisch–)Nederlands waaruit de hierboven beschreven betekenis duidelijk wordt. Voeg zeker een bronvermelding toe.
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#sourceInformation">meer info</a>
+                                        </small>
+                                    @endif
+                                </div>
+
+                                @auth
+                                    <div class="col-12">
+                                        <div class="form-check form-switch mb-0">
+                                            <input class="form-check-input" name="notificatie" type="checkbox" id="notificatie" value="1" @checked(old('notificatie') == 1)>
+                                            <label class="form-check-label" for="notificatie">
+                                                Ik wens een mail notificatie te ontvangen wanneer mijn suggestie word gepubliceerd.
+                                            </label>
+                                        </div>
+                                    </div>
+                                @endauth
+                            </div>
                         </form>
 
                         <div class="card-footer bg-white border-top">
-                            <button type="submit" form="createSuggestionForm" class="btn btn-sm btn-suggestion-submit">
-                                <x-tabler-send class="icon icon-sm me-1" /> Insturen
-                            </button>
-                            <button type="reset" form="createSuggestionForm" class="btn btn-link btn-sm">
-                                <x-tabler-arrow-back-up class="icon icon-sm me-1 text-danger"/> Reset
-                            </button>
+                            <div class="d-flex flex-column flex-sm-row align-items-stretch align-items-sm-center gap-2">
+                                <button type="submit" form="createSuggestionForm" class="btn btn-suggestion-submit w-100 w-sm-auto">
+                                    <x-tabler-send class="icon icon-sm me-1" /> Insturen
+                                </button>
+                                <button type="reset" form="createSuggestionForm" class="btn btn-link text-danger w-100 w-sm-auto">
+                                    <x-tabler-arrow-back-up class="icon icon-sm me-1"/> Reset
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -151,10 +175,10 @@
     </div>
 
     <div class="modal fade" id="sourceInformation" tabindex="-1" aria-labelledby="sourceInformationLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable modal-fullscreen-sm-down">
             <div class="modal-content">
                 <div class="modal-header bg-sidenav color-green border-0">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel"><x-heroicon-s-book-open class="icon me-2"/>Bronvermelding bij voorbeeldzinnen</h1>
+                    <h1 class="modal-title fs-5" id="sourceInformationLabel"><x-heroicon-s-book-open class="icon me-2"/>Bronvermelding bij voorbeeldzinnen</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
