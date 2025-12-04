@@ -15,6 +15,7 @@
         "cmgmyr/messenger": "^2.31",
         "cmsmaxinc/filament-error-pages": "^2.0",
         "codewithdennis/filament-factory-action": "4.x-dev",
+        "codewithdennis/filament-simple-alert": "4.x",
         "cybercog/laravel-ban": "^4.10",
         "devonab/filament-easy-footer": "^2.0",
         "dutchcodingcompany/filament-developer-logins": "^2.0",

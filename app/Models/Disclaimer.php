@@ -18,14 +18,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * Disclaimers are used to provide important notices, legal information or disclaimers of liability related to the content of an article.
  * This allows for clear communication of potential limitations or conditions associated with the information presented in the article.
  *
- * @property int                  $id           The unique identifier for the disclaimer.
- * @property DisclaimerTypes      $type         The type of disclaimer (e.g., default, legal, informational).
- * @property string               $name         A descriptive name for the disclaimer.
- * @property string               $message      The actual message of content.
- * @property string|null          $usage        Instructions or notes on how to use the disclaimer.
- * @property string|null          $description  A more detailed explanation of the disclaimer's purpose.
- * @property Carbon|null          $created_at   The timestamp that indicates when the disclaimer was created in the application.
- * @property Carbon|null          $updated_at   The timestamp that indicates when the disclaimer was last updated in the application.
+ * @property int                  $id                The unique identifier for the disclaimer.
+ * @property DisclaimerTypes      $type              The type of disclaimer (e.g., default, legal, informational).
+ * @property string               $name              A descriptive name for the disclaimer.
+ * @property string               $message           The actual message of content.
+ * @property string|null          $usage             Instructions or notes on how to use the disclaimer.
+ * @property string|null          $description       A more detailed explanation of the disclaimer's purpose.
+ * @property string|null          $internal_title    The title for the internal displaying of the disclaimer.
+ * @property string|null          $internal_message  The message that will be used for displaying the disclaimer internally.
+ * @property Carbon|null          $created_at        The timestamp that indicates when the disclaimer was created in the application.
+ * @property Carbon|null          $updated_at        The timestamp that indicates when the disclaimer was last updated in the application.
  *
  * @package App\Models
  */
@@ -40,7 +42,7 @@ class Disclaimer extends Model
      *
      * @var list<string>
      */
-    protected $fillable = ['type', 'name', 'message', 'usage', 'description'];
+    protected $fillable = ['type', 'name', 'message', 'usage', 'description', 'internal_title', 'internal_message'];
 
     /**
      * Defines default values for new disclaimer registrations.

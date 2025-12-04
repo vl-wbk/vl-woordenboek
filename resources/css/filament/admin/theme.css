@@ -6,3 +6,5 @@
 @source '../../../../vendor/jaysontemporas/page-bookmarks/resources/**/*.blade.php';
 @source '../../../../vendor/statikbe/laravel-filament-chained-translation-manager/resources/**/*.blade.php';
 @source '../../../../vendor/cmsmaxinc/filament-error-pages/resources/**/*.blade.php';
+@source '../../../../vendor/codewithdennis/filament-simple-alert/resources/**/*.blade.php';
+@source inline('animate-{spin,pulse,bounce}');

@@ -8,6 +8,7 @@ use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Support\Icons\Heroicon;
 
 /**
  * @todo Document this class
@@ -25,9 +26,27 @@ final readonly class InfolistSchema
                         self::disclaimerInformationTab(),
                         self::internalDescriptionTab(),
                         self::usageGuidelineTab(),
+                        self::editorialNoticeTab()
                     ]),
             ]);
 
+    }
+
+    private static function editorialNoticeTab(): Tab
+    {
+        return Tab::make(label: 'Interne redactiemelding')
+            ->icon(Heroicon::OutlinedMegaphone)
+            ->columns(12)
+            ->schema([
+                TextEntry::make('internal_name')
+                    ->label('Titel')
+                    ->columnSpan(8)
+                    ->placeholder('- Niet opgegeven'),
+                TextEntry::make('internal_message')
+                    ->label('Melding')
+                    ->columnSpanFull()
+                    ->placeholder('- Niet opgegeven')
+            ]);
     }
 
     private static function disclaimerInformationTab(): Tab

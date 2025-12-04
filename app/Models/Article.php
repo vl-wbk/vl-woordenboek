@@ -71,6 +71,7 @@ use Override;
  * @property Carbon $updated_at         Timestamp of the last update
  *
  * @property-read User $author
+ * @property-read Disclaimer $disclaimer
  *
  * @package App\Models
  * @method isPublished()

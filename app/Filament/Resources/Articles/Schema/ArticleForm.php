@@ -6,10 +6,14 @@ namespace App\Filament\Resources\Articles\Schema;
 
 use App\Enums\ArticleStates;
 use App\Enums\LanguageStatus;
+use App\Filament\Clusters\Articles\Resources\ArticleResource\Actions\DisclaimerToolbarActions;
 use App\Models\Article;
 use App\Models\ReferenceWork;
 use App\Models\User;
 use App\UserTypes;
+use CodeWithDennis\SimpleAlert\Components\Enums\IconAnimation;
+use CodeWithDennis\SimpleAlert\Components\SimpleAlert;
+use Filament\Actions\Action;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Repeater;
@@ -20,6 +24,7 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Enums\IconSize;
 use Filament\Support\Icons\Heroicon;
 
 final readonly class ArticleForm
@@ -27,6 +32,19 @@ final readonly class ArticleForm
     public static function configure(Schema $schema): Schema
     {
         return $schema->components([
+            SimpleAlert::make('dd')
+                ->icon(Heroicon::OutlinedExclamationTriangle, IconAnimation::Pulse)
+                ->title(fn (Article $article): string => $article->disclaimer->internal_title ?? $article->disclaimer->name)
+                ->description(fn (Article $article): string => $article->disclaimer->internal_message ?? $article->disclaimer->message)
+                ->color('warning')
+                ->columnSpanFull()
+                ->visible(fn (string $operation, Article $article): bool => $operation === 'edit' && $article->disclaimer()->exists())
+                ->actions([
+                    DisclaimerToolbarActions::detachActionDefinition()
+                        ->color('warning')
+                        ->outlined()
+                ]),
+
             Group::make()
                 ->schema([
                     Section::make('general-information')

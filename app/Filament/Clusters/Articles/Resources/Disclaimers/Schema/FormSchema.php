@@ -11,13 +11,14 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Support\Enums\IconSize;
+use Filament\Support\Icons\Heroicon;
 
 /**
  * @todo Document this class
  */
 final readonly class FormSchema
 {
-    private static function createSection(string $title, string $icon, string $description): Section
+    private static function createSection(string $title, string|Heroicon $icon, string $description): Section
     {
         return Section::make($title)
             ->icon($icon)
@@ -45,6 +46,12 @@ final readonly class FormSchema
                     icon: 'heroicon-o-information-circle',
                     description: __('disclaimer-resource.form.sections.management-info.description'),
                 )->schema(self::getManagementInformationSchema()),
+
+                self::createSection(
+                    title: 'Interne weergave van de disclaimer',
+                    icon: Heroicon::OutlinedInformationCircle,
+                    description: 'Configureer de interne weergave van een disclaimer met een titel en redactiemelding',
+                )->columns(12)->schema(self::getInternalDisclaimerSchema())
             ]);
     }
 
@@ -90,6 +97,24 @@ final readonly class FormSchema
                 ->label(label: __('disclaimer-resource.form.sections.management-info.fields.usage.label'))
                 ->required()
                 ->placeholder(placeholder: __('disclaimer-resource.form.sections.management-info.fields.usage.placeholder'))
+                ->columnSpan(12)
+                ->rows(3),
+        ];
+    }
+
+    private static function getInternalDisclaimerSchema(): array
+    {
+        return [
+            TextInput::make('internal_title')
+                ->columnSpan(12)
+                ->label('Titel')
+                ->maxLength(255)
+                ->hint('Indien dit veld leeg is zal de algemene titel van de disclaimer worden weergegeven'),
+            Textarea::make('internal_message')
+                ->label(label: 'Interne redactiemelding')
+                ->required()
+                ->placeholder(placeholder: 'Beschrijf kort waarvoor deze melding staat en waarop de redacteur moet letten.')
+                ->hint('Indien dit tesktvak leeg blijft zal de algemene melding van de disclaimer worden gebruikt')
                 ->columnSpan(12)
                 ->rows(3),
         ];

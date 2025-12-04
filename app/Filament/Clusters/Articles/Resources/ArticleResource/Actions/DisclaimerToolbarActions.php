@@ -62,7 +62,7 @@ final readonly class DisclaimerToolbarActions
      *
      * @return Action The configured detach disclaimer action.
      */
-    private static function detachActionDefinition(): Action
+    public static function detachActionDefinition(): Action
     {
         return Action::make('detach')
             ->visible(fn(Article $article): bool => auth()->user()->can('detachDisclaimer', $article))
