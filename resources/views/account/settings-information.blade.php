@@ -4,17 +4,17 @@
     <div class="py-4">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-12">
-                    <x-account.profile-information-banner :user=$user/>
+                <div class="col-12">
+                    <x-account.profile-information-banner :user="$user"/>
                 </div>
             </div>
 
             <div class="row py-4">
-                <div class="col-lg-3 col-sm-12">
+                <div class="col-12 col-lg-3">
                     @include('account.components.sidebar')
                 </div>
 
-                <div class="col-lg-9 col-sm-12">
+                <div class="col-12 col-lg-9">
                     <div class="row">
                         <div class="col-12">
                             <form method="POST" action="{{ route('user-profile-information.update') }}" class="card bg-white border-0 shadow-sm">
@@ -28,18 +28,18 @@
                                             <h6 class="card-subtitle text-muted border-bottom pb-2">Werk je profielgegevens en het e-mailadres van je account bij.</h6>
                                         </div>
 
-                                        <div class="col-4">
+                                        <div class="col-12 col-md-4">
                                             <label for="username" class="form-label">{{ __('Gebruikersnaam') }} <span class="fw-bold text-danger">*</span></label>
                                             <input name="gebruikersnaam" type="text" class="form-control @error('gebruikersnaam', 'updateProfileInformation') is-invalid @enderror" value="{{ old('gebruikersnaam', $user->name) }}" id="emailAddress">
                                             <x-forms.validation-error field="gebruikersnaam" bag="updateProfileInformation" />
                                         </div>
 
-                                        <div class="col-md-4">
+                                        <div class="col-12 col-md-4">
                                             <label for="firstname" class="form-label">Voornaam</label>
                                             <input name="firstname" type="text" class="form-control" value="{{ old('firstname', $user->firstname) }}" id="firstname">
                                         </div>
 
-                                        <div class="col-md-4">
+                                        <div class="col-12 col-md-4">
                                             <label for="lastname" class="form-label">Achternaam</label>
                                             <input name="lastname" type="text" class="form-control" value="{{ old('lastname', $user->lastname) }}" id="lastname">
                                         </div>
@@ -93,7 +93,7 @@
 
                                             <div class="row mt-1 g-3">
 
-                                                <div class="col-sm-4">
+                                                <div class="col-12 col-md-4">
                                                     <label class="form-label" for="blueskyUsername">Bluesky gebruikersnaam</label>
                                                     <input type="text" class="form-control" name="bluesky" value="{{ old('bluesky', $user->bluesky) }}" id="specificSizeInputGroupUsername"  placeholder="gebruikersnaam">
 
@@ -103,7 +103,7 @@
                                                 </div>
 
 
-                                                <div class="col-sm-4">
+                                                <div class="col-12 col-md-4">
                                                     <label class="form-label" for="specificSizeInputGroupUsername">Twitter gebruikersnaam</label>
                                                     <input type="text" name="twitter" value="{{ old('twitter', $user->twitter) }}" class="form-control" id="specificSizeInputGroupUsername" aria-describedby="twitterHelpText" placeholder="gebruikersnaam">
 
@@ -112,7 +112,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-sm-4">
+                                                <div class="col-12 col-md-4">
                                                     <label class="form-label" for="specificSizeInputGroupUsername">Website</label>
                                                     <input type="text" name="website" value="{{ old('website', $user->website) }}" class="form-control @error('website') is-invalid @enderror" id="specificSizeInputGroupUsername" placeholder="website">
                                                     <x-forms.validation-error field="website"/>

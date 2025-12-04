@@ -3,7 +3,7 @@
 @section ('jumbotron')
     <div class="bg-light bg-blend-hard-light rounded-3 shadow-sm">
         <div class="container-fluid">
-            <div class="px-5 py-5">
+            <div class=" py-4 py-md-5">
                 <div class="row">
                     <h1 class="display-6 fw-bold">Uw bewaarde woorden in het <span class="text-warning">Vlaams Woordenboek</span></h1>
                     <p class="col-12 fs-5 pb-3 border-bottom">
@@ -11,13 +11,13 @@
                         Via het onderstaande formulier kun je snuisteren tussen uw suggesties.
                     </p>
 
-                    <form class="col-md-7 mt-4" action="{{ route('bookmarks:index') }}" method="GET">
+                    <form class="col-12 col-lg-8 col-xl-7 mt-4" action="{{ route('bookmarks:index') }}" method="GET">
                         <div class="row g-3">
-                            <div class="col-lg-10 col-sm-8">
+                            <div class="col-12 col-sm-8 col-lg-10">
                                 <input type="text" class="form-control bg-white shadow-sm" name="zoekterm" value="{{ request()->get('zoekterm') }}" placeholder="Zoeken tussen mijn bewaarde woorden" aria-label="searchterm">
                             </div>
-                            <div class="col-lg-2 col-sm-4">
-                                <button type="submit" class="btn shadow-sm w-100 btn-submit">
+                            <div class="col-12 col-sm-4 col-lg-2">
+                                <button type="submit" class="btn shadow-sm w-100 btn-submit mt-2 mt-sm-0">
                                     <x-heroicon-o-magnifying-glass class="icon me-1"/> Zoeken
                                 </button>
                             </div>
@@ -27,7 +27,7 @@
                                 </x-sortable-reset>
 
                                 @if (request()->has('zoekterm'))
-                                    <a href="{{ route('suggestions:index') }}" class="btn btn-sm btn-outline-danger">
+                                    <a href="{{ route('bookmarks:index') }}" class="btn btn-sm btn-outline-danger">
                                         <x-tabler-x class="icon me-1"/> Zoekopdracht: <strong>{{ request()->get('zoekterm') }}</strong>
                                     </a>
                                 @endif
@@ -45,7 +45,7 @@
        <div class="container-fluid">
            <div class="row">
 
-               <div class="col-3">
+               <div class="col-12 col-lg-3 mb-3 mb-lg-0">
                    <div class="card border-0 shadow-sm">
                        <div class="card-header bg-white">
                            <a href="{{ route('definitions.create') }}" class="btn btn-submit w-100 shadow-sm">
@@ -90,7 +90,7 @@
                    </div>
                </div>
 
-               <div class="col-9">
+               <div class="col-12 col-lg-9">
                    <div class="row">
                        <div class="col-12">
                            @if ($results->total() > 0)
@@ -133,7 +133,7 @@
                                    </div>
                                </div>
 
-                               <x-definitions.pagination :results=$results />
+                               <x-definitions.pagination :results="$results" />
                            @else {{-- The user has no) filled in suggestions --}}
                            <div class="card bg-sidenav text-center shadow-sm border-0">
                                <div class="card-body p-4">
