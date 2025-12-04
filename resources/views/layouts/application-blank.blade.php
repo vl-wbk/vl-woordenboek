@@ -36,15 +36,15 @@
 <body class="d-flex flex-column h-100">
     {{--  TE VERWIJDEREN WANNEER DE PUBLIEKE FASE IS AFGELOPEN --}}
     <div class="alert alert-warning border-0 mb-0 rounded-0 shadow-sm py-2" role="alert">
-        <div class="px-5">
-            <strong><x-heroicon-s-exclamation-triangle class="icon me-1"/> Ter info:</strong>
-            dit is een bètaversie van het nieuwe Vlaamse Woordenboek om uitgebreid te testen. De data zijn van april 2025. Alle  <a href="{{ route('feedback:create') }}" target="_blank" class="alert-link">feedback</a> is welkom.
-            welkom. De recentste artikelen vind je op het oude <a href="https://www.vlaamswoordenboek.be/" class="alert-link">vlaamswoordenboek.be</a>.
 
-        </div>
+                    <strong><x-heroicon-s-exclamation-triangle class="icon me-1"/> Ter info:</strong>
+                    dit is een bètaversie van het nieuwe Vlaamse Woordenboek om uitgebreid te testen. De data zijn van april 2025. Alle  <a href="{{ route('feedback:create') }}" target="_blank" class="alert-link">feedback</a> is welkom.
+                    welkom. De recentste artikelen vind je op het oude <a href="https://www.vlaamswoordenboek.be/" class="alert-link">vlaamswoordenboek.be</a>.
+
+
     </div>
     {{-- EINDE --}}
-    <nav class="navbar navbar-expand-md navbar-dark bg-navbar shadow-sm px-5">
+    <nav class="navbar navbar-expand-md navbar-dark bg-navbar shadow-sm">
         <div class="{{ $containerSize ?? 'container-fluid' }}">
             <a class="navbar-brand" href="{{ url('/') }}">
                 {{ config('app.name', 'Laravel') }}
@@ -164,12 +164,12 @@
 
     @yield('jumbotron')
 
-    <main class="{{ $paddingContent ?? 'mb-5' }} px-5 flex-shrink-0">
+    <main class="{{ $paddingContent ?? 'mb-5' }} flex-shrink-0">
         @yield('content')
     </main>
 
-    <footer class="footer mt-auto px-5 pt-4 pt-md-5 mt-5">
-        <div class="container-fluid pt-4 pb-2 py-md-4 px-md-3 text-body-secondary">
+    <footer class="footer mt-auto pt-4 pt-md-5 mt-5">
+        <div class="container-fluid pt-4 pb-2 py-md-4x text-body-secondary">
             <div class="row">
                 <div class="col-lg-3">
                 <a class="d-inline-flex align-items-center mb-2 text-white text-decoration-none" href="/" aria-label="Bootstrap">
@@ -313,8 +313,8 @@
         </div>
     </div>
 </footer>
-    <div class="footer px-5 py-2" style="background-color: oklch(21.6% 0.006 56.043)">
-        <div class="container-fluid px-4 px-md-3">
+    <div class="footer py-2" style="background-color: oklch(21.6% 0.006 56.043)">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
                     <span class="text-yellow">

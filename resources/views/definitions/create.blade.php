@@ -3,17 +3,19 @@
 @section('jumbotron')
     <div class="bg-light-subtle bg-blend-hard-light rounded-3 shadow-sm">
         <div class="container-fluid">
-            <div class="px-3 px-md-5 py-4 py-md-5">
-                <h1 class="display-6 fw-bold">Suggestie in het <span class="text-warning">Vlaams Woordenboek</span></h1>
+            <div class="row">
+                <div class="py-4 py-md-5">
+                    <h1 class="display-6 fw-bold">Suggestie in het <span class="text-warning">Vlaams Woordenboek</span></h1>
 
-                <p class="col-12 col-lg-10 fs-5">
-                    Elke bezoeker kan nieuwe suggesties met definities indienen bij het Vlaams Woordenboek. Die worden beoordeeld en bewerkt door een redacteur voor ze online verschijnen.<br>
-                    Met dit formulier kun je nieuwe typisch Vlaamse woorden, termen en uitdrukkingen voorstellen voor het woordenboek.
-                </p>
+                    <p class="col-12 col-lg-10 fs-5">
+                        Elke bezoeker kan nieuwe suggesties met definities indienen bij het Vlaams Woordenboek. Die worden beoordeeld en bewerkt door een redacteur voor ze online verschijnen.<br>
+                        Met dit formulier kun je nieuwe typisch Vlaamse woorden, termen en uitdrukkingen voorstellen voor het woordenboek.
+                    </p>
 
-                <a href="{{ route('home') }}" class="btn mt-3 mt-md-4 btn-outline-danger shadow-sm">
-                    <x-heroicon-o-arrow-uturn-left class="icon me-1"/> Annuleren
-                </a>
+                    <a href="{{ route('home') }}" class="btn mt-3 mt-md-4 btn-outline-danger shadow-sm">
+                        <x-heroicon-o-arrow-uturn-left class="icon me-1"/> Annuleren
+                    </a>
+                </div>
             </div>
         </div>
     </div>

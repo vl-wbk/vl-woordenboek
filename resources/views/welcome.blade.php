@@ -3,12 +3,12 @@
 @section('jumbotron')
     <div class="bg-light bg-blend-hard-light rounded-3 shadow-sm">
         <div class="container-fluid">
-            <div class="px-3 py-5 px-sm-5">
+            <div class="py-5">
                 <div class="row">
                     <h1 class="display-6 fw-bold">{!! __('pages/welcome.jumbotron.headings.welcome', ['applicationName' => config('app.name', 'Laravel')]) !!}</h1>
 
                     <div class="col-12">
-                        <p class="border-bottom pb-3 fs-5">
+                        <p class="pb-3 fs-5">
                             {{ __('pages/welcome.jumbotron.leading-paragraph', ['articleCount' => $articleCount]) }}
                         </p>
                     </div>
