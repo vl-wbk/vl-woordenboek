@@ -1,9 +1,9 @@
-@extends ('layouts.application-blank', ['title' => __('pages/suggestions/index.page-title')])
+@extends('layouts.application-blank', ['title' => __('pages/suggestions/index.page-title')])
 
-@section ('jumbotron')
+@section('jumbotron')
     <div class="bg-light bg-blend-hard-light rounded-3 shadow-sm">
         <div class="container-fluid">
-            <div class="px-5 py-5">
+            <div class="px-4 px-md-5 py-4 py-md-5">
                 <div class="row">
                     <h1 class="display-6 fw-bold">{!! __('pages/suggestions/index.jumbotron.heading', ['applicationName' => config('app.name', 'Laravel')]) !!}</h1>
                     <p class="col-12 fs-5 pb-3 border-bottom">
@@ -11,24 +11,32 @@
                         {{ __('pages/suggestions/index.jumbotron.text.second-sentence') }}
                     </p>
 
-                    <form class="col-md-7 mt-4" action="{{ route('suggestions:index') }}" method="GET">
-                        <div class="row g-3">
-                            <div class="col-lg-10 col-sm-8">
-                                <input type="text" class="form-control bg-white shadow-sm" name="zoekterm" value="{{ request()->get('zoekterm') }}" placeholder="{{ __('pages/suggestions/index.jumbotron.form.search-placeholder') }}" aria-label="searchterm">
+                    <form class="col-12 col-md-10 col-lg-7 mt-3 mt-md-4" action="{{ route('suggestions:index') }}" method="GET">
+                        <div class="row g-2 g-sm-3">
+                            <div class="col-12 col-sm-8 col-lg-10">
+                                <input
+                                    type="text"
+                                    class="form-control bg-white shadow-sm"
+                                    name="zoekterm"
+                                    value="{{ request()->get('zoekterm') }}"
+                                    placeholder="{{ __('pages/suggestions/index.jumbotron.form.search-placeholder') }}"
+                                    aria-label="searchterm"
+                                >
                             </div>
-                            <div class="col-lg-2 col-sm-4">
+                            <div class="col-12 col-sm-4 col-lg-2 d-grid">
                                 <button type="submit" class="btn shadow-sm w-100 btn-submit">
                                     <x-heroicon-o-magnifying-glass class="icon me-1"/> {{ __('pages/suggestions/index.jumbotron.form.buttons.submit') }}
                                 </button>
                             </div>
-                            <div class="col-12">
+                            <div class="col-12 d-flex flex-wrap gap-2">
                                 <x-sortable-reset>
                                     {{ __('pages/suggestions/index.jumbotron.form.buttons.reset') }}
                                 </x-sortable-reset>
 
                                 @if (request()->has('zoekterm'))
                                     <a href="{{ route('suggestions:index') }}" class="btn btn-sm btn-outline-danger">
-                                        <x-tabler-x class="icon me-1"/> {{ __('pages/suggestions/index.jumbotron.form.current-search-term') }}: <strong>{{ request()->get('zoekterm') }}</strong>
+                                        <x-tabler-x class="icon me-1"/> {{ __('pages/suggestions/index.jumbotron.form.current-search-term') }}:
+                                        <strong>{{ request()->get('zoekterm') }}</strong>
                                     </a>
                                 @endif
                             </div>
@@ -40,10 +48,11 @@
     </div>
 @endsection
 
-@section ('content')
-    <div class="container-fluid pt-4">
-        <div class="row my-4 pb-2">
-            <div class="col-3">
+@section('content')
+    <div class="container-fluid pt-3 pt-md-4">
+        <div class="row gy-4 pb-2">
+            <!-- Sidebar -->
+            <div class="col-12 col-lg-3 order-2 order-lg-1">
                 <div class="card border-0 shadow-sm">
                     <div class="card-header bg-white">
                         <a href="{{ route('definitions.create') }}" class="btn btn-submit w-100 shadow-sm">
@@ -55,7 +64,7 @@
                             <x-heroicon-s-funnel class="icon me-1"/> {{ __('pages/suggestions/index.sidenav.headings.submitted-since') }}
                         </h5>
 
-                        <x-filter-link field="created_after" value="{{ now()->subWeek  ()->format('Y-m-d') }}">
+                        <x-filter-link field="created_after" value="{{ now()->subWeek()->format('Y-m-d') }}">
                             {{ __('pages/search.sidenav.filters.last-week') }}
                         </x-filter-link>
                         <x-filter-link field="created_after" value="{{ now()->subMonth()->format('Y-m-d') }}">
@@ -123,12 +132,13 @@
                 </div>
             </div>
 
-            <div class="col-9">
+            <!-- Main content -->
+            <div class="col-12 col-lg-9 order-1 order-lg-2">
                 @if ($results->total() > 0)
                     <div class="card bg-white border-0 border-bottom shadow-sm">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-hover table-sm mb-0">
+                                <table class="table table-hover table-sm mb-0 align-middle">
                                     <thead>
                                         <tr>
                                             <th scope="col" class="ps-2">#</th>
@@ -168,7 +178,7 @@
                                                     @endif
                                                 </td>
 
-                                                <td>{{ $result->word }}</td>
+                                                <td class="text-break">{{ $result->word }}</td>
                                                 <td>
                                                     @if ($result->updated_at->eq($result->created_at))
                                                         <span class="color-green">-</span>
@@ -179,9 +189,9 @@
 
                                                 <td>{{ $result->updated_at->diffForHumans() }}</td>
 
-                                                <td>
+                                                <td class="text-end">
                                                     @if ($result->isPublished())
-                                                        <a href="{{ route('word-information.show', $result) }}" class="text-muted me-2 text-decoration-none float-end">
+                                                        <a href="{{ route('word-information.show', $result) }}" class="text-muted text-decoration-none">
                                                             <x-heroicon-o-eye class="icon me-1"/> {{ __('pages/suggestions/index.table.actions.view') }}
                                                         </a>
                                                     @endif
@@ -194,8 +204,8 @@
                         </div>
                     </div>
 
-                    <x-definitions.pagination :results=$results />
-                @else {{-- The user has no) filled in suggestions --}}
+                    <x-definitions.pagination :results="$results" />
+                @else {{-- No results state --}}
                     <div class="card bg-sidenav text-center shadow-sm border-0">
                         <div class="card-body p-4">
                             <x-tabler-inbox class="icon-blankslate color-green icon pb-3"/>
