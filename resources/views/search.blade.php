@@ -3,10 +3,10 @@
 @section('jumbotron')
     <div class="bg-light bg-blend-hard-light rounded-3 shadow-sm">
         <div class="container-fluid">
-            <div class="px-5 py-5">
+            <div class="py-5">
                 <div class="row">
                     <h1 class="display-6 fw-bold">{!! __('pages/search.jumbotron.heading', ['applicationName' => config('app.name', 'Laravel')]) !!}</h1>
-                    <p class="col-12 fs-5 pb-3 border-bottom">{{ __('pages/search.jumbotron.description', ['count' => $results->count()]) }}</p>
+                    <p class="col-12 fs-5 pb-3">{{ __('pages/search.jumbotron.description', ['count' => $results->count()]) }}</p>
 
                     <form class="col-md-7 mt-4" action="{{ route('search.results') }}" method="GET">
                         <div class="row g-3">

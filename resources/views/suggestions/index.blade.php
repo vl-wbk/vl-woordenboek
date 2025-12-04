@@ -3,7 +3,7 @@
 @section('jumbotron')
     <div class="bg-light bg-blend-hard-light rounded-3 shadow-sm">
         <div class="container-fluid">
-            <div class="px-4 px-md-5 py-4 py-md-5">
+            <div class=" py-4 py-md-5">
                 <div class="row">
                     <h1 class="display-6 fw-bold">{!! __('pages/suggestions/index.jumbotron.heading', ['applicationName' => config('app.name', 'Laravel')]) !!}</h1>
                     <p class="col-12 fs-5 pb-3 border-bottom">
