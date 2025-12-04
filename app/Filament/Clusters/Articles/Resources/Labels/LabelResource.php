@@ -25,6 +25,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconSize;
 use Filament\Support\Enums\Width;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Cache;
@@ -125,6 +126,7 @@ final class LabelResource extends Resource
                     ->iconColor('primary')
                     ->compact()
                     ->columns(12)
+                    ->columnSpanFull()
                     ->schema([
                         TextEntry::make('name')
                             ->label('Naam')
@@ -172,6 +174,7 @@ final class LabelResource extends Resource
             ->columns([
                 TextColumn::make('name')
                     ->label('Label')
+                    ->icon(Heroicon::OutlinedTag)
                     ->badge()
                     ->sortable()
                     ->searchable(),
