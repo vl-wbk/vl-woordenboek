@@ -61,7 +61,7 @@ final readonly class WordInfolist
                     ->icon(Heroicon::OutlinedArchiveBox, IconAnimation::Pulse)
                     ->title(fn (Article $article): HtmlString => self::archiveInformationAlert($article)['title'])
                     ->description(fn (Article $article): HtmlString => self::archiveInformationAlert($article)['description'])
-                    ->visible(fn (Article $article): bool => ! $article->isArchieved())
+                    ->visible(fn (Article $article): bool => $article->isArchived())
                     ->action(UnarchiveAction::make()->label('Ongedaan maken')->color('danger')->outlined())
                     ->border()
                     ->color('danger')
