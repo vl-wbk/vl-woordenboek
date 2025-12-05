@@ -43,13 +43,19 @@ final readonly class SearchWordQuery
     public function execute(Request $request): LengthAwarePaginator
     {
         $includeDescription = $request->boolean('uitgebreid');
+        $includeArchive = $request->boolean('archief');
 
         /** @phpstan-ignore-next-line */
         return QueryBuilder::for(Article::class)
             ->allowedSorts($this->getAllowedSorts())
             ->allowedFilters($this->getAllowedFilters())
             ->with(['author', 'bookmarkers'])
-            ->published()
+            ->where(function ($q) use ($includeArchive) {
+                $q->whereNotNull('published_at');
+                if ($includeArchive) {
+                    $q->orWhereNotNull('archived_at');
+                }
+            })
             ->where(function ($query) use ($request, $includeDescription): void {
                 $query->where('word', $this->getSearchPattern($request)['operator'], $this->getSearchPattern($request)['pattern'])
                     ->orWhere('keywords', $this->getSearchPattern($request)['operator'], $this->getSearchPattern($request)['pattern'])

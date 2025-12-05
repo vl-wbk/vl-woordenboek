@@ -34,11 +34,19 @@
                                     <x-heroicon-o-magnifying-glass class="icon me-1"/> {{ __('components/search-form.buttons.submit') }}
                                 </button>
                             </div>
-                            <div class="col-lg-12 mt-2">
-                                <div class="form-check form-switch mb-0">
+                            <div class="col-12">
+                                <div class="form-check form-switch">
                                     <input class="form-check-input" name="uitgebreid" type="checkbox" id="checkChecked" value="1" @checked(request()->boolean('uitgebreid') === true) switch>
                                     <label class="form-check-label" for="checkChecked">
                                         {{ __('components/search-form.toggles.description-search') }}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12 mt-1">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" name="archief" type="checkbox" id="checkCheckedArchived" value="1" @checked(request()->boolean('archief') === true) switch>
+                                    <label class="form-check-label" for="checkCheckedArchived">
+                                        {{ __('Ik wens ook te zoeken in het archief') }}
                                     </label>
                                 </div>
                             </div>

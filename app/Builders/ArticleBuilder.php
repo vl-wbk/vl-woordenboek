@@ -34,6 +34,16 @@ final class ArticleBuilder extends Builder
         return $this->whereNotNull('published_at');
     }
 
+    public function archived(): Builder
+    {
+        return $this->orWhereNotNull('archived_at');
+    }
+
+    public function isArchived(): bool
+    {
+        return ! is_null($this->model->archived_at);
+    }
+
     /**
      * Archives the current article with an optional reason.
      *

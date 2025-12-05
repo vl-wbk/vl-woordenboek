@@ -48,7 +48,7 @@ final class ArticlePolicy
     {
         $allowedStates = $article->state->in([ArticleStates::Draft, ArticleStates::Approval]);
 
-        if ($article->isPublished() || ($user?->canAny(['update-published:article', 'update:article']) && $allowedStates)) {
+        if (($article->isPublished() || $article->isArchived()) || ($user?->canAny(['update-published:article', 'update:article']) && $allowedStates)) {
             return Response::allow();
         }
 

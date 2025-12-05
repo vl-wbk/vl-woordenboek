@@ -7,6 +7,11 @@
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
 
+html {
+    scrollbar-gutter: stable;
+}
+
+
 .btn-two-factor {
     @include button-variant(#e7e5e4, #e7e5e4);
 }
