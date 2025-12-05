@@ -31,9 +31,9 @@ final class Published extends ArticleState
      *
      * @param  string|null $archivingReason The reason for archiving the article (optional).
      */
-    public function transitionToArchived(?string $archivingReason = null): void
+    public function transitionToArchived(?string $archivingReason = null): bool
     {
-        $this->article->archive($archivingReason);
+        return $this->article->archive($archivingReason);
     }
 
     /**

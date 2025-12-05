@@ -54,11 +54,12 @@ final class ArticleBuilder extends Builder
      *
      * @throws Throwable
      */
-    public function archive(?string $archivingReason = null): void
+    public function archive(?string $archivingReason = null): bool
     {
-        DB::transaction(function () use ($archivingReason): void {
-            $this->model->update(attributes: ['state' => ArticleStates::Archived, 'archiving_reason' => $archivingReason, 'published_at' => null, 'archived_at' => now()]);
-            $this->model->archiever()->associate(Auth::user())->save();
+        return DB::transaction(function () use ($archivingReason): bool {
+            return $this->model->fill(attributes: ['state' => ArticleStates::Archived, 'archiving_reason' => $archivingReason, 'published_at' => null, 'archived_at' => now()])
+                ->archiever()->associate(Auth::user())
+                ->save();
         });
     }
 
