@@ -72,7 +72,6 @@ final class ViewWord extends ViewRecord
                 FilamentActions\EditAction::make()->icon('heroicon-o-pencil-square')->color('gray'),
                 DuplicationArticleAction::make(),
                 ArticleStateActions\ArchiveArticle::make(),
-                ArticleStateActions\UnarchiveAction::make(),
                 ArticleStateActions\PublishArticleAction::make(),
             ])->buttonGroup(),
 
