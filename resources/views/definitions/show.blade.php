@@ -210,6 +210,14 @@
                            </button>
                        </li>
 
+                       @if ($word->related()->exists())
+                           <li class="nav-item" role="presentation">
+                               <button class="nav-link" id="articles-tab" data-bs-toggle="tab" data-bs-target="#articles-tab-pane" type="button" role="tab" aria-controls="articles-tab-pane" aria-selected="false">
+                                   <x-heroicon-o-book-open class="icon color-green me-1"/> Gerelateerde artikelen
+                               </button>
+                           </li>
+                       @endif
+
                        @if (count($etymologies) > 0)
                            <li class="nav-item" role="presentation">
                                <button class="nav-link" id="etymologie-tab" data-bs-toggle="tab" data-bs-target="#etymologie-tab-pane" type="button" role="tab" aria-controls="etymologie-tab-pane" aria-selected="true">
@@ -259,6 +267,38 @@
                                                <td>{{ $source->notation }}</td>
                                            </tr>
                                        @endforeach
+                                       </tbody>
+                                   </table>
+                               </div>
+                           </div>
+                       @endif
+
+                       @if ($word->related()->exists())
+                           <div class="tab-pane fade" id="articles-tab-pane" role="tabpanel" aria-labelledby="sources-tab" tabindex="0">
+                               <div class="table-responsive">
+                                   <table class="table table-hover table-sm mb-0">
+                                       <thead>
+                                           <tr>
+                                               <th scope="col">Artikel</th>
+                                               <th scope="col" colspan="2">Beschrijving</th>
+                                           </tr>
+                                       </thead>
+                                       <tbody>
+                                           @foreach ($word->related as $article)
+                                               <tr>
+                                                   <td>
+                                                        <span class="fw-bold">
+                                                            <x:heroicon-o-book-open class="icon text-secondary icon-sm me-1"/> {{ $article->word }}
+                                                        </span>
+                                                   </td>
+                                                   <td>{{ str($article->description)->markdown()->stripTags()->limit(175) }}</td>
+                                                   <td>
+                                                       <a href="{{ route('word-information.show', $article) }}" class="float-end text-decoration-none text-light-emphasis">
+                                                           <x-heroicon-o-eye class="icon me-1"/> Bekijken
+                                                       </a>
+                                                   </td>
+                                               </tr>
+                                           @endforeach
                                        </tbody>
                                    </table>
                                </div>

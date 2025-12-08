@@ -15,6 +15,7 @@ use App\Filament\Resources\Articles\ArticleResource;
 use App\Filament\Resources\Articles\Schema\FormSchema;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Resources\Pages\CreateRecord\Concerns\HasWizard;
+use Filament\Support\Icons\Heroicon;
 
 /**
  * CreateWord Class
@@ -111,6 +112,10 @@ final class CreateWord extends CreateRecord
                 ->icon('heroicon-o-map')
                 ->columnSpanFull()
                 ->schema([self::sectionConfiguration()->schema(ArticleForm::regionInformationComponent())]),
+            Step::make('Gerelateerde woorden')
+                ->icon(Heroicon::OutlinedLink)
+                ->columnSpanFull()
+                ->schema([Section::make()->schema(ArticleForm::getRelatedWordsRepeater())]),
             Step::make(trans('Bronnen'))
                 ->icon('heroicon-o-book-open')
                 ->columnSpanFull()

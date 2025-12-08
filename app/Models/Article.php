@@ -255,6 +255,11 @@ final class Article extends Model implements AuditableContract, Commentable
         return $this->hasMany(ArticleReferenceWork::class);
     }
 
+    public function related(): BelongsToMany
+    {
+        return $this->belongsToMany(Article::class, 'related_articles', 'related_article_id');
+    }
+
     /**
      * Overrides the default Eloquent builder with a custom ArticleBuilder.
      *
