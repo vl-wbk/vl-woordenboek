@@ -107,6 +107,7 @@ final class LabelsRelationManager extends RelationManager
                 TextColumn::make('name')
                     ->label(label: __('filament/RelationManagers/LabelsRelationManager.table.columns.name'))
                     ->badge()
+                    ->icon(Heroicon::OutlinedTag)
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('description')
