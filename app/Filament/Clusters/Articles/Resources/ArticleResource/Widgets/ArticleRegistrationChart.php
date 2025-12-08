@@ -19,7 +19,7 @@ use Illuminate\Support\Collection;
  * ArticleRegistrationChart
  *
  * A Filament Chart Widget designed to visualize the entire lifecycle trend of articles (registration/suggestions, publishing, and archiving) over a filterable date range.
- * It utilizes the DateRangeFilterChart trait to provide filtering functionality and time-series aggregation via Flowframe Trend.
+ * It utilizes the DateRangeFilterChart trait to provide filtering functionality and time-series aggregation via Flow frame Trend.
  *
  * @package App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets
  */
@@ -40,7 +40,7 @@ final class ArticleRegistrationChart extends ChartWidget
     protected ?string $maxHeight = '150px';
 
     /**
-     * @var bool Controls whether the cidget can be collapsed by the user.
+     * @var bool Controls whether the widget can be collapsed by the user.
      */
     protected bool $isCollapsible = true;
 

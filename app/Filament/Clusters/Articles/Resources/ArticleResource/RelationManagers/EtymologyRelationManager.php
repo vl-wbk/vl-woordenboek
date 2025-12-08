@@ -106,7 +106,7 @@ final class EtymologyRelationManager extends RelationManager
             ->description(description: 'De etymologie beschrijft de herkomst en geschiedenis van een woord. In deze sectie ontdek je hoe een woord is ontstaan, uit welke taal het is overgenomen, en hoe het zich in de loop van de tijd heeft ontwikkeld. We verwijzen daarbij naar verwante vormen in andere talen, historische spellingswijzen en oorspronkelijke betekenissen. Zo krijg je inzicht in de wortels van het woord en de weg die het heeft afgelegd naar het huidige gebruik in het Nederlands.')
             ->emptyStateIcon(icon: self::$icon)
             ->emptyStateHeading(heading: 'Geen gegevens gevonden')
-            ->emptyStateDescription(description: 'Er zijn geen gevens gevonden voor de etymologie van het woord')
+            ->emptyStateDescription(description: 'Er zijn geen gegevens gevonden voor de etymologie van het woord')
             ->columns(components: TableSchema::configureColumns())
             ->filters(filters: TableSchema::configureFilters())
             ->filtersFormWidth(width: Width::Medium)

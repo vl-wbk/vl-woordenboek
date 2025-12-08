@@ -51,7 +51,7 @@ enum SearchPatterns: string implements HasLabel
      *
      * @todo Investigate database-specific optimizations for suffix searches if performance becomes critical.
      */
-    case Endswith = 'endsWith';
+    case EndsWith = 'endsWith';
 
     /**
      * Represents an "exact match" search pattern.
@@ -76,7 +76,7 @@ enum SearchPatterns: string implements HasLabel
         return match ($this) { // The `match` expression (PHP 8+) is used here for concise mapping of enum cases to their labels.
             self::Contains => __('components/search-form.patterns.contains'),
             self::StartsWith => __('components/search-form.patterns.startsWith'),
-            self::Endswith => __('components/search-form.patterns.endsWith'),
+            self::EndsWith => __('components/search-form.patterns.endsWith'),
             self::Exact => __('components/search-form.patterns.exact'),
         };
     }

@@ -29,7 +29,7 @@ final class RejectPublishingAction extends Action
 
     /**
      * Defines the visual icon for the reject action.
-     * Uses the X-mark icon from Heroicons to maintain consistency with the application's visual language whulde clearly indicating a negative action.
+     * Uses the X-mark icon from Heroicons to maintain consistency with the application's visual language would clearly indicating a negative action.
      */
     protected string $actionIcon = 'heroicon-o-x-mark';
 

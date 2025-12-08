@@ -114,7 +114,7 @@ final readonly class FormSchema
                 ->label(label: 'Interne redactiemelding')
                 ->required()
                 ->placeholder(placeholder: 'Beschrijf kort waarvoor deze melding staat en waarop de redacteur moet letten.')
-                ->hint('Indien dit tesktvak leeg blijft zal de algemene melding van de disclaimer worden gebruikt')
+                ->hint('Indien dit tekstvak leeg blijft zal de algemene melding van de disclaimer worden gebruikt')
                 ->columnSpan(12)
                 ->rows(3),
         ];

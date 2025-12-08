@@ -61,7 +61,7 @@ final class RevokePublication extends Action
         $this->modalIcon('tabler-arrow-back-up');
         $this->modalCloseButton(false);
         $this->modalHeading('Publicatie ongedaan maken');
-        $this->modalDescription('Bij het ongemaken van een publicatie zal het artikel niet meer raadpleegbaar zijn voor gebruikers. Dit kan handig zijn voor een herwerking van het artikel.');
+        $this->modalDescription('Bij het ongedaan maken van een publicatie zal het artikel niet meer raadpleegbaar zijn voor gebruikers. Dit kan handig zijn voor een herwerking van het artikel.');
         $this->modalSubmitActionLabel('Ongedaan maken');
 
         // Define the form for providing a reason for unpublishing.
@@ -75,7 +75,7 @@ final class RevokePublication extends Action
 
         // Set up notifications for success and failure.
         $this->successNotificationTitle('Publicatie ongedaan gemaakt');
-        $this->failureNotificationTitle('Helaas pindakaas! Er is iets migelopen.');
+        $this->failureNotificationTitle('Helaas pindakaas! Er is iets misgelopen.');
 
         // Define the action's execution logic.
         $this->action(function (): void {

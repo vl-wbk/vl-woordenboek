@@ -44,7 +44,7 @@ final class ReportsRelationManager extends RelationManager
             ->description('Overzicht van alle meldingen omtrent de correctie of verbetering van artikelen die zijn aangemaakt door gebruikers van het Vlaams woordenboek')
             ->emptyStateIcon(self::$navigationIcon)
             ->emptyStateHeading('Geen meldingen gevonden')
-            ->emptyStateDescription('Het lijk erop dat er momenteel geen openstaande meldingen zijn die gerelateerd zijn aan de atikelen van het Vlaams Woordenboek.')
+            ->emptyStateDescription('Het lijk erop dat er momenteel geen openstaande meldingen zijn die gerelateerd zijn aan de artikelen van het Vlaams Woordenboek.')
             ->columns(TableColumnSchema::make())
             ->filtersFormWidth(Width::Medium)
             ->filters(ArticleReportResource::getTableFilters())

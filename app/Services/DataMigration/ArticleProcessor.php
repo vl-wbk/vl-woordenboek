@@ -29,7 +29,7 @@ final readonly class ArticleProcessor
      * If any errors occur during article creation or job dispatching, they are caught and rethrown as RuntimeExceptions with detailed error messages.
      *
      * @param  array<mixed> $articleData  The data for the article to be created. This should include all required fields for the `Article` model.
-     * @return Article                           The created article instance.
+     * @return Article                    The created article instance.
      *
      * @throws RuntimeException If the article creation fails or if the jobs cannot be dispatched.
      */
@@ -42,7 +42,7 @@ final readonly class ArticleProcessor
             throw new RuntimeException("Failed to create article '{$articleData['word']}': {$th->getMessage()}", 0, $th);
         }
 
-        try { // To dispatch a chain of jibs to process the article's content standarization.
+        try { // To dispatch a chain of jibs to process the article's content standardization.
             Bus::chain([
                 new ConvertHardReturns($article),
                 new StandarizeInternalHyperlinks($article),

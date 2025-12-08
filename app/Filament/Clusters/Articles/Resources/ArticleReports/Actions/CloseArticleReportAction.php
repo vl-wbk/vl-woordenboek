@@ -58,7 +58,7 @@ final class CloseArticleReportAction extends Action
         $this->label('melding afsluiten');
         $this->authorize('markAsClosed', $this->record);
 
-        $this->successNotificationTitle('Het ticket is successvol afgesloten');
+        $this->successNotificationTitle('Het ticket is succesvol afgesloten');
         $this->failureNotificationTitle('Helaas konden we het ticket niet afsluiten wegens een technische fout');
 
         $this->action(function (): void {

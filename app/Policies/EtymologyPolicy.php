@@ -90,7 +90,7 @@ final class EtymologyPolicy
     /**
      * Determines whether the given user can delete the specified etymology.
      *
-     * Only users with the administrators or developer roles are permited to delete etymologies.
+     * Only users with the administrators or developer roles are permitted to delete etymologies.
      * This restriction helps prevent accidental or unauthorized removal of important records.
      *
      * @param  User  $user  The user attempting the delete action.

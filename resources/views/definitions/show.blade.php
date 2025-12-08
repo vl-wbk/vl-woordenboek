@@ -11,7 +11,7 @@
     <meta property="article:published_time" content="{{ optional($word->published_at)->toIso8601String() ?? \Illuminate\Support\Carbon::parse($word->created_at)->toIso8601String() }}"/>
     <meta property="article:modified_time" content="{{ optional($word->updated_at)->toIso8601String() ?? \Illuminate\Support\Carbon::now()->toIso8601String() }}"/>
     <meta property="og:article:author" content="{{ $word->editor->name ?? '' }}"/>
-    <meta property="og:section" content="Linguistiek"/>
+    <meta property="og:section" content="Linguïstiek"/>
 
     @if ($word->isArchived())
         <meta name="robots" content="noindex, follow" />
@@ -231,7 +231,7 @@
                        @if (count($etymologies) > 0)
                            <li class="nav-item" role="presentation">
                                <button class="nav-link" id="etymologie-tab" data-bs-toggle="tab" data-bs-target="#etymologie-tab-pane" type="button" role="tab" aria-controls="etymologie-tab-pane" aria-selected="true">
-                                   <x:heroicon-o-queue-list class="icon color-green me-1"/> Etymologieen
+                                   <x:heroicon-o-queue-list class="icon color-green me-1"/> Etymologieën
                                </button>
                            </li>
                        @endif

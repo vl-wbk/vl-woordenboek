@@ -46,7 +46,7 @@ final readonly class FormSchema
     {
         return $schema->components([
             Section::make('Creatie van een nieuw nieuwsartikel')
-                ->description('Informeer de gebruiker omtrent de evolutie van het Vlaams Woordenboek of de vlaamse taal')
+                ->description('Informeer de gebruiker omtrent de evolutie van het Vlaams Woordenboek of de Vlaamse taal')
                 ->icon('heroicon-o-pencil-square')
                 ->iconColor('primary')
                 ->iconSize(IconSize::Medium)
@@ -80,7 +80,7 @@ final readonly class FormSchema
                 ->columnSpan(9),
 
             Select::make('category_id')
-                ->label('Categorieen')
+                ->label('Categorieën')
                 ->translateLabel()
                 ->relationship(name: 'category', titleAttribute: 'name')
                 ->createOptionForm(SchemaFormSchema::getFormComponents())

@@ -46,12 +46,12 @@ final readonly class BlogPostInfolist
 					->placeholder('-')
 					->columnSpan(4),
                 TextEntry::make('category.name')
-                    ->label('Categorieen')
+                    ->label('Categorieën')
                     ->translateLabel()
                     ->badge()
                     ->color('info')
                     ->icon('heroicon-o-tag')
-                    ->placeholder('- Geen categorieen gekoppeld aan het nieuwsartikel')
+                    ->placeholder('- Geen categorieën gekoppeld aan het nieuwsartikel')
                     ->columnSpanFull(),
                 TextEntry::make('content')
                     ->label('Artikel inhoud')

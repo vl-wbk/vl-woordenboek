@@ -42,7 +42,7 @@ class ArticleState implements ArticleStateContract
      */
     public function transitionToArchived(?string $archivingReason = null): bool
     {
-        throw new LogicException('The method transitionToArchived() is not alllowed in the current state.');
+        throw new LogicException('The method transitionToArchived() is not allowed in the current state.');
     }
 
     /**
@@ -51,7 +51,7 @@ class ArticleState implements ArticleStateContract
      */
     public function transitionToEditing(?string $reason = null): bool
     {
-        throw new LogicException('The method tran   sitionTOEditing() is not allowed in the current state.');
+        throw new LogicException('The method transitionToEditing() is not allowed in the current state.');
     }
 
     /**

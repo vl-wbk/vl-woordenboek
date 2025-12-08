@@ -58,7 +58,7 @@ trait BelongsToEditor
      * Sets the currently authenticated user as the editor of the model.
      *
      * Similar to 'setCurrentUserAsEditor', this function assigns the authenticated user as the editor.
-     * It estabilishes the user's association within the model's database and saves the record, which is crucial for tracking revisions or entries by particular users.
+     * It establishes the user's association within the model's database and saves the record, which is crucial for tracking revisions or entries by particular users.
      *
      * @return self  Returns the current instance of the model to allow method chaining.
      */

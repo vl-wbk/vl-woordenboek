@@ -95,7 +95,7 @@ final class DisclaimerResource extends Resource
      * The table definition, including columns, filters, and actions, is delegated to the `Schema\TableSchema` class.
      * This approach provides a clean, centralized location for managing the resource's list view, making it easy to add or modify columns and search capability.
      *
-     * @param  Table $table	 TheFilamnt table instance to be configured
+     * @param  Table $table	 The Filament table instance to be configured
      * @return Table		 The configured Filament table
      */
     public static function table(Table $table): Table

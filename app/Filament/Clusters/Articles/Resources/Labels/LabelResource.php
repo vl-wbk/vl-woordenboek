@@ -144,7 +144,7 @@ final class LabelResource extends Resource
                         TextEntry::make('description')
                             ->label('Beschrijving')
                             ->columnSpanFull()
-                            ->placeholder('Geen label beschrijving geregistreed'),
+                            ->placeholder('Geen label beschrijving geregistreerd'),
                     ]),
             ]);
     }
@@ -208,14 +208,14 @@ final class LabelResource extends Resource
                     ActionGroup::make([
                         DeleteAction::make()->hiddenLabel()
                             ->icon('heroicon-o-trash')
-                            ->modalDescription('Indien u het label verwijderd zal het label ook loskoppeld worden van de woorden. Bent u zeker dat u het label wilt verwijderen?'),
+                            ->modalDescription('Indien u het label verwijderd zal het label ook losgekoppeld worden van de woorden. Bent u zeker dat u het label wilt verwijderen?'),
                     ])->dropdown(false)
                 ])
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make()
-                        ->modalDescription('Indien u de geselecteeerde labels verwijderd zullen deze worden losgekoppeld van de woorden. Bent u zeker dat u de handeling wilt uitvoeren?'),
+                        ->modalDescription('Indien u de geselecteerde labels verwijderd zullen deze worden losgekoppeld van de woorden. Bent u zeker dat u de handeling wilt uitvoeren?'),
                 ]),
             ]);
     }

@@ -132,7 +132,7 @@ final class Article extends Model implements AuditableContract, Commentable
      *
      * Example states flow: New -> Draft -> Approval -> Published -> Archived
      *
-     * @return ArticleStateContract - The correcponding state class for the current dictionary article
+     * @return ArticleStateContract - The corresponding state class for the current dictionary article
      */
     public function articleStatus(): ArticleStateContract
     {

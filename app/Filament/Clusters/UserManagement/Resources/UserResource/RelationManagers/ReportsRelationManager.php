@@ -166,7 +166,7 @@ final class ReportsRelationManager extends RelationManager
                 ->label('Status')
                 ->badge(),
             TextColumn::make('assignee.name')
-                ->label('Inbehandeling door')
+                ->label('In behandeling door')
                 ->searchable()
                 ->sortable()
                 ->placeholder('- niemand'),

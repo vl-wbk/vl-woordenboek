@@ -70,7 +70,7 @@
                                    @if ($errors->any())
                                        <div class="alert alert-danger alert-dismissible fade show border-0 d-flex align-items-center mt-2 py-1 px-2 mb-0" role="alert" data-bs-dismiss="alert" aria-label="Close">
                                            <x-heroicon-o-bell-alert class="flex-shrink-0 me-1 icon"/>
-                                           <div>Wij konden helaas niet verifieren dat je de accounthouder bent en hebben daarom de handeling vroegtijdig afgebroken.</div>
+                                           <div>Wij konden helaas niet verifiëren dat je de accounthouder bent en hebben daarom de handeling vroegtijdig afgebroken.</div>
                                        </div>
                                    @endif
                                </div>

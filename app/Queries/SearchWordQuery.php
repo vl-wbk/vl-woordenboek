@@ -20,8 +20,8 @@ use Illuminate\Support\Stringable;
  * The SearchWordQuery provides a focused way to search through dictionary articles.
  *
  * This Query is designed to help users find articles by matching their search terms against multiple fields in the article database.
- * It specifically looks through the word itself, its descriptionb, and any associated keywords.
- * To Ensure quelity results, the search only includes articles that have been published.
+ * It specifically looks through the word itself, its description, and any associated keywords.
+ * To Ensure quality results, the search only includes articles that have been published.
  *
  * The results are paginated to prevent overwhelming the user or the systeem, with six articles shown per page.
  * Users can sort these results i)àn different ways, such as alphabetically by word, by publication date, or by view count.
@@ -35,7 +35,7 @@ final readonly class SearchWordQuery
      *
      * This method builds a query that searches though published articles, looking for matches in the word, description, and keywords fields.
      * The search is case-insensitive and matches partial words.
-     * Results are sorted alphabetically by default and paginated for better performance and user expierence
+     * Results are sorted alphabetically by default and paginated for better performance and user experience
      *
      * @param  Request $request                  The instance that holds all the request information
      * @return LengthAwarePaginator<int, Model>  Paginated collection of matching articles with query parameters preserved

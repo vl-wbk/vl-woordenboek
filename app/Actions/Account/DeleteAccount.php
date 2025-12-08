@@ -20,7 +20,7 @@ final readonly class DeleteAccount
     /**
      * Executes the deletion process.
      *
-     * The method begins by retrievinbg the authenticated user from the request, then preceeds to log them out of their current session.
+     * The method begins by retrieving the authenticated user from the request, then proceed to log them out of their current session.
      * After logout, it permanently removes the user record from the database.
      * Finally, it performs the security cleanup by invalidating the session and regenerating the CSRF token to prevent any potential security vulnerabilities.
      *

@@ -35,7 +35,7 @@ use Kirschbaum\Commentions\Filament\Actions\CommentsAction;
  * It manages the complete editing workflow including state transitions and form validation across multiple steps.
  * The interface guides editors through a structured process to ensure consistent and complete article updates.
  *
- * @property Article $record The dictioniry article entity from the database
+ * @property Article $record The dictionary article entity from the database
  *
  * @package App\Filament\Resources\ArticleResource\Pages
  */
@@ -121,7 +121,8 @@ final class EditWord extends EditRecord
      * Defines the URL to redirect to after a successful form submission and record save.
      *
      * This method specifies the destination where the user will be sent immediately after the article editing process is successfully completed.
-     * In this implementation, the user is redirected to the 'view' page for the specific article that was just edited. This provides a seamless user experience, allowing the editor to immediately see the updated article details.
+     * In this implementation, the user is redirected to the 'view' page for the specific article that was just edited.
+     * This provides a seamless user experience, allowing the editor to immediately see the updated article details.
      *
      * @return string|null The URL string to redirect to, or `null` if no redirection is desired.
      */
@@ -132,6 +133,9 @@ final class EditWord extends EditRecord
         ]);
     }
 
+    /**
+     * @todo Document function
+     */
     public function getTitle(): string
     {
         return ucfirst($this->record->word);

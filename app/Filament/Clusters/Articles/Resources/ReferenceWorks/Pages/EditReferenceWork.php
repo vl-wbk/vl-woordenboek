@@ -28,7 +28,7 @@ final class EditReferenceWork extends EditRecord
      * (including its form schema, validation rules, and underlying Eloquent model) this edit page should
      * utilize for handling the data.
      *
-     * @var string The fully qualified class name (FQCN) of the ReferenceWorkResource.
+     * @var string The fully qualified class name (FQDN) of the ReferenceWorkResource.
      */
     protected static string $resource = ReferenceWorkResource::class;
 
