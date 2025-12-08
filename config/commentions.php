@@ -1,10 +1,4 @@
-<?php /** @noinspection SpellCheckingInspection */
-/** @noinspection SpellCheckingInspection */
-/** @noinspection SpellCheckingInspection */
-/** @noinspection SpellCheckingInspection */
-/** @noinspection SpellCheckingInspection */
-/** @noinspection SpellCheckingInspection */
-/** @noinspection SpellCheckingInspection */
+<?php
 
 return [
     /*
