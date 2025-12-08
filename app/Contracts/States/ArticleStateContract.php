@@ -47,7 +47,7 @@ interface ArticleStateContract
      *
      * @param string|null $archivingReason An optional reason explaining why the article is archived.
      */
-    public function transitionToArchived(?string $archivingReason = null): void;
+    public function transitionToArchived(?string $archivingReason = null): bool;
 
     /**
      * Transitions the article into a "Suggestion" state.

@@ -40,7 +40,7 @@ class ArticleState implements ArticleStateContract
      * {@inheritDoc}
      * @throws LogicException Always, indicating that this transition is not allowed in the current state.
      */
-    public function transitionToArchived(?string $archivingReason = null): void
+    public function transitionToArchived(?string $archivingReason = null): bool
     {
         throw new LogicException('The method transitionToArchived() is not allowed in the current state.');
     }

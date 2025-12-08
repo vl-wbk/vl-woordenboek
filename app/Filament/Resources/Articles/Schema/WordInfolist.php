@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Articles\Schema;
 
+use App\Filament\Resources\Articles\Actions\States\UnarchiveAction;
+use CodeWithDennis\SimpleAlert\Components\Enums\IconAnimation;
+use CodeWithDennis\SimpleAlert\Components\SimpleAlert;
 use Filament\Forms\Components\Repeater\TableColumn;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Schemas\Schema;
@@ -15,6 +18,8 @@ use App\Models\Article;
 use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Collection;
+use Illuminate\Support\HtmlString;
 
 /**
  * WordInfolist is responsible for defining the schema of the detailed information display for articles.
@@ -49,51 +54,39 @@ final readonly class WordInfolist
         /** @phpstan-ignore-next-line */
         $schema->getRecord()->loadCount('audits');
 
-        return $schema->components([
-            Tabs::make('lemma-information')
-                ->columnSpan(12)
-                ->tabs([
-                    self::lemmaInformationTab(),
-                    self::sourcesInformationTab(),
-                    self::editInformationTab(),
-                    self::publicationInformationTab(),
-                    self::archiveInformationTab(),
-                ]),
-        ]);
+        return $schema
+            ->columns(12)
+            ->components([
+                SimpleAlert::make('test')
+                    ->icon(Heroicon::OutlinedArchiveBox, IconAnimation::Pulse)
+                    ->title(fn (Article $article): HtmlString => self::archiveInformationAlert($article)['title'])
+                    ->description(fn (Article $article): HtmlString => self::archiveInformationAlert($article)['description'])
+                    ->visible(fn (Article $article): bool => $article->isArchived())
+                    ->action(UnarchiveAction::make()->label('Ongedaan maken')->color('danger')->outlined())
+                    ->border()
+                    ->color('danger')
+                    ->columnSpanFull(),
+
+                Tabs::make('lemma-information')
+                    ->columnSpan(12)
+                    ->tabs([
+                        self::lemmaInformationTab(),
+                        self::sourcesInformationTab(),
+                        self::editInformationTab(),
+                        self::publicationInformationTab(),
+                    ]),
+            ]);
     }
 
-    /**
-     * Defines the "Archiving Information" tab for articles.
-     *
-     * This tab is only visible when the article is in the "Archived" state.
-     * It provides details about the archiving process, including the user who archived the article, the date it was archived, and the reason for archiving.
-     * This information is critical for tracking the history and accountability of archived articles.
-     *
-     * @return Tab The configured tab for archiving information
-     */
-    private static function archiveInformationTab(): Tab
+    private static function archiveInformationAlert(Article $article): Collection
     {
-        return Tab::make(__('filament/resources/articles.infolist.archive-information-tab.heading'))
-            ->visible(fn(Article $article): bool => $article->state->is(ArticleStates::Archived))
-            ->icon(Heroicon::OutlinedArchiveBox)
-            ->columns(12)
-            ->schema([
-                TextEntry::make('archiever.name')
-                    ->label(__('etymology-resource.infolist.archive-information-tab.entries.archiver'))
-                    ->icon(Heroicon::OutlinedUserCircle)
-                    ->iconColor('primary')
-                    ->columnSpan(3),
-                TextEntry::make('archived_at')
-                    ->label(__('filament/resources/articles.infolist.archive-information-tab.archived-at'))
-                    ->icon(Heroicon::OutlinedClock)
-                    ->iconColor('primary')
-                    ->columnSpan(3)
-                    ->date(),
-                TextEntry::make('archiving_reason')
-                    ->label(__('filament/resources/articles.infolist.archive-information-tab.reason.label'))
-                    ->columnSpan(6)
-                    ->placeholder(__('filament/resources/articles.infolist.archive-information-tab.reason.placeholder')),
-            ]);
+        return collect([
+            'description' => new HtmlString($article->archiving_reason),
+            'title' => new HtmlString(__('<strong>Dit artikel is gearchiveerd door :user sinds :date</strong>', [
+                'user' => $article->archiever->name ?? config('app.name', 'Laravel'),
+                'date' => optional($article->archived_at)->format('d F Y')
+            ])),
+        ]);
     }
 
     /**
