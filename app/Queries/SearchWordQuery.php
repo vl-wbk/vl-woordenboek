@@ -43,13 +43,19 @@ final readonly class SearchWordQuery
     public function execute(Request $request): LengthAwarePaginator
     {
         $includeDescription = $request->boolean('uitgebreid');
+        $includeArchive = $request->boolean('archief');
 
         /** @phpstan-ignore-next-line */
         return QueryBuilder::for(Article::class)
             ->allowedSorts($this->getAllowedSorts())
             ->allowedFilters($this->getAllowedFilters())
             ->with(['author', 'bookmarkers'])
-            ->published()
+            ->where(function ($q) use ($includeArchive) {
+                $q->whereNotNull('published_at');
+                if ($includeArchive) {
+                    $q->orWhereNotNull('archived_at');
+                }
+            })
             ->where(function ($query) use ($request, $includeDescription): void {
                 $query->where('word', $this->getSearchPattern($request)['operator'], $this->getSearchPattern($request)['pattern'])
                     ->orWhere('keywords', $this->getSearchPattern($request)['operator'], $this->getSearchPattern($request)['pattern'])
@@ -80,7 +86,7 @@ final readonly class SearchWordQuery
         // This uses a match expression for concise conditional logic.
         $pattern = match ($request->get('zoekpatroon')) {
             SearchPatterns::StartsWith->value => "$searchTerm%",  // If the pattern is 'StartsWith', append a '%' wildcard to the search term.
-            SearchPatterns::Endswith->value => "%$searchTerm",    // If the pattern is 'Endswith', prepend a '%' wildcard to the search term.
+            SearchPatterns::EndsWith->value => "%$searchTerm",    // If the pattern is 'Endswith', prepend a '%' wildcard to the search term.
             SearchPatterns::Exact->value => $searchTerm,            // If the pattern is 'Exact', use the search term as is (no wildcards).
             default => "%$searchTerm%",
         };

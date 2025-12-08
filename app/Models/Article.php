@@ -311,7 +311,8 @@ final class Article extends Model implements AuditableContract, Commentable
             'origin' => DataOrigin::class,
             'state' => ArticleStates::class,
             'status' => LanguageStatus::class,
-			'published_at' => 'datetime'
+			'published_at' => 'datetime',
+            'archived_at' => 'datetime',
         ];
     }
 

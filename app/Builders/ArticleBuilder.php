@@ -34,6 +34,16 @@ final class ArticleBuilder extends Builder
         return $this->whereNotNull('published_at');
     }
 
+    public function archived(): Builder
+    {
+        return $this->orWhereNotNull('archived_at');
+    }
+
+    public function isArchived(): bool
+    {
+        return ! is_null($this->model->archived_at);
+    }
+
     /**
      * Archives the current article with an optional reason.
      *
@@ -44,11 +54,12 @@ final class ArticleBuilder extends Builder
      *
      * @throws Throwable
      */
-    public function archive(?string $archivingReason = null): void
+    public function archive(?string $archivingReason = null): bool
     {
-        DB::transaction(function () use ($archivingReason): void {
-            $this->model->update(attributes: ['state' => ArticleStates::Archived, 'archiving_reason' => $archivingReason, 'published_at' => null, 'archived_at' => now()]);
-            $this->model->archiever()->associate(Auth::user())->save();
+        return DB::transaction(function () use ($archivingReason): bool {
+            return $this->model->fill(attributes: ['state' => ArticleStates::Archived, 'archiving_reason' => $archivingReason, 'published_at' => null, 'archived_at' => now()])
+                ->archiever()->associate(Auth::user())
+                ->save();
         });
     }
 

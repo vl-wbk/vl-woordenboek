@@ -4,9 +4,15 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Articles\Actions\States;
 
+use App\Enums\Articles\ArchiveReason;
+use App\Enums\LanguageStatus;
 use App\Models\Article;
 use Filament\Actions\Action;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
+use Illuminate\Support\HtmlString;
 
 /**
  * ArchiveAction provides the interface for archiving dictionary articles.
@@ -60,12 +66,23 @@ final class ArchiveArticle extends Action
         $this->modalIcon($this->actionIcon);
         $this->modalHeading(heading: __('filament/actions/archiveArticle.modal.heading'));
         $this->modalDescription(description: __('filament/actions/archiveArticle.modal.description'));
+
         $this->schema([
+            Select::make('reason')
+                ->label('Reden tot archivering')
+                ->options(ArchiveReason::class)
+                ->native(false)
+                ->afterStateUpdated(fn (Set $set, ?ArchiveReason $state) => $set('archiving_reason', $state->getDescription()))
+                ->live(),
+
             Textarea::make('archiving_reason')
                 ->rows(4)
                 ->label(label: __('filament/actions/archiveArticle.form.archiving-reason.label'))
                 ->placeholder(placeholder: __('filament/actions/archiveArticle.form.archiving-reason.placeholder'))
-                ->maxLength(350),
+                ->maxLength(350)
+                ->helperText(new HtmlString('Deze tekst zal <strong>zichtbaar</strong> zijn voor eindgebruiker.'))
+                ->visible(fn (Get $get) => $get('archiving_reason') !== null || $get('reason') === ArchiveReason::Other)
+                ->default(null),
         ]);
 
         $this->action(function (array $data, Article $article): void {

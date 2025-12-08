@@ -6,12 +6,16 @@
     <meta property="og:url" content="{{ request()->fullUrl() }}"/>
     <meta property="og:description" content="{{ $word->description }}"/>
     <meta property="og:image" content="{{ asset('/img/app-logo.jpg') }}"/>
-    <meta property="og:image_alt" content="Logo van het Vlaams woordenboek"/>
-    <meta propery="og:local" content="{{ str_replace('_', '-', app()->getLocale()) }}"/>
-    <meta property="og:article:published_time" content="{{ now()->parse($word->published_at)->toDatetimeString() }}"/>
-    <meta property="og:article:modified_time" content="{{ now()->parse($word->updated_at)->toDatetimestring() }}"/>
+    <meta property="og:image:alt" content="Logo van het Vlaams woordenboek"/>
+    <meta property="og:locale" content="{{ str_replace('_', '-', app()->getLocale()) }}"/>
+    <meta property="article:published_time" content="{{ optional($word->published_at)->toIso8601String() ?? \Illuminate\Support\Carbon::parse($word->created_at)->toIso8601String() }}"/>
+    <meta property="article:modified_time" content="{{ optional($word->updated_at)->toIso8601String() ?? \Illuminate\Support\Carbon::now()->toIso8601String() }}"/>
     <meta property="og:article:author" content="{{ $word->editor->name ?? '' }}"/>
     <meta property="og:section" content="Linguïstiek"/>
+
+    @if ($word->isArchived())
+        <meta name="robots" content="noindex, follow" />
+    @endif
 @endsection
 
 @section ('content')
@@ -20,7 +24,7 @@
            <div class="d-flex justify-content-between align-items-start">
                <div class="w-100">
                    <h3 class="color-green w-100 mb-2">
-                       @if ($word->isPublished())
+                       @if ($word->isPublished() || $word->isArchived())
                            <a href="{{ route('home') }}" class="text-muted text-decoration-none">
                                <x-heroicon-o-arrow-uturn-left class="icon icon-back-to-results"/>
                            </a>
@@ -93,9 +97,23 @@
                    </div>
                @endif
 
+               @if ($word->isArchived())
+                       <div class="card-header bg-danger-subtle text-danger-emphasis">
+                               <div>
+                                   <div class="fw-semibold">
+                                       <x-heroicon-o-archive-box class="icon me-1" /> Dit artikel is gearchiveerd sinds {{ $word->archived_at->format('d/m/Y') }}
+                                   </div>
+                                   <div class="small text-danger-emphasis">
+                                       {{ $word->archiving_reason }}
+                                   </div>
+                               </div>
+
+                       </div>
+                   @endif
+
                <div class="card-body">
                    <div class="row">
-                       <div class="col-9">
+                      <div class="col-12 col-lg-9">
                            <div class="row mb-4">
                                <div class="col-lg-6">
                                    <h3 class="h6 text-muted fw-bold border-bottom pb-2">Regio(s)</h3>
@@ -144,7 +162,7 @@
                            </div>
                        </div>
 
-                       <div class="col-lg-3 mt-md-0 mt-sm-3">
+                       <div class="col-12 col-lg-3 mt-3 mt-lg-0">
                            <div class="card bg-secondary-subtle border-0">
                                <div class="card-body">
                                    <h5 class="card-title fw-bold color-green pb-2 border-dark-subtle border-bottom">Publicatiegegevens</h5>

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Clusters\Articles\Resources\ArticleResource\Schema;
 
 use App\Enums\ArticleStates;
+use App\Filament\Clusters\Articles\Resources\ArticleResource\Actions\BulkArchiveAction;
 use App\Filament\Exports\ArticleExporter;
 use App\Models\Article;
 use Filament\Actions\{ActionGroup,
@@ -39,7 +40,8 @@ final readonly class TableSchema
             ->columns(components: self::getTableColumns())
             ->recordActions(actions: self::getRecordActions())
             ->filters(filters: self::getFilters())
-            ->toolbarActions(actions: self::getToolbarActions());
+            ->toolbarActions(actions: self::getToolbarActions())
+            ->selectCurrentPageOnly();
     }
 
     /**
@@ -119,14 +121,18 @@ final readonly class TableSchema
 
         return [
             BulkActionGroup::make([
-                DeleteBulkAction::make(),
-                RestoreBulkAction::make(),
-
                 ExportBulkAction::make()->exporter(ArticleExporter::class)
                     ->modalWidth(Width::Large)
                     ->modalDescription(description: __('Gegevens nodig in een ander programma? Geen probleem! Selecteer de kolommen die je nodig hebt en je kunt vervolgens de gegevens downloaden in een .xlsx of .csv bestanden downloaden'))
                     ->icon(Heroicon::OutlinedArrowDownTray)
                     ->slideOver(),
+
+                BulkArchiveAction::make(),
+
+                BulkActionGroup::make([
+                    RestoreBulkAction::make(),
+                    DeleteBulkAction::make(),
+                ])->dropdown(false),
             ]),
         ];
     }
