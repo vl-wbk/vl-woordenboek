@@ -35,7 +35,7 @@ final readonly class BookmarkController
      * This page sho)ws all articles that a user has bookmarked, with optional filtering through a search term.
      * The search looks for matches in both the word and description fields of bookmarked articles.
      *
-     * @param  Request $request The instance that contaions all the request information.
+     * @param  Request $request The instance that contains all the request information.
      */
     #[Get(uri: 'bookmarks', name: 'bookmarks:index')]
     public function index(Request $request): Renderable
@@ -76,7 +76,7 @@ final readonly class BookmarkController
      * The method verifies that the articles is actually in the user's bookmarks before attempting removal.
      * After removing the bookmark, the user is returned to their previous page.
      *
-     * @param  Request $request  The equest instance that contains all the request information
+     * @param  Request $request  The Request instance that contains all the request information
      * @param  Article $article  The database entity that contains the Article information
      */
     #[Get(uri: 'unbookmark/{article}', name: 'bookmark:remove')]

@@ -13,11 +13,11 @@ use Laravel\Pennant\Feature;
 
 /**
  * This page class servers as the cental hub for managing account deactivations in the Flemish Dictionary.
- * Built on Filament's ListRecords component, it provides moderators with a powerful interface to oversee all account restruictions in one place.
+ * Built on Filament's ListRecords component, it provides moderators with a powerful interface to oversee all account restrictions in one place.
  *
- * Through deep integration with the BanResource, this page automatically handles the displa and organizaton od deactivation records.
+ * Through deep integration with the BanResource, this page automatically handles the display and organization od deactivation records.
  * Authorized users can easily view affected users, check ban durations, and monitor the reasons for each deactivation.
- * The system automatically update statussesn when temporary bans expire, ensures seamless account restoration.
+ * The system automatically update statuses when temporary bans expire, ensures seamless account restoration.
  *
  * To support our moderation team, we've included direct access to comprehensive documentation right from the page header.
  * This ensures our guidelines and procedures are always within reach moderation activities.
@@ -28,8 +28,8 @@ final class ListBans extends ListRecords
 {
     /**
      * Defines which resource this listing page belongs to.
-     * The BanResource proàvides all necessary configurations for fisplaying and managing bans.
-     * This connection ensures that any changes made to the resource's table schema or octions are automatically reflected in this listing page.
+     * The BanResource provides all necessary configurations for displaying and managing bans.
+     * This connection ensures that any changes made to the resource's table schema or actions are automatically reflected in this listing page.
      */
     protected static string $resource = BanResource::class;
 

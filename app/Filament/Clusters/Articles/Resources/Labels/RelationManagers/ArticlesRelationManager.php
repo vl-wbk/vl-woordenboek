@@ -107,7 +107,7 @@ final class ArticlesRelationManager extends RelationManager
      * Defines the table column structure for displaying article information.
      * All columns support searching for efficient data filtering.
      *
-     * Creates a detailed view of each areticle with:
+     * Creates a detailed view of each article with:
      * - Author information with user icon
      * - Article title with emphasized styling
      * - Description preview

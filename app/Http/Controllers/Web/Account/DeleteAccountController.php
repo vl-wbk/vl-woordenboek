@@ -20,7 +20,7 @@ use Spatie\RouteAttributes\Attributes\Post;
 final readonly class DeleteAccountController
 {
     /**
-     * Processes the account deletion rquest.
+     * Processes the account deletion request.
      *
      * This invokable method handles the POST request to delete a user account.
      * It delegates the actual deletion process to a dedicated action class and redirects to the homepage after successful deletion.

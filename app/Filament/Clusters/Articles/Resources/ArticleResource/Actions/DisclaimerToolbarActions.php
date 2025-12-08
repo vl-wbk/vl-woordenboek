@@ -13,10 +13,10 @@ use Filament\Support\Enums\IconSize;
 final readonly class DisclaimerToolbarActions
 {
     /**
-     * Registers the attach and detach disclaimer actions.
-     * This method returns an array containing the definitions for the attach and detach disclaimer actions.
+     * Registers the attachment and detach disclaimer actions.
+     * This method returns an array containing the definitions for the attachment and detach disclaimer actions.
      *
-     * @return array<int, Action> An array containing the attach and detach disclaimer actions.
+     * @return array<int, Action> An array containing the attachment and detach disclaimer actions.
      */
     public static function register(): array
     {

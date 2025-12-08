@@ -11,7 +11,7 @@ use Illuminate\Auth\Access\Response;
 /**
  * Defines the comprehensive authorization logic for the 'Blog' model.
  *
- * This policy clpass meticulously contras a user's permissions to interact withblog posts.
+ * This policy clpass meticulously contras a user's permissions to interact with blog posts.
  * Each method returns a 'Response' object to explicitly grant of deny access, providing clear and robust control over actions like submitting, viewing, updating, publishing,
  * deleting, and commenting on blog posts.
  *
@@ -50,7 +50,7 @@ final class BlogPolicy
      * Authorizes a user to view a list of all blog posts.
      *
      * Thi method is for viewing the index or "any" blog posts.
-     * The check relies on the user possesing thez general 'view_any_blog' permission.
+     * The check relies on the user possessing the general 'view_any_blog' permission.
      *
      * @param  User $user  The authenticated user.
      * @return Response    Grants access if the user has the required permission, otherwise denies it.
@@ -63,7 +63,7 @@ final class BlogPolicy
     }
 
     /**
-     * Auhtorizes  a user to view a sepcific blog post.
+     * Authorizes  a user to view a specific blog post.
      *
      * This method is for viewing a single blog post.
      * It checks for more specific 'view_blog' permission.

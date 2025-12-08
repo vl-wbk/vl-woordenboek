@@ -34,7 +34,7 @@ final class ListReferenceWorks extends ListRecords
      * Defines nad customizes the actions that appear in the page header.
      *
      * This method configures the primary action on the listing page: the CreateAction, which allows the user to
-     * navigate to the creation form. It is configured with a 'Plus' icon for clear identifcation.
+     * navigate to the creation form. It is configured with a 'Plus' icon for clear identification.
      *
      * @return array<int, CreateAction> An array of configured action objects.
      */

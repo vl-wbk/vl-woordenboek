@@ -65,7 +65,7 @@ final class CategoryResource extends Resource
      * The plural, human-readable label used throughout the Filament UI for this model.
      * Used in areas like headings and resource overviews.
      */
-    protected static ?string $pluralModelLabel = 'Categorieen';
+    protected static ?string $pluralModelLabel = 'Categorieën';
 
     /**
      * This method builds the form for creating and editing categories.

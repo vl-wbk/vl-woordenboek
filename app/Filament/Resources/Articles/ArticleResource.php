@@ -40,8 +40,8 @@ use Illuminate\Support\Facades\Cache;
  * Resource class for managing dictionary articles within the Filament admin panel.
  * This includes viewing, editing; creating and deleting articles.
  *
- * The resource defines the forms, tables, an relationships necessary for displayinh articles in a structured way.
- * The form includes section for general infoirmation and regional status, whilde the table provides an overview of
+ * The resource defines the forms, tables, an relationships necessary for displaying articles in a structured way.
+ * The form includes section for general information and regional status, whilde the table provides an overview of
  * all articles with search and sorting functionalities.
  *
  * Labels can be linked to articles through the relation manager, and the navigation badge dynamically displays
@@ -125,7 +125,7 @@ final class ArticleResource extends Resource
     /**
      * Defines the form used for creating and editing articles.
      * The form consists of sections for general information and regional status,
-     * each configured with an icon, d`escription, and specific field schema.
+     * each configured with an icon, description, and specific field schema.
      *
      * @param Schema $schema  The Filament form instance.
      * @return Schema The configured form.
@@ -138,7 +138,7 @@ final class ArticleResource extends Resource
     /**
      * Defines the table configuration for displaying a lost of articles.
      * The table includes columns for author, article (lemma), description, creation date and last updated date.
-     * It also configures invidual and builk actions for managing articles.
+     * It also configures individual and bulk actions for managing articles.
      *
      * @param  Table  $table  The Filament table instance.
      * @return Table The configured table.

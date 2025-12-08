@@ -30,6 +30,7 @@ use Laravel\Pennant\Feature;
  * Supports temporary and permanent bans with automated expiration handling through Laravel's task scheduling.
  *
  * @package App\Filament\Clusters\UserManagement\Resources
+ * @noinspection SpellCheckingInspection
  */
 final class BanResource extends Resource
 {
@@ -90,7 +91,7 @@ final class BanResource extends Resource
                 TextEntry::make('comment')
                     ->columnSpanFull()
                     ->label('Reden tot deactivering')
-                    ->default('Geen reden tot deactivering opgegegeven'),
+                    ->default('Geen reden tot deactivering opgegeven'),
             ]);
     }
 
@@ -107,11 +108,11 @@ final class BanResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->heading('Gedeactiveerde gebruikeraccounts')
+            ->heading('Gedeactiveerde gebruikersaccounts')
             ->description('Overzicht van alle gedeactiveerde gebruiker accounts. Wanneer een deactivering verloopt zal deze automatisch terug geactiveerd worden in het systeem.')
             ->emptyStateIcon(self::$navigationIcon)
             ->emptyStateHeading('Geen deactiveringen gevonden')
-            ->emptyStateDescription('Het lijkt erop dat er momenteel geen gebruikers zijn gedactiveerd in het Vlaams Woordenboek')
+            ->emptyStateDescription('Het lijkt erop dat er momenteel geen gebruikers zijn gedeactiveerd in het Vlaams Woordenboek')
             ->columns(self::getTableColumnLayout())
             ->recordActions(self::getTableActions());
     }

@@ -34,7 +34,7 @@ final class EditBanAction extends Action
     /**
      * This method provides the internal identifier for our action.
      * It's used by Filament's event system and general action handling.
-     * While you probaly won't need to change this, it's good to know it's here if you need to reference this action elsewhere in the code.
+     * While you probably won't need to change this, it's good to know it's here if you need to reference this action elsewhere in the code.
      */
     public static function getDefaultName(): string
     {

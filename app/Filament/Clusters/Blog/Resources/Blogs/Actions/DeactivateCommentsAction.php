@@ -12,8 +12,8 @@ use Filament\Actions\Concerns\CanCustomizeProcess;
 /**
  * Class DeactivateCommentsAction
  *
- * This class defines a custom Filament Action desgined to deactivate the commenting functionality for a specific blog post record.
- * It extends Filament's base 'Action' class and utilizs the 'CanCustomizeProcess' trait to allow for flexible execution flow.
+ * This class defines a custom Filament Action designed to deactivate the commenting functionality for a specific blog post record.
+ * It extends Filament's base 'Action' class and utilizes the 'CanCustomizeProcess' trait to allow for flexible execution flow.
  *
  * This primary purpose of this action is to provide an administrative tool within the Filament interface to toggle off comments for a selected blog entry,
  * ensuring proper authorization checks and user confirmation before execution.

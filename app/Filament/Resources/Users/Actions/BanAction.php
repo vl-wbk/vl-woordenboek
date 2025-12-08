@@ -43,7 +43,7 @@ final class BanAction extends Action
 
     /**
      * This is where we configure how our action looks and behaves.
-     * The method sets up the visual elements, form structure, and handles what happends when a moderator submits the deactivation form.
+     * The method sets up the visual elements, form structure, and handles what happens when a moderator submits the deactivation form.
      *
      * We use a danger color scheme and shield-lock icon to indicate the serious nature of this action.
      * The form requires explicit confirmation before proceeding with the deactivation.
@@ -97,7 +97,7 @@ final class BanAction extends Action
     {
         return [
             Select::make('expired_at')
-                ->label('Deactivetia verloopt op')
+                ->label('Deactivatie verloopt op')
                 ->columnSpanFull()
                 ->placeholder('Selecteer een tijdperiode')
                 ->native(false)

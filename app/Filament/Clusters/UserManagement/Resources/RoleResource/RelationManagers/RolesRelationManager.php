@@ -102,7 +102,7 @@ final class RolesRelationManager extends RelationManager
         return $table
             ->emptyStateIcon(self::$icon)
             ->emptyStateHeading('Geen permissiegroepen gekoppeld')
-            ->emptyStateDescription('Momenteeel zijn er geen permissiegroepen gekoppeld aan het gebruikersaccount. Gebruik de knop rechts bevonaan om een permissiegroep te koppelen indien nodig.')
+            ->emptyStateDescription('Momenteel zijn er geen permissiegroepen gekoppeld aan het gebruikersaccount. Gebruik de knop rechts bevonaan om een permissiegroep te koppelen indien nodig.')
             ->description('Een overzicht van alle permissiegroepen (gebruikersrollen) die gekoppeld zijn aan het account van de gebruiker.')
             ->columns([
                 TextColumn::make('id')

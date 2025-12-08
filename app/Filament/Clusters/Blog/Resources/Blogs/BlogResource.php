@@ -138,7 +138,7 @@ final class BlogResource extends Resource
     }
 
     /**
-     * Defines the routes and socciated page classes for this resource.
+     * Defines the routes and assocciated page classes for this resource.
      * This maps URLs to specific Filament pages (list, create, view, edit)
      *
      * @return array<string, PageRegistration> An array of page route definitions

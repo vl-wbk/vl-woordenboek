@@ -11,7 +11,7 @@
     <meta property="og:article:published_time" content="{{ now()->parse($word->published_at)->toDatetimeString() }}"/>
     <meta property="og:article:modified_time" content="{{ now()->parse($word->updated_at)->toDatetimestring() }}"/>
     <meta property="og:article:author" content="{{ $word->editor->name ?? '' }}"/>
-    <meta property="og:section" content="Linguistiek"/>
+    <meta property="og:section" content="Linguïstiek"/>
 @endsection
 
 @section ('content')
@@ -213,7 +213,7 @@
                        @if (count($etymologies) > 0)
                            <li class="nav-item" role="presentation">
                                <button class="nav-link" id="etymologie-tab" data-bs-toggle="tab" data-bs-target="#etymologie-tab-pane" type="button" role="tab" aria-controls="etymologie-tab-pane" aria-selected="true">
-                                   <x:heroicon-o-queue-list class="icon color-green me-1"/> Etymologieen
+                                   <x:heroicon-o-queue-list class="icon color-green me-1"/> Etymologieën
                                </button>
                            </li>
                        @endif
