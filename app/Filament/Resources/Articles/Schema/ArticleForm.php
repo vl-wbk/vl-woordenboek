@@ -74,7 +74,7 @@ final readonly class ArticleForm
                         ->collapsed()
                         ->collapsible()
                         ->iconColor('primary')
-                        ->description('Koppel woorden die gerelateerd zijn aan het woord dat je bewerkt. Koppel enkel de woorden die niet geplaatst kunnen worden kenmerken in de algemene informatie.')
+                        ->description('Koppel woorden die gerelateerd zijn aan het woord dat je bewerkt. Zet enkel de woorden die niet bij de kenmerken geplaatst kunnen in de algemene informatie.')
                         ->schema(self::getRelatedWordsRepeater()),
 
                     Section::make('source-information')
