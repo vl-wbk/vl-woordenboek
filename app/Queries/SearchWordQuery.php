@@ -86,7 +86,7 @@ final readonly class SearchWordQuery
         // This uses a match expression for concise conditional logic.
         $pattern = match ($request->get('zoekpatroon')) {
             SearchPatterns::StartsWith->value => "$searchTerm%",  // If the pattern is 'StartsWith', append a '%' wildcard to the search term.
-            SearchPatterns::Endswith->value => "%$searchTerm",    // If the pattern is 'Endswith', prepend a '%' wildcard to the search term.
+            SearchPatterns::EndsWith->value => "%$searchTerm",    // If the pattern is 'Endswith', prepend a '%' wildcard to the search term.
             SearchPatterns::Exact->value => $searchTerm,            // If the pattern is 'Exact', use the search term as is (no wildcards).
             default => "%$searchTerm%",
         };

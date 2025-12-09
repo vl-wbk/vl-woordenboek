@@ -17,6 +17,7 @@ use App\Filament\Resources\Articles\Pages\ListWords;
 use App\Filament\Resources\Articles\Pages\ViewWord;
 use App\Filament\Resources\Articles\RelationManagers\LabelsRelationManager;
 use App\Filament\Resources\Articles\RelationManagers\NotesRelationManager;
+use App\Filament\Resources\Articles\RelationManagers\RelatedRelationManager;
 use App\Filament\Resources\Articles\Schema\ArticleForm;
 use App\Filament\Resources\Articles\Schema\FormSchema;
 use App\Filament\Resources\Articles\Schema\WordInfolist;
@@ -104,6 +105,7 @@ final class ArticleResource extends Resource
             ReportsRelationManager::class,
             AuditsRelationManager::class,
             EtymologyRelationManager::class,
+            RelatedRelationManager::class,
         ];
     }
 

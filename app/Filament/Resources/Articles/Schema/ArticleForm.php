@@ -68,13 +68,24 @@ final readonly class ArticleForm
                         ->iconColor('primary')
                         ->schema(self::regionInformationComponent()),
 
+                    Section::make('related-word')
+                        ->heading('Gerelateerde woorden')
+                        ->icon(Heroicon::OutlinedLink)
+                        ->collapsed()
+                        ->collapsible()
+                        ->iconColor('primary')
+                        ->description('Koppel woorden die gerelateerd zijn aan het woord dat je bewerkt. Zet enkel de woorden die niet bij de kenmerken geplaatst kunnen in de algemene informatie.')
+                        ->schema(self::getRelatedWordsRepeater()),
+
                     Section::make('source-information')
                         ->compact()
+                        ->collapsed()
+                        ->collapsible()
                         ->heading('Bron gegevens')
                         ->icon(Heroicon::OutlinedBookOpen)
                         ->iconColor('primary')
                         ->description('Registratie formulier voor alle geraadpleegde naslagwerken tijdens het opstellen van het artikel')
-                        ->schema(self::sourceRepeater())
+                        ->schema(self::sourceRepeater()),
                 ])->columnSpan(9),
 
             self::redactionInformationSection(),
@@ -216,6 +227,19 @@ final readonly class ArticleForm
                 ->addActionLabel('Naslagwerk toevoegen')
                 ->defaultItems(0)
                 ->hiddenLabel(),
+        ];
+    }
+
+    public static function getRelatedWordsRepeater(): array
+    {
+        return [
+            Select::make('Gerelateerde woorden')
+                ->label('Gerelateerde woorden')
+                ->native(false)
+                ->searchable()
+                ->multiple()
+                ->relationship(name: 'related', ignoreRecord: true, titleAttribute: 'word')
+                ->getOptionLabelFromRecordUsing(fn (Article $record) => "#{$record->id} - {$record->word}"),
         ];
     }
 

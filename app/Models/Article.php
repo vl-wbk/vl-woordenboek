@@ -256,6 +256,30 @@ final class Article extends Model implements AuditableContract, Commentable
     }
 
     /**
+     * Defines the many-to-many relationship with related articles.
+     *
+     * This relationship links the current article instance to other articles via a pivot table.
+     * It is typically a self-referencing many-to-many where articles can be related in both directions.
+     *
+     * NOTE:
+     *
+     * The default foreign keys are usually 'article_id' and 'related_article_id' based on the models and pivot table name.
+     * The current code explicitly sets the pivot table and the foreign pivot key.
+     * The local key (which should be the current model's ID in the pivot table) is omitted and thus relies on Laravel's default naming convention (e.g., 'article_id').
+     *
+     *  Due to the parameter sequence used:
+     *  - 'related_articles' is the pivot table name.
+     *  - 'related_article_id' is the foreign pivot key (the key of the current model).
+     *  - The related pivot key (the key of the Article::class model) is inferred.
+     *
+     * @return BelongsToMany
+     */
+    public function related(): BelongsToMany
+    {
+        return $this->belongsToMany(Article::class, 'related_articles', 'related_article_id');
+    }
+
+    /**
      * Overrides the default Eloquent builder with a custom ArticleBuilder.
      *
      * This method ensures that all queries for the Article model use the custom builder,
