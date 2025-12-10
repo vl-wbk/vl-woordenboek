@@ -234,6 +234,11 @@ final class Article extends Model implements AuditableContract, Commentable
         return $this->hasMany(Etymology::class, 'article_id');
     }
 
+    public function reactions(): HasMany
+    {
+        return $this->hasMany(Reaction::class);
+    }
+
     /**
      * Retrieves all users who have bookmarked this article.
      *

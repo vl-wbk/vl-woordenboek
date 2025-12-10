@@ -10,6 +10,7 @@ use App\Filament\Resources\Articles\ArticleResource;
 use App\Models\Etymology;
 use App\Models\Label;
 use App\Models\Note;
+use App\Models\Reaction;
 use CodeWithDennis\FactoryAction\FactoryAction;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
@@ -81,7 +82,7 @@ final class ListWords extends ListRecords
                     ->modalIcon(Heroicon::OutlinedCog8Tooth)
                     ->modalDescription('Genereer test artikelen voor het woordenboek, deze kunnen worden gebruikt om te testen of de applicatie werkt zoals verwacht.')
                     ->icon('heroicon-s-cog-8-tooth')
-                    ->hasMany([Note::class, Etymology::class])
+                    ->hasMany([Note::class, Etymology::class, Reaction::class])
                     ->belongsToMany([Label::class]),
             ])->buttonGroup(),
         ];
