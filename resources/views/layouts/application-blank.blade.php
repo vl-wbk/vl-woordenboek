@@ -182,7 +182,8 @@
                     </li>
 
                     <li class="mb-2">
-                        {{ __('layout/application.footer.information-section.license-paragraph') }}
+                        De code is gelicensieerd onder de MIT-licentie. De documentatie hiervan is beschikbaar onder de
+                        <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="text-white">CC BY-NC-SA 4.0 licentie.</a>
                     </li>
 
                     <li class="mb-2 fst-italic brand-gradient">
