@@ -9,7 +9,7 @@
 
                     <div class="col-12">
                         <p class="fs-5">
-                            Versie 3.0, Publicatiedatum: 24/05/2025
+                            Versie 4.0, Publicatiedatum: 10/12/2025
                         </p>
                     </div>
                 </div>
@@ -30,52 +30,63 @@
 
                             <p>
                                 De site Vlaamswoordenboek.be wordt beheerd door Miet Ooms (‘beheer’) en door een groep vrijwilligers die de redactie vormt (‘kerngroep’).
-                                Op Vlaamswoordenboek.be kunnen gebruikers definities van Vlaamse woorden, woordcombinaties en uitdrukkingen opzoeken, nieuwe artikelen suggereren en deelnemen aan een discussieforum.
-                                Na registratie kunnen gebruikers ook de status van hun suggesties opvolgen, een lijst van favoriete woorden, ‘bewaarde woorden’, aanleggen en die lijsten filteren en doorzoeken.
+                                Op Vlaamswoordenboek.be kunnen gebruikers definities van Vlaamse woorden, woordcombinaties en uitdrukkingen opzoeken,
+                                nieuwe artikelen suggereren en deelnemen aan een discussieforum. Na registratie kunnen gebruikers ook de status van hun suggesties opvolgen,
+                                een lijst van favoriete woorden, ‘bewaarde woorden’, aanleggen en die lijsten filteren en doorzoeken.
                             </p>
 
                             <p>
                                 Gebruikers van vlaamswoordenboek.be accepteren dat ze gebonden zijn aan de voorwaarden zoals vermeld in deze Algemene Voorwaarden.
-                                Het beheer van vlaamswoordenboek.be behoudt zich het recht voor om geregistreerde gebruikers te blokkeren en eventueel te verwijderen op basis van hun account-id, gebaseerd op het ip-adres en/of het e-mailadres.
-                                Het beheer mag gegevens van gebruikers verwijderen als het beheer en de kerngroep beslissen dat hun gedrag een bewuste of onbewuste inbreuken is in de letter of geest van de Gebruiksvoorwaarden.
-                                Door gebruik te maken van vlaamswoordenboek.be accepteert de gebruiker dat de website confidentiële en eigendomsinformatie bevat die beschermd wordt door de AVG-wetgeving en de wetgeving rond auteursrechten.
-                                Die rechten zijn in het bezit van de beheerder en de auteur van de software. Het design, look en feel van vlaamswoordenboek.be en inhoud van de site is eigendom van het beheer en de kerngroep.
+                                Het beheer van vlaamswoordenboek.be behoudt zich het recht voor om geregistreerde gebruikers te blokkeren en eventueel te
+                                verwijderen op basis van hun account-id, gebaseerd op het ip-adres en/of het e-mailadres. Het beheer mag gegevens van
+                                gebruikers verwijderen als het beheer en de kerngroep beslissen dat hun gedrag een bewuste of onbewuste inbreuken is in
+                                de letter of geest van de Gebruiksvoorwaarden. Door gebruik te maken van vlaamswoordenboek.be accepteert de gebruiker
+                                dat de website confidentiële en eigendomsinformatie bevat die beschermd wordt door de AVG-wetgeving en de wetgeving rond
+                                auteursrechten. Die rechten zijn in het bezit van de beheerder en de auteur van de software. Het design,
+                                look en feel van vlaamswoordenboek.be en inhoud van de site is eigendom van het beheer en de kerngroep.
                             </p>
 
                             <h3 class="color-green">Aansprakelijkheid en garantie</h3>
 
                             <p>
-                                Het beheer en de kerngroep van vlaamswoordenboek.be geven geen garantie of verklaring, uitdrukkelijk noch stilzwijgend, over de juistheid of volledigheid van de informatie op de website.
-                                Verwijzingen of hyperlinks naar andere sites dan vlaamswoordenboek.be zijn enkel opgenomen ter informatie van de gebruiker van het Vlaams Woordenboek.
-                                De beheerder en kerngroep geven geen enkele garantie noch aanvaarden zij enigerlei aansprakelijkheid met betrekking tot de inhoud van die sites.
-                                De beheerder en kerngroep wijzen iedere aansprakelijkheid voor eventuele schade ten gevolge van toegang tot en gebruik van de site uitdrukkelijk af.
-                                Er wordt geen garantie geboden voor het foutloos en ononderbroken functioneren van de website.
+                                Het beheer en de kerngroep van vlaamswoordenboek.be geven geen garantie of verklaring, uitdrukkelijk noch stilzwijgend,
+                                over de juistheid of volledigheid van de informatie op de website. Verwijzingen of hyperlinks naar andere sites dan
+                                vlaamswoordenboek.be zijn enkel opgenomen ter informatie van de gebruiker van het Vlaams Woordenboek.
+                                De beheerder en kerngroep geven geen enkele garantie noch aanvaarden zij enigerlei aansprakelijkheid met betrekking
+                                tot de inhoud van die sites. De beheerder en kerngroep wijzen iedere aansprakelijkheid voor eventuele schade ten gevolge
+                                van toegang tot en gebruik van de site uitdrukkelijk af. Er wordt geen garantie geboden voor het foutloos en ononderbroken
+                                functioneren van de website.
                             </p>
 
                             <h3 class="color-green">Suggesties door gebruikers</h3>
 
                             <p>
-                                Het Vlaams woordenboek is de enige eigenaar van de artikelen, beschrijvingen definities en andere data die verzameld wordt op de website, tenzij dit materiaal eigendom is van een andere (rechts-)persoon of een copyright heeft dat door een ander (rechts-)persoon wordt beheerd.
-                                Richtlijnen en voorwaarden voor het toevoegen van informatie aan het Vlaams woordenboek worden hieronder verder toegelicht.
-                                Gebruikers kunnen zelf suggesties indienen, ook als ze niet geregistreerd zijn.
-                                Die worden eerst door de kerngroep (redactie) beoordeeld en bewerkt voor ze online komen.
-                                Gebruikers dragen eventueel eigen auteursrecht over aan de beheerder van vlaamswoordenboek.be en accepteren de bewerking en het oordeel van de kerngroep.
-                                De kerngroep heeft het recht suggesties te weigeren en artikelen ook na eerdere publicatie te verwijderen zonder voorafgaande verwittiging.
+                                Het Vlaams woordenboek is de enige eigenaar van de artikelen, beschrijvingen definities en andere data die verzameld wordt op de website,
+                                tenzij dit materiaal eigendom is van een andere (rechts-)persoon of een copyright heeft dat door een ander (rechts-)persoon
+                                wordt beheerd. Richtlijnen en voorwaarden voor het toevoegen van informatie aan het Vlaams woordenboek worden
+                                hieronder verder toegelicht. Gebruikers kunnen zelf suggesties indienen, ook als ze niet geregistreerd zijn.
+                                Ze garanderen hierbij dat de ingediende inhoud eigen werk is en vrij is van auteursrechten van derden.
+                                Die suggesties worden eerst door de kerngroep (redactie) beoordeeld en bewerkt voor ze online komen.
+                                Gebruikers behouden het intellectuele auteursrecht op de eigen suggesties, maar verlenen het beheer en de
+                                kerngroep het onbeperkte, wereldwijde, onherroepelijke en overdraagbare recht om die suggesties te beoordelen,
+                                te publiceren, te bewerken, te bewaren en te verspreiden. De kerngroep heeft het recht suggesties te weigeren en
+                                artikelen ook na eerdere publicatie te verwijderen zonder voorafgaande verwittiging. Gebruikers kunnen contact
+                                opnemen met de kerngroep voor aanvullingen, correcties en andere meldingen. Gebruikers gaan ermee akkoord dat hun
+                                suggestie bij publicatie aan het publiek beschikbaar wordt gesteld onder de voorwaarden van de CC BY-NC-SA 4.0 licentie.
                             </p>
 
                             <p>
-                                Gebruikers kunnen contact opnemen met de kerngroep voor aanvullingen, correcties en andere meldingen.
-                                Ook voor die meldingen dragen zij het auteursrecht over.
-                            </p>
-
-                            <p>
-                                Bij het indienen van suggesties dienen gebruikers zich aan de volgende regels te houden. Bij inbreuken behouden het beheer en de kerngroep zich het recht om artikelen te weigeren en/of gebruikers te blokkeren en eventueel te verwijderen.
-                                Gebruikers mogen geen actieve hyperlinks aan hun suggesties of meldingen toevoegen naar sites buiten vlaamswoordenboek.be.
-                                Gebruikers mogen geen inhoud toevoegen die de privacy van derden schendt, zoals een naam, adres, mailadres, telefoonnummer of andere contactinformatie.
-                                Gebruikers mogen geen inhoud toevoegen die auteursrechtelijk beschermd zijn, zoals fragmenten uit literatuur. Als ze een voorbeeldzin toevoegen die auteursrechtelijk beschermd is, dienen ze een correcte bronvermelding toe te voegen.
-                                Gebruikers mogen geen materiaal toevoegen dat virussen of andere schadelijke code, bestanden of programma’s bevat die erop gericht zijn om software, hardware of telecommunicatie te beschadigen, beperken of vernietigen.
-                                Gebruikers mogen andere gebruikers op geen enkele manier lastig vallen, ook niet via het forum of een ander medium.
-                                Gebruikers mogen geen informatie verspreiden die verband houdt met illegale activiteiten of die psychische of fysieke schade kunnen aanrichten bij individuen, groepen of dieren.
+                                Bij het indienen van suggesties dienen gebruikers zich aan de volgende regels te houden. Bij inbreuken behouden het beheer en de kerngroep zich het recht om artikelen te
+                                weigeren en/of gebruikers te blokkeren en eventueel te verwijderen. Gebruikers mogen geen actieve hyperlinks aan hun
+                                suggesties of meldingen toevoegen naar sites buiten vlaamswoordenboek.be. Gebruikers mogen geen inhoud toevoegen die
+                                de privacy van derden schendt, zoals een naam, adres, mailadres, telefoonnummer of andere contactinformatie.
+                                Gebruikers mogen geen inhoud toevoegen die auteursrechtelijk beschermd zijn, zoals fragmenten uit literatuur.
+                                Als ze een voorbeeldzin toevoegen die auteursrechtelijk beschermd is, dienen ze een correcte bronvermelding toe te voegen.
+                                Gebruikers mogen geen materiaal toevoegen dat virussen of andere schadelijke code,
+                                bestanden of programma’s bevat die erop gericht zijn om software, hardware of telecommunicatie te beschadigen,
+                                beperken of vernietigen. Gebruikers mogen andere gebruikers op geen enkele manier lastig vallen, ook niet via het
+                                forum of een ander medium. Gebruikers mogen geen informatie verspreiden die verband houdt met illegale activiteiten
+                                of die psychische of fysieke schade kunnen aanrichten bij individuen, groepen of dieren.
                             </p>
 
                             <p>
@@ -85,10 +96,7 @@
                             <h3 class="color-green">Privacyrichtlijnen</h3>
 
                             <p>
-                                Deze privacyverklaring beschrijft wanneer en waarom vlaamswoordenboek.be persoonsgegevens verzamelt, welke persoonsgegevens dat zijn, waarvoor ze worden gebruikt, en hoe die gegevens worden beveiligd.
-                                Het beheer fungeert als verwerkingsverantwoordelijke. U kunt ons bereiken via het contactformulier op de website. Vlaamswoordenboek.be houdt sessie-gerelateerde data van bezoeken bij.
-                                We gebruiken deze informatie om trends te onderzoeken, de website te verbeteren en goed beheer mogelijk te maken.
-                                De informatie wordt niet gebruikt om individuele gebruikers te identificeren.
+                                Deze privacyverklaring beschrijft wanneer en waarom vlaamswoordenboek.be persoonsgegevens verzamelt, welke persoonsgegevens dat zijn, waarvoor ze worden gebruikt, en hoe die gegevens worden beveiligd. Het beheer fungeert als verwerkingsverantwoordelijke. U kunt ons bereiken via het contactformulier op de website. Vlaamswoordenboek.be houdt sessie-gerelateerde data van bezoeken bij. We gebruiken deze informatie om trends te onderzoeken, de website te verbeteren en goed beheer mogelijk te maken. De informatie wordt niet gebruikt om individuele gebruikers te identificeren.
                             </p>
 
                             <p>
@@ -131,12 +139,11 @@
                             <h3 class="color-green">Gebruik van informatie</h3>
 
                             <p>
-                                De inhoud van vlaamswoordenboek.be mag enkel worden gebruikt voor niet-commerciële en/of privédoeleinden.
-                                Dan moet de volgende bronvermelding worden toegevoegd: ‘Bron: Ooms, Miet (beheerder) (2025), Vlaams Woordenboek online, op <a href="www.vlaamswoordenboek.be">www.vlaamswoordenboek.be</a>; geraadpleegd op dd/mm/jjjj’.
+                                De inhoud van vlaamswoordenboek.be mag enkel worden gebruikt voor niet-commerciële en/of privédoeleinden. Dan moet de volgende bronvermelding worden toegevoegd: ‘Bron: Ooms, Miet (beheerder) (2025), Vlaams Woordenboek online, op www.vlaamswoordenboek.be; geraadpleegd op dd/mm/jjjj’.
                             </p>
 
                             <p>
-                                Het is de gebruiker niet toegestaan de inhoud van vlaamswoordenboek.be te vermenigvuldingen, wijzigen, verwijderen of tegen vergoeding beschikbaar te stellen aan derden zonder de uitdrukkelijke schriftelijke toestemming van de beheerder.
+                                Het is gebruikers toegestaan om, conform de Creative Commonslicentie die van toepassing is op de website, de inhoud van vlaamswoordenboek.be te kopiëren, te verspreiden en te bewerken, op voorwaarde dat er een duidelijke bronvermelding wordt geplaatst en het gebruik niet-commercieel is. Het is gebruikers niet toegestaan om de inhoud te gebruiken voor commerciële doeleinden of commerciële activiteiten op te zetten die verband houden met vlaamswoordenboek.be zonder de uitdrukkelijke schriftelijke toestemming van het beheer.
                             </p>
 
                             <p>
@@ -150,7 +157,7 @@
                             </p>
 
 
-                            <h3 class="color-green">Beëndiging of wijziging van de service</h3>
+                            <h3 class="color-green">Wijziging van de service</h3>
 
                             <p>
                                 Het beheer en de kerngroep behouden zich het recht voor om deze gebruiksvoorwaarden zonder voorafgaande kennisgeving te wijzigen. Hoewel belangrijke wijzigingen als bericht op de voorpagina van de website kunnen worden gepubliceerd, zijn ze daartoe niet verplicht.
