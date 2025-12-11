@@ -20,11 +20,13 @@ use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use JaysonTemporas\PageBookmarks\Traits\HasBookmarks;
 use Kirschbaum\Commentions\Contracts\Commenter;
@@ -231,6 +233,19 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
     public function isTester(): bool
     {
         return $this->is_beta_tester;
+    }
+
+    protected function isActive(): Attribute
+    {
+        return Attribute::get(function (): bool {
+            $lastSeen = Cache::get('user-last-seen:' . $this->id, null);
+
+            if (!is_null($lastSeen) && $lastSeen->diffInMinutes(now()) < 2) {
+                return true;
+            }
+
+            return false;
+        });
     }
 
     public function prunable(): UserBuilder

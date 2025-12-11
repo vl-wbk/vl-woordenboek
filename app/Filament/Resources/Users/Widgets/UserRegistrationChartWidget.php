@@ -38,6 +38,8 @@ final class UserRegistrationChartWidget extends ChartWidget
      */
     protected ?string $maxHeight = '150px';
 
+    protected ?string $pollingInterval = null;
+
     /**
      * Determines how many columns the widget should span in the layout.
      * Accepts an integer value, 'full' for taking up the entire row, or an array for responsive behavior (e.g., different spans for small, medium, and large screens).

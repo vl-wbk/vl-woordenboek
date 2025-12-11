@@ -17,6 +17,7 @@
         "codewithdennis/filament-factory-action": "4.x-dev",
         "codewithdennis/filament-simple-alert": "4.x",
         "cybercog/laravel-ban": "^4.10",
+        "deldius/filament-user-field": "*",
         "devonab/filament-easy-footer": "^2.0",
         "dutchcodingcompany/filament-developer-logins": "^2.0",
         "filament/filament": "^4.0",

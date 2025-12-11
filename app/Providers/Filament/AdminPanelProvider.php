@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use Asmit\ResizedColumn\ResizedColumnPlugin;
 use Cmsmaxinc\FilamentErrorPages\FilamentErrorPagesPlugin;
 use Filament\Support\Enums\Width;
 use CharrafiMed\GlobalSearchModal\GlobalSearchModalPlugin;

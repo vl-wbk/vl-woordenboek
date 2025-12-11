@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Users\Schema;
 
+use Deldius\UserField\UserColumn;
+use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
+use Filament\Actions\AttachAction;
 use Filament\Actions\ViewAction;
 use Filament\Actions\EditAction;
 use App\Filament\Resources\Users\Actions\BanAction;
@@ -52,18 +55,13 @@ final readonly class UserTable
         return $table
             ->heading(heading: __('user-resource.tables.heading'))
             ->description(description: __('user-resource.tables.description'))
-            ->recordUrl(fn(User $user): string => UserResource::getUrl('view', ['record' => $user]))
+            ->recordUrl(null)
             ->columns([
-                TextColumn::make('name')
-                    ->iconColor('danger')
-                    ->icon(fn(User $user): ?string => $user->isBanned() ? 'tabler-shield-lock' : null)
-                    ->label(label: __('user-resource.tables.columns.name'))
-                    ->label('Gebruikersnaam')
-                    ->placeholder('-')
-                    ->weight(FontWeight::Bold)
-                    ->color(fn(User $user): string => $user->isBanned() ? 'danger' : 'primary')
-                    ->sortable()
-                    ->searchable(),
+                UserColumn::make('id')
+                    ->label('Gebruiker')
+                    ->showActiveState()
+                    ->searchable()
+                    ->sortable(),
 
                 TextColumn::make('user_type')
                     ->label(label: __('user-resource.tables.columns.user-type'))
@@ -75,13 +73,10 @@ final readonly class UserTable
                     ->icon('heroicon-o-key')
                     ->placeholder(placeholder: __('user-resource.tables.columns.roles.placeholder'))
                     ->color('danger')
-                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->toggleable(isToggledHiddenByDefault: false)
+                    ->action(self::getRoleAttachmentAction())
                     ->badge(),
 
-                TextColumn::make('email')
-                    ->label(label: __('user-resource.tables.columns.email'))
-                    ->searchable()
-                    ->url(fn(User $user): string => 'mailto:' . $user->email),
                 TextColumn::make('last_seen_at')
                     ->placeholder('-')
                     ->sortable()
@@ -117,5 +112,11 @@ final readonly class UserTable
                     DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    private static function getRoleAttachmentAction(): Action
+    {
+        return Action::make('test')
+            ->requiresConfirmation();
     }
 }
