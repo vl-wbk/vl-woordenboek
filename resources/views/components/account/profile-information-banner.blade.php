@@ -1,8 +1,9 @@
 <div class="d-none d-md-block">
     <div class="d-flex align-items-center border-bottom pb-3">
-        <img src="https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_960_720.png"
+        <img src="{{ $user->getFilamentAvatarUrl() }}"
              alt="{{ $user->name }}"
-             class="flex-shrink-0 rounded"
+             class="flex-shrink-0 shadow-sm rounded-circle"
+             loading="lazy"
              style="width:60px;height:60px;">
 
         <div class="ms-4 w-100">

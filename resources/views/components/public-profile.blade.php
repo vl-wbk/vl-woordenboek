@@ -45,8 +45,8 @@
 
             <div class="col-12 col-lg-3">
                 <div class="card border-0 shadow-sm p-4 h-100">
-                    <div class="d-flex align-items-center mb-3">
-                        <x-heroicon-s-user-circle class="icon icon-lg me-3 text-muted" style="width: 80px; height: 80px;"/>
+                    <div class="d-flex align-items-center mb-4">
+                        <img loading="lazy" src="{{ $user->getFilamentAvatarUrl() }}" class="rounded-circle me-3" height="60" width="60" alt="{{ $user->name }} - gravatar">
                         <div>
                             <h5 class="card-title fw-bold color-green mb-0">{{ $user->name }}</h5>
                             <p class="card-text small text-muted mb-0">Lid sinds: {{ $user->created_at->format('d/m/Y') }}</p>

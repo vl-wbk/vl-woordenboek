@@ -16,6 +16,7 @@ use Carbon\Carbon;
 use Cmgmyr\Messenger\Traits\Messagable;
 use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
@@ -75,7 +76,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @package App\Models
  */
 #[ObservedBy(UserObserver::class)]
-class User extends Authenticatable implements FilamentUser, BannableInterface, MustVerifyEmail, Commenter
+class User extends Authenticatable implements FilamentUser, HasAvatar, BannableInterface, MustVerifyEmail, Commenter
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory;
@@ -128,6 +129,12 @@ class User extends Authenticatable implements FilamentUser, BannableInterface, M
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->can('access-backend');
+    }
+
+    public function getFilamentAvatarUrl(): ?string
+    {
+        $hash = md5(strtolower(trim($this->attributes['email'])));
+        return "http://www.gravatar.com/avatar/$hash";
     }
 
     /**
