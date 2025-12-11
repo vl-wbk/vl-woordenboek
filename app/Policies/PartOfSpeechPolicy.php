@@ -12,14 +12,14 @@ final readonly class PartOfSpeechPolicy
 {
     public function view(User $user, PartOfSpeech $partOfSpeech): Response
     {
-        return $user->can('woordenboek_ondersteuning')
+        return $user->can('woordenboek-ondersteuning')
             ? Response::allow()
             : Response::deny();
     }
 
     public function viewAny(User $user): Response
     {
-        return $user->can('woordenboek_ondersteuning')
+        return $user->can('woordenboek-ondersteuning')
             ? Response::allow()
             : Response::deny();
     }
@@ -27,21 +27,21 @@ final readonly class PartOfSpeechPolicy
     public function create(User $user): Response
     {
 
-        return $user->can('woordenboek_ondersteuning')
+        return $user->can('woordenboek-ondersteuning')
             ? Response::allow()
             : Response::deny();
     }
 
     public function update(User $user, PartOfSpeech $partOfSpeech): Response
     {
-        return $user->can('woordenboek_ondersteuning')
+        return $user->can('woordenboek-ondersteuning')
             ? Response::allow()
             : Response::deny();
     }
 
     public function delete(User $user, PartOfSpeech $partOfSpeech): Response
     {
-        if ($user->can('woordenboek_ondersteuning')) {
+        if ($user->can('woordenboek-ondersteuning')) {
             return Response::deny(message: __('U hebt geen machtiging om de woordsoort te verwijderen'));
         }
 
