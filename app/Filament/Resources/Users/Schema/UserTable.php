@@ -74,7 +74,6 @@ final readonly class UserTable
                     ->placeholder(placeholder: __('user-resource.tables.columns.roles.placeholder'))
                     ->color('danger')
                     ->toggleable(isToggledHiddenByDefault: false)
-                    ->action(self::getRoleAttachmentAction())
                     ->badge(),
 
                 TextColumn::make('last_seen_at')
@@ -112,11 +111,5 @@ final readonly class UserTable
                     DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    private static function getRoleAttachmentAction(): Action
-    {
-        return Action::make('test')
-            ->requiresConfirmation();
     }
 }
