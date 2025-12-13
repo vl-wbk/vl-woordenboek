@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Articles\Schema;
 use App\Enums\ArticleStates;
 use App\Enums\LanguageStatus;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Actions\DisclaimerToolbarActions;
+use App\Filament\Clusters\Articles\Resources\ArticleResource\Actions\LanguageAdviceAction;
 use App\Models\Article;
 use App\Models\ReferenceWork;
 use App\Models\User;
@@ -29,8 +30,10 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\View;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\IconSize;
+use Filament\Support\Enums\TextSize;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\HtmlString;
+use Illuminate\Support\Str;
 
 final readonly class ArticleForm
 {
@@ -162,6 +165,7 @@ final readonly class ArticleForm
             MarkdownEditor::make('description')
                 ->label('Beschrijving')
                 ->columnSpanFull()
+                ->hintAction(LanguageAdviceAction::make())
                 ->toolbarButtons(self::getToolbarOptions())
                 ->placeholder('De beschrijving van het woord dat je wenst toe te voegen.')
                 ->helperText(str('Dit veld ondersteunt enkel [**Markdown**](https://www.markdownguide.org/cheat-sheet/)')->inlineMarkdown()->toHtmlString())
@@ -178,60 +182,6 @@ final readonly class ArticleForm
                 ->autofocus(false)
                 ->maxHeight('125px')
                 ->required(),
-
-            Action::make('language-advice')
-                ->label('Taaladvies')
-                ->icon('heroicon-o-light-bulb')
-                ->color('secondary')
-                ->modalHeading('Taaladvies (suggestief)')
-                ->modalWidth('3xl')
-                ->slideOver()
-                ->modalContent(function ($livewire) {
-                    $text = $livewire->form->getState()['description'] ?? '';
-                    $languageSuggestions = app(ModerationService::class)->analyze($text);
-
-                    if (empty($languageSuggestions)) {
-                        // Use the standard success colors for consistency
-                        return new HtmlString('<div class="text-success-600 dark:text-success-400 font-medium">Geen taaladvies gevonden.</div>');
-                    }
-
-                    $html = '<div class="space-y-4">';
-                    foreach ($languageSuggestions as $s) {
-
-                        // --- Light Mode Improvement: Increased Border and Background Definition ---
-                        // Light Mode: bg-white, Border: gray-300 (slightly darker than 200)
-                        $html .= '<div class="p-4 bg-white border mb-3 border-gray-300 rounded-xl shadow-sm';
-                        // Dark Mode: dark:bg-gray-800, Border: gray-700
-                        $html .= ' dark:bg-gray-800 dark:border-gray-700">';
-
-                        // Term/Title
-                        $html .= '<div class="font-bold text-lg text-gray-900 dark:text-white">' . e($s['term']) . '</div>'; // Added font-bold and text-lg
-
-                        // Message/Description
-                        $html .= '<div class="text-base text-gray-700 dark:text-gray-300 mt-1">' . e($s['message']) . '</div>'; // Used higher contrast gray-700
-
-                        if (!empty($s['alternatives'])) {
-                            // Separator uses higher contrast gray-200
-                            $html .= '<div class="text-sm mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">';
-                            // Label text
-                            $html .= '<span class="font-semibold dark:text-gray-700 text-gray-300">Overweeg:</span>';
-                            // List text
-                            $html .= '<ul class="list-disc list-inside space-y-1 ml-4 mt-1 text-gray-600 dark:text-gray-400">';
-                            foreach ($s['alternatives'] as $alt) {
-                                $html .= '<li>' . e($alt) . '</li>';
-                            }
-                            $html .= '</ul></div>';
-                        }
-
-                        $html .= '</div>';
-                    }
-                    $html .= '</div>';
-
-                    return new HtmlString($html);
-                })
-                ->modalSubmitAction(false)
-                ->modalCancelActionLabel('Sluiten')
-
         ];
     }
 

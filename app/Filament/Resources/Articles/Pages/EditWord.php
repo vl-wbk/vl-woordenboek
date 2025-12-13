@@ -49,14 +49,6 @@ final class EditWord extends EditRecord
      * This relationship enables proper routing and resource handling throughout the application.
      */
     protected static string $resource = ArticleResource::class;
-    public array $languageSuggestions = [];
-
-    public function generateLanguageAdvice(string $text): void
-    {
-        $this->languageSuggestions = app(ModerationService::class)
-            ->analyze($text);
-    }
-
 
     /**
      * Configures header actions for the editing page.
