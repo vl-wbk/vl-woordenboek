@@ -33,8 +33,6 @@ final class LanguageAdviceAction extends Action
         // Modal configuration
         $this->modalHeading('Suggestief taaladvies');
         $this->modalDescription('Omdat we de beschrijvingen van artikelen zo neutraal mogelijk willen houden. Kunnen we inhoud van het tekstveld doorzoeken op bepaalde woorden. En als er match is voor een woord zal er hieronder een advies komen om het aan te passen.');
-        $this->modalIcon(Heroicon::OutlinedLightBulb);
-        $this->modalIconColor('warning');
         $this->modalWidth(Width::ThreeExtraLarge);
         $this->slideOver();
         $this->infolist(fn (EditWord|CreateWord $livewire): array => $this->getInfolist($livewire));
@@ -65,11 +63,11 @@ final class LanguageAdviceAction extends Action
 
             // Create a Section component for each suggestion, replacing the custom <div>
             $components[] = Section::make(e($s['term']))
+                ->description('Categorie: ' . e($s['category']))
                 ->collapsible()
                 ->compact()
                 ->icon(Heroicon::OutlinedShieldExclamation)
                 ->iconColor('warning')
-                ->iconSize(IconSize::Medium)
                 ->schema([
                     // Message/Description
                     TextEntry::make('message')
