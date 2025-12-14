@@ -53,7 +53,7 @@ final class Published extends ArticleState
     {
         return DB::transaction(function () use ($reason): bool {
             $this->article->update(attributes: ['state' => ArticleStates::Draft, 'published_at' => null]);
-            $this->article->publisher()->dissociate();
+            $this->article->publisher()->dissociate()->save();
 
             $this->article->addNote(title: 'Ongedaan maken van de publicatie voor het artikel', note: $reason);
 

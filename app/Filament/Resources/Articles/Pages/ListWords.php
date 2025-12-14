@@ -64,12 +64,14 @@ final class ListWords extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Action::make('docs')
-                ->label('Help')
-                ->visible(Feature::active(DocumentationButtons::class))
-                ->icon('heroicon-o-lifebuoy')
-                ->url('https://vl-wbk.github.io/documentatie-portaal/artikelen/')
-                ->openUrlInNewTab(),
+            ActionGroup::make([
+                Action::make('docs')
+                    ->label('Help')
+                    ->visible(Feature::active(DocumentationButtons::class))
+                    ->icon('heroicon-o-lifebuoy')
+                    ->url('https://vl-wbk.github.io/documentatie-portaal/artikelen/')
+                    ->openUrlInNewTab(),
+            ])->buttonGroup(),
 
             ActionGroup::make([
                 CreateAction::make()
