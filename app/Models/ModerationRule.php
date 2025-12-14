@@ -13,10 +13,10 @@ class ModerationRule extends Model
         'neutral_alternative',
         'is_regex',
         'allowed_contexts',
-        'forbidden_contexts',
     ];
 
     protected $casts = [
         'is_regex' => 'boolean',
+        'allowed_contexts' => 'array',
     ];
 }

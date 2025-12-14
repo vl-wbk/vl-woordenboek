@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('moderation_rules', function (Blueprint $table) {
             $table->id();
-            $table->string('pattern'); // string of regex
+            $table->string('pattern')->unique(); // string of regex
             $table->string('category'); // racisme / archaïsch / politiek / dubbelzinnig
             $table->text('explanation')->nullable();
             $table->text('neutral_alternative')->nullable();
@@ -21,7 +21,6 @@ return new class extends Migration
 
             // context analyseren:
             $table->json('allowed_contexts')->nullable(); // woorden waarbij flagged NIET geldt
-            $table->json('forbidden_contexts')->nullable(); // woorden waarbij flagged WEL geldt
             $table->timestamps();
         });
     }

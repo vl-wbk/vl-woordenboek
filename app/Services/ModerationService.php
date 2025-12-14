@@ -65,18 +65,7 @@ class ModerationService
 
     protected function buildMessage($rule): string
     {
-        return match ($rule->category) {
-            'racisme' =>
-            "Deze term kan als kwetsend worden ervaren.",
-            'politiek' =>
-            "Deze term is politiek geladen en wordt vaak vermeden.",
-            'archaïsch' =>
-            "Dit is een verouderde term.",
-            'dubbelzinnig' =>
-            "Deze formulering kan meerdere interpretaties hebben.",
-            default =>
-            "Overweeg een neutralere formulering.",
-        };
+        return $rule->explanation ?? 'Overweeg een neutralere formulering';
     }
 
     protected function alternatives($rule): array
@@ -92,8 +81,16 @@ class ModerationService
         );
     }
 
-    protected function decode(?string $json): array
+    private function decode(array|string|null $value): array
     {
-        return is_array($d = json_decode($json, true)) ? $d : [];
+        if (is_array($value)) {
+            return $value;
+        }
+
+        if (is_string($value)) {
+            return json_decode($value, true) ?? [];
+        }
+
+        return [];
     }
 }

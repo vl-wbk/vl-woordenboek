@@ -54,7 +54,8 @@ final class LanguageAdviceAction extends Action
         $components = [];
 
         foreach ($languageSuggestions as $s) {
-            $alternativesHtml = '';
+            $alternativesText = '';
+
             if (!empty($s['alternatives'])) {
                 $alternativesText = collect($s['alternatives'])
                     ->map(fn ($alt) => e($alt)) // Escape each alternative
