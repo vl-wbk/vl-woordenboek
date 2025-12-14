@@ -19,7 +19,8 @@ class ListModerationRules extends ListRecords
             Action::make('documentation')
                 ->label('Help')
                 ->icon(Heroicon::OutlinedLifebuoy)
-                ->color('primary'),
+                ->color('primary')
+                ->url('https://vl-wbk.github.io/documentatie/artikelen/taaladviezen', shouldOpenInNewTab: true),
 
             ActionGroup::make([
                 CreateAction::make()
