@@ -24,6 +24,7 @@ final class ListDisclaimers extends ListRecords
             Action::make('help')
                 ->label(label: __('buttons.help'))
                 ->visible(Feature::active(DocumentationButtons::class))
+                ->url('https://vl-wbk.github.io/documentatie/artikelen/disclaimers', shouldOpenInNewTab: true)
                 ->icon('heroicon-o-lifebuoy'),
 
             ActionGroup::make([
