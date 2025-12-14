@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Articles\Actions\States;
 
+use Illuminate\Support\HtmlString;
 use App\Enums\Articles\ArchiveReason;
 use App\Enums\LanguageStatus;
 use App\Models\Article;
 use Filament\Actions\Action;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
-use Filament\Schemas\Components\Utilities\Get;
-use Filament\Schemas\Components\Utilities\Set;
-use Illuminate\Support\HtmlString;
+use Filament\Actions\Concerns\CanCustomizeProcess;
+use Filament\Forms\Components\{Select, Textarea};
+use Filament\Schemas\Components\Utilities\{Get, Set};
 
 /**
  * ArchiveAction provides the interface for archiving dictionary articles.
@@ -26,6 +25,8 @@ use Illuminate\Support\HtmlString;
  */
 final class ArchiveArticle extends Action
 {
+    use CanCustomizeProcess;
+
     /**
      * Defines the visual icon for the archive action.
      * Uses the archive box icon from Heroicons to maintain consistency with the application's visual language.
@@ -67,6 +68,10 @@ final class ArchiveArticle extends Action
         $this->modalHeading(heading: __('filament/actions/archiveArticle.modal.heading'));
         $this->modalDescription(description: __('filament/actions/archiveArticle.modal.description'));
 
+        // Set up notifications for success and failures
+        $this->successNotificationTitle('Het artikel is gearchiveerd');
+        $this->failureNotificationTitle('Helaas! Er is iets misgelopen');
+
         $this->schema([
             Select::make('reason')
                 ->label('Reden tot archivering')
@@ -86,8 +91,14 @@ final class ArchiveArticle extends Action
         ]);
 
         $this->action(function (array $data, Article $article): void {
-            $article->articleStatus()->transitionToArchived($data['archiving_reason']);
-            $this->success();
+            // Attempt to transition the article to the "archived" state withing a process that can be customized.
+            if ($this->process(fn (Article $article): bool => $article->articleStatus()->transitionToArchived($data['archiving_reason']))) {
+                $this->success();
+                return;
+            }
+
+            // If the transition fails, display a failure message.
+            $this->failure();
         });
     }
 }
