@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
-use App\Enums\ArticleStates;
-use App\Models\User;
-use App\Models\Article;
-use Filament\Support\Authorization\DenyResponse;
 use Illuminate\Auth\Access\Response;
+use App\Enums\ArticleStates;
+use App\Models\{Article, User};
+use Filament\Support\Authorization\DenyResponse;
 
 /**
  * ArticlePolicy enforces authorization rules for dictionary article management.
@@ -67,7 +66,7 @@ final class ArticlePolicy
      */
     public function update(User $user, Article $article): Response
     {
-        $allowedStates = [ArticleStates::New, ArticleStates::ExternalData, ArticleStates::Draft, ArticleStates::Archived];
+        $allowedStates = [ArticleStates::New , ArticleStates::ExternalData, ArticleStates::Draft, ArticleStates::Archived];
 
         if ($article->isPublished() && $user->can('update-published:article')) {
             return Response::allow();
@@ -277,7 +276,7 @@ final class ArticlePolicy
      */
     public function delete(User $user, Article $article): Response
     {
-        $allowedStates = [ArticleStates::New, ArticleStates::Draft, ArticleStates::ExternalData, ArticleStates::Archived];
+        $allowedStates = [ArticleStates::New , ArticleStates::Draft, ArticleStates::ExternalData, ArticleStates::Archived];
 
         if ($user->can('delete:article') && $article->state->in(enums: $allowedStates)) {
             return Response::allow();

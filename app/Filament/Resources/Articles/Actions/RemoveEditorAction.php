@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Articles\Actions;
 
 use Filament\Support\Enums\Width;
 use App\Enums\DataOrigin;
+use App\Filament\Resources\Articles\ArticleResource;
 use App\Models\Article;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
@@ -75,11 +76,13 @@ final class RemoveEditorAction extends Action
         $this->modalDescription(fn (Article $article): string => $this->getCustomUserBasedModalDescription($article));
         $this->modalSubmitActionLabel('Ja, ik ben zeker');
 
+        $this->successRedirectUrl(fn (Article $article): string => ArticleResource::getUrl('view', ['record' => $article]));
+
         $this->successNotificationTitle('De redacteur is losgekoppeld van het artikel');
         $this->failureNotificationTitle('We konden de redacteur niet loskoppelen van het artikel');
 
         $this->action(function (): void {
-            if ($this->process(fn(Article $article): bool => $this->transitionBackBasedOnOrigin($article))) {
+            if ($this->process(fn (Article $article): bool => $this->transitionBackBasedOnOrigin($article))) {
                 $this->success();
                 return;
             }
@@ -92,7 +95,7 @@ final class RemoveEditorAction extends Action
     {
         return match ($article->origin) {
             DataOrigin::External => $article->articleStatus()->transitionToExternalData(),
-            /** @phpstan-ignore-next-line  */
+                /** @phpstan-ignore-next-line  */
             DataOrigin::Suggestion => $article->articleStatus()->transitionToSuggestion(),
             default => throw new LogicException('Could not found the correct origin to transition'),
         };
