@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Articles\Pages;
 
-use App\Filament\Resources\Articles\Schema\ArticleForm;
-use Filament\Schemas\Components\Section;
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Wizard;
-use Filament\Schemas\Components\Wizard\Step;
+use App\Filament\Resources\Articles\Schema\{ArticleForm, FormSchema};
 use App\Models\Article;
 use App\Enums\ArticleStates;
 use App\Filament\Resources\Articles\ArticleResource;
-use App\Filament\Resources\Articles\Schema\FormSchema;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Resources\Pages\CreateRecord\Concerns\HasWizard;
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\{Section, Wizard};
+use Filament\Schemas\Components\Wizard\Step;
 use Filament\Support\Icons\Heroicon;
 
 /**
@@ -81,9 +79,9 @@ final class CreateWord extends CreateRecord
     {
         $this->record->author()->associate(auth()->user())->save();
 
-		if ($this->record->state->is(ArticleStates::Published)) {
-			$this->record->update(['publisher_id' => auth()->id(), 'published_at' => now()]);
-		}
+        if ($this->record->state->is(ArticleStates::Published)) {
+            $this->record->update(['publisher_id' => auth()->id(), 'published_at' => now()]);
+        }
     }
 
     /**
@@ -105,19 +103,22 @@ final class CreateWord extends CreateRecord
     {
         return [
             Step::make(trans('Algemene informatie'))
-                ->icon('heroicon-o-language')
+                ->icon(Heroicon::OutlinedLanguage)
                 ->columnSpanFull()
                 ->schema([self::sectionConfiguration()->schema(ArticleForm::generalInformationComponent())]),
+
             Step::make(trans('Regio & status'))
                 ->icon('heroicon-o-map')
                 ->columnSpanFull()
                 ->schema([self::sectionConfiguration()->schema(ArticleForm::regionInformationComponent())]),
+
             Step::make('Gerelateerde woorden')
                 ->icon(Heroicon::OutlinedLink)
                 ->columnSpanFull()
                 ->schema([Section::make()->schema(ArticleForm::getRelatedWordsRepeater())]),
+
             Step::make(trans('Bronnen'))
-                ->icon('heroicon-o-book-open')
+                ->icon(Heroicon::OutlinedBookOpen)
                 ->columnSpanFull()
                 ->schema([Section::make()->schema(ArticleForm::sourceRepeater())]),
         ];
