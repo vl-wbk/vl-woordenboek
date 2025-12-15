@@ -1,0 +1,96 @@
+<?php
+
+namespace App\Services;
+
+use App\Models\ModerationRule;
+use Illuminate\Support\Str;
+
+class ModerationService
+{
+    /**
+     * Analyseert tekst en geeft SUGGESTIES terug,
+     * geen automatische vervangingen.
+     */
+    public function analyze(string $text): array
+    {
+        if (blank($text)) {
+            return [];
+        }
+
+        $normalized = mb_strtolower($text);
+        $rules = ModerationRule::all();
+
+        $suggestions = [];
+
+        foreach ($rules as $rule) {
+            if (! $this->matches($rule, $text, $normalized)) {
+                continue;
+            }
+
+            if ($this->allowedByContext($rule, $normalized)) {
+                continue;
+            }
+
+            $suggestions[] = [
+                'rule_id'     => $rule->id,
+                'term'        => $rule->pattern,
+                'category'    => $rule->category,
+                'message'     => $this->buildMessage($rule),
+                'alternatives'=> $this->alternatives($rule),
+            ];
+        }
+
+        return $suggestions;
+    }
+
+    protected function matches($rule, string $original, string $normalized): bool
+    {
+        if ($rule->is_regex) {
+            return preg_match('/' . $rule->pattern . '/iu', $original);
+        }
+
+        return Str::contains($normalized, mb_strtolower($rule->pattern));
+    }
+
+    protected function allowedByContext($rule, string $text): bool
+    {
+        foreach ($this->decode($rule->allowed_contexts) as $ctx) {
+            if (Str::contains($text, mb_strtolower($ctx))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    protected function buildMessage($rule): string
+    {
+        return $rule->explanation ?? 'Overweeg een neutralere formulering';
+    }
+
+    protected function alternatives($rule): array
+    {
+        if (! $rule->neutral_alternative) {
+            return [];
+        }
+
+        // ondersteunt: "x / y / z"
+        return array_map(
+            'trim',
+            explode('/', $rule->neutral_alternative)
+        );
+    }
+
+    private function decode(array|string|null $value): array
+    {
+        if (is_array($value)) {
+            return $value;
+        }
+
+        if (is_string($value)) {
+            return json_decode($value, true) ?? [];
+        }
+
+        return [];
+    }
+}

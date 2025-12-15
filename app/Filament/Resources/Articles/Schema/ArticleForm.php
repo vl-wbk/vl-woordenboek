@@ -7,25 +7,33 @@ namespace App\Filament\Resources\Articles\Schema;
 use App\Enums\ArticleStates;
 use App\Enums\LanguageStatus;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Actions\DisclaimerToolbarActions;
+use App\Filament\Clusters\Articles\Resources\ArticleResource\Actions\LanguageAdviceAction;
 use App\Models\Article;
 use App\Models\ReferenceWork;
 use App\Models\User;
+use App\Services\ModerationService;
 use App\UserTypes;
 use CodeWithDennis\SimpleAlert\Components\Enums\IconAnimation;
 use CodeWithDennis\SimpleAlert\Components\SimpleAlert;
 use Filament\Actions\Action;
 use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Schemas\Components\Actions;
 use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\View;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\IconSize;
+use Filament\Support\Enums\TextSize;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\HtmlString;
+use Illuminate\Support\Str;
 
 final readonly class ArticleForm
 {
@@ -157,6 +165,7 @@ final readonly class ArticleForm
             MarkdownEditor::make('description')
                 ->label('Beschrijving')
                 ->columnSpanFull()
+                ->hintAction(LanguageAdviceAction::make())
                 ->toolbarButtons(self::getToolbarOptions())
                 ->placeholder('De beschrijving van het woord dat je wenst toe te voegen.')
                 ->helperText(str('Dit veld ondersteunt enkel [**Markdown**](https://www.markdownguide.org/cheat-sheet/)')->inlineMarkdown()->toHtmlString())
