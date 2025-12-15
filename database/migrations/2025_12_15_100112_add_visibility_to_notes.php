@@ -19,6 +19,6 @@ return new class extends Migration
 
     protected function normalizeData(): void
     {
-        Note::update(['visibility' => Visibility::Public]);
+        Note::query()->update(['visibility' => Visibility::Public]);
     }
 };
