@@ -10,6 +10,7 @@ use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * DateRangeFilterChart
@@ -55,13 +56,33 @@ trait DateRangeFilterChart
      * @param  string $dateColumn           The name of the database column containing the date/timestamp (e.g., 'created_at').
      * @return Collection<int, TrendValue>  The collection of time-series aggregate values.
      */
-    private function dateRangeFilterQuery(string $model, string $dateColumn): Collection
+    private function dateRangeFilterQuery(string $model, string $dateColumn, int $ttl = 1900): Collection
     {
-        return Trend::model($model)
-            ->between(start: $this->getFilterStartDate(), end: $this->getFilterEndDate())
-            ->{$this->filters['grouping']}() // Dynamically calls perDay(), perMonth(), etc.
-            ->dateColumn($dateColumn)
-            ->count();
+        $cacheKey = $this->generateCacheKey($model, $dateColumn);
+
+        return Cache::remember($cacheKey, $ttl, function () use ($model, $dateColumn): Collection {
+            return Trend::model($model)
+                ->between(start: $this->getFilterStartDate(), end: $this->getFilterEndDate())
+                ->{$this->filters['grouping']}() // Dynamically calls perDay(), perMonth(), etc.
+                ->dateColumn($dateColumn)
+                ->count();
+        });
+    }
+
+    private function generateCacheKey(string $model, string $dateColumn): string
+    {
+        $uniqueParameters = [
+            'model' => $model,
+            'dateColumn' => $dateColumn,
+            'startDate' => $this->getFilterStartDate()->toDateString(),
+            'endDate' => $this->getFilterEndDate()->toDateString(),
+            'grouping' => $this->filters['grouping'],
+            // Add a version or purpose prefix to avoid conflicts
+            'chart_data_v1',
+        ];
+
+        // Use a unique hash (like SHA1) of the serialized parameters for the key
+        return 'chart_data_' . sha1(json_encode($uniqueParameters));
     }
 
     /**

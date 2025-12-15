@@ -16,8 +16,11 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->appendToGroup('web', [AuthenticateSession::class]);
-
         $middleware->alias(['forbid-banned-user' => ForbidBannedUser::class]);
+
+        $middleware->web([
+            \App\Http\Middleware\UserLastSeenAt::class
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         if (app()->environment('production')) {

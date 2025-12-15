@@ -152,6 +152,12 @@ final class ArticleResource extends Resource
         return TableSchema::configure($table);
     }
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->with(['author']);
+    }
+
     /**
      * Determines what text should be shown as the main title in global search results.
      * In this case, we display the word (lemma) itself as the primary identifier.

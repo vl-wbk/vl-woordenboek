@@ -17,6 +17,7 @@ use Filament\Actions\{ActionGroup,
     RestoreAction,
     RestoreBulkAction,
     ViewAction};
+use Deldius\UserField\UserColumn;
 use Filament\Support\Enums\{FontWeight, Width};
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
@@ -68,13 +69,11 @@ final readonly class TableSchema
     private static function getTableColumns(): array
     {
         return [
-            TextColumn::make('author.name')
-                ->label(label: __('Ingevoegd door'))
-                ->placeholder(placeholder: __('onbekende gebruiker'))
-                ->searchable()
-                ->icon(Heroicon::OutlinedUserCircle)
-                ->iconColor('primary')
-                ->toggleable(),
+            UserColumn::make('author_id')
+                ->description(fn (Article $article): string => "{$article->author->firstname} {$article->author->lastname}")
+                ->emptyStateHeading(config('app.name', 'Laravel')) // Custom empty state heading
+                ->emptyStateDescription('Geen gebruiker aangeduid')
+                ->label('Ingevoegd door'),
 
             TextColumn::make('word')
                 ->searchable()
