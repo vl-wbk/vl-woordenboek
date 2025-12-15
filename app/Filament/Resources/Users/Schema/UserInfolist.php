@@ -29,12 +29,21 @@ use Illuminate\Support\Carbon;
  */
 final readonly class UserInfolist
 {
+    /**
+     * Configures the schema for the User Infolist.
+     *
+     * This method sets up the structure of the information panel using Filament's Tabs component
+     * to categorize user data into general information and deactivation information.
+     *
+     * @param  Schema $schema  The base schame to configure.
+     * @return Schema          The configured schema with tabs and components.
+     */
     public static function configure(Schema $schema): Schema
     {
         return $schema
             ->components([
                 Tabs::make('tabs')
-                    ->columnSpan(12)
+                    ->columnSpanFull()
                     ->tabs([
                         Tab::make(label: __('user-resource.infolist.tabs.general'))
                             ->columns(12)
@@ -49,6 +58,7 @@ final readonly class UserInfolist
                     ]),
             ]);
     }
+
     /**
      * Renders general information about the user.
      *
@@ -156,7 +166,7 @@ final readonly class UserInfolist
 
             TextEntry::make('bannable.reason')
                 ->label(label: __('user-resource.infolist.deactivation-information.entries.reason.label'))
-                ->columnSpan(12)
+                ->columnSpanFull()
                 ->icon('heroicon-o-chat-bubble-left-right')
                 ->iconColor('primary')
                 ->state(fn(user $user): ?string => $user->bans->first()->reason)
