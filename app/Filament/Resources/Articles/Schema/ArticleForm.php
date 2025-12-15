@@ -188,7 +188,6 @@ final readonly class ArticleForm
                 ->translateLabel()
                 ->multiple()
                 ->relationship(titleAttribute: 'name')
-                ->optionsLimit(4)
                 ->preload()
                 ->minItems(1)
                 ->required(),
