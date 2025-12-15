@@ -66,7 +66,7 @@ final class AppServiceProvider extends ServiceProvider
     {
         Gate::define(
             ability: 'access-backend',
-            callback: fn (User $user): bool => $user->roles()->exists() && $user->hasVerifiedEmail(),
+            callback: fn (User $user): bool => $user->roles()->exists() && $user->user_type->isNot(UserTypes::Normal) && $user->hasVerifiedEmail(),
         );
 
         Gate::define('viewPulse', fn (User $user): Response => $user->user_type->is(UserTypes::Developer)

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Articles\RelationManagers;
 
+use App\Enums\Notes\Visibility;
+use App\Models\User;
+use App\UserTypes;
 use Filament\Actions\ActionGroup;
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
@@ -24,6 +27,7 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
@@ -68,12 +72,20 @@ final class NotesRelationManager extends RelationManager
         return $schema
             ->columns(12)
             ->components([
+                Forms\Components\Select::make('visibility')
+                    ->label('Zichtbaarheid')
+                    ->columnSpan(4)
+                    ->native(false)
+                    ->hidden(fn (): bool => auth()->user()->user_type->is(UserTypes::Editor))
+                    ->options(Visibility::class),
+
                 TextInput::make('title')
                     ->required()
                     ->label(__('filament/RelationManagers/NotesRelationManager.form.title'))
                     ->translateLabel()
-                    ->columnSpan(7)
+                    ->columnSpan(8)
                     ->maxLength(255),
+
                 Textarea::make('body')
                     ->required()
                     ->label(__('filament/RelationManagers/NotesRelationManager.form.body'))
@@ -145,6 +157,7 @@ final class NotesRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn (Builder $query): Builder => $this->applyCustomQueryScopes($query))
             ->heading(__('filament/RelationManagers/NotesRelationManager.table.heading'))
             ->description(__('filament/RelationManagers/NotesRelationManager.description'))
             ->emptyStateIcon('heroicon-o-document-text')
@@ -154,6 +167,7 @@ final class NotesRelationManager extends RelationManager
             ->columns($this->registerTableSchemaLayout())
             ->headerActions($this->registerTableHeaderActions())
             ->toolbarActions($this->registerTableBulkActions())
+            ->filters($this->getFilters())
             ->recordActions([
                 $this->getViewAction(),
 
@@ -162,6 +176,26 @@ final class NotesRelationManager extends RelationManager
                     $this->getDeleteAction(),
                 ])
             ]);
+    }
+
+    private function getFilters(): array
+    {
+        return [
+            Tables\Filters\SelectFilter::make('visibility')
+                ->hidden(fn (): bool => auth()->user()->user_type->is(UserTypes::Editor))
+                ->options(Visibility::class),
+        ];
+    }
+
+    public function applyCustomQueryScopes(Builder $builder): Builder
+    {
+        /** @var User $authUser */
+        $authUser = auth()->user();
+
+        return $builder
+            ->when($authUser->user_type->is(UserTypes::Editor), fn (Builder $query) => $query->whereIn('visibility', [Visibility::Public, Visibility::Editors]))
+            ->when($authUser->user_type->is(UserTypes::EditorInChief), fn (Builder $query) => $query->whereIn('visibility', [Visibility::Public, Visibility::Editors, Visibility::EditorInChief]));
+
     }
 
     /**
@@ -240,6 +274,11 @@ final class NotesRelationManager extends RelationManager
                 ->searchable()
                 ->icon('heroicon-o-user-circle')
                 ->iconColor('primary'),
+
+            TextColumn::make('visibility')
+                ->label('Zichtbaarheid')
+                ->hidden(fn (): bool => auth()->user()->user_type->is(UserTypes::Editor))
+                ->badge(),
 
             TextColumn::make('title')
                 ->label(__('filament/RelationManagers/NotesRelationManager.colums.title'))

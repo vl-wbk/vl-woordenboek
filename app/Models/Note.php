@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\Notes\Visibility;
 use Database\Factories\NoteFactory;
 use App\Models\Relations\BelongsToAuthor;
 use Carbon\Carbon;
@@ -44,4 +45,15 @@ final class Note extends Model
      * @var list<string>
      */
     protected $guarded = ['id'];
+
+    protected $attributes = [
+        'visibility' => Visibility::Public,
+    ];
+
+    protected function casts(): array
+    {
+        return [
+            'visibility' => Visibility::class,
+        ];
+    }
 }
