@@ -26,12 +26,12 @@ final class LanguageAdviceAction extends Action
     {
         parent::setUp();
 
-        $this->label('Suggestief taaladvies');
+        $this->label('Gevoelig taaladvies');
         $this->icon(Heroicon::OutlinedLightBulb);
         $this->color('warning');
 
         // Modal configuration
-        $this->modalHeading('Suggestief taaladvies');
+        $this->modalHeading('Gevoelig taaladvies');
         $this->modalDescription('Omdat we de beschrijvingen van artikelen zo neutraal mogelijk willen houden. Kunnen we inhoud van het tekstveld doorzoeken op bepaalde woorden. En als er match is voor een woord zal er hieronder een advies komen om het aan te passen.');
         $this->modalWidth(Width::ThreeExtraLarge);
         $this->slideOver();
