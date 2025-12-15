@@ -51,7 +51,9 @@ class ModerationService
             return preg_match('/' . $rule->pattern . '/iu', $original);
         }
 
-        return Str::contains($normalized, mb_strtolower($rule->pattern));
+        $searchPattern = preg_quote($rule->pattern, '/');
+
+        return preg_match('/\b' . $searchPattern . '\b/i', $original);
     }
 
     protected function allowedByContext(ModerationRule $rule, string $text): bool
