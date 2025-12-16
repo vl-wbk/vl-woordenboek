@@ -139,12 +139,4 @@ final class EditWord extends EditRecord
             'record' => $this->record,
         ]);
     }
-
-    /**
-     * @todo Document function
-     */
-    public function getTitle(): string
-    {
-        return ucfirst($this->record->word);
-    }
 }
