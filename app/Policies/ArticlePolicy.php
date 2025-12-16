@@ -181,7 +181,7 @@ final class ArticlePolicy
             return Response::allow();
         }
 
-        if ($user->can('detach-disclaimer:article')) {
+        if ($user->can('detach-editor:article')) {
             return Response::allow();
         }
 

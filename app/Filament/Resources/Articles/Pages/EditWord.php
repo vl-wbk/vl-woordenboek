@@ -80,7 +80,6 @@ final class EditWord extends EditRecord
 
             Actions\ActionGroup::make([
                 PublishArticleAction::make(),
-                RemoveEditorAction::make(),
             ])->buttonGroup(),
 
             Actions\Action::make('preview')

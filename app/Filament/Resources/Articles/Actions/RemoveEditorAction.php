@@ -63,7 +63,7 @@ final class RemoveEditorAction extends Action
 
         $this->label('Loskoppelen');
         $this->icon(self::$navigationIcon);
-        $this->color('gray');
+        $this->color('danger');
         $this->authorize('detachEditor');
 
         $this->requiresConfirmation();
