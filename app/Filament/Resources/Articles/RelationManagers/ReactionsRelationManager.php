@@ -93,6 +93,7 @@ final class ReactionsRelationManager extends RelationManager
                 ->label('Ingevoegd door'),
             TextColumn::make('title')
                 ->label('Titel')
+                ->make('- Deze reactie heeft geen titel of de titel is niet gevonden.')
                 ->searchable(),
             TextColumn::make('created_at')
                 ->label('Geplaatst op')
