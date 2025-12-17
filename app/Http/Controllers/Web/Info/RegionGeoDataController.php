@@ -16,7 +16,7 @@ final readonly class RegionGeoDataController
     #[Get(uri: '/api/geo-data')]
     public function __invoke(): JsonResponse
     {
-        $featureCollection = Cache::rememberForever('region_geo_data_feature_collection', function () {
+        $featureCollection = Cache::flexible('region_geo_data_feature_collection', [0, 3200], function () {
             $geoFeatures = RegionGeoData::query()
                 ->with('region')
                 ->select('name', 'region_id', 'postal', DB::raw('ST_AsGeoJSON(geometry) as geometry_geojson'))
@@ -53,7 +53,7 @@ final readonly class RegionGeoDataController
         // Construct a unique cache key based on the region identifier
         $cacheKey = 'region_geo_data_feature_collection_' . $region->id;
 
-        $featureCollection = Cache::rememberForever($cacheKey, function () use ($region): array {
+        $featureCollection = Cache::flexible($cacheKey, [0, 3200], function () use ($region): array {
             $geoFeatures = RegionGeoData::query()
                 ->with('region')
                 // Add a where clause to filter by region
