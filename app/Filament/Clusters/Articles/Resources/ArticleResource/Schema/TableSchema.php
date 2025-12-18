@@ -72,7 +72,7 @@ final readonly class TableSchema
             UserColumn::make('author_id')
                 ->description(fn (Article $article): string => "{$article->author->firstname} {$article->author->lastname}")
                 ->emptyStateHeading(config('app.name', 'Laravel')) // Custom empty state heading
-                ->emptyStateDescription('Geen gebruiker aangeduid')
+                ->emptyStateDescription(fn (Article $article): ?string => $article->contributor_name)
                 ->label('Ingevoegd door'),
 
             TextColumn::make('word')
