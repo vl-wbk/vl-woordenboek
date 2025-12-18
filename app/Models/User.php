@@ -133,9 +133,17 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
         return $this->can('access-backend');
     }
 
+    /**
+     * Retrieve the user's avatar URL for the Filament admin panel.
+     * 
+     * This method generates a Gravatar URL by creating an MD5 hash of the user's email address. 
+     * It ensures the email is properly formatted (trimmed and lowercase) before hashing to comply with Gravatar's requirements.
+     *
+     * @return string|null The URL to the Gravatar image, or null if no email is available.
+     */
     public function getFilamentAvatarUrl(): ?string
     {
-        $hash = md5(strtolower(trim($this->attributes['email'])));
+        $hash = md5(strtolower(trim($this->email)));
         return "http://www.gravatar.com/avatar/$hash";
     }
 
@@ -224,20 +232,34 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
      * @param Builder $query The base query builder instance
      * @return UserBuilder     The custom builder instance
      */
-    #[Override]
     public function newEloquentBuilder($query): UserBuilder
     {
         return new UserBuilder($query);
     }
 
+    /**
+     * Determine if the user has beta testing privileges.
+     *
+     * @todo Check if we can phase this method out
+     * @return bool True if the user is a designated beta tester.
+     */
     public function isTester(): bool
     {
         return $this->is_beta_tester;
     }
 
+    /**
+     * Interact with the user's active status.
+     * 
+     * This accessor checks the application cache for a 'last-seen' timestamp.
+     * A user is considered active if their last activity was recorded within the last 2 minutes.
+     *
+     * @return Attribute
+     */
     protected function isActive(): Attribute
     {
         return Attribute::get(function (): bool {
+            /** @var \Illuminate\Support\Carbon|null $lastSeen */
             $lastSeen = Cache::get('user-last-seen:' . $this->id, null);
 
             if (!is_null($lastSeen) && $lastSeen->diffInMinutes(now()) < 2) {
@@ -248,12 +270,29 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
         });
     }
 
+    /**
+     * Get the prunable model query.
+     *
+     * Defines the criteria for users that should be removed from the database:
+     * 1. The user has not been seen for more than 6 months.
+     * 2. An inactivity warning email has already been sent.
+     *
+     * @return UserBuilder
+     */
     public function prunable(): UserBuilder
     {
         return static::where('last_seen_at', '<', now()->subMonths(6))
             ->whereNotNull('inactivity_warning_sent_at');
     }
 
+    /**
+     * Prepare the model for pruning.
+     *
+     * This method is called by Laravel right before the model is deleted. 
+     * It queues a notification email to inform the user that their  account has been removed due to inactivity.
+     *
+     * @return void
+     */
     protected function pruning(): void
     {
         Mail::to($this->email)->queue(new AccountPrunedMailable());

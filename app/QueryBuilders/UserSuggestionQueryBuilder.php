@@ -83,6 +83,9 @@ final class UserSuggestionQueryBuilder
     }
 
     /**
+     * Defines the list of filters permitted for the query. 
+     * Includes a scope-based filter for dates and an operator-based filter for the article state (aliased as 'status'). 
+     * 
      * @return array<int, AllowedFilter>
      */
     private function getAllowedFilters(): array
