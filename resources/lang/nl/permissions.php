@@ -13,9 +13,6 @@ return [
         'restore' => 'Verwijdering ongedaan maken',
         'restore_any' => 'Herstellen van meerdere',
         'replicate' => 'Repliceren',
-        // 'reorder' => 'Reorder',
-
-        // Custom prefix for permissions
         'detach_editor' => 'Redacteur loskoppelen',
         'unarchive' => 'Dearchiveren',
         'send_for_approval' => 'Inzenden ter goedkeuring',
@@ -40,7 +37,9 @@ return [
         'enable_comments' => 'Reacties inschakelen',
         'disable_comments' => 'Reacties uitschakelen',
         'update_published' => 'Publicaties aanpassen',
-
-        'project_information_settings' => 'ween',
+        'project_information_settings' => 'ween'
     ],
+    'resource_permission_prefixes_labels.draft' => 'Markeren als kladversie',
+    'resource_permission_prefixes_labels.reactivate' => 'Heractivatie van accounts',
+    'resource_permission_prefixes_labels.unarchive' => 'Weer uit het archief halen'
 ];

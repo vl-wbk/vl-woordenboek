@@ -1,22 +1,23 @@
 <?php
 
 return [
-    'pattern-select' => 'Zoekpartoon selectie',
+    'buttons' => [
+        'submit' => 'Zoeken'
+    ],
     'inputs' => [
         'search-term' => [
-            'placeholder' => 'Zoekterm',
-        ],
+            'placeholder' => 'Zoekterm'
+        ]
     ],
-    'buttons' => [
-        'submit' => 'Zoeken',
-    ],
-    'toggles' => [
-        'description-search' => 'Ik wens ook uitgebreid te zoeken in de beschrijving',
-    ],
+    'pattern-select' => 'Selectie zoekpatroon',
     'patterns' => [
         'contains' => 'Bevat',
         'startsWith' => 'Start met',
         'endsWith' => 'Eindigt met',
-        'exact' => 'Exact',
+        'exact' => 'Exact'
     ],
+    'toggles' => [
+        'description-search' => 'Ik wens ook uitgebreid te zoeken in de beschrijving'
+    ],
+    'toggles.description-search' => 'Ik wil ook in de beschrijving zoeken.'
 ];

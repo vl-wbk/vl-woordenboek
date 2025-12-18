@@ -1,42 +1,21 @@
 <?php
 
-/**
- * Language strings for the Disclaimer feature.
- *
- * This file centralizes all user-facing text used by the Disclaimer
- * management UI to enable easy translation and maintenance.
- *
- * Structure (top-level keys):
- * - Policy:	access control messages shown when a user lacks permission to perform an action (view, create, update, delete, etc.).
- * - Form:	form-related text grouped by sections, including field labels and placeholders to guide users.
- * - Status-labels:	human-friendly names for different disclaimer types or statuses (e.g., warning, default, danger), used for visual cues.
- * - Infolist: labels for displaying detailed disclaimer information in read-only views.
- * - Table: text for the tabular listing of disclaimers (heading, description, empty state, column headers, and per-row actions).
- * - Header-actions: labels for primary actions in the page header (e.g., create).
- *
- * Note: this file is intended to be language-specific. If you need to support additional languages, provide a separate file with the same keys but translated values.
- */
 return [
-    /**
-     * Messages for access denial.
-     * These messages are displayed to users when they try to perform an action without the required permissions (e.g., viewing, creating, or deleting an item).
-     */
-    'policy' => [
-        'deny-messages' => [
-            'before' => 'U hebt geen machtiging om het systeem dat de artikelen beheerd te gebruiken.',
-            'viewAny' => 'U hebt geen machtiging om een overzicht van disclaimers te bekijken',
-            'view' => 'U hebt geen machtiging om de informatie van een disclaimer te bekijken',
-            'create' => 'U hebt geen machtiging om een disclaimer aan te maken',
-            'update' => 'U hebt geen machtiging om een disclaimer aan te passen',
-            'delete' => 'U hebt geen machtiging om een disclaimer te verwijderen',
-            'deleteAny' => 'U hebt geen machtiging om meerdere disclaimers te verwijderen',
+    'actions' => [
+        'attach' => [
+            'label' => 'Disclaimer koppelen',
+            'modal' => [
+                'description' => 'Hieronder kunt u de disclaimer selecteren die u wenst te koppelen aan het artikel.',
+                'form' => [
+                    'select-disclaimer' => 'disclaimer'
+                ]
+            ]
         ],
+        'detach' => [
+            'label' => 'Disclaimer loskoppelen'
+        ]
     ],
-
-    /**
-     * Form section definitions.
-     * This part of the array groups related form fields and provides titles and descriptions for each section to guide the user.
-     */
+    'actions.attach.modal.description' => 'Hieronder kun je de disclaimer selecteren die je aan het artikel wenst te koppelen.',
     'form' => [
         'sections' => [
             'disclaimer-info' => [
@@ -45,9 +24,9 @@ return [
                 'fields' => [
                     'message' => [
                         'label' => 'Disclaimer melding',
-                        'placeholder' => 'Vermeld kort wat je wenst te vermelding richting de gebruiker',
-                    ],
-                ],
+                        'placeholder' => 'Vermeld kort wat je wenst te vermelding richting de gebruiker'
+                    ]
+                ]
             ],
             'management-info' => [
                 'title' => 'Beheersinformatie',
@@ -56,102 +35,97 @@ return [
                     'name' => 'Naam',
                     'description' => [
                         'label' => 'Beschrijving',
-                        'placeholder' => 'Beschrijf kort waarover de disclaimer gaat zodat het duidelijk is voor andere vrijwilligers',
+                        'placeholder' => 'Beschrijf kort waarover de disclaimer gaat zodat het duidelijk is voor andere vrijwilligers'
                     ],
                     'usage' => [
                         'placeholder' => 'Beschrijf kort in welke omstandigheden de disclaimer te gebruiken is',
-                        'label' => 'Gebruikscriteria',
-                    ],
-                ],
-            ],
-        ],
+                        'label' => 'Gebruikscriteria'
+                    ]
+                ]
+            ]
+        ]
     ],
-
-    /**
-     * Human-readable labels for different disclaimer statuses or types.
-     * These are often used to categorize disclaimers visually in the UI (e.g., with colors).
-     */
-    'status-labels' => [
-        'warning' => 'Waarschuwing disclaimer',
-        'default' => 'Standaard disclaimer',
-        'danger' => 'Gevaren disclaimer',
+    'form.sections.disclaimer-info.description' => 'Alle gegevens en de configuratie die gebruikt zal worden om de disclaimer te tonen aan de eindgebruiker die het Vlaams Woordenboek raadpleegt.',
+    'form.sections.disclaimer-info.fields.message.label' => 'Disclaimermelding',
+    'form.sections.disclaimer-info.fields.message.placeholder' => 'Vermeld kort wat je wenst te vermelden voor de gebruiker.',
+    'form.sections.disclaimer-info.title' => 'Disclaimerinformatie',
+    'form.sections.management-info.description' => 'De nodige registraties van interne gegevens waarmee we de disclaimers kunnen beheren en kunnen aangeven hoe we de geregistreerde disclaimer willen gebruiken.',
+    'form.sections.management-info.fields.usage.placeholder' => 'Beschrijf kort in welke omstandigheden de disclaimer gebruikt moet worden.',
+    'header-actions' => [
+        'create' => [
+            'label' => 'Disclaimer aanmaken'
+        ]
     ],
-
-    /**
-     * Labels for information displayed in a detailed view of a disclaimer.
-     * These are used to label fields on read-only pages.
-     */
     'infolist' => [
         'disclaimer-info-tab' => [
             'label' => 'Disclaimer informatie',
             'entries' => [
                 'type' => 'Disclaimer type',
-                'message' => 'Melding',
-            ],
+                'message' => 'Melding'
+            ]
         ],
         'internal-description-tab' => [
-            'label' => 'Interne beschrijving',
+            'label' => 'Interne beschrijving'
         ],
         'usage-guideline-tab' => [
-            'label' => 'Gebruiksrichtlijn',
-        ],
+            'label' => 'Gebruiksrichtlijn'
+        ]
     ],
-
-    /**
-     * Strings related to the table view.
-     * This includes the table heading, description, empty state messages, column headers, and action labels for each row.
-     */
+    'infolist.disclaimer-info-tab.entries.type' => 'Disclaimertype',
+    'infolist.disclaimer-info-tab.label' => 'Disclaimerinformatie',
+    'policy' => [
+        'deny-messages' => [
+            'before' => 'U hebt geen machtiging om het systeem dat de artikelen beheerd te gebruiken.',
+            'viewAny' => 'U hebt geen machtiging om een overzicht van disclaimers te bekijken',
+            'view' => 'U hebt geen machtiging om de informatie van een disclaimer te bekijken',
+            'create' => 'U hebt geen machtiging om een disclaimer aan te maken',
+            'update' => 'U hebt geen machtiging om een disclaimer aan te passen',
+            'delete' => 'U hebt geen machtiging om een disclaimer te verwijderen',
+            'deleteAny' => 'U hebt geen machtiging om meerdere disclaimers te verwijderen'
+        ]
+    ],
+    'policy.deny-messages.before' => 'Je hebt niet de juiste machtiging om het systeem dat de artikelen beheert te gebruiken.',
+    'policy.deny-messages.create' => 'Je hebt niet de juiste machtiging om een disclaimer aan te maken.',
+    'policy.deny-messages.delete' => 'Je hebt niet de juiste machtiging om een disclaimer te verwijderen.',
+    'policy.deny-messages.deleteAny' => 'Je hebt niet de juiste machtiging om meerdere disclaimers te verwijderen.',
+    'policy.deny-messages.update' => 'Je hebt niet de juiste machtiging om een disclaimer aan te passen.',
+    'policy.deny-messages.view' => 'Je hebt niet de juiste machtiging om de informatie van een disclaimer te bekijken.',
+    'policy.deny-messages.viewAny' => 'Je hebt niet de juiste machtiging om een overzicht van disclaimers te bekijken.',
+    'status-labels' => [
+        'warning' => 'Waarschuwing disclaimer',
+        'default' => 'Standaard disclaimer',
+        'danger' => 'Gevaren disclaimer'
+    ],
+    'status-labels.danger' => 'Gevarendisclaimer',
+    'status-labels.warning' => 'Disclaimer waarschuwing',
     'table' => [
         'heading' => 'Disclaimers',
         'description' => 'Disclaimers zijn bedoeld om gebruikers snel extra informatie te geven.',
         'empty-state' => [
             'heading' => 'Geen disclaimer(s) aangemaakt',
-            'description' => 'Momenteel zijn er geen disclaimers aangemaakt en of gevonden onder de matchende de gegeven criteria.',
+            'description' => 'Momenteel zijn er geen disclaimers aangemaakt en of gevonden onder de matchende de gegeven criteria.'
         ],
         'columns' => [
             'name' => 'naam',
             'article-count' => 'aantal koppelingen',
             'description' => 'beschrijving',
-            'created-at' => 'aangemaakt op',
+            'created-at' => 'aangemaakt op'
         ],
         'actions' => [
             'view-action' => [
-                'label' => 'bekijken',
+                'label' => 'bekijken'
             ],
             'edit-action' => [
-                'label' => 'bewerken',
+                'label' => 'bewerken'
             ],
             'delete-action' => [
                 'label' => 'verwijderen',
                 'modal' => [
-                    'description' => 'U staat op het punt om een disclaimer te verwijderen. Bij het verwijderen zal deze worden losgekoppeld van alle artikelen. Weet u zeker dat je dit wilt doen?',
-                ],
-            ],
-        ],
+                    'description' => 'U staat op het punt om een disclaimer te verwijderen. Bij het verwijderen zal deze worden losgekoppeld van alle artikelen. Weet u zeker dat je dit wilt doen?'
+                ]
+            ]
+        ]
     ],
-
-    /**
-     * Strings for actions or buttons located in the page header.
-     * These are typically used for global actions like creating a new item.
-     */
-    'header-actions' => [
-        'create' => [
-            'label' => 'Disclaimer aanmaken',
-        ],
-    ],
-
-    'actions' => [
-        'attach' => [
-            'label' => 'Disclaimer koppelen',
-            'modal' => [
-                'description' => 'Hieronder kunt u de disclaimer selecteren die u wenst te koppelen aan het artikel.',
-                'form' => [
-                    'select-disclaimer' => 'disclaimer',
-                ],
-            ],
-        ],
-        'detach' => [
-            'label' => 'Disclaimer loskoppelen',
-        ],
-    ],
+    'table.actions.delete-action.modal.description' => 'Je staat op het punt om een disclaimer te verwijderen. Tijdens het verwijderen zal die ook worden losgekoppeld van alle artikelen. Weet je zeker dat je dit wil doen?',
+    'table.empty-state.description' => 'Momenteel zijn er geen disclaimers gevonden die voldoen aan de gegeven criteria.'
 ];
