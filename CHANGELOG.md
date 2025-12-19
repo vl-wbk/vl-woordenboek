@@ -1,26 +1,5 @@
 # Changelog
 
-## Unreleased
-
-### Toegevoegd
-
-- Toevoegen van de Two Facotr authenticatie functionaliteit (#328)
-
-### Fixes
-
-- Sentry error die word geworpen doormiddel van een type casting error in de regio informatie pagina
-- Toevoegen van docblocks voor de `RolePolicy` (#316)
-- Acties zichtbaar zonder ingelogd te zijn (#251)
-
-### Gewijzigd
-
-- Policy classes maken nu gebruik van de `Response::` class in plaats van boolean als return (#307)
-
-### Varia
-
-- Docblocks toegevoeg voor de `ThreadPolicy`.
-- Toevoegen van een synchronisatie notitie aan de readme. (#250)
-
 ## [1.0.0](https://github.com/vl-wbk/vl-woordenboek/releases/tag/v1.0.0) (2025-12-19)
 
 ### Features
