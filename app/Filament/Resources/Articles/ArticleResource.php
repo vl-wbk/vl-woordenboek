@@ -74,6 +74,11 @@ final class ArticleResource extends Resource
     protected static ?string $pluralModelLabel = 'Artikelen';
 
     /**
+     * The attribute of the database entity that should be used as its title/label when searching of displaying records.
+     */
+    protected static ?string $recordTitleAttribute = 'word';
+
+    /**
      * The cluster used for grouping related resources.
      *
      * @todo Check if we can use inheritDoc here
