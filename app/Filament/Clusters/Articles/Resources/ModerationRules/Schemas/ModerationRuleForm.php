@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Clusters\Articles\Resources\ModerationRules\Schemas;
 
 use Filament\Forms\Components\TagsInput;
@@ -10,7 +12,10 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 
-class ModerationRuleForm
+/**
+ * @todo Write docblocks for this class
+ */
+final readonly class ModerationRuleForm
 {
     public static function configure(Schema $schema): Schema
     {
@@ -41,6 +46,9 @@ class ModerationRuleForm
             : __('Via het onderstaande formulier kunt u een nieuw taaladvies toevoegen');
     }
 
+    /**
+     * @return array<int, TextInput|Textarea|TagsInput|Toggle>
+     */
     private static function getFormComponents(): array
     {
         return [

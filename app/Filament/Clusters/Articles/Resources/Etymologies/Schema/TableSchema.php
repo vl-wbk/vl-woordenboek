@@ -166,7 +166,7 @@ final readonly class TableSchema
      * Row actions are grouped for clarity and include viewing, editing, and deleting individual etymology records.
      * Each action can be customized with its own modal width, heading, icon, and description to provide a clear and user-friendly experience.
      *
-     * @return array<int, ActionGroup> Array of Filament row action group definitions.
+     * @return array<int, ViewAction|ActionGroup> Array of Filament row action group definitions.
      */
     public static function configureActions(): array
     {

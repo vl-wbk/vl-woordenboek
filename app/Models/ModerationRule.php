@@ -24,16 +24,25 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null                $explanation          Contextual reasoning for the rule, often used to educate moderators or users.
  * @property string|null                $neutral_alternative  A suggested replacement that adheres to the platform's linguistic guidelines.
  * @property bool                       $is_regex             Flag determining if the 'pattern' should be evaluated as a PCRE regular expression.
- * @property array                      $allowed_contexts     A collection of strings defining where this rule is applicable (e.g., ['forum', 'articles']).
+ * @property array<string>              $allowed_contexts     A collection of strings defining where this rule is applicable (e.g., ['forum', 'articles']).
  * @property \Illuminate\Support\Carbon $created_at           Timestamp indicating when the rule was first persisted.
  * @property \Illuminate\Support\Carbon $updated_at           Timestamp indicating the last time the rule configuration was modified.
  */
 final class ModerationRule extends Model
 {
+    /**
+     * @var list<string>
+     */
     protected $fillable = ['pattern', 'category', 'explanation', 'neutral_alternative', 'is_regex', 'allowed_contexts'];
 
-    protected $casts = [
-        'is_regex' => 'boolean',
-        'allowed_contexts' => 'array',
-    ];
+    /**
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'is_regex' => 'boolean',
+            'allowed_contexts' => 'array',
+        ];
+    }
 }

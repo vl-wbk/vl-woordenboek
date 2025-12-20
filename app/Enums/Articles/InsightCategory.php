@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Enums\Articles;
 
-use BackedEnum;
 use Filament\Support\Contracts\HasDescription;
-use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
-use Filament\Support\Icons\Heroicon;
-use Illuminate\Contracts\Support\Htmlable;
 
+/**
+ * @todo write docblocks for this enumeration class.
+ */
 enum InsightCategory: int implements HasDescription, HasLabel
 {
     case Fact = 1;
@@ -37,7 +36,7 @@ enum InsightCategory: int implements HasDescription, HasLabel
         return "{$this->value}. {$this->getLabel()} - {$this->getDescription()}";
     }
 
-    public function getDescription(): string|Htmlable|null
+    public function getDescription(): string
     {
         return match ($this) {
             self::Fact => 'Feitelijke correctie/aanvulling, de definitie is onjuist of onvolledig',

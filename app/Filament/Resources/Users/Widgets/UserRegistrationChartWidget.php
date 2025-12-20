@@ -38,6 +38,9 @@ final class UserRegistrationChartWidget extends ChartWidget
      */
     protected ?string $maxHeight = '150px';
 
+    /**
+     * @todo write docblock
+     */
     protected ?string $pollingInterval = null;
 
     /**

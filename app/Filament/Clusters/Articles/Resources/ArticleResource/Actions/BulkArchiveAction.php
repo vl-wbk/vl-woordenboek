@@ -16,6 +16,9 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\LazyCollection;
 
+/**
+ * @todo Write docblocks for this action class.
+ */
 final class BulkArchiveAction extends BulkAction
 {
     public static function getDefaultName(): string
@@ -53,11 +56,15 @@ final class BulkArchiveAction extends BulkAction
 
         // Handling setup
         $this->action(action: function (Collection|LazyCollection $records, array $data) {
+            // @phpstan-ignore-next-line
             $records->each(fn (Article $article): bool => $article->articleStatus()->transitionToArchived($data['archiving_reason']));
         });
 
     }
 
+    /**
+     * @return array<int, Select|Textarea>
+     */
     private function configureSchemaComponents(): array
     {
         return [

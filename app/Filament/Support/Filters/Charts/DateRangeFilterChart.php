@@ -69,6 +69,9 @@ trait DateRangeFilterChart
         });
     }
 
+    /**
+     * @todo Write docblock for this function.
+     */
     private function generateCacheKey(string $model, string $dateColumn): string
     {
         $uniqueParameters = [
@@ -82,6 +85,7 @@ trait DateRangeFilterChart
         ];
 
         // Use a unique hash (like SHA1) of the serialized parameters for the key
+        // @phpstan-ignore-next-line
         return 'chart_data_' . sha1(json_encode($uniqueParameters));
     }
 

@@ -14,6 +14,9 @@ use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
 use Filament\Tables\Actions;
 
+/**
+ * @todo write docblocks for this class
+ */
 final readonly class TableActionsDefinitions
 {
     /**
@@ -29,7 +32,7 @@ final readonly class TableActionsDefinitions
     }
 
     /**
-     * @return array<int, ViewAction|EditAction|DeleteAction>
+     * @return array<int, ViewAction|ActionGroup>
      */
     public static function getRowActions(): array
     {

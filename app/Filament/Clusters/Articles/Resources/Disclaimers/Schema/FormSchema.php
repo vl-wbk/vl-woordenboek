@@ -102,6 +102,9 @@ final readonly class FormSchema
         ];
     }
 
+    /**
+     * @return array<TextInput|Textarea>
+     */
     private static function getInternalDisclaimerSchema(): array
     {
         return [

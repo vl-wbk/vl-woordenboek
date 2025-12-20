@@ -63,7 +63,7 @@ final readonly class TableSchema
     }
 
     /**
-     * @return array<int, ViewAction|EditAction|DeleteAction>
+     * @return array<int, ViewAction|ActionGroup>
      */
     private static function configureActions(): array
     {

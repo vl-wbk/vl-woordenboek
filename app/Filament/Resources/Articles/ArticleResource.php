@@ -152,6 +152,9 @@ final class ArticleResource extends Resource
         return TableSchema::configure($table);
     }
 
+    /**
+     * @return Builder<Article>
+     */
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()

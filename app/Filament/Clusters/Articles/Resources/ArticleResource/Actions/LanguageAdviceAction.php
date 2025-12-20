@@ -9,15 +9,15 @@ use App\Filament\Resources\Articles\Pages\EditWord;
 use App\Services\ModerationService;
 use Filament\Actions\Action;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Components\ViewEntry;
 use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\View;
-use Filament\Support\Enums\IconSize;
 use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Contracts\Support\Arrayable;
 
 final class LanguageAdviceAction extends Action
 {
-    public static function getDefaultName(): ?string
+    public static function getDefaultName(): string
     {
         return 'language-advice';
     }
@@ -30,70 +30,85 @@ final class LanguageAdviceAction extends Action
         $this->icon(Heroicon::OutlinedLightBulb);
         $this->color('warning');
 
-        // Modal configuration
         $this->modalHeading('Gevoelig taaladvies');
-        $this->modalDescription('Omdat we de beschrijvingen van artikelen zo neutraal mogelijk willen houden. Kunnen we inhoud van het tekstveld doorzoeken op bepaalde woorden. En als er match is voor een woord zal er hieronder een advies komen om het aan te passen.');
+        $this->modalDescription('Omdat we de beschrijvingen van artikelen zo neutraal mogelijk willen houden...');
         $this->modalWidth(Width::ThreeExtraLarge);
         $this->slideOver();
-        $this->infolist(fn (EditWord|CreateWord $livewire): array => $this->getInfolist($livewire));
+        
+        // Ensure the return type here matches the method signature
+        $this->schema(fn (EditWord|CreateWord $livewire): array => $this->getInfolist($livewire));
 
         $this->modalSubmitAction(false);
         $this->modalCancelActionLabel('Sluiten');
     }
 
+    /**
+     * @return array<int, Section|ViewEntry>
+     */
     private function getInfolist(EditWord|CreateWord $livewire): array
     {
-        $text = $livewire->form->getRawState()['description'] ?? '';
+        /** @var array<string, mixed> $state */
+        $state = $livewire->form->getRawState();
+        $text = is_string($state['description'] ?? null) ? $state['description'] : '';
+
         $languageSuggestions = app(ModerationService::class)->analyze($text);
 
         if (empty($languageSuggestions)) {
-            // Return a simple view for no advice, as standard components expect an array
-            return [View::make('filament.actions.components.language-advice-empty')];
+            return [
+                ViewEntry::make('empty_advice')
+                    ->view('filament.actions.components.language-advice-empty')
+            ];
         }
 
         $components = [];
 
         foreach ($languageSuggestions as $s) {
-            $alternativesText = '';
+            // REMOVED is_array($s) check as it's already narrowed.
 
-            if (!empty($s['alternatives'])) {
-                $alternativesText = collect($s['alternatives'])
-                    ->map(fn ($alt) => e($alt)) // Escape each alternative
+            $alternativesText = '';
+            $alternatives = $s['alternatives'] ?? [];
+            
+            if (is_iterable($alternatives) && !empty($alternatives)) {
+                $alternativesText = collect($alternatives)
+                    // Use transform and filter to ensure we only have strings
+                    ->map(fn ($alt) => is_string($alt) ? e($alt) : '') 
+                    ->filter()
                     ->implode(', ');
             }
 
-            // Create a Section component for each suggestion, replacing the custom <div>
-            $components[] = Section::make(e($s['term']))
-                ->description('Categorie: ' . e($s['category']))
+            // FIX: Use helper to safely get string values from the mixed array
+            $term = $this->ensureString($s['term'] ?? 'Onbekend term');
+            $category = $this->ensureString($s['category'] ?? 'Algemeen');
+            $message = $this->ensureString($s['message'] ?? '');
+
+            $components[] = Section::make($term)
+                ->description('Categorie: ' . $category)
                 ->collapsible()
                 ->compact()
                 ->icon(Heroicon::OutlinedShieldExclamation)
                 ->iconColor('warning')
                 ->schema([
-                    // Message/Description
                     TextEntry::make('message')
                         ->label('Beschrijving')
-                        ->default(e($s['message']))
+                        ->default($message)
                         ->columnSpanFull()
-                        ->prose(false) // Use prose: false to prevent text style overrides
-                        ->formatStateUsing(fn ($state) => $state), // Output the escaped message
+                        ->prose(false),
 
-                    // Alternatives (displayed only if they exist)
-                    ...($alternativesText ? [
+                    ...($alternativesText !== '' ? [
                         TextEntry::make('alternatives')
-                            // 💡 CHANGE: Use 'Overweeg:' as the label
                             ->label('Overweeg:')
                             ->columnSpanFull()
-                            // Use the joined string as the default value
                             ->default($alternativesText)
                     ] : []),
                 ])
-                ->compact() // Make the section padding smaller
-                // Use a custom CSS class to achieve the desired subtle background/border
-                ->extraAttributes(['class' => 'language-advice-card'])
-                ->heading(e($s['term'])); // Use the term as the section heading
+                ->extraAttributes(['class' => 'language-advice-card']);
         }
 
         return $components;
+    }
+
+    private function ensureString(mixed $value): string
+    {
+        return is_string($value) ? $value : '';
     }
 }

@@ -29,7 +29,7 @@ final class PartOfSpeechResource extends Resource
     /**
      * The Eloquent model associated with this resource.
      *
-     * @var string|null
+     * {@inheritDoc}
      */
     protected static ?string $model = PartOfSpeech::class;
 
@@ -43,7 +43,7 @@ final class PartOfSpeechResource extends Resource
     /**
      * The cluster group this resource belongs to for logical organization.
      *
-     * @var string|null
+     * {@inheritDoc}
      */
     protected static ?string $cluster = ArticlesCluster::class;
 

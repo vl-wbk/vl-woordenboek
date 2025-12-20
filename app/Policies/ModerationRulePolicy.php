@@ -6,8 +6,14 @@ use App\Models\ModerationRule;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
+/**
+ * @todo Document this policy method.
+ */
 final class ModerationRulePolicy
 {
+    /**
+     * @var list<string>
+     */
     public static array $permissionPrefixes = ['update', 'create', 'delete', 'deleteAny'];
 
     public function create(User $user): Response

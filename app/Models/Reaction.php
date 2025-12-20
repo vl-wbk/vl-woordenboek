@@ -11,7 +11,8 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property int                         $id 
  * @property int|null                    $article_id
- * @property string                      $title
+ * @property InsightCategory             $insight_category
+ * @property ?string                     $title
  * @property string                      $body 
  * @property string                      $author
  * @property \Illuminate\Support\Carbon  $created_at 
@@ -19,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 final class Reaction extends Model
 {
+    /** @use HasFactory<\Database\Factories\ReactionFactory> */
     use HasFactory;
 
     /**
@@ -31,7 +33,7 @@ final class Reaction extends Model
     /**
      * The model's default values for attributes.
      *
-     * @var array
+     * @var array<string, \BackedEnum>
      */
     protected $attributes = [
         'insight_category' => InsightCategory::Uncategorized,

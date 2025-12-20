@@ -20,7 +20,6 @@ use BackedEnum;
  * It is specifically configured to only be active when viewing the parent record via the custom ViewWord page, preventing its appearance on standard View or Edit pages.
  *
  * @package App\Filament\Resources\Articles\RelationManagers
- * @extends RelationManager<\App\Models\Article>
  */
 final class RelatedRelationManager extends RelationManager
 {
@@ -83,7 +82,7 @@ final class RelatedRelationManager extends RelationManager
      * and any necessary table actions (e.g., detach, edit, view).
      *
      * @param  Table $table The table builder instance.
-     * @return Table.       The configured table instance.
+     * @return Table        The configured table instance.
      */
     public function table(Table $table): Table
     {

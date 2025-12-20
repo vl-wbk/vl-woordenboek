@@ -34,7 +34,7 @@ final readonly class ResourceActionDefinitions
      * These are often actions like 'Edit', 'View', or 'Delete' for specific records.
      * Actions can be grouped together under a dropdown menu using `ActionGroup`.
      *
-     * @return array<int, ActionGroup> An array of Filament Table Action or ActionGroup instances.
+     * @return array<int, ViewAction|ActionGroup> An array of Filament Table Action or ActionGroup instances.
      */
     public static function getTableActions(): array
     {

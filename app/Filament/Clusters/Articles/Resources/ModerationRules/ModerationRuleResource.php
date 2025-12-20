@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Clusters\Articles\Resources\ModerationRules;
 
 use App\Filament\Clusters\Articles\ArticlesCluster;
@@ -15,8 +17,12 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
-class ModerationRuleResource extends Resource
+/**
+ * @todo Write docblocks for this class
+ */
+final class ModerationRuleResource extends Resource
 {
     use HasActiveIcon;
 
@@ -37,7 +43,7 @@ class ModerationRuleResource extends Resource
      *
      * @var string|UnitEnum|null
      */
-    protected static string|\UnitEnum|null $navigationGroup = 'Ondersteuning';
+    protected static string|UnitEnum|null $navigationGroup = 'Ondersteuning';
 
     public static function form(Schema $schema): Schema
     {

@@ -78,8 +78,11 @@ final class ReactionsRelationManager extends RelationManager
      */
     public static function getBadge(Model $ownerRecord, string $pageClass): ?string
     {
-        return Cache::rememberForever('community-insights:' . $ownerRecord->getRouteKey(), function () use ($ownerRecord): string {
-            return (string) $ownerRecord->reactions()->count();
+        /** @var \App\Models\Article $entityRecord */
+        $entityRecord = $ownerRecord; 
+
+        return Cache::rememberForever('community-insights:' . $entityRecord->getRouteKey(), function () use ($entityRecord): string {
+            return (string) $entityRecord->reactions()->count();
         });
     }
 
@@ -241,7 +244,7 @@ final class ReactionsRelationManager extends RelationManager
             ->modalFooterActionsAlignment(Alignment::Center)
             ->modalCancelAction(false)
             ->modalSubmitActionLabel('uitvoeren')
-            ->action(fn (Reaction $reaction, array $data): bool|int => $reaction->update(['insight_category' => $data['insight_category']]))
+            ->action(fn (Reaction $reaction, array $data): bool => $reaction->update(['insight_category' => $data['insight_category']]))
             ->schema([
                 Select::make('insight_category')
                     ->label('Insight categorie')

@@ -254,7 +254,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
      * This accessor checks the application cache for a 'last-seen' timestamp.
      * A user is considered active if their last activity was recorded within the last 2 minutes.
      *
-     * @return Attribute
+     * @return Attribute<bool, never>
      */
     protected function isActive(): Attribute
     {

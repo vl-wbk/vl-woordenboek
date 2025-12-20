@@ -8,8 +8,9 @@ use Illuminate\Support\Str;
 class ModerationService
 {
     /**
-     * Analyseert tekst en geeft SUGGESTIES terug,
-     * geen automatische vervangingen.
+     * Analyseert tekst en geeft SUGGESTIES terug, geen automatische vervangingen.
+     * 
+     * @return list<array<string, array<mixed>|int|string>>
      */
     public function analyze(string $text): array
     {
@@ -43,16 +44,17 @@ class ModerationService
         return $suggestions;
     }
 
-    protected function matches($rule, string $original, string $normalized): bool
+    protected function matches(ModerationRule $rule, string $original, string $normalized): bool
     {
         if ($rule->is_regex) {
+            /** @phpstan-ignore-next-line */
             return preg_match('/' . $rule->pattern . '/iu', $original);
         }
 
         return Str::contains($normalized, mb_strtolower($rule->pattern));
     }
 
-    protected function allowedByContext($rule, string $text): bool
+    protected function allowedByContext(ModerationRule $rule, string $text): bool
     {
         foreach ($this->decode($rule->allowed_contexts) as $ctx) {
             if (Str::contains($text, mb_strtolower($ctx))) {
@@ -63,12 +65,15 @@ class ModerationService
         return false;
     }
 
-    protected function buildMessage($rule): string
+    protected function buildMessage(ModerationRule $rule): string
     {
         return $rule->explanation ?? 'Overweeg een neutralere formulering';
     }
 
-    protected function alternatives($rule): array
+    /**
+     * @return array<mixed>
+     */
+    protected function alternatives(ModerationRule $rule): array
     {
         if (! $rule->neutral_alternative) {
             return [];
@@ -81,6 +86,10 @@ class ModerationService
         );
     }
 
+    /**
+     * @param  array<string, string>|string|null $value
+     * @return array<string, string>
+     */
     private function decode(array|string|null $value): array
     {
         if (is_array($value)) {

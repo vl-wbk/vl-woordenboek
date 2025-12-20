@@ -6,6 +6,7 @@ namespace App\Http\Requests\Messages;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use App\Data\Message\ReplyDataObject;
+use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Foundation\Http\FormRequest;
 use Spatie\LaravelData\WithData;
 
@@ -19,7 +20,7 @@ use Spatie\LaravelData\WithData;
  * This request expects a 'thread' parameter in the route. 
  * The validated data is automatically mapped to a DataObject, allowing for type-safe interaction  within your controllers or service classes.
  *
- * @property-read \App\Models\Thread $thread The Thread model instance resolved via route model binding.
+ * @property-read Thread $thread The Thread model instance resolved via route model binding.
  */
 final class StoreReplyRequest extends FormRequest
 {

@@ -6,6 +6,9 @@ namespace App\Data\Account;
 
 use Spatie\LaravelData\Data;
 
+/**
+ * @todo Write docblock for this DTI
+ */
 final class UserRegistrationData extends Data
 {
     public function __construct(

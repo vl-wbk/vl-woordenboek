@@ -14,7 +14,6 @@ use App\States\Articles\Published;
 use App\States\Articles\Archived;
 use App\Builders\ArticleBuilder;
 use App\Models\Relations\HasNotables;
-use App\States\Articles;
 use App\Contracts\States\ArticleStateContract;
 use App\Enums\ArticleStates;
 use App\Enums\DataOrigin;
@@ -234,6 +233,10 @@ final class Article extends Model implements AuditableContract, Commentable
         return $this->hasMany(Etymology::class, 'article_id');
     }
 
+    /**
+     * @todo document this function
+     * @return HasMany<Reaction, covariant $this>
+     */
     public function reactions(): HasMany
     {
         return $this->hasMany(Reaction::class);
@@ -253,6 +256,7 @@ final class Article extends Model implements AuditableContract, Commentable
     }
 
     /**
+     * @todo Document this method
      * @return HasMany<ArticleReferenceWork, covariant $this>
      */
     public function sources(): HasMany
@@ -277,7 +281,7 @@ final class Article extends Model implements AuditableContract, Commentable
      *  - 'related_article_id' is the foreign pivot key (the key of the current model).
      *  - The related pivot key (the key of the Article::class model) is inferred.
      *
-     * @return BelongsToMany
+     * @return BelongsToMany<Article, covariant $this>
      */
     public function related(): BelongsToMany
     {

@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Models\ModerationRule;
 use Illuminate\Database\Seeder;
 
-class ModerationRuleSeeder extends Seeder
+final class ModerationRuleSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $rules = [
             [

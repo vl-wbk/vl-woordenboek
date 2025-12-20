@@ -8,16 +8,12 @@ use App\Filament\Resources\Articles\Actions\States\UnarchiveAction;
 use CodeWithDennis\SimpleAlert\Components\Enums\IconAnimation;
 use CodeWithDennis\SimpleAlert\Components\SimpleAlert;
 use Filament\Forms\Components\Repeater\TableColumn;
-use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\RepeatableEntry;
-use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
-use App\Enums\ArticleStates;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Actions\DisclaimerToolbarActions;
 use App\Models\Article;
-use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Collection;
@@ -80,6 +76,10 @@ final readonly class WordInfolist
             ]);
     }
 
+    /**
+     * @param  Article $article
+     * @return Collection<string, HtmlString>
+     */
     private static function archiveInformationAlert(Article $article): Collection
     {
         return collect([

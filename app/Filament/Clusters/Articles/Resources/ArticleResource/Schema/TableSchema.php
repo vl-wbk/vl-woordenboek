@@ -46,7 +46,7 @@ final readonly class TableSchema
     }
 
     /**
-     * @return array<int, ViewAction|EditAction|RestoreAction|DeleteAction>
+     * @return array<int, ViewAction|ActionGroup>
      */
     private static function getRecordActions(): array
     {
@@ -64,7 +64,7 @@ final readonly class TableSchema
     }
 
     /**
-     * @return array<int, TextColumn>
+     * @return array<int, UserColumn|TextColumn>
      */
     private static function getTableColumns(): array
     {

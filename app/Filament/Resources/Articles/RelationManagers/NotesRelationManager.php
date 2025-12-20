@@ -178,6 +178,10 @@ final class NotesRelationManager extends RelationManager
             ]);
     }
 
+    /**
+     * @todo Write docblock for this function
+     * @return array<int, Tables\Filters\SelectFilter>
+     */
     private function getFilters(): array
     {
         return [
@@ -187,6 +191,12 @@ final class NotesRelationManager extends RelationManager
         ];
     }
 
+    /**
+     * @todo Write docblock for this function. 
+     * 
+     * @param  Builder<Note> $builder
+     * @return Builder<Note>
+     */
     public function applyCustomQueryScopes(Builder $builder): Builder
     {
         /** @var User $authUser */

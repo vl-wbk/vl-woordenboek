@@ -27,12 +27,12 @@ enum Visibility: int implements HasLabel, HasColor, HasIcon
         };
     }
 
-    public function getColor(): string|array|null
+    public function getColor(): array
     {
         return Color::Blue;
     }
 
-    public function getIcon(): string|BackedEnum|Htmlable|null
+    public function getIcon(): BackedEnum
     {
         return Heroicon::Eye;
     }

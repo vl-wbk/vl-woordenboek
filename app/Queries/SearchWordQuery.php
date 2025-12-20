@@ -45,7 +45,6 @@ final readonly class SearchWordQuery
         $includeDescription = $request->boolean('uitgebreid');
         $includeArchive = $request->boolean('archief');
 
-        /** @phpstan-ignore-next-line */
         return QueryBuilder::for(Article::class)
             ->allowedSorts($this->getAllowedSorts())
             ->allowedFilters($this->getAllowedFilters())
@@ -59,6 +58,7 @@ final readonly class SearchWordQuery
             ->where(function ($query) use ($request, $includeDescription): void {
                 $query->where('word', $this->getSearchPattern($request)['operator'], $this->getSearchPattern($request)['pattern'])
                     ->orWhere('keywords', $this->getSearchPattern($request)['operator'], $this->getSearchPattern($request)['pattern'])
+                    /** @phpstan-ignore-next-line */
                     ->when($includeDescription, fn(ArticleBuilder $builder): Builder => $builder->orWhere('description', 'like', $this->getSearchPattern($request)['pattern']));
             })
             ->orderBy('word')

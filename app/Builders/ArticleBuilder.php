@@ -34,13 +34,18 @@ final class ArticleBuilder extends Builder
         return $this->whereNotNull('published_at');
     }
 
+    /**
+     * @return Builder<Article>
+     */
     public function archived(): Builder
     {
         return $this->orWhereNotNull('archived_at');
     }
 
+    /** @phpstan-ignore-next-line */
     public function isArchived(): bool
     {
+        /** @phpstan-ignore-next-line */
         return ! is_null($this->model->archived_at);
     }
 

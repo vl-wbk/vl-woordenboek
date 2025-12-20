@@ -35,6 +35,10 @@ use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 
+/**
+ * @todo Write docbloks for this form 
+ * @todo Perform a code clean up for this code.
+ */
 final readonly class ArticleForm
 {
     public static function configure(Schema $schema): Schema
@@ -238,6 +242,9 @@ final readonly class ArticleForm
         ];
     }
 
+    /**
+     * @return array<int, Select>
+     */
     public static function getRelatedWordsRepeater(): array
     {
         return [
