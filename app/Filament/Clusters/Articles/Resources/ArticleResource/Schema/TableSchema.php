@@ -42,7 +42,8 @@ final readonly class TableSchema
             ->recordActions(actions: self::getRecordActions())
             ->filters(filters: self::getFilters())
             ->toolbarActions(actions: self::getToolbarActions())
-            ->selectCurrentPageOnly();
+            ->selectCurrentPageOnly()
+            ->defaultSort('created_at', 'desc');
     }
 
     /**
