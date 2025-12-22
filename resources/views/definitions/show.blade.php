@@ -176,7 +176,7 @@
                                                      {{ $word->author->name }}
                                                 </a>
                                             @else
-                                                <span>onbekend</span>
+                                                <span>{{ $word->contributor_name ?? 'onbekend' }}</span>
                                             @endif
                                         </span>
                                        </dd>
@@ -186,10 +186,10 @@
                                         <span class="float-end">
                                             @if ($word->editor()->exists())
                                                 <a href="{{ route('account:public', $word->editor) }}" class="text-dark">
-                                                 {{ $word->editor->name }}
-                                            </a>
+                                                    {{ $word->editor->name }}
+                                                </a>
                                             @else
-                                                <span>onbekend</span>
+                                                <span>{{ config('app.name', 'Laravel') }}</span>
                                             @endif
                                         </span>
                                        </dd>
@@ -202,7 +202,7 @@
                                                      {{ $word->publisher->name }}
                                                 </a>
                                             @else
-                                                <span>onbekend</span>
+                                                <span>{{ config('app.name', 'Laravel') }}</span>
                                             @endif
                                         </span>
                                        </dd>

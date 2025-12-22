@@ -163,6 +163,7 @@ final readonly class WordInfolist
                     ->label(__('filament/resources/articles.infolist.publication-information-tab.text-entries.publisher'))
                     ->icon('heroicon-o-user-circle')
                     ->iconColor('primary')
+                    ->default(config('app.name', 'Laravel'))
                     ->placeholder(__('filament/resources/articles.infolist.publication-information-tab.text-entries.publisher-placeholder'))
                     ->columnSpan(3),
                 TextEntry::make('views')
@@ -174,6 +175,7 @@ final readonly class WordInfolist
                     ->label(__('filament/resources/articles.infolist.publication-information-tab.text-entries.editor'))
                     ->icon('heroicon-o-user-circle')
                     ->iconColor('primary')
+                    ->default(config('app.name', 'Laravel'))
                     ->columnSpan(3),
                 TextEntry::make('published_at')
                     ->label(__('filament/resources/articles.infolist.publication-information-tab.text-entries.published-at'))
@@ -269,6 +271,7 @@ final readonly class WordInfolist
                 TextEntry::make('author.name')
                     ->label(__('filament/resources/articles.infolist.edit-information-tab.text-entries.author.label'))
                     ->icon('heroicon-o-user-circle')
+                    ->default(fn (Article $article): string => $article->contributor_name ?? config('app.name', 'Laravel'))
                     ->iconColor('primary')
                     ->placeholder(__('filament/resources/articles.infolist.edit-information-tab.text-entries.author.placeholder'))
                     ->columnSpan(8),
