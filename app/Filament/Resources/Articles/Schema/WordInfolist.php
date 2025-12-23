@@ -110,7 +110,7 @@ final readonly class WordInfolist
             ->icon(Heroicon::OutlinedBookOpen)
             ->columns(12)
             /** @phpstan-ignore-next-line */
-            ->visible(fn(Article $article): bool => ! is_null($article->sources) && json_encode(count($article->sources)) > 0)
+            ->visible(fn(Article $article): bool => $article->sources()->exists())
             ->schema([
                 RepeatableEntry::make('sources')
                     /** @phpstan-ignore-next-line  */
