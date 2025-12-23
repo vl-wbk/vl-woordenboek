@@ -77,8 +77,13 @@ final readonly class WordInfolist
     }
 
     /**
-     * @param  Article $article
-     * @return Collection<string, HtmlString>
+     * Configures the archivihg alert component for the article. 
+     * 
+     * This method generates a structured collection containing the localized title and reason for archiving. 
+     * It identifies the user who performed the action and formats the archiving data.
+     * 
+     * @param  Article $article The article instance to retrieve archive data from.
+     * @return Collection<string, HtmlString> A Collection containing 'title' and 'description' as HtmlString objects.
      */
     private static function archiveInformationAlert(Article $article): Collection
     {
