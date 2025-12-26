@@ -41,7 +41,7 @@ final class AuthorizationServiceProvider extends ServiceProvider
 		Gate::policy(Thread::class, ThreadPolicy::class);
 
         Gate::define('translator', function (User $user): bool {
-            return $user->user_type->in([UserTypes::Administrators, UserTypes::Developer]);
+            return $user->can('vertalingen');
         });
     }
 }
