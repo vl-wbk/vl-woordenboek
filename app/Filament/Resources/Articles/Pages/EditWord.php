@@ -27,6 +27,7 @@ use App\Filament\Resources\Articles\Schema\FormSchema;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Section;
+use Illuminate\Container\Attributes\Auth;
 use Kirschbaum\Commentions\Filament\Actions\CommentsAction;
 
 /**
@@ -113,6 +114,12 @@ final class EditWord extends EditRecord
     {
         if ($this->record->state->in(enums: [ArticleStates::New, ArticleStates::ExternalData]) && $this->record->editor()->doesntExist()) {
             $this->record->articleStatus()->transitionToEditing();
+        } 
+        
+        // Bugfix for #413 - This adds an editor when no editor is associated with the article.
+        // Presuming that the user who performed the edit wants to be assigned as editor for that article.
+        elseif($this->record->editor()->doesntExist()) {
+            $data['editor_id'] = auth()->user()->getAuthIdentifier();
         }
 
         return $data;
