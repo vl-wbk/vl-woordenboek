@@ -106,7 +106,7 @@ final readonly class TableSchema
                 ->toggleable(),
 
             TextColumn::make('updated_at')
-                ->label(label: __('Laast gewijzigd'))
+                ->label(label: __('Laatst gewijzigd'))
                 ->sortable()
                 ->date()
                 ->toggleable(),
