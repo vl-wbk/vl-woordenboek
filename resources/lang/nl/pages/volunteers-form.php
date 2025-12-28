@@ -2,12 +2,23 @@
 
 return [
     'page' => [
-        'title' => 'pages/volunteers-form.page-title',
-        'intotroduction' => 'pages/volunteer-form.page.introduction'
+        'title' => 'Aanmeldformulier voor vrijwilligers',
+        'introduction' => 'Bedankt alvast voor de intresse om ons te ondersteunen als vrijwilliger!'
     ],
 
     'buttons' => [
-        'submit' => 'pages/volunteer-form.buttons.submit',
-        'reset' => 'pages/volunteer-form.buttons.reset'
+        'submit' => 'Insturen',
+        'reset' => 'Reset'
+    ],
+
+    'labels' => [
+        'position' => 'Vrijwilligers rol',
+        'motivation' => 'Motivatie', 
+        'background' => 'Uw Achtergrond',
+    ],
+
+    'placeholders' => [
+        'motivation' => 'Vertel ons kort waarom je vrijwilliger wilt worden bij :app',
+        'background' => 'Vertel ons wat je achtergrond is met taal.' 
     ],
 ];
