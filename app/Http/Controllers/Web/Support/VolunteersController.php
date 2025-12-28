@@ -41,6 +41,9 @@ final readonly class VolunteersController
     #[Post(uri: 'ondersteuning/vrijwilligers/aanmelding', name: 'support.volunteers.store', middleware: ['auth'])]
     public function store(VolunteerApplicationRequest $volunteerApplicationRequest, StoreVolunteerApplication $storeVolunteerApplication): RedirectResponse
     {
+        $storeVolunteerApplication($volunteerApplicationRequest->getData());
+        flash(text: __('pages/volunteers-form.flash.success'), class: 'bg-success-subtle text-success');
 
+        return back();
     }
 }

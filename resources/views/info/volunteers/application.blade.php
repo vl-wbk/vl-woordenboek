@@ -21,6 +21,12 @@
         <div class="row">
             <div class="col-12">
                 <div class="card border-0 bg-white shadow-sm">
+                    @if (flash()->message)
+                        <div class="card-header border-0 {{ flash()->class }}">
+                            <x-heroicon-o-check-badge class="icon me-1"/> {{ flash()->message }}
+                        </div>
+                    @endif
+
                     <form id="applicationForm" method="POST" action="{{ route('support.volunteers.store') }}" class="card-body">
                         @csrf
 
@@ -53,7 +59,7 @@
                                 <label for="motivatie" class="form-label fw-bold">{{ __('pages/volunteers-form.labels.motivation')}} <span class="fw-bold text-danger">*</span></label>
                                 <textarea 
                                     id="motivatie" 
-                                    name="motivatie @error('motivatie') is-invalid @enderror" 
+                                    name="motivatie" 
                                     class="form-control @error('motivatie') is-invalid @enderror" 
                                     rows="5" 
                                     placeholder="{{ __('pages/volunteers-form.placeholders.motivation', ['app' => config('app.name', 'Laravel')]) }}">{{ old('motivatie') }}</textarea>

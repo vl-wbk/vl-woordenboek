@@ -21,4 +21,8 @@ return [
         'motivation' => 'Vertel ons kort waarom je vrijwilliger wilt worden bij :app',
         'background' => 'Vertel ons wat je achtergrond is met taal.' 
     ],
+
+    'flash' => [
+        'success' => 'We hebben het formulier goed ontvangen, we gaan er spoedig mee aan de slag!',
+    ],
 ];

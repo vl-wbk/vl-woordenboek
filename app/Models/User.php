@@ -37,6 +37,7 @@ use Cog\Laravel\Ban\Traits\Bannable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Pennant\Concerns\HasFeatures;
 use Laravel\Sanctum\HasApiTokens;
@@ -158,6 +159,11 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
     public function suggestions(): HasMany
     {
         return $this->hasMany(Article::class, 'author_id');
+    }
+
+    public function volunteerApplications(): HasMany
+    {
+        return $this->hasMany(VolunteerApplication::class, 'volunteer_id');
     }
 
     /**
