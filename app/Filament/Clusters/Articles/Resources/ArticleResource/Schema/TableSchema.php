@@ -80,7 +80,8 @@ final readonly class TableSchema
                 ->searchable()
                 ->weight(FontWeight::SemiBold)
                 ->color('primary')
-                ->label(label: __('Lemma')),
+                ->label(label: __('Lemma'))
+                ->sortable(),
 
             TextColumn::make('state')
                 ->label('status')
