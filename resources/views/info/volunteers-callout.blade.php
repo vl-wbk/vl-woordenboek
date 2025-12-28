@@ -47,7 +47,7 @@
                                                     <p class="card-text lh-small">{{ $positionInfo->getDescription() }}</p>
 
                                                     @auth {{-- Only authenticated users should apply for the position --}}
-                                                        <a href="{{ route('support.volunteers.submit') }}" class="btn shadow-sm btn-outline-secondary mt-3">
+                                                        <a href="{{ route('support.volunteers.submit', ['volunteerPositions' => $position]) }}" class="btn shadow-sm btn-outline-secondary mt-3">
                                                             Ik heb intresse!
                                                         </a>
                                                     @endauth
