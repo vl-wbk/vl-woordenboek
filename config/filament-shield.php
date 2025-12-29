@@ -239,7 +239,8 @@ return [
         'projectInfoWijzigen',
         'vrijwilligersPaginaWijzigen',
         'ontgrendelResources',
-        'woordenboekOndersteuning'
+        'woordenboekOndersteuning',
+        'vertalingen',
     ],
 
     /*

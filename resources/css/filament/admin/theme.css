@@ -8,3 +8,7 @@
 @source '../../../../vendor/cmsmaxinc/filament-error-pages/resources/**/*.blade.php';
 @source '../../../../vendor/codewithdennis/filament-simple-alert/resources/**/*.blade.php';
 @source inline('animate-{spin,pulse,bounce}');
+
+html, body {
+  scrollbar-gutter: auto !important;
+}
