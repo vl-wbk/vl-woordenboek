@@ -35,7 +35,7 @@ final class VolunteerApplicationResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        
+        return null;
     }
 
     public static function table(Table $table): Table
