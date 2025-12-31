@@ -7,6 +7,7 @@ namespace App\Policies;
 use Illuminate\Auth\Access\Response;
 use App\Enums\ArticleStates;
 use App\Models\{Article, User};
+use App\UserTypes;
 use Filament\Support\Authorization\DenyResponse;
 
 /**
@@ -276,9 +277,17 @@ final class ArticlePolicy
      */
     public function delete(User $user, Article $article): Response
     {
-        $allowedStates = [ArticleStates::New , ArticleStates::Draft, ArticleStates::ExternalData, ArticleStates::Archived];
+        if ($user->can('delete:article') 
+            && $user->user_type->is(UserTypes::Editor) 
+            && $article->state->in(enums: [ArticleStates::ExternalData, ArticleStates::New])
+        ) {
+            return Response::allow();
+        }
 
-        if ($user->can('delete:article') && $article->state->in(enums: $allowedStates)) {
+        if ($user->can('delete:article') 
+            && $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Developer]) 
+            && $article->state->in(enums: [ArticleStates::ExternalData, ArticleStates::New, ArticleStates::Archived])
+        ) {
             return Response::allow();
         }
 
