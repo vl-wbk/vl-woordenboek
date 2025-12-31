@@ -172,7 +172,7 @@
                     </li>
 
                     <li class="mb-2">
-                        De code is gelicensieerd onder de MIT-licentie. De documentatie hiervan is beschikbaar onder de
+                        De code is gelicentieerd onder de MIT-licentie. De documentatie hiervan is beschikbaar onder de
                         <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="text-white">CC BY-NC-SA 4.0 licentie.</a>
                     </li>
 

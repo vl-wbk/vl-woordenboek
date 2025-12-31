@@ -128,7 +128,7 @@
                 <div class="row">
                     <div class="@if (auth()->check() && auth()->user()->can('submit-post', \App\Models\Blog::class)) col-6 @else col-12 @endif">
                         <a href="{{ url('feed') }}" class="btn w-100 btn-rss mt-2 text-white shadow-sm">
-                            <x-heroicon-s-rss class="icon me-1" /> RSS Feed
+                            <x-heroicon-s-rss class="icon me-1" /> RSS-Feed
                         </a>
                     </div>
 
