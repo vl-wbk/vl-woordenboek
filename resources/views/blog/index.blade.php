@@ -113,7 +113,7 @@
 
                 <!-- Categories widget-->
                 <h5 class="border-bottom border-green color-green fw-bold pb-2"><x-heroicon-s-tag class="icon me-1" />
-                    Categorieen</h5>
+                    Categorieën</h5>
 
                 <div class="border-bottom border-green pb-2">
                     @foreach ($categories as $category)
