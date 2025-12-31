@@ -127,7 +127,7 @@ final class StatisticService
         return Cache::flexible(
             key: 'registered_today_count',
             ttl: $this->cacheTTL,
-            callback: fn(): int => User::whereDate('created_at', now()->today())->count(),
+            callback: fn(): int|string => User::whereDate('created_at', now()->today())->count(),
         );
     }
 
