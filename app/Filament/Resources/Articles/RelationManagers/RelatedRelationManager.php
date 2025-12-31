@@ -86,6 +86,6 @@ final class RelatedRelationManager extends RelationManager
      */
     public function table(Table $table): Table
     {
-        return $table;
+        return $table->defaultSort('word');
     }
 }
