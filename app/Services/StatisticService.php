@@ -120,9 +120,9 @@ final class StatisticService
      * Retrieves the count of users who registered on the current date.
      * This method queries the database to count the number of users whose 'created_at' date matches the current date.
      *
-     * @return int The count of users who registered today.
+     * @return int|string The count of users who registered today.
      */
-    public function registeredToday(): int
+    public function registeredToday(): int|string
     {
         return Cache::flexible(
             key: 'registered_today_count',
