@@ -28,6 +28,28 @@ final readonly class DictionaryArticleController
     use AuthorizesRequests;
 
     /**
+     * Redirects legacy slug-based URLs.
+     */
+    #[Get(uri: '/definities/term/{slug}')]
+    public function redirectOldTerm(string $slug): RedirectResponse
+    {
+        $article = Article::where('word', $slug)->first();
+        
+        return $article 
+            ? to_route('word-information.show', $article, status: 301)
+            : to_route('search.results');
+    }
+
+    /**
+     * Redirects legacy ID-based URLs.
+     */
+    #[Get(uri: '/definities/{article}')]
+    public function redirectOldId(Article $article): RedirectResponse
+    {
+        return to_route('word-information.show', ['word' => $article], status: 301);
+    }
+
+    /**
      * Displays a single dictionary entry.
      *
      * This method renders the detailed view for a specific word entry, showing its definition, usage examples, and regional information.
