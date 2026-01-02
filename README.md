@@ -15,7 +15,7 @@ Dit project is ontwikkeld met **Laravel**, **Laravel Filament** en **Bootstrap**
 
 ## 🚀 Functionaliteiten
 
-De volgende functionaliteiten hebben we al reeds op de implementatie planning staan of uitgevoerd: 
+De volgende functionaliteiten hebben we al reeds op de implementatie-planning staan of uitgevoerd: 
 
 - 📚 **Zoekfunctie** om snel een woord of uitdrukking te vinden.
 - 📝 **Mogelijkheid om nieuwe woorden en definities toe te voegen.**
@@ -26,12 +26,12 @@ De volgende functionaliteiten hebben we al reeds op de implementatie planning st
 
 ## 🚀 Synchronisatie
 
-Omdat we boilerplate code van `laravel/laravel` up-to-date willen houden synchronisatie we regelmatig de code van hun starter-templae met ons project. 
+Omdat we boilerplate code van `laravel/laravel` up-to-date willen houden synchroniseren we regelmatig de code van hun starter-template met ons project. 
 Zo was de laatste synchronistatie uitgevoerd op 25/09/2025 *(v12.4.0)*
 
 ## 🧐 Bijdragen
 
-Wil je helpen om dit project beter te maken? Dat zou geweldig zijn! O0f je nu een nieuw record toevoegt, een fout corrigeert oàf een nieuwe functie voorstelt, alle hilp is welkom. 
+Wil je helpen om dit project beter te maken? Dat zou geweldig zijn! Of je nu een nieuw record toevoegt, een fout corrigeert of een nieuwe functie voorstelt, alle hulp is welkom. 
 
 ### Hoe bijdragen? 
 
@@ -46,13 +46,13 @@ Wil je helpen om dit project beter te maken? Dat zou geweldig zijn! O0f je nu ee
     ```
 4. **Push je fork en open een pull request. **
 
-Elke bijdragen, hoe klein ook, helpt om dit project beter te maken. 
-Laten we samen bouwen aan een uitgebreiçd en authentiek Vlaams Woordenboek!
+Elke bijdrage, hoe klein ook, helpt om dit project beter te maken. 
+Laten we samen bouwen aan een uitgebreid en authentiek Vlaams Woordenboek!
 
 ## 📜 Gedragscode
 
 We streven naar een vriendelijke, respectvolle en inclusieve community. Door bij te dragen aan dit project, ga je akkoord met onze [Code of Conduct](https://github.com/Tjoosten/vl-woordenboek/blob/develop/CODE_OF_CONDUCT.md).
-We verwachten van alle brijdragers dat ze anderen met respect behandelen en samenwerken in een positieve sfeer. 
+We verwachten van alle bijdragers dat ze anderen met respect behandelen en samenwerken in een positieve sfeer. 
 
 ## 📜 Licentie
 
