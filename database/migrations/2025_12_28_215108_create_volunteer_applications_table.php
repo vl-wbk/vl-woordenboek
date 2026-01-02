@@ -11,10 +11,13 @@ return new class extends Migration
     {
         Schema::create('volunteer_applications', static function (Blueprint $table): void {
             $table->id();
+            $table->smallInteger('state');
             $table->foreignIdFor(User::class, 'volunteer_id')->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(User::class, 'reviewer_id')->nullable()->constrained()->nullOnDelete();
             $table->smallInteger('role');
             $table->text('motivation');
             $table->text('background');
+            $table->text('rejection_reason')->nullable();
             $table->timestamps();
         });
     }
