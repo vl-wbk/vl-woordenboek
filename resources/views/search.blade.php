@@ -6,7 +6,7 @@
             <div class="py-5">
                 <div class="row">
                     <h1 class="display-6 fw-bold">{!! __('pages/search.jumbotron.heading', ['applicationName' => config('app.name', 'Laravel')]) !!}</h1>
-                    <p class="col-12 fs-5 pb-3">{{ __('pages/search.jumbotron.description', ['count' => $results->count()]) }}</p>
+                    <p class="col-12 fs-5 pb-3">{{ __('pages/search.jumbotron.description', ['count' => toHumanReadableNumber($results->total())]) }}</p>
 
                     <form class="col-md-7 mt-4" action="{{ route('search.results') }}" method="GET">
                         <div class="row g-3">
