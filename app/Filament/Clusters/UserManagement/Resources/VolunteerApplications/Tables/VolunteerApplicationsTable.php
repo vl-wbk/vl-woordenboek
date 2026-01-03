@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\UserManagement\Resources\VolunteerApplications\Tables;
 
+use App\Enums\VolunteerApplicationState;
 use App\Models\VolunteerApplication;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 /**
@@ -78,8 +80,10 @@ final readonly class VolunteerApplicationsTable
     private static function getFilterComponents(): array 
     {
         return [
-            // TODO: Filter for the application state 
-            // TODO: Filter for the reviewer
+            SelectFilter::make('state')
+                ->label(label: __('filament/resources/volunteer-applications.table.columns.state'))
+                ->native(false)
+                ->options(VolunteerApplicationState::class),
         ];
     }
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Clusters\UserManagement\Resources\VolunteerApplications\Schemas;
 
 use App\Filament\Resources\Users\Schema\UserInfolist;
+use App\Models\VolunteerApplication;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Section;
@@ -66,6 +67,10 @@ final readonly class VolunteerApplicationInfolist
                     ->sinceTooltip()
                     ->placeholder('-')
                     ->columnSpan(3),
+
+                TextEntry::make('rejection_reason')
+                    ->label('Reden tot afwijzing')
+                    ->visible(fn (VolunteerApplication $volunteerApplication): bool => ! is_null($volunteerApplication->rejection_reason)),
             ]);
     }
 
@@ -114,6 +119,7 @@ final readonly class VolunteerApplicationInfolist
                 ->label('Huidige permissie(s)')
                 ->columnSpan(6)
                 ->icon(Heroicon::OutlinedKey)
+                ->placeholder('- geen')
                 ->color('danger')
                 ->badge()
         ];

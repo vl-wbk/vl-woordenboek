@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\UserManagement\Resources\VolunteerApplications;
 
+use App\Enums\VolunteerApplicationState;
 use App\Filament\Clusters\UserManagement\Resources\VolunteerApplications\Pages\ListVolunteerApplications;
 use App\Filament\Clusters\UserManagement\Resources\VolunteerApplications\Pages\ViewVolunteerApplication;
 use App\Filament\Clusters\UserManagement\Resources\VolunteerApplications\Schemas\VolunteerApplicationInfolist;
@@ -16,6 +17,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Cache;
 
 final class VolunteerApplicationResource extends Resource
 {
@@ -38,6 +40,12 @@ final class VolunteerApplicationResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
+        $applicationCount = VolunteerApplication::whereState(VolunteerApplicationState::Open)->count();
+
+        if ($applicationCount > 0) {
+            return Cache::flexible('volunteer-applications:count', [10, 120], fn (): string => (string) $applicationCount);
+        }
+
         return null;
     }
 

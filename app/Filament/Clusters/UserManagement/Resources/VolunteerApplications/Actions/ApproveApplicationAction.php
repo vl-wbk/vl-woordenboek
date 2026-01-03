@@ -61,7 +61,6 @@ final class ApproveApplicationAction extends Action
 
         // Form & handling
         $this->schema(schema: $this->getFormSchema());
-
         $this->action(function (array $data, VolunteerApplication $volunteerApplication): void {
             if ($this->approveVolunteerApplication($volunteerApplication, $data)) {
                 $this->success();

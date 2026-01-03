@@ -64,6 +64,13 @@ return [
 
             'modal' => [
                 'heading' => 'Aanmelding afwijzen',
+                'rejection-reason' => 'Reden tot afwijzing',
+                'description' => 'U staat op het punt om de aanmelding van :user als :role af te wijzen. beschrijf in het onderstaande tekstvak een korte motivatie van de afwijzing',
+                'submit-label' => 'Afwijzen',
+
+                'notifications' => [
+                    'success' => ':user is met success afgewezen als :role'
+                ],
             ],
         ]
     ],
