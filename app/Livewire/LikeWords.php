@@ -65,7 +65,7 @@ class LikeWords extends Component
 
         if ($this->article->votes_today > 0) {
             /** @phpstan-ignore-next-line  */
-            $this->article->decrementQuitetly(column: 'votes_today', extra: ['updated_at' => $this->article->updated_at]);
+            $this->article->decrementQuietly(column: 'votes_today', extra: ['updated_at' => $this->article->updated_at]);
         }
     }
 
