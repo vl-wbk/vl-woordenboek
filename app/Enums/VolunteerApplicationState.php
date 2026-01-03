@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+use ArchTech\Enums\Comparable;
 use BackedEnum;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasIcon;
@@ -13,6 +14,8 @@ use Illuminate\Contracts\Support\Htmlable;
 
 enum VolunteerApplicationState: int implements HasLabel, HasColor, HasIcon 
 {
+    use Comparable;
+    
     case Open = 1; 
     case Approved = 2;
     case Rejected = 3;

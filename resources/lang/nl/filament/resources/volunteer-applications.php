@@ -18,14 +18,19 @@ return [
     'infolist' => [
         'user-information' => [
             'heading' => 'Gebruikersinformatie',
+            'description' => 'De algemene gegevens van de gebruiker in het Vlaams Woordenboek'
         ], 
+    ],
 
-        'registration-info' => [
-            'heading' => 'Aanmeldingsinformatie',
-            'status-heading' => 'Status informatie',
-            'background' => 'Taal achtergrond',
-            'motivation' => 'Motivatie',
+    'tabs' => [
+        'status' => [
+            'heading' => 'Status gegevens',
         ],
+
+        'headings' => [
+            'background' => 'Taalkundige/Technische achtergrond',
+            'motivation' => 'Motivatie'
+        ]
     ],
 
     "empty-state" => [
@@ -39,5 +44,27 @@ return [
             'heading' => 'Test records genereren',
             'description' => 'Doormiddel van het onderstaande formulier kun je dummy aanmeldingen aanmaken die je kunt gebruiken om het systeem te testen. Ben je zeker dat je dit wilt doen?'
         ],
+
+        'approve' => [
+            'label' => 'Goedkeuren (onboard)', 
+
+            'modal' => [
+                'permission-select' => 'Permissie groepen',
+                'description' => 'U staat op het punt om een gebruiker te registreren als :role. Geef onderaan de juiste permissie aan de gebruiker zodat hij/zij kan starten.',
+                'submit-label' => 'Onboarden',
+            ],
+
+            'notifications' => [
+                'success' => ':user is met succes geregistreerd als :role',
+            ],
+        ],
+
+        'reject' => [
+            'label' => 'afwijzen',
+
+            'modal' => [
+                'heading' => 'Aanmelding afwijzen',
+            ],
+        ]
     ],
 ];

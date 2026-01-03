@@ -7,6 +7,7 @@ namespace App\Filament\Clusters\UserManagement\Resources\VolunteerApplications\S
 use App\Filament\Resources\Users\Schema\UserInfolist;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
@@ -20,22 +21,57 @@ final readonly class VolunteerApplicationInfolist
     public static function configure(Schema $schema): Schema
     {
         return $schema->components([
+            Section::make(heading: __('filament/resources/volunteer-applications.infolist.user-information.heading'))
+                ->description(description: __('filament/resources/volunteer-applications.infolist.user-information.description'))
+                ->collapsible()
+                ->compact()
+                ->columns(12)
+                ->columnSpanFull()
+                ->icon(icon: Heroicon::OutlinedUserCircle)
+                ->iconColor(color: 'primary')
+                ->schema(self::userInformationEntryComponents()),
+
             Tabs::make()
                 ->columnSpanFull()
                 ->schema(components: [
-                    self::userInformationTab(),
-                    self::volunteerApplicationInformation(),           
+                    self::statusInformationTab(), 
+                    self::backgroundInformationTab(), 
+                    self::motivationInformationTab(),           
                 ])
         ]);
     }
 
-    private static function userInformationTab(): Tab 
+    private static function statusInformationTab(): Tab 
     {
-        return Tab::make(label: __('filament/resources/volunteer-applications.infolist.user-information.heading'))
-            ->columnSpanFull()
-            ->icon(Heroicon::OutlinedUserCircle)
+        return Tab::make(label: __('filament/resources/volunteer-applications.tabs.status.heading'))
+            ->icon(icon: Heroicon::OutlinedInformationCircle)
             ->columns(12)
+            ->columnSpanFull()
             ->schema([
+                TextEntry::make('role')
+                    ->label(label: __('filament/resources/volunteer-applications.table.columns.position'))
+                    ->badge()
+                    ->columnSpan(3),
+                TextEntry::make('state')
+                    ->badge()
+                    ->columnSpan(3),
+                TextEntry::make('created_at')
+                    ->label(label: __('filament/resources/volunteer-applications.table.columns.created-at'))
+                    ->date()
+                    ->sinceTooltip()
+                    ->columnSpan(3),
+                TextEntry::make('closed_at')
+                    ->label(label: __('filament/resources/volunteer-applications.table.columns.closed-at'))
+                    ->date()
+                    ->sinceTooltip()
+                    ->placeholder('-')
+                    ->columnSpan(3),
+            ]);
+    }
+
+    private static function userInformationEntryComponents(): array 
+    {
+        return [
             TextEntry::make('user.name')
                 ->label(label: __('user-resource.tables.columns.name'))
                 ->icon('heroicon-o-user-circle')
@@ -73,44 +109,38 @@ final readonly class VolunteerApplicationInfolist
                 ->badge()
                 ->columnSpan(3)
                 ->placeholder('- Geen gebruikersrollen toegewezen'),
-        ]);
+
+            TextEntry::make('user.roles.name')
+                ->label('Huidige permissie(s)')
+                ->columnSpan(6)
+                ->icon(Heroicon::OutlinedKey)
+                ->color('danger')
+                ->badge()
+        ];
     }
 
-    private static function volunteerApplicationInformation(): Tab 
+    private static function backgroundInformationTab(): Tab 
     {
-        return Tab::make(label: __('filament/resources/volunteer-applications.infolist.registration-info.heading'))
+        return Tab::make(label: __('filament/resources/volunteer-applications.tabs.headings.background'))
             ->columnSpanFull()
-            ->icon(Heroicon::OutlinedDocumentText)
+            ->icon(Heroicon::OutlinedClipboardDocumentList)
             ->columns(12)
             ->schema([
-                Fieldset::make(label: __('filament/resources/volunteer-applications.infolist.registration-info.status-heading'))
-                    ->columnSpanFull()
-                    ->columns(12)
-                    ->schema([
-                        TextEntry::make('user.name')
-                            ->icon(Heroicon::OutlinedUserCircle)
-                            ->iconColor('primary')
-                            ->columnSpan(3),
-                        TextEntry::make('role')
-                            ->label(label: __('filament/resources/volunteer-applications.table.columns.position'))
-                            ->badge()
-                            ->columnSpan(3),
-                        TextEntry::make('state')
-                            ->badge()
-                            ->columnSpan(3),
-                        TextEntry::make('created_at')
-                            ->label(label: __('filament/resources/volunteer-applications.table.columns.closed-at'))
-                            ->date()
-                            ->sinceTooltip()
-                            ->columnSpan(3)
-                    ]),
-
-                TextEntry::make('motivation')
-                    ->label(label: __('filament/resources/volunteer-applications.infolist.registration-info.motivation'))    
-                    ->columnSpanFull(),
-
                 TextEntry::make('background')
-                    ->label(label: __('filament/resources/volunteer-applications.infolist.registration-info.background'))
+                    ->hiddenLabel()
+                    ->columnSpanFull()
+            ]);
+    }
+
+    private static function motivationInformationTab(): Tab 
+    {
+        return Tab::make(label: __('filament/resources/volunteer-applications.tabs.headings.motivation'))
+            ->columnSpanFull()
+            ->icon(Heroicon::OutlinedChatBubbleBottomCenter)
+            ->columns(12)
+            ->schema([
+                TextEntry::make('motivation')
+                    ->hiddenLabel()
                     ->columnSpanFull()
             ]);
     }

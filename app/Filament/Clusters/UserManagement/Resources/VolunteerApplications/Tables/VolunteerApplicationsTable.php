@@ -67,6 +67,7 @@ final readonly class VolunteerApplicationsTable
             TextColumn::make('closed_at')
                 ->label(label: __('filament/resources/volunteer-applications.table.columns.closed-at'))
                 ->date()
+                ->placeholder('-')
                 ->sinceTooltip()
                 ->toggleable()
                 ->toggledHiddenByDefault()
