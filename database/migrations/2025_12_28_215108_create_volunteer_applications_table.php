@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('motivation');
             $table->text('background');
             $table->text('rejection_reason')->nullable();
+            $table->timestamp('closed_at')->nullable();
             $table->timestamps();
         });
     }

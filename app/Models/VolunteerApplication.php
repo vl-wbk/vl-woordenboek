@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\VolunteerApplicationState;
 use App\Enums\VolunteerPositions;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
@@ -29,6 +30,8 @@ use Illuminate\Support\Carbon;
  */
 final class VolunteerApplication extends Model
 {
+    use HasFactory;
+    
     protected $guarded = ['id', 'user_id'];
 
     protected $attributes = [

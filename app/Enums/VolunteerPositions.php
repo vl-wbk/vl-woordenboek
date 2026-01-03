@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+use BackedEnum;
 use Filament\Support\Contracts\HasDescription;
+use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
+use Filament\Support\Icons\Heroicon;
+use Illuminate\Contracts\Support\Htmlable;
 
 /**
  * Represents the different volunteer positions within the application.
@@ -16,7 +20,7 @@ use Filament\Support\Contracts\HasLabel;
  *
  * @package App\Enums
  */
-enum VolunteerPositions: int implements HasLabel, HasDescription
+enum VolunteerPositions: int implements HasLabel, HasDescription, HasIcon
 {
     /**
      * Represents a volunteer position responsible for editing and updating dictionary data.
@@ -48,6 +52,14 @@ enum VolunteerPositions: int implements HasLabel, HasDescription
             self::Editor => 'Redacteur',
             self::ChiefEditor => 'Eindredacteur',
             self::Developer => 'Ontwikkelaar',
+        };
+    }
+
+    public function getIcon(): BackedEnum
+    {
+        return match($this) {
+            self::Editor, self::ChiefEditor => Heroicon::OutlinedPencilSquare, 
+            self::Developer => Heroicon::CodeBracketSquare,
         };
     }
 

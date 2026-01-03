@@ -9,6 +9,7 @@ use App\Filament\Clusters\UserManagement\Resources\VolunteerApplications\Pages\V
 use App\Filament\Clusters\UserManagement\Resources\VolunteerApplications\Schemas\VolunteerApplicationInfolist;
 use App\Filament\Clusters\UserManagement\Resources\VolunteerApplications\Tables\VolunteerApplicationsTable;
 use App\Filament\Clusters\UserManagement\UserManagementCluster;
+use App\Filament\Support\Concerns\HasActiveIcon;
 use App\Models\VolunteerApplication;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -18,9 +19,11 @@ use Filament\Tables\Table;
 
 final class VolunteerApplicationResource extends Resource
 {
+    use HasActiveIcon;
+
     protected static ?string $model = VolunteerApplication::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserPlus;
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-user-plus';
 
     protected static ?string $modelLabel = 'Aanmelding';
 
