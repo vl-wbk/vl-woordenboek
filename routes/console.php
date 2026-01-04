@@ -5,7 +5,7 @@ use App\Console\Commands\WordOfTheDayCommand;
 use Illuminate\Support\Facades\Schedule;
 
 // Own custom cron commands
-Schedule::command(WordOfTheDayCommand::class)->daily()->at('03:10');
+Schedule::command(WordOfTheDayCommand::class)->daily()->at('00:01');
 
 // 3th party cron commands
 Schedule::command('ban:delete-expired')->everyMinute();
