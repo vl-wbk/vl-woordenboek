@@ -44,7 +44,7 @@ Wil je helpen om dit project beter te maken? Dat zou geweldig zijn! Of je nu een
    ```sh
    git commit -m "Voeg nieuwe woorden en definities toe"
     ```
-4. **Push je fork en open een pull request. **
+4. **Push je fork en open een pull request.**
 
 Elke bijdrage, hoe klein ook, helpt om dit project beter te maken. 
 Laten we samen bouwen aan een uitgebreid en authentiek Vlaams Woordenboek!
