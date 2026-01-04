@@ -10,6 +10,7 @@ use Illuminate\Console\Command;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Spatie\DiscordAlerts\Facades\DiscordAlert;
 
 /**
  * Command for registering the "word of the day" in the dictionary.
@@ -42,7 +43,7 @@ final class WordOfTheDayCommand extends Command
      */
     public function handle(): int
     {
-        $lastRunTimestamp = Cache::get(self::CACHE_KEY);
+        $lastRunTimestamp = null; // Cache::get(self::CACHE_KEY);
 
         if (Article::published()->count() === 0) {
             $this->error('[ERROR]: Currently there are no published articles in the dictionary. Therefore we cannot mark an word of the day.');
@@ -58,8 +59,9 @@ final class WordOfTheDayCommand extends Command
 
         DB::transaction(function (): void {
             $this->removeWordOfTheDay();
-            $this->markWordOfTheDay();
+            $wtod = $this->markWordOfTheDay();
             $this->clearVotes();
+            $this->sendDiscordNotification($wtod);
         });
 
         $this->info("[INFO]: We've marked a word as word of the day.");
@@ -89,8 +91,10 @@ final class WordOfTheDayCommand extends Command
      * If there are articles with votes today, selects the one with the highest votes.
      * Otherwise, selects a random published article.
      * Sets the 'wotd' column to true for the selected article.
+     * 
+     * @return Article
      */
-    private function markWordOfTheDay(): void
+    private function markWordOfTheDay(): Article
     {
         $voteResults = Article::where('votes_today', '>', 0);
 
@@ -99,6 +103,8 @@ final class WordOfTheDayCommand extends Command
             : Article::inRandomOrder()->first();
 
         $wtod->update(['wotd' => true]);
+
+        return $wtod;
     }
 
     /**
@@ -109,5 +115,33 @@ final class WordOfTheDayCommand extends Command
     {
         Article::query()->where('votes_today', '>', 0)
             ->update(['votes_today' => 0]);
+    }
+
+    private function sendDiscordNotification (Article $wtod): void 
+    {
+        DiscordAlert::message('Er is een woord van de dag geselecteerd voor da datum: ' . now()->format('d-m-Y'), [
+            [
+                'title' => "📖 " . strtoupper($wtod->word),
+                'url' => route('word-information.show', $wtod),
+                'description' => str($wtod->description)->limit(200),
+                'author' => [
+                    'name' => config('app.name', 'Laravel'),
+                    'url' => config('app.url')
+                ],
+                'fields' => [
+                    [
+                        'name' => 'Voorbeeldzin',
+                        'value' => $wtod->example ? "*" . str($wtod->example)->limit(100) . "*" : "_Geen voorbeeld beschikbaar_",
+                        'inline' => false,
+                    ],
+                    [
+                        'name' => 'Ingezonden door',
+                        'value' => $wtod->author->name ?? $wtod->contributor_name ?? 'Anoniem',
+                        'inline' => true,
+                    ],
+                ],
+                'timestamp' => now()->toIso8601String(),
+            ]
+        ]);
     }
 }

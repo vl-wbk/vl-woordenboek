@@ -45,6 +45,7 @@
         "sentry/sentry-laravel": "^4.14",
         "spatie/laravel-backup": "^9.3",
         "spatie/laravel-data": "^4.13",
+        "spatie/laravel-discord-alerts": "^1.8",
         "spatie/laravel-feed": "^4.4",
         "spatie/laravel-flash": "^1.10",
         "spatie/laravel-model-status": "^1.18",

@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 return [
-    'reset' => 'Het wachtwoord van uw account is gewijzigd.',
-    'sent' => 'We hebben een e-mail verstuurd met instructies om een nieuw wachtwoord in te stellen.',
-    'throttled' => 'Wacht nog even en probeer het dan opnieuw.',
-    'token' => 'Dit token voor wachtwoordherstel is niet geldig.',
-    'user' => 'Er is geen gebruiker bekend met dit e-mailadres.'
+    'reset'     => 'Het wachtwoord van uw account is gewijzigd.',
+    'sent'      => 'We hebben een e-mail verstuurd met instructies om een nieuw wachtwoord in te stellen.',
+    'throttled' => 'Gelieve even te wachten en het dan opnieuw te proberen.',
+    'token'     => 'Dit wachtwoordhersteltoken is niet geldig.',
+    'user'      => 'Geen gebruiker bekend met dit e-mailadres.',
 ];
