@@ -43,7 +43,7 @@ final class WordOfTheDayCommand extends Command
      */
     public function handle(): int
     {
-        $lastRunTimestamp = null; // Cache::get(self::CACHE_KEY);
+        $lastRunTimestamp = Cache::get(self::CACHE_KEY);
 
         if (Article::published()->count() === 0) {
             $this->error('[ERROR]: Currently there are no published articles in the dictionary. Therefore we cannot mark an word of the day.');
@@ -131,7 +131,7 @@ final class WordOfTheDayCommand extends Command
                 'fields' => [
                     [
                         'name' => 'Voorbeeldzin',
-                        'value' => $wtod->example ? "*" . strip_tags((string) str($wtod->example)->limit(300)->toHtmlString()) . "*" : "_Geen voorbeeld beschikbaar_",
+                        'value' => $wtod->example ? "*" . strip_tags((string) str($wtod->example)->limit(300)->markdown()) . "*" : "_Geen voorbeeld beschikbaar_",
                         'inline' => false,
                     ],
                     [
