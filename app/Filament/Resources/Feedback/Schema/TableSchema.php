@@ -17,6 +17,7 @@ use App\Enums\FeedbackStatus;
 use App\Filament\Resources\Feedback\Actions\MarkAsClosedBulkAction;
 use App\Filament\Resources\Feedback\Actions\MarkAsOpenBulkAction;
 use App\Models\Feedback;
+use Filament\Actions\ActionGroup;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Table;
 use Filament\Tables\Columns;
@@ -133,7 +134,10 @@ final readonly class TableSchema
     {
         return [
             self::viewAction(),
-            self::deleteAction(),
+            
+            ActionGroup::make([
+                self::deleteAction(),
+            ])
         ];
     }
 
@@ -153,7 +157,7 @@ final readonly class TableSchema
                 MarkAsOpenBulkAction::make(),
             ])
                 ->icon('heroicon-o-tag')
-                ->visible(Auth::user()->can('change_status_feedback'))
+                ->visible(Auth::user()->can('change-status:feedback')) //! Change this to individual permissions for each bulk action.
                 ->label(label: __('feedback-resource.table.actions.mark-as-bulk-group.label')),
 
             DeleteBulkAction::make()
@@ -210,7 +214,6 @@ final readonly class TableSchema
     public static function deleteAction(): DeleteAction
     {
         return DeleteAction::make()
-            ->tooltip(tooltip: __('feedback-resource.table.actions.delete-action.tooltip'))
             // Custom warning message for the delete confirmation modal
             ->modalDescription(description: __('feedback-resource.table.actions.delete-action.modal.description'));
     }

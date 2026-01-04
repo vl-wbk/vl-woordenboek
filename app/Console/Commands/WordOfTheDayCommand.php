@@ -131,7 +131,7 @@ final class WordOfTheDayCommand extends Command
                 'fields' => [
                     [
                         'name' => 'Voorbeeldzin',
-                        'value' => $wtod->example ? "*" . str($wtod->example)->limit(100) . "*" : "_Geen voorbeeld beschikbaar_",
+                        'value' => $wtod->example ? "*" . strip_tags((string) str($wtod->example)->limit(300)->toHtmlString()) . "*" : "_Geen voorbeeld beschikbaar_",
                         'inline' => false,
                     ],
                     [
