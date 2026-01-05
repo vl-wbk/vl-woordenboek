@@ -92,6 +92,9 @@ final readonly class TableSchema
                 ->color('primary')
                 ->placeholder('-'),
 
+            TextColumn::make('status')
+                ->badge(),
+
             TextColumn::make('name')
                 ->label(label: __('feedback-resource.table.columns.name'))
                 ->iconColor('primary')
