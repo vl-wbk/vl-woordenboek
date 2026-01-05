@@ -17,6 +17,7 @@ use App\Enums\FeedbackStatus;
 use App\Filament\Resources\Feedback\Actions\MarkAsClosedBulkAction;
 use App\Filament\Resources\Feedback\Actions\MarkAsOpenBulkAction;
 use App\Models\Feedback;
+use Filament\Actions\ActionGroup;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Table;
 use Filament\Tables\Columns;
@@ -136,7 +137,10 @@ final readonly class TableSchema
     {
         return [
             self::viewAction(),
-            self::deleteAction(),
+            
+            ActionGroup::make([
+                self::deleteAction(),
+            ])
         ];
     }
 
@@ -212,7 +216,6 @@ final readonly class TableSchema
     public static function deleteAction(): DeleteAction
     {
         return DeleteAction::make()
-            ->tooltip(tooltip: __('feedback-resource.table.actions.delete-action.tooltip'))
             // Custom warning message for the delete confirmation modal
             ->modalDescription(description: __('feedback-resource.table.actions.delete-action.modal.description'));
     }

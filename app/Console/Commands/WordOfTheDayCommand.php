@@ -43,7 +43,7 @@ final class WordOfTheDayCommand extends Command
      */
     public function handle(): int
     {
-        $lastRunTimestamp = null; // Cache::get(self::CACHE_KEY);
+        $lastRunTimestamp = Cache::get(self::CACHE_KEY);
 
         if (Article::published()->count() === 0) {
             $this->error('[ERROR]: Currently there are no published articles in the dictionary. Therefore we cannot mark an word of the day.');
@@ -119,7 +119,7 @@ final class WordOfTheDayCommand extends Command
 
     private function sendDiscordNotification (Article $wtod): void 
     {
-        DiscordAlert::message('Er is een woord van de dag geselecteerd voor da datum: ' . now()->format('d-m-Y'), [
+        DiscordAlert::message('Er is een woord van de dag geselecteerd voor de datum: ' . now()->format('d-m-Y'), [
             [
                 'title' => "📖 " . strtoupper($wtod->word),
                 'url' => route('word-information.show', $wtod),
@@ -131,7 +131,7 @@ final class WordOfTheDayCommand extends Command
                 'fields' => [
                     [
                         'name' => 'Voorbeeldzin',
-                        'value' => $wtod->example ? "*" . str($wtod->example)->limit(100) . "*" : "_Geen voorbeeld beschikbaar_",
+                        'value' => $wtod->example ? strip_tags((string) str($wtod->example)->limit(300)->markdown()) : "_Geen voorbeeld beschikbaar_",
                         'inline' => false,
                     ],
                     [
