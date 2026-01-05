@@ -156,7 +156,6 @@ final readonly class TableSchema
                 MarkAsOpenBulkAction::make(),
             ])
                 ->icon('heroicon-o-tag')
-                ->visible(Auth::user()->can('change_status_feedback'))
                 ->label(label: __('feedback-resource.table.actions.mark-as-bulk-group.label')),
 
             DeleteBulkAction::make()

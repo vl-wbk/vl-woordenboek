@@ -49,6 +49,7 @@ final class MarkAsClosedBulkAction extends BulkAction
 
         $this->color('success');
         $this->icon('heroicon-o-document-check');
+        $this->authorizeIndividualRecords('mark-as-closed');
 
         $this->successNotificationTitle(title: __('feedback-resource.table.actions.mark-as-bulk-group.close-action.notifications.success'));
         $this->deselectRecordsAfterCompletion();
