@@ -51,6 +51,7 @@ final class MarkAsOpenBulkAction extends BulkAction
 
         $this->color('warning');
         $this->icon('heroicon-o-document-text');
+        $this->authorizeIndividualRecords('mark-as-open');
 
         $this->successNotificationTitle(title: __('feedback-resource.table.actions.mark-as-bulk-group.open-action.notifications.success'));
         $this->deselectRecordsAfterCompletion();

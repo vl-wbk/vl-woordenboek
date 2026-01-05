@@ -93,6 +93,9 @@ final readonly class TableSchema
                 ->color('primary')
                 ->placeholder('-'),
 
+            TextColumn::make('status')
+                ->badge(),
+
             TextColumn::make('name')
                 ->label(label: __('feedback-resource.table.columns.name'))
                 ->iconColor('primary')
@@ -157,7 +160,6 @@ final readonly class TableSchema
                 MarkAsOpenBulkAction::make(),
             ])
                 ->icon('heroicon-o-tag')
-                ->visible(Auth::user()->can('change-status:feedback')) //! Change this to individual permissions for each bulk action.
                 ->label(label: __('feedback-resource.table.actions.mark-as-bulk-group.label')),
 
             DeleteBulkAction::make()

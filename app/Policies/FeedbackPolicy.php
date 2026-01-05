@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
+use App\Enums\FeedbackStatus;
 use App\Models\Feedback;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
@@ -91,23 +92,18 @@ final class FeedbackPolicy
         return Response::deny(message: __('U hebt geen machtiging om dit feedback bericht te verwijderen.'));
     }
 
-    /**
-     * Allows the user to change the status of a feedback message (e.g., mark as 'Resolved' or 'Archived').
-     *
-     * This requires the custom 'change-status:feedback' Permission.
-     * This logic controls the ability to update the state of a feedback message for tracking purposes
-     * and is mapped to the `markAs` method for semantic clarity in the policy.
-     *
-     * @param  User $user  The authenticated User model instance attempting the action.
-     * @return Response    The result: Allowed or Denied.
-     */
-    public function markAs(User $user): Response
+    public function markAsClosed(User $user, Feedback $feedback): Response 
     {
-        if ($user->can('change-status:feedback')) {
-            return Response::allow();
-        }
+        return ($user->can('change-status:feedback') && $feedback->status->is(enum: FeedbackStatus::Unprocessed))
+            ? Response::allow()
+            : Response::deny(message: __('U hebt geen machtiging om een feedback ticket te sluiten'));
+    }
 
-        return Response::deny(message: __('U hebt geen machtiging om dit feedback bericht te markeren als opgelost.'));
+    public function markAsOpen(User $user, Feedback $feedback): Response 
+    {
+        return ($user->can('change-status:feedback') && $feedback->status->is(enum: FeedbackStatus::Processed)) 
+            ? Response::allow()
+            : Response::deny(message: __('U hebt geen machtiging om een feedback ticket te heropenen'));
     }
 
     /**
