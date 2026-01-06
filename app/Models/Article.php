@@ -325,6 +325,18 @@ final class Article extends Model implements AuditableContract, Commentable
         $builder->where('created_at', '>', now()->parse($date));
     }
 
+    public function wordOfTheDays()
+    {
+        return $this->hasMany(WordOfTheDay::class);
+    }
+
+    public function isCurrentWordOfTheDay(): bool
+    {
+        return $this->wordOfTheDays()
+            ->whereDate('scheduled_for', today())
+            ->exists();
+    }
+
     /**
      * Configures attribute casting for proper type handling.
      * Ensures that state and status fields are properly cast to their respective enum types when retrieved from the database.

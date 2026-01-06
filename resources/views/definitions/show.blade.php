@@ -90,6 +90,30 @@
                </div>
            </div>
 
+           @if($upcomingSchedule)
+                <div class="alert alert-dismissible fade show {{ $upcomingSchedule->scheduled_for->isToday() ? 'alert-success' : 'alert-warning' }} border-0 shadow-sm mb-3" role="alert">
+                    <div class="d-flex">
+                        <div class="py-1">
+                            <x-heroicon-s-calendar-days class="icon me-3" style="width: 30px; height: 30px;" />
+                        </div>
+                        <div>
+                            <h5 class="alert-heading h6 fw-bold mb-1">
+                                {{ $upcomingSchedule->scheduled_for->isToday() ? 'Vandaag in de schijnwerpers!' : 'Ingepland voor de toekomst' }}
+                            </h5>
+
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            
+                            <p class="mb-0 small">
+                                Dit artikel is geselecteerd als Woord van de Dag voor 
+                                <strong>{{ $upcomingSchedule->scheduled_for->translatedFormat('l j F Y') }}</strong>.
+                                <br>
+                                <span class="fst-italic text-muted">Wegens: {{ $upcomingSchedule->scheduling_reason }}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
            <div class="card shadow-sm mt-2 {{ $word->disclaimer ? 'border-info' : 'border-0' }}">
                @if ($word->disclaimer)
                    <div class="card-header text-info-emphasis border-bottom-0 bg-info-subtle">
