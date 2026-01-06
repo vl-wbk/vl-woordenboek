@@ -1,5 +1,5 @@
 @forelse($results as $result)
-    <div class="card {{ ($result->wotd || $result->archived_at) ? 'border-danger-subtle' : 'border-0' }} @if (! $loop->last) mb-3 @endif shadow-sm">
+    <div class="card {{ ($result->archived_at) ? 'border-danger-subtle' : 'border-0' }} @if (! $loop->last) mb-3 @endif shadow-sm">
         <div class="card-header bg-white">
             <a href="{{ route('word-information.show', $result) }}" class="h5 text-decoration-none card-title fw-bold color-green d-flex justify-content-between align-items-start flex-wrap">
                 <span class="me-2 mb-1">{{ $result->word }}</span>

@@ -143,10 +143,16 @@ final readonly class WordOfTheDaysTable
     private static function registerRecordActions(): array 
     {
         return [
-            ViewAction::make(),
+            ViewAction::make()
+                ->modalFooterActions([EditAction::make(), DeleteAction::make()])
+                ->modalIcon(Heroicon::OutlinedInformationCircle)
+                ->modalIconColor('primary')
+                ->modalHeading(fn ($record) => "Woord van de Dag: " . $record->scheduled_for->format('d-m-Y'))
+                ->modalDescription('Hieronder vind je de details van de planning voor dit specifieke artikel.'),
+            
             ActionGroup::make([
                 EditAction::make(),
-                DeleteAction::make(),
+                DeleteAction::make()
             ]),
         ];
     }
@@ -155,7 +161,9 @@ final readonly class WordOfTheDaysTable
     {
         return [
             BulkActionGroup::make([
-                DeleteBulkAction::make(),
+                DeleteBulkAction::make()
+                    ->failureNotificationTitle("Verwijderen van WOTD's mislukt")
+                    ->authorizeIndividualRecords('delete'),
             ]),
         ];
     }

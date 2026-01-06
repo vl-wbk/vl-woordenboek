@@ -9,6 +9,7 @@ use App\Filament\Clusters\Articles\Resources\WordOfTheDays\Pages\CreateWordOfThe
 use App\Filament\Clusters\Articles\Resources\WordOfTheDays\Pages\EditWordOfTheDay;
 use App\Filament\Clusters\Articles\Resources\WordOfTheDays\Pages\ListWordOfTheDays;
 use App\Filament\Clusters\Articles\Resources\WordOfTheDays\Schemas\WordOfTheDayForm;
+use App\Filament\Clusters\Articles\Resources\WordOfTheDays\Schemas\WordOfTheDaysInfolist;
 use App\Filament\Clusters\Articles\Resources\WordOfTheDays\Tables\WordOfTheDaysTable;
 use App\Filament\Support\Concerns\HasActiveIcon;
 use BackedEnum;
@@ -39,6 +40,11 @@ final class WordOfTheDayResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return WordOfTheDayForm::configure($schema);
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return WordOfTheDaysInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table

@@ -21,6 +21,10 @@ return new class extends Migration
             $table->text('scheduling_reason');
             $table->timestamps();
         });
+
+        Schema::table('articles', function (Blueprint $table): void {
+            $table->dropColumn(['wotd', 'votes_today']);
+        });
     }
 
     /**
