@@ -118,7 +118,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
      *
      * @var list<string>
      */
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = ['password', 'remember_token', 'two_factor_secret', 'two_factor_recovery_codes', 'google_id', 'google_token', 'google_refresh_token'];
 
     /**
      * Determines whether a user can access the admin panel interface.
