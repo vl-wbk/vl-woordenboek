@@ -35,7 +35,7 @@ final class WordOfTheDayResource extends Resource
 
     protected static UnitEnum|string|null $navigationGroup = 'Ondersteuning';
 
-    protected static ?string $recordTitleAttribute = 'scheduled_for';
+    protected static ?string $recordTitleAttribute = 'formatted_scheduled_for';
 
     public static function form(Schema $schema): Schema
     {
