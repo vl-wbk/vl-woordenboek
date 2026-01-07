@@ -12,6 +12,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use BackedEnum;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Relation Manager for the 'related' Article relationship.
@@ -86,6 +87,8 @@ final class RelatedRelationManager extends RelationManager
      */
     public function table(Table $table): Table
     {
-        return $table->defaultSort('word');
+        return $table
+            ->modifyQueryUsing(fn (Builder $query) => $query->with('author'))
+            ->defaultSort('word');
     }
 }
