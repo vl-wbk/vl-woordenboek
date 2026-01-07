@@ -285,7 +285,7 @@ final class Article extends Model implements AuditableContract, Commentable
      */
     public function related(): BelongsToMany
     {
-        return $this->belongsToMany(Article::class, 'related_articles', 'related_article_id');
+        return $this->belongsToMany(Article::class, 'related_articles', 'related_article_id')->l;
     }
 
     /**

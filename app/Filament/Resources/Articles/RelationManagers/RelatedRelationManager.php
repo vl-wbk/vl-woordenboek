@@ -88,7 +88,7 @@ final class RelatedRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn (Builder $query) => $query->with('author'))
+            ->modifyQueryUsing(fn (Builder $query) => $query->load('author'))
             ->defaultSort('word');
     }
 }
