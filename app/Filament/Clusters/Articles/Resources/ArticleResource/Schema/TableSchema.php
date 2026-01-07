@@ -30,6 +30,7 @@ final readonly class TableSchema
     public static function configure(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn (Builder $query) => $query->with('author'))
             ->deferLoading()
             ->striped(false)
             ->heading(heading: __('Woordenboek artikelen'))
