@@ -127,6 +127,7 @@ final class StatisticService
         return Cache::flexible(
             key: 'registered_today_count',
             ttl: $this->cacheTTL,
+            /** @phpstan-ignore-next-line */
             callback: fn(): int|string => User::whereDate('created_at', now()->today())->count(),
         );
     }

@@ -102,6 +102,9 @@ final class Article extends Model implements AuditableContract, Commentable
      */
     protected $guarded = ['id'];
 
+    /** @todo Document this */
+    protected $with = ['author'];
+
     /**
      * Attributes excluded from the audit trail.
      * Editor ID changes are not tracked to reduce noise in the audit logs.
@@ -323,6 +326,21 @@ final class Article extends Model implements AuditableContract, Commentable
     protected function createdAfter(EloquentBuilder $builder, string $date): void
     {
         $builder->where('created_at', '>', now()->parse($date));
+    }
+
+    /**
+     * @return HasMany<WordOfTheDay, covariant $this>
+     */
+    public function wordOfTheDays(): HasMany
+    {
+        return $this->hasMany(WordOfTheDay::class);
+    }
+
+    public function isCurrentWordOfTheDay(): bool
+    {
+        return $this->wordOfTheDays()
+            ->whereDate('scheduled_for', today())
+            ->exists();
     }
 
     /**

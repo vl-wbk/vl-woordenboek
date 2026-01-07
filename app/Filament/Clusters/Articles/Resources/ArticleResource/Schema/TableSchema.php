@@ -30,6 +30,7 @@ final readonly class TableSchema
     public static function configure(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn (Builder $query) => $query->with('author'))
             ->deferLoading()
             ->striped(false)
             ->heading(heading: __('Woordenboek artikelen'))
@@ -73,7 +74,7 @@ final readonly class TableSchema
             UserColumn::make('author_id')
                 ->description(fn (Article $article): string => "{$article->author->firstname} {$article->author->lastname}")
                 ->emptyStateHeading(config('app.name', 'Laravel')) // Custom empty state heading
-                ->emptyStateDescription(fn (Article $article): ?string => $article->contributor_name)
+                ->emptyStateDescription(fn (Article $article): ?string => $article->contributor_name ?? 'Anonieme gebruiker') 
                 ->label('Ingevoegd door'),
 
             TextColumn::make('word')

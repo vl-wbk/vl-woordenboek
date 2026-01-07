@@ -114,7 +114,6 @@ final readonly class WordInfolist
         return Tab::make(__('filament/resources/articles.infolist.source-information-tab.heading'))
             ->icon(Heroicon::OutlinedBookOpen)
             ->columns(12)
-            /** @phpstan-ignore-next-line */
             ->visible(fn(Article $article): bool => $article->sources()->exists())
             ->schema([
                 RepeatableEntry::make('sources')
