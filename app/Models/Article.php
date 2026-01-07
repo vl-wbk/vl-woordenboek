@@ -102,6 +102,7 @@ final class Article extends Model implements AuditableContract, Commentable
      */
     protected $guarded = ['id'];
 
+    /** @todo Document this */
     protected $with = ['author'];
 
     /**
