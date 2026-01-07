@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\WordOfTheDays\Schemas;
 
+use App\Filament\Resources\Articles\ArticleResource;
+use App\Models\WordOfTheDay;
+use Filament\Actions\Action;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\FontWeight;
@@ -53,6 +56,7 @@ final readonly class WordOfTheDaysInfolist
                  */
                 TextEntry::make('article.word')
                     ->label('Artikel')
+                    ->url(fn (WordOfTheDay $wordOfTheDay): string => ArticleResource::getUrl('view', ['record' => $wordOfTheDay->article]))
                     ->weight(FontWeight::Bold)
                     ->columnSpan(3)
                     ->color('primary'),

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Database\Factories\WordOfTheDayFactory;
 
 /**
  * This model acts as our curation engine. It Allows Community Managers and maintainers with the correct permissions  to spotlight linguistic gems from the dictionary. 
@@ -33,8 +34,9 @@ use Illuminate\Support\Carbon;
  */
 final class WordOfTheDay extends Model
 {
+    /** @use HasFactory<WordOfTheDayFactory> */
     use HasFactory;
-    
+
     /**
      * We use $guarded for the ID to prevent accidental overwrites during mass assignment, 
      * while keeping other fields open for easy contribution through our editorial forms.
@@ -47,7 +49,7 @@ final class WordOfTheDay extends Model
      * Every 'Word of the Day' must point to a valid article. 
      * This relationship ensures that our featured content is always backed by the rich linguistic data stored in our dictionary.
      *
-     * @return BelongsTo
+     * @return BelongsTo<Article, covariant $this>
      */
     public function article(): BelongsTo
     {
@@ -84,10 +86,10 @@ final class WordOfTheDay extends Model
      * This accessor provides a standardized format for the frontend.
      * By centralizing the date format here (d F, Y), we ensure that the  "Word of the Day" looks consistent whether it's on the homepage, an archive list, or a social share card.
      * 
-     * @return Attribute<string|null, never>
+     * @return Attribute<string, never>
      */
     protected function formattedScheduledFor(): Attribute
     {
-        return Attribute::get(fn () => $this->scheduled_for?->translatedFormat('d F, Y'));
+        return Attribute::get(fn () => $this->scheduled_for->translatedFormat('d F, Y'));
     }
 }

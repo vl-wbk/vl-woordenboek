@@ -52,7 +52,7 @@ final class WordOfTheDayResource extends Resource
      * The cluster that organizes this resource within the broader application.
      * This groups related administrative tasks together for a cleaner user experience.
      *
-     *  @var class-string|null
+     *  {@inheritDoc}
      */
     protected static ?string $cluster = ArticlesCluster::class;
 
@@ -132,7 +132,7 @@ final class WordOfTheDayResource extends Resource
      * - create: The entry point for adding a new word to the queue. 
      * - edit: The interface for refining existing scheduled entries.
      *
-     * @return array
+     * @return array<string, \Filament\Resources\Pages\PageRegistration>
      */
     public static function getPages(): array
     {

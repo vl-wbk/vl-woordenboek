@@ -49,6 +49,9 @@ final readonly class WordOfTheDaysTable
             ->defaultSort('scheduled_for', 'desc');;
     }
 
+    /**
+     * @return array<int, Group>
+     */
     private static function registerGroups(): array 
     {
         return [
@@ -61,6 +64,9 @@ final readonly class WordOfTheDaysTable
         ];
     }
 
+    /**
+     * @return array<int, CreateAction>
+     */
     private static function registerEmptyStateActions(): array 
     {
         $isVisible = WordOfTheDay::count() === 0;
@@ -73,19 +79,22 @@ final readonly class WordOfTheDaysTable
         ];
     }
 
+    /**
+     * @return array<int, Filter|TernaryFilter>
+     */
     private static function registerTableFilters(): array 
     {
         return [
             Filter::make('scheduled_for')
-            ->schema([
-                DatePicker::make('van')->native(false)->displayFormat('d-m-Y')->closeOnDateSelection()->placeholder('dd/mm/yyyy'),
-                DatePicker::make('tot')->native(false)->displayFormat('d-m-Y')->closeOnDateSelection()->placeholder('dd/mm/yyyy'),
-            ])
-            ->query(fn (Builder $query, array $data) => $query
-                ->when($data['van'], fn ($q, $date) => $q->whereDate('scheduled_for', '>=', $date))
-                ->when($data['tot'], fn ($q, $date) => $q->whereDate('scheduled_for', '<=', $date))
-            )
-            ->indicateUsing(fn (array $data) => self::formatDateRangeIndicator($data)),
+                ->schema([
+                    DatePicker::make('van')->native(false)->displayFormat('d-m-Y')->closeOnDateSelection()->placeholder('dd/mm/yyyy'),
+                    DatePicker::make('tot')->native(false)->displayFormat('d-m-Y')->closeOnDateSelection()->placeholder('dd/mm/yyyy'),
+                ])
+                ->query(fn (Builder $query, array $data) => $query
+                    ->when($data['van'], fn ($q, $date) => $q->whereDate('scheduled_for', '>=', $date))
+                    ->when($data['tot'], fn ($q, $date) => $q->whereDate('scheduled_for', '<=', $date))
+                )
+                ->indicateUsing(fn (array $data) => self::formatDateRangeIndicator($data)),
         
             TernaryFilter::make('toekomst')
                 ->label('Planning status')
@@ -101,6 +110,10 @@ final readonly class WordOfTheDaysTable
         ];
     }
 
+    /**
+     * @param  array<string> $data
+     * @return string|null
+     */
     private static function formatDateRangeIndicator(array $data): ?string
     {
         if (! $data['van'] && ! $data['tot']) {
@@ -113,6 +126,9 @@ final readonly class WordOfTheDaysTable
         return "Periode: {$from} tot {$to}";
     }
 
+    /**
+     * @return array<int, TextColumn>
+     */
     private static function registerTableColumnLayout(): array 
     {
         return [
@@ -155,6 +171,9 @@ final readonly class WordOfTheDaysTable
         ];
     }
 
+    /**
+     * @return array<int, ViewAction|ActionGroup>
+     */
     private static function registerRecordActions(): array 
     {
         return [
@@ -172,6 +191,9 @@ final readonly class WordOfTheDaysTable
         ];
     }
 
+    /**
+     * @return array<int, BulkActionGroup>
+     */
     private static function registerToolbarActions(): array 
     {
         return [

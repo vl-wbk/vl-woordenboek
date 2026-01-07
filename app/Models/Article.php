@@ -328,7 +328,10 @@ final class Article extends Model implements AuditableContract, Commentable
         $builder->where('created_at', '>', now()->parse($date));
     }
 
-    public function wordOfTheDays()
+    /**
+     * @return HasMany<WordOfTheDay, covariant $this>
+     */
+    public function wordOfTheDays(): HasMany
     {
         return $this->hasMany(WordOfTheDay::class);
     }

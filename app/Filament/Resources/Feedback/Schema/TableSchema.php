@@ -131,7 +131,7 @@ final readonly class TableSchema
      * Configures the actions that appear on each row of the table.
      * Row actions are used for performing operations on individual records, such as viewing details or deleting the entry.
      *
-     * @return array<int, ViewAction|DeleteAction> An array of Filament table row action components.
+     * @return array<int, ViewAction|ActionGroup> An array of Filament table row action components.
      */
     private static function configureTableRowActions(): array
     {

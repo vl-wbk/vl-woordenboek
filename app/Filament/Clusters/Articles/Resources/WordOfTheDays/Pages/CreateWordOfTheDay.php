@@ -67,7 +67,7 @@ final class CreateWordOfTheDay extends CreateRecord
      */
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        /** @var User $user */
+        /** @var \App\Models\User $user */
         $user = Auth::user();
 
         $data['scheduled_by'] = $user->id;
@@ -75,7 +75,7 @@ final class CreateWordOfTheDay extends CreateRecord
         return $data;
     }
 
-    protected function getCreatedNotificationTitle(): ?string 
+    protected function getCreatedNotificationTitle(): string 
     {
         return 'Het woord van de dag is succesvol ingepland';
     }
