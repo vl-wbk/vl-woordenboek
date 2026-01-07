@@ -106,8 +106,11 @@
                             <p class="mb-0 small">
                                 Dit artikel is geselecteerd als Woord van de Dag voor 
                                 <strong>{{ $upcomingSchedule->scheduled_for->translatedFormat('l j F Y') }}</strong>.
-                                <br>
-                                <span class="fst-italic text-muted">Wegens: {{ $upcomingSchedule->scheduling_reason }}</span>
+                                
+                                @if ($upcomingSchedule->scheduling_reason)
+                                    <br>
+                                    <span class="fst-italic text-muted">{{ $upcomingSchedule->scheduling_reason }}</span>
+                                @endif
                             </p>
                         </div>
                     </div>

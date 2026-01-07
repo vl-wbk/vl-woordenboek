@@ -77,7 +77,6 @@ final readonly class WordOfTheDayForm
                          * This provides context for the editor's choice, linking  the word to current events or seasons.
                          */
                         Textarea::make('scheduling_reason')
-                            ->required()
                             ->columnSpanFull()
                             ->label('Gebeurtenis / Aanleiding')
                             ->placeholder('Bijv: Internationale Vrouwendag of Start van de Lente')

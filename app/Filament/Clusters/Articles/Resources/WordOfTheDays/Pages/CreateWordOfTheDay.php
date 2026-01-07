@@ -74,4 +74,14 @@ final class CreateWordOfTheDay extends CreateRecord
 
         return $data;
     }
+
+    protected function getCreatedNotificationTitle(): ?string 
+    {
+        return 'Het woord van de dag is succesvol ingepland';
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return static::getResource()::getUrl('index');
+    }
 }

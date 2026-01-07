@@ -30,6 +30,7 @@ final readonly class WordOfTheDaysTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->recordUrl(null)
             ->striped(false)
             ->heading(heading: 'Woord van de Dag Planner')
             ->description(description: 'Beheer hier de dagelijkse woorden. Elk woord wordt gekoppeld aan een specifieke datum en een bijzondere gebeurtenis of context.')
@@ -117,11 +118,17 @@ final readonly class WordOfTheDaysTable
         return [
             TextColumn::make('scheduled_for')
                 ->label('Datum')
-                ->date('d-m-Y')
+                ->date()
                 ->sortable()
                 ->searchable()
                 ->weight(fn (WordOfTheDay $record) => $record->scheduled_for->isToday() ? FontWeight::Bold : FontWeight::Medium)
                 ->color(fn (WordOfTheDay $record) => $record->scheduled_for->isToday() ? 'success' : null),
+
+            TextColumn::make('planner.name')
+                ->label('Planner')
+                ->icon(Heroicon::OutlinedUserCircle)
+                ->toggleable()
+                ->toggledHiddenByDefault(),
 
             TextColumn::make('status')
                 ->label('Status')
@@ -141,15 +148,10 @@ final readonly class WordOfTheDaysTable
 
             TextColumn::make('scheduling_reason')
                 ->label('Aanleiding')
-                ->limit(40)
+                ->placeholder('- geen aanleiding of gebeurtenis geregistreerd')
+                ->limit(50)
                 ->tooltip(fn (WordOfTheDay $record): string => (string) $record->scheduling_reason)
                 ->searchable(),
-
-            TextColumn::make('planner.name')
-                ->label('Planner')
-                ->icon(Heroicon::OutlinedUserCircle)
-                ->toggleable()
-                ->toggledHiddenByDefault(),
         ];
     }
 

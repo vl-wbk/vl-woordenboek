@@ -82,7 +82,8 @@ final readonly class WordOfTheDaysInfolist
                  */
                 TextEntry::make('scheduling_reason')
                     ->columnSpan(12)
-                    ->label('Gebeurtenis / Aanleiding'),
+                    ->label('Gebeurtenis / Aanleiding')
+                    ->placeholder('- geen aanleiding of gebeurtenis geregistreerd'),
             ]);
     }
 }
