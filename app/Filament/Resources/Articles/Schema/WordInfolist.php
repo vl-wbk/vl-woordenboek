@@ -126,11 +126,18 @@ final readonly class WordInfolist
                     ])
                 ->schema([
                     TextEntry::make('referenceWork.abbreviation')
+                        ->label('Afkorting')
                         ->badge()
                         ->icon(Heroicon::BookOpen),
-                    TextEntry::make('referenceWork.name'),
-                    TextEntry::make('notation'),
+
+                    TextEntry::make('referenceWork.name')
+                        ->label('Bron'),
+                    
+                    TextEntry::make('notation')
+                        ->label('Referentie'),
+
                     TextEntry::make('created_at')
+                        ->label('Toegevoegd op')
                         ->date(),
                 ])
                     ->hiddenLabel()
