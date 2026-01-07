@@ -52,6 +52,16 @@ final class WordOfTheDayResource extends Resource
         return WordOfTheDaysTable::configure($table);
     }
 
+    /**
+     * Registers the routes for this resource. 
+     * These pages repreent the different 'views' available in the admin panel: 
+     * 
+     * - index: The Bird's-eye view oàf all scheduled words. 
+     * - create: The entry point for adding a new word to the queue. 
+     * - edit: The interface for refining existing scheduled entries.
+     *
+     * @return array
+     */
     public static function getPages(): array
     {
         return [
