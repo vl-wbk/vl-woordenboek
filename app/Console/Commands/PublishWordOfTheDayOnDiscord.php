@@ -58,7 +58,7 @@ final class PublishWordOfTheDayOnDiscord extends Command
                 'fields' => [
                     [
                         'name' => 'Gebeurtenis / Aanleiding',
-                        'value' => (string) str($wtod->scheduling_reason)->limit(300),
+                        'value' => (string) str($wtod->scheduling_reason ?? '-')->limit(300),
                         'inline' => false,
                     ],
                     [
