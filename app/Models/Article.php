@@ -102,6 +102,8 @@ final class Article extends Model implements AuditableContract, Commentable
      */
     protected $guarded = ['id'];
 
+    protected $with = ['author'];
+
     /**
      * Attributes excluded from the audit trail.
      * Editor ID changes are not tracked to reduce noise in the audit logs.
