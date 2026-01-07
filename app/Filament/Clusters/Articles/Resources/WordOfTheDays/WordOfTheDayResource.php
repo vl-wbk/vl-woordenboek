@@ -88,6 +88,8 @@ final class WordOfTheDayResource extends Resource
      */
     protected static ?string $recordTitleAttribute = 'formatted_scheduled_for';
 
+    protected static bool $isGloballySearchable = false;
+
     /**
      * Configures the data entry form for our daily words.
      * This defines the fields and layout editors use when creating or updating an entry, ensuring that data is captured consistently and correctly.
