@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
@@ -32,6 +33,8 @@ use Illuminate\Support\Carbon;
  */
 final class WordOfTheDay extends Model
 {
+    use HasFactory;
+    
     /**
      * We use $guarded for the ID to prevent accidental overwrites during mass assignment, 
      * while keeping other fields open for easy contribution through our editorial forms.

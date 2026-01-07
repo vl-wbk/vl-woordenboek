@@ -6,6 +6,8 @@ namespace App\Filament\Clusters\Articles\Resources\WordOfTheDays\Pages;
 
 use App\Filament\Clusters\Articles\Resources\WordOfTheDays\WordOfTheDayResource;
 use App\Models\WordOfTheDay;
+use CodeWithDennis\FactoryAction\FactoryAction;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Support\Icons\Heroicon;
@@ -33,18 +35,35 @@ final class ListWordOfTheDays extends ListRecords
     /**
      * Defines the primary actions available at the top of the list view.
      *
-     * We've customized the creation action to emphasize the scheduling aspect, using a clock icon and a specific Dutch label. 
-     * The visibility of this action is tied to the current state of our database to ensure a logical workflow.
+     * We've grouped our header actions into a cohesive button group to keep the interface tidy.
+     * This includes our primary scheduling tool and a specialized factory action for
+     * generating test data, ensuring that the workflow remains intuitive for both
+     * production curation and development testing.
      *
-     * @return array<int, CreateAction> The list of actions to render in the header.
+     * @return array<int, ActionGroup> The list of action groups to render in the header.
      */
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make()
-                ->icon(Heroicon::OutlinedClock)
-                ->visible($this->canDisplayActionButton())
-                ->label('Woord v/d dag inplannen'),
+            ActionGroup::make([
+                /**
+                 * The primary scheduling action.
+                 * We've customized this to emphasize the temporal aspect of the task, using a subtle gray color and a clock icon to distinguish it from standard record creation.
+                 */
+                CreateAction::make()
+                    ->color('gray')
+                    ->icon(Heroicon::OutlinedClock)
+                    ->visible($this->canDisplayActionButton())
+                    ->label('Woord v/d dag inplannen'),
+
+                /**
+                 * The factory testing action.
+                 * This tool allows developers and editors to rapidly populate the schedule with mock data. It features a safety modal to prevent accidental mass-generation in a live environment.
+                 */
+                FactoryAction::make()
+                    ->modalHeading('Genereer woorden van de dag')
+                    ->modalDescription('Door het onderstaande formulier in te vullen kun je woorden van de dag genereren om het systeem te testen. Ben je zeker dat je wilt doorgaan?')
+            ])->buttonGroup()
         ];
     }
 
