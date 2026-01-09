@@ -198,7 +198,15 @@
                         <x-heroicon-o-user style="width: 1.5rem;" class="text-muted" />
                     </div>
                     <div>
-                        <p class="mb-1 small text-muted">Toegevoegd door <a href="{{ route('account:public', $word->author) }}" class="fw-bold text-dark">{{ $word->author->name ?? $word->contributor_name }}</a></p>
+                        <p class="mb-1 small text-muted">
+                            Toegevoegd door 
+                            
+                            @if ($word->author)
+                                <a href="{{ route('account:public', $word->author) }}" class="fw-bold text-dark">{{ $word->author->name ?? $word->contributor_name }}</a>
+                            @else
+                                <span class="fw-bold text-dark">{{ $word->author->name ?? $word->contributor_name }}</span>
+                            @endif
+                        </p>
                         <p class="mb-0 extra-small text-muted" style="font-size: 0.75rem;">
                             Gepubliceerd op {{ optional($word->published_at)->format('d M Y') ?? $word->created_at->format('d M Y') }} 
                             <span class="vr mx-2"></span>
