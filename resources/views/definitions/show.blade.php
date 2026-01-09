@@ -56,12 +56,12 @@
 
                 <div class="d-flex align-items-center flex-wrap gap-2">
                     <div class="d-flex w-100 align-items-center gap-2 text-muted me-2">
-                        <span class="font-monospace">{{ $word->characteristics }}</span>
-
                         @if ($word->partOfSpeech)
-                            <span>•</span>
                             <span class="fw-bold text-dark">{{$word->partOfSpeech->name }}</span>
+                            <span>•</span>
                         @endif
+                        
+                        <span class="font-monospace">{{ $word->characteristics }}</span>
                     </div>
 
                     {{-- Status Labels --}}
