@@ -1,13 +1,11 @@
 <div>
     @if (! auth()->user()->hasLiked($article))
-        <button wire:click="likeArticle" class="btn btn-light shadow-sm">
-            <x-heroicon-s-hand-thumb-up class="icon me-1 text-success"/>
-            <span class="badge rounded-pill bg-dark ms-1">{{ $upvotes }}</span>
+        <button wire:click="likeArticle" class="btn btn-primary w-100 fw-bold border-0" style="background: #4338ca;">
+            Stem op dit woord
         </button>
     @elseif (auth()->user()->hasLiked($article))
-        <button wire:click="dislikeArticle" class="btn btn-light shadow-sm">
-            <x-heroicon-s-hand-thumb-down class="icon me-1 text-danger"/>
-            <span class="badge rounded-pill bg-dark ms-1">{{ $upvotes }}</span>
+        <button wire:click="dislikeArticle"  class="btn btn-primary w-100 fw-bold border-0" style="background: #4338ca;">
+           Mijn stem intrekken
         </button>
     @endif
 </div>
