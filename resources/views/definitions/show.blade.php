@@ -201,7 +201,7 @@
                         <p class="mb-1 small text-muted">
                             Toegevoegd door 
                             
-                            @if ($word->author)
+                            @if ($word->author()->exists())
                                 <a href="{{ route('account:public', $word->author) }}" class="fw-bold text-dark">{{ $word->author->name ?? $word->contributor_name }}</a>
                             @else
                                 <span class="fw-bold text-dark">{{ $word->author->name ?? $word->contributor_name }}</span>
