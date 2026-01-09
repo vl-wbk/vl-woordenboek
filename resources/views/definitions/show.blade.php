@@ -30,7 +30,7 @@
             </nav>
             <a href="{{ url()->previous() }}" class="back-link">
                 <x-heroicon-o-arrow-left style="width:1rem"/>
-                Terug naar resultaten
+                Terug naar vorige pagina
             </a>
         </div>
     </div>
