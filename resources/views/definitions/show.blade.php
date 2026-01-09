@@ -204,7 +204,7 @@
                             @if ($word->author()->exists())
                                 <a href="{{ route('account:public', $word->author) }}" class="fw-bold text-dark">{{ $word->author->name ?? $word->contributor_name }}</a>
                             @else
-                                <span class="fw-bold text-dark">{{ $word->author->name ?? $word->contributor_name }}</span>
+                                <span class="fw-bold text-dark">{{ $word->contributor_name }}</span>
                             @endif
                         </p>
                         <p class="mb-0 extra-small text-muted" style="font-size: 0.75rem;">
