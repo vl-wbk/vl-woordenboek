@@ -21,7 +21,7 @@
 @section ('content')
 <style>
     .markdown-text p:not(:last-child) {
-        margin-bottom: .80rem; /* Adjust this value to your preferred spacing */
+        margin-bottom: .70rem; /* Adjust this value to your preferred spacing */
     }
 </style>
 
