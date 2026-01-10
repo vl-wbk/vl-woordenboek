@@ -19,6 +19,11 @@
 @endsection
 
 @section ('content')
+<style>
+    .markdown-text p:not(:last-child) {
+    margin-bottom: 1.25rem; /* Adjust this value to your preferred spacing */
+}
+</style>
 <div class="word-nav-bar">
     <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center">
@@ -131,9 +136,11 @@
                     @endif
 
                     <div class="flex-grow-1">
-                        <p class="text-muted markdown-text lh-base text-dark">
-                            {!! str($word->description)->markdown()->sanitizeHtml() !!}
-                        </p>
+                        <div class="text-muted">
+                            <div class="markdown-text lh-base text-dark">
+                                {!! str($word->description)->markdown()->sanitizeHtml() !!}
+                           </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -143,9 +150,7 @@
                     <h5 class="fw-bold mb-0 color-green">Voorbeelden</h5>
                 </div>
                 <div>
-                    <p class="markdown-text">
-                         {!! str($word->example)->markdown()->sanitizeHtml() !!}
-                    </p>    
+                    {!! str($word->example)->markdown()->sanitizeHtml() !!}
                 </div>
             </section>
 
