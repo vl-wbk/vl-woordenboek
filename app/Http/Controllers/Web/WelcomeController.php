@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Enums\Articles\SearchPatterns;
 use App\Models\Article;
+use App\Models\WordOfTheDay;
 use App\Queries\Articles\SelectRandomArticle;
 use Illuminate\Contracts\Support\Renderable;
 use Spatie\RouteAttributes\Attributes\Get;
@@ -17,7 +18,8 @@ final readonly class WelcomeController
     {
         return view('welcome', data: [
             'searchPatterns' => SearchPatterns::cases(),
-            'randomArticle' => SelectRandomArticle::fetch(),
+            'wordOfTheDay' => WordOfTheDay::whereDate('scheduled_for', today())->first(),
+            'recent' => Article::published()->orderBy('published_at')->limit(3)->get(),
             'articleCount' => Article::published()->count('id'),
         ]);
     }

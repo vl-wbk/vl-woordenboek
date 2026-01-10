@@ -25,7 +25,7 @@
                                         </option>
                                     @endforeach
             </select>
-            <input type="text" name="zoekterm" class="compact-search-input" value="{{ request()->get('zoekterm') }}">
+            <input type="text" name="zoekterm" placeholder="Uw zoekterm" class="compact-search-input" value="{{ request()->get('zoekterm') }}">
             <button type="submit" class="btn btn-dark rounded-start-0 px-3">
                 <x-heroicon-o-magnifying-glass class="icon me-1"/> {{ __('components/search-form.buttons.submit') }}
             </button>
