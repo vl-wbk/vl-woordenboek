@@ -80,7 +80,7 @@
         gap: 0.5rem; 
         padding-left: 0.5rem;
         /* Faster base speed for mobile */
-        animation: scroll-rtl 30s linear infinite;
+        animation: scroll-rtl 175s linear infinite;
     }
 
     /* 3. The logic: move half the track's width then snap back */
