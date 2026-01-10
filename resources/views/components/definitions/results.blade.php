@@ -66,9 +66,12 @@
                         <a href="{{ route('definitions.create', ['woord' => request()->get('zoekterm')]) }}" class="btn btn-primary px-4 py-2 fw-bold shadow-sm">
                             <x-heroicon-o-document-plus class="icon me-2"/> Dien het in als suggestie
                         </a>
-                        <a href="{{ route('support.volunteers') }}" class="btn btn-outline-dark px-4 py-2 fw-bold shadow-sm">
-                            <x-heroicon-s-user-plus class="icon me-2"/> Zin om vrijwilliger te worden?
-                        </a>
+
+                        @if (app(\App\Settings\VolunteerSettings::class)->pageActive)
+                            <a href="{{ route('support.volunteers') }}" class="btn btn-outline-dark px-4 py-2 fw-bold shadow-sm">
+                                <x-heroicon-s-user-plus class="icon me-2"/> Zin om vrijwilliger te worden?
+                            </a>
+                        @endif
                     </div>
                 </div>
 

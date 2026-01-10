@@ -188,21 +188,23 @@
         </div>
 
         {{-- CARD 3: Volunteer Callout --}}
-        <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
-            <div class="card-body position-relative">
-                {{-- Decorative background icon --}}
-                
-                <span class="filter-title mb-2 d-block text-primary">{{ __('components/volunteer-callout.heading') }}!</span>
-                
-                <p class="small text-muted mb-3 position-relative">
-                    {{ __('components/volunteer-callout.description', ['applicationName' => config('app.name', 'Laravel')]) }}
-                </p>
+        @if (app(\App\Settings\VolunteerSettings::class)->pageActive)
+            <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+                <div class="card-body position-relative">
+                    {{-- Decorative background icon --}}
+                    
+                    <span class="filter-title mb-2 d-block text-primary">{{ __('components/volunteer-callout.heading') }}!</span>
+                    
+                    <p class="small text-muted mb-3 position-relative">
+                        {{ __('components/volunteer-callout.description', ['applicationName' => config('app.name', 'Laravel')]) }}
+                    </p>
 
-                <a href="{{ route('support.volunteers') }}" class="btn btn-outline-primary btn-sm w-100 stretched-link">
-                    {{ __('components/volunteer-callout.action') }}
-                </a>
+                    <a href="{{ route('support.volunteers') }}" class="btn btn-outline-primary btn-sm w-100 stretched-link">
+                        {{ __('components/volunteer-callout.action') }}
+                    </a>
+                </div>
             </div>
-        </div>
+        @endif
 
     </div>
 </aside>

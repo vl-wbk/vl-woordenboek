@@ -108,7 +108,7 @@
                                 {{ __('pages/welcome.call-outs.volunteer.text') }}
                             </p>
 
-                            <a href="{{ route('support.volunteers') }}" class="btn btn-sm btn-outline-dark mt-auto">
+                            <a href="{{ route('support.volunteers') }}" class="btn btn-sm btn-outline-dark mt-auto @if (! app(\App\Settings\VolunteerSettings::class)->pageActive) disabled @endif">
                                 {{ __('pages/welcome.call-outs.volunteer.actionText') }}
                             </a>
                         </div>
