@@ -21,7 +21,7 @@
 @section ('content')
 <style>
     .markdown-text p:not(:last-child) {
-    margin-bottom: 1.25rem; /* Adjust this value to your preferred spacing */
+    margin-bottom: .50rem; /* Adjust this value to your preferred spacing */
 }
 </style>
 <div class="word-nav-bar">
@@ -149,7 +149,7 @@
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h5 class="fw-bold mb-0 color-green">Voorbeelden</h5>
                 </div>
-                <div>
+                <div class="mlarkdown-text">
                     {!! str($word->example)->markdown()->sanitizeHtml() !!}
                 </div>
             </section>
