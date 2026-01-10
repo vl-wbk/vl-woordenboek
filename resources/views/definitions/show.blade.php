@@ -60,7 +60,7 @@
                             <span class="fw-bold text-dark">{{$word->partOfSpeech->name }}</span>
                             <span>•</span>
                         @endif
-                        
+
                         <span class="font-monospace">{{ $word->characteristics }}</span>
                     </div>
 
@@ -131,11 +131,9 @@
                     @endif
 
                     <div class="flex-grow-1">
-                        <div class="text-muted">
-                            <div class="markdown-text lh-base text-dark">
-                                {!! str($word->description)->markdown()->sanitizeHtml() !!}
-                           </div>
-                        </div>
+                        <p class="text-muted markdown-text lh-base text-dark">
+                            {!! str($word->description)->markdown()->sanitizeHtml() !!}
+                        </p>
                     </div>
                 </div>
             </section>
@@ -145,7 +143,9 @@
                     <h5 class="fw-bold mb-0 color-green">Voorbeelden</h5>
                 </div>
                 <div>
-                    {!! str($word->example)->markdown()->sanitizeHtml() !!}
+                    <p class="markdown-text">
+                         {!! str($word->example)->markdown()->sanitizeHtml() !!}
+                    </p>    
                 </div>
             </section>
 
@@ -171,14 +171,11 @@
         <div class="sources-list">
             @foreach($word->sources as $source)
                 <div class="source-item shadow-sm">
-                    <div class="source-icon">
-                     
-                            <x-heroicon-s-book-open style="width: 1.2rem;"/>
-                
+                    <div class="source-icon"> 
+                        <x-heroicon-s-book-open style="width: 1.2rem;"/>
                     </div>
                     <div class="flex-grow-1">
-                      
-                            <span class="source-link fw-semibold">{{ $source->referenceWork->name }}</span>
+                        <span class="source-link fw-semibold">{{ $source->referenceWork->name }}</span>
                    
                         
                         @if($source->notation)
