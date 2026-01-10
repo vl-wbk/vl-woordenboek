@@ -24,7 +24,7 @@ final readonly class SelectRandomArticle
                 // Find the first article whose ID is >= the generated random ID
                 ->where('id', '>=', $randomIdentifier)
                 ->orderBy('id', 'asc')
-                ->limit(1)
+                ->limit(8)
                 ->first();
         }
 

@@ -1,0 +1,209 @@
+// Results
+
+.lexi-card {
+    background: #ffffff;
+    border-radius: 10px; /* De nodige rondingen */
+    padding: 1rem;
+    border: 1px solid #f0f0f0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03); /* Zachte schaduw */
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.lexi-card:hover {
+    transform: translateY(-4px); /* Subtiele lift */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+    border-color: #e0e0e0;
+}
+
+/* Typografie & Elementen */
+.word-title {
+    
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #111111;
+}
+
+.lexi-tag-enhanced {
+    background-color: rgba(40, 167, 69, 0.08); /* Jouw groen met lage opacity */
+    color: #1a5928; /* Donkerdere versie voor leesbaarheid */
+    border: 1px solid rgba(40, 167, 69, 0.2);
+    padding: 2px 10px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+}
+
+.lexi-tag {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 0.4rem 0.8rem;
+    border-radius: 50px; /* Volledig ronde tags */
+    background: #f5f5f5;
+    color: #666;
+    letter-spacing: 0.05em;
+}
+
+.tag-wotd {
+    background: #fff0f0;
+    color: #e63946;
+}
+.word-type {
+    font-style: italic;
+    font-size: 1.1rem;
+    color: #666;
+    font-weight: 400;
+}
+
+// Search jumbotron 
+
+.compact-search-group {
+      border: 1px solid #000;
+      border-radius: 10px;
+      overflow: hidden;
+      background: white;
+      display: flex;
+    }
+
+    .compact-search-input {
+      border: none;
+      height: 54px;
+      flex-grow: 1;
+      padding-left: 1rem;
+    }
+
+    .compact-search-input:focus { outline: none; }
+
+    .search-filter-select {
+      border: none;
+      border-right: 1px solid var(--lexi-border);
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      width: 130px;
+      background-color: white;
+      cursor: pointer;
+    }
+
+    .filter-chip-wrapper {
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .filter-hint {
+      font-size: 0.6rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #666666;
+    }
+
+    .chip-group {
+      display: inline-flex;
+      gap: 6px;
+    }
+
+    .chip-group input[type="checkbox"] { display: none; }
+
+    .chip-label {
+      padding: 0.25rem 0.8rem;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 100px;
+      border: 1px solid #f2f2f2;
+      background: white;
+      color: #666666;
+      transition: all 0.2s ease;
+    }
+
+    .chip-group input[type="checkbox"]:checked + .chip-label {
+      background: #000;
+      color: white;
+      border-color: #000;
+    }
+
+    // Aside 
+    .filter-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #adb5bd; /* Muted gray */
+    letter-spacing: 0.5px;
+    margin-bottom: 0.75rem;
+    display: block;
+}
+
+/* Clean Link Styling */
+.filter-link {
+    display: block;
+    color: #495057; /* Dark gray text */
+    text-decoration: none;
+    padding: 0.4rem 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    border-radius: 4px;
+}
+
+.card-gradient-primary { background: linear-gradient(135deg, #198754 0%, #20c997 100%); }
+.card-gradient-warm { background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%); }
+.btn-white { background: #fff; color: #198754; border: none; }
+.btn-white:hover { background: #f8f9fa; color: #146c43; }
+.filter-title-gradient { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; color: #adb5bd; letter-spacing: 0.05em; }
+
+.filter-link:hover {
+    color: #0d6efd; /* Your Primary Color */
+    padding-left: 10px; /* Subtle slide effect */
+    background-color: rgba(13, 110, 253, 0.05); /* Very faint background on hover */
+}
+
+.filter-link.active {
+    color: #0d6efd;
+    background-color: rgba(13, 110, 253, 0.05); 
+    padding-left: 10px; /* Subtle slide effect */
+    font-weight: 600;
+}
+
+/* Helper for the white button on the gray card */
+.btn-white {
+    background-color: #fff;
+    border-color: #dee2e6;
+}
+.btn-white:hover {
+    background-color: #f8f9fa;
+    border-color: #ccedff;
+}
+
+.icon-sm {
+    width: 1.1rem;
+    height: 1.1rem;
+    stroke-width: 2;
+}
+
+.btn-sort-pill.active .icon-sm {
+    color: #198754; /* Matcht je groene thema */
+}
+
+// meh 
+ .hover-lift {
+        transition: all 0.2s ease;
+    }
+    .hover-lift:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
+        border-color: var(--bs-primary) !important;
+    }
+    .cursor-pointer { cursor: pointer; }
+    .tracking-wider { letter-spacing: 0.08rem; }
+    .btn-white { background: #fff; color: #212529; }
+    .bg-sidenav { background-color: #f8f9fa; }

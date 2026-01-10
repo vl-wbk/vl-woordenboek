@@ -6,12 +6,14 @@
     $nextSort = $isActive && !$isDesc ? '-' . $field : $field;
 @endphp
 
-<a href="{{ urldecode(request()->fullUrlWithQuery(['sort' => $nextSort])) }}" class="btn btn-light">
+<a href="{{ urldecode(request()->fullUrlWithQuery(['sort' => $nextSort])) }}" 
+    {{ $attributes->merge(['class' => 'filter-link ' . ($isActive ? 'active' : '')]) }}>
+    
     @if ($isActive)
         @if ($isDesc)
-            <x-tabler-sort-ascending-letters class="icon color-green me-1"/>
+            <x-tabler-sort-ascending-letters class="icon-sm me-2"/>
         @else
-            <x-tabler-sort-descending-letters class="icon color-green me-1"/>
+            <x-tabler-sort-descending-letters class="icon-sm me-2"/>
         @endif
     @endif
 
