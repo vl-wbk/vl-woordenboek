@@ -23,7 +23,12 @@
     <div class="d-flex justify-content-between align-items-center pt-2 border-top border-light-subtle">
         @if ($result->author)
             <span class="small text-muted">
-                Door <span class="text-dark fw-semibold">{{ $result->author->name ?? $result->contributor_name ?? config('app.name') }}</span>
+                @if ($result->authtor()->exists())
+                     Door <span class="text-dark fw-semibold">{{ $result->author->name ?? $result->contributor_name ?? config('app.name') }}</span>
+                @else
+                    Door <span class="text-dark fw-semibold">{{  $result->contributor_name ?? config('app.name') }}</span>
+                @endif
+
                 <span class="">•</span> {{  __('Weergaves: :count', ['count' => $result->views]) }}
             </span>
         @endif
