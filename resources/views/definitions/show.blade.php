@@ -21,9 +21,10 @@
 @section ('content')
 <style>
     .markdown-text p:not(:last-child) {
-    margin-bottom: .50rem; /* Adjust this value to your preferred spacing */
-}
+        margin-bottom: .25rem; /* Adjust this value to your preferred spacing */
+    }
 </style>
+
 <div class="word-nav-bar">
     <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center">
