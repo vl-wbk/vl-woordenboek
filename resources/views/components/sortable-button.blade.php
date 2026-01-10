@@ -7,7 +7,7 @@
 @endphp
 
 <a href="{{ urldecode(request()->fullUrlWithQuery(['sort' => $nextSort])) }}" 
-    {{ $attributes->merge(['class' => 'filter-link ' . ($isActive ? 'active' : '')]) }}>
+    {{ $attributes->merge(['class' => 'filter-link ']) }}>
     
     @if ($isActive)
         @if ($isDesc)
@@ -15,6 +15,8 @@
         @else
             <x-tabler-sort-ascending-letters class="icon-sm me-2"/>
         @endif
+    @else
+        <x-tabler-arrows-sort class="icon-sm me-2"/>
     @endif
 
     {{ $slot }}

@@ -113,14 +113,18 @@
                             </x-sortable-button>
 
                             {{-- Handmatige check voor weergaves (omdat dit geen standaard toggle is in je huidige component) --}}
-                            @php $isViews = request('sort') === '-weergaves'; @endphp
-                            <a href="{{ $isViews ? request()->fullUrlWithoutQuery(['sort']) : request()->fullUrlWithQuery(['sort' => '-weergaves']) }}" 
-                               class="filter-link {{ $isViews ? 'active' : '' }}">
-                                @if($isViews)
-                                    <x-tabler-sort-ascending-letters class="icon-sm me-2"/>
-                                @endif
-                                {{ __('pages/search.sidenav.sort.views') }}
-                            </a>
+                            @if (request('sort') === '-weergaves')
+    <a href="{{ request()->fullUrlWithQuery(['sort' => 'weergaves']) }}" class="filter-link">
+        <x-tabler-sort-descending-numbers class="icon me-2"/> 
+        {{ __('pages/search.sidenav.sort.views') }}
+    </a>
+@else
+    <a href="{{ request()->fullUrlWithQuery(['sort' => '-weergaves']) }}" class="filter-link">
+        {{-- I added the descending icon here to differentiate the "inactive" state --}}
+        <x-tabler-sort-ascending-numbers class="icon  me-2"/> 
+        {{ __('pages/search.sidenav.sort.views') }}
+    </a>
+@endif
                         </div>
                     </div>
                 @endif
