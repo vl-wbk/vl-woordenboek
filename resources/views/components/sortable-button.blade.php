@@ -11,9 +11,9 @@
     
     @if ($isActive)
         @if ($isDesc)
-            <x-tabler-sort-ascending-letters class="icon-sm me-2"/>
-        @else
             <x-tabler-sort-descending-letters class="icon-sm me-2"/>
+        @else
+            <x-tabler-sort-ascending-letters class="icon-sm me-2"/>
         @endif
     @endif
 
