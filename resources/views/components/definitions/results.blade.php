@@ -64,13 +64,23 @@
                     <span class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 rounded-pill small fw-bold text-uppercase">Niet gevonden</span>
                     <h2 class="h2 fw-bold mb-3">"{{ request()->get('zoekterm', 'Antwerpse koffie') }}"</h2>
                     <p class="text-muted lead fs-6 mb-4">
-                        Deze term is nog niet toegevoegd aan het Vlaams Woordenboek. Als een door de gemeenschap gedreven platform zijn we afhankelijk van bijdragers/lezers zoals jij.
+                        @if (request()->has('filter.published_after'))
+                            Er zijn sinds <strong>{{ \Carbon\Carbon::parse(request('filter.published_after'))->format('d/m/Y') }}</strong> geen nieuwe termen toegevoegd die aan je criteria voldoen.
+                        @else
+                            Deze term is nog niet toegevoegd aan het Vlaams Woordenboek. Als een door de gemeenschap gedreven platform zijn we afhankelijk van bijdragers/lezers zoals jij.
+                        @endif
                     </p>
                     
                     <div class="d-flex flex-wrap gap-3">
-                        <a href="{{ route('definitions.create', ['woord' => request()->get('zoekterm')]) }}" class="btn btn-primary px-4 py-2 fw-bold shadow-sm">
-                            <x-heroicon-o-document-plus class="icon me-2"/> Dien het in als suggestie
-                        </a>
+                        @if (request()->has('filter.published_after'))
+                            <a href="{{ request()->fullUrlWithQuery(['filter' => array_merge(request('filter', []), ['published_after' => null])]) }}" class="btn-remove">
+                                Verwijder publicatie filter
+                            </a>
+                        @else
+                            <a href="{{ route('definitions.create', ['woord' => request()->get('zoekterm')]) }}" class="btn btn-primary px-4 py-2 fw-bold shadow-sm">
+                                <x-heroicon-o-document-plus class="icon me-2"/> Dien het in als suggestie
+                            </a>
+                        @endif
 
                         @if (app(\App\Settings\VolunteerSettings::class)->pageActive)
                             <a href="{{ route('support.volunteers') }}" class="btn btn-outline-dark px-4 py-2 fw-bold shadow-sm">
