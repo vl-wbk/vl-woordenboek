@@ -73,8 +73,8 @@
                     
                     <div class="d-flex flex-wrap gap-3">
                         @if (request()->has('filter.published_after'))
-                            <a href="{{ request()->fullUrlWithQuery(['filter' => array_merge(request('filter', []), ['published_after' => null])]) }}" class="btn-remove">
-                                Verwijder publicatie filter
+                            <a class="btn btn-primary px-4 py-2 fw-bold shadow-sm" href="{{ request()->fullUrlWithQuery(['filter' => array_merge(request('filter', []), ['published_after' => null])]) }}" class="btn-remove">
+                                <x-heroicon-o-arrow-uturn-left class="icon me-2"/> Verwijder publicatie filter
                             </a>
                         @else
                             <a href="{{ route('definitions.create', ['woord' => request()->get('zoekterm')]) }}" class="btn btn-primary px-4 py-2 fw-bold shadow-sm">
