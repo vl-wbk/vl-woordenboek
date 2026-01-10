@@ -61,13 +61,15 @@
         </div>
     </div>
     
-    <style>
+   <style>
     /* 1. Hide the overflow and ensure the track stays on one line */
     .marquee-box {
         overflow: hidden;
         white-space: nowrap;
         display: flex;
         align-items: center;
+        /* Ensure it spans full width when stacked */
+        width: 100%;
         mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
         -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
     }
@@ -75,10 +77,10 @@
     /* 2. The track that holds the words */
     .marquee-track {
         display: flex;
-        gap: 0.5rem; /* Equivalent to gap-2 */
+        gap: 0.5rem; 
         padding-left: 0.5rem;
-        /* Adjust 20s to change speed - lower is faster */
-        animation: scroll-rtl 125s linear infinite;
+        /* Faster base speed for mobile */
+        animation: scroll-rtl 30s linear infinite;
     }
 
     /* 3. The logic: move half the track's width then snap back */
@@ -87,12 +89,12 @@
         100% { transform: translateX(-50%); }
     }
 
-    /* 4. Pause on hover for usability */
-    .marquee-track:hover {
+    /* 4. Pause on hover and touch for usability */
+    .marquee-track:hover, .marquee-track:active {
         animation-play-state: paused;
     }
 
-    /* Your original styles preserved */
+    /* Original styles preserved */
     .trending-tag {
         transition: all 0.2s ease-in-out;
     }
@@ -103,22 +105,27 @@
         border-color: var(--bs-primary) !important;
     }
 
-    .trending-tag:hover .text-primary {
-        color: white !important;
+    /* Desktop adjustments: Slow down speed and adjust spacing */
+    @media (min-width: 992px) {
+        .marquee-track {
+            animation-duration: 125s;
+        }
     }
 </style>
 
 <div class="bg-white">
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-10 my-2 d-flex align-items-center">
-                <span class="text-muted fw-bold text-uppercase me-3" style="font-size: 0.75rem; letter-spacing: 0.5px; white-space: nowrap;">
+            <div class="col-12 col-lg-10 my-2 d-flex flex-column flex-lg-row align-items-start align-items-lg-center">
+                
+                <span class="text-muted fw-bold text-uppercase mb-2 mb-lg-0 me-3" 
+                      style="font-size: 0.75rem; letter-spacing: 0.5px; white-space: nowrap;">
                     {{ __('Snuister eens door deze woorden:') }}
                 </span>
                 
                 <div class="marquee-box">
                     <div class="marquee-track">    
-                        {{-- Duplicate set for the loop --}}
+                        {{-- First Set --}}
                         @foreach($trendingWords as $word)
                             <a href="{{ route('word-information.show', $word) }}" 
                                class="badge rounded-pill bg-white text-dark border text-decoration-none py-2 px-3 shadow-sm trending-tag">
