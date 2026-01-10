@@ -8,6 +8,7 @@ use App\Enums\Articles\SearchPatterns;
 use App\Models\Article;
 use App\Models\WordOfTheDay;
 use App\Queries\Articles\SelectRandomArticle;
+use Doctrine\Inflector\Rules\Word;
 use Illuminate\Contracts\Support\Renderable;
 use Spatie\RouteAttributes\Attributes\Get;
 
@@ -18,6 +19,7 @@ final readonly class WelcomeController
     {
         return view('welcome', data: [
             'searchPatterns' => SearchPatterns::cases(),
+            'trendingWords' => Article::published()->limit(125)->get(),
             'wordOfTheDay' => WordOfTheDay::whereDate('scheduled_for', today())->first(),
             'recent' => Article::with('regions')->published()->orderBy('published_at', 'desc')->limit(3)->get(),
             'articleCount' => Article::published()->count('id'),

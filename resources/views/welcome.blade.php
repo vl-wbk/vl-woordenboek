@@ -52,12 +52,85 @@
                                     </label>
                                 </div>
                             </div>
+
+                            {{-- ... existing checkboxes for uitgebreid and archief ... --}}
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    
+    <style>
+    /* 1. Hide the overflow and ensure the track stays on one line */
+    .marquee-box {
+        overflow: hidden;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+        -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+    }
+
+    /* 2. The track that holds the words */
+    .marquee-track {
+        display: flex;
+        gap: 0.5rem; /* Equivalent to gap-2 */
+        padding-left: 0.5rem;
+        /* Adjust 20s to change speed - lower is faster */
+        animation: scroll-rtl 75s linear infinite;
+    }
+
+    /* 3. The logic: move half the track's width then snap back */
+    @keyframes scroll-rtl {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+
+    /* 4. Pause on hover for usability */
+    .marquee-track:hover {
+        animation-play-state: paused;
+    }
+
+    /* Your original styles preserved */
+    .trending-tag {
+        transition: all 0.2s ease-in-out;
+    }
+
+    .trending-tag:hover {
+        background-color: var(--bs-primary) !important;
+        color: white !important;
+        border-color: var(--bs-primary) !important;
+    }
+
+    .trending-tag:hover .text-primary {
+        color: white !important;
+    }
+</style>
+
+<div class="bg-white">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-10 my-2 d-flex align-items-center">
+                <span class="text-muted fw-bold text-uppercase me-3" style="font-size: 0.75rem; letter-spacing: 0.5px; white-space: nowrap;">
+                    {{ __('Snuister eens door deze woorden:') }}
+                </span>
+                
+                <div class="marquee-box">
+                    <div class="marquee-track">    
+                        {{-- Duplicate set for the loop --}}
+                        @foreach($trendingWords as $word)
+                            <a href="{{ route('word-information.show', $word) }}" 
+                               class="badge rounded-pill bg-white text-dark border text-decoration-none py-2 px-3 shadow-sm trending-tag">
+                                {{ $word->word }}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('content')
