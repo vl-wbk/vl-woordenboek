@@ -19,7 +19,7 @@ final readonly class WelcomeController
         return view('welcome', data: [
             'searchPatterns' => SearchPatterns::cases(),
             'wordOfTheDay' => WordOfTheDay::whereDate('scheduled_for', today())->first(),
-            'recent' => Article::with('regions')->published()->orderBy('published_at')->limit(3)->get(),
+            'recent' => Article::with('regions')->published()->orderBy('published_at', 'desc')->limit(3)->get(),
             'articleCount' => Article::published()->count('id'),
         ]);
     }
