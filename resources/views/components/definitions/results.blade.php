@@ -23,7 +23,7 @@
     <div class="d-flex justify-content-between align-items-center pt-2 border-top border-light-subtle">
         @if ($result->author)
             <span class="small text-muted">
-                @if ($result->authtor()->exists())
+                @if ($result->author()->exists())
                      Door <span class="text-dark fw-semibold">{{ $result->author->name ?? $result->contributor_name ?? config('app.name') }}</span>
                 @else
                     Door <span class="text-dark fw-semibold">{{  $result->contributor_name ?? config('app.name') }}</span>
