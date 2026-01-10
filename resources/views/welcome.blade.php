@@ -196,7 +196,7 @@
 
             <div class="col-md-4 d-flex">
                 <div class="card bg-white border shadow-sm rounded-4 p-4 w-100 d-flex flex-column">
-                    <h6 class="fw-bold text-uppercase small text-success mb-1">{{ __('pages/welcome.call-outs.volunteer.title') }}y</h6>
+                    <h6 class="fw-bold text-uppercase small text-success mb-1">{{ __('pages/welcome.call-outs.volunteer.title') }}</h6>
                     <p class="fw-bold text-dark small mb-3">{{ __('pages/welcome.call-outs.volunteer.subtitle') }}</p>
                     
                     <p class="text-muted small">
