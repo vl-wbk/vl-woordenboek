@@ -78,7 +78,7 @@
         gap: 0.5rem; /* Equivalent to gap-2 */
         padding-left: 0.5rem;
         /* Adjust 20s to change speed - lower is faster */
-        animation: scroll-rtl 75s linear infinite;
+        animation: scroll-rtl 125s linear infinite;
     }
 
     /* 3. The logic: move half the track's width then snap back */
