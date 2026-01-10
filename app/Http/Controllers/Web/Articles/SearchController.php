@@ -39,6 +39,12 @@ final readonly class SearchController
             'randomArticle' => SelectRandomArticle::fetch(),
             'results' => $searchWordQuery->execute($request),
             'termPresent' => $request->has('zoekterm'),
+            'randomArticles' => Article::published()
+                ->whereNull('deleted_at')
+                // Find the first article whose ID is >= the generated random ID
+                ->orderBy('id', 'asc')
+                ->limit(8)
+                ->get(),
         ]);
     }
 }

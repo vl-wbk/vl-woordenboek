@@ -48,7 +48,7 @@ final readonly class SearchWordQuery
         return QueryBuilder::for(Article::class)
             ->allowedSorts($this->getAllowedSorts())
             ->allowedFilters($this->getAllowedFilters())
-            ->with(['author', 'bookmarkers'])
+            ->with(['author', 'regions','bookmarkers'])
             ->where(function ($q) use ($includeArchive) {
                 $q->whereNotNull('published_at');
                 if ($includeArchive) {

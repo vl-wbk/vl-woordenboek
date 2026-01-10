@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Web\Articles;
 
 use App\Enums\Articles\EtymologyStatus;
+use App\Filament\Resources\Articles\ArticleResource;
 use App\Models\Article;
 use App\Models\WordOfTheDay;
 use App\Policies\ArticlePolicy;
@@ -68,6 +69,7 @@ final readonly class DictionaryArticleController
 
             return view('definitions.show', data: [
                 'word' => $word,
+                'editLink' => ArticleResource::getUrl('edit', ['record' => $word]),
                 'etymologies' => $word->etymologies()->whereNotIn('status', [EtymologyStatus::Draft, EtymologyStatus::Rejected, EtymologyStatus::Archived])->get(),
                 'upcomingSchedule' => WordOfTheDay::where('article_id', $word->id)->whereDate('scheduled_for', today())->first(),
             ]);

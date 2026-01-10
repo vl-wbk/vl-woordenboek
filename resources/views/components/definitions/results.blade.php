@@ -1,69 +1,166 @@
 @forelse($results as $result)
-    <div class="card {{ ($result->archived_at) ? 'border-danger-subtle' : 'border-0' }} @if (! $loop->last) mb-3 @endif shadow-sm">
-        <div class="card-header bg-white">
-            <a href="{{ route('word-information.show', $result) }}" class="h5 text-decoration-none card-title fw-bold color-green d-flex justify-content-between align-items-start flex-wrap">
-                <span class="me-2 mb-1">{{ $result->word }}</span>
+    <div class="lexi-card {{ $result->isArchived() ? 'border-danger-subtle' : '' }}">
+   @if ($result->regions()->exists())
+    <div class="d-flex flex-wrap gap-2 mb-3">
+        @foreach($result->regions as $region)
+            <span class="lexi-tag-enhanced">
+                <x-heroicon-o-map-pin class="icon me-1"/> {{ $region->name }}
+            </span>
+        @endforeach
+    </div>
+@endif
 
-                @if ($result->wotd)
-                    <span class="badge badge-xsm badge-danger ms-auto flex-shrink-0">
-                        <x-heroicon-o-star class="icon me-1 icon-sm"/> woord van de dag
-                    </span>
-                @elseif ($result->isArchived())
-                    <span class="badge badge-xsm badge-danger ms-auto flex-shrink-0">
-                        <x-heroicon-o-archive-box class="icon me-1 icon-sm"/> Gearchiveerd artikel
-                    </span>
+    <div class="content-body">
+        <a href="{{ route('word-information.show', $result) }}" class="text-decoration-none">
+            <h4 class="word-title mb-2">{{ $result->word }} <span class="word-type ms-2">{{ strtolower($result->characteristics) }}</span></h3>
+        </a>
+
+        <div class="text-secondary opacity-75 mb-2" style="font-weight: 400;">
+            {!! str($result->description)->words(22)->markdown()->sanitizeHtml() !!}
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center pt-2 border-top border-light-subtle">
+        @if ($result->author)
+            <span class="small text-muted">
+                @if ($result->author()->exists())
+                     Door <span class="text-dark fw-semibold">{{ $result->author->name ?? $result->contributor_name ?? config('app.name') }}</span>
                 @else
-                    {{ $result->archived_at }}
-                    <small class="fw-normal ms-auto flex-shrink-0 text-nowrap">
-                        <x-heroicon-o-eye class="icon me-1"/> {{ $result->views }}
-                    </small>
+                    Door <span class="text-dark fw-semibold">{{  $result->contributor_name ?? config('app.name') }}</span>
                 @endif
+
+                <span class="">•</span> {{  __('Weergaves: :count', ['count' => $result->views]) }}
+            </span>
+        @endif
+
+        <div class="d-flex align-items-center gap-3">
+            @auth
+                @if ($result->bookmarkers->contains(auth()->user()))
+                    <a href="{{ route('bookmark:remove', $result) }}" class="text-danger text-decoration-none p-2 hover-bg-light rounded-circle">
+                        <x-heroicon-s-bookmark class="icon"/> Vergeet dit woord
+                    </a>
+                @else
+                    <a href="{{ route('bookmark:create', $result) }}" class="text-dark text-decoration-none p-2 hover-bg-light rounded-circle">
+                        <x-heroicon-o-bookmark class="icon"/> Bewaar
+                    </a>
+                @endif
+            @endauth
+           
+
+            <a href="{{ route('word-information.show', $result) }}" 
+               class="btn btn-sm rounded-pill btn-outline-dark fw-bold btn-sm shadow-sm">
+                Ontdek <x-heroicon-o-arrow-right class="icon-sm ms-1"/>
             </a>
-
-            <h6 class="card-subtitle mb-0 text-body-secondary">{{ $result->characteristics }}</h6>
-        </div>
-        <div class="card-body bg-white">
-            <p class="card-text"> {!! str($result->description)->words(25)->markdown()->sanitizeHtml() !!}</p>
-
-            @if ($result->author)
-                <p class="card-text fw-bold my-2">
-                    Op basis van de suggestie ingestuurd door <span class="color-green">{{ $result->author->name }}</span>
-                </p>
-            @endif
-        </div>
-        <div class="card-footer bg-white d-flex flex-wrap">
-            @if ($result->isPublished() || $result->isArchived())
-                <a href="{{ route('word-information.show', $result) }}" class="card-link text-decoration-none me-2 mb-1">
-                    <x-heroicon-o-eye class="icon color-green"/> bekijk
-                </a>
-            @endif
-
-            @if (! $result->isArchived() && $result->bookmarkers->contains(auth()->user()))
-                <a href="{{ route('bookmark:remove', $result) }}" class="card-link text-decoration-none me-2 mb-1">
-                    <x-heroicon-o-bookmark-slash class="icon text-danger"/> vergeten
-                </a>
-            @elseif (! $result->isArchived()) {{-- The user hasnt bookmarked the article --}}
-                <a href="{{ route('bookmark:create', $result) }}" class="card-link text-decoration-none me-2 mb-1">
-                    <x-heroicon-o-bookmark class="icon color-green"/> bewaar
-                </a>
-            @endif
         </div>
     </div>
+</div>
 @empty
-    <div class="card bg-sidenav border-0 shadow-sm text-center">
-        <div class="card-body p-4">
-            <x-heroicon-o-book-open class="icon color-green icon-blankslate pb-3"/>
-            <h5 class="card-title fw-bold">Spijtig, niks gevonden</h5>
+    <div class="card bg-sidenav border-0 shadow-sm overflow-hidden">
+    <div class="card-body p-4 p-md-5">
+        <div class="row g-5">
+            
+            <div class="col-lg-7">
+                <div class="mb-4 text-start">
+                    <span class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 rounded-pill small fw-bold text-uppercase">Niet gevonden</span>
+                    <h2 class="h2 fw-bold mb-3">"{{ request()->get('zoekterm', 'Antwerpse koffie') }}"</h2>
+                    <p class="text-muted lead fs-6 mb-4">
+                        @if (request()->has('filter.published_after'))
+                            Er zijn sinds <strong>{{ \Carbon\Carbon::parse(request('filter.published_after'))->format('d/m/Y') }}</strong> geen nieuwe termen toegevoegd die aan je criteria voldoen.
+                        @else
+                            Deze term is nog niet toegevoegd aan het Vlaams Woordenboek. Als een door de gemeenschap gedreven platform zijn we afhankelijk van bijdragers/lezers zoals jij.
+                        @endif
+                    </p>
+                    
+                    <div class="d-flex flex-wrap gap-3">
+                        @if (request()->has('filter.published_after'))
+                            <a class="btn btn-primary px-4 py-2 fw-bold shadow-sm" href="{{ request()->fullUrlWithQuery(['filter' => array_merge(request('filter', []), ['published_after' => null])]) }}" class="btn-remove">
+                                <x-heroicon-o-arrow-uturn-left class="icon me-2"/> Verwijder publicatie filter
+                            </a>
+                        @else
+                            <a href="{{ route('definitions.create', ['woord' => request()->get('zoekterm')]) }}" class="btn btn-primary px-4 py-2 fw-bold shadow-sm">
+                                <x-heroicon-o-document-plus class="icon me-2"/> Dien het in als suggestie
+                            </a>
+                        @endif
 
-            <p class="card-text text-muted mb-2">
-                We vonden geen enkel artikel dat bij jouw zoekterm past.
-                Heb je een typfout gemaakt? Misschien is het wel een woord dat of woordcombinatie die (nog) niet in ons woordenboek zit.
-                Probeer het eens met een andere zoekterm of een andere schrijfwijze.
-            </p>
+                        @if (app(\App\Settings\VolunteerSettings::class)->pageActive)
+                            <a href="{{ route('support.volunteers') }}" class="btn btn-outline-dark px-4 py-2 fw-bold shadow-sm">
+                                <x-heroicon-s-user-plus class="icon me-2"/> Zin om vrijwilliger te worden?
+                            </a>
+                        @endif
+                    </div>
+                </div>
 
-            <p class="card-text text-muted">
-                Nog steeds niks? Je mag altijd een suggestie indienen. Dat kan met de knop links bovenaan.
-            </p>
+                <section class="border-top pt-4 mt-5">
+                    <h6 class="text-uppercase small fw-bold text-muted mb-4 tracking-wider">
+                        <x-heroicon-s-light-bulb class="icon me-2"/> Hoe vind je wat je zoekt?
+                    </h6>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="d-flex">
+                                <div>
+                                    <h6 class="fw-bold mb-1 small text-dark">Zoekmethode</h6>
+                                    <p class="small text-muted mb-0">Zet de filter op <strong>"Bevat"</strong> voor bredere resultaten als exact niet werkt.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="d-flex">
+                                <i class="bi bi-archive text-primary fs-5"></i>
+                                <div>
+                                    <h6 class="fw-bold mb-1 small text-dark">Check het Archief</h6>
+                                    <p class="small text-muted mb-0">Veel oudere of minder courante woorden staan in ons <strong>Archief</strong>.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="d-flex">
+                                <div>
+                                    <h6 class="fw-bold mb-1 small text-dark">Let op spelling</h6>
+                                    <p class="small text-muted mb-0">Zoek op de <strong>stam</strong> van het woord of probeer een variant (bijv. 'ou' ipv 'au').</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="d-flex">
+                                <div>
+                                    <h6 class="fw-bold mb-1 small text-dark">Zoek in beschrijving</h6>
+                                    <p class="small text-muted mb-0">Activeer de optie om ook in <strong>definities</strong> te zoeken naar termen.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="p-4 bg-white rounded-4 border border-white shadow-sm">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h6 class="fw-bold mb-0 text-dark">
+                            <i class="bi bi-shuffle me-2 text-primary"></i> Ontdek eens een vlaams woord
+                        </h6>
+                        <span class="badge bg-white text-muted border fw-normal">Willekeurig</span>
+                    </div>
+
+                    <div class="d-flex flex-wrap gap-2 mb-4">
+                        @foreach ($randomArticles as $article)
+                            <a href="{{ route('word-information.show', $article) }}" class="btn btn-white btn-sm border bg-white shadow-sm px-3 rounded-pill hover-lift cursor-pointer">
+                                <x-heroicon-o-document-text class="icon me-1"/>{{ $article->word }}
+                            </a>
+                        @endforeach
+                    </div>
+
+                    <div class="bg-primary bg-opacity-10 p-3 rounded-3 mt-2">
+                        <p class="small text-dark mb-0">
+                            <strong>Wist je dat?</strong> Veel Vlaamse termen verschillen per regio.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
+</div>
 @endforelse
