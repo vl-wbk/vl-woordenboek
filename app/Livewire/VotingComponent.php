@@ -17,7 +17,7 @@ use Livewire\Component;
  *
  * @package App\Livewire
  */
-class LikeWords extends Component
+class VotingComponent extends Component
 {
     /**
      * The article being liked or unliked.
@@ -41,26 +41,32 @@ class LikeWords extends Component
     }
 
     /**
-     * Handles the like action for the current article.
-     *
-     * This method is triggered when a user clicks the like button.
-     * It uses Laravel's authentication system to identify the current user and records their like for the article.
+     * Register an upvote for the article.
+     * * @return void
      */
-    public function likeArticle(): void
+    public function upvote()
     {
-        Auth::user()->like($this->article);
+        if (auth()->guest())
+            return $this->redirect(route('login'));
+
+
+        auth()->user()->cancelVote($this->article);
+        auth()->user()->upvote($this->article);
+        $this->article->refresh();
     }
 
     /**
-     * Handles the unlike action for the current article.
-     *
-     * This method is triggered when a user clicks to remove their like.
-     * It uses Laravel's authentication system to identify the current user and removes their like from the article.
+     * Register a downvote for the article.
+     * * @return void
      */
-    public function dislikeArticle(): void
+    public function downvote()
     {
-        Auth::user()->unlike($this->article);
+        if (auth()->guest())
+            return $this->redirect(route('login'));
 
+        auth()->user()->cancelVote($this->article);
+        auth()->user()->downvote($this->article);
+        $this->article->refresh();
     }
 
     /**

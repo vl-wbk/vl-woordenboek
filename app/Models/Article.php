@@ -36,6 +36,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Kirschbaum\Commentions\Contracts\Commentable;
 use Kirschbaum\Commentions\HasComments;
 use Overtrue\LaravelLike\Traits\Likeable;
+use Overtrue\LaravelVote\Traits\Votable;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 use Kenepa\ResourceLock\Models\Concerns\HasLocks;
@@ -92,6 +93,7 @@ final class Article extends Model implements AuditableContract, Commentable
     use Prunable;
     use HasNotables;
     use HasComments;
+    use Votable;
 
     /**
      * Specifies attributes that are protected from mass assignment.
@@ -121,7 +123,7 @@ final class Article extends Model implements AuditableContract, Commentable
      */
     protected $attributes = [
         'origin' => DataOrigin::Suggestion,
-        'state' => ArticleStates::New,
+        'state' => ArticleStates::New ,
         'status' => LanguageStatus::Onbekend,
     ];
 
@@ -357,7 +359,7 @@ final class Article extends Model implements AuditableContract, Commentable
             'origin' => DataOrigin::class,
             'state' => ArticleStates::class,
             'status' => LanguageStatus::class,
-			'published_at' => 'datetime',
+            'published_at' => 'datetime',
             'archived_at' => 'datetime',
         ];
     }

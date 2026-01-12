@@ -40,6 +40,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Pennant\Concerns\HasFeatures;
 use Laravel\Sanctum\HasApiTokens;
 use Override;
+use Overtrue\LaravelVote\Traits\Voter;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -84,6 +85,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
     use ReceivesWelcomeNotification;
     use Notifiable;
     use Liker;
+    use Voter;
     use Bannable;
     use HasApiTokens;
     use HasFeatures;
@@ -134,8 +136,8 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
 
     /**
      * Retrieve the user's avatar URL for the Filament admin panel.
-     * 
-     * This method generates a Gravatar URL by creating an MD5 hash of the user's email address. 
+     *
+     * This method generates a Gravatar URL by creating an MD5 hash of the user's email address.
      * It ensures the email is properly formatted (trimmed and lowercase) before hashing to comply with Gravatar's requirements.
      *
      * @return string|null The URL to the Gravatar image, or null if no email is available.
@@ -249,7 +251,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
 
     /**
      * Interact with the user's active status.
-     * 
+     *
      * This accessor checks the application cache for a 'last-seen' timestamp.
      * A user is considered active if their last activity was recorded within the last 2 minutes.
      *
@@ -259,9 +261,9 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
     {
         return Attribute::get(function (): bool {
             /** @var \Illuminate\Support\Carbon|null $lastSeen */
-            $lastSeen = Cache::get('user-last-seen:' . $this->id, null);
+            $lastSeen = Cache::get('user-last-seen:'.$this->id, null);
 
-            if (!is_null($lastSeen) && $lastSeen->diffInMinutes(now()) < 2) {
+            if (! is_null($lastSeen) && $lastSeen->diffInMinutes(now()) < 2) {
                 return true;
             }
 
@@ -287,7 +289,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
     /**
      * Prepare the model for pruning.
      *
-     * This method is called by Laravel right before the model is deleted. 
+     * This method is called by Laravel right before the model is deleted.
      * It queues a notification email to inform the user that their  account has been removed due to inactivity.
      *
      * @return void

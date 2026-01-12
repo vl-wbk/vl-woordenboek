@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "58acb091337449645b61ff538e7100f5",
+    "content-hash": "71b1d65dbcf4c95fa28c47b93bf5535a",
     "packages": [
         {
             "name": "aaronfrancis/fast-paginate",
@@ -6731,6 +6731,75 @@
                 }
             ],
             "time": "2025-09-13T02:52:20+00:00"
+        },
+        {
+            "name": "overtrue/laravel-vote",
+            "version": "3.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/overtrue/laravel-vote.git",
+                "reference": "c224138872f2b89809e966e495830e6c768995c5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/overtrue/laravel-vote/zipball/c224138872f2b89809e966e495830e6c768995c5",
+                "reference": "c224138872f2b89809e966e495830e6c768995c5",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^9.0|^10.0|^11.0|^12.0"
+            },
+            "require-dev": {
+                "brainmaestro/composer-git-hooks": "dev-master",
+                "friendsofphp/php-cs-fixer": "^3.6",
+                "laravel/pint": "^1.5",
+                "mockery/mockery": "^1.4",
+                "orchestra/testbench": "^8.0",
+                "phpunit/phpunit": "^10.0"
+            },
+            "type": "library",
+            "extra": {
+                "hooks": {
+                    "pre-push": [
+                        "composer test"
+                    ],
+                    "pre-commit": [
+                        "composer fix-style"
+                    ]
+                },
+                "laravel": {
+                    "providers": [
+                        "Overtrue\\LaravelVote\\VoteServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Overtrue\\LaravelVote\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "overtrue",
+                    "email": "anzhengchao@gmail.com"
+                }
+            ],
+            "description": "User Vote features for Laravel Application.",
+            "support": {
+                "issues": "https://github.com/overtrue/laravel-vote/issues",
+                "source": "https://github.com/overtrue/laravel-vote/tree/3.4.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/overtrue",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-02-25T13:38:12+00:00"
         },
         {
             "name": "owen-it/laravel-auditing",

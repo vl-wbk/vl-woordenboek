@@ -49,7 +49,7 @@
                 {{-- Regio Sectie --}}
                 <div class="mb-2 d-flex flex-wrap align-items-center gap-2">
                     @foreach($word->regions as $region)
-                        <a href="{{ route('region:show', $region) }}" class="text-decoration-none d-flex align-items-center" 
+                        <a href="{{ route('region:show', $region) }}" class="text-decoration-none d-flex align-items-center"
                            style="font-size: 0.75rem; font-weight: 700; color: var(--lexi-region-text); text-transform: uppercase; letter-spacing: 0.025em;">
                             <x-heroicon-s-map-pin style="width:0.9rem; margin-right: 0.2rem;"/>
                             {{ $region->name }}
@@ -57,7 +57,7 @@
                         @if(!$loop->last) <span class="text-muted opacity-25">|</span> @endif
                     @endforeach
                 </div>
-                
+
                 <h1 class="display-3 fw-bold mb-1">{{ $word->word }}</h1>
 
                 <div class="d-flex align-items-center flex-wrap gap-2">
@@ -96,7 +96,7 @@
                     </div>
                 @endauth
             </div>
-            
+
             <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
                 <a href="{{ route('definitions.create') }}" class="btn btn-outline-dark px-4 rounded-1">
                     <x:heroicon-s-document-plus class="icon me-1"/>suggestie voor een nieuw artikel
@@ -173,17 +173,17 @@
         <h5 class="fw-bold mb-3 d-flex align-items-center color-green">
             Bronnen & Referenties
         </h5>
-        
+
         <div class="sources-list">
             @foreach($word->sources as $source)
                 <div class="source-item shadow-sm">
-                    <div class="source-icon"> 
+                    <div class="source-icon">
                         <x-heroicon-s-book-open style="width: 1.2rem;"/>
                     </div>
                     <div class="flex-grow-1">
                         <span class="source-link fw-semibold">{{ $source->referenceWork->name }}</span>
-                   
-                        
+
+
                         @if($source->notation)
                             <p class="mb-0 small text-muted mt-1">{{ $source->notation }}</p>
                         @endif
@@ -202,8 +202,8 @@
                     </div>
                     <div>
                         <p class="mb-1 small text-muted">
-                            Toegevoegd door 
-                            
+                            Toegevoegd door
+
                             @if ($word->author()->exists())
                                 <a href="{{ route('account:public', $word->author) }}" class="fw-bold text-dark">{{ $word->author->name ?? $word->contributor_name }}</a>
                             @else
@@ -211,7 +211,7 @@
                             @endif
                         </p>
                         <p class="mb-0 extra-small text-muted" style="font-size: 0.75rem;">
-                            Gepubliceerd op {{ optional($word->published_at)->format('d M Y') ?? $word->created_at->format('d M Y') }} 
+                            Gepubliceerd op {{ optional($word->published_at)->format('d M Y') ?? $word->created_at->format('d M Y') }}
                             <span class="vr mx-2"></span>
                          Laatst bijgewerkt op {{ $word->updated_at->format('d M Y') }}
                         </p>
@@ -222,29 +222,7 @@
 
         <aside class="col-lg-3">
             {{-- Community Stats --}}
-            <div class="card border-0 bg-dark text-white rounded-4 overflow-hidden mb-4 shadow-sm">
-                <div class="p-4">
-                    <h6 class="small fw-bold text-uppercase opacity-50 mb-3">Hoe ligt dit woord in de community?</h6>
-                    <div class="stats-dashboard @auth mb-3 @endauth">
-                        <div class="stat-item">
-                            <span class="d-block fw-bold">{{ toHumanReadableNumber($word->likers()->count()) }}</span>
-                            <span class="extra-small opacity-50" style="font-size: 0.7rem;">Stemmen</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="d-block fw-bold">{{ toHumanReadableNumber($word->views) }}</span>
-                            <span class="extra-small opacity-50" style="font-size: 0.7rem;">Weergaves</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="d-block fw-bold">{{ toHumanReadableNumber($word->bookmarkers()->count()) }}</span>
-                            <span class="extra-small opacity-50" style="font-size: 0.7rem;">Bookmarks</span>
-                        </div>
-                    </div>
-                    
-                    @auth
-                        <livewire:like-words :article="$word" />
-                    @endauth
-                </div>
-            </div>
+            <livewire:voting-component :article="$word"/>
         </aside>
     </div>
 </div>

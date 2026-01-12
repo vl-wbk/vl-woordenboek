@@ -39,6 +39,7 @@
         "marcelweidum/filament-expiration-notice": "^1.0",
         "mobiledetect/mobiledetectlib": "^4.8",
         "overtrue/laravel-like": "^5.3",
+        "overtrue/laravel-vote": "^3.4",
         "owen-it/laravel-auditing": "^14.0",
         "pxlrbt/filament-environment-indicator": "*",
         "schmeits/filament-character-counter": "^4.0",
