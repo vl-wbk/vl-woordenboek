@@ -20,7 +20,7 @@ enum RevokePublicationReason: string implements HasLabel, HasDescription
         return $this->value;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return match ($this) {
             self::TooRegional => 'Dit artikel is te regionaal of dialectisch waardoor de publicatie is ingetrokken in het Vlaams Woordenboek',

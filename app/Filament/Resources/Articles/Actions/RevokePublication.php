@@ -110,7 +110,6 @@ final class RevokePublication extends Action
                 ->maxLength(250)
                 ->rows(5)
                 ->required()
-                ->visible(fn (Get $get) => $get('reason') !== null || $get('reason') === RevokePublicationReason::Other)
                 ->default(null),
         ];
     }
