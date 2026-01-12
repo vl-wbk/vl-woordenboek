@@ -9,7 +9,7 @@ use App\Models\Article;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
+use Schmeits\FilamentCharacterCounter\Forms\Components\Textarea;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 
@@ -107,6 +107,7 @@ final class RevokePublication extends Action
             Textarea::make('reason')
                 ->label('Reden van de handeling')
                 ->placeholder('Beschrijf kort waarom je de publicatie ongedaan wilt maken.')
+                ->maxLength(250)
                 ->rows(5)
                 ->required()
                 ->visible(fn (Get $get) => $get('reason') !== null || $get('reason') === RevokePublicationReason::Other)
