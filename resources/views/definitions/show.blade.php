@@ -124,6 +124,12 @@
         <div class="col-lg-9 pe-lg-5">
             <section class="mb-5">
                 <h5 class="fw-bold mb-3 text-success">Definitie</h5>
+                <ul class="list-inline">
+                    <li class="list-inline-item">
+                        <strong>Regio:</strong> <span class="badge me-3 bg-primary">{{ $word->status->getLabel() }}</span>
+                    </li>
+                </ul>
+
                 <div class="d-flex">
                     @if ($word->image_url)
                         <div class="flex-shrink-0 d-sm-none d-md-block me-3">
