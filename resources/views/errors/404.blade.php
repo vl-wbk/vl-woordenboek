@@ -23,10 +23,15 @@
 <main class="container vh-center">
     <div class="w-100 text-center">
 
-        <header class="mb-5">
-            <h1 class="display-1 fw-light text-secondary">404</h1>
-            <p class="fs-4">Het gezochte begrip of woord is niet gevonden in het Vlaams Woordenboek</p>
-        </header>
+        <div class="mb-4">
+                <span class="badge rounded-pill bg-danger bg-opacity-10 text-danger px-3 py-2">Fout 404</span>
+                <h1 class="display-5 fw-bold mt-3">Woord niet gevonden</h1>
+                <p class="text-muted mx-auto" style="max-width: 500px;">
+                    <strong>Let op:</strong> Onze website is onlangs vernieuwd waardoor de
+                        <strong>URL-structuur</strong> is gewijzigd. Hierdoor werken oude bladwijzers
+                        of links uit zoekmachines mogelijk niet meer direct.
+                </p>
+            </div>
 
         <section class="search-container mb-5">
             <form action="{{ route('search.results') }}" method="GET">
