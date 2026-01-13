@@ -14,4 +14,8 @@ final class VolunteersCluster extends Cluster
     use HasActiveIcon;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-user-group';
+
+    protected static ?string $navigationLabel = 'Vrijwilligers';
+
+    protected static ?string $clusterBreadcrumb = 'Vrijwilligers';
 }

@@ -2,8 +2,9 @@
 
 namespace App\Filament\Clusters\Volunteers\Resources\VolunteerPositions\Pages;
 
+use App\Filament\Clusters\Volunteers\Resources\VolunteerPositions\Actions\CreateAction;
 use App\Filament\Clusters\Volunteers\Resources\VolunteerPositions\VolunteerPositionResource;
-use Filament\Actions\CreateAction;
+use Filament\Actions\ActionGroup;
 use Filament\Resources\Pages\ListRecords;
 
 class ListVolunteerPositions extends ListRecords
@@ -13,7 +14,9 @@ class ListVolunteerPositions extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make(),
+            ActionGroup::make([
+                CreateAction::make(),
+            ])->buttonGroup(),
         ];
     }
 }

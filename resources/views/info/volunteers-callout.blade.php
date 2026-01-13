@@ -55,18 +55,25 @@
                              |----------------------------------------------------------------------
                              --}}
                             <div class="tab-pane fade show active" id="positions" role="tabpanel">
-
+                                @foreach ($positions as $position)
                                     <div class="card border-0 bg-white shadow-sm mb-4">
                                         <div class="card-body">
-                                            <h5 class="card-title color-green fw-bold">titel</h5>
-                                            <h6 class="card-subtitle mb-2 text-body-secondary">category</h6>
-                                            <p class="card-text text-muted">description</p>
-                                        </div>
-                                        <div class="card-footer bg-light border-top-0">
-                                            <a href="" class="btn btn-sm btn-outline-dark">Ik heb interesse</a>
-                                        </div>
-                                    </div>
+                                            <h5 class="card-title color-green fw-bold">{{ $position->name }}</h5>
 
+                                            @if ($position->tag_line)
+                                                <h6 class="card-subtitle mb-2 fst-italic text-body-secondary">{{ $position->tag_line }}</h6>
+                                            @endif
+
+                                            <p class="card-text">{{ $position->description }}</p>
+                                        </div>
+
+                                        @can('apply', $position)
+                                            <div class="card-footer bg-light border-top-0">
+                                                <a href="" class="btn btn-sm btn-outline-dark">Ik heb interesse</a>
+                                            </div>
+                                        @endcan
+                                    </div>
+                                @endforeach
                             </div>
 
                             {{--
