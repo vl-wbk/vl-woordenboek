@@ -14,36 +14,36 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
+use Illuminate\Support\Stringable;
 
 /**
  * The SearchWordQuery provides a focused way to search through dictionary articles.
  *
- * This version includes a noise-reduction filter that removes common Dutch stop-words
- * (like 'de', 'het', 'een') to ensure that sentence-based searches remain accurate
- * and user-friendly.
+ * This Query is designed to help users find articles by matching their search terms against multiple fields in the article database.
+ * It specifically looks through the word itself, its description, and any associated keywords.
+ * To Ensure quality results, the search only includes articles that have been published.
+ *
+ * The results are paginated to prevent overwhelming the user or the systeem, with six articles shown per page.
+ * Users can sort these results i)àn different ways, such as alphabetically by word, by publication date, or by view count.
  *
  * @package App\Queries
  */
 final readonly class SearchWordQuery
 {
-    /** @var array<int, string> List of common Dutch words to exclude from flexible searches. */
-    private const STOP_WORDS = [
-        'de', 'het', 'een', 'en', 'van', 'in', 'met', 'voor', 'op', 'is',
-        'aan', 'bij', 'om', 'te', 'die', 'dat', 'heb', 'wat', 'zoek', 'naar'
-    ];
-
     /**
      * Performs the search operation using the provided search term.
      *
-     * @param  Request $request
-     * @return LengthAwarePaginator<int, Model>
+     * This method builds a query that searches though published articles, looking for matches in the word, description, and keywords fields.
+     * The search is case-insensitive and matches partial words.
+     * Results are sorted alphabetically by default and paginated for better performance and user experience
+     *
+     * @param  Request $request                  The instance that holds all the request information
+     * @return LengthAwarePaginator<int, Model>  Paginated collection of matching articles with query parameters preserved
      */
     public function execute(Request $request): LengthAwarePaginator
     {
         $includeDescription = $request->boolean('uitgebreid');
         $includeArchive = $request->boolean('archief');
-        $searchData = $this->getSearchTerms($request);
 
         return QueryBuilder::for(Article::class)
             ->allowedSorts($this->getAllowedSorts())
@@ -55,22 +55,11 @@ final readonly class SearchWordQuery
                     $q->orWhereNotNull('archived_at');
                 }
             })
-            ->where(function ($query) use ($searchData, $includeDescription, $request): void {
-                // If no valid terms remain after filtering, return no results or handle as empty
-                if ($searchData['terms']->isEmpty()) {
-                    return;
-                }
-
-                foreach ($searchData['terms'] as $term) {
-                    $query->where(function ($sub) use ($term, $searchData, $includeDescription, $request) {
-                        $pattern = $this->formatPattern($term, $request->get('zoekpatroon'));
-
-                        $sub->where('word', $searchData['operator'], $pattern)
-                            ->orWhere('keywords', $searchData['operator'], $pattern)
-                            /** @phpstan-ignore-next-line */
-                            ->when($includeDescription, fn ($builder) => $builder->orWhere('description', 'LIKE', $pattern));
-                    });
-                }
+            ->where(function ($query) use ($request, $includeDescription): void {
+                $query->where('word', $this->getSearchPattern($request)['operator'], $this->getSearchPattern($request)['pattern'])
+                    ->orWhere('keywords', $this->getSearchPattern($request)['operator'], $this->getSearchPattern($request)['pattern'])
+                    /** @phpstan-ignore-next-line */
+                    ->when($includeDescription, fn (ArticleBuilder $builder): Builder => $builder->orWhere('description', 'like', $this->getSearchPattern($request)['pattern']));
             })
             ->orderBy('word')
             ->fastPaginate(6)
@@ -78,54 +67,46 @@ final readonly class SearchWordQuery
     }
 
     /**
-     * Parses the incoming request into a collection of search terms,
-     * filtering out common stop-words if the pattern is not 'Exact'.
+     * Parses the incoming request to determine the appropriate search pattern and operator for database queries.
+     * It constructs the search string (e.g., with wildcards) and identifies whether a 'LIKE' or '=' operator is needed based on the chosen `SearchPatterns` enum value.
      *
-     * @param  Request $request
-     * @return array{terms: Collection<int, string>, operator: string}
+     * This function expects two specific parameters from the request:
+     * - 'zoekterm': The actual text to search for.
+     * - 'zoekpatroon': The desired search pattern, corresponding to a `SearchPatterns` enum case value.
+     *
+     * @param  Request $request The incoming HTTP request instance, containing 'zoekterm' and 'zoekpatroon'.
+     * @return array{pattern: Stringable|non-falsy-string, operator: '='|'LIKE'}
      */
-    private function getSearchTerms(Request $request): array
+    private function getSearchPattern(Request $request): array
     {
-        $searchTerm = $request->string('zoekterm')->trim()->lower();
-        $mode = $request->get('zoekpatroon');
-        $isExact = $mode === SearchPatterns::Exact->value;
+        // Retrieve the 'zoekterm' (search term) from the request as a string.
+        $searchTerm = $request->string('zoekterm');
 
-        if ($isExact) {
-            return [
-                'terms' => collect([$searchTerm->toString()]),
-                'operator' => '=',
-            ];
-        }
+        // Determine the formatted search pattern based on the 'zoekpatroon' (search pattern) value provided in the request.
+        // This uses a match expression for concise conditional logic.
+        $pattern = match ($request->get('zoekpatroon')) {
+            SearchPatterns::StartsWith->value => "$searchTerm%",  // If the pattern is 'StartsWith', append a '%' wildcard to the search term.
+            SearchPatterns::EndsWith->value => "%$searchTerm",    // If the pattern is 'Endswith', prepend a '%' wildcard to the search term.
+            SearchPatterns::Exact->value => $searchTerm,            // If the pattern is 'Exact', use the search term as is (no wildcards).
+            default => "%$searchTerm%",
+        };
 
-        // Split, filter out stop words, and remove words shorter than 2 chars
-        $terms = collect(explode(' ', $searchTerm->toString()))
-            ->filter(fn ($word) => ! empty($word) && ! in_array($word, self::STOP_WORDS) && mb_strlen($word) > 1)
-            ->values();
-
-        // Fallback: if filtering removed everything, use the original input to avoid empty results
-        if ($terms->isEmpty() && $searchTerm->isNotEmpty()) {
-            $terms = collect([$searchTerm->toString()]);
-        }
-
+        // Return an array containing both the generated pattern and the appropriate SQL operator.
+        // The operator is '=' only if the search pattern is 'Exact'; otherwise, it's 'LIKE'.
         return [
-            'terms' => $terms,
-            'operator' => 'LIKE',
+            'pattern' => $pattern,
+            'operator' => $request->get('zoekpatroon') === SearchPatterns::Exact->value ? '=' : 'LIKE',
         ];
     }
 
     /**
-     * Formats an individual term with wildcards based on the search pattern.
+     * Provides the available sorting options for the search results.
+     *
+     * This method defines which fields can be used for sorting and maps user-friendly names to actual database columns.
+     * The alphabetical option sorts by the word itself, publication sorts by the publication date, and the views sorts by the number of times an articles has been viewed.
+     *
+     * @return array<int, AllowedSort> Collection of permitted sorting options
      */
-    private function formatPattern(string $term, ?string $mode): string
-    {
-        return match ($mode) {
-            SearchPatterns::StartsWith->value => "{$term}%",
-            SearchPatterns::EndsWith->value => "%{$term}",
-            default => "%{$term}%",
-        };
-    }
-
-    /** @return array<int, AllowedSort> */
     private function getAllowedSorts(): array
     {
         return [
@@ -135,9 +116,13 @@ final readonly class SearchWordQuery
         ];
     }
 
-    /** @return array<int, AllowedFilter> */
+    /**
+     * @return array<int, AllowedFilter>
+     */
     private function getAllowedFilters(): array
     {
-        return [AllowedFilter::scope('published_after')];
+        return [
+            AllowedFilter::scope('published_after'),
+        ];
     }
 }
