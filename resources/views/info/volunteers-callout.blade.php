@@ -67,11 +67,15 @@
                                             <p class="card-text">{{ $position->description }}</p>
                                         </div>
 
-                                        @can('apply', $position)
-                                            <div class="card-footer bg-light border-top-0">
-                                                <a href="" class="btn btn-sm btn-outline-dark">Ik heb interesse</a>
-                                            </div>
-                                        @endcan
+                                        @auth
+                                            @can('apply', $position)
+                                                <div class="card-footer bg-light border-top-0">
+                                                    <a href="{{ route('volunteers.apply', $position) }}" class="btn btn-sm btn-outline-dark">
+                                                        <x-heroicon-o-chevron-right class="icon me-1"/> Ik heb interesse
+                                                    </a>
+                                                </div>
+                                            @endcan
+                                        @endauth
                                     </div>
                                 @endforeach
                             </div>
