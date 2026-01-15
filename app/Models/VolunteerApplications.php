@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Enums\Volunteers\ApplicationState;
 use App\Models\Relations\BelongsToManyRegions;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 final class VolunteerApplications extends Model
 {
@@ -15,6 +16,13 @@ final class VolunteerApplications extends Model
     protected $attributes = [
         'state' => ApplicationState::Open,
     ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+
 
     protected function casts(): array
     {
