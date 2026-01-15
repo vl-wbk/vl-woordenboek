@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Post;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 final readonly class VolunteersController
 {
@@ -23,6 +24,8 @@ final readonly class VolunteersController
     #[Get(uri: 'ondersteuning/vrijwilligers', name: 'support.volunteers')]
     public function __invoke(): Renderable
     {
+        abort_if(! app(VolunteerSettings::class)->pageActive, Response::HTTP_NOT_FOUND);
+
         return view('info.volunteers-callout', data: [
             'pageSettings' => app(VolunteerSettings::class),
             'positions' => VolunteerPosition::where('is_open', true)->paginate()

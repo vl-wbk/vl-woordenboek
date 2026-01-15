@@ -22,7 +22,10 @@ final class VolunteerApplications extends Model
         return $this->belongsTo(User::class);
     }
 
-
+    public function volunteerPosition(): BelongsTo
+    {
+        return $this->belongsTo(VolunteerPosition::class);
+    }
 
     protected function casts(): array
     {

@@ -61,7 +61,9 @@ final readonly class VolunteerPositionsTable
 
             ActionGroup::make([
                 EditAction::make(),
-                DeleteAction::make(),
+                DeleteAction::make()
+                    ->modalHeading('Vrijwilligers positie verwijderen')
+                    ->modalDescription('U staat op het punt om een vrijwilligerspositie te verwijderen. Bij het verwijderen zullen ook alle gegevens omtrent aanmeldingen verloren gaan. Weet je zeker dat je dit wilt doen?'),
             ]),
         ];
     }
