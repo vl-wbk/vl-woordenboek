@@ -113,8 +113,6 @@ final class WordOfTheDay extends Model implements Feedable
             ->orderBy('scheduled_for', 'desc')
             ->get();
 
-        return $collection->isEmpty()
-            ? $collection->get()
-            : collect();
+        return $collection->isEmpty() ? $collection->get() : collect();
     }
 }
