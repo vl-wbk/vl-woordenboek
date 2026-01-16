@@ -161,7 +161,7 @@
                         </div>
 
                         <footer class="d-flex flex-wrap align-items-center gap-4 mt-4">
-                            <a href="{{ route('word-information.show', $wordOfTheDay) }}" class="btn btn-outline-dark btn-sm rounded-pill px-4 fw-bold">
+                            <a href="{{ route('word-information.show', $wordOfTheDay->article) }}" class="btn btn-outline-dark btn-sm rounded-pill px-4 fw-bold">
                                 LEES VOLLEDIG ARTIKEL
                             </a>
                             
