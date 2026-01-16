@@ -108,9 +108,13 @@ final class WordOfTheDay extends Model implements Feedable
 
     public static function getFeedItems()
     {
-        return WordOfTheDay::with('article')
+        $collection = WordOfTheDay::with('article')
             ->where('scheduled_for', '<=', today())
             ->orderBy('scheduled_for', 'desc')
             ->get();
+
+        return $collection->isEmpty()
+            ? $collection->get()
+            : collect();
     }
 }
