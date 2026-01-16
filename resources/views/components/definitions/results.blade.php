@@ -139,7 +139,7 @@
                 <div class="p-4 bg-white rounded-4 border border-white shadow-sm">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h6 class="fw-bold mb-0 text-dark">
-                            <i class="bi bi-shuffle me-2 text-primary"></i> Ontdek eens een vlaams woord
+                            <i class="bi bi-shuffle me-2 text-primary"></i> Ontdek eens een Vlaams woord
                         </h6>
                         <span class="badge bg-white text-muted border fw-normal">Willekeurig</span>
                     </div>
