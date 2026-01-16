@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Database\Factories\WordOfTheDayFactory;
+use Spatie\Feed\Feedable;
+use Spatie\Feed\FeedItem;
 
 /**
  * This model acts as our curation engine. It Allows Community Managers and maintainers with the correct permissions  to spotlight linguistic gems from the dictionary. 
@@ -32,7 +34,7 @@ use Database\Factories\WordOfTheDayFactory;
  * 
  * @package App\Models 
  */
-final class WordOfTheDay extends Model
+final class WordOfTheDay extends Model implements Feedable
 {
     /** @use HasFactory<WordOfTheDayFactory> */
     use HasFactory;
@@ -91,5 +93,26 @@ final class WordOfTheDay extends Model
     protected function formattedScheduledFor(): Attribute
     {
         return Attribute::get(fn () => $this->scheduled_for->translatedFormat('d F, Y'));
+    }
+
+    public function toFeedItem(): FeedItem
+    {
+        return FeedItem::create()
+            ->id($this->id)
+            ->authorName($this->article->author->name)
+            ->link(route('word-information.show', $this->article))
+            ->summary((string) str($this->article->description)->words(20)->markdown()->stripTags()->trim())
+            ->updated($this->scheduled_for)
+            ->title($this->article->word);
+    }
+
+    public static function getFeedItems()
+    {
+        $collection = WordOfTheDay::with('article')
+            ->where('scheduled_for', '<=', today())
+            ->orderBy('scheduled_for', 'desc')
+            ->get();
+
+        return $collection->isEmpty() ? $collection->get() : collect();
     }
 }

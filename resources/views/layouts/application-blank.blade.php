@@ -57,21 +57,7 @@
                                 </a>
                             </li>
                         @endcan
-
-                        <li class="nav-item">
-                            <a href="{{ route('statistics') }}" class="nav-link">
-                                <x-heroicon-o-presentation-chart-line class="icon"/> {{ __('pages/statistics.page-title') }}
-                            </a>
-                        </li>
                     @endauth
-
-                    @if (app(\App\Settings\ProjectInformationSettings::class)->pageActive)
-                        <li class="nav-item">
-                            <a href="{{ route('project-information')}}" class="nav-link">
-                                <x-tabler-info-square-rounded class="icon  me-1" /> {{ __('layout/application.footer.links-section.project-information') }}
-                            </a>
-                        </li>
-                   @endif
 
                     <li class="nav-item">
                         <a href="https://www.forum.chimpy.be" class="nav-link" target="_blank">
@@ -86,6 +72,28 @@
                             </a>
                         </li>
                     @endif
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <x-tabler-info-square-rounded class="icon  me-1" /> {{ __('layout/application.footer.links-section.project-information') }}
+                        </a>
+                        
+                        <ul class="dropdown-menu border-0 shadow-sm">
+                            @if (app(\App\Settings\ProjectInformationSettings::class)->pageActive)
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('project-information') }}">
+                                        <x-tabler-info-square-rounded class="icon text-muted me-1" /> Algemene informatie
+                                    </a>
+                                </li>
+                            @endif
+
+                            <li>
+                                <a href="{{ route('statistics') }}" class="dropdown-item">
+                                    <x-heroicon-o-presentation-chart-line class="icon text-muted me-1"/> {{ __('pages/statistics.page-title') }}
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
 
                     <li class="nav-item">
                         <a href="mailto:contact@vlaamswoordenboek.be" class="nav-link">
@@ -192,13 +200,11 @@
                         </a>
                     </li>
 
-                    @auth
-                        <li class="mb-2">
-                            <a href="{{ route('statistics') }}" class="text-white">
-                                {{ __('layout/application.footer.links-section.statistics') }}
-                            </a>
-                        </li>
-                    @endauth
+                    <li class="mb-2">
+                        <a href="{{ route('statistics') }}" class="text-white">
+                            {{ __('layout/application.footer.links-section.statistics') }}
+                        </a>
+                    </li>
 
                     @if (app(\App\Settings\ProjectInformationSettings::class)->pageActive)
                         <li class="mb-2">
