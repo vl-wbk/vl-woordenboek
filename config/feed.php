@@ -2,6 +2,22 @@
 
 return [
     'feeds' => [
+        'wotd' => [
+            'items' => [\App\Models\WordOfTheDay::class, 'getFeedItems'], 
+            'url' => '/feed/woord-van-de-dag', 
+            
+            'title' => 'woord van de dag', 
+            'description' => 'Een oplijsting van alle gepubliceerde woorden die aangeduid zijn als woord van de dag',
+            'language' => 'nl_BE',
+
+            'image' => '', 
+            'format' => 'atom', 
+
+            'view' => 'feed::atom',
+            'type' => '',
+            'contentType' => '',
+        ],
+        
         'main' => [
             /*
              * Here you can specify which class and method will return

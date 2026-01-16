@@ -144,33 +144,41 @@
 <div class="container-fluid py-5">
     @if ($wordOfTheDay)
         {{-- Woord van de Dag --}}
-    <article class="row mb-3 justify-content-center">
-        <div class="col-lg-10">
-            <div class="card border-0 bg-transparent">
-                <div class="card-body p-0 border-start border-4 border-success ps-4">
-                    <header>
-                        <span class="text-success small fw-bold text-uppercase tracking-widest">Woord van de dag</span>
-                        <h2 class="display-6 fw-bold mt-2 mb-0">
-                            {{ $wordOfTheDay->article->word }}
-                            <small class="text-muted fw-light fs-4 ms-2 font-monospace">{{ $wordOfTheDay->article->characteristics }}</small>
-                        </h2>
-                    </header>
-                    <div class="markdown-text my-3">
-                        {!! str($wordOfTheDay->article->description)->words(22)->markdown()->sanitizeHtml() !!}
+       <article class="row mb-3 justify-content-center">
+            <div class="col-lg-10">
+                <div class="card border-0 bg-transparent">
+                    <div class="card-body p-0 border-start border-4 border-success ps-4">
+                        <header>
+                            <span class="text-success small fw-bold text-uppercase tracking-widest" style="font-size: 0.7rem;">Woord van de dag</span>
+                            <h2 class="display-6 fw-bold mt-1 mb-0">
+                                {{ $wordOfTheDay->article->word }}
+                                <small class="text-muted fw-light fs-5 ms-2 font-monospace">{{ $wordOfTheDay->article->characteristics }}</small>
+                            </h2>
+                        </header>
+
+                        <div class="markdown-text my-3 text-secondary">
+                            {!! str($wordOfTheDay->article->description)->words(20)->markdown()->sanitizeHtml() !!}
+                        </div>
+
+                        <footer class="d-flex flex-wrap align-items-center gap-4 mt-4">
+                            <a href="{{ route('word-information.show', $wordOfTheDay) }}" class="btn btn-outline-dark btn-sm rounded-pill px-4 fw-bold">
+                                LEES VOLLEDIG ARTIKEL
+                            </a>
+                            
+                            <div class="d-flex">  
+                                <a href="{{ url('/feed/woord-van-de-dag') }}" class="text-rss text-decoration-none">
+                                    <x-heroicon-o-rss class="icon text-danger me-1"/> RSS feed
+                                </a>
+                            </div>
+                        </footer>
                     </div>
-                    <footer>
-                        <a href="{{  route('word-information.show', $wordOfTheDay->article) }}" class="btn btn-outline-dark btn-sm rounded-pill px-4 fw-bold">
-                            LEES VOLLEDIG ARTIKEL
-                        </a>
-                    </footer>
                 </div>
             </div>
-        </div>
-    </article>
+        </article>
 
-    <div class="row justify-content-center">
-        <div class="col-lg-10"><hr class="my-5 opacity-10"></div>
-    </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-10"><hr class="my-5 opacity-10"></div>
+        </div>
     @endif
 
     {{-- Footer Actions --}}
