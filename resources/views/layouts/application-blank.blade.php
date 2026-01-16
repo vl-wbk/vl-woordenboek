@@ -59,6 +59,8 @@
                         @endcan
                     @endauth
 
+                    <x-random-article-navigation-item/>
+
                     <li class="nav-item">
                         <a href="https://www.forum.chimpy.be" class="nav-link" target="_blank">
                             <x-heroicon-o-chat-bubble-left-right class="icon me-1"/> {{ __('layout/application.footer.community-section.forum') }}
