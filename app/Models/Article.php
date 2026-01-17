@@ -90,7 +90,7 @@ final class Article extends Model implements AuditableContract, Commentable
     use Likeable;
     use HasLocks;
     use SoftDeletes;
-    use Prunable;
+    // use Prunable;
     use HasNotables;
     use HasComments;
     use Votable;
