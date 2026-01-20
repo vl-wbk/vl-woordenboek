@@ -67,7 +67,7 @@
                             <span>•</span>
                         @endif
 
-                        <span class="font-monospace">{{ $word->characteristics }}</span>
+                        <span class="font-monospace">{{ $word->characteristics }}</span> <br>
                     </div>
 
                     {{-- Status Labels --}}
@@ -124,6 +124,7 @@
         <div class="col-lg-9 pe-lg-5">
             <section class="mb-5">
                 <h5 class="fw-bold mb-3 text-success">Definitie</h5>
+                <p class="mb-3 text-muted"><span class="text-dark fw-bold me-2">Status:</span>{{ $word->status->getLabel() }}</p>
 
                 <div class="d-flex">
                     @if ($word->image_url)

@@ -161,7 +161,7 @@
                         </div>
 
                         <footer class="d-flex flex-wrap align-items-center gap-4 mt-4">
-                            <a href="{{ route('word-information.show', $wordOfTheDay) }}" class="btn btn-outline-dark btn-sm rounded-pill px-4 fw-bold">
+                            <a href="{{ route('word-information.show', $wordOfTheDay->article) }}" class="btn btn-outline-dark btn-sm rounded-pill px-4 fw-bold">
                                 LEES VOLLEDIG ARTIKEL
                             </a>
                             
@@ -185,7 +185,7 @@
     <section class="row justify-content-center">
     <div class="col-lg-10">
         <div class="row g-4">
-            <div class="col-md-4 d-flex">
+            <div class="col d-flex">
                 <div class="card bg-white border shadow-sm rounded-4 p-4 w-100 d-flex flex-column">
                     <h6 class="fw-bold text-uppercase small text-success mb-1">{{ __('pages/welcome.call-outs.suggestion.title') }}</h6>
                     <p class="fw-bold text-dark small mb-3">{{ __('pages/welcome.call-outs.suggestion.subtitle') }}</p>
@@ -202,24 +202,26 @@
                 </div>
             </div>
 
-            <div class="col-md-4 d-flex">
-                <div class="card bg-white border shadow-sm rounded-4 p-4 w-100 d-flex flex-column">
-                    <h6 class="fw-bold text-uppercase small text-success mb-1">{{ __('pages/welcome.call-outs.volunteer.title') }}</h6>
-                    <p class="fw-bold text-dark small mb-3">{{ __('pages/welcome.call-outs.volunteer.subtitle') }}</p>
-                    
-                    <p class="text-muted small">
-                        {{ __('pages/welcome.call-outs.volunteer.text') }}
-                    </p>
-                    
-                    <div class="mt-auto pt-3">
-                        <a href="{{ route('support.volunteers') }}" class="fw-bold text-dark text-decoration-none link-underline">
-                            {{ __('pages/welcome.call-outs.volunteer.actionText') }} &rarr;
-                        </a>
+            @if (app(\App\Settings\VolunteerSettings::class)->pageActive)
+                <div class="col d-flex">
+                    <div class="card bg-white border shadow-sm rounded-4 p-4 w-100 d-flex flex-column">
+                        <h6 class="fw-bold text-uppercase small text-success mb-1">{{ __('pages/welcome.call-outs.volunteer.title') }}</h6>
+                        <p class="fw-bold text-dark small mb-3">{{ __('pages/welcome.call-outs.volunteer.subtitle') }}</p>
+                        
+                        <p class="text-muted small">
+                            {{ __('pages/welcome.call-outs.volunteer.text') }}
+                        </p>
+                        
+                        <div class="mt-auto pt-3">
+                            <a href="{{ route('support.volunteers') }}" class="fw-bold text-dark text-decoration-none link-underline">
+                                {{ __('pages/welcome.call-outs.volunteer.actionText') }} &rarr;
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endif
 
-            <div class="col-md-4 d-flex">
+            <div class="col d-flex">
                 <div class="card bg-white border shadow-sm rounded-4 p-4 w-100 d-flex flex-column">
                     <h6 class="fw-bold text-uppercase small text-success mb-1">{{ __('pages/welcome.call-outs.information.title') }}</h6>
                     <p class="fw-bold text-dark small mb-3">{{ __('pages/welcome.call-outs.information.subtitle') }}</p>

@@ -161,6 +161,11 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
         return $this->hasMany(Article::class, 'author_id');
     }
 
+    public function volunteerApplications(): HasMany
+    {
+        return $this->hasMany(VolunteerApplications::class);
+    }
+
     /**
      * Returns all article reports submitted by this user.
      *

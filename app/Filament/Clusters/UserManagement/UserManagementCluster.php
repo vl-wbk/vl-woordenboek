@@ -32,13 +32,13 @@ final class UserManagementCluster extends Cluster
      * The Dutch label displayed in the navigation menu.
      * This approach ensures the interface language remains consistent throughout the app.
      */
-    protected static ?string $navigationLabel = 'Gebruikersbeheer';
+    protected static ?string $navigationLabel = 'Gebruikers';
 
     /**
      * The Dutch text shown in the breadcrumb trail.
      * This helps administrators understand their current location in the administrator interface.
      */
-    protected static ?string $clusterBreadcrumb = 'Gebruikersbeheer';
+    protected static ?string $clusterBreadcrumb = 'Gebruikers';
 
     public static function canAccess(): bool
     {
