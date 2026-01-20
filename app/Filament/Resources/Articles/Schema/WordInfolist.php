@@ -59,11 +59,18 @@ final readonly class WordInfolist
                     ->icon(Heroicon::OutlinedArchiveBox, IconAnimation::Pulse)
                     ->title(fn (Article $article): HtmlString => self::archiveInformationAlert($article)['title'])
                     ->description(fn (Article $article): HtmlString => self::archiveInformationAlert($article)['description'])
-                    ->visible(fn (Article $article): bool => $article->isArchived())
+                    ->visible(fn (Article $article): bool => $article->isArchived() && ! $article->trashed())
                     ->action(UnarchiveAction::make()->label('Ongedaan maken')->color('danger')->outlined())
                     ->border()
                     ->color('danger')
                     ->columnSpanFull(),
+
+                SimpleAlert::make('delete-alert')
+                    ->description('U bekijkt momenteel een artikel dat is gemarkeerd voor verwijdering. Indien u de juiste permissies bezit kunt u via de bovenstaande knoppen het artikel permanent verwijderen of herstellen.')
+                    ->columnSpanFull()
+                    ->icon(Heroicon::OutlinedTrash, IconAnimation::Pulse)
+                    ->visible(fn (Article $article): bool => $article->trashed())
+                    ->color('danger'),
 
                 Tabs::make('lemma-information')
                     ->columnSpan(12)

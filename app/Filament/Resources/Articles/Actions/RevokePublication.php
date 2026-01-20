@@ -52,6 +52,7 @@ final class RevokePublication extends Action
         parent::setUp();
 
         // Authorize the action based on the 'unpublish' ability and the current record.
+        $this->hidden(fn (Article $article): bool => $article->trashed());
         $this->authorize('unpublish');
 
         // Customize the action's appearance.

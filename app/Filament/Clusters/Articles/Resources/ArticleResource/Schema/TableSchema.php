@@ -14,6 +14,8 @@ use Filament\Actions\{ActionGroup,
     DeleteBulkAction,
     EditAction,
     ExportBulkAction,
+    ForceDeleteAction,
+    ForceDeleteBulkAction,
     RestoreAction,
     RestoreBulkAction,
     ViewAction};
@@ -60,6 +62,7 @@ final readonly class TableSchema
                 ActionGroup::make([
                     RestoreAction::make()->color('danger'),
                     DeleteAction::make()->authorizationNotification(),
+                    ForceDeleteAction::make()->authorizationNotification(),
                 ])->dropdown(false)
             ])
         ];
@@ -133,6 +136,7 @@ final readonly class TableSchema
 
                 BulkActionGroup::make([
                     RestoreBulkAction::make(),
+                    ForceDeleteBulkAction::make(),
                     DeleteBulkAction::make(),
                 ])->dropdown(false),
             ]),

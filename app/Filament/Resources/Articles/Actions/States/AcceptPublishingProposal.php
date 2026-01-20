@@ -43,7 +43,9 @@ final class AcceptPublishingProposal extends Action
 
         $this->color('success');
         $this->icon('heroicon-o-check');
+
         $this->authorize('publish');
+        $this->hidden(fn (Article $article): bool => $article->trashed());
 
         $this->action(function (Article $article): void {
             $article->articleStatus()->transitionToReleased();

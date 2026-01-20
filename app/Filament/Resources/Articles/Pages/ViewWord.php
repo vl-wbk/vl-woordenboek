@@ -55,6 +55,7 @@ final class ViewWord extends ViewRecord
         return [
             CommentsAction::make()
                 ->modalWidth(Width::SevenExtraLarge)
+                ->hidden(fn (Article $article): bool => $article->trashed())
                 ->modalIconColor('primary')
                 ->modalIcon(Heroicon::ChatBubbleLeftRight)
                 ->modalHeading(fn (Article $article): string => "$article->word - opmerkingen")
@@ -65,6 +66,7 @@ final class ViewWord extends ViewRecord
 
             FilamentActions\Action::make('preview')
                 ->color('gray')
+                ->hidden(fn (Article $article): bool => $article->trashed())
                 ->icon(Heroicon::OutlinedEye)
                 ->url(route('word-information.show', $this->record), shouldOpenInNewTab: true),
 
@@ -87,6 +89,7 @@ final class ViewWord extends ViewRecord
 
             FilamentActions\DeleteAction::make()->icon('heroicon-o-trash'),
             FilamentActions\RestoreAction::make()->icon('heroicon-m-arrow-uturn-left'),
+            FilamentActions\ForceDeleteAction::make()->icon('heroicon-o-trash'),
         ];
     }
 

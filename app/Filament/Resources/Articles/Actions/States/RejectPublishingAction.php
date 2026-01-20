@@ -55,7 +55,9 @@ final class RejectPublishingAction extends Action
 
         $this->color('danger');
         $this->icon($this->actionIcon);
+
         $this->authorize('publish');
+        $this->hidden(fn (Article $article): bool => $article->trashed());
 
         // Confirmation config
         $this->requiresConfirmation();

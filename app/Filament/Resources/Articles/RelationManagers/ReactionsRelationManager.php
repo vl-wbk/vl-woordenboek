@@ -107,6 +107,11 @@ final class ReactionsRelationManager extends RelationManager
         return new $pageClass() instanceof ViewWord && self::getBadge($ownerRecord, $pageClass) > 0;
     }
 
+    public function isReadOnly(): bool
+    {
+        return $this->getOwnerRecord()->trashed() ? true : false;
+    }
+
     /**
      * Defines the Table configuration and behavioral settings. 
      * 

@@ -42,6 +42,7 @@ final class PublishArticleAction extends Action
         parent::setUp();
 
         $this->authorize('sendForApproval');
+        $this->hidden(fn (Article $article): bool => $article->trashed());
 
         $this->icon(Heroicon::OutlinedPaperAirplane);
         $this->color('gray');

@@ -50,7 +50,9 @@ final class BulkArchiveAction extends BulkAction
 
         // Misc. setup
         $this->chunkSelectedRecords(20);
+
         $this->authorizeIndividualRecords('archive-article');
+        
         $this->requiresConfirmation();
         $this->deselectRecordsAfterCompletion();
 

@@ -103,7 +103,7 @@ final class NotesRelationManager extends RelationManager
      */
     public function isReadOnly(): bool
     {
-        return false;
+        return $this->getOwnerRecord()->trashed() ? true : false;
     }
 
     /**

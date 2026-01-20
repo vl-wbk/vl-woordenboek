@@ -56,6 +56,7 @@ final class UnarchiveAction extends Action
 
         // Authorize the action based on the 'unarchive' ability and the current record.
         $this->authorize('unarchive');
+        $this->hidden(fn (Article $article): bool => $article->trashed());
 
         // Customize the action's appearance.
         $this->color('gray');
