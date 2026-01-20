@@ -177,7 +177,6 @@ return [
             \App\Filament\Clusters\Articles\Resources\Disclaimers\DisclaimerResource::class => \App\Policies\DisclaimerPolicy::$permissionPrefixes,
             \App\Filament\Clusters\Articles\Resources\ArticleReports\ArticleReportResource::class => \App\Policies\ArticleReportPolicy::$permissionPrefixes,
             \App\Filament\Clusters\Articles\Resources\ModerationRules\ModerationRuleResource::class => \App\Policies\ModerationRulePolicy::$permissionPrefixes,
-            \App\Filament\Clusters\UserManagement\Resources\VolunteerApplications\VolunteerApplicationResource::class => \App\Policies\VolunteerApplicationPolicy::$permissionPrefixes,
         ],
         'exclude' => [
             \Kenepa\ResourceLock\Resources\LockResource::class,
