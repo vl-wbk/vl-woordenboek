@@ -177,11 +177,14 @@ return [
             \App\Filament\Clusters\Articles\Resources\Disclaimers\DisclaimerResource::class => \App\Policies\DisclaimerPolicy::$permissionPrefixes,
             \App\Filament\Clusters\Articles\Resources\ArticleReports\ArticleReportResource::class => \App\Policies\ArticleReportPolicy::$permissionPrefixes,
             \App\Filament\Clusters\Articles\Resources\ModerationRules\ModerationRuleResource::class => \App\Policies\ModerationRulePolicy::$permissionPrefixes,
+            \App\Filament\Clusters\Volunteers\Resources\VolunteerPositions\VolunteerPositionResource::class => \App\Policies\VolunteerPositionPolicy::$permissionPrefixes,
+            \App\Filament\Clusters\Volunteers\Resources\VolunteerApplications\VolunteerApplicationsResource::class => \App\Policies\VolunteerApplicationsPolicy::$permissionPrefixes,
         ],
         'exclude' => [
             \Kenepa\ResourceLock\Resources\LockResource::class,
             \App\Filament\Clusters\Articles\Resources\PartOfSpeeches\PartOfSpeechResource::class,
             \App\Filament\Clusters\Articles\Resources\ReferenceWorks\ReferenceWorkResource::class,
+            App\Filament\Clusters\Articles\Resources\WordOfTheDays\WordOfTheDayResource::class,
         ],
     ],
 
