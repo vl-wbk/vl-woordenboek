@@ -34,16 +34,6 @@
 </head>
 
 <body class="d-flex flex-column h-100">
-    {{--  TE VERWIJDEREN WANNEER DE PUBLIEKE FASE IS AFGELOPEN --}}
-    <div class="alert alert-warning border-0 mb-0 rounded-0 shadow-sm py-2" role="alert">
-
-                    <strong><x-heroicon-s-exclamation-triangle class="icon me-1"/> Ter info:</strong>
-                    dit is een bètaversie van het nieuwe Vlaamse Woordenboek om uitgebreid te testen. De data zijn van april 2025. Alle  <a href="{{ route('feedback:create') }}" target="_blank" class="alert-link">feedback</a> is welkom.
-                    welkom. De recentste artikelen vind je op het oude <a href="https://www.vlaamswoordenboek.be/" class="alert-link">vlaamswoordenboek.be</a>.
-
-
-    </div>
-    {{-- EINDE --}}
     <nav class="navbar navbar-expand-md navbar-dark bg-navbar shadow-sm">
         <div class="{{ $containerSize ?? 'container-fluid' }}">
             <a class="navbar-brand" href="{{ url('/') }}">
@@ -67,21 +57,9 @@
                                 </a>
                             </li>
                         @endcan
-
-                        <li class="nav-item">
-                            <a href="{{ route('statistics') }}" class="nav-link">
-                                <x-heroicon-o-presentation-chart-line class="icon"/> {{ __('pages/statistics.page-title') }}
-                            </a>
-                        </li>
                     @endauth
 
-                    @if (app(\App\Settings\ProjectInformationSettings::class)->pageActive)
-                        <li class="nav-item">
-                            <a href="{{ route('project-information')}}" class="nav-link">
-                                <x-tabler-info-square-rounded class="icon  me-1" /> {{ __('layout/application.footer.links-section.project-information') }}
-                            </a>
-                        </li>
-                   @endif
+                    <x-random-article-navigation-item/>
 
                    @if (app(\App\Settings\VolunteerSettings::class)->pageActive)
                        <li class="nav-item">
@@ -104,6 +82,28 @@
                             </a>
                         </li>
                     @endif
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <x-tabler-info-square-rounded class="icon  me-1" /> {{ __('layout/application.footer.links-section.project-information') }}
+                        </a>
+                        
+                        <ul class="dropdown-menu border-0 shadow-sm">
+                            @if (app(\App\Settings\ProjectInformationSettings::class)->pageActive)
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('project-information') }}">
+                                        <x-tabler-info-square-rounded class="icon text-muted me-1" /> Algemene informatie
+                                    </a>
+                                </li>
+                            @endif
+
+                            <li>
+                                <a href="{{ route('statistics') }}" class="dropdown-item">
+                                    <x-heroicon-o-presentation-chart-line class="icon text-muted me-1"/> {{ __('pages/statistics.page-title') }}
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
 
                     <li class="nav-item">
                         <a href="mailto:contact@vlaamswoordenboek.be" class="nav-link">
@@ -190,7 +190,7 @@
                     </li>
 
                     <li class="mb-2">
-                        De code is gelicensieerd onder de MIT-licentie. De documentatie hiervan is beschikbaar onder de
+                        De code is gelicentieerd onder de MIT-licentie. De documentatie hiervan is beschikbaar onder de
                         <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="text-white">CC BY-NC-SA 4.0 licentie.</a>
                     </li>
 
@@ -210,13 +210,11 @@
                         </a>
                     </li>
 
-                    @auth
-                        <li class="mb-2">
-                            <a href="{{ route('statistics') }}" class="text-white">
-                                {{ __('layout/application.footer.links-section.statistics') }}
-                            </a>
-                        </li>
-                    @endauth
+                    <li class="mb-2">
+                        <a href="{{ route('statistics') }}" class="text-white">
+                            {{ __('layout/application.footer.links-section.statistics') }}
+                        </a>
+                    </li>
 
                     @if (app(\App\Settings\ProjectInformationSettings::class)->pageActive)
                         <li class="mb-2">

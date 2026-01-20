@@ -39,6 +39,11 @@ final readonly class SearchController
             'randomArticle' => SelectRandomArticle::fetch(),
             'results' => $searchWordQuery->execute($request),
             'termPresent' => $request->has('zoekterm'),
+            'randomArticles' => Article::published()
+                ->inRandomOrder()
+                ->orderBy('id', 'asc')
+                ->limit(8)
+                ->get(),
         ]);
     }
 }

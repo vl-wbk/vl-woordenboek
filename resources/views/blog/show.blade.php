@@ -64,7 +64,7 @@
 
                                 <div class="card-body">
                                 <textarea class="form-control @error('reactie') is-invalid @enderror" name="reactie" rows="3"
-                                          placeholder="Sluit je aan bij de discussie doormiddel van een reactie achter te laten."></textarea>
+                                          placeholder="Sluit je aan bij de discussie door middel van een reactie achter te laten."></textarea>
                                     <x-forms.validation-error field="reactie" />
                                 </div>
 
@@ -74,12 +74,12 @@
                                     </button>
 
                                     <button type="reset" class="btn btn-sm btn-link">
-                                        Reset
+                                        Resetten
                                     </button>
 
                                     <a href="" _target="blank"
                                        class="text-muted text-decoration-none fw-semibold float-end">
-                                        <x-heroicon-s-book-open class="icon color-green me-1" /> Moderatie FAQ
+                                        <x-heroicon-s-book-open class="icon color-green me-1" /> Moderatie-FAQ
                                     </a>
                                 </div>
                             </form>
@@ -108,7 +108,7 @@
 
                         <!-- Categories widget-->
                         <h5 class="border-bottom border-green color-green fw-bold pb-2">
-                            <x-heroicon-s-tag class="icon me-1" /> Categorieen
+                            <x-heroicon-s-tag class="icon me-1" /> Categorieën
                             </h4>
 
                             <div class="border-bottom border-green pb-2">
@@ -122,7 +122,7 @@
                             </div>
 
                             <a href="{{ url('feed') }}" class="btn w-100 btn-rss mt-2 text-white shadow-sm">
-                                <x-heroicon-s-rss class="icon me-1" /> RSS Feed
+                                <x-heroicon-s-rss class="icon me-1" /> RSS-Feed
                             </a>
 
                 </div>

@@ -117,8 +117,6 @@ final class DuplicationArticleAction extends Action
             'notify_author' => false,
 
             // Reset counters/flags
-            'wotd' => false, // Word of the day
-            'votes_today' => 0,
             'views' => 0,
 
             // Set authorship to the current user

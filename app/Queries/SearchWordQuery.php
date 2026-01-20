@@ -48,7 +48,7 @@ final readonly class SearchWordQuery
         return QueryBuilder::for(Article::class)
             ->allowedSorts($this->getAllowedSorts())
             ->allowedFilters($this->getAllowedFilters())
-            ->with(['author', 'bookmarkers'])
+            ->with(['author', 'regions', 'bookmarkers'])
             ->where(function ($q) use ($includeArchive) {
                 $q->whereNotNull('published_at');
                 if ($includeArchive) {
@@ -59,7 +59,7 @@ final readonly class SearchWordQuery
                 $query->where('word', $this->getSearchPattern($request)['operator'], $this->getSearchPattern($request)['pattern'])
                     ->orWhere('keywords', $this->getSearchPattern($request)['operator'], $this->getSearchPattern($request)['pattern'])
                     /** @phpstan-ignore-next-line */
-                    ->when($includeDescription, fn(ArticleBuilder $builder): Builder => $builder->orWhere('description', 'like', $this->getSearchPattern($request)['pattern']));
+                    ->when($includeDescription, fn (ArticleBuilder $builder): Builder => $builder->orWhere('description', 'like', $this->getSearchPattern($request)['pattern']));
             })
             ->orderBy('word')
             ->fastPaginate(6)
@@ -79,23 +79,25 @@ final readonly class SearchWordQuery
      */
     private function getSearchPattern(Request $request): array
     {
-        // Retrieve the 'zoekterm' (search term) from the request as a string.
-        $searchTerm = $request->string('zoekterm');
+        $searchTerm = $request->string('zoekterm')->trim();
+        $isExact = $request->get('zoekpatroon') === SearchPatterns::Exact->value;
 
-        // Determine the formatted search pattern based on the 'zoekpatroon' (search pattern) value provided in the request.
-        // This uses a match expression for concise conditional logic.
+        // If not an exact match, replace spaces with wildcards to handle multi-word inputs.
+        // Example: 'hond hoed' becomes 'hond%hoed'
+        $formattedTerm = $isExact
+            ? $searchTerm->toString()
+            : $searchTerm->replace(' ', '%')->toString();
+
         $pattern = match ($request->get('zoekpatroon')) {
-            SearchPatterns::StartsWith->value => "$searchTerm%",  // If the pattern is 'StartsWith', append a '%' wildcard to the search term.
-            SearchPatterns::EndsWith->value => "%$searchTerm",    // If the pattern is 'Endswith', prepend a '%' wildcard to the search term.
-            SearchPatterns::Exact->value => $searchTerm,            // If the pattern is 'Exact', use the search term as is (no wildcards).
-            default => "%$searchTerm%",
+            SearchPatterns::StartsWith->value => "{$formattedTerm}%",
+            SearchPatterns::EndsWith->value => "%{$formattedTerm}",
+            SearchPatterns::Exact->value => $formattedTerm,
+            default => "%{$formattedTerm}%",
         };
 
-        // Return an array containing both the generated pattern and the appropriate SQL operator.
-        // The operator is '=' only if the search pattern is 'Exact'; otherwise, it's 'LIKE'.
         return [
             'pattern' => $pattern,
-            'operator' => $request->get('zoekpatroon') === SearchPatterns::Exact->value ? '=' : 'LIKE',
+            'operator' => $isExact ? '=' : 'LIKE',
         ];
     }
 

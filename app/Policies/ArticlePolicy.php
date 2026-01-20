@@ -7,6 +7,8 @@ namespace App\Policies;
 use Illuminate\Auth\Access\Response;
 use App\Enums\ArticleStates;
 use App\Models\{Article, User};
+use App\States\Articles\ArticleState;
+use App\UserTypes;
 use Filament\Support\Authorization\DenyResponse;
 
 /**
@@ -29,7 +31,7 @@ final class ArticlePolicy
      */
     public static array $permissionPrefixes = [
         'update', 'sendForApproval', 'publish', 'unpublish', 'detachEditor', 'attachDisclaimer', 'detachDisclaimer',
-        'archive', 'unarchive', 'delete', 'deleteAny', 'restore', 'restoreAny', 'export', 'updatePublished'
+        'archive', 'unarchive', 'delete', 'verwijderVanuitPublicatie', 'deleteAny', 'restore', 'restoreAny', 'export', 'updatePublished'
     ];
 
     /**
@@ -180,7 +182,7 @@ final class ArticlePolicy
             return Response::allow();
         }
 
-        if ($user->can('detach-disclaimer:article')) {
+        if ($user->can('detach-editor:article')) {
             return Response::allow();
         }
 
@@ -270,15 +272,30 @@ final class ArticlePolicy
      * Deletion is highly restricted, limited to administrators and chief editors, and only possible for articles in New or Draft states.
      * This prevents accidental removal of published content while allowing cleanup of incomplete entries.
      *
-     * @param  User     $user     The user attempting to delete the article
+     * @param  User     $user     The user attempting to delete the article.
      * @param  Article  $article  The article being deleted by the user.
-     * @return Response           True if the user has permission to delete, false otherwise
+     * @return Response           True if the user has permission to delete, false otherwise.
      */
     public function delete(User $user, Article $article): Response
     {
-        $allowedStates = [ArticleStates::New , ArticleStates::Draft, ArticleStates::ExternalData, ArticleStates::Archived];
+        // 1. Specific override for removing already published content
+        if ($article->state->is(ArticleStates::Published) && $user->can('verwijder-vanuit-publicatie:article')) {
+            return Response::allow();
+        }
 
-        if ($user->can('delete:article') && $article->state->in(enums: $allowedStates)) {
+        // 2. Base requirement: User must have general delete permissions
+        if (!$user->can('delete:article')) {
+            return DenyResponse::deny('Niet toegestaan');
+        }
+
+        // 3. Editor-level cleanup (New or External data only)
+        if ($user->user_type->is(UserTypes::Editor) && 
+            $article->state->in([ArticleStates::ExternalData, ArticleStates::New])) {
+            return Response::allow();
+        }
+
+        // 4. Admin/Dev-level cleanup (Includes Archived)
+        if ($user->user_type->in([UserTypes::Administrators, UserTypes::Developer]) && $article->state->in([ArticleStates::ExternalData, ArticleStates::New, ArticleStates::Archived])) {
             return Response::allow();
         }
 

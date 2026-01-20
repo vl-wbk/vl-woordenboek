@@ -29,7 +29,8 @@ final readonly class OverviewController
     #[Get(uri: 'mijn-suggesties', name: 'suggestions:index', middleware: ['auth', 'verified', 'forbid-banned-user'])]
     public function __invoke(Request $request, UserSuggestionQueryBuilder $suggestionQuery): Renderable
     {
-        return view('suggestions.index', [
+        return view('suggestions.index', data: [
+            'suggestionCount' => $request->user()->suggestions()->count(),
             'results' => $suggestionQuery->fetch($request),
         ]);
     }

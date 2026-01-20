@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Articles\Actions;
 
+use App\Enums\Articles\RevokePublicationReason;
 use App\Models\Article;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
-use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Select;
+use Schmeits\FilamentCharacterCounter\Forms\Components\Textarea;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 
 /**
  * Class RevokePublication
@@ -65,13 +69,7 @@ final class RevokePublication extends Action
         $this->modalSubmitActionLabel('Ongedaan maken');
 
         // Define the form for providing a reason for unpublishing.
-        $this->schema([
-            Textarea::make('reason')
-                ->label('Reden van de handeling')
-                ->placeholder('Beschrijf kort waarom je de publicatie ongedaan wilt maken.')
-                ->rows(5)
-                ->required(),
-        ]);
+        $this->schema(schema: $this->registerModalFormSchema());
 
         // Set up notifications for success and failure.
         $this->successNotificationTitle('Publicatie ongedaan gemaakt');
@@ -80,7 +78,7 @@ final class RevokePublication extends Action
         // Define the action's execution logic.
         $this->action(function (): void {
             // Attempt to transition the article to the "editing" state, providing the reason.
-            if ($this->process(fn(Article $article, array $data): bool => $article->articleStatus()->transitionToEditing($data['reason']))) {
+            if ($this->process(fn (Article $article, array $data): bool => $article->articleStatus()->transitionToEditing($data['reason']))) {
                 // If successful, display a success message.
                 $this->success();
                 return;
@@ -89,5 +87,30 @@ final class RevokePublication extends Action
             // If the transition fails, display a failure message.
             $this->failure();
         });
+    }
+
+    /**
+     * @return array<int, Select|Textarea>
+     */
+    private function registerModalFormSchema(): array
+    {
+        return [
+            Select::make('motivation')
+                ->label('categorie')
+                ->hiddenLabel()
+                ->placeholder('selecteer een redenen')
+                ->options(RevokePublicationReason::class)
+                ->native(false)
+                ->afterStateUpdated(fn (Set $set, ?RevokePublicationReason $state): mixed => $set('reason', $state?->getDescription()))
+                ->live(),
+
+            Textarea::make('reason')
+                ->label('Reden van de handeling')
+                ->placeholder('Beschrijf kort waarom je de publicatie ongedaan wilt maken.')
+                ->maxLength(250)
+                ->rows(5)
+                ->required()
+                ->default(null),
+        ];
     }
 }

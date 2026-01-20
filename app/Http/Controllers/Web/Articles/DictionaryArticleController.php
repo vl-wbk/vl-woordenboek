@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Web\Articles;
 
 use App\Enums\Articles\EtymologyStatus;
+use App\Filament\Resources\Articles\ArticleResource;
 use App\Models\Article;
+use App\Models\WordOfTheDay;
 use App\Policies\ArticlePolicy;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -28,6 +30,28 @@ final readonly class DictionaryArticleController
     use AuthorizesRequests;
 
     /**
+     * Redirects legacy slug-based URLs.
+     */
+    #[Get(uri: '/definities/term/{slug}')]
+    public function redirectOldTerm(string $slug): RedirectResponse
+    {
+        $article = Article::where('word', $slug)->first();
+        
+        return $article 
+            ? to_route('word-information.show', $article, status: 301)
+            : to_route('search.results');
+    }
+
+    /**
+     * Redirects legacy ID-based URLs.
+     */
+    #[Get(uri: '/definities/{article}')]
+    public function redirectOldId(Article $article): RedirectResponse
+    {
+        return to_route('word-information.show', ['word' => $article], status: 301);
+    }
+
+    /**
      * Displays a single dictionary entry.
      *
      * This method renders the detailed view for a specific word entry, showing its definition, usage examples, and regional information.
@@ -45,7 +69,9 @@ final readonly class DictionaryArticleController
 
             return view('definitions.show', data: [
                 'word' => $word,
+                'editLink' => ArticleResource::getUrl('edit', ['record' => $word]),
                 'etymologies' => $word->etymologies()->whereNotIn('status', [EtymologyStatus::Draft, EtymologyStatus::Rejected, EtymologyStatus::Archived])->get(),
+                'upcomingSchedule' => WordOfTheDay::where('article_id', $word->id)->whereDate('scheduled_for', today())->first(),
             ]);
         }
 

@@ -36,6 +36,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Kirschbaum\Commentions\Contracts\Commentable;
 use Kirschbaum\Commentions\HasComments;
 use Overtrue\LaravelLike\Traits\Likeable;
+use Overtrue\LaravelVote\Traits\Votable;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 use Kenepa\ResourceLock\Models\Concerns\HasLocks;
@@ -92,6 +93,7 @@ final class Article extends Model implements AuditableContract, Commentable
     use Prunable;
     use HasNotables;
     use HasComments;
+    use Votable;
 
     /**
      * Specifies attributes that are protected from mass assignment.
@@ -101,6 +103,9 @@ final class Article extends Model implements AuditableContract, Commentable
      * @var list<string>
      */
     protected $guarded = ['id'];
+
+    /** @todo Document this */
+    protected $with = ['author'];
 
     /**
      * Attributes excluded from the audit trail.
@@ -118,7 +123,7 @@ final class Article extends Model implements AuditableContract, Commentable
      */
     protected $attributes = [
         'origin' => DataOrigin::Suggestion,
-        'state' => ArticleStates::New,
+        'state' => ArticleStates::New ,
         'status' => LanguageStatus::Onbekend,
     ];
 
@@ -326,6 +331,21 @@ final class Article extends Model implements AuditableContract, Commentable
     }
 
     /**
+     * @return HasMany<WordOfTheDay, covariant $this>
+     */
+    public function wordOfTheDays(): HasMany
+    {
+        return $this->hasMany(WordOfTheDay::class);
+    }
+
+    public function isCurrentWordOfTheDay(): bool
+    {
+        return $this->wordOfTheDays()
+            ->whereDate('scheduled_for', today())
+            ->exists();
+    }
+
+    /**
      * Configures attribute casting for proper type handling.
      * Ensures that state and status fields are properly cast to their respective enum types when retrieved from the database.
      *
@@ -339,7 +359,7 @@ final class Article extends Model implements AuditableContract, Commentable
             'origin' => DataOrigin::class,
             'state' => ArticleStates::class,
             'status' => LanguageStatus::class,
-			'published_at' => 'datetime',
+            'published_at' => 'datetime',
             'archived_at' => 'datetime',
         ];
     }

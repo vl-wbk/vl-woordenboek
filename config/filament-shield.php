@@ -242,6 +242,7 @@ return [
         'ontgrendelResources',
         'woordenboekOndersteuning',
         'vertalingen',
+        'woordenVanDeDag',
     ],
 
     /*

@@ -80,7 +80,6 @@ final class EditWord extends EditRecord
 
             Actions\ActionGroup::make([
                 PublishArticleAction::make(),
-                RemoveEditorAction::make(),
             ])->buttonGroup(),
 
             Actions\Action::make('preview')
@@ -139,13 +138,5 @@ final class EditWord extends EditRecord
         return static::getResource()::getUrl('view', [
             'record' => $this->record,
         ]);
-    }
-
-    /**
-     * @todo Document function
-     */
-    public function getTitle(): string
-    {
-        return ucfirst($this->record->word);
     }
 }

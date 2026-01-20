@@ -11,7 +11,7 @@
                 @elseif (auth()->user()->hasLiked($comment))
                     <li class="list-inline-item">
                         <a href="#" wire:click='unlikeComment' class="text-decoration-none text-danger">
-                            <x-heroicon-o-hand-thumb-down class="icon me-1" />{{ trans_choice('{0} :likes personen vinden dit leuk|{1} :likes persoon vind dit leuk|[2,*] :likes personen vinden dit leuk', $likes, ['likes' => $likes]) }}
+                            <x-heroicon-o-hand-thumb-down class="icon me-1" />{{ trans_choice('{0} :likes personen vinden dit leuk|{1} :likes persoon vindt dit leuk|[2,*] :likes personen vinden dit leuk', $likes, ['likes' => $likes]) }}
                         </a>
                     </li>
                 @endif

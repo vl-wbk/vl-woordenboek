@@ -2,60 +2,49 @@
 
 @section('jumbotron')
     <div class="bg-light bg-blend-hard-light rounded-3 shadow-sm">
-        <div class="container-fluid">
-            <div class="py-5">
-                <div class="row">
-                    <h1 class="display-6 fw-bold">{!! __('pages/search.jumbotron.heading', ['applicationName' => config('app.name', 'Laravel')]) !!}</h1>
-                    <p class="col-12 fs-5 pb-3">{{ __('pages/search.jumbotron.description', ['count' => $results->count()]) }}</p>
-
-                    <form class="col-md-7 mt-4" action="{{ route('search.results') }}" method="GET">
-                        <div class="row g-3">
-                            {{-- Search Pattern Select: Stack on mobile, takes 3/12 on medium+ --}}
-                            <div class="col-12 col-lg-3">
-                                <label for="searchPatternSelect" class="visually-hidden">{{ __('components/search-form.pattern-select') }}</label>
-                                <select name="zoekpatroon" class="form-select bg-white shadow-sm" id="searchPatternSelect">
-                                    @foreach ($searchPatterns as $searchPattern)
+        <div class="container-fluid py-5">
+    <form action="{{ route('search.results') }}" method="GET">
+      <div class="row align-items-center">
+        <div class="col-lg-7">
+          <span class="meta-label">Zoekresultaten voor</span>
+          <h1 class="fw-bold mb-0">"{{ request()->get('zoekterm', '') }}"</h1>
+          <p class="text-muted small mt-2">
+            @if ($results->total() > 0)
+                Toont {{ $results->firstItem() ?? 0 }} tot {{ $results->lastItem() ?? 0 }} van de {{ $results->total() }} resultaten 
+            @else
+            Geen resultaten gevonden
+            @endif
+          </p>
+        </div>
+        <div class="col-lg-5">
+          <div class="compact-search-group">
+            <select name="zoekpatroon" class="form-select rounded-end-0 search-filter-select">
+              @foreach ($searchPatterns as $searchPattern)
                                         <option value="{{ $searchPattern->value }}" @selected(old('zoekpatroon', request()->get('zoekpatroon')) === $searchPattern->value)>
                                             {{ $searchPattern->getLabel() }}
                                         </option>
                                     @endforeach
-                                </select>
-                            </div>
+            </select>
+            <input type="text" name="zoekterm" placeholder="Uw zoekterm" class="compact-search-input" value="{{ request()->get('zoekterm') }}">
+            <button type="submit" class="btn btn-dark rounded-start-0 px-3">
+                <x-heroicon-o-magnifying-glass class="icon me-1"/> {{ __('components/search-form.buttons.submit') }}
+            </button>
+          </div>
 
-                            {{-- Search Term Input: Stack on mobile, takes 7/12 on medium+ --}}
-                            <div class="col-12 col-lg-7">
-                                <input type="text" class="form-control bg-white shadow-sm" name="zoekterm" value="{{ request()->get('zoekterm') }}" placeholder="{{ __('components/search-form.inputs.search-term.placeholder') }}" aria-label="searchterm">
-                            </div>
+          <div class="filter-chip-wrapper">
+            <span class="filter-hint">Ook zoeken in:</span>
+            <div class="chip-group">
+              <input type="checkbox" name="archief" id="archive" value="1" @checked(request()->boolean('archief') === true)>
+              <label for="archive" class="chip-label">Het archief</label>
 
-                            {{-- Submit Button: Always full-width on small screens (col-12), 2/12 on large --}}
-                            <div class="col-12 col-lg-2">
-                                <button type="submit" class="btn shadow-sm w-100 btn-submit">
-                                    <x-heroicon-o-magnifying-glass class="icon me-1"/> {{ __('components/search-form.buttons.submit') }}
-                                </button>
-                            </div>
-
-                            {{-- Checkbox Toggle: Full width --}}
-                            <div class="col-12">
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" name="uitgebreid" type="checkbox" id="checkChecked" value="1" @checked(request()->boolean('uitgebreid') === true) switch>
-                                    <label class="form-check-label" for="checkChecked">
-                                        {{ __('components/search-form.toggles.description-search') }}
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-12 mt-1">
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" name="archief" type="checkbox" id="checkCheckedArchived" value="1" @checked(request()->boolean('archief') === true) switch>
-                                    <label class="form-check-label" for="checkCheckedArchived">
-                                        {{ __('Ik wens ook te zoeken in het archief') }}
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+              <input type="checkbox" name="uitgebreid" id="description" value="1" @checked(request()->boolean('uitgebreid') === true)>
+              <label for="description" class="chip-label">de beschrijving</label>
             </div>
+          </div>
         </div>
+      </div>
+    </form>
+  </div>
     </div>
 
     @if (flash()->message)
@@ -84,38 +73,8 @@
                 - Takes 9/12 on medium screens (col-md-9).
                 - Appears first on mobile, last on medium+ (order-md-last).
             --}}
-            <div class="col-12 col-md-9 order-md-last">
+            <div class="@if ($results->total() > 0) col-12 col-md-9 @else col-12 @endif order-md-last">
                 <div class="row">
-                    <div class="col-12 mb-3">
-                        {{--
-                            SORTING BAR: Hidden on small screens (d-none) and visible on medium screens and up (d-md-block).
-                        --}}
-                        <div class="float-end mb-3 d-none d-md-block">
-                                    <span class="list-inline-item fw-bold text-muted">
-                                        {{ __('pages/search.sidenav.sort.heading') }}
-                                    </span>
-
-                            <div class="btn-group shadow-sm" role="group" aria-label="filters">
-                                <x-sortable-button field="alfabetisch" :current-sort="request('sort')">
-                                    {{ __('pages/search.sidenav.sort.alphabetical') }}
-                                </x-sortable-button>
-
-                                <x-sortable-button field="publicatie" :current-sort="request('sort')">
-                                    {{ __('pages/search.sidenav.sort.publication-date') }}
-                                </x-sortable-button>
-
-                                @if (request('sort') === '-weergaves')
-                                    <a href="{{ request()->fullUrlWithoutQuery(['sort']) }}" class="btn active btn-light">
-                                        <x-tabler-sort-ascending-letters class="icon color-green me-1"/> {{ __('pages/search.sidenav.sort.views') }}
-                                    </a>
-                                @else
-                                    <a href="{{ request()->fullUrlWithQuery(['sort' => '-weergaves']) }}" class="btn btn-light">
-                                        <x-tabler-sort-descending-letters class="icon color-green me-1"/> {{ __('pages/search.sidenav.sort.views') }}
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="col-12">
                         <div class="row g-4">
@@ -134,94 +93,124 @@
                 - Takes 3/12 on medium screens (col-md-3).
                 - Appears last on mobile, first on medium+ (order-md-first).
             --}}
-            <div class="col-12 col-md-3 mt-3 order-md-first">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-white">
-                        {{-- Sidebar Buttons: Use g-2 for small gap and ensure w-100 on mobile --}}
-                        <div class="row g-2">
-                            <div class="col-6">
-                                <a href="{{ route('definitions.create') }}" class="btn btn-submit w-100">
-                                    <x-heroicon-o-plus class="icon me-1"/> {{ __('pages/search.sidenav.buttons.submit-suggestion') }}
-                                </a>
-                            </div>
 
-                            @if ($randomArticle)
-                                <div class="col-6">
-                                    <a href="{{ route('search.results', ['zoekterm' => $randomArticle->word]) }}" class="btn btn-outline-secondary w-100">
-                                        <x-heroicon-s-book-open class="icon me-1"/> {{ __('pages/search.sidenav.buttons.random-article') }}
-                                    </a>
-                                </div>
-                            @endif
+           <aside class="@if ($results->total() > 0) col-12 col-md-3 @else visually-hidden @endif border-md-first">
+    <div class="sticky-top d-flex flex-column gap-3" style="top: 1.5rem; z-index: 900;">
+
+        {{-- CARD 1: Filters & Personal Navigation --}}
+        <div class="card border-0 shadow-sm rounded-3">
+            <div class="card-body">
+                 @if ($results->total() > 0)
+                    <div class="filter-group mb-4">
+                        <span class="filter-title mb-3 d-block">Sorteren op</span>
+                        <div class="d-flex flex-column gap-1">
+                            <x-sortable-button field="alfabetisch" :current-sort="request('sort')">
+                                {{ __('pages/search.sidenav.sort.alphabetical') }}
+                            </x-sortable-button>
+
+                            <x-sortable-button field="publicatie" :current-sort="request('sort')">
+                                {{ __('pages/search.sidenav.sort.publication-date') }}
+                            </x-sortable-button>
+
+                            {{-- Handmatige check voor weergaves (omdat dit geen standaard toggle is in je huidige component) --}}
+                            @if (request('sort') === '-weergaves')
+    <a href="{{ request()->fullUrlWithQuery(['sort' => 'weergaves']) }}" class="filter-link">
+        <x-tabler-sort-descending-numbers class="icon me-2"/> 
+        {{ __('pages/search.sidenav.sort.views') }}
+    </a>
+@else
+    <a href="{{ request()->fullUrlWithQuery(['sort' => '-weergaves']) }}" class="filter-link">
+        {{-- I added the descending icon here to differentiate the "inactive" state --}}
+        <x-tabler-sort-ascending-numbers class="icon  me-2"/> 
+        {{ __('pages/search.sidenav.sort.views') }}
+    </a>
+@endif
                         </div>
                     </div>
-                    <div class="card-body">
-                        <h5 class="card-title color-green mb-3">{{ __('pages/search.sidenav.filters.heading') }}</h5>
+                @endif
 
-                        <x-filter-link field="published_after" value="{{ now()->subWeek()->format('Y-m-d') }}">
-                            {{ __('pages/search.sidenav.filters.last-week') }}
-                        </x-filter-link>
+                {{-- Date Filters --}}
+                <div class="filter-group mb-4">
+                    <span class="filter-title">{{ __('pages/search.sidenav.filters.heading') }}</span>
 
-                        <x-filter-link field="published_after" value="{{ now()->subMonth()->format('Y-m-d') }}">
-                            {{ __('pages/search.sidenav.filters.last-month') }}
-                        </x-filter-link>
+                    <x-filter-link field="published_after" value="{{ now()->subWeek()->format('Y-m-d') }}" class="filter-link">
+                        {{ __('pages/search.sidenav.filters.last-week') }}
+                    </x-filter-link>
 
-                        <x-filter-link field="published_after" value="{{ now()->subYear()->format('Y-m-d') }}">
-                            {{ __('pages/search.sidenav.filters.last-year') }}
-                        </x-filter-link>
+                    <x-filter-link field="published_after" value="{{ now()->subMonth()->format('Y-m-d') }}" class="filter-link">
+                        {{ __('pages/search.sidenav.filters.last-month') }}
+                    </x-filter-link>
 
-                        <hr>
-
-                        <ul class="list-unstyled mb-0">
-                            <li class="d-flex justify-content-between align-items-center mb-2">
-                                <div class="d-flex align-items-center">
-                                    <x-heroicon-o-pencil-square class="icon color-green me-2"/>
-
-                                    <a href="{{ route('suggestions:index') }}" class="text-decoration-none text-muted">
-                                        {{ __('pages/search.sidenav.my-suggestions') }}
-                                    </a>
-                                </div>
-
-                                @auth
-                                    <span class="badge text-bg-danger rounded-pill">
-                                                {{ auth()->user()->suggestions->count() }}
-                                            </span>
-                                @endauth
-                            </li>
-
-                            <li class="d-flex justify-content-between align-items-center">
-                                <div class="d-flex align-items-center">
-                                    <x-heroicon-o-bookmark class="icon color-green me-2"/>
-
-                                    <a href="{{ route('bookmarks:index') }}" class="text-decoration-none text-muted">
-                                        {{ __('pages/search.sidenav.my-saved-words') }}
-                                    </a>
-                                </div>
-
-                                @auth
-                                    <span class="badge text-bg-danger rounded-pill">
-                                                {{ auth()->user()->bookmarks->count() }}
-                                            </span>
-                                @endauth
-                            </li>
-                        </ul>
-                    </div>
+                    <x-filter-link field="published_after" value="{{ now()->subYear()->format('Y-m-d') }}" class="filter-link">
+                        {{ __('pages/search.sidenav.filters.last-year') }}
+                    </x-filter-link>
                 </div>
 
-                <div class="card bg-callout-card mt-4 shadow-sm border-0 card-body mb-sm-4">
-                    <h5 class="card-title fw-bold fst-italic">{{ __('components/volunteer-callout.heading') }}!</h5>
+                {{-- Personal Links --}}
+                @auth
+                <div class="filter-group mb-0">
+                    <span class="filter-title-gradient mb-3 d-block">Bibliotheek</span>
+                    <div class="d-flex flex-column gap-1">
+                        <a href="{{ route('suggestions:index') }}" class="filter-link d-flex justify-content-between align-items-center">
+                            <span><x-heroicon-o-pencil-square class="icon me-2"/>{{ __('pages/search.sidenav.my-suggestions') }}</span>
+                            @auth
+                                <span class="badge rounded-pill bg-danger text-white border fw-normal">{{ auth()->user()->suggestions->count() }}</span>
+                            @endauth
+                        </a>
 
-                    <p class="card-text mt-2">
+                        <a href="{{ route('bookmarks:index') }}" class="filter-link d-flex justify-content-between align-items-center">
+                            <span><x-heroicon-o-bookmark class="icon me-2"/>{{ __('pages/search.sidenav.my-saved-words') }}</span>
+                            @auth
+                                <span class="badge rounded-pill bg-danger text-white border fw-normal">
+                                    {{ auth()->user()->bookmarks->count() }}
+                                </span>
+                            @endauth
+                        </a>
+                    </div>
+                </div>
+                @endauth
+            </div>
+        </div>
+
+        {{-- CARD 2: "Didn't find it?" (The Action Card) --}}
+        <div class="card border-0 shadow-sm rounded-3 bg-light">
+            <div class="card-body">
+                <h6 class="fw-bold text-dark mb-2">
+                    Niet gevonden wat je zocht?
+                </h6>
+                <p class="small text-muted mb-3">
+                    Help ons het woordenboek uit te breiden of probeer iets willekeurigs.
+                </p>
+                
+                <div class="d-grid gap-2">
+                    <a href="{{ route('definitions.create') }}" class="btn btn-primary btn-sm fw-medium">
+                        <x-heroicon-o-plus class="icon me-1" style="width:16px;"/> 
+                        {{ __('pages/search.sidenav.buttons.submit-suggestion') }}
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {{-- CARD 3: Volunteer Callout --}}
+        @if (app(\App\Settings\VolunteerSettings::class)->pageActive)
+            <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+                <div class="card-body position-relative">
+                    {{-- Decorative background icon --}}
+                    
+                    <span class="filter-title mb-2 d-block text-primary">{{ __('components/volunteer-callout.heading') }}!</span>
+                    
+                    <p class="small text-muted mb-3 position-relative">
                         {{ __('components/volunteer-callout.description', ['applicationName' => config('app.name', 'Laravel')]) }}
                     </p>
 
-                    <p class="card-text">
-                        <a href="{{ route('support.volunteers') }}" class="btn btn-white mt-3 w-100">
-                            {{ __('components/volunteer-callout.action') }}
-                        </a>
-                    </p>
+                    <a href="{{ route('support.volunteers') }}" class="btn btn-outline-primary btn-sm w-100 stretched-link">
+                        {{ __('components/volunteer-callout.action') }}
+                    </a>
                 </div>
             </div>
+        @endif
 
-        </div>
+    </div>
+</aside>
     </div>
 @endsection

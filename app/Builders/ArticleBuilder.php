@@ -83,7 +83,7 @@ final class ArticleBuilder extends Builder
             $this->model->update(attributes: [
                 'state' => ArticleStates::New,
                 'archiving_reason' => null,
-                'published_at' => now(),
+                'published_at' => null,
                 'archived_at' => null,
                 'publisher_id' => null,
                 'editor_id' => null,

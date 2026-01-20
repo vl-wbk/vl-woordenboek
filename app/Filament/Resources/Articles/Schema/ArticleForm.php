@@ -8,6 +8,7 @@ use App\Enums\ArticleStates;
 use App\Enums\LanguageStatus;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Actions\DisclaimerToolbarActions;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Actions\LanguageAdviceAction;
+use App\Filament\Resources\Articles\Actions\RemoveEditorAction;
 use App\Models\Article;
 use App\Models\ReferenceWork;
 use App\Models\User;
@@ -288,6 +289,7 @@ final readonly class ArticleForm
                     ->columnSpanFull(),
 
                 TextEntry::make('editor.name')
+                    ->hintAction(RemoveEditorAction::make())
                     ->label('Redacteur')
                     ->icon(Heroicon::OutlinedUserCircle)
                     ->iconColor('primary')

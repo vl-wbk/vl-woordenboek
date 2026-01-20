@@ -19,369 +19,214 @@
 @endsection
 
 @section ('content')
-   <div class="py-4">
-       <div class="container-fluid">
-           <div class="d-flex justify-content-between align-items-start">
-               <div class="w-100">
-                   <h3 class="color-green w-100 mb-2">
-                       @if ($word->isPublished() || $word->isArchived())
-                           <a href="{{ route('home') }}" class="text-muted text-decoration-none">
-                               <x-heroicon-o-arrow-uturn-left class="icon icon-back-to-results"/>
-                           </a>
-                       @else
-                           <span class="fw-bolder text-danger">
-                            <x-heroicon-s-eye class="icon icon-back-to-results"/>
-                            preview
-                        </span>
-                       @endif
+<style>
+    .markdown-text p:not(:last-child) {
+        margin-bottom: .70rem; /* Adjust this value to your preferred spacing */
+    }
+</style>
 
-                       <span class="text-muted">/</span>
-                       {{ $word->word }}
+<div class="word-nav-bar">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}"><x-heroicon-o-home class="icon me-1"/>Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ $word->word }}</li>
+                </ol>
+            </nav>
+            <a href="{{ url()->previous() }}" class="back-link">
+                <x-heroicon-o-arrow-left style="width:1rem"/>
+                Terug naar vorige pagina
+            </a>
+        </div>
+    </div>
+</div>
 
-                       @if ($word->isPublished())
-                           <div class="d-flex gap-2 float-end align-items-center">
-                               @auth
-                                   <livewire:like-words :article="$word" />
+<div class="word-header">
+    <div class="container-fluid">
+        <div class="row align-items-start">
+            <div class="col-lg-8">
+                {{-- Regio Sectie --}}
+                <div class="mb-2 d-flex flex-wrap align-items-center gap-2">
+                    @foreach($word->regions as $region)
+                        <a href="{{ route('region:show', $region) }}" class="text-decoration-none d-flex align-items-center"
+                           style="font-size: 0.75rem; font-weight: 700; color: var(--lexi-region-text); text-transform: uppercase; letter-spacing: 0.025em;">
+                            <x-heroicon-s-map-pin style="width:0.9rem; margin-right: 0.2rem;"/>
+                            {{ $region->name }}
+                        </a>
+                        @if(!$loop->last) <span class="text-muted opacity-25">|</span> @endif
+                    @endforeach
+                </div>
 
-                                   @if ($word->bookmarkers->contains(auth()->user()))
-                                       <a href="{{ route('bookmark:remove', $word) }}" class="btn btn-light shadow-sm" title="Vergeet dit woord">
-                                           <x:heroicon-o-bookmark-slash class="icon text-danger"/>
-                                       </a>
-                                   @else
-                                       <a href="{{ route('bookmark:create', $word) }}" class="btn btn-light shadow-sm" title="bewaar dit woord">
-                                           <x:heroicon-o-bookmark class="icon text-success"/>
-                                       </a>
-                                   @endif
-                               @endauth
+                <h1 class="display-3 fw-bold mb-1">{{ $word->word }}</h1>
 
-                               <div class="dropdown">
-                                   <button class="btn btn-light dropdown-toggle shadow-sm" title="Bijdragen aan het woordenboek" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                       <x:heroicon-o-plus class="icon color-green"/>
-                                   </button>
-                                   <ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm">
-                                       <li>
-                                           <a class="dropdown-item" href="{{ route('definitions.create') }}">
-                                               <x:heroicon-o-document-plus class="icon text-muted me-1"/>Suggestie voor een nieuw woord
-                                           </a>
-                                       </li>
-                                       <li>
-                                           <a class="dropdown-item" href="{{ route('etymology:create', $word) }}">
-                                               <x:heroicon-o-plus class="icon text-muted me-1"/>Etymologie toevoegen
-                                           </a>
-                                       </li>
-                                   </ul>
-                               </div>
+                <div class="d-flex align-items-center flex-wrap gap-2">
+                    <div class="d-flex w-100 align-items-center gap-2 text-muted me-2">
+                        @if ($word->partOfSpeech)
+                            <span class="fw-bold text-dark">{{$word->partOfSpeech->name }}</span>
+                            <span>•</span>
+                        @endif
 
-                               @auth
-                                   <a href="#" data-bs-toggle="modal" data-bs-target="#reportModal" class="btn btn-danger shadow-sm" title="Fout in het artikel melden">
-                                       <x:heroicon-s-exclamation-triangle class="icon"/>
-                                   </a>
-                               @endauth
+                        <span class="font-monospace">{{ $word->characteristics }}</span>
+                    </div>
+
+                    {{-- Status Labels --}}
+                    @if ($word->labels()->exists())
+                        <div class="mt-3">
+                            @foreach ($word->labels as $label)
+                                <a href="{{ route('label:show', $label) }}" class="shadow-sm word-label"><x-heroicon-o-tag class="icon me-1"/> {{ $label->name}}</a>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+
+                @auth
+                    <div class="header-actions mt-4">
+                        @if ($word->bookmarkers->contains(auth()->user()))
+                            <a href="{{ route('bookmark:remove', $word) }}" class="action-link-btn text-danger text-decoration-none opacity-75">
+                                <x:heroicon-o-bookmark-slash style="width:1.1rem"/> Vergeet dit woord
+                            </a>
+                        @else
+                            <a href="{{ route('bookmark:create', $word) }}" class="action-link-btn text-decoration-none"><x-heroicon-o-bookmark style="width:1.1rem"/> Bewaar</a>
+                        @endif
+
+                        <button class="action-link-btn ms-2 text-danger opacity-75"  data-bs-toggle="modal" data-bs-target="#reportModal">
+                            <x-heroicon-o-megaphone style="width:1.1rem"/> Verbetering melden
+                        </button>
+                    </div>
+                @endauth
+            </div>
+
+            <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+                <a href="{{ route('definitions.create') }}" class="btn btn-outline-dark px-4 rounded-1">
+                    <x:heroicon-s-document-plus class="icon me-1"/>suggestie voor een nieuw artikel
+                </a>
+
+                @can ('update', $word)
+                    <a href="{{ $editLink }}" class="btn btn-dark px-4 rounded-1">
+                        <x-heroicon-s-pencil-square class="icon me-1"/> bewerk artikel
+                    </a>
+                @endcan
+            </div>
+        </div>
+    </div>
+</div>
+
+@if ($word->disclaimer)
+    <div class="alert alert-info border-0 mb-0" role="alert">
+        <p>{{ $word->disclaimer->message }}</p>
+    </div>
+@endif
+
+{{-- Main Content --}}
+<div class="container-fluid py-5">
+    <div class="row">
+        <div class="col-lg-9 pe-lg-5">
+            <section class="mb-5">
+                <h5 class="fw-bold mb-3 text-success">Definitie</h5>
+
+                <div class="d-flex">
+                    @if ($word->image_url)
+                        <div class="flex-shrink-0 d-sm-none d-md-block me-3">
+                            <img
+                                src="{{ $word->image_url ?? 'https://placehold.co/100x100?text=ongeldige+afbeelding&font=roboto' }}"
+                                alt="{{ $word->image_alt ?? trans('Helaas kunnen we afbeelden voor het artikel :article niet beschrijven', ['article' => $word->word]) }}"
+                                class="rounded border-0 shadow-sm"
+                                style="height: 150px; border: 0 !important; width: 150px;"
+                            />
+                        </div>
+                    @endif
+
+                    <div class="flex-grow-1">
+                        <div class="text-muted">
+                            <div class="markdown-text lh-base text-dark">
+                                {!! str($word->description)->markdown()->sanitizeHtml() !!}
                            </div>
-                       @endif
-                   </h3>
-                   <p class="my-2">
-                       @if ($word->partOfSpeech)
-                           <span class="badge bg-secondary me-2">{{ $word->partOfSpeech->name }}</span>
-                       @endif
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-                       <span class="fw-bold fst-italic text-muted">{{ $word->characteristics }}</span>
-                   </p>
-               </div>
-           </div>
+            <section class="mb-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold mb-0 color-green">Voorbeelden</h5>
+                </div>
+                <div class="markdown-text">
+                    {!! str($word->example)->markdown()->sanitizeHtml() !!}
+                </div>
+            </section>
 
-           <div class="card shadow-sm mt-2 {{ $word->disclaimer ? 'border-info' : 'border-0' }}">
-               @if ($word->disclaimer)
-                   <div class="card-header text-info-emphasis border-bottom-0 bg-info-subtle">
-                       <strong class="me-1">DISCLAIMER:</strong> {{ $word->disclaimer->message }}
-                   </div>
-               @endif
+            @if ($word->related()->exists())
+                <section class="mb-5">
+                    <h5 class="fw-bold color-green mb-3">Gerelateerde Woorden</h5>
+                    <div class="d-flex flex-wrap">
+                        @foreach($word->related as $related)
+                            <a href="{{ route('word-information.show', $related) }}" class="related-chip shadow-sm">
+                                <x-heroicon-o-document-text class="icon color-green me-1"/> {{ $related->word }}
+                            </a>
+                        @endforeach
+                    </div>
+                </section>
+            @endif
 
-               @if ($word->isArchived())
-                       <div class="card-header bg-danger-subtle text-danger-emphasis">
-                               <div>
-                                   <div class="fw-semibold">
-                                       <x-heroicon-o-archive-box class="icon me-1" /> Dit artikel is gearchiveerd sinds {{ $word->archived_at->format('d/m/Y') }}
-                                   </div>
-                                   <div class="small text-danger-emphasis">
-                                       {{ $word->archiving_reason }}
-                                   </div>
-                               </div>
+            @if($word->sources && $word->sources->count() > 0)
+    <section class="mb-2">
+        <h5 class="fw-bold mb-3 d-flex align-items-center color-green">
+            Bronnen & Referenties
+        </h5>
 
-                       </div>
-                   @endif
+        <div class="sources-list">
+            @foreach($word->sources as $source)
+                <div class="source-item shadow-sm">
+                    <div class="source-icon">
+                        <x-heroicon-s-book-open style="width: 1.2rem;"/>
+                    </div>
+                    <div class="flex-grow-1">
+                        <span class="source-link fw-semibold">{{ $source->referenceWork->name }}</span>
 
-               <div class="card-body">
-                   <div class="row">
-                      <div class="col-12 col-lg-9">
-                           <div class="row mb-4">
-                               <div class="col-lg-6">
-                                   <h3 class="h6 text-muted fw-bold border-bottom pb-2">Regio(s)</h3>
 
-                                   @foreach($word->regions as $region)
-                                       <a href="{{ route('region:show', $region) }}" class="badge badge-primary shadow-sm text-decoration-none me-2">
-                                           {{ $region->name }}
-                                       </a>
-                                   @endforeach
-                               </div>
+                        @if($source->notation)
+                            <p class="mb-0 small text-muted mt-1">{{ $source->notation }}</p>
+                        @endif
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </section>
+@endif
 
-                               <div class="col-lg-6 mt-md-0 mt-sm-3">
-                                   <h3 class="h6 text-muted border-bottom pb-2 fw-bold">Label(s)</h3>
+            <section class="border-top">
+                 {{-- Contributor Details --}}
+                <div class="contributor-box bg-white shadow-sm">
+                    <div class="bg-white rounded-circle d-flex align-items-center justify-content-center border" style="width: 45px; height: 45px;">
+                        <x-heroicon-o-user style="width: 1.5rem;" class="text-muted" />
+                    </div>
+                    <div>
+                        <p class="mb-1 small text-muted">
+                            Toegevoegd door
 
-                                   @forelse ($word->labels as $label)
-                                       <a href="{{ route('label:show', $label) }}" class="badge bg-light text-dark shadow-sm text-decoration-none border me-2">
-                                           <x-heroicon-o-tag class="icon me-1"/> {{ $label->name }}
-                                       </a>
-                                   @empty
-                                       <span class="text-muted fst-italic">- geen labels gekoppeld.</span>
-                                   @endforelse
-                               </div>
-                           </div>
+                            @if ($word->author()->exists())
+                                <a href="{{ route('account:public', $word->author) }}" class="fw-bold text-dark">{{ $word->author->name ?? $word->contributor_name }}</a>
+                            @else
+                                <span class="fw-bold text-dark">{{ $word->contributor_name }}</span>
+                            @endif
+                        </p>
+                        <p class="mb-0 extra-small text-muted" style="font-size: 0.75rem;">
+                            Gepubliceerd op {{ optional($word->published_at)->format('d M Y') ?? $word->created_at->format('d M Y') }}
+                            <span class="vr mx-2"></span>
+                         Laatst bijgewerkt op {{ $word->updated_at->format('d M Y') }}
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
 
-                           <h5 class="text-muted border-bottom pb-2 fw-bold">Betekenis</h5>
+        <aside class="col-lg-3">
+            {{-- Community Stats --}}
+            <livewire:voting-component :article="$word"/>
+        </aside>
+    </div>
+</div>
 
-                           <div class="d-flex">
-                               @if ($word->image_url)
-                                   <div class="flex-shrink-0 d-sm-none d-md-block me-3">
-                                       <img
-                                           src="{{ $word->image_url ?? 'https://placehold.co/100x100?text=ongeldige+afbeelding&font=roboto' }}"
-                                           alt="{{ $word->image_alt ?? trans('Helaas kunnen we afbeelden voor het artikel :article niet beschrijven', ['article' => $word->word]) }}"
-                                           class="rounded border-0 shadow-sm"
-                                           style="height: 100px; border: 0 !important; width: 100px;"
-                                       />
-                                   </div>
-                               @endif
-
-                               <div class="flex-grow-1">
-                                   <div class="text-muted">
-                                       <div class="markdown-text">
-                                           {!! str($word->description)->markdown()->sanitizeHtml() !!}
-                                       </div>
-                                   </div>
-                               </div>
-                           </div>
-                       </div>
-
-                       <div class="col-12 col-lg-3 mt-3 mt-lg-0">
-                           <div class="card bg-secondary-subtle border-0">
-                               <div class="card-body">
-                                   <h5 class="card-title fw-bold color-green pb-2 border-dark-subtle border-bottom">Publicatiegegevens</h5>
-
-                                   <dl class="row mt-2 mb-0">
-                                       <dt class="col-sm-5">Suggestie door</dt>
-                                       <dd class="col-sm-7">
-                                        <span class="float-end">
-                                            @if ($word->author()->exists())
-                                                <a href="{{ route('account:public', $word->author) }}" class="text-dark">
-                                                     {{ $word->author->name }}
-                                                </a>
-                                            @else
-                                                <span>{{ $word->contributor_name ?? 'onbekend' }}</span>
-                                            @endif
-                                        </span>
-                                       </dd>
-
-                                       <dt class="col-sm-5">Redacteur</dt>
-                                       <dd class="col-sm-7">
-                                        <span class="float-end">
-                                            @if ($word->editor()->exists())
-                                                <a href="{{ route('account:public', $word->editor) }}" class="text-dark">
-                                                    {{ $word->editor->name }}
-                                                </a>
-                                            @else
-                                                <span>{{ config('app.name', 'Laravel') }}</span>
-                                            @endif
-                                        </span>
-                                       </dd>
-
-                                       <dt class="col-sm-5">Eindredacteur</dt>
-                                       <dd class="col-sm-7">
-                                        <span class="float-end">
-                                            @if ($word->publisher()->exists())
-                                                <a href="{{ route('account:public', $word->publisher) }}" class="text-dark">
-                                                     {{ $word->publisher->name }}
-                                                </a>
-                                            @else
-                                                <span>{{ config('app.name', 'Laravel') }}</span>
-                                            @endif
-                                        </span>
-                                       </dd>
-
-                                       <dt class="col-sm-5">Publicatiedatum</dt>
-                                       <dd class="col-sm-7"><span class="float-end">{{ $word->created_at->format('d/m/Y') }}</span></dd>
-                                       <dt class="col-sm-5">Laatste bewerking</dt>
-                                       <dd class="col-sm-7 mb-0"><span class="float-end">{{ $word->updated_at->format('d/m/Y') }}</span></dd>
-                                   </dl>
-                               </div>
-                           </div>
-                       </div>
-                   </div>
-               </div>
-           </div>
-
-           <div class="card border-0 shadow-sm mt-4">
-               <div class="card-header bg-sidenav border-">
-                   <ul class="nav nav-tabs card-header-tabs">
-                       <li class="nav-item" role="presentation">
-                           <button class="nav-link active" id="example-tab" data-bs-toggle="tab" data-bs-target="#example-tab-pane" type="button" role="tab" aria-controls="example-tab-pane" aria-selected="true">
-                               <x:heroicon-o-language class="icon color-green me-1"/>Voorbeeld gebruik
-                           </button>
-                       </li>
-
-                       @if ($word->related()->exists())
-                           <li class="nav-item" role="presentation">
-                               <button class="nav-link" id="articles-tab" data-bs-toggle="tab" data-bs-target="#articles-tab-pane" type="button" role="tab" aria-controls="articles-tab-pane" aria-selected="false">
-                                   <x-heroicon-o-book-open class="icon color-green me-1"/> Gerelateerde artikelen
-                               </button>
-                           </li>
-                       @endif
-
-                       @if (count($etymologies) > 0)
-                           <li class="nav-item" role="presentation">
-                               <button class="nav-link" id="etymologie-tab" data-bs-toggle="tab" data-bs-target="#etymologie-tab-pane" type="button" role="tab" aria-controls="etymologie-tab-pane" aria-selected="true">
-                                   <x:heroicon-o-queue-list class="icon color-green me-1"/> Etymologieën
-                               </button>
-                           </li>
-                       @endif
-
-                       @if ($word->sources()->exists())
-                           <li class="nav-item" role="presentation">
-                               <button class="nav-link" id="sources-tab" data-bs-toggle="tab" data-bs-target="#sources-tab-pane" type="button" role="tab" aria-controls="sources-tab-pane" aria-selected="false">
-                                   <x-heroicon-o-book-open class="icon color-green me-1"/> Bronnen
-                               </button>
-                           </li>
-                       @endif
-                   </ul>
-               </div>
-
-               <div class="card-body bg-white">
-                   <div class="tab-content" id="articleInformationTab">
-                       <div class="tab-pane fade show active" id="example-tab-pane" role="tabpanel" aria-labelledby="example-tab" tabindex="0">
-                           <div class="markdown-text">
-                               {!! str($word->example)->markdown()->sanitizeHtml() !!}
-                           </div>
-                       </div>
-
-                       @if ($word->sources()->exists())
-                           <div class="tab-pane fade" id="sources-tab-pane" role="tabpanel" aria-labelledby="sources-tab" tabindex="0">
-                               <div class="table-responsive">
-                                   <table class="table table-hover table-sm mb-0">
-                                       <thead>
-                                       <tr>
-                                           <th scope="col">#</th>
-                                           <th scope="col">Naslagwerk</th>
-                                           <th scope="col">Referentie</th>
-                                       </tr>
-                                       </thead>
-                                       <tbody>
-                                       @foreach ($word->sources as $source)
-                                           <tr>
-                                               <td>
-                                                    <span class="badge badge-primary">
-                                                        <x:heroicon-s-book-open class="icon icon-sm me-1"/> {{ $source->referenceWork->abbreviation }}
-                                                    </span>
-                                               </td>
-                                               <td>{{ $source->referenceWork->name }}</td>
-                                               <td>{{ $source->notation }}</td>
-                                           </tr>
-                                       @endforeach
-                                       </tbody>
-                                   </table>
-                               </div>
-                           </div>
-                       @endif
-
-                       @if ($word->related()->exists())
-                           <div class="tab-pane fade" id="articles-tab-pane" role="tabpanel" aria-labelledby="sources-tab" tabindex="0">
-                               <div class="table-responsive">
-                                   <table class="table table-hover table-sm mb-0">
-                                       <thead>
-                                           <tr>
-                                               <th scope="col">Artikel</th>
-                                               <th scope="col" colspan="2">Beschrijving</th>
-                                           </tr>
-                                       </thead>
-                                       <tbody>
-                                           @foreach ($word->related as $article)
-                                               <tr>
-                                                   <td>
-                                                        <span class="fw-bold">
-                                                            <x:heroicon-o-book-open class="icon text-secondary icon-sm me-1"/> {{ $article->word }}
-                                                        </span>
-                                                   </td>
-                                                   <td>{{ str($article->description)->markdown()->stripTags()->limit(175) }}</td>
-                                                   <td>
-                                                       <a href="{{ route('word-information.show', $article) }}" class="float-end text-decoration-none text-light-emphasis">
-                                                           <x-heroicon-o-eye class="icon me-1"/> Bekijken
-                                                       </a>
-                                                   </td>
-                                               </tr>
-                                           @endforeach
-                                       </tbody>
-                                   </table>
-                               </div>
-                           </div>
-                       @endif
-
-                       @if (count($etymologies) > 0)
-                           <div class="tab-pane fade" id="etymologie-tab-pane" role="tabpanel" aria-labelledby="example-tab" tabindex="0">
-                               <div class="accordion shadow-sm" id="etymologyAccordion">
-                                   @foreach ($etymologies as $etymology)
-                                       <div class="accordion-item">
-                                           <h2 class="accordion-header">
-                                               <button class="accordion-button show shadow-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $etymology->id }}" aria-expanded="true" aria-controls="{{ $etymology->id }}">
-                                                   <strong>{{ $etymology->origin_period }} - {{ $etymology->origin }}</strong>
-                                               </button>
-                                           </h2>
-
-                                           <div id="{{ $etymology->id }}" class="accordion-collapse collapse" data-bs-parent="#etymologyAccordion">
-                                               <div class="accordion-body">
-                                                   <div class="row g-3">
-                                                       <div class="col-md-6">
-                                                           <h6 class="text-primary">Oorsprong</h6>
-                                                           <p class="mb-0"><strong>Oorsprong:</strong> {{ $etymology->origin }}</p>
-                                                           <p class="mb-0"><strong>Periode:</strong> {{ $etymology->origin_period }}</p>
-                                                       </div>
-                                                       <div class="col-md-6">
-                                                           <h6 class="text-primary">Vindplaats</h6>
-                                                           <p class="mb-0"><strong>Oudste vindplaats:</strong> {{ $etymology->oldest_find_spot }}</p>
-                                                           <p class="mb-0"><strong>Vindperiode:</strong> {{ $etymology->oldest_find_period }}</p>
-                                                       </div>
-                                                   </div>
-
-                                                   <hr class="my-3">
-                                                   <h6 class="text-primary">Etymologie</h6>
-
-                                                   <p>{{ $etymology->etymology }}</p>
-
-                                                   <hr class="my-3">
-                                                   <h6 class="text-primary">Verdere Ontwikkeling</h6>
-
-                                                   <p class="mb-1"><strong>Periode:</strong> {{ $etymology->further_development_period }}</p>
-                                                   <p class="mb-0"><strong>Info:</strong> {{ $etymology->further_development }}</p>
-
-                                                   @if ($etymology->additional_info)
-                                                       <hr class="my-3">
-                                                       <h6 class="text-primary">Aanvullende informatie</h6>
-
-                                                       <p>{{ $etymology->additional_info ?? '-' }}</p>
-
-                                                   @endif
-
-                                                   <small class="text-muted d-block mt-3">Bron: <a href="{{ $etymology->source_hyperlink }}">{{ $etymology->source_name->getLabel() }}</a></small>
-                                               </div>
-                                           </div>
-                                       </div>
-                                   @endforeach
-                               </div>
-                           </div>
-                       @endif
-
-                   </div>
-               </div>
-           </div>
-       </div>
-   </div>
-
-    <livewire:report-article-modal :article=$word />
+<livewire:report-article-modal :article=$word />
 @endsection

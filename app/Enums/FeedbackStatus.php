@@ -5,7 +5,12 @@ declare(strict_types=1);
 namespace App\Enums;
 
 use ArchTech\Enums\Comparable;
+use BackedEnum;
+use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
+use Filament\Support\Icons\Heroicon;
+use Illuminate\Contracts\Support\Htmlable;
 
 /**
  * Represents the processing status of a feedback item.
@@ -18,7 +23,7 @@ use Filament\Support\Contracts\HasLabel;
  *
  * @package App\Enums
  */
-enum FeedbackStatus: int implements HasLabel
+enum FeedbackStatus: int implements HasLabel, HasColor, HasIcon
 {
     use Comparable;
 
@@ -48,6 +53,22 @@ enum FeedbackStatus: int implements HasLabel
         return match ($this) {
             self::Unprocessed => __('feedback-resource.statuses.unprocessed'),
             self::Processed => __('feedback-resource.statuses.processed'),
+        };
+    }
+
+    public function getColor(): string 
+    {
+        return match ($this) {
+            self::Unprocessed => 'danger', 
+            self::Processed => 'success',
+        };
+    }
+
+    public function getIcon(): BackedEnum
+    {
+        return match ($this) {
+            self::Unprocessed => Heroicon::OutlinedExclamationTriangle,
+            self::Processed => Heroicon::OutlinedCheckBadge
         };
     }
 }

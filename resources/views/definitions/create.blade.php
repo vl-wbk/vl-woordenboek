@@ -44,7 +44,7 @@
                                         type="text"
                                         name="woord"
                                         id="woord"
-                                        value="{{ old('woord') }}"
+                                        value="{{ old('woord', request()->get('woord')) }}"
                                         class="form-control @error('woord') is-invalid @enderror"
                                         aria-describedby="woordHelptext"
                                         autocomplete="off"

@@ -114,7 +114,6 @@ final readonly class WordInfolist
         return Tab::make(__('filament/resources/articles.infolist.source-information-tab.heading'))
             ->icon(Heroicon::OutlinedBookOpen)
             ->columns(12)
-            /** @phpstan-ignore-next-line */
             ->visible(fn(Article $article): bool => $article->sources()->exists())
             ->schema([
                 RepeatableEntry::make('sources')
@@ -127,11 +126,18 @@ final readonly class WordInfolist
                     ])
                 ->schema([
                     TextEntry::make('referenceWork.abbreviation')
+                        ->label('Afkorting')
                         ->badge()
                         ->icon(Heroicon::BookOpen),
-                    TextEntry::make('referenceWork.name'),
-                    TextEntry::make('notation'),
+
+                    TextEntry::make('referenceWork.name')
+                        ->label('Bron'),
+                    
+                    TextEntry::make('notation')
+                        ->label('Referentie'),
+
                     TextEntry::make('created_at')
+                        ->label('Toegevoegd op')
                         ->date(),
                 ])
                     ->hiddenLabel()

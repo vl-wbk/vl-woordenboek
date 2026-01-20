@@ -73,7 +73,6 @@ return [
                 ]
             ],
             'delete-action' => [
-                'tooltip' => 'Verwijderen',
                 'modal' => [
                     'description' => 'Bij het verwijderen van de feedback kan het zijn indien de onbehandeld is waardevolel informatie verloren gaat voor de verdere groei van het Vlaams Woordenboek, en vragen we je om deze handeling te bevestigen'
                 ]
