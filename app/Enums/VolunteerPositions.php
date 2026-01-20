@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+use BackedEnum;
 use Filament\Support\Contracts\HasDescription;
+use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
+use Filament\Support\Icons\Heroicon;
+use Illuminate\Contracts\Support\Htmlable;
 
 /**
  * Represents the different volunteer positions within the application.
@@ -16,7 +20,7 @@ use Filament\Support\Contracts\HasLabel;
  *
  * @package App\Enums
  */
-enum VolunteerPositions: int implements HasLabel, HasDescription
+enum VolunteerPositions: int implements HasLabel, HasDescription, HasIcon
 {
     /**
      * Represents a volunteer position responsible for editing and updating dictionary data.
@@ -51,6 +55,14 @@ enum VolunteerPositions: int implements HasLabel, HasDescription
         };
     }
 
+    public function getIcon(): BackedEnum
+    {
+        return match($this) {
+            self::Editor, self::ChiefEditor => Heroicon::OutlinedPencilSquare, 
+            self::Developer => Heroicon::CodeBracketSquare,
+        };
+    }
+
     /**
      * Retrieves a detailed description for the current volunteer position.
      * This method offers an extended explanation of the responsibilities and scope of each volunteer role, useful for tooltips, help texts, or detailed role descriptions.
@@ -60,9 +72,9 @@ enum VolunteerPositions: int implements HasLabel, HasDescription
     public function getDescription(): string
     {
         return match ($this) {
-            self::Editor => 'Verantwoordelijk voor het invoeren, bewerken en actualiseren van woordenboekgegevens. Controleert definities, voorbeelden en taalkundige informatie op juistheid en consistentie.',
-            self::ChiefEditor => 'Toetst en bewaakt de kwaliteit van het werk van redacteuren. Zorgt voor eenheid in stijl, toon en inhoud. Heeft de eindverantwoordelijkheid voor publicatieklare inhoud.',
-            self::Developer => 'Beheert en ontwikkelt de technische kant van de applicatie. Werkt aan functionaliteit, prestaties en gebruikersinterface. Lost bugs op en implementeert nieuwe features.',
+            self::Editor => __('enums/volunteer-positions.descriptions.editor'),
+            self::ChiefEditor => __('enums/volunteer-positions.descriptions.chiefEditor'),
+            self::Developer => __('enums/volunteer-positions.descriptions.developer'),
         };
     }
 }
