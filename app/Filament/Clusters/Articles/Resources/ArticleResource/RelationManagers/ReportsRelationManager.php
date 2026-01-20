@@ -29,7 +29,7 @@ final class ReportsRelationManager extends RelationManager
 
     public function isReadOnly(): bool
     {
-        return false;
+        return $this->getOwnerRecord()->trashed() ? true : false;
     }
 
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool

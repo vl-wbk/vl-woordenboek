@@ -28,7 +28,6 @@ use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -90,7 +89,6 @@ final class Article extends Model implements AuditableContract, Commentable
     use Likeable;
     use HasLocks;
     use SoftDeletes;
-    // use Prunable;
     use HasNotables;
     use HasComments;
     use Votable;
@@ -362,18 +360,5 @@ final class Article extends Model implements AuditableContract, Commentable
             'published_at' => 'datetime',
             'archived_at' => 'datetime',
         ];
-    }
-
-    /**
-     * Defines the query for prunable records.
-     *
-     * This method configures the query to select soft-deleted articles that have been deleted for more than two months.
-     * These articles are considered prunable and can be permanently removed from the database.
-     *
-     * @return Builder The query builder instance for prunable articles.
-     */
-    public function prunable(): Builder
-    {
-        return self::query()->where('deleted_at', '<=', now()->subDays(60));
     }
 }

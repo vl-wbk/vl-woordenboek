@@ -25,6 +25,7 @@ use Illuminate\Contracts\Support\Htmlable;
 use Kenepa\ResourceLock\Resources\Pages\Concerns\UsesResourceLock;
 use App\Filament\Resources\Articles\Schema\FormSchema;
 use Filament\Actions\Action;
+use Filament\Actions\ForceDeleteAction;
 use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Section;
 use Illuminate\Container\Attributes\Auth;
@@ -88,9 +89,9 @@ final class EditWord extends EditRecord
                 ->url(route('word-information.show', $this->record), shouldOpenInNewTab: true),
 
             Actions\ActionGroup::make([
-                DeleteAction::make()
-                    ->icon('heroicon-o-trash'),
+                DeleteAction::make()->icon('heroicon-o-trash'),
                 RestoreAction::make()->icon('heroicon-m-arrow-uturn-left'),
+                ForceDeleteAction::make()->icon('heroicon-o-trash'),
             ])->buttonGroup()
         ];
     }

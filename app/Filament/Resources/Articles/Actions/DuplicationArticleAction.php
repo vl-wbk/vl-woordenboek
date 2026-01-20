@@ -32,6 +32,8 @@ final class DuplicationArticleAction extends Action
         $this->color('gray');
         $this->label('Dupliceren');
 
+        $this->hidden(fn (Article $article): bool => $article->trashed());
+
         $this->requiresConfirmation();
         $this->modalIcon(Heroicon::OutlinedDocumentDuplicate);
         $this->modalIconColor('primary');

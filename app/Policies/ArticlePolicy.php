@@ -31,7 +31,8 @@ final class ArticlePolicy
      */
     public static array $permissionPrefixes = [
         'update', 'sendForApproval', 'publish', 'unpublish', 'detachEditor', 'attachDisclaimer', 'detachDisclaimer',
-        'archive', 'unarchive', 'delete', 'verwijderVanuitPublicatie', 'deleteAny', 'restore', 'restoreAny', 'export', 'updatePublished'
+        'archive', 'unarchive', 'delete', 'verwijderVanuitPublicatie', 'deleteAny', 'restore', 'restoreAny', 'export', 'updatePublished', 
+        'geforceerdVerwijderen', 'meerdereGeforceerdVerwijderen'
     ];
 
     /**
@@ -68,6 +69,10 @@ final class ArticlePolicy
      */
     public function update(User $user, Article $article): Response
     {
+         if ($article->trashed()) {
+            return Response::deny();
+        }
+
         $allowedStates = [ArticleStates::New , ArticleStates::ExternalData, ArticleStates::Draft, ArticleStates::Archived];
 
         if ($article->isPublished() && $user->can('update-published:article')) {
@@ -240,6 +245,10 @@ final class ArticlePolicy
      */
     public function archiveArticle(User $user, Article $article): Response
     {
+        if ($article->trashed()) {
+            return Response::deny();
+        }
+
         if ($article->state->in(enums: [ArticleStates::Published, ArticleStates::Approval]) && $user->can('archive:article')) {
             return Response::allow();
         }
@@ -355,5 +364,19 @@ final class ArticlePolicy
         }
 
         return Response::deny();
+    }
+
+    public function forceDelete(User $user): Response
+    {
+        return $user->can('geforceerd-verwijderen:article')
+            ? Response::allow()
+            : Response::deny();
+    }
+
+    public function forceDeleteAny(User $user): Response
+    {
+        return $user->can('meerdere-geforceerd-verwijderen:article') 
+            ? Response::allow()
+            : Response::deny();
     }
 }

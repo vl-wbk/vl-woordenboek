@@ -61,7 +61,7 @@ final class EtymologyRelationManager extends RelationManager
      */
     public function isReadOnly(): bool
     {
-        return false;
+        return $this->getOwnerRecord()->trashed() ? true : false;
     }
 
     /**

@@ -59,7 +59,10 @@ final class ArchiveArticle extends Action
 
         $this->color('gray');
         $this->icon($this->actionIcon);
+        
         $this->authorize('archive-article');
+        $this->hidden(fn (Article $article): bool => $article->trashed());
+
         $this->label(label: __('filament/actions/archiveArticle.label'));
 
         // Confirmation box configuration
