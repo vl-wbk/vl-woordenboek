@@ -4,154 +4,144 @@ declare(strict_types=1);
 
 namespace App\Queries;
 
-use App\Builders\ArticleBuilder;
 use App\Enums\Articles\SearchPatterns;
 use App\Models\Article;
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * @package App\Queries
  */
 final readonly class SearchWordQuery
 {
+    /**
+     * Execute the search query based on request parameters.
+     *
+     * @param Request $request
+     * @return LengthAwarePaginator
+     */
     public function execute(Request $request): LengthAwarePaginator
     {
-        $includeDescription = $request->boolean('uitgebreid');
-        $includeArchive = $request->boolean('archief');
-        $isExact = $request->get('zoekpatroon') === SearchPatterns::Exact->value;
-
         return QueryBuilder::for(Article::class)
             ->allowedSorts($this->getAllowedSorts())
             ->allowedFilters($this->getAllowedFilters())
             ->with(['author', 'regions', 'bookmarkers'])
-            ->where(function ($q) use ($includeArchive) {
-                $q->whereNotNull('published_at');
-
-                if ($includeArchive) {
-                    $q->orWhereNotNull('archived_at');
-                }
-            })
-            ->where(function ($query) use ($request, $includeDescription, $isExact): void {
-
-                // EXACT search blijft ongewijzigd
-                $patternType = $request->get('zoekpatroon');
-
-// EXACT = volledige string
-if ($patternType === SearchPatterns::Exact->value) {
-    $pattern = $this->getSearchPattern($request);
-
-    $query->where('word', '=', $pattern['pattern'])
-        ->orWhere('keywords', '=', $pattern['pattern'])
-        ->when(
-            $includeDescription,
-            fn (ArticleBuilder $builder): Builder =>
-                $builder->orWhere('description', '=', $pattern['pattern'])
-        );
-
-    return;
-}
-
-// STARTS WITH = eerste token
-if ($patternType === SearchPatterns::StartsWith->value) {
-    if ($token = $this->getBoundaryToken($request, true)) {
-        $query->where('word', 'LIKE', "{$token}%");
-    }
-
-    return;
-}
-
-// ENDS WITH = laatste token
-if ($patternType === SearchPatterns::EndsWith->value) {
-    if ($token = $this->getBoundaryToken($request, false)) {
-        $query->where('word', 'LIKE', "%{$token}");
-    }
-
-    return;
-}
-
-// DEFAULT = token-based AND-search
-foreach ($this->getSearchTokens($request) as $token) {
-    $query->where(function ($q) use ($token, $includeDescription) {
-        $pattern = "%{$token}%";
-
-        $q->where('word', 'LIKE', $pattern)
-          ->orWhere('keywords', 'LIKE', $pattern);
-
-        if ($includeDescription) {
-            $q->orWhere('description', 'LIKE', $pattern);
-        }
-    });
-}
-                }
-            })
+            ->where(fn (Builder $query) => $this->applyVisibilityFilters($query, $request))
+            ->where(fn (Builder $query) => $this->applySearchStrategy($query, $request))
             ->orderBy('word')
             ->fastPaginate(6)
-            ->appends(request()->query());
+            ->appends($request->query());
     }
 
     /**
- * Geeft het eerste of laatste zoekwoord terug (voor starts/ends-with).
- */
-private function getBoundaryToken(Request $request, bool $first = true): ?string
-{
-    $tokens = $this->getSearchTokens($request);
+     * Filter by publication and archive status.
+     *
+     * @param Builder $query
+     * @param Request $request
+     * @return void
+     */
+    private function applyVisibilityFilters(Builder $query, Request $request): void
+    {
+        $query->whereNotNull('published_at');
 
-    if ($tokens === []) {
-        return null;
+        if ($request->boolean('archief')) {
+            $query->orWhereNotNull('archived_at');
+        }
     }
 
-    return $first
-        ? $tokens[0]
-        : $tokens[array_key_last($tokens)];
-}
+    /**
+     * Determine and apply the correct search strategy.
+     *
+     * @param Builder $query
+     * @param Request $request
+     * @return void
+     */
+    private function applySearchStrategy(Builder $query, Request $request): void
+    {
+        $patternType = $request->get('zoekpatroon');
+        $includeDescription = $request->boolean('uitgebreid');
 
+        match ($patternType) {
+            SearchPatterns::Exact->value      => $this->applyExactSearch($query, $request, $includeDescription),
+            SearchPatterns::StartsWith->value => $this->applyBoundarySearch($query, $request, true),
+            SearchPatterns::EndsWith->value   => $this->applyBoundarySearch($query, $request, false),
+            default                           => $this->applyTokenizedSearch($query, $request, $includeDescription),
+        };
+    }
 
     /**
-     * Splitst de zoekterm in losse tokens (woorden).
+     * Search for the exact string in word, keywords, or description.
+     */
+    private function applyExactSearch(Builder $query, Request $request, bool $includeDescription): void
+    {
+        $term = $request->string('zoekterm')->trim()->toString();
+
+        $query->where(fn (Builder $q) => $q
+            ->where('word', $term)
+            ->orWhere('keywords', $term)
+            ->when($includeDescription, fn ($q) => $q->orWhere('description', $term))
+        );
+    }
+
+    /**
+     * Search for tokens starting or ending with a specific string.
+     */
+    private function applyBoundarySearch(Builder $query, Request $request, bool $isStart): void
+    {
+        $token = $this->getBoundaryToken($request, $isStart);
+
+        if ($token) {
+            $pattern = $isStart ? "{$token}%" : "%{$token}";
+            $query->where('word', 'LIKE', $pattern);
+        }
+    }
+
+    /**
+     * Search where every token must be present in the record (AND search).
+     */
+    private function applyTokenizedSearch(Builder $query, Request $request, bool $includeDescription): void
+    {
+        foreach ($this->getSearchTokens($request) as $token) {
+            $query->where(function (Builder $q) use ($token, $includeDescription) {
+                $wildcard = "%{$token}%";
+                $q->where('word', 'LIKE', $wildcard)
+                  ->orWhere('keywords', 'LIKE', $wildcard)
+                  ->when($includeDescription, fn ($q) => $q->orWhere('description', 'LIKE', $wildcard));
+            });
+        }
+    }
+
+    /**
+     * Get the first or last valid token from the search term.
+     */
+    private function getBoundaryToken(Request $request, bool $first): ?string
+    {
+        $tokens = $this->getSearchTokens($request);
+        return $tokens[$first ? 0 : array_key_last($tokens)] ?? null;
+    }
+
+    /**
+     * Split the search term into tokens of at least 2 characters.
      *
      * @return array<int, string>
      */
     private function getSearchTokens(Request $request): array
     {
-        return collect(
-            preg_split('/\s+/', $request->string('zoekterm')->trim()->toString())
-        )
-            ->filter(fn (string $token) => mb_strlen($token) >= 2)
+        return $request->collect('zoekterm')
+            ->explode(' ')
+            ->map(fn (string $t) => trim($t))
+            ->filter(fn (string $t) => mb_strlen($t) >= 2)
             ->values()
             ->all();
     }
 
     /**
-     * Exact / klassieke LIKE-search (blijft bestaan voor specifieke zoekpatronen).
+     * @return array<int, AllowedSort>
      */
-    private function getSearchPattern(Request $request): array
-    {
-        $searchTerm = $request->string('zoekterm')->trim();
-        $isExact = $request->get('zoekpatroon') === SearchPatterns::Exact->value;
-
-        $formattedTerm = $isExact
-            ? $searchTerm->toString()
-            : $searchTerm->replace(' ', '%')->toString();
-
-        $pattern = match ($request->get('zoekpatroon')) {
-            SearchPatterns::StartsWith->value => "{$formattedTerm}%",
-            SearchPatterns::EndsWith->value   => "%{$formattedTerm}",
-            SearchPatterns::Exact->value      => $formattedTerm,
-            default                           => "%{$formattedTerm}%",
-        };
-
-        return [
-            'pattern'  => $pattern,
-            'operator' => $isExact ? '=' : 'LIKE',
-        ];
-    }
-
     private function getAllowedSorts(): array
     {
         return [
@@ -161,6 +151,9 @@ private function getBoundaryToken(Request $request, bool $first = true): ?string
         ];
     }
 
+    /**
+     * @return array<int, AllowedFilter>
+     */
     private function getAllowedFilters(): array
     {
         return [
