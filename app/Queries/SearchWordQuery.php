@@ -40,37 +40,77 @@ final readonly class SearchWordQuery
             ->where(function ($query) use ($request, $includeDescription, $isExact): void {
 
                 // EXACT search blijft ongewijzigd
-                if ($isExact) {
-                    $pattern = $this->getSearchPattern($request);
+                $patternType = $request->get('zoekpatroon');
 
-                    $query->where('word', $pattern['operator'], $pattern['pattern'])
-                        ->orWhere('keywords', $pattern['operator'], $pattern['pattern'])
-                        ->when(
-                            $includeDescription,
-                            fn (ArticleBuilder $builder): Builder =>
-                                $builder->orWhere('description', 'LIKE', $pattern['pattern'])
-                        );
+// EXACT = volledige string
+if ($patternType === SearchPatterns::Exact->value) {
+    $pattern = $this->getSearchPattern($request);
 
-                    return;
-                }
-                
-                foreach ($this->getSearchTokens($request) as $token) {
-                    $query->where(function ($q) use ($token, $includeDescription) {
-                        $pattern = "%{$token}%";
+    $query->where('word', '=', $pattern['pattern'])
+        ->orWhere('keywords', '=', $pattern['pattern'])
+        ->when(
+            $includeDescription,
+            fn (ArticleBuilder $builder): Builder =>
+                $builder->orWhere('description', '=', $pattern['pattern'])
+        );
 
-                        $q->where('word', 'LIKE', $pattern)
-                          ->orWhere('keywords', 'LIKE', $pattern);
+    return;
+}
 
-                        if ($includeDescription) {
-                            $q->orWhere('description', 'LIKE', $pattern);
-                        }
-                    });
+// STARTS WITH = eerste token
+if ($patternType === SearchPatterns::StartsWith->value) {
+    if ($token = $this->getBoundaryToken($request, true)) {
+        $query->where('word', 'LIKE', "{$token}%");
+    }
+
+    return;
+}
+
+// ENDS WITH = laatste token
+if ($patternType === SearchPatterns::EndsWith->value) {
+    if ($token = $this->getBoundaryToken($request, false)) {
+        $query->where('word', 'LIKE', "%{$token}");
+    }
+
+    return;
+}
+
+// DEFAULT = token-based AND-search
+foreach ($this->getSearchTokens($request) as $token) {
+    $query->where(function ($q) use ($token, $includeDescription) {
+        $pattern = "%{$token}%";
+
+        $q->where('word', 'LIKE', $pattern)
+          ->orWhere('keywords', 'LIKE', $pattern);
+
+        if ($includeDescription) {
+            $q->orWhere('description', 'LIKE', $pattern);
+        }
+    });
+}
                 }
             })
             ->orderBy('word')
             ->fastPaginate(6)
             ->appends(request()->query());
     }
+
+    /**
+ * Geeft het eerste of laatste zoekwoord terug (voor starts/ends-with).
+ */
+private function getBoundaryToken(Request $request, bool $first = true): ?string
+{
+    $tokens = $this->getSearchTokens($request);
+
+    if ($tokens === []) {
+        return null;
+    }
+
+    return $first
+        ? $tokens[0]
+        : $tokens[array_key_last($tokens)];
+}
+
 
     /**
      * Splitst de zoekterm in losse tokens (woorden).
