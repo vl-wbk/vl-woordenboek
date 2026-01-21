@@ -131,10 +131,10 @@ final readonly class SearchWordQuery
      */
     private function getSearchTokens(Request $request): array
     {
-        return $request->collect('zoekterm')
+        return $request->string('zoekterm')
+            ->trim()
             ->explode(' ')
-            ->map(fn (string $t) => trim($t))
-            ->filter(fn (string $t) => mb_strlen($t) >= 2)
+            ->filter(fn (string $token) => mb_strlen($token) >= 2)
             ->values()
             ->all();
     }
