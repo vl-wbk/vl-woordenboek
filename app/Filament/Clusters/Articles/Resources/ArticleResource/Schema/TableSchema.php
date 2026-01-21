@@ -136,11 +136,11 @@ final readonly class TableSchema
 
                 BulkArchiveAction::make(),
 
-                BulkActionGroup::make([
-                    RestoreBulkAction::make(),
-                    ForceDeleteBulkAction::make(),
-                    DeleteBulkAction::make(),
-                ])->dropdown(false),
+                // BulkActionGroup::make([
+                //    RestoreBulkAction::make(),
+                //    ForceDeleteBulkAction::make(),
+                //    DeleteBulkAction::make(),
+                // ])->dropdown(false),
             ]),
         ];
     }
