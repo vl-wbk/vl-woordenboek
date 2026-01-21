@@ -287,6 +287,7 @@ final class ArticlePolicy
      */
     public function delete(User $user, Article $article): Response
     {
+        return Response::allow();
         // 1. Specific override for removing already published content
         if ($article->state->is(ArticleStates::Published) && $user->can('verwijder-vanuit-publicatie:article')) {
             return Response::allow();

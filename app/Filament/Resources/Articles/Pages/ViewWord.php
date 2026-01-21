@@ -8,6 +8,7 @@ use App\Filament\Resources\Articles\Actions\DuplicationArticleAction;
 use App\Models\Article;
 use App\Filament\Resources\Articles\ArticleResource;
 use App\Filament\Resources\Articles\Actions\RevokePublication;
+use App\Filament\Resources\Articles\Actions\SoftDeleteArticleAction;
 use App\Filament\Resources\Articles\Actions\States as ArticleStateActions;
 use App\Models\User;
 use Filament\Actions as FilamentActions;
@@ -87,7 +88,7 @@ final class ViewWord extends ViewRecord
             ->label('Publicatie')
             ->button(),
 
-            FilamentActions\DeleteAction::make()->icon('heroicon-o-trash'),
+            SoftDeleteArticleAction::make()->icon('heroicon-o-trash'),
             FilamentActions\RestoreAction::make()->icon('heroicon-m-arrow-uturn-left'),
             FilamentActions\ForceDeleteAction::make()->icon('heroicon-o-trash'),
         ];

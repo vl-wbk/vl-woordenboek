@@ -15,6 +15,7 @@ use App\Models\Article;
 use App\Enums\ArticleStates;
 use App\Filament\Resources\Articles\ArticleResource;
 use App\Filament\Resources\Articles\Actions\RemoveEditorAction;
+use App\Filament\Resources\Articles\Actions\SoftDeleteArticleAction;
 use App\Filament\Resources\Articles\Actions\States\PublishArticleAction;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
@@ -89,7 +90,7 @@ final class EditWord extends EditRecord
                 ->url(route('word-information.show', $this->record), shouldOpenInNewTab: true),
 
             Actions\ActionGroup::make([
-                DeleteAction::make()->icon('heroicon-o-trash'),
+                SoftDeleteArticleAction::make()->icon('heroicon-o-trash'),
                 RestoreAction::make()->icon('heroicon-m-arrow-uturn-left'),
                 ForceDeleteAction::make()->icon('heroicon-o-trash'),
             ])->buttonGroup()
