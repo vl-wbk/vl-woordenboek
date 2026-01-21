@@ -10,6 +10,7 @@ use App\Filament\Resources\Articles\ArticleResource;
 use App\Filament\Resources\Articles\Actions\RevokePublication;
 use App\Filament\Resources\Articles\Actions\SoftDeleteArticleAction;
 use App\Filament\Resources\Articles\Actions\States as ArticleStateActions;
+use App\Filament\Resources\Articles\Actions\RestoreArticleAction;
 use App\Models\User;
 use Filament\Actions as FilamentActions;
 use Filament\Actions\ActionGroup;
@@ -89,7 +90,7 @@ final class ViewWord extends ViewRecord
             ->button(),
 
             SoftDeleteArticleAction::make()->icon('heroicon-o-trash'),
-            FilamentActions\RestoreAction::make()->icon('heroicon-m-arrow-uturn-left'),
+            RestoreArticleAction::make()->icon('heroicon-m-arrow-uturn-left'),
             FilamentActions\ForceDeleteAction::make()->icon('heroicon-o-trash'),
         ];
     }

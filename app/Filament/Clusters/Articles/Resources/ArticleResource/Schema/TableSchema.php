@@ -8,6 +8,7 @@ use App\Enums\ArticleStates;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Actions\BulkArchiveAction;
 use App\Filament\Exports\ArticleExporter;
 use App\Filament\Resources\Articles\Actions\SoftDeleteArticleAction;
+use App\Filament\Resources\Articles\Actions\RestoreArticleAction;
 use App\Models\Article;
 use Filament\Actions\{ActionGroup,
     BulkActionGroup,
@@ -61,7 +62,7 @@ final readonly class TableSchema
             ActionGroup::make([
                 EditAction::make()->authorizationNotification(),
                 ActionGroup::make([
-                    RestoreAction::make()->color('danger'),
+                    RestoreArticleAction::make()->color('danger'),
                     SoftDeleteArticleAction::make()->authorizationNotification(),
                     ForceDeleteAction::make()->authorizationNotification(),
                 ])->dropdown(false)

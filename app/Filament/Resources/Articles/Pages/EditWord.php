@@ -25,6 +25,7 @@ use Filament\Support\Icons\Heroicon;
 use Illuminate\Contracts\Support\Htmlable;
 use Kenepa\ResourceLock\Resources\Pages\Concerns\UsesResourceLock;
 use App\Filament\Resources\Articles\Schema\FormSchema;
+use App\Filament\Resources\Articles\Actions\RestoreArticleAction;
 use Filament\Actions\Action;
 use Filament\Actions\ForceDeleteAction;
 use Filament\Notifications\Notification;
@@ -91,7 +92,7 @@ final class EditWord extends EditRecord
 
             Actions\ActionGroup::make([
                 SoftDeleteArticleAction::make()->icon('heroicon-o-trash'),
-                RestoreAction::make()->icon('heroicon-m-arrow-uturn-left'),
+                RestoreArticleAction::make()->icon('heroicon-m-arrow-uturn-left'),
                 ForceDeleteAction::make()->icon('heroicon-o-trash'),
             ])->buttonGroup()
         ];

@@ -34,10 +34,12 @@ final class SoftDeleteArticleAction extends DeleteAction
 
     private function softDeleteArticle(Article $article, array $data): bool 
     {
-        return (bool) $article->update(attributes: [
+        $article->update(attributes: [
             'deletion_reason' => $data['deletion_reason'], 
             'deleted_by' => auth()->user()->id
         ]);
+        
+        return (bool) $article->delete();
     }
 
     private function registerCustomModalSchema(): array 
