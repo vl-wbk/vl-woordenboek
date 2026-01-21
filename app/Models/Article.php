@@ -183,6 +183,11 @@ final class Article extends Model implements AuditableContract, Commentable
             ->withTimestamps();
     }
 
+    public function deletedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
+    }
+
     /**
      * Defines the relationship between an article and its disclaimer.
      *

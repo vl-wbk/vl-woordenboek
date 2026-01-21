@@ -92,8 +92,6 @@ final class ViewWord extends ViewRecord
             ->button(),
 
             SoftDeleteArticleAction::make()->icon('heroicon-o-trash'),
-            RestoreArticleAction::make()->icon('heroicon-m-arrow-uturn-left'),
-            FilamentActions\ForceDeleteAction::make()->icon('heroicon-o-trash'),
         ];
     }
 
