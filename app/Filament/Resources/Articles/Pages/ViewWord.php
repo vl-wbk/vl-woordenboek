@@ -18,7 +18,9 @@ use Filament\Resources\Pages\ViewRecord;
 use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Kirschbaum\Commentions\Filament\Actions\CommentsAction;
 
 /**
@@ -95,8 +97,10 @@ final class ViewWord extends ViewRecord
         ];
     }
 
-    public function getTitle(): string
+    protected function resolveRecord(int|string $key): Model
     {
-        return ucfirst($this->record->word);
+        return static::getResource()::getModel()::query()
+            ->withTrashed()
+            ->findOrFail($key);
     }
 }
