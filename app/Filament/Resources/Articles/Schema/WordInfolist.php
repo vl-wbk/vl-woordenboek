@@ -70,7 +70,7 @@ final readonly class WordInfolist
                 SimpleAlert::make('delete-alert')
                     ->title('Verwijderd artikel')
                     ->description(fn (Article $article): string => __('je raadpleegd momenteel een door :user verwijderd artikel. Dat gemarkeerd is wegens :reason', [
-                        'user' => $article->deletedBy->name, 
+                        'user' => $article->deletedBy->name ?? config('app.name', 'Laravel'), 
                         'reason' => $article->deletion_reason ?? 'onbekend'
                     ]))
                     ->columnSpanFull()
