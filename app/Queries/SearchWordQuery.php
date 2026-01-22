@@ -4,110 +4,143 @@ declare(strict_types=1);
 
 namespace App\Queries;
 
-use App\Builders\ArticleBuilder;
 use App\Enums\Articles\SearchPatterns;
 use App\Models\Article;
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Stringable;
 
 /**
- * The SearchWordQuery provides a focused way to search through dictionary articles.
- *
- * This Query is designed to help users find articles by matching their search terms against multiple fields in the article database.
- * It specifically looks through the word itself, its description, and any associated keywords.
- * To Ensure quality results, the search only includes articles that have been published.
- *
- * The results are paginated to prevent overwhelming the user or the systeem, with six articles shown per page.
- * Users can sort these results i)àn different ways, such as alphabetically by word, by publication date, or by view count.
- *
  * @package App\Queries
  */
 final readonly class SearchWordQuery
 {
     /**
-     * Performs the search operation using the provided search term.
+     * Execute the search query based on request parameters.
      *
-     * This method builds a query that searches though published articles, looking for matches in the word, description, and keywords fields.
-     * The search is case-insensitive and matches partial words.
-     * Results are sorted alphabetically by default and paginated for better performance and user experience
-     *
-     * @param  Request $request                  The instance that holds all the request information
-     * @return LengthAwarePaginator<int, Model>  Paginated collection of matching articles with query parameters preserved
+     * @param Request $request
+     * @return LengthAwarePaginator
      */
     public function execute(Request $request): LengthAwarePaginator
     {
-        $includeDescription = $request->boolean('uitgebreid');
-        $includeArchive = $request->boolean('archief');
-
         return QueryBuilder::for(Article::class)
             ->allowedSorts($this->getAllowedSorts())
             ->allowedFilters($this->getAllowedFilters())
             ->with(['author', 'regions', 'bookmarkers'])
-            ->where(function ($q) use ($includeArchive) {
-                $q->whereNotNull('published_at');
-                if ($includeArchive) {
-                    $q->orWhereNotNull('archived_at');
-                }
-            })
-            ->where(function ($query) use ($request, $includeDescription): void {
-                $query->where('word', $this->getSearchPattern($request)['operator'], $this->getSearchPattern($request)['pattern'])
-                    ->orWhere('keywords', $this->getSearchPattern($request)['operator'], $this->getSearchPattern($request)['pattern'])
-                    /** @phpstan-ignore-next-line */
-                    ->when($includeDescription, fn (ArticleBuilder $builder): Builder => $builder->orWhere('description', 'like', $this->getSearchPattern($request)['pattern']));
-            })
+            ->where(fn (Builder $query) => $this->applyVisibilityFilters($query, $request))
+            ->where(fn (Builder $query) => $this->applySearchStrategy($query, $request))
             ->orderBy('word')
             ->fastPaginate(6)
-            ->appends(request()->query());
+            ->appends($request->query());
     }
 
     /**
-     * Parses the incoming request to determine the appropriate search pattern and operator for database queries.
-     * It constructs the search string (e.g., with wildcards) and identifies whether a 'LIKE' or '=' operator is needed based on the chosen `SearchPatterns` enum value.
+     * Filter by publication and archive status.
      *
-     * This function expects two specific parameters from the request:
-     * - 'zoekterm': The actual text to search for.
-     * - 'zoekpatroon': The desired search pattern, corresponding to a `SearchPatterns` enum case value.
-     *
-     * @param  Request $request The incoming HTTP request instance, containing 'zoekterm' and 'zoekpatroon'.
-     * @return array{pattern: Stringable|non-falsy-string, operator: '='|'LIKE'}
+     * @param Builder $query
+     * @param Request $request
+     * @return void
      */
-    private function getSearchPattern(Request $request): array
+    private function applyVisibilityFilters(Builder $query, Request $request): void
     {
-        $searchTerm = $request->string('zoekterm')->trim();
-        $isExact = $request->get('zoekpatroon') === SearchPatterns::Exact->value;
+        $query->whereNotNull('published_at');
 
-        // If not an exact match, replace spaces with wildcards to handle multi-word inputs.
-        // Example: 'hond hoed' becomes 'hond%hoed'
-        $formattedTerm = $isExact
-            ? $searchTerm->toString()
-            : $searchTerm->replace(' ', '%')->toString();
-
-        $pattern = match ($request->get('zoekpatroon')) {
-            SearchPatterns::StartsWith->value => "{$formattedTerm}%",
-            SearchPatterns::EndsWith->value => "%{$formattedTerm}",
-            SearchPatterns::Exact->value => $formattedTerm,
-            default => "%{$formattedTerm}%",
-        };
-
-        return [
-            'pattern' => $pattern,
-            'operator' => $isExact ? '=' : 'LIKE',
-        ];
+        if ($request->boolean('archief')) {
+            $query->orWhereNotNull('archived_at');
+        }
     }
 
     /**
-     * Provides the available sorting options for the search results.
+     * Determine and apply the correct search strategy.
      *
-     * This method defines which fields can be used for sorting and maps user-friendly names to actual database columns.
-     * The alphabetical option sorts by the word itself, publication sorts by the publication date, and the views sorts by the number of times an articles has been viewed.
+     * @param Builder $query
+     * @param Request $request
+     * @return void
+     */
+    private function applySearchStrategy(Builder $query, Request $request): void
+    {
+        $patternType = $request->get('zoekpatroon');
+        $includeDescription = $request->boolean('uitgebreid');
+
+        match ($patternType) {
+            SearchPatterns::Exact->value      => $this->applyExactSearch($query, $request, $includeDescription),
+            SearchPatterns::StartsWith->value => $this->applyBoundarySearch($query, $request, true),
+            SearchPatterns::EndsWith->value   => $this->applyBoundarySearch($query, $request, false),
+            default                           => $this->applyTokenizedSearch($query, $request, $includeDescription),
+        };
+    }
+
+    /**
+     * Search for the exact string in word, keywords, or description.
+     */
+    private function applyExactSearch(Builder $query, Request $request, bool $includeDescription): void
+    {
+        $term = $request->string('zoekterm')->trim()->toString();
+
+        $query->where(fn (Builder $q) => $q
+            ->where('word', $term)
+            ->orWhere('keywords', $term)
+            ->when($includeDescription, fn ($q) => $q->orWhere('description', $term))
+        );
+    }
+
+    /**
+     * Search for tokens starting or ending with a specific string.
+     */
+    private function applyBoundarySearch(Builder $query, Request $request, bool $isStart): void
+    {
+        $token = $this->getBoundaryToken($request, $isStart);
+
+        if ($token) {
+            $pattern = $isStart ? "{$token}%" : "%{$token}";
+            $query->where('word', 'LIKE', $pattern);
+        }
+    }
+
+    /**
+     * Search where every token must be present in the record (AND search).
+     */
+    private function applyTokenizedSearch(Builder $query, Request $request, bool $includeDescription): void
+    {
+        foreach ($this->getSearchTokens($request) as $token) {
+            $query->where(function (Builder $q) use ($token, $includeDescription) {
+                $wildcard = "%{$token}%";
+                $q->where('word', 'LIKE', $wildcard)
+                  ->orWhere('keywords', 'LIKE', $wildcard)
+                  ->when($includeDescription, fn ($q) => $q->orWhere('description', 'LIKE', $wildcard));
+            });
+        }
+    }
+
+    /**
+     * Get the first or last valid token from the search term.
+     */
+    private function getBoundaryToken(Request $request, bool $first): ?string
+    {
+        $tokens = $this->getSearchTokens($request);
+        return $tokens[$first ? 0 : array_key_last($tokens)] ?? null;
+    }
+
+    /**
+     * Split the search term into tokens of at least 2 characters.
      *
-     * @return array<int, AllowedSort> Collection of permitted sorting options
+     * @return array<int, string>
+     */
+    private function getSearchTokens(Request $request): array
+    {
+        return $request->string('zoekterm')
+            ->trim()
+            ->explode(' ')
+            ->filter(fn (string $token) => mb_strlen($token) >= 2)
+            ->values()
+            ->all();
+    }
+
+    /**
+     * @return array<int, AllowedSort>
      */
     private function getAllowedSorts(): array
     {
