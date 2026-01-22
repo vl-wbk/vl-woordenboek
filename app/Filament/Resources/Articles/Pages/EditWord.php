@@ -15,6 +15,7 @@ use App\Models\Article;
 use App\Enums\ArticleStates;
 use App\Filament\Resources\Articles\ArticleResource;
 use App\Filament\Resources\Articles\Actions\RemoveEditorAction;
+use App\Filament\Resources\Articles\Actions\SoftDeleteArticleAction;
 use App\Filament\Resources\Articles\Actions\States\PublishArticleAction;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
@@ -24,6 +25,7 @@ use Filament\Support\Icons\Heroicon;
 use Illuminate\Contracts\Support\Htmlable;
 use Kenepa\ResourceLock\Resources\Pages\Concerns\UsesResourceLock;
 use App\Filament\Resources\Articles\Schema\FormSchema;
+use App\Filament\Resources\Articles\Actions\RestoreArticleAction;
 use Filament\Actions\Action;
 use Filament\Actions\ForceDeleteAction;
 use Filament\Notifications\Notification;
@@ -89,8 +91,8 @@ final class EditWord extends EditRecord
                 ->url(route('word-information.show', $this->record), shouldOpenInNewTab: true),
 
             Actions\ActionGroup::make([
-                DeleteAction::make()->icon('heroicon-o-trash'),
-                RestoreAction::make()->icon('heroicon-m-arrow-uturn-left'),
+                SoftDeleteArticleAction::make()->icon('heroicon-o-trash'),
+                RestoreArticleAction::make()->icon('heroicon-m-arrow-uturn-left'),
                 ForceDeleteAction::make()->icon('heroicon-o-trash'),
             ])->buttonGroup()
         ];

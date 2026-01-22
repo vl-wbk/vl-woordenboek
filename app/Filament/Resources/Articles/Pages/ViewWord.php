@@ -8,7 +8,9 @@ use App\Filament\Resources\Articles\Actions\DuplicationArticleAction;
 use App\Models\Article;
 use App\Filament\Resources\Articles\ArticleResource;
 use App\Filament\Resources\Articles\Actions\RevokePublication;
+use App\Filament\Resources\Articles\Actions\SoftDeleteArticleAction;
 use App\Filament\Resources\Articles\Actions\States as ArticleStateActions;
+use App\Filament\Resources\Articles\Actions\RestoreArticleAction;
 use App\Models\User;
 use Filament\Actions as FilamentActions;
 use Filament\Actions\ActionGroup;
@@ -16,7 +18,9 @@ use Filament\Resources\Pages\ViewRecord;
 use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Kirschbaum\Commentions\Filament\Actions\CommentsAction;
 
 /**
@@ -87,14 +91,14 @@ final class ViewWord extends ViewRecord
             ->label('Publicatie')
             ->button(),
 
-            FilamentActions\DeleteAction::make()->icon('heroicon-o-trash'),
-            FilamentActions\RestoreAction::make()->icon('heroicon-m-arrow-uturn-left'),
-            FilamentActions\ForceDeleteAction::make()->icon('heroicon-o-trash'),
+            SoftDeleteArticleAction::make()->icon('heroicon-o-trash'),
         ];
     }
 
-    public function getTitle(): string
+    protected function resolveRecord(int|string $key): Model
     {
-        return ucfirst($this->record->word);
+        return static::getResource()::getModel()::query()
+            ->withTrashed()
+            ->findOrFail($key);
     }
 }

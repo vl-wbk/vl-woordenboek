@@ -13,7 +13,9 @@ use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Actions\DisclaimerToolbarActions;
+use App\Filament\Resources\Articles\Actions\RestoreArticleAction;
 use App\Models\Article;
+use Filament\Actions\ForceDeleteAction;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Collection;
@@ -66,11 +68,19 @@ final readonly class WordInfolist
                     ->columnSpanFull(),
 
                 SimpleAlert::make('delete-alert')
-                    ->description('U bekijkt momenteel een artikel dat is gemarkeerd voor verwijdering. Indien u de juiste permissies bezit kunt u via de bovenstaande knoppen het artikel permanent verwijderen of herstellen.')
+                    ->title('Verwijderd artikel')
+                    ->description(fn (Article $article): string => __('je raadpleegd momenteel een door :user verwijderd artikel. Dat gemarkeerd is wegens :reason', [
+                        'user' => $article->deletedBy->name ?? config('app.name', 'Laravel'), 
+                        'reason' => $article->deletion_reason ?? 'onbekend'
+                    ]))
                     ->columnSpanFull()
                     ->icon(Heroicon::OutlinedTrash, IconAnimation::Pulse)
                     ->visible(fn (Article $article): bool => $article->trashed())
-                    ->color('danger'),
+                    ->color('danger')
+                    ->actions([
+                        RestoreArticleAction::make()->icon('heroicon-m-arrow-uturn-left'),
+                        ForceDeleteAction::make()->icon('heroicon-o-trash'),
+                    ]),
 
                 Tabs::make('lemma-information')
                     ->columnSpan(12)
