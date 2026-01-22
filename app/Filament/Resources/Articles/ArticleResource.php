@@ -10,21 +10,15 @@ use App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\Et
 use App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\ReportsRelationManager;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Schema\TableSchema;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets\ArticleRegistrationChart;
-use App\Filament\Resources\ArticleResource\Pages;
-use App\Filament\Resources\Articles\Pages\CreateWord;
-use App\Filament\Resources\Articles\Pages\EditWord;
-use App\Filament\Resources\Articles\Pages\ListWords;
-use App\Filament\Resources\Articles\Pages\ViewWord;
+use App\Filament\Resources\Articles\Pages;
 use App\Filament\Resources\Articles\RelationManagers\LabelsRelationManager;
 use App\Filament\Resources\Articles\RelationManagers\NotesRelationManager;
 use App\Filament\Resources\Articles\RelationManagers\ReactionsRelationManager;
 use App\Filament\Resources\Articles\RelationManagers\RelatedRelationManager;
 use App\Filament\Resources\Articles\Schema\ArticleForm;
-use App\Filament\Resources\Articles\Schema\FormSchema;
 use App\Filament\Resources\Articles\Schema\WordInfolist;
 use App\Filament\Support\Concerns\HasActiveIcon;
 use App\Models\Article;
-use App\UserTypes;
 use BackedEnum;
 use Filament\Clusters\Cluster;
 use Filament\Resources\Pages\PageRegistration;
@@ -33,7 +27,6 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Cache;
 
 /**
@@ -234,10 +227,10 @@ final class ArticleResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListWords::route('/'),
-            'create' => CreateWord::route('/create'),
-            'view' => ViewWord::route('/{record}'),
-            'edit' => EditWord::route('/{record}/edit'),
+            'index' => Pages\ListWords::route('/'),
+            'create' => Pages\CreateWord::route('/create'),
+            'view' => Pages\ViewWord::route('/{record}'),
+            'edit' => Pages\EditWord::route('/{record}/edit'),
         ];
     }
 }
