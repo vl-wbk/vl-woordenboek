@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\States\Articles;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -27,7 +28,7 @@ final class Archived extends ArticleState
      * to "published" and ensures that the change is persisted to the database. This functionality is useful
      * when archived content becomes relevant again or when an article was archived by mistake.
      */
-    public function transitionToReleased(): bool
+    public function transitionToReleased(Carbon $publicationDate): bool
     {
         return DB::transaction(function (): bool {
             $this->article->unarchive();

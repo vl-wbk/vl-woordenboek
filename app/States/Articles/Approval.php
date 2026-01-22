@@ -6,6 +6,7 @@ namespace App\States\Articles;
 
 use App\Enums\ArticleStates;
 use App\Notifications\SendoutPublicationNotification;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -40,12 +41,12 @@ final class Approval extends ArticleState
      * This transition occurs when an editor determines the article meets all quality standards and is ready for public viewing.
      * The article becomes visible to all users once published.
      */
-    public function transitionToReleased(): bool
+    public function transitionToReleased(Carbon $publicationDate): bool
     {
-        return DB::transaction(function (): bool {
+        return DB::transaction(function () use ($publicationDate): bool {
             $this->article
                 ->setCurrentUserAsPublisher()
-                ->update(attributes: ['state' => ArticleStates::Published, 'published_at' => now()]);
+                ->update(attributes: ['state' => ArticleStates::Published, 'published_at' => $publicationDate]);
 
             $this->article->author->notify(new SendoutPublicationNotification($this->article));
 
