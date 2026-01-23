@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Articles\Schema;
 
 use App\Enums\ArticleStates;
 use App\Enums\LanguageStatus;
+use App\Features\DocumentationButtons;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Actions\DisclaimerToolbarActions;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Actions\LanguageAdviceAction;
 use App\Filament\Resources\Articles\Actions\RemoveEditorAction;
@@ -35,6 +36,7 @@ use Filament\Support\Enums\TextSize;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
+use Laravel\Pennant\Feature;
 
 /**
  * @todo Write docbloks for this form 
@@ -113,6 +115,7 @@ final readonly class ArticleForm
         return [
             TextInput::make('word')
                 ->label('Woord')
+                ->hintAction(self::guidelineAction('https://vl-wbk.github.io/documentatie/richtlijnen/woord'))
                 ->columnSpan(3)
                 ->required()
                 ->maxLength(255)
@@ -128,6 +131,7 @@ final readonly class ArticleForm
 
             TextInput::make('characteristics')
                 ->label('Kenmerken')
+                ->hintAction(self::guidelineAction('https://vl-wbk.github.io/documentatie/richtlijnen/kenmerken'))
                 ->columnSpan(6)
                 ->required()
                 ->autofocus(false)
@@ -137,6 +141,7 @@ final readonly class ArticleForm
             TextInput::make('keywords')
                 ->label('Kernwoorden')
                 ->translateLabel()
+                ->hintAction(self::guidelineAction('https://vl-wbk.github.io/documentatie/richtlijnen/kernwoorden'))
                 ->placeholder('Kernwoord 1, Kernwoord 2, Kernwoord 3, etc...')
                 ->autofocus(false)
                 ->columnSpanFull(),
@@ -144,12 +149,14 @@ final readonly class ArticleForm
             Select::make('labels')
                 ->relationship(titleAttribute: 'name')
                 ->multiple()
+                ->hintAction(self::guidelineAction('https://vl-wbk.github.io/documentatie/richtlijnen/labels'))
                 ->preload()
                 ->native(false)
                 ->columnSpanFull(),
 
             TextInput::make('image_url')
                 ->label('Afbeelding')
+                ->hintAction(self::guidelineAction('https://vl-wbk.github.io/documentatie/richtlijnen/afbeeldingen'))
                 ->columnSpan(6)
                 ->url()
                 ->prefixIcon('heroicon-m-globe-alt')
@@ -188,6 +195,15 @@ final readonly class ArticleForm
                 ->maxHeight('125px')
                 ->required(),
         ];
+    }
+
+    private static function guidelineAction(string $url): Action
+    {
+        return Action::make('richtlijn')
+            ->color('primary')
+            ->url($url, shouldOpenInNewTab: true)
+            ->visible(Feature::active(DocumentationButtons::class))
+            ->icon(Heroicon::OutlinedShieldExclamation);
     }
 
     /**
