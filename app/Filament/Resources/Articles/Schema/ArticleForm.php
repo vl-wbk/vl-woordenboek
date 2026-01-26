@@ -270,6 +270,7 @@ final readonly class ArticleForm
                 ->native(false)
                 ->searchable()
                 ->multiple()
+                ->distinct(false)
                 ->relationship(name: 'related', ignoreRecord: true, titleAttribute: 'articles.word')
                 ->getOptionLabelFromRecordUsing(fn (Article $record) => "#{$record->id} - {$record->word}"),
         ];
