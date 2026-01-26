@@ -271,7 +271,9 @@ final readonly class ArticleForm
                 ->native(false)
                 ->searchable()
                 ->multiple()
-                ->relationship(name: 'related', ignoreRecord: true, titleAttribute: 'articles.word', modifyQueryUsing: fn (Builder $query) => $query->clone()->getQuery()->distinct = null)
+                ->relationship(name: 'related', ignoreRecord: true, titleAttribute: 'articles.word', modifyQueryUsing: function (Builder $query) {
+                    return $query->select(['id', 'word']);
+                })
                 ->getOptionLabelFromRecordUsing(fn (Article $record) => "#{$record->id} - {$record->word}"),
         ];
     }
