@@ -266,7 +266,6 @@ final readonly class ArticleForm
     {
         return [
             Select::make('Gerelateerde woorden')
-                ->search
                 ->label('Gerelateerde woorden')
                 ->native(false)
                 ->searchable()
