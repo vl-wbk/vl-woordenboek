@@ -268,10 +268,10 @@ final readonly class ArticleForm
             Select::make('Gerelateerde woorden')
                 ->label('Gerelateerde woorden')
                 ->native(false)
-                ->preload()
+                ->searchable()
                 ->multiple()
                 ->relationship(name: 'related', ignoreRecord: true, titleAttribute: 'word')
-                ->searchable(['word', 'id']),
+                ->getOptionLabelFromRecordUsing(fn (Article $record) => "#{$record->id} - {$record->word}"),
         ];
     }
 
