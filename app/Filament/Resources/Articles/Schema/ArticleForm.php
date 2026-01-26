@@ -268,14 +268,10 @@ final readonly class ArticleForm
             Select::make('Gerelateerde woorden')
                 ->label('Gerelateerde woorden')
                 ->native(false)
-                ->searchable()
                 ->preload()
                 ->multiple()
                 ->relationship(name: 'related', ignoreRecord: true, titleAttribute: 'word')
-                ->getSearchResultsUsing(function (string $search): array {
-                    return Article::query()->where('word', 'like', "%{$search}%")->orderBy('id', 'asc')->limit(50)->pluck('word', 'id')->all();
-                })
-                ->getOptionLabelUsing(fn ($value): ?string => '#'. Article::find($value)?->id . ' - ' . Article::find($value)?->word),
+                ->searchable(['word', 'id']),
         ];
     }
 
