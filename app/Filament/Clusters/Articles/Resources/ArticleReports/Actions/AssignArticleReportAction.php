@@ -64,7 +64,7 @@ final class AssignArticleReportAction extends Action
 
 
         $this->action(function (): void {
-            if ($this->process(fn(): bool => $this->record->status()->transitionToInProgress())) {
+            if ($this->process(fn(): bool => $this->getRecord()->status()->transitionToInProgress())) {
                 $this->success();
                 return;
             }

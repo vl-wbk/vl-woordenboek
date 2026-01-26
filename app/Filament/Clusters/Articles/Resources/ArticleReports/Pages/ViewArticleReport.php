@@ -10,6 +10,7 @@ use App\Filament\Clusters\Articles\Resources\ArticleReports\Actions\AssignArticl
 use App\Filament\Clusters\Articles\Resources\ArticleReports\Actions\CloseArticleReportAction;
 use Filament\Resources\Pages\ViewRecord;
 use Filament\Actions;
+use Filament\Actions\ActionGroup;
 
 /**
  * Represents the page for viewing a single article report in the admin panel.
@@ -44,8 +45,11 @@ final class ViewArticleReport extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            AssignArticleReportAction::make(),
-            CloseArticleReportAction::make(),
+            ActionGroup::make( [
+                AssignArticleReportAction::make(),
+                CloseArticleReportAction::make(),
+            ])->buttonGroup(),
+
             DeleteAction::make()->icon('heroicon-o-trash'),
         ];
     }

@@ -191,7 +191,7 @@ final class ArticleReportResource extends Resource
      */
     public static function getNavigationBadge(): ?string
     {
-        return Cache::flexible('report_count', [10, 60], fn(): string => (string) self::$model::count());
+        return Cache::flexible('report_count', [10, 60], fn(): string => (string) self::$model::whereNull('closed_at')->count());
     }
 
     /**
@@ -257,6 +257,7 @@ final class ArticleReportResource extends Resource
                     ->label(label: __('filament/resources/article-reports.fieldsets.follow-up.entries.assigned-at'))
                     ->icon('heroicon-o-clock')
                     ->iconColor('highlight')
+                    ->placeholder('-')
                     ->columnSpan(3)
                     ->date(),
 
