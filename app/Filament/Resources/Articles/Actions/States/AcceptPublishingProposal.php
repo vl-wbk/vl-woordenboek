@@ -59,7 +59,6 @@ final class AcceptPublishingProposal extends Action
                 ->label('Publicatie datum')
                 ->native(false)
                 ->default(now())
-                ->minDate(now())
                 ->closeOnDateSelection()
         ]);
 
