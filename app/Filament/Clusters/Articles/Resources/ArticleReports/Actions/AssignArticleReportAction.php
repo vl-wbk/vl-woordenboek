@@ -57,7 +57,7 @@ final class AssignArticleReportAction extends Action
         $this->icon(Status::InProgress->getIcon());
         $this->color('gray');
         $this->label('melding behandelen');
-        $this->visible(fn(): bool => Gate::allows('markInProgress', $this->record));
+        $this->authorize('markInProgress');
 
         $this->successNotificationTitle('Je bent toegewezen aan de artikel melding');
         $this->failureNotificationTitle('Helaas konden we je niet toewijzen aan de melding');
