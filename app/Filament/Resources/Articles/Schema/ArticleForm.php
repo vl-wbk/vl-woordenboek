@@ -273,9 +273,9 @@ final readonly class ArticleForm
                 ->multiple()
                 ->relationship(name: 'related', ignoreRecord: true, titleAttribute: 'word')
                 ->getSearchResultsUsing(function (string $search): array {
-                    return Article::query()->where('word', 'like', "%{$search}%")->orderBy('id', 'asc')->limit(50)->all();
+                    return Article::query()->where('word', 'like', "%{$search}%")->orderBy('id', 'asc')->limit(50)->pluck('word', 'id')->all();
                 })
-                ->getOptionLabelFromRecordUsing(fn (Article $record) => "#{$record->id} - {$record->word}"),
+                ->getOptionLabelUsing(fn ($value): ?string => '#'. Article::find($value)?->id . ' - ' . Article::find($value)?->word),
         ];
     }
 
