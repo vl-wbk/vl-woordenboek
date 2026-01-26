@@ -6,6 +6,7 @@ namespace App\States\Articles;
 
 use App\Contracts\States\ArticleStateContract;
 use App\Models\Article;
+use Illuminate\Support\Carbon;
 use LogicException;
 
 /**
@@ -58,7 +59,7 @@ class ArticleState implements ArticleStateContract
      * {@inheritDoc}
      * @throws LogicException Always, indicating that this transition is not allowed in the current state.
      */
-    public function transitionToReleased(): bool
+    public function transitionToReleased(Carbon $publicationData): bool
     {
         throw new LogicException('The method transitionToReleased() is not allowed on the current state.');
     }

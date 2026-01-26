@@ -30,6 +30,7 @@ final readonly class SearchWordQuery
             ->allowedSorts($this->getAllowedSorts())
             ->allowedFilters($this->getAllowedFilters())
             ->with(['author', 'regions', 'bookmarkers'])
+            ->published()
             ->where(fn (Builder $query) => $this->applyVisibilityFilters($query, $request))
             ->where(fn (Builder $query) => $this->applySearchStrategy($query, $request))
             ->orderBy('word')

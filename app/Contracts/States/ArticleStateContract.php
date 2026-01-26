@@ -2,6 +2,8 @@
 
 namespace App\Contracts\States;
 
+use Illuminate\Support\Carbon;
+
 /**
  * The ArticleStateContract interface defines a set of methods for managing the state transitions of an article.
  *
@@ -37,7 +39,7 @@ interface ArticleStateContract
      * This method finalizes the publication process of the article, making it available to the end users.
      * Implementers might include additional logic such as logging or triggering notifications when the release occurs.
      */
-    public function transitionToReleased(): bool;
+    public function transitionToReleased(Carbon $publicationDate): bool;
 
     /**
      * Transitions the article into an "Archived" state.
