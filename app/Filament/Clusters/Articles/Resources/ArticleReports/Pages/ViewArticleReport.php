@@ -8,9 +8,16 @@ use Filament\Actions\DeleteAction;
 use App\Filament\Clusters\Articles\Resources\ArticleReports\ArticleReportResource;
 use App\Filament\Clusters\Articles\Resources\ArticleReports\Actions\AssignArticleReportAction;
 use App\Filament\Clusters\Articles\Resources\ArticleReports\Actions\CloseArticleReportAction;
+use App\Filament\Resources\Articles\Pages\ViewWord;
+use App\Filament\Resources\Users\UserResource;
+use App\Models\ArticleReport;
+use App\Models\User;
+use App\States\Reporting\Status;
 use Filament\Resources\Pages\ViewRecord;
 use Filament\Actions;
+use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
+use Filament\Support\Icons\Heroicon;
 
 /**
  * Represents the page for viewing a single article report in the admin panel.
@@ -45,9 +52,25 @@ final class ViewArticleReport extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
+            Action::make('reporter-information')
+                ->hidden(fn(ArticleReport $articleReport): bool => $articleReport->author()->doesntExist())
+                ->authorize('viewAny', User::class)
+                ->label('bekijk melder')
+                ->icon('tabler-user-search')
+                ->color('gray')
+                ->url(fn(ArticleReport $articleReport): string => UserResource::getUrl('view', ['record' => $articleReport->author])),
+
             ActionGroup::make( [
                 AssignArticleReportAction::make(),
                 CloseArticleReportAction::make(),
+            ])->buttonGroup(),
+
+            ActionGroup::make([
+                Action::make('article-information')
+                    ->label('bekijk artikel')
+                    ->icon('tabler-eye-search')
+                    ->color('gray')
+                    ->url(fn(ArticleReport $articleReport): string => ViewWord::getUrl(['record' => $articleReport->article])),
             ])->buttonGroup(),
 
             DeleteAction::make()->icon('heroicon-o-trash'),
