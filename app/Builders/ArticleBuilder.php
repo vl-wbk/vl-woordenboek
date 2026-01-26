@@ -31,7 +31,8 @@ final class ArticleBuilder extends Builder
      */
     public function published(): Builder
     {
-        return $this->whereNotNull('published_at');
+        return $this->whereNotNull('published_at')
+            ->where('published_at', '<=', now());
     }
 
     /**
@@ -114,6 +115,6 @@ final class ArticleBuilder extends Builder
      */
     public function isPublished(): bool
     {
-        return ! $this->isHidden();
+        return ! $this->isHidden() && $this->model->published_at->isPast();
     }
 }

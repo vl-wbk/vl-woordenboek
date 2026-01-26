@@ -6,6 +6,8 @@ namespace App\Filament\Resources\Articles\Actions\States;
 
 use App\Models\Article;
 use Filament\Actions\Action;
+use Filament\Forms\Components\DatePicker;
+use Filament\Support\Icons\Heroicon;
 
 /**
  * AcceptPublishingProposal handles the final approval of articles for publication.
@@ -46,9 +48,24 @@ final class AcceptPublishingProposal extends Action
 
         $this->authorize('publish');
         $this->hidden(fn (Article $article): bool => $article->trashed());
+        $this->requiresConfirmation();
 
-        $this->action(function (Article $article): void {
-            $article->articleStatus()->transitionToReleased();
+        $this->modalHeading('Artikel publiceren');
+        $this->modalDescription('U staat op het punt om een artikel te publiceren. Met de input hieronder kun je aangeven wanneer je het artikel geppubliceerd wilt zien. Weet je zeker dat je dit wilt doen?');
+        $this->modalIcon(Heroicon::OutlinedCheckBadge);
+
+        $this->schema([
+            DatePicker::make('publication_date')
+                ->label('Publicatie datum')
+                ->native(false)
+                ->default(now())
+                ->closeOnDateSelection()
+        ]);
+
+        $this->action(function (Article $article, array $data): void {
+            $publicationDate = now()->parse($data['publication_date']);
+
+            $article->articleStatus()->transitionToReleased($publicationDate);
             $this->success();
         });
     }

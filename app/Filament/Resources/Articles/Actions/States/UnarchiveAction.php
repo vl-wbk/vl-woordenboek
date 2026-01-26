@@ -79,7 +79,7 @@ final class UnarchiveAction extends Action
         // Define the action's execution logic.
         $this->action(function (): void {
             // Attempt to transition the article to the "released" state within a process that can be customized.
-            if ($this->process(fn(Article $article) => $article->articleStatus()->transitionToReleased())) {
+            if ($this->process(fn(Article $article) => $article->articleStatus()->transitionToReleased(publicationDate: now()))) {
                 // If successful, display a success message.
                 $this->success();
                 return;
