@@ -46,6 +46,7 @@ final class ReportsRelationManager extends RelationManager
             Textarea::make('description')
                 ->label('melding')
                 ->hiddenLabel()
+                ->required()
                 ->rows(6)
                 ->placeholder('Beschrijf zo duidelijk mogelijk wat er aan de hand is met het artikel. Zodat de bevoegde personen er snel en vlot mee aan de slag kunnen.')
                 ->columnSpanFull()
