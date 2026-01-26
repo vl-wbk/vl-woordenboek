@@ -266,11 +266,12 @@ final readonly class ArticleForm
     {
         return [
             Select::make('Gerelateerde woorden')
+                ->search
                 ->label('Gerelateerde woorden')
                 ->native(false)
                 ->searchable()
                 ->getSearchResultsUsing(function (string $search): array {
-                    return Article::query()->where('word', "$search")->limit(50)->pluck('name', 'id')->orderBy('id', 'asc')->toArray();
+                    return Article::query()->where('word', "$search")->limit(50)->pluck('name', 'id')->orderBy('id', 'asc')->all();
                 })
                 ->preload()
                 ->multiple()
