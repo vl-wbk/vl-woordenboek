@@ -34,6 +34,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Enums\IconSize;
 use Filament\Support\Enums\TextSize;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Feature;
@@ -270,7 +271,7 @@ final readonly class ArticleForm
                 ->native(false)
                 ->searchable()
                 ->multiple()
-                ->relationship(name: 'related', ignoreRecord: true, titleAttribute: 'articles.word')
+                ->relationship(name: 'related', ignoreRecord: true, titleAttribute: 'articles.word', modifyQueryUsing: fn (Builder $query) => $query->clone()->getQuery()->distinct = false)
                 ->getOptionLabelFromRecordUsing(fn (Article $record) => "#{$record->id} - {$record->word}"),
         ];
     }
