@@ -273,7 +273,7 @@ final readonly class ArticleForm
                 ->multiple()
                 ->relationship(name: 'related', ignoreRecord: true, titleAttribute: 'word')
                 ->getSearchResultsUsing(function (string $search): array {
-                    return Article::query()->where('word', 'like', "%{$search}%")->orderBy('id', 'asc')->limit(50)->pluck('word', 'id')->all();
+                    return Article::query()->where('word', 'like', "%{$search}%")->orderBy('id', 'asc')->limit(50)->all();
                 })
                 ->getOptionLabelFromRecordUsing(fn (Article $record) => "#{$record->id} - {$record->word}"),
         ];
