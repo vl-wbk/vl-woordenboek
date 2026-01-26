@@ -267,11 +267,12 @@ final readonly class ArticleForm
         return [
             Select::make('Gerelateerde woorden')
                 ->label('Gerelateerde woorden')
+                ->relationship(name: 'related', ignoreRecord: true, titleAttribute: 'articles.word')
                 ->native(false)
                 ->searchable()
                 ->multiple()
                 ->distinct(false)
-                ->relationship(name: 'related', ignoreRecord: true, titleAttribute: 'articles.word')
+                ->optionsLimit(900000)
                 ->getOptionLabelFromRecordUsing(fn (Article $record) => "#{$record->id} - {$record->word}"),
         ];
     }
