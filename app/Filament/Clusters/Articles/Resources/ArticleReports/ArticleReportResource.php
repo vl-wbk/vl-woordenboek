@@ -235,7 +235,7 @@ final class ArticleReportResource extends Resource
      */
     private static function followUpFieldset(): Fieldset
     {
-        return Fieldset::make(label: __('filament/resources/article-reports.fieldsets.feedback.follow-up.label'))
+        return Fieldset::make(label: __('filament/resources/article-reports.fieldsets.follow-up.label'))
             ->columns(12)
             ->columnSpanFull()
             ->schema(components: [
