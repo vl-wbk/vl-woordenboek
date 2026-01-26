@@ -270,7 +270,7 @@ final readonly class ArticleForm
                 ->native(false)
                 ->searchable()
                 ->getSearchResultsUsing(function (string $search): array {
-                    return Article::query()->where('word', 'like', "%{$search}%")->limit(50)->pluck('name', 'id')->orderBy('id', 'asc')->toArray();
+                    return Article::query()->where('word', "$search")->limit(50)->pluck('name', 'id')->orderBy('id', 'asc')->toArray();
                 })
                 ->preload()
                 ->multiple()
