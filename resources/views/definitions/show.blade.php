@@ -129,12 +129,14 @@
                 <div class="d-flex">
                     @if ($word->image_url)
                         <div class="flex-shrink-0 d-sm-none d-md-block me-3">
-                            <img
-                                src="{{ $word->image_url ?? 'https://placehold.co/100x100?text=ongeldige+afbeelding&font=roboto' }}"
-                                alt="{{ $word->image_alt ?? trans('Helaas kunnen we afbeelden voor het artikel :article niet beschrijven', ['article' => $word->word]) }}"
-                                class="rounded border-0 shadow-sm"
-                                style="height: 150px; border: 0 !important; width: 150px;"
-                            />
+                            <a href="{{ $word->image_url }}">
+                                <img
+                                    src="{{ $word->image_url ?? 'https://placehold.co/100x100?text=ongeldige+afbeelding&font=roboto' }}"
+                                    alt="{{ $word->image_alt ?? trans('Helaas kunnen we afbeelden voor het artikel :article niet beschrijven', ['article' => $word->word]) }}"
+                                    class="rounded border-0 shadow-sm"
+                                    style="height: 150px; border: 0 !important; width: 150px;"
+                                />
+                            </a>
                         </div>
                     @endif
 
