@@ -179,6 +179,7 @@
                                                 </td>
 
                                                 <td class="text-break">{{ $result->word }}</td>
+                                                <td>{{ $result->updated_at->diffForHumans() }}</td>
                                                 <td>
                                                     @if ($result->updated_at->eq($result->created_at))
                                                         <span class="color-green">-</span>
@@ -186,8 +187,6 @@
                                                         {{ $result->created_at->format('d/m/Y H:i:s') }}
                                                     @endif
                                                 </td>
-
-                                                <td>{{ $result->updated_at->diffForHumans() }}</td>
 
                                                 <td class="text-end">
                                                     @if ($result->isPublished())
