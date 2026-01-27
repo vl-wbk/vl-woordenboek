@@ -28,10 +28,16 @@ final class ReportInProgressState extends ReportState
      *
      * @return bool Returns `true` if the transition was successful, otherwise `false`.
      */
-    public function transitionToClosed(): bool
+    public function transitionToClosed(string $result): bool
     {
-        return DB::transaction(fn(): bool => $this->articleReport->update(attributes: [
-            'state' => Status::Closed, 'closed_at' => now(),
-        ]));
+        return DB::transaction(function() use ($result): bool {
+            $this->articleReport->update(attributes: ['state' => Status::Closed, 'closed_at' => now(), 'conclusion' => $result]);
+
+            if ($this->articleReport->assignee()->doesntExist()) {
+                $this->articleReport->update(attributes: ['assignee_id' => auth()->id(), 'assigned_at' => now()]);
+            }
+
+            return true;
+        });
     }
 }

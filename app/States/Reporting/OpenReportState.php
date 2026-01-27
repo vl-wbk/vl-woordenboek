@@ -34,4 +34,17 @@ final class OpenReportState extends ReportState
             'assignee_id' => auth()->id(), 'assigned_at' => now(), 'state' => Status::InProgress,
         ]));
     }
+
+    public function transitionToClosed(string $result): bool
+    {
+        return DB::transaction(function() use ($result): bool {
+            $this->articleReport->update(attributes: ['state' => Status::Closed, 'closed_at' => now(), 'conclusion' => $result]);
+
+            if ($this->articleReport->assignee()->doesntExist()) {
+                $this->articleReport->update(attributes: ['assignee_id' => auth()->id(), 'assigned_at' => now()]);
+            }
+
+            return true;
+        });
+    }
 }

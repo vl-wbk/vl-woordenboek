@@ -119,6 +119,10 @@ final class ArticleReportPolicy
             return Response::allow();
         }
 
+        if ($articleReport->assignee()->doesntExist() && $articleReport->state->is(enum: Status::Open)) {
+            return Response::allow();
+        }
+
         return Response::deny();
     }
 
