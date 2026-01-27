@@ -13,9 +13,12 @@ use Filament\Actions\DeleteBulkAction;
 use App\Filament\Clusters\Articles\Resources\ArticleReports\ArticleReportResource;
 use App\Filament\Clusters\Articles\Resources\ArticleReports\Actions\TableActionsConfiguration;
 use App\Filament\Clusters\Articles\Resources\ArticleReports\Schema\TableColumnSchema;
+use App\Filament\Clusters\Volunteers\Resources\VolunteerPositions\Actions\CreateAction;
 use App\Filament\Resources\Articles\Pages\ViewWord;
 use App\Models\ArticleReport;
+use Filament\Forms\Components\Textarea;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
@@ -37,6 +40,19 @@ final class ReportsRelationManager extends RelationManager
         return new $pageClass() instanceof ViewWord;
     }
 
+    public function form(Schema $schema): Schema
+    {
+        return $schema->components(components: [
+            Textarea::make('description')
+                ->label('melding')
+                ->hiddenLabel()
+                ->required()
+                ->rows(6)
+                ->placeholder('Beschrijf zo duidelijk mogelijk wat er aan de hand is met het artikel. Zodat de bevoegde personen er snel en vlot mee aan de slag kunnen.')
+                ->columnSpanFull()
+        ]);
+    }
+
     public function table(Table $table): Table
     {
         return $table
@@ -50,7 +66,11 @@ final class ReportsRelationManager extends RelationManager
             ->filters(ArticleReportResource::getTableFilters())
             ->headerActions([
                 Action::make('Help')
-                    ->icon('heroicon-o-lifebuoy')
+                    ->icon('heroicon-o-lifebuoy'),
+
+                CreateAction::make()
+                    ->modalHeading('Artikel melding toevoegen')
+                    ->label('melding toevoegen'),
             ])
             ->recordActions([
                 ViewAction::make()

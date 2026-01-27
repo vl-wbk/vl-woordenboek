@@ -8,6 +8,8 @@ use App\Models\ArticleReport;
 use App\States\Reporting\Status;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
+use Filament\Support\Icons\Heroicon;
+use Schmeits\FilamentCharacterCounter\Forms\Components\Textarea;
 
 /**
  * Represents the action for closing an article report.
@@ -58,11 +60,24 @@ final class CloseArticleReportAction extends Action
         $this->label('melding afsluiten');
         $this->authorize('markAsClosed', $this->record);
 
+        $this->requiresConfirmation();
+        $this->modalIconColor(Status::Closed->getColor());
+        $this->modalIcon(Status::Closed->getIcon());
+        $this->modalDescription('U staat op het punt om een melding te sluiten. Geef hier nog even op waarom u de melding afsluit: is die afgehandeld, niet relevant, of is er iets anders aan de hand?');
+
+        $this->schema([
+            Textarea::make('result')
+                ->label('Eindbesluit')
+                ->required()
+                ->placeholder('Beschrijf kort wat je hebt gedaan om de melding te verhelpen.')
+                ->rows(4)
+        ]);
+
         $this->successNotificationTitle('Het ticket is succesvol afgesloten');
         $this->failureNotificationTitle('Helaas konden we het ticket niet afsluiten wegens een technische fout');
 
-        $this->action(function (): void {
-            if ($this->process(fn(): bool => $this->record->status()->transitionToClosed())) {
+        $this->action(function (array $data): void {
+            if ($this->process(fn(): bool => $this->getRecord()->status()->transitionToClosed($data['result']))) {
                 $this->success();
                 return;
             }

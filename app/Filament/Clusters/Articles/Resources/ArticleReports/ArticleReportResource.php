@@ -22,6 +22,7 @@ use App\Filament\Resources\Users\UserResource;
 use App\Models\ArticleReport;
 use App\Models\User;
 use App\States\Reporting\Status;
+use Filament\Forms\Components\Textarea;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
@@ -102,20 +103,6 @@ final class ArticleReportResource extends Resource
                     ->columnSpanFull()
                     ->columns(12)
                     ->heading('Algemene informatie van de melding')
-                    ->headerActions([
-                        Action::make('reporter-information')
-                            ->hidden(fn(ArticleReport $articleReport): bool => $articleReport->author()->doesntExist())
-                            ->authorize('viewAny', User::class)
-                            ->label('bekijk melder')
-                            ->icon('tabler-user-search')
-                            ->color('gray')
-                            ->url(fn(ArticleReport $articleReport): string => UserResource::getUrl('view', ['record' => $articleReport->author])),
-                        Action::make('article-information')
-                            ->label('bekijk artikel')
-                            ->icon('tabler-eye-search')
-                            ->color('gray')
-                            ->url(fn(ArticleReport $articleReport): string => ViewWord::getUrl(['record' => $articleReport->article])),
-                    ])
                     ->description(fn(ArticleReport $articleReport): string => trans(':user heeft op :date de volgende melding ingestuurd.', [
                         'user' => $articleReport->author->name, 'date' => $articleReport->created_at->format('d/m/Y'),
                     ]))
@@ -124,7 +111,11 @@ final class ArticleReportResource extends Resource
                     ->iconColor('highlight')
                     ->compact()
                     ->columns(12)
-                    ->schema(components: [self::followUpFieldset(), self::feedbackFieldset()]),
+                    ->schema(components: [
+                        self::followUpFieldset(), 
+                        self::feedbackFieldset(),
+                        self::conclusionFieldset(),
+                    ]),
             ]);
     }
 
@@ -191,7 +182,7 @@ final class ArticleReportResource extends Resource
      */
     public static function getNavigationBadge(): ?string
     {
-        return Cache::flexible('report_count', [10, 60], fn(): string => (string) self::$model::count());
+        return Cache::flexible('report_count', [10, 60], fn(): string => (string) self::$model::whereNull('closed_at')->count());
     }
 
     /**
@@ -227,6 +218,19 @@ final class ArticleReportResource extends Resource
         ];
     }
 
+    private static function conclusionFieldset(): Fieldset 
+    {
+        return Fieldset::make('Eindbesluit')
+            ->columns(12)
+            ->columnSpanFull()
+            ->visible(fn (ArticleReport $report): bool => ! is_null($report->conclusion))
+            ->schema(components: [
+                TextEntry::make('conclusion')
+                    ->hiddenLabel()
+                    ->columnSpanFull()
+            ]);
+    }
+
     /**
      * Configures the fieldset for follow-up details.
      * This fieldset displays information about the report's status, assignee, and timestamps for assignment and closure.
@@ -235,7 +239,7 @@ final class ArticleReportResource extends Resource
      */
     private static function followUpFieldset(): Fieldset
     {
-        return Fieldset::make(label: __('filament/resources/article-reports.fieldsets.feedback.follow-up.label'))
+        return Fieldset::make(label: __('filament/resources/article-reports.fieldsets.follow-up.label'))
             ->columns(12)
             ->columnSpanFull()
             ->schema(components: [
@@ -257,6 +261,7 @@ final class ArticleReportResource extends Resource
                     ->label(label: __('filament/resources/article-reports.fieldsets.follow-up.entries.assigned-at'))
                     ->icon('heroicon-o-clock')
                     ->iconColor('highlight')
+                    ->placeholder('-')
                     ->columnSpan(3)
                     ->date(),
 

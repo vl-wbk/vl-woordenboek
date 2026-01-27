@@ -33,7 +33,8 @@ interface ReportStateContract
      * This method should contain the logic required to move a report from its current state to the "Closed" state.
      * It returns a boolean indicating whether the transition was successful.
      *
-     * @return bool True if the transition was successful, false otherwise.
+     * @param  string $result   The final conclusion for the article report.
+     * @return bool             True if the transition was successful, false otherwise.
      */
-    public function transitionToClosed(): bool;
+    public function transitionToClosed(string $result): bool;
 }
