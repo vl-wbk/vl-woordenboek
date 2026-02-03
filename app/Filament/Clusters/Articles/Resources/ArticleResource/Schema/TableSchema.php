@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Clusters\Articles\Resources\ArticleResource\Schema;
 
 use App\Enums\ArticleStates;
+use App\Enums\LanguageStatus;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Actions\BulkArchiveAction;
 use App\Filament\Exports\ArticleExporter;
 use App\Filament\Resources\Articles\Actions\SoftDeleteArticleAction;
@@ -22,6 +23,7 @@ use Filament\Actions\{ActionGroup,
     RestoreBulkAction,
     ViewAction};
 use Deldius\UserField\UserColumn;
+use Filament\Tables\Enums\FiltersLayout;
 use Filament\Support\Enums\{FontWeight, Width};
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
@@ -46,6 +48,7 @@ final readonly class TableSchema
             ->columns(components: self::getTableColumns())
             ->recordActions(actions: self::getRecordActions())
             ->filters(filters: self::getFilters())
+            ->filtersLayout(FiltersLayout::Modal)
             ->toolbarActions(actions: self::getToolbarActions())
             ->selectCurrentPageOnly()
             ->defaultSort('created_at', 'desc');
@@ -79,7 +82,7 @@ final readonly class TableSchema
             UserColumn::make('author_id')
                 ->description(fn (Article $article): string => "{$article->author->firstname} {$article->author->lastname}")
                 ->emptyStateHeading(config('app.name', 'Laravel')) // Custom empty state heading
-                ->emptyStateDescription(fn (Article $article): ?string => $article->contributor_name ?? 'Anonieme gebruiker') 
+                ->emptyStateDescription(fn (Article $article): ?string => $article->contributor_name ?? 'Anonieme gebruiker')
                 ->label('Ingevoegd door'),
 
             TextColumn::make('word')
@@ -152,9 +155,13 @@ final readonly class TableSchema
     {
         return [
             SelectFilter::make('state')
-                ->label('status')
+                ->label('Artikel status')
                 ->multiple()
                 ->options(ArticleStates::class),
+
+            SelectFilter::make('Taal status')
+                ->options(LanguageStatus::class)
+                ->native(false),
 
             SelectFilter::make('disclaimer')
                 ->native(false)
