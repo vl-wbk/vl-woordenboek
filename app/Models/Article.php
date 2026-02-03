@@ -359,6 +359,7 @@ final class Article extends Model implements AuditableContract, Commentable
         return [
             'notify_author' => 'boolean',
             'wtod' => 'boolean',
+            'feedback' => 'array',
             'origin' => DataOrigin::class,
             'state' => ArticleStates::class,
             'status' => LanguageStatus::class,
