@@ -39,7 +39,7 @@ use Illuminate\Support\Str;
 use Laravel\Pennant\Feature;
 
 /**
- * @todo Write docbloks for this form 
+ * @todo Write docbloks for this form
  * @todo Perform a code clean up for this code.
  */
 final readonly class ArticleForm
@@ -113,6 +113,23 @@ final readonly class ArticleForm
     public static function generalInformationComponent(): array
     {
         return [
+            SimpleAlert::make('general-info-feedback')
+                ->columnSpanFull()
+                ->title('Feedback van de eindredacteur')
+                ->description(fn (?Article $record): ?string => $record?->feedback['general-information'] ?? 'Feedback kon niet gevonden of geladen worden')
+                ->hiddenOn('create')
+                ->hidden(function (?Article $record): bool {
+                    if (! $record) {
+                        return true;
+                    }
+
+                    $isNotRejected = optional($record->state)->isNot(ArticleStates::RejectedPublication);
+                    $hasNoFeedback = ($record->feedback['general-information'] ?? null) === null;
+
+                    return $isNotRejected || $hasNoFeedback;
+                })
+                ->warning(),
+
             TextInput::make('word')
                 ->label('Woord')
                 ->hintAction(self::guidelineAction('https://vl-wbk.github.io/documentatie/richtlijnen/woord'))
@@ -212,6 +229,22 @@ final readonly class ArticleForm
     public static function regionInformationComponent(): array
     {
         return [
+            SimpleAlert::make('region-info-feedback')
+                ->columnSpanFull()
+                ->title('Feedback van de eindredacteur')
+                ->description(fn (?Article $record): ?string => $record?->feedback['region-status'] ?? 'Feedback kon niet gevonden of geladen worden')
+                ->hiddenOn('create')
+                ->hidden(function (?Article $record): bool {
+                    if (! $record) {
+                        return true;
+                    }
+
+                    $isNotRejected = $record->state?->isNot(ArticleStates::RejectedPublication) ?? true;
+                    $noFeedback = empty($record->feedback['region-status']);
+
+                    return $isNotRejected || $noFeedback;
+                })
+                ->warning(),
             Select::make('regions')
                 ->columnSpanFull()
                 ->label("Regio's")
@@ -234,6 +267,23 @@ final readonly class ArticleForm
     public static function sourceRepeater(): array
     {
         return [
+            SimpleAlert::make('source-info-feedback')
+                ->columnSpanFull()
+                ->title('Feedback van de eindredacteur')
+                ->description(fn (?Article $record): ?string => $record?->feedback['sources'] ?? 'Feedback kon niet gevonden of geladen worden')
+                ->hiddenOn('create')
+                ->hidden(function (?Article $record): bool {
+                    if (! $record) {
+                        return true;
+                    }
+
+                    $isNotRejected = $record->state?->isNot(ArticleStates::RejectedPublication) ?? true;
+                    $noFeedback = empty($record->feedback['sources']);
+
+                    return $isNotRejected || $noFeedback;
+                })
+                ->warning(),
+
             Repeater::make('sources')
                 ->relationship()
                 ->compact()
