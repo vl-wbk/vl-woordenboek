@@ -62,6 +62,8 @@ enum ArticleStates: int implements HasLabel, HasIcon, HasColor, HasDescription
 
     case ExternalData = 5;
 
+    case RejectedPublication = 6;
+
     /**
      * Returns the human-readable Dutch label for each state.
      * For each possible state, this method returns an appropriate label that can be used in user interfaces to describe the article's current status.
@@ -77,6 +79,7 @@ enum ArticleStates: int implements HasLabel, HasIcon, HasColor, HasDescription
             self::Published => 'Publicatie',
             self::Archived => 'Gearchiveerd',
             self::ExternalData => 'Externe data',
+            self::RejectedPublication => 'Afgewezen publicatie',
         };
     }
 
@@ -88,6 +91,7 @@ enum ArticleStates: int implements HasLabel, HasIcon, HasColor, HasDescription
             self::Approval => __('Artikelen die zijn ingediend ter controle alvorens de publicatie plaatsvind'),
             self::Published => __('Artikelen die reeds zijn gepubliceerd in het Vlaams Woordenboek'),
             self::Archived => __('Artikelen die niet meer relevant zijn en daarom gearchiveerd zijn'),
+            self::RejectedPublication => __('Artikelen die zijn afgewezen wegens het niet voldoen aan de redactionele richtlijnen.')
         };
     }
 
@@ -104,7 +108,7 @@ enum ArticleStates: int implements HasLabel, HasIcon, HasColor, HasDescription
             self::Draft => 'warning',
             self::Approval => 'primary',
             self::Published => 'success',
-            self::Archived => 'danger',
+            self::Archived , self::RejectedPublication => 'danger',
         };
     }
 

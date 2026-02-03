@@ -62,4 +62,6 @@ interface ArticleStateContract
     public function transitionToSuggestion(): bool;
 
     public function transitionToExternalData(): bool;
+
+    public function transitionToRejectedPublication(array $feedback): bool;
 }

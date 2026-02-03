@@ -21,6 +21,7 @@ use App\Enums\LanguageStatus;
 use App\Models\Relations\BelongsToAuthor;
 use App\Models\Relations\BelongsToEditor;
 use App\Models\Relations\BelongsToManyRegions;
+use App\States\RejectedPublication;
 use Carbon\Carbon;
 use Database\Factories\ArticleFactory;
 use Illuminate\Contracts\Database\Eloquent\Builder;
@@ -145,6 +146,7 @@ final class Article extends Model implements AuditableContract, Commentable
             ArticleStates::Approval => new Approval($this),
             ArticleStates::Published => new Published($this),
             ArticleStates::Archived => new Archived($this),
+            ArticleStates::RejectedPublication => new RejectedPublication($this)
         };
     }
 
