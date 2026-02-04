@@ -42,71 +42,83 @@
     </div>
 </div>
 
-<div class="word-header">
+<div class="word-header py-5 border-bottom bg-light">
     <div class="container-fluid">
-        <div class="row align-items-start">
-            <div class="col-lg-8">
+        <div class="row justify-content-center align-items-end">
+            {{-- Left Side: Word Info --}}
+            <div class="col-lg-7">
                 {{-- Regio Sectie --}}
-                <div class="mb-2 d-flex flex-wrap align-items-center gap-2">
-                    @foreach($word->regions as $region)
-                        <a href="{{ route('region:show', $region) }}" class="text-decoration-none d-flex align-items-center"
-                           style="font-size: 0.75rem; font-weight: 700; color: var(--lexi-region-text); text-transform: uppercase; letter-spacing: 0.025em;">
-                            <x-heroicon-s-map-pin style="width:0.9rem; margin-right: 0.2rem;"/>
-                            {{ $region->name }}
-                        </a>
-                        @if(!$loop->last) <span class="text-muted opacity-25">|</span> @endif
-                    @endforeach
-                </div>
+                @if($word->regions->isNotEmpty())
+                    <div class="mb-2 d-flex flex-wrap align-items-center gap-2">
+                        @foreach($word->regions as $region)
+                            <a href="{{ route('region:show', $region) }}"
+                               class="text-decoration-none d-flex align-items-center text-uppercase"
+                               style="font-size: 0.75rem; font-weight: 700; color: var(--lexi-region-text); letter-spacing: 0.025em;">
+                                <x-heroicon-s-map-pin style="width:0.9rem; margin-right: 0.2rem;"/>
+                                {{ $region->name }}
+                            </a>
+                            @if(!$loop->last) <span class="text-muted opacity-25">|</span> @endif
+                        @endforeach
+                    </div>
+                @endif
 
                 <h1 class="display-3 fw-bold mb-1">{{ $word->word }}</h1>
 
                 <div class="d-flex align-items-center flex-wrap gap-2">
-                    <div class="d-flex w-100 align-items-center gap-2 text-muted me-2">
+                    <div class="d-flex align-items-center gap-2 text-muted">
                         @if ($word->partOfSpeech)
-                            <span class="fw-bold text-dark">{{$word->partOfSpeech->name }}</span>
-                            <span>•</span>
+                            <span class="fw-bold text-dark">{{ $word->partOfSpeech->name }}</span>
+                            <span class="opacity-50">•</span>
                         @endif
 
-                        <span class="font-monospace">{{ $word->characteristics }}</span> <br>
+                        <span class="font-monospace">{{ $word->characteristics }}</span>
                     </div>
 
                     {{-- Status Labels --}}
-                    @if ($word->labels()->exists())
-                        <div class="mt-3">
+                    @if ($word->labels->isNotEmpty())
+                        <div class="ms-lg-3 d-flex gap-2">
                             @foreach ($word->labels as $label)
-                                <a href="{{ route('label:show', $label) }}" class="shadow-sm word-label"><x-heroicon-o-tag class="icon me-1"/> {{ $label->name}}</a>
+                                <a href="{{ route('label:show', $label) }}" class="shadow-sm word-label text-decoration-none">
+                                    <x-heroicon-o-tag class="icon me-1" style="width: 1rem;"/>
+                                    {{ $label->name }}
+                                </a>
                             @endforeach
                         </div>
                     @endif
                 </div>
 
                 @auth
-                    <div class="header-actions mt-4">
+                    <div class="header-actions mt-4 d-flex gap-3">
                         @if ($word->bookmarkers->contains(auth()->user()))
-                            <a href="{{ route('bookmark:remove', $word) }}" class="action-link-btn text-danger text-decoration-none opacity-75">
-                                <x:heroicon-o-bookmark-slash style="width:1.1rem"/> Vergeet dit woord
+                            <a href="{{ route('bookmark:remove', $word) }}" class="action-link-btn text-danger text-decoration-none opacity-75 d-flex align-items-center">
+                                <x-heroicon-o-bookmark-slash class="me-1" style="width:1.1rem"/> Vergeet dit woord
                             </a>
                         @else
-                            <a href="{{ route('bookmark:create', $word) }}" class="action-link-btn text-decoration-none"><x-heroicon-o-bookmark style="width:1.1rem"/> Bewaar</a>
+                            <a href="{{ route('bookmark:create', $word) }}" class="action-link-btn text-decoration-none d-flex align-items-center">
+                                <x-heroicon-o-bookmark class="me-1" style="width:1.1rem"/> Bewaar
+                            </a>
                         @endif
 
-                        <button class="action-link-btn ms-2 text-danger opacity-75"  data-bs-toggle="modal" data-bs-target="#reportModal">
-                            <x-heroicon-o-megaphone style="width:1.1rem"/> Verbetering melden
+                        <button class="action-link-btn text-danger opacity-75 bg-transparent border-0 p-0 d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#reportModal">
+                            <x-heroicon-o-megaphone class="me-1" style="width:1.1rem"/> Verbetering melden
                         </button>
                     </div>
                 @endauth
             </div>
 
-            <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
-                <a href="{{ route('definitions.create') }}" class="btn btn-outline-dark px-4 rounded-1">
-                    <x:heroicon-s-document-plus class="icon me-1"/>suggestie voor een nieuw artikel
-                </a>
-
-                @can ('update', $word)
-                    <a href="{{ $editLink }}" class="btn btn-dark px-4 rounded-1">
-                        <x-heroicon-s-pencil-square class="icon me-1"/> bewerk artikel
+            {{-- Right Side: Global Actions --}}
+            <div class="col-lg-3 text-lg-end mt-4 mt-lg-0">
+                <div class="d-grid d-lg-block gap-2">
+                    <a href="{{ route('definitions.create') }}" class="btn btn-outline-dark px-4 rounded-1">
+                        <x-heroicon-s-document-plus class="icon me-1" style="width: 1rem;"/> Nieuwe suggestie
                     </a>
-                @endcan
+
+                    @can('update', $word)
+                        <a href="{{ $editLink }}" class="btn btn-dark px-4 rounded-1">
+                            <x-heroicon-s-pencil-square class="icon me-1" style="width: 1rem;"/> Bewerk
+                        </a>
+                    @endcan
+                </div>
             </div>
         </div>
     </div>
@@ -114,14 +126,20 @@
 
 @if ($word->disclaimer)
     <div class="alert alert-info border-0 mb-0" role="alert">
-        <p>{{ $word->disclaimer->message }}</p>
+       <div class="container-fluid">
+           <div class="row justify-content-center">
+               <div class="col-10">
+                   <p>{{ $word->disclaimer->message }}</p>
+               </div>
+           </div>
+       </div>
     </div>
 @endif
 
 {{-- Main Content --}}
 <div class="container-fluid py-5">
-    <div class="row">
-        <div class="col-lg-9 pe-lg-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 pe-lg-5">
             <section class="mb-5">
                 <h5 class="fw-bold mb-3 text-success">Definitie</h5>
                 <p class="mb-3 text-muted"><span class="text-dark fw-bold me-2">Status:</span>{{ $word->status->getLabel() }}</p>
