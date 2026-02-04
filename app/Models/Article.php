@@ -183,6 +183,9 @@ final class Article extends Model implements AuditableContract, Commentable
             ->withTimestamps();
     }
 
+    /**
+     * @return BelongsTo<User, covariant $this>
+     */
     public function deletedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'deleted_by');

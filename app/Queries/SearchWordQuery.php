@@ -41,7 +41,7 @@ final readonly class SearchWordQuery
     /**
      * Filter by publication and archive status.
      *
-     * @param Builder $query
+     * @param Builder<Article> $query
      * @param Request $request
      * @return void
      */
@@ -57,7 +57,7 @@ final readonly class SearchWordQuery
     /**
      * Determine and apply the correct search strategy.
      *
-     * @param Builder $query
+     * @param Builder<Article> $query
      * @param Request $request
      * @return void
      */
@@ -76,6 +76,11 @@ final readonly class SearchWordQuery
 
     /**
      * Search for the exact string in word, keywords, or description.
+     *
+     * @param Builder<Article> $query
+     * @param Request $request
+     * @param bool $includeDescription
+     * @return void
      */
     private function applyExactSearch(Builder $query, Request $request, bool $includeDescription): void
     {

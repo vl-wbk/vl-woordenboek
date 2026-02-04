@@ -26,6 +26,9 @@ final readonly class VolunteerPositionsTable
             ->recordActions(self::registerRecordActions());
     }
 
+    /**
+     * @return array<int, TextColumn|IconColumn>
+     */
     private static function registerTableColumnComponents(): array
     {
         return [

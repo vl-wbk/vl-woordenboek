@@ -11,9 +11,12 @@ use Illuminate\Auth\Access\Response;
 
 final class VolunteerPositionPolicy
 {
+    /**
+     * @var list<string>
+     */
     public static array $permissionPrefixes = [
-        'viewAny', 'view', 'update', 'delete', 'create' 
-    ]; 
+        'viewAny', 'view', 'update', 'delete', 'create'
+    ];
 
     public function apply(User $user, VolunteerPosition $volunteerPosition): Response
     {
@@ -26,28 +29,28 @@ final class VolunteerPositionPolicy
 
     public function viewAny(User $user): Response
     {
-        return ($user->can('view-any:volunteer-position')) 
+        return ($user->can('view-any:volunteer-position'))
             ? Response::allow()
             : Response::deny();
     }
 
     public function create(User $user): Response
     {
-        return ($user->can('create:volunteer-position')) 
+        return ($user->can('create:volunteer-position'))
             ? Response::allow()
             : Response::deny();
     }
 
     public function update(User $user, VolunteerPosition $volunteerPosition): Response
     {
-        return ($user->can('update:volunteer-position')) 
+        return ($user->can('update:volunteer-position'))
             ? Response::allow()
             : Response::deny();
     }
 
     public function view(User $user, VolunteerPosition $volunteerPosition): Response
     {
-        return ($user->can('view:volunteer-position')) 
+        return ($user->can('view:volunteer-position'))
             ? Response::allow()
             : Response::deny();
     }

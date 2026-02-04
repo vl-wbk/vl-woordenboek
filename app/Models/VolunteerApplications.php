@@ -13,17 +13,29 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 final class VolunteerApplications extends Model
 {
+    /**
+     * @var list<string>
+     */
     protected $guarded = ['id', 'user_id'];
 
+    /**
+     * @var array<string, ApplicationState>
+     */
     protected $attributes = [
         'state' => ApplicationState::Open,
     ];
 
+    /**
+     * @return BelongsTo<User, covariant $this>
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * @return BelongsTo<VolunteerPosition, covariant $this>
+     */
     public function volunteerPosition(): BelongsTo
     {
         return $this->belongsTo(VolunteerPosition::class);

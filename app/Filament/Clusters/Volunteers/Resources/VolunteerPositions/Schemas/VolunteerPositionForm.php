@@ -18,6 +18,9 @@ use Spatie\Permission\Models\Role;
 
 final readonly class VolunteerPositionForm
 {
+    /**
+     * @return array<int, TextInput|Select|Textarea|Toggle>
+     */
     public static function configure(): array
     {
         return [
@@ -80,6 +83,9 @@ final readonly class VolunteerPositionForm
             ->modalFooterActionsAlignment(Alignment::Center);
     }
 
+    /**
+     * @return array<int, TextInput>
+     */
     private static function createOptionFormSchema(): array
     {
         return [

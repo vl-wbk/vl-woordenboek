@@ -1,6 +1,6 @@
-<?php 
+<?php
 
-declare(strict_types=1); 
+declare(strict_types=1);
 
 namespace App\Filament\Clusters\Volunteers\Resources\VolunteerApplications\Actions;
 
@@ -13,25 +13,28 @@ use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 
+/**
+ * @property \App\Models\VolunteerApplications $record
+ */
 final class ApproveAction extends Action
 {
     use CanCustomizeProcess;
 
-    public static function getDefaultName(): ?string
+    public static function getDefaultName(): string
     {
         return 'approve';
     }
 
-    protected function setUp(): void 
+    protected function setUp(): void
     {
         parent::setUp();
 
-        $this->label('Goedkeuren'); 
+        $this->label('Goedkeuren');
         $this->color('success');
         $this->authorize(VolunteerApplicationsPolicy::Approve);
         $this->icon(Heroicon::OutlinedCheckBadge);
         $this->requiresConfirmation();
-        
+
         $this->modalHeading('Aanmelding goedkeuren');
         $this->modalDescription(fn (VolunteerApplications $volunteerApplication): string => $this->composeConfirmationMessage($volunteerApplication));
 
@@ -46,9 +49,9 @@ final class ApproveAction extends Action
 
             $this->failure();
         });
-    }    
+    }
 
-    private function handleVolunteerRequestApproval(): bool 
+    private function handleVolunteerRequestApproval(): bool
     {
         $role = Role::findById($this->record->volunteerPosition->role_id);
 
@@ -64,7 +67,7 @@ final class ApproveAction extends Action
         });
     }
 
-    private function composeConfirmationMessage(VolunteerApplications $volunteerApplications): string 
+    private function composeConfirmationMessage(VolunteerApplications $volunteerApplications): string
     {
         return  __('Bij het goedkeuring van de aanmelding zal :user verplaatst worden naar de :usergroup gebruikersgroep en de :role permissiegroep toegewezen krijgen. Weet je zeker dat je dit wilt doen?', [
             'usergroup' => $volunteerApplications->volunteerPosition->associated_user_group->getLabel() ?? $volunteerApplications->user->user_type->getLabel(),
