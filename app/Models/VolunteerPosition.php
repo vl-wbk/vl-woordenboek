@@ -13,8 +13,14 @@ final class VolunteerPosition extends Model
 {
     use HasRoles;
 
+    /**
+     * @var list<string>
+     */
     protected $guarded = ['id'];
 
+    /**
+     * @return HasMany<VolunteerApplications, covariant $this>
+     */
     public function applications(): HasMany
     {
         return $this->hasMany(VolunteerApplications::class);

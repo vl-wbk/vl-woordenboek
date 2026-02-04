@@ -44,7 +44,7 @@ class VotingComponent extends Component
      * Register an upvote for the article.
      * * @return void
      */
-    public function upvote()
+    public function upvote(): mixed
     {
         if (auth()->guest())
             return $this->redirect(route('login'));
@@ -59,7 +59,7 @@ class VotingComponent extends Component
      * Register a downvote for the article.
      * * @return void
      */
-    public function downvote()
+    public function downvote(): mixed
     {
         if (auth()->guest())
             return $this->redirect(route('login'));

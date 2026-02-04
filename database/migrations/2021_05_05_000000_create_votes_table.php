@@ -9,9 +9,9 @@ class CreateVotesTable extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create(config('vote.votes_table'), function (Blueprint $table) {
+        Schema::create(config('vote.votes_table'), static function (Blueprint $table): void {
             $table->bigIncrements('id');
             $table->unsignedBigInteger(config('vote.user_foreign_key'))->index()->comment('user_id');
             $table->integer('votes');
@@ -23,7 +23,7 @@ class CreateVotesTable extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists(config('vote.votes_table'));
     }
