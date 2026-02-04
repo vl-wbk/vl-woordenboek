@@ -64,8 +64,10 @@
 
                 <h1 class="display-3 fw-bold mb-1">{{ $word->word }}</h1>
 
-                <div class="d-flex align-items-center flex-wrap gap-2">
-                    <div class="d-flex align-items-center gap-2 text-muted">
+                {{-- Metadata & Labels Stack --}}
+                <div class="d-flex flex-column gap-2">
+                    {{-- Primary Characteristics --}}
+                    <div class="d-flex align-items-center flex-wrap gap-2 text-muted">
                         @if ($word->partOfSpeech)
                             <span class="fw-bold text-dark">{{ $word->partOfSpeech->name }}</span>
                             <span class="opacity-50">•</span>
@@ -74,9 +76,9 @@
                         <span class="font-monospace">{{ $word->characteristics }}</span>
                     </div>
 
-                    {{-- Status Labels --}}
+                    {{-- Status Labels (Now Aligned Underneath) --}}
                     @if ($word->labels->isNotEmpty())
-                        <div class="ms-lg-3 d-flex gap-2">
+                        <div class="d-flex flex-wrap gap-2">
                             @foreach ($word->labels as $label)
                                 <a href="{{ route('label:show', $label) }}" class="shadow-sm word-label text-decoration-none">
                                     <x-heroicon-o-tag class="icon me-1" style="width: 1rem;"/>
