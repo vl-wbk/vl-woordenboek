@@ -159,7 +159,8 @@ final readonly class TableSchema
                 ->multiple()
                 ->options(ArticleStates::class),
 
-            SelectFilter::make('Taal status')
+            SelectFilter::make('status')
+                ->label('Taal status')
                 ->options(LanguageStatus::class)
                 ->native(false),
 
