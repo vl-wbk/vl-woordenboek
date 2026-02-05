@@ -31,14 +31,20 @@ final readonly class VolunteerApplicationsTable
             ->toolbarActions(actions: self::configureToolbarActions());
     }
 
-    private static function configureRecordActions(): array 
+    /**
+     * @return array<int, ViewAction>
+     */
+    private static function configureRecordActions(): array
     {
         return [
             ViewAction::make(),
         ];
     }
 
-    private static function configureTableFilters(): array 
+    /**
+     * @return array<int, SelectFilter>
+     */
+    private static function configureTableFilters(): array
     {
         return [
             SelectFilter::make('state')
@@ -46,9 +52,12 @@ final readonly class VolunteerApplicationsTable
                 ->native(false)
                 ->options(ApplicationState::class)
         ];
-    }   
+    }
 
-    private static function registerTableColumns(): array 
+    /**
+     * @return array<int, TextColumn|UserColumn>
+     */
+    private static function registerTableColumns(): array
     {
         return [
             TextColumn::make('id')
@@ -56,8 +65,8 @@ final readonly class VolunteerApplicationsTable
                 ->weight(FontWeight::Bold)
                 ->label('#')
                 ->sortable(),
-            
-                TextColumn::make('state')
+
+            TextColumn::make('state')
                 ->label('Status')
                 ->sortable()
                 ->badge(),
@@ -65,10 +74,10 @@ final readonly class VolunteerApplicationsTable
             UserColumn::make('user.id')
                 ->label('Gebruiker')
                 ->searchable(),
-            
+
             TextColumn::make('volunteerPosition.name')
                 ->label('Gewenste positie'),
-            
+
             TextColumn::make('created_at')
                 ->label('Aangemeld op')
                 ->date()
@@ -77,7 +86,7 @@ final readonly class VolunteerApplicationsTable
         ];
     }
 
-    private static function configureToolbarActions(): array 
+    private static function configureToolbarActions(): array
     {
         return [];
     }

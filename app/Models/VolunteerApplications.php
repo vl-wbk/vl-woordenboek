@@ -8,9 +8,6 @@ use App\Enums\Volunteers\ApplicationState;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/**
- * Undocumented class
- */
 final class VolunteerApplications extends Model
 {
     /**

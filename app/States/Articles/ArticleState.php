@@ -78,6 +78,9 @@ class ArticleState implements ArticleStateContract
         throw new LogicException('The method transitionToExternalData() is not allowed on the current state.');
     }
 
+    /**
+     * @param array{general-information: ?string, region-status: ?string, sources: ?string} $feedback
+     */
     public function transitionToRejectedPublication(array $feedback): bool
     {
         throw new LogicException('The method transitionToRejectedPublication() is not allowed on the current state.');

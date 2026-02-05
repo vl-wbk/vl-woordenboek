@@ -14,6 +14,9 @@ final class VolunteerApplicationsPolicy
     public const Approve = 'approve';
     public const Reject = 'reject';
 
+    /**
+     * @var list<string>
+     */
     public static array $permissionPrefixes = ['viewAny', 'view', 'goedkeuren', 'afwijzen'];
 
     public function approve(User $user, VolunteerApplications $volunteerApplications): Response
@@ -25,7 +28,7 @@ final class VolunteerApplicationsPolicy
 
     public function reject(User $user, VolunteerApplications $volunteerApplications): Response
     {
-        return ($user->can('afwijzen:volunteer-applications') && $volunteerApplications->state->is(ApplicationState::Open)) 
+        return ($user->can('afwijzen:volunteer-applications') && $volunteerApplications->state->is(ApplicationState::Open))
             ? Response::allow()
             : Response::deny();
     }
