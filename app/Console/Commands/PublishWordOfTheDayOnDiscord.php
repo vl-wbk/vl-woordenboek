@@ -50,7 +50,7 @@ final class PublishWordOfTheDayOnDiscord extends Command
             [
                 'title' => "📖 " . strtoupper($wtod->article->word),
                 'url' => route('word-information.show', $wtod->article),
-                'description' => $wtod->article->seo_description
+                'description' => $wtod->article->seo_description,
                 'author' => [
                     'name' => config('app.name', 'Laravel'),
                     'url' => config('app.url')
