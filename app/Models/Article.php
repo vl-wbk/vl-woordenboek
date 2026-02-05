@@ -357,9 +357,12 @@ final class Article extends Model implements AuditableContract, Commentable
 
     protected function seoDescription(): Attribute
     {
-        return Attribute::get(function (): Stringable {
-            $description = html_entity_decode((string) $this->description, ENT_QUOTES, 'UTF-8');
-            return str($description)->stripTags()->limit(300);
+        return Attribute::get(function (): string {
+            return (string) str($this->description)
+                ->markdown()     // Maak er HTML van (lost Markdown syntax op)
+                ->stripTags()    // Strip alle resulterende HTML tags
+                ->squish()
+                ->limit(300);
         });
     }
 
