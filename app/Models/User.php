@@ -145,7 +145,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
     public function getFilamentAvatarUrl(): ?string
     {
         $hash = md5(strtolower(trim($this->email)));
-        return "http://www.gravatar.com/avatar/$hash";
+        return "https://www.gravatar.com/avatar/$hash";
     }
 
     /**
