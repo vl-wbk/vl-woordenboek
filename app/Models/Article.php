@@ -27,12 +27,14 @@ use Database\Factories\ArticleFactory;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Stringable;
 use Kirschbaum\Commentions\Contracts\Commentable;
 use Kirschbaum\Commentions\HasComments;
 use Overtrue\LaravelLike\Traits\Likeable;
@@ -351,6 +353,14 @@ final class Article extends Model implements AuditableContract, Commentable
         return $this->wordOfTheDays()
             ->whereDate('scheduled_for', today())
             ->exists();
+    }
+
+    protected function seoDescription(): Attribute
+    {
+        return Attribute::get(function (): Stringable {
+            $description = html_entity_decode((string) $this->description, ENT_QUOTES, 'UTF-8');
+            return str($description)->stripTags()->limit(300);
+        });
     }
 
     /**
