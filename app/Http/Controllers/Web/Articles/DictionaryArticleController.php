@@ -36,8 +36,8 @@ final readonly class DictionaryArticleController
     public function redirectOldTerm(string $slug): RedirectResponse
     {
         $article = Article::where('word', $slug)->first();
-        
-        return $article 
+
+        return $article
             ? to_route('word-information.show', $article, status: 301)
             : to_route('search.results');
     }
@@ -69,7 +69,6 @@ final readonly class DictionaryArticleController
 
             return view('definitions.show', data: [
                 'word' => $word,
-                'editLink' => ArticleResource::getUrl('edit', ['record' => $word]),
                 'etymologies' => $word->etymologies()->whereNotIn('status', [EtymologyStatus::Draft, EtymologyStatus::Rejected, EtymologyStatus::Archived])->get(),
                 'upcomingSchedule' => WordOfTheDay::where('article_id', $word->id)->whereDate('scheduled_for', today())->first(),
             ]);

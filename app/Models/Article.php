@@ -21,17 +21,20 @@ use App\Enums\LanguageStatus;
 use App\Models\Relations\BelongsToAuthor;
 use App\Models\Relations\BelongsToEditor;
 use App\Models\Relations\BelongsToManyRegions;
+use App\States\RejectedPublication;
 use Carbon\Carbon;
 use Database\Factories\ArticleFactory;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Stringable;
 use Kirschbaum\Commentions\Contracts\Commentable;
 use Kirschbaum\Commentions\HasComments;
 use Overtrue\LaravelLike\Traits\Likeable;
@@ -145,6 +148,7 @@ final class Article extends Model implements AuditableContract, Commentable
             ArticleStates::Approval => new Approval($this),
             ArticleStates::Published => new Published($this),
             ArticleStates::Archived => new Archived($this),
+            ArticleStates::RejectedPublication => new RejectedPublication($this)
         };
     }
 
@@ -351,6 +355,17 @@ final class Article extends Model implements AuditableContract, Commentable
             ->exists();
     }
 
+    protected function seoDescription(): Attribute
+    {
+        return Attribute::get(function (): string {
+            return (string) str($this->description)
+                ->markdown()     // Maak er HTML van (lost Markdown syntax op)
+                ->stripTags()    // Strip alle resulterende HTML tags
+                ->squish()
+                ->limit(300);
+        });
+    }
+
     /**
      * Configures attribute casting for proper type handling.
      * Ensures that state and status fields are properly cast to their respective enum types when retrieved from the database.
@@ -362,6 +377,7 @@ final class Article extends Model implements AuditableContract, Commentable
         return [
             'notify_author' => 'boolean',
             'wtod' => 'boolean',
+            'feedback' => 'array',
             'origin' => DataOrigin::class,
             'state' => ArticleStates::class,
             'status' => LanguageStatus::class,

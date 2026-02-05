@@ -19,18 +19,10 @@ use Illuminate\Support\Facades\DB;
  */
 final class Approval extends ArticleState
 {
-    /**
-     * Returns the article to draft status for additional editing.
-     *
-     * This transition is typically used when the reviewing editor determines that the article needs further refinement before it can be published.
-     * The article returns to a draft state where authors can make the requested changes.
-     */
-    public function transitionToEditing(?string $reason = null): bool
+    public function transitionToRejectedPublication(array $feedback): bool
     {
-        return DB::transaction(function () use ($reason): bool {
-            $this->article->update(attributes: ['state' => ArticleStates::Draft, 'published_at' => null]);
-            $this->article->addNote(title: 'Voorstellen tot wijziging', note: $reason);
-
+        return DB::transaction(function () use ($feedback): bool {
+            $this->article->update(attributes: ['state' => ArticleStates::RejectedPublication, 'feedback' => $feedback, 'published_at' => null]);
             return true;
         });
     }
@@ -46,7 +38,7 @@ final class Approval extends ArticleState
         return DB::transaction(function () use ($publicationDate): bool {
             $this->article
                 ->setCurrentUserAsPublisher()
-                ->update(attributes: ['state' => ArticleStates::Published, 'published_at' => $publicationDate]);
+                ->update(attributes: ['state' => ArticleStates::Published, 'feedback' => null, 'published_at' => $publicationDate]);
 
             $this->article->author->notify(new SendoutPublicationNotification($this->article));
 

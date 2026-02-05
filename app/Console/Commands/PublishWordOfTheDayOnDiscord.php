@@ -17,7 +17,7 @@ final class PublishWordOfTheDayOnDiscord extends Command
 {
     private const string CACHE_KEY = 'wtod.last_run_timestamp';
 
-    public function handle(): int 
+    public function handle(): int
     {
         $lastRunTimestamp = Cache::get(self::CACHE_KEY);
 
@@ -42,7 +42,7 @@ final class PublishWordOfTheDayOnDiscord extends Command
             ->first();
     }
 
-    private function sendDiscordNotification (WordOfTheDay $wtod): void 
+    private function sendDiscordNotification (WordOfTheDay $wtod): void
     {
         Cache::put(self::CACHE_KEY, now()->toDateTimeString(), now()->endOfDay());
 
@@ -50,7 +50,7 @@ final class PublishWordOfTheDayOnDiscord extends Command
             [
                 'title' => "📖 " . strtoupper($wtod->article->word),
                 'url' => route('word-information.show', $wtod->article),
-                'description' => strip_tags((string) str($wtod->article->description)->limit(300)->markdown()),
+                'description' => $wtod->article->seo_description,
                 'author' => [
                     'name' => config('app.name', 'Laravel'),
                     'url' => config('app.url')

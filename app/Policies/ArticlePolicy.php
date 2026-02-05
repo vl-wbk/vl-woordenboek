@@ -31,7 +31,7 @@ final class ArticlePolicy
      */
     public static array $permissionPrefixes = [
         'update', 'sendForApproval', 'publish', 'unpublish', 'detachEditor', 'attachDisclaimer', 'detachDisclaimer',
-        'archive', 'unarchive', 'delete', 'verwijderVanuitPublicatie', 'deleteAny', 'restore', 'restoreAny', 'export', 'updatePublished', 
+        'archive', 'unarchive', 'delete', 'verwijderVanuitPublicatie', 'deleteAny', 'restore', 'restoreAny', 'export', 'updatePublished',
         'geforceerdVerwijderen', 'meerdereGeforceerdVerwijderen'
     ];
 
@@ -73,7 +73,7 @@ final class ArticlePolicy
             return Response::deny();
         }
 
-        $allowedStates = [ArticleStates::New , ArticleStates::ExternalData, ArticleStates::Draft, ArticleStates::Archived];
+        $allowedStates = [ArticleStates::New , ArticleStates::RejectedPublication, ArticleStates::ExternalData, ArticleStates::Draft, ArticleStates::Archived];
 
         if ($article->isPublished() && $user->can('update-published:article')) {
             return Response::allow();
@@ -298,7 +298,7 @@ final class ArticlePolicy
         }
 
         // 3. Editor-level cleanup (New or External data only)
-        if ($user->user_type->is(UserTypes::Editor) && 
+        if ($user->user_type->is(UserTypes::Editor) &&
             $article->state->in([ArticleStates::ExternalData, ArticleStates::New])) {
             return Response::allow();
         }
@@ -375,7 +375,7 @@ final class ArticlePolicy
 
     public function forceDeleteAny(User $user): Response
     {
-        return $user->can('meerdere-geforceerd-verwijderen:article') 
+        return $user->can('meerdere-geforceerd-verwijderen:article')
             ? Response::allow()
             : Response::deny();
     }

@@ -10,6 +10,8 @@ use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Forms\Components\Textarea;
 use Filament\Notifications\Notification;
+use Filament\Schemas\Components\Tabs;
+use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\DB;
@@ -68,11 +70,11 @@ final class RejectPublishingAction extends Action
         $this->schema($this->getModalForm());
         $this->modalSubmitActionLabel('Ja, ik weet het zeker');
 
-        $this->successNotificationTitle('We hebben het artikel succesvol teruggestuurd naar de redactie.');
+        $this->successNotificationTitle('We hebben het artikel succesvol teruggestuurd naar de redacteur.');
         $this->failureNotificationTitle('Helaas! Er is iets misgelopen');
 
         $this->action(function (array $data): void {
-            if ($this->process(fn (Article $article) => $this->handleArticleRejection($article, $data['reason']))) {
+            if ($this->process(fn (Article $article) => $this->handleArticleRejection($article, $data['feedback']))) {
                 $this->success();
 
                 return;
@@ -87,12 +89,12 @@ final class RejectPublishingAction extends Action
      * This method attempts to transition the article's status back to 'editing' and sends a detailed notification to the article's assigned editor if the transition is successful.
      *
      * @param  Article  $article The article model instance to be rejected.
-     * @param  string   $reason  The mandatory reason provided by the reviewer for the rejection.
+     * @param  array   $reason  The mandatory reason provided by the reviewer for the rejection.
      * @return bool              True if the status transition was successful and the editor exists, false otherwise.
      */
-    public function handleArticleRejection(Article $article, string $reason): bool
+    public function handleArticleRejection(Article $article, array $reason): bool
     {
-        $transition = $article->articleStatus()->transitionToEditing($reason);
+        $transition = $article->articleStatus()->transitionToRejectedPublication($reason);
 
         if ($transition && $article->editor()->exists()) {
             $article->editor->notify(
@@ -100,11 +102,11 @@ final class RejectPublishingAction extends Action
                     ->title('Publicatieverzoek afgewezen')
                     ->danger()
                     ->icon(Heroicon::XCircle)
-                    ->body('Een eindredacteur heeft het publicatieverzoek voor een artikel afgewezen. In de notities kan je de beweegredenen raadplegen.')
+                    ->body('Een eindredacteur heeft het publicatieverzoek voor een artikel afgewezen. In het bewerkingsformulier kun je de feedback raadplegen.')
                     ->actions([
                         Action::make('view-article')
-                            ->label('Bekijk artikel')
-                            ->url(ArticleResource::getUrl('view', ['record' => $article]))
+                            ->label('Wijzig artikel')
+                            ->url(ArticleResource::getUrl('edit', ['record' => $article]))
                             ->markAsRead()
                     ])
                     ->toDatabase()
@@ -122,10 +124,7 @@ final class RejectPublishingAction extends Action
      */
     public function getModalDescription(): string
     {
-        return '
-            Indien het voorstel tot publicatie afwijst zal het artikel terug geplaatst worden in de lijst van te bewerken artikelen.
-            Echter vragen we je wel om reden tot afkeuring te geven. Zodat de redacteur in kwestie terug aan de slag kan gaan op basis van de notitie.
-        ';
+        return 'U staat op het punt om een voorstel tot publicatie af te wijzen. Vergeet niet de nodige bijsturing te documenteren zodat de redacteur ermee aan de slag kan gaan.';
     }
 
     /**
@@ -137,11 +136,36 @@ final class RejectPublishingAction extends Action
     private function getModalForm(): array
     {
         return [
-            Textarea::make('reason')
-                ->label('Reden tot afkeuring')
-                ->required()
-                ->rows(4)
-                ->placeholder('Korte motivering van de afkeuring.'),
-        ];
+            Tabs::make()
+                ->schema([
+                    Tabs\Tab::make('Algemene informatie')
+                        ->icon(Heroicon::InformationCircle)
+                        ->schema([
+                            Textarea::make('feedback.general-information')
+                                ->hiddenLabel()
+                                ->rows(4)
+                                ->placeholder('Beschrijf kort wat er mis is met de algemene informatie.')
+                                ->helperText('Indien er geen opmerkingen zijn gelieve dit veld leeg te laten'),
+                        ]),
+                    Tabs\Tab::make('Regio en status')
+                        ->icon(Heroicon::MapPin)
+                        ->schema([
+                            Textarea::make('feedback.region-status')
+                                ->hiddenLabel()
+                                ->rows(4)
+                                ->placeholder('Beschrijf kort wat er mis is met de regio en status informatie.')
+                                ->helperText('Indien er geen opmerkingen zijn gelieve dit veld leeg te laten'),
+                        ]),
+                    Tabs\Tab::make('Bron gegevens')
+                        ->icon(Heroicon::BookOpen)
+                        ->schema([
+                            Textarea::make('feedback.sources')
+                                ->hiddenLabel()
+                                ->rows(4)
+                                ->placeholder('Beschrijf kort wat er mis is met de bron gegevens')
+                                ->helperText('Indien er geen opmerkingen zijn gelieve dit veld leeg te laten'),
+                        ])
+                ]),
+            ];
     }
 }
