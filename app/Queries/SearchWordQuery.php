@@ -33,7 +33,7 @@ final readonly class SearchWordQuery
             ->published()
             ->where(fn (Builder $query) => $this->applyVisibilityFilters($query, $request))
             ->where(fn (Builder $query) => $this->applySearchStrategy($query, $request))
-            ->orderBy('created_at')
+            ->orderBy('created_at', 'desc')
             ->fastPaginate(6)
             ->appends($request->query());
     }
