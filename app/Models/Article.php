@@ -33,6 +33,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Stringable;
 use Kirschbaum\Commentions\Contracts\Commentable;
 use Kirschbaum\Commentions\HasComments;
 use Overtrue\LaravelLike\Traits\Likeable;
@@ -354,7 +355,7 @@ final class Article extends Model implements AuditableContract, Commentable
 
     protected function seoDescription(): Attribute
     {
-        return Attribute::get(function (): string {
+        return Attribute::get(function (): Stringable {
             $description = html_entity_decode((string) $this->description, ENT_QUOTES, 'UTF-8');
             return str($description)->stripTags()->limit(300);
         });
