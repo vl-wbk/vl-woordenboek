@@ -4,7 +4,7 @@
     <meta property="og:title" content="{{ $word->word }} - {{ config('app.name', 'Laravel') }}"/>
     <meta property="og:type" content="article"/>
     <meta property="og:url" content="{{ request()->fullUrl() }}"/>
-    <meta property="og:description" content="{{ $word->description }}"/>
+    <meta property="og:description" content="{{ $word->seoDescription }}"/>
     <meta property="og:image" content="{{ asset('/img/app-logo.jpg') }}"/>
     <meta property="og:image:alt" content="Logo van het Vlaams woordenboek"/>
     <meta property="og:locale" content="{{ str_replace('_', '-', app()->getLocale()) }}"/>
