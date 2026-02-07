@@ -39,7 +39,7 @@ class ContentKpiWidget extends StatsOverviewWidget
                 ->descriptionIcon(Heroicon::OutlinedEye, IconPosition::Before)
                 ->color('primary'),
 
-            Stat::make('Actieve Bijdragers', Article::distinct('creator_id')->count())
+            Stat::make('Actieve Bijdragers', Article::distinct('author_id')->count())
                 ->description('Unieke gebruikers met inzendingen')
                 ->descriptionIcon(Heroicon::OutlinedUserGroup, IconPosition::Before)
                 ->color('info'),
