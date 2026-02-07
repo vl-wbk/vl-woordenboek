@@ -2,6 +2,7 @@
 
 namespace App\Filament\Widgets;
 
+use App\Enums\ArticleStates;
 use App\Models\Article;
 use Filament\Support\Enums\IconPosition;
 use Filament\Support\Icons\Heroicon;
@@ -21,7 +22,7 @@ class ContentKpiWidget extends StatsOverviewWidget
 
         return [
             // 1. Instroom (Productiviteit)
-            Stat::make('Wachtend op Review', Article::where('state', 5)->count())
+            Stat::make('Wachtend op Review', Article::where('state', ArticleStates::New)->count())
                 ->description('Nieuwe suggesties van gebruikers')
                 ->descriptionIcon(Heroicon::OutlinedPencilSquare, IconPosition::Before)
                 ->color('info'),
@@ -38,11 +39,10 @@ class ContentKpiWidget extends StatsOverviewWidget
                 ->descriptionIcon(Heroicon::OutlinedEye, IconPosition::Before)
                 ->color('primary'),
 
-            // 4. DE NIEUWE: Snelheid (Efficiëntie)
-            Stat::make('Publicatie Snelheid', round($avgProcessingTime, 1) . ' dagen')
-                ->description('Gem. tijd van suggestie naar artikel')
-                ->descriptionIcon(Heroicon::OutlinedBolt, IconPosition::Before)
-                ->color($avgProcessingTime < 3 ? 'success' : 'warning'),
+            Stat::make('Actieve Bijdragers', Article::distinct('creator_id')->count())
+                ->description('Unieke gebruikers met inzendingen')
+                ->descriptionIcon(Heroicon::OutlinedUserGroup, IconPosition::Before)
+                ->color('info'),
         ];
     }
 }
