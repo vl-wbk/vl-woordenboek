@@ -2,8 +2,13 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\RedactionHubDashboard;
+use App\Filament\Widgets\ContentImpactChart;
+use App\Filament\Widgets\ContentKpiWidget;
+use App\Filament\Widgets\ContentWorkloadTable;
 use Asmit\ResizedColumn\ResizedColumnPlugin;
 use Cmsmaxinc\FilamentErrorPages\FilamentErrorPagesPlugin;
+use Filament\Pages\Dashboard;
 use Filament\Support\Enums\Width;
 use CharrafiMed\GlobalSearchModal\GlobalSearchModalPlugin;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
@@ -108,6 +113,12 @@ final class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+            ])
+            ->pages([Dashboard::class])
+            ->widgets([
+                ContentKpiWidget::class,
+                ContentImpactChart::class,
+                ContentWorkloadTable::class,
             ])
             ->colors([
                 'primary' => Color::Blue,
