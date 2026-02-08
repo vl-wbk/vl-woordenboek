@@ -65,7 +65,7 @@ final readonly class DictionaryArticleController
     {
         if (Gate::allows(ArticlePolicy::DisplayArticle, $word)) {
             /** @phpstan-ignore-next-line */
-            $word->incrementQuietly(column: 'views', extra: ['updated_at' => $word->updated_at]); // Increment the view counter for thearticle by one. Because the user decided to view the article.
+            $word->recordView(); // Increment the view counter for thearticle by one. Because the user decided to view the article.
 
             return view('definitions.show', data: [
                 'word' => $word,
