@@ -355,6 +355,9 @@ final class Article extends Model implements AuditableContract, Commentable
             ->exists();
     }
 
+    /**
+     * @return Attribute<string, never-return>
+     */
     protected function seoDescription(): Attribute
     {
         return Attribute::get(function (): string {

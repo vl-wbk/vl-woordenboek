@@ -27,8 +27,7 @@ final readonly class VolunteerApplicationsTable
             ->emptyStateDescription('Het lijkt er op dat er geen aanmeldingen zijn gevonden matchende de criteria die je hebt opgegeven')
             ->columns(components: self::registerTableColumns())
             ->filters(filters: self::configureTableFilters())
-            ->recordActions(actions: self::configureRecordActions())
-            ->toolbarActions(actions: self::configureToolbarActions());
+            ->recordActions(actions: self::configureRecordActions());
     }
 
     /**
@@ -84,10 +83,5 @@ final readonly class VolunteerApplicationsTable
                 ->sinceTooltip()
                 ->sortable()
         ];
-    }
-
-    private static function configureToolbarActions(): array
-    {
-        return [];
     }
 }

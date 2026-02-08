@@ -7,7 +7,21 @@ namespace App\Models;
 use App\Enums\Volunteers\ApplicationState;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property int $id
+ * @property ApplicationState $state
+ * @property ?int $volunteer_position_id
+ * @property int $user_id
+ * @property string $firstname
+ * @property string $lastname
+ * @property ?string $motovation
+ * @property ?string $background
+ * @property array|null $regions
+ * @property ?Carbon $created_at
+ * @property ?Carbon $updated_at
+ */
 final class VolunteerApplications extends Model
 {
     /**

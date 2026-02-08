@@ -22,7 +22,7 @@ final readonly class SearchWordQuery
      * Execute the search query based on request parameters.
      *
      * @param Request $request
-     * @return LengthAwarePaginator
+     * @return LengthAwarePaginator<int, Article>
      */
     public function execute(Request $request): LengthAwarePaginator
     {
@@ -95,6 +95,11 @@ final readonly class SearchWordQuery
 
     /**
      * Search for tokens starting or ending with a specific string.
+     *
+     * @param  Builder<Article> $query
+     * @param  Request          $request
+     * @param  bool             $isStart
+     * @return void
      */
     private function applyBoundarySearch(Builder $query, Request $request, bool $isStart): void
     {

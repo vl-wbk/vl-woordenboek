@@ -224,7 +224,7 @@ final readonly class ArticleForm
     }
 
     /**
-     * @return array<int, Select|Radio>
+     * @return array<int, SimpleAlert|Select|Radio>
      */
     public static function regionInformationComponent(): array
     {
@@ -262,7 +262,7 @@ final readonly class ArticleForm
     }
 
     /**
-     * @return array<int, Repeater>
+     * @return array<int, SimpleAlert|Repeater>
      */
     public static function sourceRepeater(): array
     {
