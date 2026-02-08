@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Services\ViewCounterService;
 use App\States\Articles\ExternalData;
 use App\States\Articles\Suggestion;
 use App\States\Articles\Draft;
@@ -327,6 +328,11 @@ final class Article extends Model implements AuditableContract, Commentable
     protected function publishedAfter(EloquentBuilder $builder, string $date): void
     {
         $builder->where('published_at', '>', now()->parse($date));
+    }
+
+    public function recordView()
+    {
+        app(ViewCounterService::class)->incrementAndSync($this);
     }
 
     /**
