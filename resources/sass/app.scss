@@ -45,7 +45,7 @@
     .bg-primary-soft { background-color: rgba(13, 110, 253, 0.1); }
 
 /// Experimental
-/// Experimental 
+/// Experimental
 
 .text-rss {
     color: #f26522;
@@ -268,7 +268,7 @@ body {
 }
 
 .text-yellow {
-    color: #ffe615;
+    color: oklch(70.7% 0.165 254.624);
 }
 
 .shadow-information-statistic {
@@ -490,7 +490,7 @@ p {
 
 .brand-gradient {
 
-  background: -webkit-linear-gradient(oklch(85.2% 0.199 91.936), oklch(94.5% 0.129 101.54));
+  background: -webkit-linear-gradient(oklch(70.7% 0.165 254.624), oklch(70.7% 0.165 254.624));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
