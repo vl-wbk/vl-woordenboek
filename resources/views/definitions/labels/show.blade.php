@@ -1,202 +1,217 @@
-@extends ('layouts.application-blank', ['title' => 'Label informatie'])
+@extends('layouts.application-blank', ['title' => 'Label informatie'])
 
 @section('jumbotron')
-    <div class="bg-light bg-blend-hard-light rounded-3 shadow-sm">
-        <div class="px-5 py-5">
-            <div class="container-fluid">
-                <h1 class="display-5">Label: <span class="text-warning">{{ $label->name }}</span></h1>
-                <div class="pb-3 @if ($label->description) border-bottom @endif">
-                    <span class="badge shadow-sm bg-info fs-6 me-2">
-                        <x-heroicon-s-book-open class="icon shadow-sm me-1"/>{{ $relatedArticles->total() }} Woorden
-                    </span>
+    <header class="bg-white border-bottom shadow-sm">
+        <div class="container-fluid py-5">
+            <div class="row justify-content-center">
+                <div class="col-10">
+                    <div class="row align-items-end">
+                        {{-- Identity --}}
+                        <div class="col-lg-7">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a href="{{ url('/') }}">
+                                            <x-heroicon-o-home class="icon me-1" />Home
+                                        </a>
+                                    </li>
 
-                    @if ($popularWord)
-                        <a href="{{ route('word-information.show', $popularWord) }}" class="badge bg-danger text-white text-decoration-none text-dark fs-6">
-                            <x-heroicon-s-document-text class="icon me-1"/>Populairste woord: <strong class='ps-1'>{{ $popularWord->word }}</strong>
-                        </a>
-                    @endif
+                                    <li class="breadcrumb-item active" aria-current="page">
+                                        {{ $label->name }}
+                                    </li>
+                                </ol>
+                            </nav>
+
+                            <h1 class="display-3 fw-black color-green mb-3">{{ $label->name }}</h1>
+
+                            @if ($label->description)
+                                <p class="lead text-secondary mb-0">{{ $label->description }}</p>
+                            @else
+                                <p class="text-muted fst-italic mb-0">Geen aanvullende beschrijving beschikbaar.</p>
+                            @endif
+                        </div>
+
+                        {{-- Quick Stats --}}
+                        <div class="col-lg-5 mt-4 mt-lg-0">
+                            <div class="d-flex flex-column flex-md-row justify-content-lg-end gap-3">
+                                <div class="card border-0 bg-light px-4 py-3 rounded-4 shadow-sm flex-fill flex-lg-grow-0">
+                                    <span class="text-muted small text-uppercase fw-bold d-block mb-1">Totaal Woorden</span>
+                                    <div class="d-flex align-items-center">
+                                        <x-heroicon-s-book-open class="icon color-green me-2" style="width: 24px; height: 24px;"/>
+                                        <span class="h4 mb-0 fw-bold">{{ $relatedArticles->total() }}</span>
+                                    </div>
+                                </div>
+                                @if ($popularWord)
+                                    <a href="{{ route('word-information.show', $popularWord) }}" class="card border-0 bg-danger-soft text-decoration-none px-4 py-3 rounded-4 shadow-sm transition-hover flex-fill flex-lg-grow-0">
+                                        <span class="text-danger small text-uppercase fw-bold d-block mb-1">Meest Gezocht</span>
+                                        <div class="d-flex align-items-center">
+                                            <x-heroicon-s-fire class="icon text-danger me-2" style="width: 24px; height: 24px;"/>
+                                            <span class="h4 mb-0 fw-bold text-dark">{{ $popularWord->word }}</span>
+                                        </div>
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-                @if ($label->description)
-                    <p class="fs-5 pt-3">
-                        {{ $label->description }}
-                    </p>
-                @endif
             </div>
         </div>
-    </div>
+    </header>
 @endsection
 
-@section ('content')
+@section('content')
+    <style>
+        .smallest {
+            font-size: 0.75rem;
+        }
+
+        .btn-xs {
+            padding: 0.2rem 0.5rem;
+            font-size: 0.65rem;
+        }
+
+        /* Line clamp for 2 lines */
+        .text-truncate-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Ensure pagination isn't huge */
+        .pagination-sm .page-link {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+        }
+    </style>
     <div class="py-5">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-3">
-                    <section class="mb-5">
-                        <h2 class="mb-4 text-gold">Dit label in cijfers</h2>
+            {{-- Unified Col-10 wrapper for content alignment --}}
+            <div class="row justify-content-center">
+                <div class="col-10">
+                    <div class="row g-4">
 
-                        <ul class="list-group border-O shadow-sm">
-                            <li class="list-group-item">
-                                <x-heroicon-s-eye class="icon color-green me-2"/>
-                                <strong>Weergaves:</strong>
-                                <span class="float-end text-muted">{{ $analytics['views']['statistic'] }}</span>
-                            </li>
+                        {{-- Left Column: Data Sidebar --}}
+                        <aside class="col-12 col-lg-3">
+                            <div class="sticky-top" style="top: 2rem;">
+                                <h2 class="h4 text-gold fw-bold mb-3 d-flex align-items-center">
+                                    <x-heroicon-o-chart-bar class="icon me-2"/>
+                                    Label Statistieken
+                                </h2>
 
-                            <li class="list-group-item">
-                                <x-heroicon-s-link class="icon color-green me-2"/>
-                                <strong>Gekoppelde woorden</strong>
-                                <span class="float-end text-muted">{{ $analytics['word']['statistic'] }}</span>
-                            </li>
-
-                            <li class="list-group-item">
-                                <x-heroicon-s-user-group class="icon color-green me-2"/>
-                                <strong>Unieke auteurs</strong>
-                                <span class="float-end text-muted">{{ $analytics['contributor']['statistic'] }}</span>
-                            </li>
-
-                            <li class="list-group-item">
-                                <x-heroicon-s-chat-bubble-left-ellipsis class="icon color-green me-2"/>
-                                <strong>Aantal meldingen</strong>
-                                <span class="float-end text-muted">{{ $analytics['report']['statistic'] }}</span>
-                            </li>
-                        </ul>
-
-                        <hr>
-
-                        <ul class="list-group border-0 shadow-sm">
-                            <li class="list-group-item">
-                                <strong>Type:</strong>
-
-                                <span class="float-end text-muted">
-                                    @if ($label->type)
-                                        {{ $label->type }}
-                                    @else
-                                        (niet opgegeven)
-                                    @endif
-                                </span>
-                            </li>
-
-                            <li class="list-group-item">
-                                <strong>Aangemaakt op:</strong>
-                                <span class="float-end text-muted">{{ $label->created_at->locale('nl_BE')->isoFormat('DD MMMM YYYY') }}</span>
-                            </li>
-                            <li class="list-group-item">
-                                <strong>Laatste bewerking:</strong>
-                                <span class="float-end text-muted">{{ $label->updated_at->locale('nl_BE')->isoFormat('DD MMMM YYYY') }}</span>
-                            </li>
-                        </ul>
-                    </section>
-                </div>
-
-                <div class="col-9">
-                    <section class="mb-5">
-                        @if ($relatedArticles->total() > 0)
-                            <h2 class="mb-4 text-gold">Gekoppelde woorden</h2>
-
-                            <div class="card border-0 shadow-sm">
-                                <div class="card-header border-bottom-0 information-statistic">
-                                    <form action="#woorden" method="GET" class="row g-2">
-                                        <div class="col-9">
-                                            <input type="text" name="zoekterm" value="{{ request()->get('zoekterm') }}" class="shadow-sm form-control w-100" autocomplete="off" placeholder="Zoek op woord of sleutelwoorden…">
+                                <div class="card border-0 shadow-sm rounded-4 mb-4">
+                                    <div class="card-body p-0">
+                                        <div class="list-group list-group-flush rounded-4">
+                                            @foreach([
+                                                ['icon' => 'heroicon-s-eye', 'label' => 'Totaal Weergaves', 'value' => $analytics['views']['statistic']],
+                                                ['icon' => 'heroicon-s-link', 'label' => 'Gekoppelde Woorden', 'value' => $analytics['word']['statistic']],
+                                                ['icon' => 'heroicon-s-user-group', 'label' => 'Unieke Auteurs', 'value' => $analytics['contributor']['statistic']],
+                                                ['icon' => 'heroicon-s-chat-bubble-left-ellipsis', 'label' => 'Actieve Meldingen', 'value' => $analytics['report']['statistic']]
+                                            ] as $stat)
+                                                <div class="list-group-item px-4 py-3 border-light">
+                                                    <span class="text-muted small text-uppercase fw-semibold d-block mb-1">{{ $stat['label'] }}</span>
+                                                    <div class="d-flex align-items-center">
+                                                        <x-dynamic-component :component="$stat['icon']" class="icon color-green me-2" style="width: 18px;"/>
+                                                        <span class="h5 mb-0 fw-bold text-dark">{{ $stat['value'] }}</span>
+                                                    </div>
+                                                </div>
+                                            @endforeach
                                         </div>
-                                        <div class="col-2">
-                                            <select name="sortering" class="form-select shadow-sm">
-                                                <option value="" @selected(request('sortering') === null)>Sorteren op</option>
-                                                <option value="alfabetisch" @selected(request('sortering') === 'alfabetisch')>Alfabetische volgorde</option>
-                                                <option value="populariteit" @selected(request('sortering') === 'populariteit')>Populariteit</option>
-                                                <option value="recent" @selected(request('sortering') === 'recent')>Meest recent</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-1">
-                                            <button type="submit" class="btn w-100 shadow-sm btn-filter">
-                                                <x-heroicon-o-funnel class="icon me-1"/> Filteren
-                                            </button>
-                                        </div>
-
-                                        @if (request()->filled('zoekterm') || request()->filled('sortering'))
-                                            <div class="col-12">
-                                                @if (request()->filled('zoekterm'))
-                                                    <a href="{{ request()->fullUrlWithoutQuery('zoekterm') }}" class="card-link text-decoration-none py-3 text-danger">
-                                                        <x-heroicon-s-x-circle class="icon me-1"/> Zoekterm verwijderen
-                                                    </a>
-                                                @endif
-
-                                                @if (request()->filled('sortering'))
-                                                    <a href="{{ request()->fullUrlWithoutQuery('sortering') }}" class="card-link text-decoration-none py-3 text-danger">
-                                                        <x-heroicon-s-x-circle class="icon me-1"/> Sortering resetten
-                                                    </a>
-                                                @endif
-
-                                                @if (request()->filled('sortering') && request()->filled('zoekterm'))
-                                                    <a href="{{ url()->current() }}" class="card-link text-decoration-none py-3 text-danger">
-                                                        <x-heroicon-s-x-circle class="icon me-1"/> Beide resetten
-                                                    </a>
-                                                @endif
-                                            </div>
-                                        @endif
-                                    </form>
+                                    </div>
                                 </div>
+                            </div>
+                        </aside>
 
-                                <div id="woorden" class="card-body bg-white">
+                        {{-- Right Column: Word Inventory --}}
+                        <main class="col-12 col-lg-9">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h2 class="h4 text-gold fw-bold mb-0">Woorden Inventaris</h2>
+                            </div>
+
+                            @if ($relatedArticles->isNotEmpty())
+                                <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                                    <div class="card-header bg-white border-0 py-4 px-4">
+                                        <form action="#woorden" method="GET" class="row g-3">
+                                            <div class="col-md-7">
+                                                <div class="input-group input-group-lg shadow-sm border rounded-3 overflow-hidden">
+                                                    <span class="input-group-text bg-white border-0"><x-heroicon-o-magnifying-glass class="text-muted" style="width:20px;"/></span>
+                                                    <input type="text" name="zoekterm" value="{{ request('zoekterm') }}" class="form-control bg-white border-0 ps-0 fs-6" placeholder="Doorzoek dit label...">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <select name="sortering" class="form-select bg-white shadow-sm form-select-lg border rounded-3 fs-6">
+                                                    <option value="" @selected(!request('sortering'))>Sortering...</option>
+                                                    <option value="alfabetisch" @selected(request('sortering') === 'alfabetisch')>Alfabetisch (A-Z)</option>
+                                                    <option value="populariteit" @selected(request('sortering') === 'populariteit')>Meest bekeken</option>
+                                                    <option value="recent" @selected(request('sortering') === 'recent')>Recent toegevoegd</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <button type="submit" class="btn btn-dark btn-lg w-100 fs-6 fw-bold shadow-sm">Filter</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
                                     <div class="table-responsive">
-                                        <table class="table table-hover table-sm mb-0">
-                                            <thead>
-                                            <tr>
-                                                <th class="border-top-0 color-green">Woord</th>
-                                                <th class="border-top-0 color-green">Weergaves</th>
-                                                <th class="border-top-0 color-green" colspan="2">Beschrijving</th>
+                                        <table class="table table-hover align-middle mb-0">
+                                            <thead class="bg-light border-top border-bottom">
+                                            <tr class="">
+                                                <th class="ps-4 text-uppercase bg-light-subtle small fw-bold text-muted border-0">Term</th>
+                                                <th class="text-uppercase small bg-light-subtle  text-muted border-0">Weergaves</th>
+                                                <th colspan="2" class="text-uppercase small bg-light-subtle fw-bold text-muted border-0">Definitie fragment</th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach ($relatedArticles as $relatedArticle)
+                                            @foreach ($relatedArticles as $article)
                                                 <tr>
-                                                    <th scope="row" class="fst-italic border-0">{{  $relatedArticle->word }}</th>
-                                                    <td class="border-0"><x-heroicon-s-eye class="icon color-green me-1"/>{{ toHumanReadableNumber($relatedArticle->views) }}</td>
-                                                    <td class="border-0">{{ strip_tags(str($relatedArticle->description)->markdown()->sanitizeHtml()->words(15)) }}</td>
-
-                                                    <td class="border-0">
-                                                <span class="float-end">
-                                                    <a href="{{ route('word-information.show', $relatedArticle) }}" class="text-decoration-none text-muted">
-                                                        <x-heroicon-o-eye class="icon"/> bekijken
-                                                    </a>
-                                                </span>
+                                                    <td class="ps-4 py-3">
+                                                        <span class="fs-5 fw-bold color-green d-block">{{ $article->word }}</span>
+                                                        <span class="text-muted small">Ref: #{{ $article->id }}</span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            <span class="fw-bold">{{ toHumanReadableNumber($article->views) }}</span>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-muted w-50">
+                                                        <p class="mb-0  lh-sm">
+                                                            {{ strip_tags(str($article->description)->markdown()->sanitizeHtml()->words(25)) }}
+                                                        </p>
+                                                    </td>
+                                                    <td class="pe-4 text-end">
+                                                        <a href="{{ route('word-information.show', $article) }}" class="btn btn-sm btn-light border fw-bold text-uppercase px-2" style="font-size: 0.7rem;">
+                                                            <x-heroicon-o-eye class="icon me-1"/> Bekijken
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             @endforeach
                                             </tbody>
                                         </table>
                                     </div>
-                                </div>
 
-                                <div class="card-footer bg-white">
-                                    <div class="float-start text-dark d-sm-none d-md-block">
-                                        Toont {{ $relatedArticles->firstItem() ?? 0 }} tot {{ $relatedArticles->lastItem() ?? 0 }} van de {{ $relatedArticles->total() }} resultaten
+                                    <div class="card-footer bg-white py-4 px-4 border-top-0">
+                                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+                                            <div class="text-muted small mb-3 mb-md-0">
+                                                Overzicht: <span class="text-dark fw-bold">{{ $relatedArticles->firstItem() }} - {{ $relatedArticles->lastItem() }}</span> van <span class="text-dark fw-bold">{{ $relatedArticles->total() }}</span> termen
+                                            </div>
+                                            <div>{{ $relatedArticles->onEachSide(1)->appends(request()->query())->links() }}</div>
+                                        </div>
                                     </div>
-
-                                    <div class="justify-content-end">
-                                        {{ $relatedArticles->onEachSide(1)->appends(request()->query())->links() }}
+                                </div>
+                            @else
+                                <div class="card border-0 shadow-sm rounded-4 py-5 text-center">
+                                    <div class="card-body">
+                                        <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                                            <x-heroicon-o-magnifying-glass-circle class="text-muted" style="width: 40px;"/>
+                                        </div>
+                                        <h4 class="fw-bold">Geen resultaten</h4>
+                                        <p class="text-muted mx-auto mb-4" style="max-width: 350px;">We konden geen woorden vinden die voldoen aan de criteria voor dit label.</p>
+                                        <a href="{{ url()->current() }}" class="btn btn-outline-dark px-4 fw-bold shadow-sm">Filters wissen</a>
                                     </div>
                                 </div>
-                            </div>
-                        @else
-                            <div class="card bg-sidenav border-0 shadow-sm text-center">
-                                <div class="card-body p-4">
-                                    <x-heroicon-o-book-open class="icon color-green icon-blankslate pb-3"/>
-                                    <h5 class="card-title fw-bold">Geen gekoppelde woorden gevonden</h5>
-
-                                    <p class="card-text text-muted">
-                                        Momenteel zijn er geen woorden gekoppeld of gevonden die matchen in het label. Kom later nog eens terug.
-                                    </p>
-
-                                    @if (request()->filled('zoekterm'))
-                                        <a href="{{ url()->current() }}" class="btn-submit btn-sm mt-3 btn shadow-sm">
-                                            <x-heroicon-o-x-circle class="icon me-1"/> Filter ongedaan maken
-                                        </a>
-                                    @endif
-                                </div>
-                            </div>
-                        @endif
-                    </section>
+                            @endif
+                        </main>
+                    </div>
                 </div>
             </div>
         </div>
