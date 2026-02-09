@@ -14,8 +14,54 @@ use Stringable;
 
 final readonly class LabelController
 {
+    #[Get(uri: '/labels', name: 'label:index')]
+    public function index(Request $request): Renderable
+    {
+        $labels = Label::query()
+            // We tellen het aantal gekoppelde woorden voor de badge-count
+            ->withCount('articles')
+
+            // Filter op zoekterm (naam of beschrijving)
+            ->when($request->zoekterm, function ($query, $zoekterm) {
+                $query->where(function ($q) use ($zoekterm) {
+                    $q->where('name', 'like', "%{$zoekterm}%")
+                        ->orWhere('description', 'like', "%{$zoekterm}%");
+                });
+            })
+
+            // Sortering logica
+            ->when($request->sortering, function ($query, $sortering) {
+                switch ($sortering) {
+                    case 'woorden':
+                        // Sorteer op het aantal gekoppelde items (meeste eerst)
+                        $query->orderBy('articles_count', 'desc');
+                        break;
+                    case 'recent':
+                        // Sorteer op de laatste update
+                        $query->orderBy('updated_at', 'desc');
+                        break;
+                    case 'naam':
+                    default:
+                        // Standaard alfabetisch
+                        $query->orderBy('name', 'asc');
+                        break;
+                }
+            }, function ($query) {
+                // Default sortering als er geen request is
+                $query->orderBy('name', 'asc');
+            })
+
+            // Pagineren met behoud van de query parameters in de links
+            ->paginate(12)
+            ->withQueryString();
+
+        return view('definitions.labels.index', data: [
+            'labels' => $labels
+        ]);
+    }
+
     #[Get(uri: 'label/{label}', name: 'label:show')]
-    public function __invoke(Request $request, Label $label, LabelAnalytics $labelAnalytics): Renderable
+    public function show(Request $request, Label $label, LabelAnalytics $labelAnalytics): Renderable
     {
         return view('definitions.labels.show', data: [
             'label' => $label,

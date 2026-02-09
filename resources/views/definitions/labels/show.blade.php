@@ -16,6 +16,12 @@
                                         </a>
                                     </li>
 
+                                    <li class="breadcrumb-item">
+                                        <a href="{{ route('label:index') }}">
+                                            Labels
+                                        </a>
+                                    </li>
+
                                     <li class="breadcrumb-item active" aria-current="page">
                                         {{ $label->name }}
                                     </li>
