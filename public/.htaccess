@@ -1,18 +1,39 @@
+/**
+ * .htaccess
+ *
+ * Server configuration for request routing and security filtering.
+ * Consolidates User-Agent blocking with Laravel-style front controller routing.
+ */
+
+Options +FollowSymLinks
+<IfModule mod_negotiation.c>
+    Options -MultiViews -Indexes
+</IfModule>
+
 <IfModule mod_rewrite.c>
-    <IfModule mod_negotiation.c>
-        Options -MultiViews -Indexes
-    </IfModule>
-
     RewriteEngine On
+    RewriteBase /
 
-    # Handle Authorization Header
+    # -------------------------------------------------------------------------
+    # Security: Block Specific User Agents
+    # -------------------------------------------------------------------------
+    RewriteCond %{HTTP_USER_AGENT} Mb2345Browser|LieBaoFast|zh-CN|MicroMessenger|zh_CN|Kinza|Datanyze|serpstatbot|spaziodati|OPPO\sA33|AspiegelBot|aspiegel|PetalBot [NC]
+    RewriteRule ^ - [F,L]
+
+    # -------------------------------------------------------------------------
+    # Headers: Handle Authorization and XSRF
+    # -------------------------------------------------------------------------
+    # Pass Authorization Header to $_SERVER
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
-    # Handle X-XSRF-Token Header
+    # Pass X-XSRF-Token Header to $_SERVER
     RewriteCond %{HTTP:x-xsrf-token} .
     RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
 
+    # -------------------------------------------------------------------------
+    # Routing: Clean URLs and Front Controller
+    # -------------------------------------------------------------------------
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
