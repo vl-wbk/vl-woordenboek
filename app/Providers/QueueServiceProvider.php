@@ -37,7 +37,7 @@ final class QueueServiceProvider extends ServiceProvider
          * 2) * * * * cd /path-to-your-project & php artisan schedule:run >> /dev/null 2>&1
          */
         $this->callAfterResolving(Schedule::class, function (Schedule $schedule): void {
-            $schedule->command('queue:work --stop-when-empty')->everyMinute()->withoutOverlapping(10);
+            $schedule->command('queue:work --queue=default,metrics --stop-when-empty')->everyMinute()->withoutOverlapping(10);
             $schedule->command('queue:restart')->hourly();
             $schedule->command('queue:db-monitor')->everyTenMinutes();
         });
