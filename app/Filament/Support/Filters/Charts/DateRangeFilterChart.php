@@ -29,10 +29,10 @@ trait DateRangeFilterChart
      *
      * @return Carbon The start date for the chart query.
      */
-    private function getFilterStartDate(): Carbon
+    private function getFilterStartDate(): ?Carbon
     {
         // Assumes $this->filters is available in the consuming class.
-        return now()->parse($this->filters['startDate']);
+        return now()->parse($this->filters['startDate'] ?? null);
     }
 
     /**
@@ -43,7 +43,7 @@ trait DateRangeFilterChart
     private function getFilterEndDate(): Carbon
     {
         // Assumes $this->filters is available in the consuming class.
-        return now()->parse($this->filters['endDate']);
+        return now()->parse($this->filters['endDate'] ?? null);
     }
 
     /**
@@ -62,10 +62,10 @@ trait DateRangeFilterChart
 
         return Cache::remember($cacheKey, $ttl, function () use ($model, $dateColumn): Collection {
             return Trend::model($model)
-                ->between(start: $this->getFilterStartDate(), end: $this->getFilterEndDate())
-                ->{$this->filters['grouping']}() // Dynamically calls perDay(), perMonth(), etc.
-                ->dateColumn($dateColumn)
-                ->count();
+                        ->between(start: $this->getFilterStartDate(), end: $this->getFilterEndDate())
+                ->{$this->filters['grouping'] ?? 'perWeek'}() // Dynamically calls perDay(), perMonth(), etc.
+                    ->dateColumn($dateColumn)
+                    ->count();
         });
     }
 
@@ -79,14 +79,14 @@ trait DateRangeFilterChart
             'dateColumn' => $dateColumn,
             'startDate' => $this->getFilterStartDate()->toDateString(),
             'endDate' => $this->getFilterEndDate()->toDateString(),
-            'grouping' => $this->filters['grouping'],
+            'grouping' => $this->filters['grouping'] ?? 'perWeek',
             // Add a version or purpose prefix to avoid conflicts
             'chart_data_v1',
         ];
 
         // Use a unique hash (like SHA1) of the serialized parameters for the key
         // @phpstan-ignore-next-line
-        return 'chart_data_' . sha1(json_encode($uniqueParameters));
+        return 'chart_data_'.sha1(json_encode($uniqueParameters));
     }
 
     /**
@@ -106,7 +106,7 @@ trait DateRangeFilterChart
             'backgroundColor' => $color,
             'borderColor' => $color,
             'label' => $label,
-            'data' => $data->map(fn(TrendValue $value): mixed => $value->aggregate),
+            'data' => $data->map(fn (TrendValue $value): mixed => $value->aggregate),
         ];
     }
 
