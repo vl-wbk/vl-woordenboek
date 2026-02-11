@@ -16,6 +16,7 @@
     "If you're having trouble clicking the \":actionText\" button, copy and paste the URL below\ninto your web browser:": "Sollten Sie Schwierigkeiten haben, die Schaltfläche \":actionText\" zu klicken, kopieren Sie den nachfolgenden Link\n in Ihre Adresszeile des Browsers.",
     "Invalid filename.": "Ungültiger Dateiname.",
     "Invalid JSON was returned from the route.": "Von der Route wurde ein ungültiger JSON-Code zurückgegeben.",
+    "length": "Länge",
     "Location": "Standort",
     "Login": "Anmelden",
     "Logout": "Abmelden",

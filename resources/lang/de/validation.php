@@ -42,6 +42,7 @@ return [
     'doesnt_end_with'        => ':Attribute darf nicht mit einem der folgenden enden: :values.',
     'doesnt_start_with'      => ':Attribute darf nicht mit einem der folgenden beginnen: :values.',
     'email'                  => ':Attribute muss eine gültige E-Mail-Adresse sein.',
+    'encoding'               => ':Attribute muss als :encoding kodiert sein.',
     'ends_with'              => ':Attribute muss eine der folgenden Endungen aufweisen: :values',
     'enum'                   => 'Der ausgewählte Wert ist ungültig.',
     'exists'                 => 'Der gewählte Wert für :attribute ist ungültig.',
