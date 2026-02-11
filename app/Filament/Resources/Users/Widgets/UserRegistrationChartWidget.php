@@ -24,8 +24,7 @@ use Flowframe\Trend\TrendValue;
  */
 final class UserRegistrationChartWidget extends ChartWidget
 {
-    use DateRangeFilterChart;
-    use HasFiltersSchema;
+
 
     /**
      * Controls whether the widget can be collapsed by the user.
@@ -118,7 +117,7 @@ final class UserRegistrationChartWidget extends ChartWidget
     public function getDescription(): string
     {
         return trans(key: 'In de periode tussen :start en :end', replace: [
-            'start' => $this->getFilterStartDate()->translatedFormat('l d F Y'),
+            'start' => now()->translatedFormat('l d F Y'),
             'end' => $this->getFilterEndDate()->translatedFormat('l d F Y'),
         ]);
     }

@@ -15,9 +15,9 @@ final class ContentImpactChart extends ChartWidget
 
     protected ?string $description = 'Visualisatie van de samenhang tussen contentproductie en maandelijkse weergaven over het afgelopen jaar.';
 
-    protected ?string $maxHeight = '250px';
+    protected ?string $maxHeight = '150px';
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     protected static ?int $sort = 2;
 

@@ -8,6 +8,7 @@ use App\Filament\Support\Filters\Charts\DateRangeFilterChart;
 use App\Models\Article;
 use Filament\Actions\Action;
 use Filament\Schemas\Schema;
+use Filament\Support\Colors\Color;
 use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\ChartWidget;
 use Filament\Widgets\ChartWidget\Concerns\HasFiltersSchema;
@@ -25,24 +26,22 @@ use Illuminate\Support\Collection;
  */
 final class ArticleRegistrationChart extends ChartWidget
 {
-    use HasFiltersSchema;
-    use DateRangeFilterChart;
-
     /**
      * @var string|null Disables automatic polling for chart updates.
      */
     protected ?string $pollingInterval = null;
+
+    protected bool $isCollapsible = true;
+
+    protected ?string $heading = 'Artikelen trend';
+
+    protected ?string $description = "Trendanalyse van het artikelvolume per week. Deze lijngrafiek toont de groei en stabiliteit van de artikelen per gemeten tijdsinterval.";
 
     /**
      * The maximum height of the chart.
      * This CSS value ensures that the chart does not exceed a defined vertical space, helping to maintain a uniform layout in the admin panel.
      */
     protected ?string $maxHeight = '150px';
-
-    /**
-     * @var bool Controls whether the widget can be collapsed by the user.
-     */
-    protected bool $isCollapsible = true;
 
     /**
      * Determines how many columns the widget should span in the layout.
@@ -71,111 +70,83 @@ final class ArticleRegistrationChart extends ChartWidget
         ],
     ];
 
-    /**
-     * Defines the filter form schema for the widget.
-     * It includes the date range and grouping selectors by the trait.
-     *
-     * @param  Schema $schema  The base schema object
-     * @return Schema          The configured schema containing the date and grouping filters.
-     */
-    public function filtersSchema(Schema $schema): Schema
+    protected function fetchChartData(): array
     {
-        return $schema
-            ->columns(12)
-            ->dense()
-            ->components(components: $this->dateRangeFilterSchema());
-    }
-
-    /**
-     * Generates the data for the chart.
-     * This method fetches the chart information using the `fetchChartInformation()` method and formats it into an array suitable for the chart.js library.
-     *
-     * @return array<mixed>
-     */
-    protected function getData(): array
-    {
-        $registrationData = $this->dateRangeFilterQuery(Article::class, 'created_at');
-        $publishingData = $this->dateRangeFilterQuery(Article::class, 'published_at');
-        $archivedData = $this->dateRangeFilterQuery(Article::class, 'archived_at');
+        // Base trend query helper
+        $getTrend = fn ($column = 'created_at') => Trend::model(Article::class)
+            ->between(start: now()->subYear(), end: now())
+            ->perMonth() // Or switch to perDay() if the filter is 'today' or 'week'
+            ->dateColumn($column)
+            ->count();
 
         return [
-            'datasets' => [
-                $this->getTrendData($registrationData, '	#5983D9', 'Nieuwe artikelen (suggesties)'),
-                $this->getTrendData($publishingData, '#9BB9F5', 'Artikelen gepubliceerd'),
-                $this->getTrendData($archivedData, '#3D6EB9', 'Artikelen gearchiveerd'),
-            ],
-            'labels' => $registrationData->map(fn(TrendValue $value): string => $value->date),
+            'published' => $getTrend('published_at'),
+            'deleted' => $getTrend('deleted_at'), // Ensure your model uses SoftDeletes
+            'created' => $getTrend('created_at'),
+            'archived' => $getTrend('archived_at'),
         ];
     }
 
     /**
-     * Provides a descriptive subtitle for the widget.
-     * The description indicates the specific period and grouping method being displayed in the chart.
+     * Provides the chart data with specific colors for lines and points.
      *
-     * @return string The formatted description text (in Dutch).
+     * @return array
      */
-    public function getDescription(): string
+    protected function getData(): array
     {
-        return trans(key: 'In de periode tussen :start en :end, gegroepeerd op weekbasis', replace: [
-            'start' => $this->getFilterStartDate()->translatedFormat('l d F Y'),
-            'end' => $this->getFilterEndDate()->translatedFormat('l d F Y'),
-        ]);
+        $data = $this->fetchChartData();
+
+        return [
+            'datasets' => [
+                [
+                    'label' => 'Gepubliceerde artikelen',
+                    'data' => $data['published']->map(fn (TrendValue $value) => $value->aggregate),
+                    'backgroundColor' => Color::Green[600],
+                    'borderColor' => Color::Green[600],
+                    'pointBackgroundColor' => Color::Green[600],
+                    'pointBorderColor' => Color::Green[600],
+                    'spanGaps' => true,
+                ],
+                [
+                    'label' => 'Verwijderde artikelen',
+                    'data' => $data['deleted']->map(fn (TrendValue $value) => $value->aggregate),
+                    'backgroundColor' => Color::Red[600],
+                    'borderColor' => Color::Red[600],
+                    'pointBackgroundColor' => Color::Red[600],
+                    'pointBorderColor' => Color::Red[600],
+                    'spanGaps' => true,
+                ],
+                [
+                    'label' => 'Nieuwe artikelen',
+                    'data' => $data['created']->map(fn (TrendValue $value) => $value->aggregate),
+                    'backgroundColor' => Color::Cyan[400],
+                    'borderColor' => Color::Cyan[400],
+                    'pointBackgroundColor' => Color::Cyan[400],
+                    'pointBorderColor' => Color::Cyan[400],
+                    'spanGaps' => true,
+                ],
+                [
+                    'label' => 'Gearchiveerde artikelen',
+                    'data' => $data['archived']->map(fn (TrendValue $value) => $value->aggregate),
+                    'backgroundColor' => Color::Orange[200],
+                    'borderColor' => Color::Orange[200],
+                    'pointBackgroundColor' => Color::Orange[400], // Darker orange for the dot to help visibility
+                    'pointBorderColor' => Color::Orange[400],
+                    'spanGaps' => true,
+                ],
+            ],
+            'labels' => $data['published']->map(fn (TrendValue $value) => $value->date),
+        ];
     }
 
-    /**
-     * Returns the type of chart to display.
-     *
-     * This method returns a string representing the type of chart to display.
-     * In this case, it returns 'bar' for a bar chart.
-     *
-     * @return string The type of chart to display.
-     */
     protected function getType(): string
     {
-        return 'bar';
+        return 'line';
     }
 
-    /**
-     * Returns the heading for the chart.
-     *
-     * This method returns a string representing the heading for the chart.
-     * The heading displays the total number of articles in the database, formatted with a thousands separator.
-     *
-     * @return string The heading for the chart.
-     */
-    public function getHeading(): string
-    {
-        return 'Artikelen trend';
-    }
-
-    /**
-     * Defines the action that triggers the filter modal.
-     * The action label dynamically displays the currently selected date range.
-     *
-     * @return Action The configured filter trigger action.
-     */
-    public function getFiltersTriggerAction(): Action
-    {
-        $label = __(':startDate - :endDate', [
-            'startDate' => $this->getFilterStartDate()->format('d M Y'),
-            'endDate' => $this->getFilterEndDate()->format('d M Y'),
-        ]);
-
-        return Action::make('filter')
-            ->label($label)
-            ->icon(Heroicon::CalendarDateRange)
-            ->color('gray')
-            ->livewireClickHandlerEnabled(false);
-    }
-
-    /**
-     * Determines whether the current authenticated user is authorized to view this widget.
-     * Authorization is based on a specific user preference check.
-     *
-     * @return bool True if the user is authorized to view the widget, false otherwise.
-     */
     public static function canView(): bool
     {
+        // Check if the user has a specific preference set to control the chart visibility
         return auth()->user()->getPreference('uitgeschakelde grafieken');
     }
 }

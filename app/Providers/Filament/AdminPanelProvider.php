@@ -92,11 +92,11 @@ final class AdminPanelProvider extends PanelProvider
             ->userMenuItems([
                 MenuItem::make()
                     ->label('Verlaat beheersconsole')
-                    ->url(fn(): string => route('home'))
+                    ->url(fn (): string => route('home'))
                     ->icon('heroicon-o-arrow-left-start-on-rectangle'),
                 MenuItem::make()
                     ->label('Account instellingen')
-                    ->url(fn(): string => route('profile.settings'))
+                    ->url(fn (): string => route('profile.settings'))
                     ->icon('heroicon-o-adjustments-horizontal'),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
