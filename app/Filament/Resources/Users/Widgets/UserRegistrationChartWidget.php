@@ -8,6 +8,7 @@ use App\Filament\Support\Filters\Charts\DateRangeFilterChart;
 use App\Models\User;
 use Filament\Actions\Action;
 use Filament\Schemas\Schema;
+use Filament\Support\Colors\Color;
 use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\ChartWidget;
 use Filament\Widgets\ChartWidget\Concerns\HasFiltersSchema;
@@ -24,7 +25,6 @@ use Flowframe\Trend\TrendValue;
  */
 final class UserRegistrationChartWidget extends ChartWidget
 {
-
 
     /**
      * Controls whether the widget can be collapsed by the user.
@@ -117,8 +117,8 @@ final class UserRegistrationChartWidget extends ChartWidget
     public function getDescription(): string
     {
         return trans(key: 'In de periode tussen :start en :end', replace: [
-            'start' => now()->translatedFormat('l d F Y'),
-            'end' => $this->getFilterEndDate()->translatedFormat('l d F Y'),
+            'start' => now()->subYear()->translatedFormat('l d F Y'),
+            'end' => now()->translatedFormat('l d F Y'),
         ]);
     }
 
@@ -146,17 +146,56 @@ final class UserRegistrationChartWidget extends ChartWidget
      */
     protected function getData(): array
     {
-        $emailVerificationData = $this->dateRangeFilterQuery(User::class, 'email_verified_at');
-        $registrationData = $this->dateRangeFilterQuery(User::class, 'created_at');
-        $twoFactorAuthData = $this->dateRangeFilterQuery(User::class, 'two_factor_confirmed_at');
+        $registrations = Trend::model(User::class)
+            ->between(start: now()->subYear(), end: now())
+            ->perMonth()
+            ->dateColumn('created_at')
+            ->count();
+
+        $emailVerifications = Trend::model(User::class)
+            ->between(start: now()->subYear(), end: now())
+            ->perMonth()
+            ->dateColumn('email_verified_at')
+            ->count();
+
+        $twoFactorVerifications = Trend::model(User::class)
+            ->between(start: now()->subYear(), end: now())
+            ->perMonth()
+            ->dateColumn('two_factor_confirmed_at')
+            ->count();
+
 
         return [
             'datasets' => [
-                $this->getTrendData($registrationData, '#22c55e', 'Nieuwe registraties'),
-                $this->getTrendData($emailVerificationData, '#dc2626', 'Email verificaties'),
-                $this->getTrendData($twoFactorAuthData, '#eab308', '2FA verificaties')
+                [
+                    'label' => 'Nieuwe registraties',
+                    'data' => $registrations->map(fn (TrendValue $value) => $value->aggregate),
+                    'backgroundColor' => Color::Green[600],
+                    'borderColor' => Color::Green[600],
+                    'pointBackgroundColor' => Color::Green[600],
+                    'pointBorderColor' => Color::Green[600],
+                    'spanGaps' => true,
+                ],
+                [
+                    'label' => 'Email verificaties',
+                    'data' => $emailVerifications->map(fn (TrendValue $value) => $value->aggregate),
+                    'backgroundColor' => Color::Red[600],
+                    'borderColor' => Color::Red[600],
+                    'pointBackgroundColor' => Color::Red[600],
+                    'pointBorderColor' => Color::Red[600],
+                    'spanGaps' => true,
+                ],
+                [
+                    'label' => '2FA verificaties',
+                    'data' => $twoFactorVerifications->map(fn (TrendValue $value) => $value->aggregate),
+                    'backgroundColor' => Color::Orange[200],
+                    'borderColor' => Color::Orange[200],
+                    'pointBackgroundColor' => Color::Orange[400], // Darker orange for the dot to help visibility
+                    'pointBorderColor' => Color::Orange[400],
+                    'spanGaps' => true,
+                ],
             ],
-            'labels' => $registrationData->map(fn (TrendValue $value): string => $value->date),
+            'labels' => $registrations->map(fn (TrendValue $value) => $value->date),
         ];
     }
 
@@ -168,7 +207,7 @@ final class UserRegistrationChartWidget extends ChartWidget
      */
     protected function getType(): string
     {
-        return 'bar';
+        return 'line';
     }
 
     /**
