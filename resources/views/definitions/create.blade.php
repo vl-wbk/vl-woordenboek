@@ -236,7 +236,7 @@
                             </p>
                             <p class="text-secondary lh-base">
                                 Onze voorkeur gaat uit naar citaten uit (online) bronnen, zoals blogs, kranten, tijdschriftartikels of sociale media.
-                                <span class="text-dark fw-bold italic">Alleen als het echt niet anders kan</span> (bijv. bij zeldzame dialecten), kunt u een zelfverzonnen zin opgeven.
+                                <span class="text-dark fw-bold italic">Alleen als het echt niet anders kan</span> (bijv. bij zeldzame dialecten), kun je een zelfverzonnen zin opgeven.
                                 Houd er rekening mee dat citaten uit bestaande bronnen de betrouwbaarheid van het woordenboek versterken.
                             </p>
                         </div>
