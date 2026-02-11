@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Redis;
 
 final readonly class ViewCounterService
 {
-    public function incrementAndSync($model, int $delayInSeconds = 60)
+    public function incrementAndSync($model, int $delayInSeconds = 40)
     {
         $modelName = strtolower(class_basename($model));
         $cacheKey = "{$modelName}:views:{$model->id}";
@@ -21,7 +21,8 @@ final readonly class ViewCounterService
             Redis::setex($lockKey, $delayInSeconds, true);
 
             SyncViewCount::dispatch(get_class($model), $model->id, $cacheKey, $lockKey)
-                ->delay(now()->addSeconds($delayInSeconds));
+                ->delay(now()->addSeconds($delayInSeconds))
+                ->onQueue('metrics');
         }
     }
 }

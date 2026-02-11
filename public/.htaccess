@@ -1,3 +1,10 @@
+Options +FollowSymLinks
+
+RewriteEngine On
+RewriteBase /
+RewriteCond %{HTTP_USER_AGENT} Mb2345Browser|LieBaoFast|zh-CN|MicroMessenger|zh_CN|Kinza|Datanyze|serpstatbot|spaziodati|OPPO\sA33|AspiegelBot|aspiegel|PetalBot [NC]
+RewriteRule ^ - [F,L]
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
