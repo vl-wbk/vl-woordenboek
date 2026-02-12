@@ -19,6 +19,7 @@
     // Spatie uses the 'filter' key for all filters
     // We pass the new filters array to fullUrlWithQuery
     $query = ['filter' => $nextFilters];
+    $query['page'] = null;
 @endphp
 
 <div class="form-check form-switch">

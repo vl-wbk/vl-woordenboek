@@ -165,11 +165,19 @@
                                         @foreach ($results as $result)
                                             <tr>
                                                 <th scope="row" class="color-green ps-2">#{{ $result->id }}</th>
+
                                                 <td>
-                                                    <span class="badge badge-{{ $result->state->getColor() }}">
-                                                        {{ $result->state->getLabel() }}
-                                                    </span>
+                                                    @if (optional($result->published_at)->isAfter(now()))
+                                                        <span class="badge badge-{{ $result->state->getColor() }}">
+                                                            Geplande publicatie
+                                                        </span>
+                                                    @else
+                                                        <span class="badge badge-{{ $result->state->getColor() }}">
+                                                            {{ $result->state->getLabel() }}
+                                                        </span>
+                                                    @endif
                                                 </td>
+
                                                 <td>
                                                     @if ($result->editor()->exists())
                                                         {{ $result->editor->name }}
@@ -179,7 +187,9 @@
                                                 </td>
 
                                                 <td class="text-break">{{ $result->word }}</td>
+
                                                 <td>{{ $result->updated_at->diffForHumans() }}</td>
+
                                                 <td>
                                                     @if ($result->updated_at->eq($result->created_at))
                                                         <span class="color-green">-</span>
