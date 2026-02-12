@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "97d0051b8163244c74b67cc44d439062",
+    "content-hash": "78c83f0f727480a3fdc5887056cae65b",
     "packages": [
         {
             "name": "aaronfrancis/fast-paginate",
@@ -1767,6 +1767,53 @@
                 "source": "https://github.com/dflydev/dflydev-dot-access-data/tree/v3.0.3"
             },
             "time": "2024-07-08T12:26:09+00:00"
+        },
+        {
+            "name": "discoverydesign/filament-gaze",
+            "version": "2.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/discoverydesign/filament-gaze.git",
+                "reference": "907dee75e2e42da99273a2a0f1cc491058424701"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/discoverydesign/filament-gaze/zipball/907dee75e2e42da99273a2a0f1cc491058424701",
+                "reference": "907dee75e2e42da99273a2a0f1cc491058424701",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^4.0|^5.0",
+                "spatie/laravel-package-tools": "^1.15.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "DiscoveryDesign\\FilamentGaze\\FilamentGazeServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "DiscoveryDesign\\FilamentGaze\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Discovery Design"
+                }
+            ],
+            "description": "See who's viewing a resource in Filament PHP.",
+            "support": {
+                "issues": "https://github.com/discoverydesign/filament-gaze/issues",
+                "source": "https://github.com/discoverydesign/filament-gaze/tree/2.1.2"
+            },
+            "time": "2026-02-04T14:50:10+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -3773,74 +3820,6 @@
                 "source": "https://github.com/Jean85/pretty-package-versions/tree/2.1.1"
             },
             "time": "2025-03-19T14:43:43+00:00"
-        },
-        {
-            "name": "kenepa/resource-lock",
-            "version": "4.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/kenepa/resource-lock.git",
-                "reference": "0ee142c93c105f171923ccef3ac5a7bcdaa908f1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/kenepa/resource-lock/zipball/0ee142c93c105f171923ccef3ac5a7bcdaa908f1",
-                "reference": "0ee142c93c105f171923ccef3ac5a7bcdaa908f1",
-                "shasum": ""
-            },
-            "require": {
-                "filament/filament": "^4.0",
-                "illuminate/contracts": "^9.0|^10.0|^11.0|^12.0",
-                "php": "^8.2",
-                "spatie/laravel-package-tools": "^1.15.0"
-            },
-            "require-dev": {
-                "laravel/pint": "^1.0",
-                "nunomaduro/collision": "^7.0|^8.1",
-                "nunomaduro/larastan": "^2.0.1",
-                "orchestra/testbench": "^7.0|^8.0|^9.0|^10.0",
-                "pestphp/pest": "^2.0|^3.7",
-                "pestphp/pest-plugin-laravel": "^2.0|^3.1",
-                "pestphp/pest-plugin-livewire": "^2.0|^3.0",
-                "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan-deprecation-rules": "^1.0|^2.0",
-                "phpstan/phpstan-phpunit": "^1.0|^2.0",
-                "spatie/laravel-ray": "^1.26",
-                "tightenco/duster": "^1.1|^3.1"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "aliases": {
-                        "ResourceLock": "Kenepa\\ResourceLock\\Facades\\ResourceLock"
-                    },
-                    "providers": [
-                        "Kenepa\\ResourceLock\\ResourceLockServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Kenepa\\ResourceLock\\": "src",
-                    "Kenepa\\ResourceLock\\Database\\Factories\\": "database/factories"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Filament Resource Lock is a Filament plugin that adds resource locking functionality to your site.",
-            "homepage": "https://github.com/kenepa/resource-lock",
-            "keywords": [
-                "Kenepa",
-                "laravel",
-                "resource-lock"
-            ],
-            "support": {
-                "issues": "https://github.com/kenepa/resource-lock/issues",
-                "source": "https://github.com/kenepa/resource-lock/tree/4.0.0"
-            },
-            "time": "2025-08-14T13:53:58+00:00"
         },
         {
             "name": "kirschbaum-development/commentions",

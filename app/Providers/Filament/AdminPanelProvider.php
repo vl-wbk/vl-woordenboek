@@ -14,6 +14,7 @@ use CharrafiMed\GlobalSearchModal\GlobalSearchModalPlugin;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Cog\Laravel\Ban\Http\Middleware\ForbidBannedUser;
 use Devonab\FilamentEasyFooter\EasyFooterPlugin;
+use DiscoveryDesign\FilamentGaze\FilamentGazePlugin;
 use DutchCodingCompany\FilamentDeveloperLogins\FilamentDeveloperLoginsPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -31,7 +32,6 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Config;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use JaysonTemporas\PageBookmarks\PageBookmarksPlugin;
-use Kenepa\ResourceLock\ResourceLockPlugin;
 use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
 use Statikbe\FilamentTranslationManager\FilamentChainedTranslationManagerPlugin;
 
@@ -139,8 +139,6 @@ final class AdminPanelProvider extends PanelProvider
                     ->globallySearchable(false)
                     ->navigationGroup('Toegangsbeheer')
                     ->navigationLabel('Rollen & permissies'),
-                ResourceLockPlugin::make()
-                    ->limitedAccessToResourceLockManager(),
                 GlobalSearchModalPlugin::make()
                     ->searchItemTree(false)
                     ->expandedUrlTarget(enabled: false)
@@ -149,6 +147,7 @@ final class AdminPanelProvider extends PanelProvider
                         'font-weight' => 'bold',
                     ]),
                 PageBookmarksPlugin::make(),
+                FilamentGazePlugin::make(),
                 FilamentChainedTranslationManagerPlugin::make(),
                 EasyFooterPlugin::make()
                     ->withGithub()

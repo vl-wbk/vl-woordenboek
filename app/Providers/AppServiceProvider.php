@@ -74,7 +74,7 @@ final class AppServiceProvider extends ServiceProvider
             : Response::denyAsNotFound());
 
         Gate::define('release-resource-lock', function (User $user): bool {
-           return $user->can('ontgrendel_resources');
+            return $user->can('ontgrendel-resources');
         });
     }
 }

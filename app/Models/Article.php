@@ -42,7 +42,6 @@ use Overtrue\LaravelLike\Traits\Likeable;
 use Overtrue\LaravelVote\Traits\Votable;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
-use Kenepa\ResourceLock\Models\Concerns\HasLocks;
 use Override;
 
 /**
@@ -91,7 +90,6 @@ final class Article extends Model implements AuditableContract, Commentable
     use BelongsToAuthor;
     use Auditable;
     use Likeable;
-    use HasLocks;
     use SoftDeletes;
     use HasNotables;
     use HasComments;

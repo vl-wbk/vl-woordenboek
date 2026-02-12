@@ -17,6 +17,7 @@ use App\Services\ModerationService;
 use App\UserTypes;
 use CodeWithDennis\SimpleAlert\Components\Enums\IconAnimation;
 use CodeWithDennis\SimpleAlert\Components\SimpleAlert;
+use DiscoveryDesign\FilamentGaze\Forms\Components\GazeBanner;
 use Filament\Actions\Action;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Placeholder;
@@ -47,6 +48,12 @@ final readonly class ArticleForm
     public static function configure(Schema $schema): Schema
     {
         return $schema->components([
+            GazeBanner::make('lock-banner')
+                ->lock()
+                ->columnSpanFull()
+                ->canTakeControl(fn (): bool => auth()->user()->can('release-resource-lock'))
+                ->hideOnCreate(),
+
             SimpleAlert::make('dd')
                 ->icon(Heroicon::OutlinedExclamationTriangle, IconAnimation::Pulse)
                 ->title(fn (Article $article): string => $article->disclaimer->internal_title ?? $article->disclaimer->name)

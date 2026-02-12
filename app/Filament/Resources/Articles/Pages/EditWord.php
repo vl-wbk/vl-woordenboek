@@ -5,32 +5,17 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Articles\Pages;
 
 use App\Models\User;
-use App\Services\ModerationService;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\RestoreAction;
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Wizard;
-use Filament\Schemas\Components\Wizard\Step;
 use App\Models\Article;
 use App\Enums\ArticleStates;
 use App\Filament\Resources\Articles\ArticleResource;
-use App\Filament\Resources\Articles\Actions\RemoveEditorAction;
 use App\Filament\Resources\Articles\Actions\SoftDeleteArticleAction;
 use App\Filament\Resources\Articles\Actions\States\PublishArticleAction;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
-use Filament\Resources\Pages\EditRecord\Concerns\HasWizard;
 use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
-use Illuminate\Contracts\Support\Htmlable;
-use Kenepa\ResourceLock\Resources\Pages\Concerns\UsesResourceLock;
-use App\Filament\Resources\Articles\Schema\FormSchema;
 use App\Filament\Resources\Articles\Actions\RestoreArticleAction;
-use Filament\Actions\Action;
 use Filament\Actions\ForceDeleteAction;
-use Filament\Notifications\Notification;
-use Filament\Schemas\Components\Section;
-use Illuminate\Container\Attributes\Auth;
 use Kirschbaum\Commentions\Filament\Actions\CommentsAction;
 
 /**
@@ -46,8 +31,6 @@ use Kirschbaum\Commentions\Filament\Actions\CommentsAction;
  */
 final class EditWord extends EditRecord
 {
-    use UsesResourceLock;
-
     /**
      * The resource class this page component belongs to, establishing the connection between this editing interface and the ArticleResource management system.
      * This relationship enables proper routing and resource handling throughout the application.
@@ -114,13 +97,13 @@ final class EditWord extends EditRecord
      */
     public function mutateFormDataBeforeSave(array $data): array
     {
-        if ($this->record->state->in(enums: [ArticleStates::New, ArticleStates::ExternalData]) && $this->record->editor()->doesntExist()) {
+        if ($this->record->state->in(enums: [ArticleStates::New , ArticleStates::ExternalData]) && $this->record->editor()->doesntExist()) {
             $this->record->articleStatus()->transitionToEditing();
-        } 
-        
+        }
+
         // Bugfix for #413 - This adds an editor when no editor is associated with the article.
         // Presuming that the user who performed the edit wants to be assigned as editor for that article.
-        elseif($this->record->editor()->doesntExist()) {
+        elseif ($this->record->editor()->doesntExist()) {
             $data['editor_id'] = auth()->user()->getAuthIdentifier();
         }
 
