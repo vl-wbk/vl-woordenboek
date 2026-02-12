@@ -128,7 +128,7 @@
                                         src="{{ $word->image_url }}"
                                         alt="{{ $word->image_alt ?? $word->word }}"
                                         class="rounded border-0 shadow-sm"
-                                        style="height: 150px; width: 150px; object-fit: cover;"
+                                        style="height: 200px; width: 200px;"
                                     />
                                 </a>
                             </div>
