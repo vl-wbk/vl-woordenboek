@@ -60,7 +60,6 @@ final class UserRegistrationChartWidget extends ChartWidget
     protected ?array $options = [
         'scales' => [
             'y' => [
-                'stacked' => true,
                 'beginAtZero' => true,
                 'ticks' => ['stepSize' => 1],
             ],
@@ -174,7 +173,6 @@ final class UserRegistrationChartWidget extends ChartWidget
                     'borderColor' => Color::Green[600],
                     'pointBackgroundColor' => Color::Green[600],
                     'pointBorderColor' => Color::Green[600],
-                    'spanGaps' => true,
                 ],
                 [
                     'label' => 'Email verificaties',
@@ -183,7 +181,6 @@ final class UserRegistrationChartWidget extends ChartWidget
                     'borderColor' => Color::Red[600],
                     'pointBackgroundColor' => Color::Red[600],
                     'pointBorderColor' => Color::Red[600],
-                    'spanGaps' => true,
                 ],
                 [
                     'label' => '2FA verificaties',
@@ -192,7 +189,6 @@ final class UserRegistrationChartWidget extends ChartWidget
                     'borderColor' => Color::Orange[200],
                     'pointBackgroundColor' => Color::Orange[400], // Darker orange for the dot to help visibility
                     'pointBorderColor' => Color::Orange[400],
-                    'spanGaps' => true,
                 ],
             ],
             'labels' => $registrations->map(fn (TrendValue $value) => $value->date),
