@@ -88,9 +88,9 @@ final class RejectPublishingAction extends Action
      * Handles the core logic for rejecting the article.
      * This method attempts to transition the article's status back to 'editing' and sends a detailed notification to the article's assigned editor if the transition is successful.
      *
-     * @param  Article  $article The article model instance to be rejected.
-     * @param  array   $reason  The mandatory reason provided by the reviewer for the rejection.
-     * @return bool              True if the status transition was successful and the editor exists, false otherwise.
+     * @param  Article                 $article The article model instance to be rejected.
+     * @param  array{reason: string}   $reason  The mandatory reason provided by the reviewer for the rejection.
+     * @return bool                             True if the status transition was successful and the editor exists, false otherwise.
      */
     public function handleArticleRejection(Article $article, array $reason): bool
     {
@@ -131,7 +131,7 @@ final class RejectPublishingAction extends Action
      * Defines the form components for the rejection confirmation modal.
      * The form consists of a single, required Textarea field for capturing the rejection reason.
      *
-     * @return array<int, Textarea> An array containing the form schema components.
+     * @return array<int, Tabs> An array containing the form schema components.
      */
     private function getModalForm(): array
     {
@@ -166,6 +166,6 @@ final class RejectPublishingAction extends Action
                                 ->helperText('Indien er geen opmerkingen zijn gelieve dit veld leeg te laten'),
                         ])
                 ]),
-            ];
+        ];
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Widgets;
 
 use App\Enums\ArticleStates;
@@ -17,16 +19,16 @@ use Filament\Tables\Table;
 use Filament\Widgets\TableWidget;
 use Illuminate\Database\Eloquent\Builder;
 
-class ContentWorkloadTable extends TableWidget
+final class ContentWorkloadTable extends TableWidget
 {
     protected static ?int $sort = 3;
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     public function table(Table $table): Table
     {
         return $table
-            ->query(fn (): Builder => ArticleResource::getEloquentQuery()->whereIn('state', [ArticleStates::New, ArticleStates::ExternalData]))
+            ->query(fn (): Builder => ArticleResource::getEloquentQuery()->whereIn('state', [ArticleStates::New , ArticleStates::ExternalData]))
             ->heading('Nieuwe suggesties')
             ->emptyStateIcon(Heroicon::OutlinedInbox)
             ->emptyStateHeading('Geen Suggesties gevonden')
@@ -38,6 +40,9 @@ class ContentWorkloadTable extends TableWidget
             ->paginated([7, 14, 21, 28]);
     }
 
+    /**
+     * @return array<EditAction|ViewAction>
+     */
     private function registerToolbarActions(): array
     {
         return [
@@ -50,6 +55,9 @@ class ContentWorkloadTable extends TableWidget
         ];
     }
 
+    /**
+     * @return array<TextColumn|UserColumn>
+     */
     private function tableLayoutColumns(): array
     {
         return [
@@ -62,7 +70,7 @@ class ContentWorkloadTable extends TableWidget
             UserColumn::make('author_id')
                 ->description(fn (Article $article): string => "{$article->author->firstname} {$article->author->lastname}")
                 ->emptyStateHeading(config('app.name', 'Laravel')) // Custom empty state heading
-                ->emptyStateDescription(fn (Article $article): ?string => $article->contributor_name ?? 'Anonieme gebruiker')
+                ->emptyStateDescription(fn (Article $article): string => $article->contributor_name ?? 'Anonieme gebruiker')
                 ->label('Ingezonden door'),
             TextColumn::make('word')
                 ->label('Lemma')
@@ -72,6 +80,9 @@ class ContentWorkloadTable extends TableWidget
         ];
     }
 
+    /**
+     * @return Action[]
+     */
     private function getHeaderActions(): array
     {
         return [

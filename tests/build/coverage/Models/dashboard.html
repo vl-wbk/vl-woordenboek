@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for /Users/timjoosten/Herd/vl-woordenboek/app/Models</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../_css/bootstrap.min.css?v=11.0.12" rel="stylesheet" type="text/css">
+  <link href="../_css/nv.d3.min.css?v=11.0.12" rel="stylesheet" type="text/css">
+  <link href="../_css/style.css?v=11.0.12" rel="stylesheet" type="text/css">
+  <link href="../_css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="../index.html">/Users/timjoosten/Herd/vl-woordenboek/app</a></li>
+         <li class="breadcrumb-item"><a href="index.html">Models</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="ArticleReferenceWork.php.html#10">App\Models\ArticleReferenceWork</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ArticleReport.php.html#44">App\Models\ArticleReport</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Blog.php.html#53">App\Models\Blog</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Category.php.html#31">App\Models\Category</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Disclaimer.php.html#34">App\Models\Disclaimer</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Etymology.php.html#58">App\Models\Etymology</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Feedback.php.html#39">App\Models\Feedback</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ModerationRule.php.html#31">App\Models\ModerationRule</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Note.php.html#34">App\Models\Note</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PartOfSpeech.php.html#29">App\Models\PartOfSpeech</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Reaction.php.html#21">App\Models\Reaction</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReferenceWork.php.html#10">App\Models\ReferenceWork</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Region.php.html#32">App\Models\Region</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="RegionGeoData.php.html#27">App\Models\RegionGeoData</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="VolunteerApplications.php.html#25">App\Models\VolunteerApplications</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="VolunteerPosition.php.html#12">App\Models\VolunteerPosition</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="WordOfTheDay.php.html#37">App\Models\WordOfTheDay</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Relations/BelongsToManyRegions.php.html#13">App\Models\Relations\BelongsToManyRegions</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Relations/Contactable.php.html#13">App\Models\Relations\Contactable</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Relations/HasNotables.php.html#20">App\Models\Relations\HasNotables</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Relations/UsesPreferences.php.html#11">App\Models\Relations\UsesPreferences</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Relations/BelongsToEditor.php.html#18">App\Models\Relations\BelongsToEditor</a></td><td class="text-right">16%</td></tr>
+       <tr><td><a href="Article.php.html#81">App\Models\Article</a></td><td class="text-right">23%</td></tr>
+       <tr><td><a href="User.php.html#80">App\Models\User</a></td><td class="text-right">36%</td></tr>
+       <tr><td><a href="Relations/BelongsToAuthor.php.html#30">App\Models\Relations\BelongsToAuthor</a></td><td class="text-right">50%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Article.php.html#81">App\Models\Article</a></td><td class="text-right">354</td></tr>
+       <tr><td><a href="Blog.php.html#53">App\Models\Blog</a></td><td class="text-right">210</td></tr>
+       <tr><td><a href="Etymology.php.html#58">App\Models\Etymology</a></td><td class="text-right">132</td></tr>
+       <tr><td><a href="User.php.html#80">App\Models\User</a></td><td class="text-right">90</td></tr>
+       <tr><td><a href="ArticleReport.php.html#44">App\Models\ArticleReport</a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Relations/UsesPreferences.php.html#11">App\Models\Relations\UsesPreferences</a></td><td class="text-right">30</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Article.php.html#141"><abbr title="App\Models\Article::articleStatus">articleStatus</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Article.php.html#163"><abbr title="App\Models\Article::partOfSpeech">partOfSpeech</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Article.php.html#182"><abbr title="App\Models\Article::labels">labels</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Article.php.html#192"><abbr title="App\Models\Article::deletedBy">deletedBy</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Article.php.html#205"><abbr title="App\Models\Article::disclaimer">disclaimer</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Article.php.html#218"><abbr title="App\Models\Article::archiever">archiever</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Article.php.html#232"><abbr title="App\Models\Article::reports">reports</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Article.php.html#245"><abbr title="App\Models\Article::etymologies">etymologies</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Article.php.html#254"><abbr title="App\Models\Article::reactions">reactions</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Article.php.html#267"><abbr title="App\Models\Article::bookmarkers">bookmarkers</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Article.php.html#276"><abbr title="App\Models\Article::sources">sources</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Article.php.html#300"><abbr title="App\Models\Article::related">related</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Article.php.html#325"><abbr title="App\Models\Article::publishedAfter">publishedAfter</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Article.php.html#331"><abbr title="App\Models\Article::recordView">recordView</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Article.php.html#341"><abbr title="App\Models\Article::createdAfter">createdAfter</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Article.php.html#350"><abbr title="App\Models\Article::wordOfTheDays">wordOfTheDays</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Article.php.html#355"><abbr title="App\Models\Article::isCurrentWordOfTheDay">isCurrentWordOfTheDay</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Article.php.html#365"><abbr title="App\Models\Article::seoDescription">seoDescription</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ArticleReferenceWork.php.html#24"><abbr title="App\Models\ArticleReferenceWork::article">article</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ArticleReferenceWork.php.html#32"><abbr title="App\Models\ArticleReferenceWork::referenceWork">referenceWork</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ArticleReport.php.html#80"><abbr title="App\Models\ArticleReport::article">article</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ArticleReport.php.html#93"><abbr title="App\Models\ArticleReport::assignee">assignee</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ArticleReport.php.html#109"><abbr title="App\Models\ArticleReport::status">status</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ArticleReport.php.html#126"><abbr title="App\Models\ArticleReport::casts">casts</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Blog.php.html#85"><abbr title="App\Models\Blog::publicationStatus">publicationStatus</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Blog.php.html#102"><abbr title="App\Models\Blog::publisher">publisher</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Blog.php.html#116"><abbr title="App\Models\Blog::category">category</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Blog.php.html#129"><abbr title="App\Models\Blog::casts">casts</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Blog.php.html#145"><abbr title="App\Models\Blog::getReadTimeAttribute">getReadTimeAttribute</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Blog.php.html#158"><abbr title="App\Models\Blog::getReadTimeInMinutesAttribute">getReadTimeInMinutesAttribute</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Blog.php.html#171"><abbr title="App\Models\Blog::toFeedItem">toFeedItem</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Blog.php.html#190"><abbr title="App\Models\Blog::getFeedItems">getFeedItems</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Blog.php.html#201"><abbr title="App\Models\Blog::getLinkAttribute">getLinkAttribute</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Blog.php.html#213"><abbr title="App\Models\Blog::newEloquentBuilder">newEloquentBuilder</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Blog.php.html#219"><abbr title="App\Models\Blog::published">published</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Category.php.html#57"><abbr title="App\Models\Category::posts">posts</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Disclaimer.php.html#65"><abbr title="App\Models\Disclaimer::articles">articles</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Disclaimer.php.html#76"><abbr title="App\Models\Disclaimer::casts">casts</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Etymology.php.html#96"><abbr title="App\Models\Etymology::state">state</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Etymology.php.html#117"><abbr title="App\Models\Etymology::archiver">archiver</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Etymology.php.html#124"><abbr title="App\Models\Etymology::published">published</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Etymology.php.html#138"><abbr title="App\Models\Etymology::rejecter">rejecter</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Etymology.php.html#152"><abbr title="App\Models\Etymology::article">article</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Etymology.php.html#168"><abbr title="App\Models\Etymology::casts">casts</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Feedback.php.html#76"><abbr title="App\Models\Feedback::casts">casts</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ModerationRule.php.html#41"><abbr title="App\Models\ModerationRule::casts">casts</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Note.php.html#53"><abbr title="App\Models\Note::casts">casts</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PartOfSpeech.php.html#53"><abbr title="App\Models\PartOfSpeech::articles">articles</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PartOfSpeech.php.html#61"><abbr title="App\Models\PartOfSpeech::casts">casts</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Reaction.php.html#48"><abbr title="App\Models\Reaction::casts">casts</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReferenceWork.php.html#25"><abbr title="App\Models\ReferenceWork::articles">articles</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Region.php.html#58"><abbr title="App\Models\Region::articles">articles</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="RegionGeoData.php.html#37"><abbr title="App\Models\RegionGeoData::region">region</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#145"><abbr title="App\Models\User::getFilamentAvatarUrl">getFilamentAvatarUrl</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#159"><abbr title="App\Models\User::suggestions">suggestions</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#168"><abbr title="App\Models\User::volunteerApplications">volunteerApplications</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#181"><abbr title="App\Models\User::reports">reports</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#194"><abbr title="App\Models\User::articles">articles</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#207"><abbr title="App\Models\User::etymologies">etymologies</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#220"><abbr title="App\Models\User::bookmarks">bookmarks</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#231"><abbr title="App\Models\User::sendWelcomeNotification">sendWelcomeNotification</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#256"><abbr title="App\Models\User::isTester">isTester</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#269"><abbr title="App\Models\User::isActive">isActive</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#292"><abbr title="App\Models\User::prunable">prunable</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#306"><abbr title="App\Models\User::pruning">pruning</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="VolunteerApplications.php.html#42"><abbr title="App\Models\VolunteerApplications::user">user</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="VolunteerApplications.php.html#50"><abbr title="App\Models\VolunteerApplications::volunteerPosition">volunteerPosition</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="VolunteerApplications.php.html#55"><abbr title="App\Models\VolunteerApplications::casts">casts</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="VolunteerPosition.php.html#24"><abbr title="App\Models\VolunteerPosition::applications">applications</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="VolunteerPosition.php.html#29"><abbr title="App\Models\VolunteerPosition::casts">casts</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="WordOfTheDay.php.html#56"><abbr title="App\Models\WordOfTheDay::article">article</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="WordOfTheDay.php.html#69"><abbr title="App\Models\WordOfTheDay::planner">planner</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="WordOfTheDay.php.html#80"><abbr title="App\Models\WordOfTheDay::casts">casts</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="WordOfTheDay.php.html#93"><abbr title="App\Models\WordOfTheDay::formattedScheduledFor">formattedScheduledFor</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="WordOfTheDay.php.html#98"><abbr title="App\Models\WordOfTheDay::toFeedItem">toFeedItem</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="WordOfTheDay.php.html#109"><abbr title="App\Models\WordOfTheDay::getFeedItems">getFeedItems</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Relations/BelongsToAuthor.php.html#52"><abbr title="App\Models\Relations\BelongsToAuthor::setCurrentUserAsAuthor">setCurrentUserAsAuthor</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Relations/BelongsToAuthor.php.html#66"><abbr title="App\Models\Relations\BelongsToAuthor::setAuthor">setAuthor</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Relations/BelongsToEditor.php.html#37"><abbr title="App\Models\Relations\BelongsToEditor::publisher">publisher</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Relations/BelongsToEditor.php.html#50"><abbr title="App\Models\Relations\BelongsToEditor::setCurrentUserAsPublisher">setCurrentUserAsPublisher</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Relations/BelongsToEditor.php.html#65"><abbr title="App\Models\Relations\BelongsToEditor::setCurrentUserAsEditor">setCurrentUserAsEditor</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Relations/BelongsToManyRegions.php.html#19"><abbr title="App\Models\Relations\BelongsToManyRegions::regions">regions</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Relations/BelongsToManyRegions.php.html#28"><abbr title="App\Models\Relations\BelongsToManyRegions::syncRegions">syncRegions</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Relations/Contactable.php.html#18"><abbr title="App\Models\Relations\Contactable::contacts">contacts</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Relations/Contactable.php.html#24"><abbr title="App\Models\Relations\Contactable::removeContact">removeContact</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Relations/HasNotables.php.html#32"><abbr title="App\Models\Relations\HasNotables::notes">notes</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Relations/HasNotables.php.html#50"><abbr title="App\Models\Relations\HasNotables::addNote">addNote</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Relations/UsesPreferences.php.html#16"><abbr title="App\Models\Relations\UsesPreferences::preferences">preferences</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Relations/UsesPreferences.php.html#21"><abbr title="App\Models\Relations\UsesPreferences::getPreference">getPreference</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Relations/UsesPreferences.php.html#32"><abbr title="App\Models\Relations\UsesPreferences::enablePreference">enablePreference</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Relations/UsesPreferences.php.html#38"><abbr title="App\Models\Relations\UsesPreferences::disablePreference">disablePreference</abbr></a></td><td class="text-right">0%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Article.php.html#141"><abbr title="App\Models\Article::articleStatus">articleStatus</abbr></a></td><td class="text-right">72</td></tr>
+       <tr><td><a href="Etymology.php.html#96"><abbr title="App\Models\Etymology::state">state</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="ArticleReport.php.html#109"><abbr title="App\Models\ArticleReport::status">status</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Blog.php.html#85"><abbr title="App\Models\Blog::publicationStatus">publicationStatus</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="User.php.html#269"><abbr title="App\Models\User::isActive">isActive</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Relations/UsesPreferences.php.html#21"><abbr title="App\Models\Relations\UsesPreferences::getPreference">getPreference</abbr></a></td><td class="text-right">6</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 11.0.12</a> using <a href="https://www.php.net/" target="_top">PHP 8.3.26</a> and <a href="https://phpunit.de/">PHPUnit 11.5.50</a> at Fri Feb 13 6:58:39 UTC 2026.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="../_js/jquery.min.js?v=11.0.12" type="text/javascript"></script>
+  <script src="../_js/d3.min.js?v=11.0.12" type="text/javascript"></script>
+  <script src="../_js/nv.d3.min.js?v=11.0.12" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([21,0,1,1,1,0,1,0,0,0,0,3], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([91,0,0,0,0,0,0,0,0,0,0,8], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[23.404255319148938,27,"<a href=\"Article.php.html#81\">App\\Models\\Article<\/a>"],[0,2,"<a href=\"ArticleReferenceWork.php.html#10\">App\\Models\\ArticleReferenceWork<\/a>"],[0,7,"<a href=\"ArticleReport.php.html#44\">App\\Models\\ArticleReport<\/a>"],[0,14,"<a href=\"Blog.php.html#53\">App\\Models\\Blog<\/a>"],[0,1,"<a href=\"Category.php.html#31\">App\\Models\\Category<\/a>"],[100,0,"<a href=\"Comment.php.html#25\">App\\Models\\Comment<\/a>"],[0,2,"<a href=\"Disclaimer.php.html#34\">App\\Models\\Disclaimer<\/a>"],[0,11,"<a href=\"Etymology.php.html#58\">App\\Models\\Etymology<\/a>"],[0,1,"<a href=\"Feedback.php.html#39\">App\\Models\\Feedback<\/a>"],[100,1,"<a href=\"Label.php.html#26\">App\\Models\\Label<\/a>"],[0,1,"<a href=\"ModerationRule.php.html#31\">App\\Models\\ModerationRule<\/a>"],[0,1,"<a href=\"Note.php.html#34\">App\\Models\\Note<\/a>"],[0,2,"<a href=\"PartOfSpeech.php.html#29\">App\\Models\\PartOfSpeech<\/a>"],[100,0,"<a href=\"Preferences.php.html#7\">App\\Models\\Preferences<\/a>"],[0,1,"<a href=\"Reaction.php.html#21\">App\\Models\\Reaction<\/a>"],[0,1,"<a href=\"ReferenceWork.php.html#10\">App\\Models\\ReferenceWork<\/a>"],[0,1,"<a href=\"Region.php.html#32\">App\\Models\\Region<\/a>"],[0,1,"<a href=\"RegionGeoData.php.html#27\">App\\Models\\RegionGeoData<\/a>"],[36.666666666666664,17,"<a href=\"User.php.html#80\">App\\Models\\User<\/a>"],[0,3,"<a href=\"VolunteerApplications.php.html#25\">App\\Models\\VolunteerApplications<\/a>"],[0,2,"<a href=\"VolunteerPosition.php.html#12\">App\\Models\\VolunteerPosition<\/a>"],[0,6,"<a href=\"WordOfTheDay.php.html#37\">App\\Models\\WordOfTheDay<\/a>"],[50,3,"<a href=\"Relations\/BelongsToAuthor.php.html#30\">App\\Models\\Relations\\BelongsToAuthor<\/a>"],[16.666666666666664,4,"<a href=\"Relations\/BelongsToEditor.php.html#18\">App\\Models\\Relations\\BelongsToEditor<\/a>"],[0,2,"<a href=\"Relations\/BelongsToManyRegions.php.html#13\">App\\Models\\Relations\\BelongsToManyRegions<\/a>"],[0,2,"<a href=\"Relations\/Contactable.php.html#13\">App\\Models\\Relations\\Contactable<\/a>"],[0,2,"<a href=\"Relations\/HasNotables.php.html#20\">App\\Models\\Relations\\HasNotables<\/a>"],[0,5,"<a href=\"Relations\/UsesPreferences.php.html#11\">App\\Models\\Relations\\UsesPreferences<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[0,8,"<a href=\"Article.php.html#141\">App\\Models\\Article::articleStatus<\/a>"],[0,1,"<a href=\"Article.php.html#163\">App\\Models\\Article::partOfSpeech<\/a>"],[0,1,"<a href=\"Article.php.html#182\">App\\Models\\Article::labels<\/a>"],[0,1,"<a href=\"Article.php.html#192\">App\\Models\\Article::deletedBy<\/a>"],[0,1,"<a href=\"Article.php.html#205\">App\\Models\\Article::disclaimer<\/a>"],[0,1,"<a href=\"Article.php.html#218\">App\\Models\\Article::archiever<\/a>"],[0,1,"<a href=\"Article.php.html#232\">App\\Models\\Article::reports<\/a>"],[0,1,"<a href=\"Article.php.html#245\">App\\Models\\Article::etymologies<\/a>"],[0,1,"<a href=\"Article.php.html#254\">App\\Models\\Article::reactions<\/a>"],[0,1,"<a href=\"Article.php.html#267\">App\\Models\\Article::bookmarkers<\/a>"],[0,1,"<a href=\"Article.php.html#276\">App\\Models\\Article::sources<\/a>"],[0,1,"<a href=\"Article.php.html#300\">App\\Models\\Article::related<\/a>"],[100,1,"<a href=\"Article.php.html#314\">App\\Models\\Article::newEloquentBuilder<\/a>"],[0,1,"<a href=\"Article.php.html#325\">App\\Models\\Article::publishedAfter<\/a>"],[0,1,"<a href=\"Article.php.html#331\">App\\Models\\Article::recordView<\/a>"],[0,1,"<a href=\"Article.php.html#341\">App\\Models\\Article::createdAfter<\/a>"],[0,1,"<a href=\"Article.php.html#350\">App\\Models\\Article::wordOfTheDays<\/a>"],[0,1,"<a href=\"Article.php.html#355\">App\\Models\\Article::isCurrentWordOfTheDay<\/a>"],[0,1,"<a href=\"Article.php.html#365\">App\\Models\\Article::seoDescription<\/a>"],[100,1,"<a href=\"Article.php.html#382\">App\\Models\\Article::casts<\/a>"],[0,1,"<a href=\"ArticleReferenceWork.php.html#24\">App\\Models\\ArticleReferenceWork::article<\/a>"],[0,1,"<a href=\"ArticleReferenceWork.php.html#32\">App\\Models\\ArticleReferenceWork::referenceWork<\/a>"],[0,1,"<a href=\"ArticleReport.php.html#80\">App\\Models\\ArticleReport::article<\/a>"],[0,1,"<a href=\"ArticleReport.php.html#93\">App\\Models\\ArticleReport::assignee<\/a>"],[0,4,"<a href=\"ArticleReport.php.html#109\">App\\Models\\ArticleReport::status<\/a>"],[0,1,"<a href=\"ArticleReport.php.html#126\">App\\Models\\ArticleReport::casts<\/a>"],[0,4,"<a href=\"Blog.php.html#85\">App\\Models\\Blog::publicationStatus<\/a>"],[0,1,"<a href=\"Blog.php.html#102\">App\\Models\\Blog::publisher<\/a>"],[0,1,"<a href=\"Blog.php.html#116\">App\\Models\\Blog::category<\/a>"],[0,1,"<a href=\"Blog.php.html#129\">App\\Models\\Blog::casts<\/a>"],[0,1,"<a href=\"Blog.php.html#145\">App\\Models\\Blog::getReadTimeAttribute<\/a>"],[0,1,"<a href=\"Blog.php.html#158\">App\\Models\\Blog::getReadTimeInMinutesAttribute<\/a>"],[0,1,"<a href=\"Blog.php.html#171\">App\\Models\\Blog::toFeedItem<\/a>"],[0,1,"<a href=\"Blog.php.html#190\">App\\Models\\Blog::getFeedItems<\/a>"],[0,1,"<a href=\"Blog.php.html#201\">App\\Models\\Blog::getLinkAttribute<\/a>"],[0,1,"<a href=\"Blog.php.html#213\">App\\Models\\Blog::newEloquentBuilder<\/a>"],[0,1,"<a href=\"Blog.php.html#219\">App\\Models\\Blog::published<\/a>"],[0,1,"<a href=\"Category.php.html#57\">App\\Models\\Category::posts<\/a>"],[0,1,"<a href=\"Disclaimer.php.html#65\">App\\Models\\Disclaimer::articles<\/a>"],[0,1,"<a href=\"Disclaimer.php.html#76\">App\\Models\\Disclaimer::casts<\/a>"],[0,6,"<a href=\"Etymology.php.html#96\">App\\Models\\Etymology::state<\/a>"],[0,1,"<a href=\"Etymology.php.html#117\">App\\Models\\Etymology::archiver<\/a>"],[0,1,"<a href=\"Etymology.php.html#124\">App\\Models\\Etymology::published<\/a>"],[0,1,"<a href=\"Etymology.php.html#138\">App\\Models\\Etymology::rejecter<\/a>"],[0,1,"<a href=\"Etymology.php.html#152\">App\\Models\\Etymology::article<\/a>"],[0,1,"<a href=\"Etymology.php.html#168\">App\\Models\\Etymology::casts<\/a>"],[0,1,"<a href=\"Feedback.php.html#76\">App\\Models\\Feedback::casts<\/a>"],[100,1,"<a href=\"Label.php.html#51\">App\\Models\\Label::articles<\/a>"],[0,1,"<a href=\"ModerationRule.php.html#41\">App\\Models\\ModerationRule::casts<\/a>"],[0,1,"<a href=\"Note.php.html#53\">App\\Models\\Note::casts<\/a>"],[0,1,"<a href=\"PartOfSpeech.php.html#53\">App\\Models\\PartOfSpeech::articles<\/a>"],[0,1,"<a href=\"PartOfSpeech.php.html#61\">App\\Models\\PartOfSpeech::casts<\/a>"],[0,1,"<a href=\"Reaction.php.html#48\">App\\Models\\Reaction::casts<\/a>"],[0,1,"<a href=\"ReferenceWork.php.html#25\">App\\Models\\ReferenceWork::articles<\/a>"],[0,1,"<a href=\"Region.php.html#58\">App\\Models\\Region::articles<\/a>"],[0,1,"<a href=\"RegionGeoData.php.html#37\">App\\Models\\RegionGeoData::region<\/a>"],[100,1,"<a href=\"User.php.html#132\">App\\Models\\User::canAccessPanel<\/a>"],[0,1,"<a href=\"User.php.html#145\">App\\Models\\User::getFilamentAvatarUrl<\/a>"],[0,1,"<a href=\"User.php.html#159\">App\\Models\\User::suggestions<\/a>"],[0,1,"<a href=\"User.php.html#168\">App\\Models\\User::volunteerApplications<\/a>"],[0,1,"<a href=\"User.php.html#181\">App\\Models\\User::reports<\/a>"],[0,1,"<a href=\"User.php.html#194\">App\\Models\\User::articles<\/a>"],[0,1,"<a href=\"User.php.html#207\">App\\Models\\User::etymologies<\/a>"],[0,1,"<a href=\"User.php.html#220\">App\\Models\\User::bookmarks<\/a>"],[0,1,"<a href=\"User.php.html#231\">App\\Models\\User::sendWelcomeNotification<\/a>"],[100,1,"<a href=\"User.php.html#245\">App\\Models\\User::newEloquentBuilder<\/a>"],[0,1,"<a href=\"User.php.html#256\">App\\Models\\User::isTester<\/a>"],[0,3,"<a href=\"User.php.html#269\">App\\Models\\User::isActive<\/a>"],[0,1,"<a href=\"User.php.html#292\">App\\Models\\User::prunable<\/a>"],[0,1,"<a href=\"User.php.html#306\">App\\Models\\User::pruning<\/a>"],[100,1,"<a href=\"User.php.html#317\">App\\Models\\User::casts<\/a>"],[0,1,"<a href=\"VolunteerApplications.php.html#42\">App\\Models\\VolunteerApplications::user<\/a>"],[0,1,"<a href=\"VolunteerApplications.php.html#50\">App\\Models\\VolunteerApplications::volunteerPosition<\/a>"],[0,1,"<a href=\"VolunteerApplications.php.html#55\">App\\Models\\VolunteerApplications::casts<\/a>"],[0,1,"<a href=\"VolunteerPosition.php.html#24\">App\\Models\\VolunteerPosition::applications<\/a>"],[0,1,"<a href=\"VolunteerPosition.php.html#29\">App\\Models\\VolunteerPosition::casts<\/a>"],[0,1,"<a href=\"WordOfTheDay.php.html#56\">App\\Models\\WordOfTheDay::article<\/a>"],[0,1,"<a href=\"WordOfTheDay.php.html#69\">App\\Models\\WordOfTheDay::planner<\/a>"],[0,1,"<a href=\"WordOfTheDay.php.html#80\">App\\Models\\WordOfTheDay::casts<\/a>"],[0,1,"<a href=\"WordOfTheDay.php.html#93\">App\\Models\\WordOfTheDay::formattedScheduledFor<\/a>"],[0,1,"<a href=\"WordOfTheDay.php.html#98\">App\\Models\\WordOfTheDay::toFeedItem<\/a>"],[0,1,"<a href=\"WordOfTheDay.php.html#109\">App\\Models\\WordOfTheDay::getFeedItems<\/a>"],[100,1,"<a href=\"Relations\/BelongsToAuthor.php.html#40\">App\\Models\\Relations\\BelongsToAuthor::author<\/a>"],[0,1,"<a href=\"Relations\/BelongsToAuthor.php.html#52\">App\\Models\\Relations\\BelongsToAuthor::setCurrentUserAsAuthor<\/a>"],[0,1,"<a href=\"Relations\/BelongsToAuthor.php.html#66\">App\\Models\\Relations\\BelongsToAuthor::setAuthor<\/a>"],[100,1,"<a href=\"Relations\/BelongsToEditor.php.html#26\">App\\Models\\Relations\\BelongsToEditor::editor<\/a>"],[0,1,"<a href=\"Relations\/BelongsToEditor.php.html#37\">App\\Models\\Relations\\BelongsToEditor::publisher<\/a>"],[0,1,"<a href=\"Relations\/BelongsToEditor.php.html#50\">App\\Models\\Relations\\BelongsToEditor::setCurrentUserAsPublisher<\/a>"],[0,1,"<a href=\"Relations\/BelongsToEditor.php.html#65\">App\\Models\\Relations\\BelongsToEditor::setCurrentUserAsEditor<\/a>"],[0,1,"<a href=\"Relations\/BelongsToManyRegions.php.html#19\">App\\Models\\Relations\\BelongsToManyRegions::regions<\/a>"],[0,1,"<a href=\"Relations\/BelongsToManyRegions.php.html#28\">App\\Models\\Relations\\BelongsToManyRegions::syncRegions<\/a>"],[0,1,"<a href=\"Relations\/Contactable.php.html#18\">App\\Models\\Relations\\Contactable::contacts<\/a>"],[0,1,"<a href=\"Relations\/Contactable.php.html#24\">App\\Models\\Relations\\Contactable::removeContact<\/a>"],[0,1,"<a href=\"Relations\/HasNotables.php.html#32\">App\\Models\\Relations\\HasNotables::notes<\/a>"],[0,1,"<a href=\"Relations\/HasNotables.php.html#50\">App\\Models\\Relations\\HasNotables::addNote<\/a>"],[0,1,"<a href=\"Relations\/UsesPreferences.php.html#16\">App\\Models\\Relations\\UsesPreferences::preferences<\/a>"],[0,2,"<a href=\"Relations\/UsesPreferences.php.html#21\">App\\Models\\Relations\\UsesPreferences::getPreference<\/a>"],[0,1,"<a href=\"Relations\/UsesPreferences.php.html#32\">App\\Models\\Relations\\UsesPreferences::enablePreference<\/a>"],[0,1,"<a href=\"Relations\/UsesPreferences.php.html#38\">App\\Models\\Relations\\UsesPreferences::disablePreference<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>

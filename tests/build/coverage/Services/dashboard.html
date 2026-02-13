@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for /Users/timjoosten/Herd/vl-woordenboek/app/Services</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../_css/bootstrap.min.css?v=11.0.12" rel="stylesheet" type="text/css">
+  <link href="../_css/nv.d3.min.css?v=11.0.12" rel="stylesheet" type="text/css">
+  <link href="../_css/style.css?v=11.0.12" rel="stylesheet" type="text/css">
+  <link href="../_css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="../index.html">/Users/timjoosten/Herd/vl-woordenboek/app</a></li>
+         <li class="breadcrumb-item"><a href="index.html">Services</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="AgentService.php.html#11">App\Services\AgentService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BrowserSessionService.php.html#28">App\Services\BrowserSessionService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DataMigration/ArticleDataMapper.php.html#22">App\Services\DataMigration\ArticleDataMapper</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DataMigration/ArticleImporter.php.html#26">App\Services\DataMigration\ArticleImporter</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DataMigration/ArticleImporterFactory.php.html#15">App\Services\DataMigration\ArticleImporterFactory</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DataMigration/ArticleProcessor.php.html#23">App\Services\DataMigration\ArticleProcessor</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DataMigration/JsonFileStreamer.php.html#25">App\Services\DataMigration\JsonFileStreamer</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ModerationService.php.html#8">App\Services\ModerationService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReadTimeCalculator.php.html#7">App\Services\ReadTimeCalculator</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="StatisticService.php.html#24">App\Services\StatisticService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ViewCounterService.php.html#10">App\Services\ViewCounterService</a></td><td class="text-right">0%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="AgentService.php.html#11">App\Services\AgentService</a></td><td class="text-right">342</td></tr>
+       <tr><td><a href="ModerationService.php.html#8">App\Services\ModerationService</a></td><td class="text-right">272</td></tr>
+       <tr><td><a href="DataMigration/ArticleImporter.php.html#26">App\Services\DataMigration\ArticleImporter</a></td><td class="text-right">240</td></tr>
+       <tr><td><a href="ReadTimeCalculator.php.html#7">App\Services\ReadTimeCalculator</a></td><td class="text-right">72</td></tr>
+       <tr><td><a href="BrowserSessionService.php.html#28">App\Services\BrowserSessionService</a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="DataMigration/ArticleDataMapper.php.html#22">App\Services\DataMigration\ArticleDataMapper</a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="DataMigration/ArticleProcessor.php.html#23">App\Services\DataMigration\ArticleProcessor</a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="DataMigration/JsonFileStreamer.php.html#25">App\Services\DataMigration\JsonFileStreamer</a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="ViewCounterService.php.html#10">App\Services\ViewCounterService</a></td><td class="text-right">6</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="AgentService.php.html#61"><abbr title="App\Services\AgentService::platform">platform</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AgentService.php.html#71"><abbr title="App\Services\AgentService::browser">browser</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AgentService.php.html#81"><abbr title="App\Services\AgentService::isDesktop">isDesktop</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AgentService.php.html#101"><abbr title="App\Services\AgentService::findDetectionRulesAgainstUserAgent">findDetectionRulesAgainstUserAgent</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AgentService.php.html#123"><abbr title="App\Services\AgentService::retrieveUsingCacheOrResolve">retrieveUsingCacheOrResolve</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AgentService.php.html#142"><abbr title="App\Services\AgentService::mergeRules">mergeRules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BrowserSessionService.php.html#39"><abbr title="App\Services\BrowserSessionService::logoutOtherBrowserSessions">logoutOtherBrowserSessions</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BrowserSessionService.php.html#57"><abbr title="App\Services\BrowserSessionService::deleteOtherSessionRecords">deleteOtherSessionRecords</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BrowserSessionService.php.html#78"><abbr title="App\Services\BrowserSessionService::getSessionProperty">getSessionProperty</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BrowserSessionService.php.html#106"><abbr title="App\Services\BrowserSessionService::createAgent">createAgent</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DataMigration/ArticleDataMapper.php.html#75"><abbr title="App\Services\DataMigration\ArticleDataMapper::map">map</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DataMigration/ArticleDataMapper.php.html#105"><abbr title="App\Services\DataMigration\ArticleDataMapper::validateRequiredFields">validateRequiredFields</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DataMigration/ArticleDataMapper.php.html#125"><abbr title="App\Services\DataMigration\ArticleDataMapper::convertLinguisticRegion">convertLinguisticRegion</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DataMigration/ArticleImporter.php.html#42"><abbr title="App\Services\DataMigration\ArticleImporter::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DataMigration/ArticleImporter.php.html#64"><abbr title="App\Services\DataMigration\ArticleImporter::importArticles">importArticles</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DataMigration/ArticleImporter.php.html#121"><abbr title="App\Services\DataMigration\ArticleImporter::extractStreamResource">extractStreamResource</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DataMigration/ArticleImporter.php.html#142"><abbr title="App\Services\DataMigration\ArticleImporter::logWarning">logWarning</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DataMigration/ArticleImporter.php.html#154"><abbr title="App\Services\DataMigration\ArticleImporter::logError">logError</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DataMigration/ArticleImporterFactory.php.html#28"><abbr title="App\Services\DataMigration\ArticleImporterFactory::createImporter">createImporter</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DataMigration/ArticleProcessor.php.html#36"><abbr title="App\Services\DataMigration\ArticleProcessor::process">process</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DataMigration/JsonFileStreamer.php.html#38"><abbr title="App\Services\DataMigration\JsonFileStreamer::streamJson">streamJson</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ModerationService.php.html#15"><abbr title="App\Services\ModerationService::analyze">analyze</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ModerationService.php.html#47"><abbr title="App\Services\ModerationService::matches">matches</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ModerationService.php.html#59"><abbr title="App\Services\ModerationService::allowedByContext">allowedByContext</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ModerationService.php.html#70"><abbr title="App\Services\ModerationService::buildMessage">buildMessage</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ModerationService.php.html#78"><abbr title="App\Services\ModerationService::alternatives">alternatives</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ModerationService.php.html#95"><abbr title="App\Services\ModerationService::decode">decode</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReadTimeCalculator.php.html#27"><abbr title="App\Services\ReadTimeCalculator::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReadTimeCalculator.php.html#40"><abbr title="App\Services\ReadTimeCalculator::calculate">calculate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReadTimeCalculator.php.html#86"><abbr title="App\Services\ReadTimeCalculator::calculateInMinutes">calculateInMinutes</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReadTimeCalculator.php.html#115"><abbr title="App\Services\ReadTimeCalculator::countImagesInMarkdown">countImagesInMarkdown</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="StatisticService.php.html#48"><abbr title="App\Services\StatisticService::getArticleViews">getArticleViews</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="StatisticService.php.html#63"><abbr title="App\Services\StatisticService::getArticleCount">getArticleCount</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="StatisticService.php.html#78"><abbr title="App\Services\StatisticService::getEditCount">getEditCount</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="StatisticService.php.html#93"><abbr title="App\Services\StatisticService::getUserCount">getUserCount</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="StatisticService.php.html#110"><abbr title="App\Services\StatisticService::getVolunteerCount">getVolunteerCount</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="StatisticService.php.html#125"><abbr title="App\Services\StatisticService::registeredToday">registeredToday</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="StatisticService.php.html#143"><abbr title="App\Services\StatisticService::userRegistrationChartData">userRegistrationChartData</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="StatisticService.php.html#161"><abbr title="App\Services\StatisticService::articleChartData">articleChartData</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="StatisticService.php.html#199"><abbr title="App\Services\StatisticService::formatChartData">formatChartData</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="StatisticService.php.html#214"><abbr title="App\Services\StatisticService::extractTrendValues">extractTrendValues</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="StatisticService.php.html#226"><abbr title="App\Services\StatisticService::extractTrendLabels">extractTrendLabels</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ViewCounterService.php.html#12"><abbr title="App\Services\ViewCounterService::incrementAndSync">incrementAndSync</abbr></a></td><td class="text-right">0%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="DataMigration/ArticleImporter.php.html#64"><abbr title="App\Services\DataMigration\ArticleImporter::importArticles">importArticles</abbr></a></td><td class="text-right">110</td></tr>
+       <tr><td><a href="AgentService.php.html#101"><abbr title="App\Services\AgentService::findDetectionRulesAgainstUserAgent">findDetectionRulesAgainstUserAgent</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="AgentService.php.html#142"><abbr title="App\Services\AgentService::mergeRules">mergeRules</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="ModerationService.php.html#15"><abbr title="App\Services\ModerationService::analyze">analyze</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="AgentService.php.html#81"><abbr title="App\Services\AgentService::isDesktop">isDesktop</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="ReadTimeCalculator.php.html#40"><abbr title="App\Services\ReadTimeCalculator::calculate">calculate</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="DataMigration/ArticleDataMapper.php.html#105"><abbr title="App\Services\DataMigration\ArticleDataMapper::validateRequiredFields">validateRequiredFields</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="DataMigration/ArticleProcessor.php.html#36"><abbr title="App\Services\DataMigration\ArticleProcessor::process">process</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="DataMigration/JsonFileStreamer.php.html#38"><abbr title="App\Services\DataMigration\JsonFileStreamer::streamJson">streamJson</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="ModerationService.php.html#59"><abbr title="App\Services\ModerationService::allowedByContext">allowedByContext</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="ModerationService.php.html#95"><abbr title="App\Services\ModerationService::decode">decode</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="AgentService.php.html#123"><abbr title="App\Services\AgentService::retrieveUsingCacheOrResolve">retrieveUsingCacheOrResolve</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="BrowserSessionService.php.html#39"><abbr title="App\Services\BrowserSessionService::logoutOtherBrowserSessions">logoutOtherBrowserSessions</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="BrowserSessionService.php.html#57"><abbr title="App\Services\BrowserSessionService::deleteOtherSessionRecords">deleteOtherSessionRecords</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="BrowserSessionService.php.html#78"><abbr title="App\Services\BrowserSessionService::getSessionProperty">getSessionProperty</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="DataMigration/ArticleImporter.php.html#121"><abbr title="App\Services\DataMigration\ArticleImporter::extractStreamResource">extractStreamResource</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="ModerationService.php.html#47"><abbr title="App\Services\ModerationService::matches">matches</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="ModerationService.php.html#78"><abbr title="App\Services\ModerationService::alternatives">alternatives</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="ReadTimeCalculator.php.html#86"><abbr title="App\Services\ReadTimeCalculator::calculateInMinutes">calculateInMinutes</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="ViewCounterService.php.html#12"><abbr title="App\Services\ViewCounterService::incrementAndSync">incrementAndSync</abbr></a></td><td class="text-right">6</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 11.0.12</a> using <a href="https://www.php.net/" target="_top">PHP 8.3.26</a> and <a href="https://phpunit.de/">PHPUnit 11.5.50</a> at Fri Feb 13 6:58:39 UTC 2026.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="../_js/jquery.min.js?v=11.0.12" type="text/javascript"></script>
+  <script src="../_js/d3.min.js?v=11.0.12" type="text/javascript"></script>
+  <script src="../_js/nv.d3.min.js?v=11.0.12" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([11,0,0,0,0,0,0,0,0,0,0,0], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([43,0,0,0,0,0,0,0,0,0,0,0], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[0,18,"<a href=\"AgentService.php.html#11\">App\\Services\\AgentService<\/a>"],[0,7,"<a href=\"BrowserSessionService.php.html#28\">App\\Services\\BrowserSessionService<\/a>"],[0,5,"<a href=\"DataMigration\/ArticleDataMapper.php.html#22\">App\\Services\\DataMigration\\ArticleDataMapper<\/a>"],[0,15,"<a href=\"DataMigration\/ArticleImporter.php.html#26\">App\\Services\\DataMigration\\ArticleImporter<\/a>"],[0,1,"<a href=\"DataMigration\/ArticleImporterFactory.php.html#15\">App\\Services\\DataMigration\\ArticleImporterFactory<\/a>"],[0,3,"<a href=\"DataMigration\/ArticleProcessor.php.html#23\">App\\Services\\DataMigration\\ArticleProcessor<\/a>"],[0,3,"<a href=\"DataMigration\/JsonFileStreamer.php.html#25\">App\\Services\\DataMigration\\JsonFileStreamer<\/a>"],[0,16,"<a href=\"ModerationService.php.html#8\">App\\Services\\ModerationService<\/a>"],[0,8,"<a href=\"ReadTimeCalculator.php.html#7\">App\\Services\\ReadTimeCalculator<\/a>"],[0,11,"<a href=\"StatisticService.php.html#24\">App\\Services\\StatisticService<\/a>"],[0,2,"<a href=\"ViewCounterService.php.html#10\">App\\Services\\ViewCounterService<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[0,1,"<a href=\"AgentService.php.html#61\">App\\Services\\AgentService::platform<\/a>"],[0,1,"<a href=\"AgentService.php.html#71\">App\\Services\\AgentService::browser<\/a>"],[0,4,"<a href=\"AgentService.php.html#81\">App\\Services\\AgentService::isDesktop<\/a>"],[0,5,"<a href=\"AgentService.php.html#101\">App\\Services\\AgentService::findDetectionRulesAgainstUserAgent<\/a>"],[0,2,"<a href=\"AgentService.php.html#123\">App\\Services\\AgentService::retrieveUsingCacheOrResolve<\/a>"],[0,5,"<a href=\"AgentService.php.html#142\">App\\Services\\AgentService::mergeRules<\/a>"],[0,2,"<a href=\"BrowserSessionService.php.html#39\">App\\Services\\BrowserSessionService::logoutOtherBrowserSessions<\/a>"],[0,2,"<a href=\"BrowserSessionService.php.html#57\">App\\Services\\BrowserSessionService::deleteOtherSessionRecords<\/a>"],[0,2,"<a href=\"BrowserSessionService.php.html#78\">App\\Services\\BrowserSessionService::getSessionProperty<\/a>"],[0,1,"<a href=\"BrowserSessionService.php.html#106\">App\\Services\\BrowserSessionService::createAgent<\/a>"],[0,1,"<a href=\"DataMigration\/ArticleDataMapper.php.html#75\">App\\Services\\DataMigration\\ArticleDataMapper::map<\/a>"],[0,3,"<a href=\"DataMigration\/ArticleDataMapper.php.html#105\">App\\Services\\DataMigration\\ArticleDataMapper::validateRequiredFields<\/a>"],[0,1,"<a href=\"DataMigration\/ArticleDataMapper.php.html#125\">App\\Services\\DataMigration\\ArticleDataMapper::convertLinguisticRegion<\/a>"],[0,1,"<a href=\"DataMigration\/ArticleImporter.php.html#42\">App\\Services\\DataMigration\\ArticleImporter::__construct<\/a>"],[0,10,"<a href=\"DataMigration\/ArticleImporter.php.html#64\">App\\Services\\DataMigration\\ArticleImporter::importArticles<\/a>"],[0,2,"<a href=\"DataMigration\/ArticleImporter.php.html#121\">App\\Services\\DataMigration\\ArticleImporter::extractStreamResource<\/a>"],[0,1,"<a href=\"DataMigration\/ArticleImporter.php.html#142\">App\\Services\\DataMigration\\ArticleImporter::logWarning<\/a>"],[0,1,"<a href=\"DataMigration\/ArticleImporter.php.html#154\">App\\Services\\DataMigration\\ArticleImporter::logError<\/a>"],[0,1,"<a href=\"DataMigration\/ArticleImporterFactory.php.html#28\">App\\Services\\DataMigration\\ArticleImporterFactory::createImporter<\/a>"],[0,3,"<a href=\"DataMigration\/ArticleProcessor.php.html#36\">App\\Services\\DataMigration\\ArticleProcessor::process<\/a>"],[0,3,"<a href=\"DataMigration\/JsonFileStreamer.php.html#38\">App\\Services\\DataMigration\\JsonFileStreamer::streamJson<\/a>"],[0,5,"<a href=\"ModerationService.php.html#15\">App\\Services\\ModerationService::analyze<\/a>"],[0,2,"<a href=\"ModerationService.php.html#47\">App\\Services\\ModerationService::matches<\/a>"],[0,3,"<a href=\"ModerationService.php.html#59\">App\\Services\\ModerationService::allowedByContext<\/a>"],[0,1,"<a href=\"ModerationService.php.html#70\">App\\Services\\ModerationService::buildMessage<\/a>"],[0,2,"<a href=\"ModerationService.php.html#78\">App\\Services\\ModerationService::alternatives<\/a>"],[0,3,"<a href=\"ModerationService.php.html#95\">App\\Services\\ModerationService::decode<\/a>"],[0,1,"<a href=\"ReadTimeCalculator.php.html#27\">App\\Services\\ReadTimeCalculator::__construct<\/a>"],[0,4,"<a href=\"ReadTimeCalculator.php.html#40\">App\\Services\\ReadTimeCalculator::calculate<\/a>"],[0,2,"<a href=\"ReadTimeCalculator.php.html#86\">App\\Services\\ReadTimeCalculator::calculateInMinutes<\/a>"],[0,1,"<a href=\"ReadTimeCalculator.php.html#115\">App\\Services\\ReadTimeCalculator::countImagesInMarkdown<\/a>"],[0,1,"<a href=\"StatisticService.php.html#48\">App\\Services\\StatisticService::getArticleViews<\/a>"],[0,1,"<a href=\"StatisticService.php.html#63\">App\\Services\\StatisticService::getArticleCount<\/a>"],[0,1,"<a href=\"StatisticService.php.html#78\">App\\Services\\StatisticService::getEditCount<\/a>"],[0,1,"<a href=\"StatisticService.php.html#93\">App\\Services\\StatisticService::getUserCount<\/a>"],[0,1,"<a href=\"StatisticService.php.html#110\">App\\Services\\StatisticService::getVolunteerCount<\/a>"],[0,1,"<a href=\"StatisticService.php.html#125\">App\\Services\\StatisticService::registeredToday<\/a>"],[0,1,"<a href=\"StatisticService.php.html#143\">App\\Services\\StatisticService::userRegistrationChartData<\/a>"],[0,1,"<a href=\"StatisticService.php.html#161\">App\\Services\\StatisticService::articleChartData<\/a>"],[0,1,"<a href=\"StatisticService.php.html#199\">App\\Services\\StatisticService::formatChartData<\/a>"],[0,1,"<a href=\"StatisticService.php.html#214\">App\\Services\\StatisticService::extractTrendValues<\/a>"],[0,1,"<a href=\"StatisticService.php.html#226\">App\\Services\\StatisticService::extractTrendLabels<\/a>"],[0,2,"<a href=\"ViewCounterService.php.html#12\">App\\Services\\ViewCounterService::incrementAndSync<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>

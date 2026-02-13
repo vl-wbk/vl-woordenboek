@@ -61,10 +61,9 @@ final readonly class DictionaryArticleController
      * @return Renderable|RedirectResponse The view containing article details
      */
     #[Get(uri: '/woordenboek-artikel/{word}', name: 'word-information.show')]
-    public function __invoke(Request $request, Article $word): Renderable|RedirectResponse
+    public function __invoke(Article $word): Renderable|RedirectResponse
     {
         if (Gate::allows(ArticlePolicy::DisplayArticle, $word)) {
-            /** @phpstan-ignore-next-line */
             $word->recordView(); // Increment the view counter for thearticle by one. Because the user decided to view the article.
 
             return view('definitions.show', data: [

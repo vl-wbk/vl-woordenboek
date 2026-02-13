@@ -12,9 +12,9 @@ use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Utilities\Set;
 use Schmeits\FilamentCharacterCounter\Forms\Components\Textarea;
 
-final class SoftDeleteArticleAction extends DeleteAction 
+final class SoftDeleteArticleAction extends DeleteAction
 {
-    use CanCustomizeProcess; 
+    use CanCustomizeProcess;
 
     protected function setUp(): void
     {
@@ -24,7 +24,7 @@ final class SoftDeleteArticleAction extends DeleteAction
 
         $this->action(function (): void {
             if ($this->process(fn (Article $article, array $data): bool => $this->softDeleteArticle($article, $data))) {
-                $this->success(); 
+                $this->success();
                 return;
             }
 
@@ -32,17 +32,20 @@ final class SoftDeleteArticleAction extends DeleteAction
         });
     }
 
-    private function softDeleteArticle(Article $article, array $data): bool 
+    private function softDeleteArticle(Article $article, array $data): bool
     {
         $article->update(attributes: [
-            'deletion_reason' => $data['deletion_reason'], 
+            'deletion_reason' => $data['deletion_reason'],
             'deleted_by' => auth()->user()->id
         ]);
-        
+
         return (bool) $article->delete();
     }
 
-    private function registerCustomModalSchema(): array 
+    /**
+     * @return array<Select|Textarea>
+     */
+    private function registerCustomModalSchema(): array
     {
         return [
             Select::make('motivation')
