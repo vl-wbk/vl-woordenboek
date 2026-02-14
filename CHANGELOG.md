@@ -2,6 +2,44 @@
 
 ## [1.0.0](https://github.com/vl-wbk/vl-woordenboek/releases/tag/v1.0.0) (2025-12-19)
 
+## [1.2.0](https://github.com/vl-wbk/vl-woordenboek/releases/tag/v1.2.0) (2026-02-14)
+
+### Features
+
+- Wotd refactoring (#449) ([4c292422](https://github.com/vl-wbk/vl-woordenboek/commit/4c2924224f37de1069ec3a1479508d0fb138df09))
+- #447 - woord van de dag melden op Discord ([6be4dbd5](https://github.com/vl-wbk/vl-woordenboek/commit/6be4dbd56e24767e0ca56c3f260917f0738e817b))
+
+### Bug Fixes
+
+- laden van gravatar over http: ([3eda93b2](https://github.com/vl-wbk/vl-woordenboek/commit/3eda93b253e58c526f78f0e170c7ebfcf2dd1731))
+- oplossen van enkele phpstan errors ([5984c57c](https://github.com/vl-wbk/vl-woordenboek/commit/5984c57c0572bb65e8871a663a07b8da6332a5ad))
+- #462 - Typo ([121ab5ac](https://github.com/vl-wbk/vl-woordenboek/commit/121ab5acf99e2b294fae1e16fa75ed19b77ac6d4))
+- editor loskoppelen verplaatst naar een meer logische plaats ([8aac0108](https://github.com/vl-wbk/vl-woordenboek/commit/8aac01087a4f4eb2981f23b20b116d45127671ba))
+- Registreer labels voor artikelbron infolist ([caee380b](https://github.com/vl-wbk/vl-woordenboek/commit/caee380b1fe8be0ef35b024487ea7681890d8462))
+- verwijder publicatie timestamp wanneer artikel uit archief komt ([f5d2c478](https://github.com/vl-wbk/vl-woordenboek/commit/f5d2c47829e7e4f2d72897745391d92727afba79))
+- HTTP 500 - decrementQuietly on likewords ([1886c73e](https://github.com/vl-wbk/vl-woordenboek/commit/1886c73e5e4fc0cade1a72d5ff21291d29201b0a))
+- Typo's in readme bestand van het project ([c7ab0c01](https://github.com/vl-wbk/vl-woordenboek/commit/c7ab0c01747ebf67a8d259ee8a344785f69bc1fc))
+- #441: Links die 1.0 URL format volgen geven 404 ([d4fd4227](https://github.com/vl-wbk/vl-woordenboek/commit/d4fd42273d3e5b0b50718789fbec5bb3d484d40d))
+- Tabel sortering in de gerelateerde artikelen ([8f520b94](https://github.com/vl-wbk/vl-woordenboek/commit/8f520b946e10565634b824d97841ab915c607e85))
+- Redacteurs moete externe en suggesties kunnen verwijderen ([979761bf](https://github.com/vl-wbk/vl-woordenboek/commit/979761bff85b1bee33bb09264c87de9a95ea5460))
+- sentry TypeError issue ([df898ad3](https://github.com/vl-wbk/vl-woordenboek/commit/df898ad37ae0a90056476eea59053c2b0ef60cd2))
+- feedback: FB-20251230-0001 ([3dd0b699](https://github.com/vl-wbk/vl-woordenboek/commit/3dd0b699ac937eacd64b6a0b58481ecbb9c00bc4))
+- scrollbar gutter naar auto in de frontend ([c76b081b](https://github.com/vl-wbk/vl-woordenboek/commit/c76b081b707fbd681058580e2a14bee78145cbbc))
+- scrollbar-gutter -> Filament ([f95e0d99](https://github.com/vl-wbk/vl-woordenboek/commit/f95e0d9990adf6907457597bb66feabe2b3b008b))
+- toevoegen van 'vertalingen' permissie voor het vertaal systeem ([491e6197](https://github.com/vl-wbk/vl-woordenboek/commit/491e6197db7ebf0c257f09c2731d1a9ece793cd8))
+
+### Documentation
+
+- Implementatie missende docblocks in de WordInfolist ([3885ffb5](https://github.com/vl-wbk/vl-woordenboek/commit/3885ffb5c02e8b727c21ba975aa69cc39972d813))
+
+### Chores
+
+- bump debugbar v3 to v4 ([5ba5b10c](https://github.com/vl-wbk/vl-woordenboek/commit/5ba5b10c1d4302216ebd723c83867a6c67e6dc8b))
+- bump dependencies ([72330bff](https://github.com/vl-wbk/vl-woordenboek/commit/72330bff20b483891453cae73871f4cfdb2d7c4f))
+- implementatie record title attribute voor artikelen ([0b692873](https://github.com/vl-wbk/vl-woordenboek/commit/0b6928738ff8844c0582a117d46351bd114612f1))
+- herplannen WTOD ([28edf38a](https://github.com/vl-wbk/vl-woordenboek/commit/28edf38a60fdc06fb1e1a70c665b8e7eb87cf1e7))
+- verwijderen banner voor de beta ([5407e3db](https://github.com/vl-wbk/vl-woordenboek/commit/5407e3db2183ba7714af30651a2aa0c92cea077e))
+- rebuild assets ([8b9b7410](https://github.com/vl-wbk/vl-woordenboek/commit/8b9b741055d2ac099c677832d3beb88668a0a258))
 ## [1.1.0](https://github.com/vl-wbk/vl-woordenboek/releases/tag/v1.1.0) (2025-12-22)
 
 ### Features
