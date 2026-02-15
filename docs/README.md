@@ -13,7 +13,7 @@ Alle documentatie wordt bijhehouden in **Martkdown** om versiebeheer synchroon t
 - [Architecture overview]() \
   Uitleg over de mappenstructuur, Service Layer, en de gekozen Design Patterns. 
 
-- [Naming conventions]() \ 
+- [Naming conventions]() \
   Richtlijnen voor database tabellen, veriablen en class-naming.
 
 ### Security 
