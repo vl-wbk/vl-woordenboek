@@ -18,7 +18,7 @@ Alle documentatie wordt bijhehouden in **Martkdown** om versiebeheer synchroon t
 
 ### Security 
 
-- [Policy register]() \
+- [Policy register](./policies/README.md) \
   Gedetailleerde uitleg van alle autorisatieregels per module.
 
 ### Data
