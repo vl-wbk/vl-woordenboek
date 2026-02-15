@@ -16,6 +16,11 @@ Alle documentatie wordt bijhehouden in **Martkdown** om versiebeheer synchroon t
 - [Naming conventions]() \ 
   Richtlijnen voor database tabellen, veriablen en class-naming.
 
+### Security 
+
+- [Policy register]() \
+  Gedetailleerde uitleg van alle autorisatieregels per module.
+
 ### Data
 
 - [Database schema]() \ 
