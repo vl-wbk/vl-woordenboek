@@ -1,8 +1,59 @@
 User-agent: *
 Disallow:
 
-# robots.txt
-# This should block Meta-ExternalAgent
+# There is no search benefit to any AI models scraping sites - all they do is steal content for their own profit, attribution free, which leads to them serving our content without ever sending users to us.
+#
+# Reference: https://neil-clarke.com/block-the-bots-that-feed-ai-models-by-scraping-your-website/
+# Reference: https://ericwbailey.website/published/consent-llm-scrapers-and-poisoning-the-well/
 
+## Block Meta's AI Crawler
 User-agent: Meta-ExternalAgent
+Disallow: /
+
+## https://commoncrawl.org/faq - Has been used by ChatGTP, Bard (now known as Google Gemini), and others for training a number of models.
+User-agent: CCBot
+Disallow: /
+
+## The bot used when a ChatGPT user instructs ot to reference your website.
+User-agent: ChatGPT-User
+Disallow: /
+
+## Block Google from scraping your site for Bard and VertexAI.
+User-agent: Google-Extended
+Disallow: /
+
+## Omgili sell data they scrape to others for their AI training.
+User-agent: Omgilibot
+Disallow: /
+
+User-agent: Omgili
+Disallow: /
+
+## Meta's bot that crawls public web pages to improve language models for their speech recognition technology.
+User-agent: FacebookBot
+Disallow: /
+
+## Apple very kindly told us how to block their scraper AFTER they's scraped everything.
+User-agent: Applebot-Extended
+Disallow: /
+
+## is used by Anthropic that is more specifically related to Claude
+User-agent: ClaudeBot
+Disallow: /
+
+# is a somewhat dishonest scraping bot used to collect data to train LLMs. This is their default user-agent, but they make it easy for their clients to change it to something else and ignore your wishes
+User-agent: Diffbot
+Disallow: /
+
+## This is just getting stupid and I hope governments step in to wreck these tech-bro thieves.
+User-agent: Bytespider
+Disallow: /
+
+User-agent: ImagesiftBot
+Disallow: /
+
+User-agent: PerplexityBot
+Disallow: /
+
+User-agent: cohere-ai
 Disallow: /
