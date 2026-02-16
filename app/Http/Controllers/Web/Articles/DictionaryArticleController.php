@@ -9,7 +9,9 @@ use App\Filament\Resources\Articles\ArticleResource;
 use App\Models\Article;
 use App\Models\WordOfTheDay;
 use App\Policies\ArticlePolicy;
+use App\States\Reporting\Status;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -67,7 +69,12 @@ final readonly class DictionaryArticleController
             $word->recordView(); // Increment the view counter for thearticle by one. Because the user decided to view the article.
 
             return view('definitions.show', data: [
-                'word' => $word,
+                'word' => $word->loadCount([
+                    'reports' => fn (Builder $query) => $query->where('state', Status::Open)->orWhere('state', Status::InProgress),
+                    'notes',
+                    'audits'
+                ]),
+                'articleResource' => ArticleResource::class,
                 'etymologies' => $word->etymologies()->whereNotIn('status', [EtymologyStatus::Draft, EtymologyStatus::Rejected, EtymologyStatus::Archived])->get(),
                 'upcomingSchedule' => WordOfTheDay::where('article_id', $word->id)->whereDate('scheduled_for', today())->first(),
             ]);

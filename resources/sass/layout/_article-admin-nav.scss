@@ -1,0 +1,105 @@
+/* Management Toolbar Styles */
+ .mgmt-toolbar {
+    background: #0f172a;
+    color: #94a3b8; /* Muted slate text */
+    padding: 0.5rem 0;
+    font-size: 0.85rem;
+    border-bottom: 1px solid #1e293b;
+}
+
+.mgmt-btn {
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+}
+
+.mgmt-btn {
+    color: #94a3b8;
+    text-decoration: none;
+    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+}
+
+.mgmt-btn:hover {
+    background: #1e293b;
+    color: #f8fafc; /* Crisp white-blue on hover */
+}
+
+/* Accent for the Bell/Reports icon */
+.mgmt-btn-accent svg {
+    color: #818cf8;
+}
+
+.mgmt-btn:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.1);
+}
+
+.mgmt-icon {
+    width: 1.1rem;
+}
+
+.mgmt-btn-danger > .mgmt-icon {
+    color: #dc3545 !important;
+}
+
+.mgmt-btn-danger:hover {
+    background: #dc3545 !important;
+
+    > .mgmt-icon {
+        color: #fff !important;
+    }
+}
+
+.mgmt-btn-publish > .mgmt-icon {
+    color: $success !important;
+}
+
+.mgmt-btn-publish:hover {
+    background: $success !important;
+
+    > .mgmt-icon {
+        color: #fff !important;
+    }
+}
+
+.mgmt-toolbar {
+    z-index: 1010 !important; /* Higher than content, but lower than Nav (1030+) */
+}
+
+/* Ensure your Navbar/Header is higher */
+.navbar {
+    z-index: 1030 !important;
+}
+
+.mgmt-dropdown-menu {
+     background: #1a1d20;
+    border: 1px solid #343a40;
+    min-width: 240px;
+}
+
+.mgmt-dropdown-item {
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    transition: background 0.2s;
+}
+
+.mgmt-dropdown-item:hover {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+}
+
+.mgmt-dropdown-divider {
+    border-top: 1px solid #343a40;
+}

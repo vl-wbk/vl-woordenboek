@@ -29,7 +29,7 @@ final class AcceptPublishingProposal extends Action
      */
     public static function getDefaultName(): string
     {
-        return trans('Goedkeuren');
+        return 'approve-dictionary-article';
     }
 
     /**
@@ -47,6 +47,7 @@ final class AcceptPublishingProposal extends Action
         $this->icon('heroicon-o-check');
 
         $this->authorize('publish');
+        $this->label('Goedkeuren');
         $this->hidden(fn (Article $article): bool => $article->trashed());
         $this->requiresConfirmation();
 

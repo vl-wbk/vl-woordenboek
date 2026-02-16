@@ -41,7 +41,7 @@ final class RejectPublishingAction extends Action
      */
     public static function getDefaultName(): string
     {
-        return trans('Afwijzen');
+        return 'reject-dictionary-article';
     }
 
     /**
@@ -56,6 +56,7 @@ final class RejectPublishingAction extends Action
         parent::setUp();
 
         $this->color('danger');
+        $this->label('Afwijzen');
         $this->icon($this->actionIcon);
 
         $this->authorize('publish');

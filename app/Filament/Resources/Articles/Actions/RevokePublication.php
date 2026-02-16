@@ -38,7 +38,7 @@ final class RevokePublication extends Action
      */
     public static function getDefaultName(): string
     {
-        return trans('ongedaan maken');
+        return 'unpublish';
     }
 
     /**
@@ -57,6 +57,7 @@ final class RevokePublication extends Action
 
         // Customize the action's appearance.
         $this->icon('tabler-arrow-back-up');
+        $this->label('Ongedaan maken');
         $this->color('danger');
 
         // Require user confirmation before proceeding.
