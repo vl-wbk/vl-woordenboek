@@ -71,7 +71,7 @@
 
                             @can('publish', $word)
                                 <a href="{{ $articleResource::getUrl('view', ['record' => $word, 'action' => 'approve-dictionary-article']) }}" id="acceptPublication" class="mgmt-btn mgmt-btn-publish border-0 bg-transparent">
-                                    <x-heroicon-o-check-circle class="me-1 mgmt-icon"/> P{{ __('components/admin-management-nav.publication.publish') }}
+                                    <x-heroicon-o-check-circle class="me-1 mgmt-icon"/> {{ __('components/admin-management-nav.publication.publish') }}
                                 </a>
 
                                 @if ($word->state->is(\App\Enums\ArticleStates::Approval))
@@ -84,7 +84,7 @@
 
                             @can ('delete', $word)
                                 <a href="{{ $articleResource::getUrl('view', ['record' => $word, 'action' => 'delete']) }}" id="deleteArticle" class="mgmt-btn mgmt-btn-danger bg-transparent border-0">
-                                    <x-heroicon-o-trash class="me-1 mgmt-icon"/> {{ __('components/admin-management-nav.publication.delete') }}
+                                    <x-heroicon-o-trash class="me-1 mgmt-icon"/> {{ __('components/admin-management-nav.delete') }}
                                 </a>
                             @endcan
                         </div>
