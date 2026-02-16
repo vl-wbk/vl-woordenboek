@@ -93,36 +93,36 @@
             </div>
         </div>
     @endcanany
-@endauth
 
-@php
-    /**
-     * Build the shortcut configuration map.
-     * Only include keys the user is authorized for.
-     */
-    $shortcuts = collect(\App\Enums\Support\KeyBindings::cases())->filter(fn($case) => auth()->user()->can($case->policyMethod(), $word))
-      ->mapWithKeys(fn($case) => [$case->value => $case->domId()])
-      ->toArray();
-@endphp
+    @php
+        /**
+         * Build the shortcut configuration map.
+         * Only include keys the user is authorized for.
+         */
+        $shortcuts = collect(\App\Enums\Support\KeyBindings::cases())->filter(fn($case) => auth()->user()->can($case->policyMethod(), $word))
+        ->mapWithKeys(fn($case) => [$case->value => $case->domId()])
+        ->toArray();
+    @endphp
 
-<script>
-    const initAppShortcuts = () => {
-        if (!window.Mousetrap) return;
+    <script>
+        const initAppShortcuts = () => {
+            if (!window.Mousetrap) return;
 
 
-        const shortcutMap = @js($shortcuts);
+            const shortcutMap = @js($shortcuts);
 
-        Object.entries(shortcutMap).forEach(([shortcut, elementId]) => {
-            window.Mousetrap.bind(shortcut, (e) => {
-                const element = document.getElementById(elementId);
+            Object.entries(shortcutMap).forEach(([shortcut, elementId]) => {
+                window.Mousetrap.bind(shortcut, (e) => {
+                    const element = document.getElementById(elementId);
 
-                if (element) {
-                    e.preventDefault();
-                    element.click();
-                }
+                    if (element) {
+                        e.preventDefault();
+                        element.click();
+                    }
+                });
             });
-        });
-    };
+        };
 
-document.addEventListener('DOMContentLoaded', initAppShortcuts);
-</script>
+    document.addEventListener('DOMContentLoaded', initAppShortcuts);
+    </script>
+@endauth
