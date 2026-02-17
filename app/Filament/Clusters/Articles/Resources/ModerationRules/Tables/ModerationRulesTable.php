@@ -11,6 +11,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Support\Enums\FontWeight;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -21,6 +22,9 @@ class ModerationRulesTable
     {
         return $table
             ->heading('Taaladviezen')
+            ->emptyStateHeading('Geen taaladviezen gevonden')
+            ->emptyStateIcon(Heroicon::OutlinedXCircle)
+            ->emptyStateDescription(description: 'Momenteel zijn er geen taaladviezen geregistreerd of gevonden matchend met je zoekopdracht')
             ->description('Omdat we beschrijvingen van artikelen op een zo neutraal mogelijke manier willen benaderen. Registreren we hier woorden waar we advies aankoppelen om deze neutraler te benaderen in de beschrijving. Zo kunnen we het gebruik van disclaimers verminderen waar nodig.')
             ->columns([
                 TextColumn::make('pattern')
