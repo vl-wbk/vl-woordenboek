@@ -20,10 +20,11 @@
 
 @section ('content')
     <style>
-        .markdown-text p:not(:last-child) {
-            margin-bottom: .70rem;
-        }
+        .markdown-text p:not(:last-child) { margin-bottom: .70rem; }
     </style>
+
+    <x-definitions.admin-management-nav :word=$word :articleResource=$articleResource/>
+
 
     <div class="word-header py-5 border-bottom bg-light">
         <div class="container-fluid">
