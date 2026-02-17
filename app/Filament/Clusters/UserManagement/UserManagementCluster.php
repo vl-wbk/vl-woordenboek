@@ -42,10 +42,6 @@ final class UserManagementCluster extends Cluster
 
     public static function canAccess(): bool
     {
-        if (count((new self)->getSubNavigation()) > 0) {
-            return true;
-        }
-
-        return false;
+        return count((new self)->getSubNavigation()) > 0;
     }
 }

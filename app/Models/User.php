@@ -272,11 +272,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
             /** @var \Illuminate\Support\Carbon|null $lastSeen */
             $lastSeen = Cache::get('user-last-seen:'.$this->id, null);
 
-            if (! is_null($lastSeen) && $lastSeen->diffInMinutes(now()) < 2) {
-                return true;
-            }
-
-            return false;
+            return !is_null($lastSeen) && $lastSeen->diffInMinutes(now()) < 2;
         });
     }
 
