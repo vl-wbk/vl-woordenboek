@@ -35,7 +35,7 @@ final class ArchiveArticle extends Action
 
     /**
      * Provides the localized name for the archive action.
-     * The translation key is processed through laravel's translation system to support multiple languages whule maintaining Dutch as the primary nterface language
+     * The translation key is processed through the Laravel translation system to support multiple languages while maintaining Dutch as the primary interface language
      */
     public static function getDefaultName(): string
     {
@@ -59,7 +59,7 @@ final class ArchiveArticle extends Action
 
         $this->color('gray');
         $this->icon($this->actionIcon);
-        
+
         $this->authorize('archive-article');
         $this->hidden(fn (Article $article): bool => $article->trashed());
 

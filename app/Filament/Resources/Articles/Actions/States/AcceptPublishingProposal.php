@@ -52,7 +52,7 @@ final class AcceptPublishingProposal extends Action
         $this->requiresConfirmation();
 
         $this->modalHeading('Artikel publiceren');
-        $this->modalDescription('U staat op het punt om een artikel te publiceren. Met de input hieronder kun je aangeven wanneer je het artikel geppubliceerd wilt zien. Weet je zeker dat je dit wilt doen?');
+        $this->modalDescription('U staat op het punt om een artikel te publiceren. Met de input hieronder kun je aangeven wanneer je het artikel gepubliceerd wilt zien. Weet je zeker dat je dit wilt doen?');
         $this->modalIcon(Heroicon::OutlinedCheckBadge);
 
         $this->schema([

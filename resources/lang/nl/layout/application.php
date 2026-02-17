@@ -7,7 +7,7 @@ return [
         'documentation' => 'Documentatie',
         'information-section' => [
             'info-paragraph' => 'Een woordenboek van gewone mensen voor iedereen met een hart voor de Nederlandse taal.',
-            'license-paragraph' => 'De code is gelicensieerd onder de MIT-licentie. De documentatie hiervan is beschikbaar onder de Creative Commons-licentie CC BY 3.0.',
+            'license-paragraph' => 'De code is gelicenseerd onder de MIT-licentie. De documentatie hiervan is beschikbaar onder de Creative Commons-licentie CC BY 3.0.',
             'version-paragraph' => 'huidige versie: :version'
         ],
         'sources-section' => [
@@ -34,7 +34,7 @@ return [
     ],
     'footer.contribution-section.github-issues' => 'Github-issues',
     'footer.information-section.info-paragraph' => 'Een woordenboek van gewone mensen voor iedereen met een hart voor het Nederlands in België.',
-    'footer.links-section.project-information' => 'Porjectinformatie',
+    'footer.links-section.project-information' => 'Projectinformatie',
     'navigation' => [
         'user-menu' => [
             'lgout' => 'Uitloggen',
