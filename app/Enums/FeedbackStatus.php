@@ -56,14 +56,30 @@ enum FeedbackStatus: int implements HasLabel, HasColor, HasIcon
         };
     }
 
-    public function getColor(): string 
+    /**
+     * Retrieves the color associated with the feedback status.
+     *
+     * This color is used by Filament components to visually distinguish between statuses, typically using 'danger'
+     * for unprocessed items and 'success' for processed ones.
+     *
+     * @return string The Filament color name.
+     */
+    public function getColor(): string
     {
         return match ($this) {
-            self::Unprocessed => 'danger', 
+            self::Unprocessed => 'danger',
             self::Processed => 'success',
         };
     }
 
+    /**
+     * Retrieves the icon representing the current feedback status.
+     *
+     * This icon provides a visual cue in the user interface, such as an exclamation triangle for items
+     * requiring attention and a check badge for completed items.
+     *
+     * @return BackedEnum The Heroicon enum instance.
+     */
     public function getIcon(): BackedEnum
     {
         return match ($this) {
