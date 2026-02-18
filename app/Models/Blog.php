@@ -15,6 +15,7 @@ use App\Models\Relations\BelongsToAuthor;
 use Carbon\Carbon;
 use Database\Factories\BlogFactory;
 use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Attributes\UseEloquentBuilder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
@@ -50,6 +51,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  *
  * @package App\Models
  */
+#[UseEloquentBuilder(builderClass: BlogBuilder::class)]
 class Blog extends Model implements Feedable
 {
     /** @use HasFactory<BlogFactory> */
@@ -201,18 +203,6 @@ class Blog extends Model implements Feedable
     public function getLinkAttribute(): string
     {
         return route('news:show', $this);
-    }
-
-    /**
-     * Create a new Eloquent query builder for the model.
-     * This method overrides the default Eloquent builder to return a custom `BlogBuilder` instance, allowing for custom query methods specific to the Blog model.
-     *
-     * @param  \Illuminate\Database\Query\Builder $query The underlying query builder instance.
-     * @return BlogBuilder A new instance of `BlogBuilder`.
-     */
-    public function newEloquentBuilder($query): BlogBuilder
-    {
-        return new BlogBuilder($query);
     }
 
 	/** @phpstan-ignore-next-line */

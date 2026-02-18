@@ -25,8 +25,8 @@ use App\Models\Relations\BelongsToManyRegions;
 use App\States\RejectedPublication;
 use Carbon\Carbon;
 use Database\Factories\ArticleFactory;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Attributes\UseEloquentBuilder;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -35,7 +35,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Stringable;
 use Kirschbaum\Commentions\Contracts\Commentable;
 use Kirschbaum\Commentions\HasComments;
 use Overtrue\LaravelLike\Traits\Likeable;
@@ -78,6 +77,7 @@ use Override;
  * @package App\Models
  * @method isPublished()
  */
+#[UseEloquentBuilder(builderClass: ArticleBuilder::class)]
 final class Article extends Model implements AuditableContract, Commentable
 {
     /**
@@ -300,21 +300,6 @@ final class Article extends Model implements AuditableContract, Commentable
     public function related(): BelongsToMany
     {
         return $this->belongsToMany(Article::class, 'related_articles', 'related_article_id');
-    }
-
-    /**
-     * Overrides the default Eloquent builder with a custom ArticleBuilder.
-     *
-     * This method ensures that all queries for the Article model use the custom builder,
-     * which includes additional methods for managing article states (e.g., archiving and unarchiving).
-     *
-     * @param \Illuminate\Database\Query\Builder $query The base query builder instance
-     * @return ArticleBuilder<self>                      The custom builder instance
-     */
-    #[Override]
-    public function newEloquentBuilder($query): ArticleBuilder
-    {
-        return new ArticleBuilder($query);
     }
 
     /**

@@ -19,6 +19,7 @@ use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\UseEloquentBuilder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Prunable;
@@ -77,7 +78,8 @@ use Spatie\Permission\Traits\HasRoles;
  *
  * @package App\Models
  */
-#[ObservedBy(UserObserver::class)]
+#[ObservedBy(classes: UserObserver::class)]
+#[UseEloquentBuilder(builderClass: UserBuilder::class)]
 class User extends Authenticatable implements FilamentUser, HasAvatar, BannableInterface, MustVerifyEmail, Commenter
 {
     /** @use HasFactory<UserFactory> */
@@ -231,20 +233,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
     public function sendWelcomeNotification(Carbon $validUntil): void
     {
         $this->notify(new RegistrationWelcomeNotification($validUntil));
-    }
-
-    /**
-     * Overrides the default Eloquent builder with a custom UserBuilder.
-     *
-     * This method ensures that all queries for the User model use the custom builder,
-     * which includes additional methods for managing user types and such.
-     *
-     * @param Builder $query The base query builder instance
-     * @return UserBuilder     The custom builder instance
-     */
-    public function newEloquentBuilder($query): UserBuilder
-    {
-        return new UserBuilder($query);
     }
 
     /**
