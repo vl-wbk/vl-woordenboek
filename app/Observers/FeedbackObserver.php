@@ -40,10 +40,10 @@ final readonly class FeedbackObserver
             ->orderBy('tracking_number', 'desc')
             ->first();
 
-        // If a previous feedback for today exists, extract its sequence number and increment it for the new submission.
+        // If previous feedback for today exists, extract its sequence number and increment it for the new submission.
         $sequence = 1;
 
-        // If a previous feedback for today exists, extract its sequence number and increment it for the new submission.
+        // If previous feedback for today exists, extract its sequence number and increment it for the new submission.
         if ($lastFeedback) {
             // The sequential part is always the last 4 characters of the tracking number.
             $lastSequence = (int) substr((string) $lastFeedback->tracking_number, -4);
