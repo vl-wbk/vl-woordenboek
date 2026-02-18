@@ -9,8 +9,6 @@ use Rector\Php74\Rector\Closure\ClosureToArrowFunctionRector;
 use Rector\Php83\Rector\ClassMethod\AddOverrideAttributeToOverriddenMethodsRector;
 use Rector\Privatization\Rector\ClassMethod\PrivatizeFinalClassMethodRector;
 use Rector\Privatization\Rector\Property\PrivatizeFinalClassPropertyRector;
-use Rector\Strict\Rector\If_\BooleanInIfConditionRuleFixerRector;
-use Rector\Strict\Rector\Ternary\DisallowedShortTernaryRuleFixerRector;
 use Rector\Php81\Rector\MethodCall\RemoveReflectionSetAccessibleCallsRector;
 
 return RectorConfig::configure()
@@ -27,9 +25,7 @@ return RectorConfig::configure()
         PrivatizeFinalClassMethodRector::class          => [__DIR__ . '/app/Filament/Clusters/Blog/Resources/BlogResource/Pages/CreateBlog.php'],
         RemoveUnusedPublicMethodParameterRector::class  => [__DIR__ . '/app/Policies'],
         ClosureToArrowFunctionRector::class             => [__DIR__ . '/app/Providers/FortifyServiceProvider.php'],
-        BooleanInIfConditionRuleFixerRector::class      => [__DIR__ . '/app/Filament/Clusters/Articles/Resources/ArticleReportResource/Widgets/ArticleReportingChartWidget.php'],
         ReturnBinaryOrToEarlyReturnRector::class        => [__DIR__ . '/app/Providers/TelescopeServiceProvider.php'],
-        DisallowedShortTernaryRuleFixerRector::class    => [__DIR__ . '/app/Services/AgentService.php'],
     ])
     ->withPreparedSets(
         deadCode: true,
