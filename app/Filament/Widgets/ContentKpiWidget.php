@@ -22,7 +22,7 @@ class ContentKpiWidget extends StatsOverviewWidget
 
         return [
             // 1. Instroom (Productiviteit)
-            Stat::make('Wachtend op Review', Article::where('state', ArticleStates::New)->count())
+            Stat::make('Wachtend op Review', Article::where('state', ArticleStates::New)->orWhere('state', ArticleStates::ExternalData)->count())
                 ->description('Nieuwe suggesties van gebruikers')
                 ->descriptionIcon(Heroicon::OutlinedPencilSquare, IconPosition::Before)
                 ->color('info'),

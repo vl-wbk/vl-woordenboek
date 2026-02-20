@@ -15,6 +15,7 @@ use Filament\Actions\ViewAction;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget;
 use Illuminate\Database\Eloquent\Builder;
@@ -37,7 +38,21 @@ final class ContentWorkloadTable extends TableWidget
             ->headerActions(actions: $this->getHeaderActions())
             ->columns(components: $this->tableLayoutColumns())
             ->recordActions(actions: $this->registerToolbarActions())
+            ->filters(filters: $this->registerFilters())
             ->paginated([7, 14, 21, 28]);
+    }
+
+    private function registerFilters(): array
+    {
+        return [
+            SelectFilter::make('state')
+                ->label('Status')
+                ->native(false)
+                ->options([
+                    ArticleStates::New->value => ArticleStates::New->getLabel(),
+                    ArticleStates::ExternalData->value => ArticleStates::ExternalData->getLabel(),
+                ])
+        ];
     }
 
     /**
@@ -67,6 +82,12 @@ final class ContentWorkloadTable extends TableWidget
                 ->color('primary')
                 ->sortable()
                 ->sinceTooltip(),
+            TextColumn::make('state')
+                ->label('Status')
+                ->sortable()
+                ->toggleable()
+                ->toggledHiddenByDefault()
+                ->badge(),
             UserColumn::make('author_id')
                 ->description(fn (Article $article): string => "{$article->author->firstname} {$article->author->lastname}")
                 ->emptyStateHeading(config('app.name', 'Laravel')) // Custom empty state heading
