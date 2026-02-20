@@ -59,7 +59,7 @@ class VotingComponent extends Component
      * Register a downvote for the article.
      * * @return void
      */
-    public function downvote(): mixed
+    public function downvote(): void
     {
         if (auth()->guest())
             return $this->redirect(route('login'));
