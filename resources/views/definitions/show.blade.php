@@ -246,7 +246,7 @@
                 // Define limits (e.g., between 12px and 32px)
                 const newSize = currentSize + (direction * 2);
 
-                if (newSize >= 12 && newSize <= 28) {
+                if (newSize >= 14 && newSize <= 28) {
                     container.style.fontSize = newSize + 'px';
 
                     // Optional: Save preference to localStorage
