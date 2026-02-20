@@ -135,7 +135,7 @@
     <div class="container-fluid py-5">
         <div class="row justify-content-center">
             <div class="col-lg-7 pe-lg-5" id="readable-content">
-                <section class="mb-5" id="readable-content">
+                <section class="mb-5">
                     <h5 class="fw-bold mb-3 text-success">Definitie</h5>
                     <p class="mb-3 text-muted"><span class="text-dark fw-bold me-2">Status:</span>{{ $word->status->getLabel() }}</p>
 
@@ -163,7 +163,7 @@
                     </div>
                 </section>
 
-                <section class="mb-5" id="readable-content">
+                <section class="mb-5">
                     <h5 class="fw-bold mb-3 color-green">Voorbeelden</h5>
                     <div class="markdown-text">
                         {!! str($word->example)->markdown()->sanitizeHtml() !!}
@@ -184,7 +184,7 @@
                 @endif
 
                 @if($word->sources && $word->sources->count() > 0)
-                    <section class="mb-5" id="readable-content">
+                    <section class="mb-5">
                         <h5 class="fw-bold mb-3 d-flex align-items-center color-green">Bronnen & Referenties</h5>
                         <div class="sources-list">
                             @foreach($word->sources as $source)
@@ -204,7 +204,7 @@
                     </section>
                 @endif
 
-                <section class="border-top pt-4" id="readable-content">
+                <section class="border-top pt-4">
                     <div class="contributor-box bg-white shadow-sm">
                         <div class="bg-white rounded-circle d-flex align-items-center justify-content-center border" style="width: 45px; height: 45px;">
                             <x-heroicon-o-user style="width: 1.5rem;" class="text-muted" />
