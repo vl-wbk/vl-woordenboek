@@ -80,23 +80,41 @@
                         @endif
                     </div>
 
-                    @auth
                         <div class="header-actions mt-4 d-flex gap-3">
-                            @if ($word->bookmarkers->contains(auth()->user()))
-                                <a href="{{ route('bookmark:remove', $word) }}" class="action-link-btn text-danger text-decoration-none opacity-75 d-flex align-items-center">
-                                    <x-heroicon-o-bookmark-slash class="me-1" style="width:1.1rem"/> Vergeet dit woord
-                                </a>
-                            @else
-                                <a href="{{ route('bookmark:create', $word) }}" class="action-link-btn text-decoration-none d-flex align-items-center">
-                                    <x-heroicon-o-bookmark class="me-1" style="width:1.1rem"/> Bewaar
-                                </a>
-                            @endif
+                            @auth
+                                @if ($word->bookmarkers->contains(auth()->user()))
+                                    <a href="{{ route('bookmark:remove', $word) }}" class="action-link-btn text-danger text-decoration-none opacity-75 d-flex align-items-center">
+                                        <x-heroicon-o-bookmark-slash class="me-1" style="width:1.1rem"/> Vergeet dit woord
+                                    </a>
+                                @else
+                                    <a href="{{ route('bookmark:create', $word) }}" class="action-link-btn text-decoration-none d-flex align-items-center">
+                                        <x-heroicon-o-bookmark class="me-1" style="width:1.1rem"/> Bewaar
+                                    </a>
+                                @endif
 
-                            <button class="action-link-btn text-danger opacity-75 bg-transparent border-0 p-0 d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#reportModal">
-                                <x-heroicon-o-megaphone class="me-1" style="width:1.1rem"/> Verbetering melden
-                            </button>
+                                <button class="action-link-btn text-danger opacity-75 bg-transparent border-0 p-0 d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#reportModal">
+                                    <x-heroicon-o-megaphone class="me-1" style="width:1.1rem"/> Verbetering melden
+                                </button>
+                            @endauth
+
+                            <div class="font-controls d-flex align-items-center gap-2 ms-auto">
+                                <span class="text-muted fw-bold text-uppercase" style="font-size: 0.75rem;">Tekstgrootte:</span>
+
+                                <div class="btn-group btn-group-sm shadow-sm" role="group">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="changeFontSize(-1)" title="Kleiner">
+                                        <x-heroicon-o-minus style="width:1rem"/>
+                                    </button>
+
+                                    <button type="button" class="btn btn-outline-secondary" onclick="resetFontSize()" title="Standaard">
+                                        <x-heroicon-o-arrow-path style="width:1rem"/>
+                                    </button>
+
+                                    <button type="button" class="btn btn-outline-secondary" onclick="changeFontSize(1)" title="Groter">
+                                        <x-heroicon-o-plus style="width:1rem"/>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                    @endauth
                 </div>
             </div>
         </div>
@@ -116,8 +134,8 @@
 
     <div class="container-fluid py-5">
         <div class="row justify-content-center">
-            <div class="col-lg-7 pe-lg-5">
-                <section class="mb-5">
+            <div class="col-lg-7 pe-lg-5" id="readable-content">
+                <section class="mb-5" id="readable-content">
                     <h5 class="fw-bold mb-3 text-success">Definitie</h5>
                     <p class="mb-3 text-muted"><span class="text-dark fw-bold me-2">Status:</span>{{ $word->status->getLabel() }}</p>
 
@@ -145,7 +163,7 @@
                     </div>
                 </section>
 
-                <section class="mb-5">
+                <section class="mb-5" id="readable-content">
                     <h5 class="fw-bold mb-3 color-green">Voorbeelden</h5>
                     <div class="markdown-text">
                         {!! str($word->example)->markdown()->sanitizeHtml() !!}
@@ -166,7 +184,7 @@
                 @endif
 
                 @if($word->sources && $word->sources->count() > 0)
-                    <section class="mb-5">
+                    <section class="mb-5" id="readable-content">
                         <h5 class="fw-bold mb-3 d-flex align-items-center color-green">Bronnen & Referenties</h5>
                         <div class="sources-list">
                             @foreach($word->sources as $source)
@@ -186,7 +204,7 @@
                     </section>
                 @endif
 
-                <section class="border-top pt-4">
+                <section class="border-top pt-4" id="readable-content">
                     <div class="contributor-box bg-white shadow-sm">
                         <div class="bg-white rounded-circle d-flex align-items-center justify-content-center border" style="width: 45px; height: 45px;">
                             <x-heroicon-o-user style="width: 1.5rem;" class="text-muted" />
@@ -218,4 +236,36 @@
     </div>
 
     <livewire:report-article-modal :article=$word />
+
+        <script>
+            function changeFontSize(direction) {
+                const container = document.getElementById('readable-content');
+                // Get current computed font size or default to 1rem (16px)
+                const currentSize = parseFloat(window.getComputedStyle(container).getPropertyValue('font-size'));
+
+                // Define limits (e.g., between 12px and 32px)
+                const newSize = currentSize + (direction * 2);
+
+                if (newSize >= 16 && newSize <= 28) {
+                    container.style.fontSize = newSize + 'px';
+
+                    // Optional: Save preference to localStorage
+                    localStorage.setItem('preferred-font-size', newSize + 'px');
+                }
+            }
+
+            function resetFontSize() {
+                const container = document.getElementById('readable-content');
+                container.style.fontSize = ''; // Reverts to CSS default
+                localStorage.removeItem('preferred-font-size');
+            }
+
+            // Apply saved preference on load
+            window.addEventListener('DOMContentLoaded', () => {
+                const savedSize = localStorage.getItem('preferred-font-size');
+                if (savedSize) {
+                    document.getElementById('readable-content').style.fontSize = savedSize;
+                }
+            });
+        </script>
 @endsection
