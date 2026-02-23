@@ -2,6 +2,42 @@
 
 ## [1.3.0](https://github.com/vl-wbk/vl-woordenboek/releases/tag/v1.3.0) (2026-02-14)
 
+## [1.4.0](https://github.com/vl-wbk/vl-woordenboek/releases/tag/v1.4.0) (2026-02-23)
+
+### Features
+
+- toevoegen van een regelaar voor de tekstgrootte van de artikelen ([a894036](https://github.com/vl-wbk/vl-woordenboek/commit/a894036ee60b2051e4f7ee3d111c8705c6bf9b3b))
+- Toevoegen van een administratieve toolbar in de artikel weergave (#491) ([1be4f41](https://github.com/vl-wbk/vl-woordenboek/commit/1be4f419a918c81ad40014ae9c2939d8686249aa))
+
+### Bug Fixes
+
+- minimum font-size in regelaar ([21fa714](https://github.com/vl-wbk/vl-woordenboek/commit/21fa714892427ffd3cb9fd4bc66e3b18f8235500))
+- toevoegen object-fit: cover aan afbeeldingen in artikelen ([87b7447](https://github.com/vl-wbk/vl-woordenboek/commit/87b7447ac2abd2fe876588f332ac712847e3b16c))
+- return types ([f76fa64](https://github.com/vl-wbk/vl-woordenboek/commit/f76fa6459cc2955835742f78f34c7aefd3022cfd))
+- return type in voting component ([1a35e8d](https://github.com/vl-wbk/vl-woordenboek/commit/1a35e8dd8251ce21fe1c938b3e0d47b2aad1446a))
+- Detacheren van redacteurs na 15 dagen inactiviteit ([c3dc2aa](https://github.com/vl-wbk/vl-woordenboek/commit/c3dc2aab78f59a3a527eb105ce8917688d465fda))
+- toevoegen voor een empty state voor de taaladvizen resource ([8a876ce](https://github.com/vl-wbk/vl-woordenboek/commit/8a876ce44eb4b7bd7183576583343dbd330efd93))
+- verbied AI LLM's om te scrapen op het VL-WBK ([2e93feb](https://github.com/vl-wbk/vl-woordenboek/commit/2e93febeb03da66a9e99f8933b74e77e09f1869c))
+
+### Code Refactoring
+
+- Gebruiker van attributes voor Elo. builders ([c2259b0](https://github.com/vl-wbk/vl-woordenboek/commit/c2259b0815f17f9061f2904e7ca102f69246952a))
+- versimpelen van if/else statements ([002606f](https://github.com/vl-wbk/vl-woordenboek/commit/002606fd535038808ecf88df2b4360281e9b723c))
+
+### Documentation
+
+- Toevoegen van docblocks voor de ArticlesCluster ([a95dc35](https://github.com/vl-wbk/vl-woordenboek/commit/a95dc3516104823f055f16cd1f5404da85ec800f))
+- Vervolledigen van de FeedbackStatus enumeratie ([4ff331c](https://github.com/vl-wbk/vl-woordenboek/commit/4ff331c5d46ce96b15029d40959ff32297497c85))
+- verwijderen van v1.x hoofding in de changelog ([61065d4](https://github.com/vl-wbk/vl-woordenboek/commit/61065d4a236f6cdb9f66f1e647dcf57e253b9320))
+
+### Continuous Integration
+
+- Remove BooleanInIfConditionRuleFixer BooleanInIfConditionRuleFixer rector rule ([e539980](https://github.com/vl-wbk/vl-woordenboek/commit/e53998011d5b1e9f2b9e74078cfa59322723f4dc))
+
+### Chores
+
+- verbeter de verwoording in de FeedbackObserver docblocks ([dd68e28](https://github.com/vl-wbk/vl-woordenboek/commit/dd68e2828b35c59dd41647655a4878843eb145de))
+- verhelpen van enkele grammatische fouten ([fd865c9](https://github.com/vl-wbk/vl-woordenboek/commit/fd865c9e2bdc78aa4d152e396573979ec908152d))
 ### Features
 
 - Wotd refactoring (#449) ([4c29242](https://github.com/vl-wbk/vl-woordenboek/commit/4c2924224f37de1069ec3a1479508d0fb138df09))
