@@ -59,6 +59,12 @@
                         @endcan
                     @endauth
 
+                    <li class="nav-item"">
+                        <a href="{{ route('search.results') }}" class="nav-link"">
+                            <x-heroicon-s-magnifying-glass class="icon me-1"/> Zoeken
+                        </a>
+                    </li>
+
                     <x-random-article-navigation-item/>
 
                     <li class="nav-item">
@@ -79,7 +85,7 @@
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <x-tabler-info-square-rounded class="icon  me-1" /> {{ __('layout/application.footer.links-section.project-information') }}
                         </a>
-                        
+
                         <ul class="dropdown-menu border-0 shadow-sm">
                             @if (app(\App\Settings\ProjectInformationSettings::class)->pageActive)
                                 <li>

@@ -34,6 +34,7 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb mb-0">
                                 <li class="breadcrumb-item"><a href="{{ route('home') }}"><x-heroicon-o-home class="icon me-1"/>Home</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('search.results') }}"><x-heroicon-o-magnifying-glass class="icon me-1"/>Zoeken</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">{{ $word->word }}</li>
                             </ol>
                         </nav>
