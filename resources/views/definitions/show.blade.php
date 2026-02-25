@@ -138,7 +138,15 @@
             <div class="col-lg-7 pe-lg-5" id="readable-content">
                 <section class="mb-5">
                     <h5 class="fw-bold mb-3 text-success">Definitie</h5>
-                    <p class="mb-3 text-muted"><span class="text-dark fw-bold me-2">Status:</span>{{ $word->status->getLabel() }}</p>
+
+                    <div class="border-bottom mb-3">
+                        <dl class="row">
+                            <dt class="col-sm-2">Status</dt>
+                            <dd class="col-sm-10">{{ $word->status->getLabel() }}</dd>
+                            <dt class="col-sm-2">Varianten</dt>
+                            <dd class="col-sm-10 mb-0">{{ $word->keywords ?? '-' }}</dd>
+                        </dl>
+                    </div>
 
                     <div class="d-flex">
                         @if ($word->image_url)

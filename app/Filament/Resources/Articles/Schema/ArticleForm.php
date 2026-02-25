@@ -154,7 +154,7 @@ final readonly class ArticleForm
                 ->preload(),
 
             TextInput::make('characteristics')
-                ->label('Kenmerken')
+                ->label('Kenmerken (varianten)')
                 ->hintAction(self::guidelineAction('https://vl-wbk.github.io/documentatie/richtlijnen/kenmerken'))
                 ->columnSpan(6)
                 ->required()
