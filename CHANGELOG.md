@@ -2,6 +2,16 @@
 
 ## [1.3.0](https://github.com/vl-wbk/vl-woordenboek/releases/tag/v1.3.0) (2026-02-14)
 
+## [1.4.1](https://github.com/vl-wbk/vl-woordenboek/releases/tag/v1.4.1) (2026-02-25)
+
+### Features
+
+- makkelijker zoeken vanuit artikel weergave ([08329135](https://github.com/vl-wbk/vl-woordenboek/commit/08329135587b17e0aa4e9f8c7b5c40c24b6b66bc))
+- Integreren van externa data artikelen in het dashboard ([0c93576e](https://github.com/vl-wbk/vl-woordenboek/commit/0c93576eb0b2d2f48666a1edb29b6249fdc68684))
+
+### Chores
+
+- opschonen van het ID gebruik in de artikel view ([254fb9d1](https://github.com/vl-wbk/vl-woordenboek/commit/254fb9d1ec830824676f016e7121d364c1cf1920))
 ## [1.4.0](https://github.com/vl-wbk/vl-woordenboek/releases/tag/v1.4.0) (2026-02-23)
 
 ### Features
