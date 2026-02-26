@@ -2,6 +2,16 @@
 
 ## [1.4.1](https://github.com/vl-wbk/vl-woordenboek/releases/tag/v1.4.1) (2026-02-25)
 
+## [1.5.0](https://github.com/vl-wbk/vl-woordenboek/releases/tag/v1.5.0) (2026-02-26)
+
+### Features
+
+- toevoegen van op maat gemaakte dashboards voor de artikelen. (#493) ([5ba4923](https://github.com/vl-wbk/vl-woordenboek/commit/5ba4923ea022a95586012caa553979425508fb58))
+- toevoegen van taalkundige varianten in de artikel weergave ([74fc3aa](https://github.com/vl-wbk/vl-woordenboek/commit/74fc3aa260408419a8016fbf8c9450466f5b1766))
+
+### Bug Fixes
+
+- Gebruiker moet vanuit naslagwerken een artikel kunnen bekijken ([6b786fb](https://github.com/vl-wbk/vl-woordenboek/commit/6b786fb4917126b1fbc485a2a0b515867154d8da))
 ### Features
 
 - makkelijker zoeken vanuit artikel weergave ([08329135](https://github.com/vl-wbk/vl-woordenboek/commit/08329135587b17e0aa4e9f8c7b5c40c24b6b66bc))
