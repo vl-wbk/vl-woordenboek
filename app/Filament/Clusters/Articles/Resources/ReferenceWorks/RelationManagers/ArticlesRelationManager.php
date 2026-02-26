@@ -6,6 +6,9 @@ namespace App\Filament\Clusters\Articles\Resources\ReferenceWorks\RelationManage
 
 use App\Filament\Clusters\Articles\Resources\ArticleReports\ArticleReportResource;
 use App\Filament\Resources\Articles\ArticleResource;
+use App\Models\ArticleReferenceWork;
+use App\Models\ReferenceWork;
+use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DetachAction;
@@ -83,7 +86,13 @@ final class ArticlesRelationManager extends RelationManager
                     ->label('Gekoppeld sinds'),
             ])
             ->recordActions([
-                DeleteAction::make()->label('Koppeling verwijderen')
+                Action::make('view-action')
+                    ->icon(Heroicon::Eye)
+                    ->label('Bekijken')
+                    ->color('gray')
+                    ->url(fn (ArticleReferenceWork $record): string => ArticleResource::getUrl('view', ['record' => $record->article])),
+
+                DeleteAction::make()->label('Verwijderen')
             ]);
     }
 }
