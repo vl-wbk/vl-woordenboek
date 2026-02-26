@@ -3,6 +3,8 @@
 namespace App\Filament\Pages;
 
 use App\Filament\Clusters\Articles\ArticlesCluster;
+use App\Filament\Resources\Articles\Widgets\SuggestionQueueKpiStats;
+use App\Filament\Resources\Articles\Widgets\SuggestionQueueTable;
 use BackedEnum;
 use Filament\Pages\Dashboard;
 
@@ -18,7 +20,10 @@ final class SuggestionQueueDashboard extends Dashboard
 
     public function getWidgets(): array
     {
-        return [];
+        return [
+            SuggestionQueueKpiStats::class,
+            SuggestionQueueTable::class,
+        ];
     }
 
 }

@@ -1,0 +1,118 @@
+<?php
+
+namespace App\Filament\Resources\Articles\Widgets;
+
+use App\Enums\ArticleStates;
+use App\Filament\Clusters\Volunteers\Resources\VolunteerApplications\Actions\ViewAction;
+use App\Filament\Resources\Articles\ArticleResource;
+use App\Models\Article;
+use Deldius\UserField\UserColumn;
+use Filament\Actions\Action;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\EditAction;
+use Filament\Support\Enums\FontWeight;
+use Filament\Support\Enums\Size;
+use Filament\Support\Enums\TextSize;
+use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
+use Filament\Widgets\TableWidget;
+use Illuminate\Database\Eloquent\Builder;
+
+class SuggestionQueueTable extends TableWidget
+{
+    protected int|string|array $columnSpan = 'full';
+
+    public function table(Table $table): Table
+    {
+        return $table
+            ->query(fn (): Builder => ArticleResource::getEloquentQuery()->whereIn('state', [ArticleStates::New , ArticleStates::ExternalData]))
+            ->heading('Nieuwe suggesties')
+            ->emptyStateIcon(Heroicon::OutlinedInbox)
+            ->emptyStateHeading('Geen Suggesties gevonden')
+            ->emptyStateDescription('Momenteel zijn alle suggesties in behandeling of zijn er geen suggesties gevonden die matchen met je zoek term')
+            ->description('Een kort overzicht van nieuwe suggesties die zijn binnengekomen en opgenomen kunnen worden door een (eind)redacteur. Suggesties die al geclaimd zijn kunnen bekeken worden in het woordenboek overzicht')
+            ->headerActions(actions: $this->getHeaderActions())
+            ->columns(components: $this->tableLayoutColumns())
+            ->recordActions(actions: $this->registerToolbarActions())
+            ->filters(filters: $this->registerFilters())
+            ->paginated([7, 14, 21, 28]);
+    }
+
+    private function registerFilters(): array
+    {
+        return [
+            SelectFilter::make('state')
+                ->label('Status')
+                ->native(false)
+                ->options([
+                    ArticleStates::New ->value => ArticleStates::New ->getLabel(),
+                    ArticleStates::ExternalData->value => ArticleStates::ExternalData->getLabel(),
+                ])
+        ];
+    }
+
+    /**
+     * @return array<EditAction|ViewAction>
+     */
+    private function registerToolbarActions(): array
+    {
+        return [
+            ViewAction::make()
+                ->label('Bekijken')
+                ->url(fn (Article $article): string => ArticleResource::getUrl('view', ['record' => $article])),
+
+            EditAction::make()
+                ->url(fn (Article $article): string => ArticleResource::getUrl('edit', ['record' => $article])),
+        ];
+    }
+
+    /**
+     * @return array<TextColumn|UserColumn>
+     */
+    private function tableLayoutColumns(): array
+    {
+        return [
+            TextColumn::make('created_at')
+                ->label('Ingezonden op')
+                ->weight(FontWeight::Bold)
+                ->color('primary')
+                ->sortable()
+                ->sinceTooltip(),
+            TextColumn::make('state')
+                ->label('Status')
+                ->sortable()
+                ->toggleable()
+                ->toggledHiddenByDefault()
+                ->badge(),
+            UserColumn::make('author_id')
+                ->description(fn (Article $article): string => "{$article->author->firstname} {$article->author->lastname}")
+                ->emptyStateHeading(config('app.name', 'Laravel')) // Custom empty state heading
+                ->emptyStateDescription(fn (Article $article): string => $article->contributor_name ?? 'Anonieme gebruiker')
+                ->label('Ingezonden door'),
+            TextColumn::make('word')
+                ->label('Lemma')
+                ->searchable(),
+            TextColumn::make('description')
+                ->limit(100),
+        ];
+    }
+
+    /**
+     * @return Action[]
+     */
+    private function getHeaderActions(): array
+    {
+        return [
+            Action::make('Artikel toevoegen')
+                ->icon(Heroicon::OutlinedDocumentPlus)
+                ->url(ArticleResource::getUrl('create'))
+                ->color('gray'),
+
+            Action::make('artikelen overzicht')
+                ->icon(Heroicon::BookOpen)
+                ->url(ArticleResource::getUrl('index'))
+        ];
+    }
+}
