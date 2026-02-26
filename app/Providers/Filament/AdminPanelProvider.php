@@ -99,6 +99,7 @@ final class AdminPanelProvider extends PanelProvider
                     ->url(fn (): string => route('profile.settings'))
                     ->icon('heroicon-o-adjustments-horizontal'),
             ])
+            ->collapsibleNavigationGroups(false)
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->discoverClusters(in: app_path('Filament/Clusters'), for: 'App\\Filament\\Clusters')
@@ -113,12 +114,6 @@ final class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-            ])
-            ->pages([Dashboard::class])
-            ->widgets([
-                ContentKpiWidget::class,
-                ContentImpactChart::class,
-                ContentWorkloadTable::class,
             ])
             ->colors([
                 'primary' => Color::Blue,

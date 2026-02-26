@@ -23,6 +23,7 @@ use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Cache;
 use App\Filament\Clusters\Articles\Resources\DisclaimerResource\Schema;
+use UnitEnum;
 
 /**
  * The DisclaimerResource class provides a comprehensive Filament resource for managing the Disclaimer model.
@@ -45,12 +46,14 @@ final class DisclaimerResource extends Resource
      */
     protected static ?string $model = Disclaimer::class;
 
+    protected static string|UnitEnum|null $navigationGroup = "Gegevens";
+
     /**
      * This property defines the icon that represents the resource in the Filament sidebar navigation.
      * Using a clear, descriptive icon helps users quickly identify and navigate to the correct resource.
      * The value 'heroicon-o-information-circle' specifies the "information circle" icon from the outlined Heroicons set.
      */
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-information-circle';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-information-circle';
 
     /**
      * Clusters are a powerful feature in Filament for organizing related resources into a logical group within the navigation.
@@ -138,6 +141,6 @@ final class DisclaimerResource extends Resource
      */
     public static function getNavigationBadge(): ?string
     {
-        return Cache::flexible('disclaimer_count', [10, 60], fn(): string => (string) self::$model::count());
+        return Cache::flexible('disclaimer_count', [10, 60], fn (): string => (string) self::$model::count());
     }
 }

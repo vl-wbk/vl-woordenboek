@@ -32,6 +32,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Cache;
+use UnitEnum;
 
 /**
  * Represents the resource for managing article reports in the admin panel.
@@ -63,6 +64,8 @@ final class ArticleReportResource extends Resource
      * The icon visually represents the resource in the admin panel's navigation.
      */
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-flag';
+
+    protected static string|UnitEnum|null $navigationGroup = 'Gegevens';
 
     /**
      * Specifies the singular label for the resource.
@@ -103,7 +106,7 @@ final class ArticleReportResource extends Resource
                     ->columnSpanFull()
                     ->columns(12)
                     ->heading('Algemene informatie van de melding')
-                    ->description(fn(ArticleReport $articleReport): string => trans(':user heeft op :date de volgende melding ingestuurd.', [
+                    ->description(fn (ArticleReport $articleReport): string => trans(':user heeft op :date de volgende melding ingestuurd.', [
                         'user' => $articleReport->author->name, 'date' => $articleReport->created_at->format('d/m/Y'),
                     ]))
                     ->icon('tabler-message-user')
@@ -112,7 +115,7 @@ final class ArticleReportResource extends Resource
                     ->compact()
                     ->columns(12)
                     ->schema(components: [
-                        self::followUpFieldset(), 
+                        self::followUpFieldset(),
                         self::feedbackFieldset(),
                         self::conclusionFieldset(),
                     ]),
@@ -168,7 +171,7 @@ final class ArticleReportResource extends Resource
                 ->default([Status::Open->value, Status::InProgress->value]),
             Filter::make('assigned')
                 ->label(__('filament/resources/article-reports.table.filters.assigned'))
-                ->query(fn(Builder $query): Builder => $query->where('assignee_id', auth()->id())),
+                ->query(fn (Builder $query): Builder => $query->where('assignee_id', auth()->id())),
         ];
     }
 
@@ -182,7 +185,7 @@ final class ArticleReportResource extends Resource
      */
     public static function getNavigationBadge(): ?string
     {
-        return Cache::flexible('report_count', [10, 60], fn(): string => (string) self::$model::whereNull('closed_at')->count());
+        return Cache::flexible('report_count', [10, 60], fn (): string => (string) self::$model::whereNull('closed_at')->count());
     }
 
     /**
@@ -218,7 +221,7 @@ final class ArticleReportResource extends Resource
         ];
     }
 
-    private static function conclusionFieldset(): Fieldset 
+    private static function conclusionFieldset(): Fieldset
     {
         return Fieldset::make('Eindbesluit')
             ->columns(12)
