@@ -11,6 +11,7 @@ use App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\Re
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Schema\TableSchema;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets\ArticleRegistrationChart;
 use App\Filament\Resources\Articles\Pages;
+use App\Filament\Resources\Articles\Pages\RedactionDashboard;
 use App\Filament\Resources\Articles\RelationManagers\LabelsRelationManager;
 use App\Filament\Resources\Articles\RelationManagers\NotesRelationManager;
 use App\Filament\Resources\Articles\RelationManagers\ReactionsRelationManager;
@@ -28,6 +29,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
+use UnitEnum;
 
 /**
  * Class ArticleResource
@@ -60,6 +62,8 @@ final class ArticleResource extends Resource
      * The singular label for the model.
      */
     protected static ?string $modelLabel = 'Artikel';
+
+    protected static string|UnitEnum|null $navigationGroup = 'Gegevens';
 
     /**
      * The plural model label for the model.
@@ -170,7 +174,7 @@ final class ArticleResource extends Resource
      */
     public static function getGlobalSearchResultTitle(Model $record): string
     {
-        return "#$record->id " . $record->word;
+        return "#$record->id ".$record->word;
     }
 
     /**
@@ -215,7 +219,7 @@ final class ArticleResource extends Resource
      */
     public static function getNavigationBadge(): ?string
     {
-        return Cache::flexible('lemma_count', [10, 60], fn(): string => (string) self::$model::count());
+        return Cache::flexible('lemma_count', [10, 60], fn (): string => (string) self::$model::count());
     }
 
     /**

@@ -1,18 +1,18 @@
 <?php
 
-declare(strict_types=1);
-
-namespace App\Filament\Widgets;
+namespace App\Filament\Resources\Articles\Widgets;
 
 use App\Enums\ArticleStates;
+use App\Filament\Clusters\Volunteers\Resources\VolunteerApplications\Actions\ViewAction;
 use App\Filament\Resources\Articles\ArticleResource;
 use App\Models\Article;
 use Deldius\UserField\UserColumn;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\EditAction;
-use Filament\Actions\ViewAction;
 use Filament\Support\Enums\FontWeight;
+use Filament\Support\Enums\Size;
+use Filament\Support\Enums\TextSize;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -20,10 +20,8 @@ use Filament\Tables\Table;
 use Filament\Widgets\TableWidget;
 use Illuminate\Database\Eloquent\Builder;
 
-final class ContentWorkloadTable extends TableWidget
+class SuggestionQueueTable extends TableWidget
 {
-    protected static ?int $sort = 3;
-
     protected int|string|array $columnSpan = 'full';
 
     public function table(Table $table): Table
@@ -49,7 +47,7 @@ final class ContentWorkloadTable extends TableWidget
                 ->label('Status')
                 ->native(false)
                 ->options([
-                    ArticleStates::New->value => ArticleStates::New->getLabel(),
+                    ArticleStates::New ->value => ArticleStates::New ->getLabel(),
                     ArticleStates::ExternalData->value => ArticleStates::ExternalData->getLabel(),
                 ])
         ];

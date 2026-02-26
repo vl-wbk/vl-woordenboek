@@ -17,6 +17,7 @@ use App\Filament\Clusters\Articles\Resources\Etymologies\Widgets\EtymologyStatis
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use BackedEnum;
+use UnitEnum;
 
 final class EtymologyResource extends Resource
 {
@@ -25,6 +26,8 @@ final class EtymologyResource extends Resource
     protected static ?string $modelLabel = 'Etymologie';
 
     protected static ?string $pluralLabel = 'Etymologieën';
+
+    protected static string|UnitEnum|null $navigationGroup = 'Gegevens';
 
     protected static ?string $cluster = ArticlesCluster::class;
 

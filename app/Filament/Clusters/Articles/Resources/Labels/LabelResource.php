@@ -30,6 +30,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use UnitEnum;
 
 /**
  * LabelResource manages the CRUD operations for Labels in the Vlaams Woordenboek application.
@@ -60,6 +61,8 @@ final class LabelResource extends Resource
      * See https://heroicons.com for the complete icon set.
      */
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-tag';
+
+    protected static string|UnitEnum|null $navigationGroup = 'Gegevens';
 
     /**
      * Organizational grouping for this resource. The Articles cluster contains all resources related to
@@ -186,7 +189,7 @@ final class LabelResource extends Resource
                 TextColumn::make('description')
                     ->label('Beschrijving')
                     ->placeholder('- geen beschrijving opgegeven')
-                    ->formatStateUsing(fn(Label $label): string => Str::limit($label->description, 60, '...', preserveWords: true)),
+                    ->formatStateUsing(fn (Label $label): string => Str::limit($label->description, 60, '...', preserveWords: true)),
                 TextColumn::make('created_at')
                     ->label('Aangemaakt op')
                     ->sortable()
@@ -230,7 +233,7 @@ final class LabelResource extends Resource
      */
     public static function getNavigationBadge(): ?string
     {
-        return Cache::flexible('label_count', [10, 60], fn(): string => (string) self::$model::count());
+        return Cache::flexible('label_count', [10, 60], fn (): string => (string) self::$model::count());
     }
 
     /**
