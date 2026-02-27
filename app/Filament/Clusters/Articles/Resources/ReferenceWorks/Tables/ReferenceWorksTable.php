@@ -65,7 +65,10 @@ final readonly class ReferenceWorksTable
             ->recordActions([
                 ViewAction::make()->hiddenLabel(),
                 EditAction::make()->hiddenLabel(),
-                DeleteAction::make()->hiddenLabel(),
+
+                DeleteAction::make()
+                    ->modalDescription('Bij het verwijderen van een naslagwerk zullen ook alle gegevens worden verwijderen die aan het naslagwerk zijn gekoppeld zoals bronvermeldingen bij artikelen. Ben je zeker dat je dit wilt doen?')
+                    ->hiddenLabel(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
