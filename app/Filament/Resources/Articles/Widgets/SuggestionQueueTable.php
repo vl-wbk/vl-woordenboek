@@ -33,6 +33,7 @@ class SuggestionQueueTable extends TableWidget
             ->emptyStateHeading('Geen Suggesties gevonden')
             ->emptyStateDescription('Momenteel zijn alle suggesties in behandeling of zijn er geen suggesties gevonden die matchen met je zoek term')
             ->description('Een kort overzicht van nieuwe suggesties die zijn binnengekomen en opgenomen kunnen worden door een (eind)redacteur. Suggesties die al geclaimd zijn kunnen bekeken worden in het woordenboek overzicht')
+            ->recordUrl(fn (Article $article): string => ArticleResource::getUrl('view', ['record' => $article]))
             ->headerActions(actions: $this->getHeaderActions())
             ->columns(components: $this->tableLayoutColumns())
             ->recordActions(actions: $this->registerToolbarActions())
