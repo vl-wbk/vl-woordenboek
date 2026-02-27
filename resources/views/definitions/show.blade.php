@@ -202,7 +202,7 @@
                                         <x-heroicon-s-book-open style="width: 1.2rem;"/>
                                     </div>
                                     <div class="flex-grow-1">
-                                        <span class="source-link fw-semibold">{{ $source->referenceWork->name }}</span>
+                                        <span class="source-link fw-semibold">{{ optional($source->referenceWork)->name }}</span>
                                         @if($source->notation)
                                             <p class="mb-0 small text-muted mt-1">{{ $source->notation }}</p>
                                         @endif
