@@ -10,17 +10,13 @@ use App\Filament\Resources\Articles\ArticleResource;
 use App\Filament\Resources\Articles\Actions\RevokePublication;
 use App\Filament\Resources\Articles\Actions\SoftDeleteArticleAction;
 use App\Filament\Resources\Articles\Actions\States as ArticleStateActions;
-use App\Filament\Resources\Articles\Actions\RestoreArticleAction;
 use App\Models\User;
 use Filament\Actions as FilamentActions;
 use Filament\Actions\ActionGroup;
 use Filament\Resources\Pages\ViewRecord;
 use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
-use Illuminate\Contracts\Support\Htmlable;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Kirschbaum\Commentions\Filament\Actions\CommentsAction;
 
 /**
@@ -57,47 +53,68 @@ final class ViewWord extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            CommentsAction::make()
-                ->modalWidth(Width::SevenExtraLarge)
-                ->hidden(fn (Article $article): bool => $article->trashed())
-                ->modalIconColor('primary')
-                ->modalIcon(Heroicon::ChatBubbleLeftRight)
-                ->modalHeading(fn (Article $article): string => "$article->word - opmerkingen")
-                ->modalDescription('Alle opmerkingen en reacties omtrent het artikel')
-                ->slideOver()
-                ->mentionables(User::permission(['update:article', 'update-published:article'])->get())
-                ->perPage(5),
-
-            FilamentActions\Action::make('preview')
-                ->color('gray')
-                ->hidden(fn (Article $article): bool => $article->trashed())
-                ->icon(Heroicon::OutlinedEye)
-                ->url(route('word-information.show', $this->record), shouldOpenInNewTab: true),
-
-            ActionGroup::make([
-                FilamentActions\EditAction::make()->icon('heroicon-o-pencil-square')->color('gray'),
-                DuplicationArticleAction::make(),
-                ArticleStateActions\ArchiveArticle::make(),
-                ArticleStateActions\PublishArticleAction::make(),
-            ])->buttonGroup(),
-
-            ActionGroup::make([
-                ArticleStateActions\AcceptPublishingProposal::make(),
-                ArticleStateActions\RejectPublishingAction::make(),
-                RevokePublication::make(),
-            ])
-            ->color('gray')
-            ->icon('tabler-world-upload')
-            ->label('Publicatie')
-            ->button(),
+            $this->getCommentsAction(),
+            $this->getPreviewAction(),
+            $this->getManagementActiongroup(),
+            $this->getPublicationactionGroup(),
 
             SoftDeleteArticleAction::make()->icon('heroicon-o-trash'),
         ];
     }
 
+    public function getpreviewAction(): FilamentActions\Action
+    {
+        return FilamentActions\Action::make('preview')
+            ->color('gray')
+            ->hidden(fn (Article $article): bool => $article->trashed())
+            ->icon(Heroicon::OutlinedEye)
+            ->url(route('word-information.show', $this->record), shouldOpenInNewTab: true);
+    }
+
+    public function getCommentsAction(): CommentsAction
+    {
+        return CommentsAction::make()
+            ->modalWidth(Width::SevenExtraLarge)
+            ->hidden(fn (Article $article): bool => $article->trashed())
+            ->modalIconColor('primary')
+            ->modalIcon(Heroicon::ChatBubbleLeftRight)
+            ->modalHeading(fn (Article $article): string => "$article->word - opmerkingen")
+            ->modalDescription('Alle opmerkingen en reacties omtrent het artikel')
+            ->slideOver()
+            ->mentionables(User::permission(['update:article', 'update-published:article'])->get())
+            ->perPage(5);
+    }
+
+    private function getPublicationActionGroup(): ActionGroup
+    {
+        return ActionGroup::make([
+            ArticleStateActions\AcceptPublishingProposal::make(),
+            ArticleStateActions\RejectPublishingAction::make(),
+            RevokePublication::make(),
+        ])
+            ->color('gray')
+            ->icon('tabler-world-upload')
+            ->label('Publicatie')
+            ->button();
+    }
+
+    private function getManagementActionGroup(): ActionGroup
+    {
+        return ActionGroup::make([
+            FilamentActions\EditAction::make()->icon('heroicon-o-pencil-square')->color('gray'),
+            DuplicationArticleAction::make(),
+            ArticleStateActions\ArchiveArticle::make(),
+            ArticleStateActions\PublishArticleAction::make(),
+        ])->buttonGroup();
+    }
+
+    /**
+     * @param int|string $key
+     * @return Model
+     */
     protected function resolveRecord(int|string $key): Model
     {
-        return static::getResource()::getModel()::query()
+        return self::getResource()::getModel()::query()
             ->withTrashed()
             ->findOrFail($key);
     }

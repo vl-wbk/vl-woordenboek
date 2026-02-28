@@ -70,7 +70,7 @@ final readonly class WordInfolist
                 SimpleAlert::make('delete-alert')
                     ->title('Verwijderd artikel')
                     ->description(fn (Article $article): string => __('je raadpleegd momenteel een door :user verwijderd artikel. Dat gemarkeerd is wegens :reason', [
-                        'user' => $article->deletedBy->name ?? config('app.name', 'Laravel'), 
+                        'user' => $article->deletedBy->name ?? config('app.name', 'Laravel'),
                         'reason' => $article->deletion_reason ?? 'onbekend'
                     ]))
                     ->columnSpanFull()
@@ -94,11 +94,11 @@ final readonly class WordInfolist
     }
 
     /**
-     * Configures the archivihg alert component for the article. 
-     * 
-     * This method generates a structured collection containing the localized title and reason for archiving. 
+     * Configures the archivihg alert component for the article.
+     *
+     * This method generates a structured collection containing the localized title and reason for archiving.
      * It identifies the user who performed the action and formats the archiving data.
-     * 
+     *
      * @param  Article $article The article instance to retrieve archive data from.
      * @return Collection<string, HtmlString> A Collection containing 'title' and 'description' as HtmlString objects.
      */
@@ -131,7 +131,7 @@ final readonly class WordInfolist
         return Tab::make(__('filament/resources/articles.infolist.source-information-tab.heading'))
             ->icon(Heroicon::OutlinedBookOpen)
             ->columns(12)
-            ->visible(fn(Article $article): bool => $article->sources()->exists())
+            ->visible(fn (Article $article): bool => $article->sources()->exists())
             ->schema([
                 RepeatableEntry::make('sources')
                     /** @phpstan-ignore-next-line  */
@@ -141,22 +141,22 @@ final readonly class WordInfolist
                         TableColumn::make(__('filament/resources/articles.infolist.archive-information-tab.reason.table-columns.reference'))->alignStart(),
                         TableColumn::make(__('filament/resources/articles.infolist.archive-information-tab.reason.table-columns.added-at'))->alignStart(),
                     ])
-                ->schema([
-                    TextEntry::make('referenceWork.abbreviation')
-                        ->label('Afkorting')
-                        ->badge()
-                        ->icon(Heroicon::BookOpen),
+                    ->schema([
+                        TextEntry::make('referenceWork.abbreviation')
+                            ->label('Afkorting')
+                            ->badge()
+                            ->icon(Heroicon::BookOpen),
 
-                    TextEntry::make('referenceWork.name')
-                        ->label('Bron'),
-                    
-                    TextEntry::make('notation')
-                        ->label('Referentie'),
+                        TextEntry::make('referenceWork.name')
+                            ->label('Bron'),
 
-                    TextEntry::make('created_at')
-                        ->label('Toegevoegd op')
-                        ->date(),
-                ])
+                        TextEntry::make('notation')
+                            ->label('Referentie'),
+
+                        TextEntry::make('created_at')
+                            ->label('Toegevoegd op')
+                            ->date(),
+                    ])
                     ->hiddenLabel()
                     ->columnSpan(12),
             ]);
@@ -179,7 +179,7 @@ final readonly class WordInfolist
     {
         return Tab::make(__('filament/resources/articles.infolist.publication-information-tab.heading'))
             ->icon('tabler-file-signal')
-            ->visible(fn(Article $article): bool => $article->isPublished())
+            ->visible(fn (Article $article): bool => $article->isPublished())
             ->columns(12)
             ->schema([
                 TextEntry::make('disclaimer.message')
@@ -303,24 +303,28 @@ final readonly class WordInfolist
                     ->iconColor('primary')
                     ->placeholder(__('filament/resources/articles.infolist.edit-information-tab.text-entries.author.placeholder'))
                     ->columnSpan(8),
+
                 TextEntry::make('created_at')
                     ->label(__('filament/resources/articles.infolist.edit-information-tab.text-entries.created-at'))
                     ->icon('heroicon-o-clock')
                     ->iconColor('primary')
                     ->date()
                     ->columnSpan(4),
+
                 TextEntry::make('editor.name')
                     ->label(__('filament/resources/articles.infolist.edit-information-tab.text-entries.editor.label'))
                     ->icon('heroicon-o-user-circle')
                     ->iconColor('primary')
                     ->placeholder(__('filament/resources/articles.infolist.edit-information-tab.text-entries.editor.placeholder'))
                     ->columnSpan(4),
+
                 TextEntry::make('audits_count')
                     ->label(__('filament/resources/articles.infolist.edit-information-tab.text-entries.audit-count'))
                     ->icon('heroicon-o-pencil-square')
                     ->iconColor('primary')
                     ->badge()
                     ->columnSpan(4),
+
                 TextEntry::make('updated_at')
                     ->label(__('filament/resources/articles.infolist.edit-information-tab.text-entries.updated-at'))
                     ->icon('heroicon-o-clock')
