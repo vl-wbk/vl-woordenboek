@@ -69,7 +69,7 @@ final class ArticlePolicy
      */
     public function update(User $user, Article $article): Response
     {
-         if ($article->trashed()) {
+        if ($article->trashed()) {
             return Response::deny();
         }
 
@@ -102,11 +102,13 @@ final class ArticlePolicy
      */
     public function sendForApproval(User $user, Article $article): Response
     {
-        if ($article->state->in(enums: [ArticleStates::Draft]) && $user->can('send-for-approval:article')) {
-            return Response::allow();
+        if ($article->state->isNot(ArticleStates::Draft)) {
+            return Response::deny(message: 'Alleen klad artikelen kunnen ingezonden worden voor nazicht en publicatie');
         }
 
-        return Response::deny();
+        return ($user->can('send-for-approval:article') || $article->editor()->is($user))
+            ? Response::allow()
+            : Response::deny(message: 'Je hebt geen permissie om dit artikel in te zenden voor nazicht en publicatie');
     }
 
     /**
@@ -293,7 +295,7 @@ final class ArticlePolicy
         }
 
         // 2. Base requirement: User must have general delete permissions
-        if (!$user->can('delete:article')) {
+        if (! $user->can('delete:article')) {
             return DenyResponse::deny('Niet toegestaan');
         }
 
@@ -304,7 +306,7 @@ final class ArticlePolicy
         }
 
         // 4. Admin/Dev-level cleanup (Includes Archived)
-        if ($user->user_type->in([UserTypes::Administrators, UserTypes::Developer]) && $article->state->in([ArticleStates::ExternalData, ArticleStates::New, ArticleStates::Archived])) {
+        if ($user->user_type->in([UserTypes::Administrators, UserTypes::Developer]) && $article->state->in([ArticleStates::ExternalData, ArticleStates::New , ArticleStates::Archived])) {
             return Response::allow();
         }
 
