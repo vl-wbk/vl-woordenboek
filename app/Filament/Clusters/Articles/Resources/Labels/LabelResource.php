@@ -16,8 +16,11 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Forms\Components\Slider;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
@@ -104,6 +107,10 @@ final class LabelResource extends Resource
                     ->rows(4)
                     ->placeholder('Beschrijf zo goed mogelijk wat het label inhoud. (Optioneel)')
                     ->columnSpanFull(),
+
+                Toggle::make('private')
+                    ->columnSpanFull()
+                    ->label('Dit label is enkel voor interne doeleinden.')
             ]);
     }
 
@@ -131,11 +138,16 @@ final class LabelResource extends Resource
                     ->columns(12)
                     ->columnSpanFull()
                     ->schema([
+                        IconEntry::make('private')
+                            ->label('Intern label')
+                            ->boolean()
+                            ->columnSpan(2),
+
                         TextEntry::make('name')
                             ->label('Naam')
                             ->weight(FontWeight::Bold)
                             ->color('primary')
-                            ->columnSpan(6),
+                            ->columnSpan(4),
                         TextEntry::make('created_at')
                             ->label('Aangemaakt op')
                             ->columnSpan(3)

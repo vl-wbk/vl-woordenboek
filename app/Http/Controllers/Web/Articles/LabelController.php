@@ -11,6 +11,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
 use Stringable;
+use Symfony\Component\HttpFoundation\Response;
 
 final readonly class LabelController
 {
@@ -18,6 +19,7 @@ final readonly class LabelController
     public function index(Request $request): Renderable
     {
         $labels = Label::query()
+            ->where('private', false)
             // We tellen het aantal gekoppelde woorden voor de badge-count
             ->withCount('articles')
 
@@ -63,6 +65,8 @@ final readonly class LabelController
     #[Get(uri: 'label/{label}', name: 'label:show')]
     public function show(Request $request, Label $label, LabelAnalytics $labelAnalytics): Renderable
     {
+        abort_if($label->private, Response::HTTP_NOT_FOUND);
+
         return view('definitions.labels.show', data: [
             'label' => $label,
             'relatedArticles' => $this->getRelatedArticleSearch($request, $label),
