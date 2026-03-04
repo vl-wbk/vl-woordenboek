@@ -27,7 +27,7 @@ final class PublishArticleAction extends Action
      */
     public static function getDefaultName(): string
     {
-        return 'insturen voor publicatie';
+        return 'indienen voor eindredactie';
     }
 
     /**
@@ -49,8 +49,8 @@ final class PublishArticleAction extends Action
 
         // Configuration on the confirmation model
         $this->requiresConfirmation();
-        $this->modalHeading(fn(): string => trans('Artikel insturen voor publicatie.'));
-        $this->modalDescription('Nadat je het artikel instuurt voor nazicht zal de eindredacteur het artikel nakijken en goedkeuren voor publicatie of verzoeken om bijkomende correcties aan te brengen.');
+        $this->modalHeading(fn(): string => trans('Artikel insturen voor eindredactie'));
+        $this->modalDescription('Nadat je het artikel instuurt voor nazicht zal de eindredacteur het artikel nakijken en beslissen wat er met het artikel zal gebeuren dit kan gaan van publicatie tot archivering.');
         $this->modalSubmitActionLabel('Insturen');
         $this->modalIcon(Heroicon::OutlinedPaperAirplane);
 
