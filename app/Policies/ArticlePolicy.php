@@ -70,7 +70,7 @@ final class ArticlePolicy
     public function update(User $user, Article $article): Response
     {
         if ($article->trashed()) {
-            return Response::deny();
+            return Response::deny(message: 'DFit artikel is verwijderd en kan niet bewerkt worden.');
         }
 
         $allowedStates = [ArticleStates::New , ArticleStates::RejectedPublication, ArticleStates::ExternalData, ArticleStates::Draft, ArticleStates::Archived];
@@ -289,28 +289,25 @@ final class ArticlePolicy
      */
     public function delete(User $user, Article $article): Response
     {
-        // 1. Specific override for removing already published content
-        if ($article->state->is(ArticleStates::Published) && $user->can('verwijder-vanuit-publicatie:article')) {
-            return Response::allow();
+        if ($article->state->is(ArticleStates::Published)) {
+            return $user->can('verwijder-vanuit-publicatie:article')
+                ? Response::allow()
+                : DenyResponse::deny('Je hebt geen permissie om gepubliceerde artikelen te verwijderen.');
         }
 
-        // 2. Base requirement: User must have general delete permissions
         if (! $user->can('delete:article')) {
-            return DenyResponse::deny('Niet toegestaan');
+            return DenyResponse::deny('Je hebt geen permissie om artikelen te verwijderen.');
         }
 
-        // 3. Editor-level cleanup (New or External data only)
-        if ($user->user_type->is(UserTypes::Editor) &&
-            $article->state->in([ArticleStates::ExternalData, ArticleStates::New])) {
-            return Response::allow();
-        }
+        $deletableStates = match(true) {
+            $user->user_type->is(UserTypes::Editor) => [ArticleStates::ExternalData, ArticleStates::New],
+            $user->user_type->in([UserTypes::Administrators, UserTypes::Developer]) => [ArticleStates::ExternalData, ArticleStates::New, ArticleStates::Archived],
+            default => [],
+        };
 
-        // 4. Admin/Dev-level cleanup (Includes Archived)
-        if ($user->user_type->in([UserTypes::Administrators, UserTypes::Developer]) && $article->state->in([ArticleStates::ExternalData, ArticleStates::New , ArticleStates::Archived])) {
-            return Response::allow();
-        }
-
-        return DenyResponse::deny('Niet toegestaan');
+        return $article->state->in($deletableStates)
+            ? Response::allow()
+            : DenyResponse::deny('Het artikel kan in deze staat niet verwijderd worden.');
     }
 
     /**
@@ -328,7 +325,7 @@ final class ArticlePolicy
             return Response::allow();
         }
 
-        return Response::deny();
+        return Response::deny(message: 'Je hebt geen permissie om verwijderde artikelen te herstellen.');
     }
 
     /**
@@ -346,7 +343,7 @@ final class ArticlePolicy
             return Response::allow();
         }
 
-        return Response::deny();
+        return Response::deny(message: 'Je hebt geen permissie om verwijderde artikelen te herstellen.');
     }
 
     /**
@@ -365,20 +362,38 @@ final class ArticlePolicy
             return Response::allow();
         }
 
-        return Response::deny();
+        return Response::deny(message: 'Je hebt geen permissie om meerdere artikelen te verwijderen.');
     }
 
+    /**
+     * Determines whether a user can permanently (force) delete a specific article.
+     *
+     * Force deletion bypasses soft-delete and permanently removes the article from the database.
+     * This action is irreversible and therefore restricted to users with explicit force-delete permissions.
+     *
+     * @param  User     $user  The user attempting to permanently delete the article.
+     * @return Response        Allow if the user has the 'geforceerd-verwijderen:article' permission, deny otherwise.
+     */
     public function forceDelete(User $user): Response
     {
         return $user->can('geforceerd-verwijderen:article')
             ? Response::allow()
-            : Response::deny();
+            : Response::deny(message: 'Je hebt geen permissies om merdere artikelen te verwijderen.');
     }
 
+    /**
+     * Determines whether a user can permanently (force) delete multiple articles simultaneously.
+     *
+     * This method controls bulk force-deletion, which permanently removes all targeted articles from the database without the possibility of restoration. 
+     * Due to the destructive and irreversible nature of this operation, it is exclusively reserved for privileged roles.
+     *
+     * @param  User     $user  The user attempting to permanently delete multiple articles.
+     * @return Response        Allow if the user has the 'meerdere-geforceerd-verwijderen:article' permission, deny otherwise.
+     */
     public function forceDeleteAny(User $user): Response
     {
         return $user->can('meerdere-geforceerd-verwijderen:article')
             ? Response::allow()
-            : Response::deny();
+            : Response::deny(message: 'Je hebt geen permissie om artikelen permanent te verwijderen.');
     }
 }
