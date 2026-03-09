@@ -66,7 +66,7 @@ final readonly class DictionaryArticleController
     public function __invoke(Article $word): Renderable|RedirectResponse
     {
         if (Gate::allows(ArticlePolicy::DisplayArticle, $word)) {
-            //$word->recordView(); // Increment the view counter for thearticle by one. Because the user decided to view the article.
+            $word->recordView(); // Increment the view counter for thearticle by one. Because the user decided to view the article.
 
             return view('definitions.show', data: [
                 'word' => $word->loadCount([
