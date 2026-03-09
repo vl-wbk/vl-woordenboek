@@ -307,7 +307,7 @@
                                     <!-- Related Words -->
                                     <div class="card bg-white border mb-3">
                                         <div class="card-header bg-light py-2 px-3">
-                                            <span class="fw-semibold color-green">Gekoppelde labels</span>
+                                            <span class="fw-semibold color-green">Label(s)</span>
                                         </div>
                                         <div class="card-body px-3 py-2">
                                             <div class="d-flex flex-wrap gap-2">
