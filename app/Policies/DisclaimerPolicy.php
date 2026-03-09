@@ -110,7 +110,7 @@ final class DisclaimerPolicy
             return Response::allow();
         }
 
-        return Response::deny(__('disclaimer-resource.policy.deny-messages.delete'));
+        return Response::deny(message: __('disclaimer-resource.policy.deny-messages.delete'));
     }
 
     /**
@@ -126,6 +126,6 @@ final class DisclaimerPolicy
             return Response::allow();
         }
 
-        return Response::deny(__('disclaimer-resource.policy.deny-messages.deleteAny'));
+        return Response::deny(message: __('disclaimer-resource.policy.deny-messages.deleteAny'));
     }
 }

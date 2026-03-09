@@ -55,7 +55,7 @@ final class RolePolicy
             return Response::allow();
         }
 
-        return Response::deny();
+        return Response::deny(message: 'U hebt geen toestemming om de lijst met permissiegroepen te bekijken.');
     }
 
     /**
@@ -78,7 +78,7 @@ final class RolePolicy
             return Response::allow();
         }
 
-        return Response::deny();
+        return Response::deny(message: 'U hebt geen toestemming om de gegevens van de permissiegroep te bekijken.');
     }
 
     /**
@@ -99,7 +99,7 @@ final class RolePolicy
             return Response::allow();
         }
 
-        return Response::deny();
+        return Response::deny(message: 'U hebt geen toestemming om een nieuwe permissiegroep aan te maken.');
     }
 
     /**
@@ -122,7 +122,7 @@ final class RolePolicy
             return Response::allow();
         }
 
-        return Response::deny();
+        return Response::deny(message: 'U hebt geen toestemming om de gegevens van de permisiegroep te wijzigen.');
     }
 
     /**
@@ -145,6 +145,6 @@ final class RolePolicy
             return Response::allow();
         }
 
-        return Response::deny();
+        return Response::deny(message: 'U hebt geen toestemming om een permissiegroep te verwijderen.');
     }
 }

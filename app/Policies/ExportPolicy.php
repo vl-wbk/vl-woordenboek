@@ -36,13 +36,13 @@ final readonly class ExportPolicy
     {
         return ($export->user()->is($user))
 			? Response::allow()
-			: Response::deny();
+			: Response::deny(message: 'U hebt geen toestemming om het gewenste export bestand te bekijken.');
     }
 	
     public function create(User $user): Response
     {
         return $user->can('export_article')
 			? Response::allow()
-			: Response::deny();
+			: Response::deny(message: 'Om hebt geen toestemming om een lijst van artikelen uit het systeem te exporteren.');
     }
 }

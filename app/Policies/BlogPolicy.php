@@ -43,7 +43,7 @@ final class BlogPolicy
     {
         return $user->hasVerifiedEmail()
             ? Response::allow()
-            : Response::denyAsNotFound(message: __('U hebt niet de juiste machtiging om een nieuwsbericht in te sturen ter publicatie.'));
+            : Response::denyAsNotFound(message: 'U hebt niet de juiste machtiging om een nieuwsbericht in te sturen ter publicatie.');
     }
 
     /**
@@ -59,7 +59,7 @@ final class BlogPolicy
     {
         return $user->can('view-any:blog')
             ? Response::allow()
-            : Response::denyAsNotFound(message: __('U hebt niet de juiste machtiging om een overzicht van alle nieuwsberichten te bekijken.'));
+            : Response::denyAsNotFound(message: 'U hebt niet de juiste machtiging om een overzicht van alle nieuwsberichten te bekijken.');
     }
 
     /**
@@ -153,7 +153,7 @@ final class BlogPolicy
             return Response::allow();
         }
 
-        return Response::denyAsNotFound();
+        return Response::denyAsNotFound(message: 'U hebt geen toestemming om een publicatie ongedaan te maken');
     }
 
     /**

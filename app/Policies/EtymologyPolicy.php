@@ -49,7 +49,7 @@ final class EtymologyPolicy
     {
         return $user->can('view-any:etymology')
             ? Response::allow()
-            : Response::deny();
+            : Response::deny(message: 'U heeft geen toestemming om dee lijst met etymologieen te bekijken');
     }
 
     /**
@@ -66,7 +66,7 @@ final class EtymologyPolicy
     {
         return $user->can('view:etymology')
             ? Response::allow()
-            : Response::deny();
+            : Response::deny(message: 'U heeft geen deze toestemming om deze etymologie te bekijken');
     }
 
     /**
@@ -82,9 +82,13 @@ final class EtymologyPolicy
      */
     public function update(User $user, Etymology $etymology): Response
     {
-        return ($etymology->status->is(enum: EtymologyStatus::Draft) && $user->can('update:etymology'))
+        if (! $user->can('update:etymology')) {
+            return Response::deny('U heeft geen toestemming om etymologieën te bewerken.');
+        }
+
+        return $etymology->status->is(EtymologyStatus::Draft)
             ? Response::allow()
-            : Response::deny();
+            : Response::deny('Alleen etymologieën met de status "Concept" kunnen worden bewerkt.');
     }
 
     /**
@@ -101,7 +105,7 @@ final class EtymologyPolicy
     {
         return $user->can('delete:etymology')
             ? Response::allow()
-            : Response::deny();
+            : Response::deny(message: 'U heeft geen toestemming om deze etymologie te verwijderen.');
     }
 
     /**
@@ -115,7 +119,7 @@ final class EtymologyPolicy
     {
         return $user->can('delete-any:etymology')
             ? Response::allow()
-            : Response::deny();
+            : Response::deny('U heeft geen toestemming om meerdere etymologieen te verwijderen.');
     }
 
     /**

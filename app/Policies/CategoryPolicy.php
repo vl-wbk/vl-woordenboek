@@ -17,7 +17,7 @@ use Illuminate\Auth\Access\Response;
  * Each method checks for a specific, granular permission (e.g., 'create:category').
  *
  * @link file://tests/Unit/Authorization/CategoryPolicyTest.php - The file path to the corresponding unit tests.
- * @packlage App\Policies
+ * @package App\Policies
  */
 final class CategoryPolicy
 {

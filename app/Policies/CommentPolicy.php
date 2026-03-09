@@ -50,7 +50,7 @@ final readonly class CommentPolicy
             return Response::allow(); // Allow the delete action if either condition is met.
         }
 
-        // Deny the delete action and return a "Not found" response for security.
+        //! Deny the delete action and return a "Not found" response for security.
         return Response::denyAsNotFound();
     }
 }

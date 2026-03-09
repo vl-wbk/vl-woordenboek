@@ -47,7 +47,7 @@ final class LabelPolicy
             return Response::allow();
         }
 
-        return Response::deny();
+        return Response::deny(message: 'U heeft geen toestemmin om de lijst met labels te bekijken.');
     }
 
     /**
@@ -66,7 +66,7 @@ final class LabelPolicy
             return Response::allow();
         }
 
-        return Response::deny();
+        return Response::deny(message: 'U heeft geen toestemming om de details van dit label te bekijken.');
     }
 
     /**
@@ -86,7 +86,7 @@ final class LabelPolicy
             return Response::allow();
         }
 
-        return Response::deny();
+        return Response::deny(message: 'U heeft geen toestemming om labels te wijzigen.');
     }
 
     /**
@@ -105,7 +105,7 @@ final class LabelPolicy
             return Response::allow();
         }
 
-        return Response::deny();
+        return Response::deny(message: 'U heeft geen toestemming om dit label uit het systeem te verwijderen.');
     }
 
     /**
@@ -124,7 +124,7 @@ final class LabelPolicy
             return Response::allow();
         }
 
-        return Response::deny();
+        return Response::deny(message: 'U heeft geen toestemming om labels aan te maken.');
     }
 
     /**
@@ -143,7 +143,7 @@ final class LabelPolicy
             return Response::allow();
         }
 
-        return Response::deny();
+        return Response::deny(message: 'U heeft geen toestemming om labels aan artikelen te koppelen.');
     }
 
     /**
@@ -162,7 +162,7 @@ final class LabelPolicy
             return Response::allow();
         }
 
-        return Response::deny();
+        return Response::deny(message: 'U heeft geen toestemming om dit label van het artikel los te koppelen.');
     }
 
     /**
@@ -180,6 +180,6 @@ final class LabelPolicy
             return Response::allow();
         }
 
-        return Response::deny();
+        return Response::deny(message: 'U heeft geen toestemming om meerdere labels tegelijk te verwijderen.');
     }
 }
