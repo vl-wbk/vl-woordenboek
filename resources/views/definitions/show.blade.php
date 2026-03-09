@@ -257,7 +257,7 @@
                                 <!-- Article Details -->
                                 <div class="card border mb-3">
                                     <div class="card-header bg-light py-2 px-3">
-                                        <span class="fw-semibold color-green">Artikel gegevens</span>
+                                        <span class="fw-semibold color-green">Gegevens artikel</span>
                                     </div>
 
                                     <ul class="list-group list-group-flush">
