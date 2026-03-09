@@ -37,6 +37,16 @@
     <div class="container-fluid py-5">
         <div class="row justify-content-center">
             <div class="col-10">
+                @if ($word->disclaimer)
+                    <div class="col-12">
+                        <div class="alert alert-secondary alert-dismissible fade show shadow-sm small mb-4" role="alert">
+                            <h5><x-heroicon-s-megaphone class="icon me-1"/><strong>Disclaimer</strong> </h5>
+                            {{ $word->disclaimer->message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+                @endif
+
                 <div class="card shadow-sm border-0">
                     <!-- Card Header: breadcrumb + toolbar + meta badges -->
                     <div class="card-header bg-white border-bottom px-4 py-3">
@@ -151,15 +161,6 @@
 
                             <!-- ══════════════════════════════════════════ 2-COLUMN LAYOUT  (col-8 main / col-4 sidebar) ══════════════════════════════════════════ -->
                             <div class="row g-4">
-                                @if ($word->disclaimer)
-                                    <div class="col-12">
-                                        <div class="alert alert-warning shadow-sm small mb-0" role="alert">
-                                            <h5><x-heroicon-s-megaphone class="icon me-1"/><strong>Disclaimer</strong> </h5>
-                                            {{ $word->disclaimer->message }}
-                                        </div>
-                                    </div>
-                                @endif
-
                                 <!-- ── MAIN COLUMN (2/3) ── -->
                                 <div class="col-lg-8">
 
