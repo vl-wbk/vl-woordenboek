@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Web\Etymology;
 
 use App\Actions\Articles\StoreEtymologySubmission;
+use App\Actions\Support\StoreFeedbackSubmission;
 use App\Concerns\RateLimitSubmission;
 use App\Enums\Articles\EtymologySources;
 use App\Http\Requests\Articles\StoreEtymologyRequest;
+use App\Http\Requests\Support\StoreFeedbackRequest;
 use App\Models\Article;
 use Closure;
 use Illuminate\Contracts\Support\Renderable;
@@ -34,10 +36,10 @@ final class EthymologyController
     #[Post(uri: 'etymologie/{article}/nieuwe-suggestie', name: 'etymology:store')]
     public function store(StoreEtymologyRequest $storeEtymologyRequest, Article $article, StoreEtymologySubmission $storeEtymologySubmission): RedirectResponse|Closure
     {
-        return $this->attemptSubmissionWithRateLimiting($storeEtymologyRequest, 'etymologySubmission', function () use ($article, $storeEtymologyRequest, $storeEtymologySubmission): RedirectResponse {
+        $this->throttleSubmission($storeEtymologyRequest, 'etymologySubmission', function () use ($article, $storeEtymologyRequest, $storeEtymologySubmission): void {
             $etymology = $storeEtymologySubmission->execute(article: $article, etymologySubmissionData: $storeEtymologyRequest->getData());
-
-            return redirect()->route('etymology:create', $etymology->article);
         });
+
+        return redirect()->route('etymology:create', $article);
     }
 }
