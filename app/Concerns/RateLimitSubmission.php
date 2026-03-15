@@ -5,92 +5,105 @@ declare(strict_types=1);
 namespace App\Concerns;
 
 use Closure;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Trait RateLimitSubmission
  *
- * This trait provides a mechanism to rate limit form submissions, preventing abuse by limiting the number of submissions a user can make within a certain timeframe.
- * It uses Laravel's built-in rate limiter to track submission attempts and throttle users who exceed the allowed limit.
+ * Provides standardized rate-limiting logic for form submissions or API actions.
+ * This trait allows for dynamic throttling based on the user's authentication stage and pre-defined configuration profiles.
  *
  * @package App\Concerns
  */
 trait RateLimitSubmission
 {
     /**
-     * The maximum number of submission attempts allowed for unauthenticated (guest) users.
-     * This value is used to prevent anonymous users from overwhelming the system with excessive submissions.
-     */
-    protected int $guestMaxSubmissionAttempts = 15;
-
-    /**
-     * The maximum number of submission attempts allowed for authenticated (logged-in) users.
-     * This value is typically higher than the guest limit, as authenticated users are generally considered more trustworthy.
-     */
-    protected int $loggedInMaxSubmissionAttempts = 45;
-
-    /**
-     * Attempts a submission with rate limiting.
+     * Execute a callback within a rate-limited window.
      *
-     * This method attempts to process a form submission while enforcing rate limiting.
-     * It first checks if the user has exceeded their allowed submission attempts.
-     * If so, it flashes an error message to the session and redirects the user back to the form. Otherwise, it increments the rate limiter and executes the provided callback function.
+     * This method checks the current attempt count against the configured limits.
+     * If the limit is exceeded, it triggers a validation failure.
+     * Otherwise, it executes the provided closure and increments the hit count.
      *
-     * @param  FormRequest $request      The form request being submitted.
-     * @param  string      $key          A unique key to identify the rate limit (e.g., 'suggestion.submit').
-     * @param  Closure     $callback     A closure containing the logic to execute upon successful rate limit check.
-     * @return RedirectResponse|Closure  Returns a RedirectResponse if rate limited, otherwise returns the result of the $callback.
+     * @param  Request  $request    The current incoming HTTP request.
+     * @param  string   $key        A unique identifier for the specific action being throttled.
+     * @param  Closure  $callback   The logic to execute if the rate limit has not been reached.
+     * @return mixed                The return valie of the provided callback.
+     *
+     * @throws ValidationException If the user has exceeded their allowed attempts.
      */
-    protected function attemptSubmissionWithRateLimiting(FormRequest $request, string $key, Closure $callback): RedirectResponse|Closure
+    protected function throttleSubmission(Request $request, string $key, Closure $callback): mixed
     {
-        // Generate a unique rate limiting key based on the user and submission type.
-        $rateLimitKey = $this->configureRateLimitingKey($key, $request);
+        $config = $this->getRateLimitConfig();
+        $cacheKey = $this->resolveRateLimitKey($request, $key);
+        $maxAttempts = auth()->check() ? $config['member_limit'] : $config['guest_limit'];
 
-        // Check if the user has exceeded the allowed number of attempts.
-        if (RateLimiter::tooManyAttempts($rateLimitKey, $this->maxAttempts())) {
-            // Flash an error message to the session.
-            flash('Het lijkt erop dat je te veel suggesties probeerd toe te voegen op een te korte tijd. Probeer het later nog eens', 'alert-danger');
-            return back();
+        if (RateLimiter::tooManyAttempts($cacheKey, $maxAttempts)) {
+            $this->handleRateLimitFailure($cacheKey);
         }
 
-        // Increment the rate limiter to track this submission attempt.
-        RateLimiter::increment($rateLimitKey);
+        $result = $callback();
 
-        // Execute the provided callback function.
-        return $callback();
+        RateLimiter::hit($cacheKey, $config['decay_seconds']);
+
+        return $result;
     }
 
     /**
-     * Determines the maximum number of allowed submission attempts.
+     * Retrieve the rate limiting configuration for the current context.
      *
-     * This method returns the maximum number of submission attempts allowed based on the user's authentication status.
-     * Authenticated users are allowed more attempts than guest users.
+     * Fetches settings from the flemish-dictionary config file based on the '$ratelimitProfile' property defined in the
+     * consuming class. Falls back to the 'default' profile if none is specified or found.
      *
-     * @return int The maximum number of allowed submission attempts.
+     * @return array{member_limit: int, guest_limit: int, decay_seconds: int}
      */
-    private function maxAttempts(): int
+    private function getRateLimitConfig(): array
     {
-        return auth()->check()
-            ? $this->loggedInMaxSubmissionAttempts
-            : $this->guestMaxSubmissionAttempts;
+        $profile = $this->rateLimitProfile ?? 'default';
+
+        return Config::array("flemish-dictionary.rate-limiting.{$profile}")
+            ?? Config::array('flemish-dictionary.rate-limiting.default');
     }
 
     /**
-     * Configures the rate limiting key.
+     * Resolve a unique cache key for the rate limiter.
      *
-     * This method generates a unique key for rate limiting based on the provided key and the user's authentication status.
-     * The key is used to track submission attempts for each user or IP address.
+     * Combines a functional prefix with either the authenticated user's ID or the request's IP address to ensure
+     * isolation between users.
      *
-     * @param  string       $key          A unique key to identify the rate limit (e.g., 'suggestion.submit').
-     * @param  FormRequest  $formRequest  The form request being submitted.
-     * @return string                     A unique rate limiting key.
+     * @param  Request $request The current request instance.
+     * @param  string  $prefix  The action specific prefix.
+     * @return string           The formatted cache key (e.g., "prefix:identifier")
      */
-    private function configureRateLimitingKey(string $key, FormRequest $formRequest): string
+    private function resolveRateLimitKey(Request $request, string $prefix): string
     {
-        return $key . ':' . (auth()->check()
-            ? auth()->id() // Use user ID for authenticated users.
-            : $formRequest->ip()); // Use IP address for guest users.
+        $identifier = $request->user()?->getAuthIdentifier() ?? $request->ip();
+        return "{$prefix}:{$identifier}";
+    }
+
+    /**
+     * Handle a rate limit breach by throwing a ValidationException.
+     *
+     * Calculates the remaining wait time and returns a localized error message specifically keyed to 'rate_limit'
+     * for frontend consumption.
+     *
+     * @param  string $key The unique rate limit cache key.
+     * @return void
+     *
+     * @throws ValidationException Always thrown to interrupt the request lifecycle.
+     */
+    protected function handleRateLimitFailure(string $key): void
+    {
+        $seconds = RateLimiter::availableIn($key);
+
+        throw ValidationException::withMessages([
+            'rate_limit' => [
+                __('Too many attempts. Please try again in :seconds seconds.', [
+                    'seconds' => $seconds
+                ])
+            ],
+        ]);
     }
 }
