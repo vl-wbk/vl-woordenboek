@@ -23,27 +23,27 @@ final class VolunteerApplicationsPolicy
     {
         return ($user->can('goedkeuren:volunteer-applications') && $volunteerApplications->state->is(ApplicationState::Open))
             ? Response::allow()
-            : Response::deny();
+            : Response::deny(message: 'U hebt geen toestemming om de aanmeldinng goed te keuren.');
     }
 
     public function reject(User $user, VolunteerApplications $volunteerApplications): Response
     {
         return ($user->can('afwijzen:volunteer-applications') && $volunteerApplications->state->is(ApplicationState::Open))
             ? Response::allow()
-            : Response::deny();
+            : Response::deny(message: 'U hebt geen toestemming om de aanmelding af te wijzen.');
     }
 
     public function viewAny(User $user): Response
     {
         return $user->can('view-any:volunteer-applications')
             ? Response::allow()
-            : Response::deny();
+            : Response::deny(message: 'U hebt geen toestemming om de lijst met aanmeldingen te bekijken.');
     }
 
     public function view(User $user, VolunteerApplications $volunteerApplications): Response
     {
         return $user->can('view:volunteer-applications')
             ? Response::allow()
-            : Response::deny();
+            : Response::deny(message: 'U hebt geen toestemming om de gegevens van de aanmelding te bekijken.');
     }
 }

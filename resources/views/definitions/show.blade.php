@@ -19,264 +19,349 @@
 @endsection
 
 @section ('content')
-    <style>
-        .markdown-text p:not(:last-child) { margin-bottom: .70rem; }
-    </style>
-
     <x-definitions.admin-management-nav :word=$word :articleResource=$articleResource/>
 
-
-    <div class="word-header py-5 border-bottom bg-light">
-        <div class="container-fluid">
-            <div class="row justify-content-center">
-                <div class="col-lg-10">
-                    <div class="d-flex justify-content-between mb-3 align-items-center">
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb mb-0">
-                                <li class="breadcrumb-item"><a href="{{ route('home') }}"><x-heroicon-o-home class="icon me-1"/>Home</a></li>
-                                <li class="breadcrumb-item"><a href="{{ route('search.results') }}"><x-heroicon-o-magnifying-glass class="icon me-1"/>Zoeken</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">{{ $word->word }}</li>
-                            </ol>
-                        </nav>
-                        <a href="{{ url()->previous() }}" class="back-link">
-                            <x-heroicon-o-arrow-left style="width:1rem"/>
-                            Terug naar vorige pagina
-                        </a>
-                    </div>
-
-                    <h1 class="display-3 fw-bold mb-1">{{ $word->word }}</h1>
-
-                    <div class="d-flex flex-column gap-2">
-                        @if($word->regions->isNotEmpty())
-                            <div class="d-flex flex-wrap align-items-center gap-2">
-                                @foreach($word->regions as $region)
-                                    <a href="{{ route('region:show', $region) }}"
-                                       class="text-decoration-none d-flex align-items-center text-uppercase"
-                                       style="font-size: 0.75rem; font-weight: 700; color: var(--lexi-region-text); letter-spacing: 0.025em;">
-                                        <x-heroicon-s-map-pin style="width:0.9rem; margin-right: 0.2rem;"/>
-                                        {{ $region->name }}
-                                    </a>
-                                    @if(!$loop->last) <span class="text-muted opacity-25">|</span> @endif
-                                @endforeach
-                            </div>
-                        @endif
-
-                        <div class="d-flex align-items-center flex-wrap my-2 gap-2 text-muted">
-                            @if ($word->partOfSpeech)
-                                <span class="fw-bold text-dark">{{ $word->partOfSpeech->name }}</span>
-                                <span class="opacity-50">•</span>
-                            @endif
-                            <span class="font-monospace">{{ $word->characteristics }}</span>
-                        </div>
-
-                        @if ($word->labels->isNotEmpty())
-                            <div class="d-flex flex-wrap gap-2">
-                                @foreach ($word->labels as $label)
-                                    <a href="{{ route('label:show', $label) }}" class="shadow-sm word-label text-decoration-none">
-                                        <x-heroicon-o-tag class="icon me-1" style="width: 1rem;"/>
-                                        {{ $label->name }}
-                                    </a>
-                                @endforeach
-                            </div>
-                        @endif
-                    </div>
-
-                        <div class="header-actions mt-4 d-flex gap-3">
-                            @auth
-                                @if ($word->bookmarkers->contains(auth()->user()))
-                                    <a href="{{ route('bookmark:remove', $word) }}" class="action-link-btn text-danger text-decoration-none opacity-75 d-flex align-items-center">
-                                        <x-heroicon-o-bookmark-slash class="me-1" style="width:1.1rem"/> Vergeet dit woord
-                                    </a>
-                                @else
-                                    <a href="{{ route('bookmark:create', $word) }}" class="action-link-btn text-decoration-none d-flex align-items-center">
-                                        <x-heroicon-o-bookmark class="me-1" style="width:1.1rem"/> Bewaar
-                                    </a>
-                                @endif
-
-                                <button class="action-link-btn text-danger opacity-75 bg-transparent border-0 p-0 d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#reportModal">
-                                    <x-heroicon-o-megaphone class="me-1" style="width:1.1rem"/> Verbetering melden
-                                </button>
-                            @endauth
-
-                            <div class="font-controls d-flex align-items-center gap-2 ms-auto">
-                                <span class="text-muted fw-bold text-uppercase" style="font-size: 0.75rem;">Tekstgrootte:</span>
-
-                                <div class="btn-group btn-group-sm shadow-sm" role="group">
-                                    <button type="button" class="btn btn-outline-secondary" onclick="changeFontSize(-1)" title="Kleiner">
-                                        <x-heroicon-o-minus style="width:1rem"/>
-                                    </button>
-
-                                    <button type="button" class="btn btn-outline-secondary" onclick="resetFontSize()" title="Standaard">
-                                        <x-heroicon-o-arrow-path style="width:1rem"/>
-                                    </button>
-
-                                    <button type="button" class="btn btn-outline-secondary" onclick="changeFontSize(1)" title="Groter">
-                                        <x-heroicon-o-plus style="width:1rem"/>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    @if ($word->disclaimer)
-        <div class="alert alert-info border-0 mb-0" role="alert">
-            <div class="container-fluid">
-                <div class="row justify-content-center">
-                    <div class="col-10">
-                        <p>{{ $word->disclaimer->message }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
+    <style>
+        #article-content { font-size: 1rem; transition: font-size .2s ease; }
+        #article-content h5 { font-size: 1em; }
+        #article-content p, #article-content li, #article-content blockquote p { font-size: 1em; }
+        /* Bootstrap 5 Default Equivalents */
+        .font-size-sm { font-size: 0.875rem !important; } /* 14px */
+        .font-size-md { font-size: 1rem     !important; } /* 16px (Base) */
+        .font-size-lg { font-size: 1.25rem  !important; } /* 20px */
+        .font-size-xl { font-size: 1.5rem   !important; } /* 24px */
+        .markdown-text p:not(:last-child) { margin-bottom: .70rem; }
+        .toolbar-btn.active { background-color: #0d6efd !important; color: #fff !important; border-color: #0d6efd !important; }
+    </style>
 
     <div class="container-fluid py-5">
         <div class="row justify-content-center">
-            <div class="col-lg-7 pe-lg-5" id="readable-content">
-                <section class="mb-5">
-                    <h5 class="fw-bold mb-3 text-success">Definitie</h5>
-
-                    <div class="border-bottom mb-3">
-                        <dl class="row">
-                            <dt class="col-sm-2">Status</dt>
-                            <dd class="col-sm-10">{{ $word->status->getLabel() }}</dd>
-                            <dt class="col-sm-2">Varianten</dt>
-                            <dd class="col-sm-10 mb-0">{{ $word->keywords ?? '-' }}</dd>
-                        </dl>
-                    </div>
-
-                    <div class="d-flex">
-                        @if ($word->image_url)
-                            <div class="flex-shrink-0 d-sm-none d-md-block me-3">
-                                <a href="{{ $word->image_url }}">
-                                    <img
-                                        src="{{ $word->image_url }}"
-                                        alt="{{ $word->image_alt ?? $word->word }}"
-                                        class="rounded border-0 shadow-sm"
-                                        style="height: 200px; width: 200px; object-fit: cover;"
-                                    />
-                                </a>
-                            </div>
-                        @endif
-
-                        <div class="flex-grow-1">
-                            <div class="text-muted">
-                                <div class="markdown-text lh-base text-dark">
-                                    {!! str($word->description)->markdown()->sanitizeHtml() !!}
-                                </div>
-                            </div>
+            <div class="col-10">
+                @if ($word->disclaimer)
+                    <div class="col-12">
+                        <div class="alert alert-secondary alert-dismissible fade show shadow-sm small mb-4" role="alert">
+                            <h5><x-heroicon-s-megaphone class="icon me-1"/><strong>Disclaimer</strong> </h5>
+                            {{ $word->disclaimer->message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     </div>
-                </section>
-
-                <section class="mb-5">
-                    <h5 class="fw-bold mb-3 color-green">Voorbeelden</h5>
-                    <div class="markdown-text">
-                        {!! str($word->example)->markdown()->sanitizeHtml() !!}
-                    </div>
-                </section>
-
-                @if ($word->related()->exists())
-                    <section class="mb-5">
-                        <h5 class="fw-bold color-green mb-3">Gerelateerde Woorden</h5>
-                        <div class="d-flex flex-wrap">
-                            @foreach($word->related as $related)
-                                <a href="{{ route('word-information.show', $related) }}" class="related-chip shadow-sm">
-                                    <x-heroicon-o-document-text class="icon color-green me-1"/> {{ $related->word }}
-                                </a>
-                            @endforeach
-                        </div>
-                    </section>
                 @endif
 
-                @if($word->sources && $word->sources->count() > 0)
-                    <section class="mb-5">
-                        <h5 class="fw-bold mb-3 d-flex align-items-center color-green">Bronnen & Referenties</h5>
-                        <div class="sources-list">
-                            @foreach($word->sources as $source)
-                                @if ($source->referenceWork)
-                                    <div class="source-item shadow-sm">
-                                        <div class="source-icon">
-                                            <x-heroicon-s-book-open style="width: 1.2rem;"/>
-                                        </div>
-                                        <div class="flex-grow-1">
-                                            <span class="source-link fw-semibold">{{ optional($source->referenceWork)->name }}</span>
-                                            @if($source->notation)
-                                                <p class="mb-0 small text-muted mt-1">{{ $source->notation }}</p>
+                <div class="card shadow-sm border-0">
+                    <!-- Card Header: breadcrumb + toolbar + meta badges -->
+                    <div class="card-header bg-white border-bottom px-4 py-3">
+                        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+
+                            <!-- Breadcrumb -->
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb mb-0">
+                                    <li class="breadcrumb-item">
+                                        <a href="#" class="text-decoration-none">
+                                            <x-heroicon-o-home class="icon me-1"/>{{ config('app.name', 'Laravel') }}
+                                        </a>
+                                    </li>
+                                    <li class="breadcrumb-item">
+                                        <a href="{{ route('search.results') }}" class="text-decoration-none">
+                                            <x-heroicon-o-magnifying-glass class="icon me-1"/> Zoeken
+                                        </a>
+                                    </li>
+                                    
+                                    <li class="breadcrumb-item active fw-semibold">{{ $word->word }}</li>
+                                </ol>
+                            </nav>
+
+                            <!-- Right side: font toolbar + status badges -->
+                            <div class="d-flex align-items-center gap-3 flex-wrap">
+                                <div class="d-flex align-items-center gap-3">
+                                     @auth
+                                        @if ($word->bookmarkers->contains(auth()->user()))
+                                            <a href="{{ route('bookmark:remove', $word) }}" class="btn btn-outline-danger btn-sm">
+                                                <x-heroicon-o-bookmark-slash class="me-1" style="width:1.1rem"/> Vergeet dit woord
+                                            </a>
+                                        @else
+                                            <a href="{{ route('bookmark:create', $word) }}" class="btn btn-outline-success btn-sm">
+                                                <x-heroicon-o-bookmark class="me-1" style="width:1.1rem"/> Bewaar
+                                            </a>
+                                        @endif
+
+                                        <div class="vr"></div>
+                                    @endauth
+                                </div>
+
+                                <!-- Font size toolbar -->
+                                <div class="d-flex align-items-center gap-1">
+                            
+                                    <span class="text-muted small me-1"><x-heroicon-o-language class="icon"/></span>
+
+                                    <div class="btn-group btn-group-sm" role="group" aria-label="Font size">
+                                        <button type="button" data-size="sm" class="btn btn-outline-secondary toolbar-btn" onclick="setFontSize('sm')" title="Small">A<sub>s</sub></button>
+                                        <button type="button" data-size="md" class="btn btn-outline-secondary toolbar-btn" onclick="setFontSize('md')" title="Medium">A</button>
+                                        <button type="button" data-size="lg" class="btn btn-outline-secondary toolbar-btn" onclick="setFontSize('lg')" title="Large">A<sup>+</sup></button>
+                                        <button type="button" data-size="xl" class="btn btn-outline-secondary toolbar-btn" onclick="setFontSize('xl')" title="Extra large" style="font-size:1rem;font-weight:600;">A</button>
+                                    </div>
+                                </div>
+
+                                <div class="vr"></div>
+
+                                <!-- Status badges -->
+                                <div class="d-flex align-items-center gap-2 flex-wrap">
+                                    <span class="badge text-bg-dark text-white">
+                                        {{ toHumanReadableNumber($word->views) }} | Weergaves
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                <div class="card-body bg-white p-4" id="article-content">
+                    <!-- ── HEADER: Word + actions (full width) ── -->
+                    <div class="d-flex flex-wrap align-items-start justify-content-between gap-3 mb-1">
+                        <div>
+                            <h1 class="display-5 color-green fw-bold mb-0">{{ $word->word }}</h1>
+                            @if ($word->partOfSpeech)
+                                <span class="fw-bold">{{ $word->partOfSpeech->name }}</span>
+                                <span class="opacity-50 mx-1">|</span>
+                            @endif
+
+                            <span class="text-muted fst-italic">{{ $word->characteristics }}</span>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- Status + Regions (full width) -->
+                    <div class="d-flex flex-wrap gap-3 mb-4 align-items-start">
+                        <div>
+                            <div class="text-muted small mb-1"><i class="bi bi-toggles me-1"></i>Status</div>
+                                <div class="d-flex gap-1 flex-wrap">
+                                    <span class="badge text-bg-success">{{ $word->status->getLabel() }}</span>
+                                </div>
+                            </div>
+                        
+                            <div class="vr d-none d-sm-block"></div>
+                        
+                            <div>
+                                <div class="text-muted small mb-1"><i class="bi bi-geo-alt me-1"></i>Regio's</div>
+                                    <div class="d-flex gap-1 flex-wrap">
+                                        @forelse($word->regions as $region)
+                                            <span class="badge rounded-pill text-bg-primary">
+                                                {{ $region->name }}
+                                            </span>
+                                        @empty
+                                            <span class="badge rounded-pill text-bg-primary">
+                                                Gans Vlaanderen
+                                            </span>
+                                        @endforelse
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr />
+
+                            <!-- ══════════════════════════════════════════ 2-COLUMN LAYOUT  (col-8 main / col-4 sidebar) ══════════════════════════════════════════ -->
+                            <div class="row g-4">
+                                <!-- ── MAIN COLUMN (2/3) ── -->
+                                <div class="col-lg-8">
+
+                                    <!-- Description -->
+                                    <section class="mb-4 pb-4 border-bottom">
+                                        <h5 class="fw-semibold mb-3">
+                                            <span class="color-green fw-semibold me-1">//</span> Beschrijving
+                                        </h5>
+
+                                        <div class="d-flex flex-column flex-sm-row gap-3">
+                                             @if ($word->image_url)
+                                                <img
+                                                    src="{{ $word->image_url }}"
+                                                    alt="{{ $word->image_alt ?? $word->word }}"
+                                                    class="rounded border-0 shadow-sm"
+                                                    style="height: 200px; width: 200px; object-fit: cover;"
+                                                />
                                             @endif
+                                            
+                                            <div class="markdown-text">
+                                                {!! str($word->description)->markdown()->sanitizeHtml() !!}
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                    <!-- Example -->
+                                    <section class="mb-4 pb-4 border-bottom">
+                                        <h5 class="fw-semibold mb-3">
+                                            <span class="color-green fw-semibold me-1">//</span> Voorbeeld(en)
+                                        </h5>
+
+                                        <div class="card card-body border-0 bg-light text-secondary">
+                                            {!! str($word->example)->markdown()->sanitizeHtml() !!}
+                                        </div>
+                                    </section>
+
+                                    @if ($word->related->count() > 0)
+                                        <section class="mb-4 pb-4 border-bottom">
+                                            <h5 class="fw-semibold mb-3">
+                                                <span class="color-green fw-semibold me-1">//</span> Gerelateerde artikelen
+                                            </h5>
+
+                                            <div class="d-flex flex-row flex-wrap gap-4">
+                                                @foreach ($word->related as $related)
+                                                    <a href="{{ route('word-information.show', $related) }}" class="d-flex gap-2 align-items-center text-decoration-none text-dark">
+                                                        <div class="rounded bg-primary bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0" style="width:36px;height:36px;">
+                                                            <x-heroicon-s-book-open class="icon text-info"/>
+                                                        </div>
+                                                        <div>
+                                                            <div class="small fw-medium lh-sm">{{ $related->word }}</div>
+                                                            <div class="text-muted" style="font-size:.72rem;">{{ $word->partOfSpeech->name ?? '-' }}</div>
+                                                        </div>
+                                                    </a>
+                                                @endforeach
+                                            </div>
+                                        </section>
+                                    @endif
+
+                                    @if($word->sources && $word->sources->count() > 0)
+                                        <section class="mb-4 pb-4 border-bottom">
+                                            <h5 class="fw-semibold mb-3">
+                                                <span class="color-green fw-semibold me-1">//</span> Geraadpleegde bronnen
+                                            </h5>
+            
+                                            <div class="d-flex flex-column gap-2" id="source-list">
+                                                @foreach($word->sources as $source)
+                                                    @if ($source->referenceWork)
+                                                        <div class="border bg-light bg-light-subtle shadow-sm rounded p-3 d-flex gap-3 align-items-start">
+                                                            <x-heroicon-s-book-open class="icon color-green flex-shrink-0 mt-1"/>
+
+                                                            <div class="flex-grow-1">
+                                                                <div class="fw-medium small">{{ optional($source->referenceWork)->name }}</div>
+                                                                
+                                                                @if($source->notation)
+                                                                    <div class="text-muted small">{{ $source->notation }}</div>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            </div>
+                            
+                                        </section>
+                                    @endif 
+
+                                    <!-- Community Voting -->
+                                    <livewire:voting-component :article="$word"/>
+                                    <livewire:report-article-modal :article=$word />
+                                </div><!-- /col-lg-8 -->
+
+                                <!-- ── SIDEBAR COLUMN (1/3) ── -->
+                                <div class="col-lg-4">
+                                    
+
+                                <!-- Article Details -->
+                                <div class="card border mb-3">
+                                    <div class="card-header bg-light py-2 px-3">
+                                        <span class="fw-semibold color-green">Gegevens artikel</span>
+                                    </div>
+
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item d-flex justify-content-between px-3">
+                                            <span class="text-muted"><x-heroicon-o-user-circle class="icon color-green me-2"/> Ingezonden door</span>
+                                            <span class="fw-medium text-end">
+                                                 @if ($word->author()->exists())
+                                                    <a href="{{ route('account:public', $word->author) }}" class="text-muted">{{ $word->author->name ?? $word->contributor_name }}</a>
+                                                @else
+                                                    <span class="fw-bold text-dark">{{ $word->contributor_name }}</span>
+                                                @endif
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between px-3">
+                                            <span class="text-muted"><x-heroicon-o-user-circle class="icon color-green me-2"/> Redactie door</span>
+                                            <span class="fw-medium text-end">
+                                                 @if ($word->editor()->exists())
+                                                    <a href="{{ route('account:public', $word->editor) }}" class="text-muted">{{ $word->editor->name }}</a>
+                                                @else
+                                                    <span class="fw-bold text-dark">{{ config('app.name') }}</span>
+                                                @endif
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between px-3">
+                                            <span class="text-muted"><x-heroicon-o-user-circle class="icon color-green me-2"/> Publicatie door</span>
+                                            <span class="fw-medium text-end">
+                                                 @if ($word->publisher()->exists())
+                                                    <a href="{{ route('account:public', $word->publisher) }}" class="text-muted">{{ $word->publisher->name }}</a>
+                                                @else
+                                                    <span class="fw-bold text-dark">{{ config('app.name') }}</span>
+                                                @endif
+                                            </span>
+                                        </li>
+                                    
+                                        <li class="list-group-item d-flex justify-content-between px-3">
+                                            <span class="text-muted"><x-heroicon-s-calendar-days class="icon color-green me-2"/> Publicatiedatum</span>
+                                            <span class="fw-medium text-end">{{ optional($word->published_at)->translatedFormat('d F Y') ?? '-' }}</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between px-3">
+                                            <span class="text-muted"><x-heroicon-s-calendar-days class="icon color-green me-2"/> Laatste wijziging</span>
+                                            <span class="fw-medium text-end">{{ optional($word->updated_at)->translatedFormat('d F Y') ?? '-' }}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                @if ($word->labels->count() > 0)
+                                    <!-- Related Words -->
+                                    <div class="card bg-white border mb-3">
+                                        <div class="card-header bg-light py-2 px-3">
+                                            <span class="fw-semibold color-green">Label(s)</span>
+                                        </div>
+                                        <div class="card-body px-3 py-2">
+                                            <div class="d-flex flex-wrap gap-2">
+                                                @foreach ($word->labels as $label)
+                                                    <a href="{{ route('label:show', $label) }}" class="badge shadow-sm text-bg-light border text-dark text-decoration-none">
+                                                        {{ $label->name }}
+                                                    </a>
+                                                @endforeach
+                                            </div>
                                         </div>
                                     </div>
                                 @endif
-                            @endforeach
-                        </div>
-                    </section>
-                @endif
-
-                <section class="border-top pt-4">
-                    <div class="contributor-box bg-white shadow-sm">
-                        <div class="bg-white rounded-circle d-flex align-items-center justify-content-center border" style="width: 45px; height: 45px;">
-                            <x-heroicon-o-user style="width: 1.5rem;" class="text-muted" />
-                        </div>
-                        <div>
-                            <p class="mb-1 small text-muted">
-                                Toegevoegd door
-                                @if ($word->author()->exists())
-                                    <a href="{{ route('account:public', $word->author) }}" class="fw-bold text-dark">{{ $word->author->name ?? $word->contributor_name }}</a>
-                                @else
-                                    <span class="fw-bold text-dark">{{ $word->contributor_name }}</span>
-                                @endif
-                            </p>
-                            <p class="mb-0 extra-small text-muted" style="font-size: 0.75rem;">
-                                Gepubliceerd op {{ optional($word->published_at)->format('d M Y') ?? $word->created_at->format('d M Y') }}
-                                <span class="vr mx-2"></span>
-                                Laatst bijgewerkt op {{ $word->updated_at->format('d M Y') }}
-                            </p>
-                        </div>
-                    </div>
-                </section>
+                         </div><!-- /col-lg-4 -->
+                </div>
             </div>
-
-            <aside class="col-lg-3">
-                {{-- Community Stats --}}
-                <livewire:voting-component :article="$word"/>
-            </aside>
         </div>
     </div>
 
-    <livewire:report-article-modal :article=$word />
+    <script>
+    const sizeMap = { sm: 'font-size-sm', md: 'font-size-md', lg: 'font-size-lg', xl: 'font-size-xl' };
 
-        <script>
-            function changeFontSize(direction) {
-                const container = document.getElementById('readable-content');
-                // Get current computed font size or default to 1rem (16px)
-                const currentSize = parseFloat(window.getComputedStyle(container).getPropertyValue('font-size'));
+    function setFontSize(size) {
+        const content = document.getElementById('article-content');
+        if (!content) return;
 
-                // Define limits (e.g., between 12px and 32px)
-                const newSize = currentSize + (direction * 2);
+        // 1. Update Content Class
+        content.classList.remove('font-size-sm','font-size-md','font-size-lg','font-size-xl');
+        content.classList.add(sizeMap[size]);
 
-                if (newSize >= 14 && newSize <= 28) {
-                    container.style.fontSize = newSize + 'px';
+        // 2. Persist to LocalStorage
+        localStorage.setItem('preferred-font-size', size);
 
-                    // Optional: Save preference to localStorage
-                    localStorage.setItem('preferred-font-size', newSize + 'px');
-                }
+        // 3. Update Button Active States
+        document.querySelectorAll('.toolbar-btn').forEach(btn => {
+            // Remove active from all
+            btn.classList.remove('active');
+            // Add active if it matches the current size
+            if (btn.getAttribute('data-size') === size) {
+                btn.classList.add('active');
             }
+        });
+    }
 
-            function resetFontSize() {
-                const container = document.getElementById('readable-content');
-                container.style.fontSize = ''; // Reverts to CSS default
-                localStorage.removeItem('preferred-font-size');
-            }
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedSize = localStorage.getItem('preferred-font-size') || 'md';
+        setFontSize(savedSize);
+    });
 
-            // Apply saved preference on load
-            window.addEventListener('DOMContentLoaded', () => {
-                const savedSize = localStorage.getItem('preferred-font-size');
-                if (savedSize) {
-                    document.getElementById('readable-content').style.fontSize = savedSize;
-                }
-            });
-        </script>
+    // If using Livewire 3 wire:navigate, use this instead of DOMContentLoaded:
+    document.addEventListener('livewire:navigated', () => {
+        const savedSize = localStorage.getItem('preferred-font-size') || 'md';
+        setFontSize(savedSize);
+    });
+</script>
 @endsection

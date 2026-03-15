@@ -54,6 +54,7 @@ final class ArticlePolicy
             return Response::allow();
         }
 
+        //! No custom authorization message defined because we simply need to return a HTTP 404 code.
         return Response::denyAsNotFound();
     }
 
@@ -182,7 +183,7 @@ final class ArticlePolicy
     public function detachEditor(User $user, Article $article): Response
     {
         if ($article->state->isNot(enum: ArticleStates::Draft)) {
-            return Response::deny();
+            return Response::deny(message: 'Het is niet mogelijk oim de redacteur los te koppelen van het artikelen buiten de klad versie status.');
         }
 
         if ($article->editor()->is($user)) {
@@ -248,7 +249,7 @@ final class ArticlePolicy
     public function archiveArticle(User $user, Article $article): Response
     {
         if ($article->trashed()) {
-            return Response::deny();
+            return Response::deny(message: 'U kunt geen verwijderde artikelen archiveren in het systeem.');
         }
 
         if ($article->state->in(enums: [ArticleStates::Published, ArticleStates::Approval]) && $user->can('archive:article')) {

@@ -42,7 +42,7 @@ final readonly class NotePolicy
 			return Response::allow();
 		}
 
-		return Response::deny();
+		return Response::deny(message: 'U hebt geen toestemming om de notitie te wijzigen.');
     }
 
     /**
@@ -60,6 +60,6 @@ final readonly class NotePolicy
 			return Response::allow();
 		}
 
-		return Response::deny();
+		return Response::deny(message: 'U hebt geen toestemming om de notitie te verwijderen.');
     }
 }

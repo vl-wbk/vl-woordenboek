@@ -38,6 +38,7 @@ final class BanPolicy
      * If so, it grants access to view any `Ban` models.
      *
      * @param  User $user 	The user to check.
+     * @return Response
      */
     public function viewAny(User $user): Response
     {
@@ -45,7 +46,7 @@ final class BanPolicy
             return Response::allow();
         }
 
-        return Response::deny();
+        return Response::deny(message: 'U hebt geen toestemming om de lijst met deactivaties te bekijken.');
     }
 
     /**
@@ -60,7 +61,7 @@ final class BanPolicy
             return Response::allow();
         }
 
-        return Response::deny();
+        return Response::deny(message: 'U hebt geen toestemming om de specifieke gegevens van een deactivatie te bekijken.');
     }
 
     /**
@@ -75,7 +76,7 @@ final class BanPolicy
             return Response::allow();
         }
 
-        return Response::deny();
+        return Response::deny(message: 'U hebt geen toestemming om de gegevens van een deactivatie aan te passen.');
     }
 
     /**
@@ -90,6 +91,6 @@ final class BanPolicy
             return Response::allow();
         }
 
-        return Response::deny();
+        return Response::deny(message: 'U hebt geen toestemming om een deactivatie ongedaan te maken.');
     }
 }

@@ -50,7 +50,7 @@ final class FeedbackPolicy
             return Response::allow();
         }
 
-        return Response::deny(message: __('U hebt geen machtiging om het feedback overzicht te bekijken.'));
+        return Response::deny(message: 'U hebt geen machtiging om het feedback overzicht te bekijken.');
     }
 
     /**
@@ -70,7 +70,7 @@ final class FeedbackPolicy
             return Response::allow();
         }
 
-        return Response::deny(message: __('U hebt geen machtiging om dit feedback bericht te bekijken.'));
+        return Response::deny(message: 'U hebt geen machtiging om dit feedback bericht te bekijken.');
     }
 
     /**
@@ -89,21 +89,21 @@ final class FeedbackPolicy
             return Response::allow();
         }
 
-        return Response::deny(message: __('U hebt geen machtiging om dit feedback bericht te verwijderen.'));
+        return Response::deny(message: 'U hebt geen machtiging om dit feedback bericht te verwijderen.');
     }
 
     public function markAsClosed(User $user, Feedback $feedback): Response 
     {
         return ($user->can('change-status:feedback') && $feedback->status->is(enum: FeedbackStatus::Unprocessed))
             ? Response::allow()
-            : Response::deny(message: __('U hebt geen machtiging om een feedback ticket te sluiten'));
+            : Response::deny(message: 'U hebt geen machtiging om een feedback ticket te sluiten');
     }
 
     public function markAsOpen(User $user, Feedback $feedback): Response 
     {
         return ($user->can('change-status:feedback') && $feedback->status->is(enum: FeedbackStatus::Processed)) 
             ? Response::allow()
-            : Response::deny(message: __('U hebt geen machtiging om een feedback ticket te heropenen'));
+            : Response::deny(message: 'U hebt geen machtiging om een feedback ticket te heropenen');
     }
 
     /**
@@ -122,6 +122,6 @@ final class FeedbackPolicy
             return Response::allow();
         }
 
-        return Response::deny(message: __('U hebt geen machtiging om feedback te verwijderen.'));
+        return Response::deny(message: 'U hebt geen machtiging om feedback te verwijderen.');
     }
 }
