@@ -1,0 +1,53 @@
+<?php
+
+namespace App\Livewire;
+
+use App\Enums\Articles\ExampleSentenceStatus;
+use App\Models\Article;
+use App\Models\UserExample;
+use Livewire\Attributes\Computed;
+use Livewire\Component;
+use Livewire\WithPagination;
+
+class UserExamplesList extends Component
+{
+    use WithPagination;
+
+    public int $articleId;
+    public Article $article;
+
+    public string $sortBy = 'created_at';
+
+    public function mount(int $wordId, Article $article): void
+    {
+        $this->articleId = $wordId;
+        $this->article = $article;
+    }
+
+    public function updatedSortBy(): void
+    {
+        $this->resetPage();
+    }
+
+    #[Computed]
+    public function examples()
+    {
+        $direction = $this->sortBy === 'created_at_asc' ? 'asc' : 'desc';
+
+        return UserExample::query()
+            ->where('article_id', $this->articleId)
+            ->where('status', ExampleSentenceStatus::Accepted)
+            ->with('author')
+            ->orderBy('created_at', $direction)
+            ->paginate(4)
+            ->setPath(route('word-information.show', ['word' => $this->articleId]));
+    }
+
+    public function render()
+    {
+        return view('livewire.user-examples-list', data: [
+            'examples' => $this->examples(),
+            'word' => $this->article,
+        ]);
+    }
+}
