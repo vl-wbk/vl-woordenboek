@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('user_examples', function (Blueprint $table) {
             $table->id();
-            $table->smallInteger('status')->nullable();
+            $table->string('status');
             $table->foreignIdFor(Article::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(User::class)->nullable()->constrained()->nullOnDelete();
             $table->string('contributor_name')->nullable();

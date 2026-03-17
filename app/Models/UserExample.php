@@ -2,27 +2,34 @@
 
 namespace App\Models;
 
-use App\Enums\Articles\ExampleSentenceStatus;
+use App\States\ExampleSentence\SentenceState;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\ModelStates\HasStates;
 
-class UserExample extends Model
+final class UserExample extends Model
 {
+    use HasStates;
+
     protected $guarded = ['id'];
 
-    protected $attributes = [
-        'status' => ExampleSentenceStatus::Pending,
-    ];
+    public function article(): BelongsTo
+    {
+        return $this->belongsTo(Article::class);
+    }
 
     public function author(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)
+            ->withDefault(function ($user, $example) {
+                $user->name = $example->contributor_name ?? config('app.name', 'Laravel');
+            });
     }
 
     protected function casts(): array
     {
         return [
-            'status' => ExampleSentenceStatus::class,
+            'status' => SentenceState::class,
         ];
     }
 }

@@ -4,8 +4,96 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7d05f5b9ddab6d02584a77b97509be05",
+    "content-hash": "657dac649eddc1ba119157665c2b995d",
     "packages": [
+        {
+            "name": "a909m/filament-statefusion",
+            "version": "v2.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/A909M/Filament-StateFusion.git",
+                "reference": "ad8904426012c51255670bcd30520ca031bb71a8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/A909M/Filament-StateFusion/zipball/ad8904426012c51255670bcd30520ca031bb71a8",
+                "reference": "ad8904426012c51255670bcd30520ca031bb71a8",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^4.0|^5.0",
+                "php": "^8.2",
+                "spatie/laravel-model-states": "^2.10",
+                "spatie/laravel-package-tools": "^1.15.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.24",
+                "nunomaduro/collision": "^8.8",
+                "nunomaduro/larastan": "^3.7",
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "pestphp/pest": "^4.1",
+                "pestphp/pest-plugin-arch": "^4.0",
+                "phpstan/extension-installer": "^1.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "FilamentStateFusion": "A909M\\FilamentStateFusion\\Facades\\FilamentStateFusion"
+                    },
+                    "providers": [
+                        "A909M\\FilamentStateFusion\\FilamentStateFusionServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "A909M\\FilamentStateFusion\\": "src/",
+                    "A909M\\FilamentStateFusion\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "A909M",
+                    "email": "assemcc2022@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Filament StateFusion is a powerful FilamentPHP plugin that seamlessly integrates Spatie Laravel Model States into the Filament admin panel. This package provides an intuitive way to manage model states, transitions, and filtering within Filament, enhancing the user experience and developer productivity.",
+            "homepage": "https://github.com/a909m/filament-statefusion",
+            "keywords": [
+                "A909M",
+                "admin-panel",
+                "filament",
+                "filament-admin",
+                "filament-form",
+                "filament-infolist",
+                "filament-plugin",
+                "filament-statefusion",
+                "filament-table",
+                "filamentphp",
+                "laravel",
+                "spatie",
+                "stae-p",
+                "state-machine",
+                "state-management"
+            ],
+            "support": {
+                "issues": "https://github.com/a909m/filament-statefusion/issues",
+                "source": "https://github.com/a909m/filament-statefusion"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/A909M",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-01-16T21:21:14+00:00"
+        },
         {
             "name": "aaronfrancis/fast-paginate",
             "version": "v2.0.0",
@@ -2284,6 +2372,59 @@
             "time": "2025-03-06T22:45:56+00:00"
         },
         {
+            "name": "facade/ignition-contracts",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/facade/ignition-contracts.git",
+                "reference": "3c921a1cdba35b68a7f0ccffc6dffc1995b18267"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/facade/ignition-contracts/zipball/3c921a1cdba35b68a7f0ccffc6dffc1995b18267",
+                "reference": "3c921a1cdba35b68a7f0ccffc6dffc1995b18267",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.3|^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^v2.15.8",
+                "phpunit/phpunit": "^9.3.11",
+                "vimeo/psalm": "^3.17.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Facade\\IgnitionContracts\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://flareapp.io",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Solution contracts for Ignition",
+            "homepage": "https://github.com/facade/ignition-contracts",
+            "keywords": [
+                "contracts",
+                "flare",
+                "ignition"
+            ],
+            "support": {
+                "issues": "https://github.com/facade/ignition-contracts/issues",
+                "source": "https://github.com/facade/ignition-contracts/tree/1.0.2"
+            },
+            "time": "2020-10-16T08:27:54+00:00"
+        },
+        {
             "name": "filament/actions",
             "version": "v4.8.5",
             "source": {
@@ -3720,71 +3861,6 @@
                 }
             ],
             "time": "2025-12-05T14:53:09+00:00"
-        },
-        {
-            "name": "itpathsolutions/dbstan",
-            "version": "1.0.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/dhanikk/dbstan.git",
-                "reference": "fbe8af4040b490411f71655355e3dfcae7846642"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/dhanikk/dbstan/zipball/fbe8af4040b490411f71655355e3dfcae7846642",
-                "reference": "fbe8af4040b490411f71655355e3dfcae7846642",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/console": "^9.0|^10.0|^11.0|^12.0",
-                "illuminate/database": "^9.0|^10.0|^11.0|^12.0",
-                "illuminate/support": "^9.0|^10.0|^11.0|^12.0",
-                "php": "^8.1|^8.2|^8.3|^8.4"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Itpathsolutions\\DBStan\\DBStanServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Itpathsolutions\\DBStan\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Dhanik Keraliya",
-                    "email": "dhanikk@itpathsolutions.com"
-                },
-                {
-                    "name": "Archana Soni",
-                    "email": "archanau@itpathsolutions.com",
-                    "role": "Maintainer"
-                }
-            ],
-            "description": "Database Standardization and Analysis Tool for Laravel",
-            "keywords": [
-                "analysis",
-                "database",
-                "dbstan",
-                "itpathsolutions",
-                "laravel",
-                "performance",
-                "php",
-                "schema"
-            ],
-            "support": {
-                "issues": "https://github.com/dhanikk/dbstan/issues",
-                "source": "https://github.com/dhanikk/dbstan/tree/v1.0.5"
-            },
-            "time": "2026-03-13T08:32:50+00:00"
         },
         {
             "name": "jaysontemporas/page-bookmarks",
@@ -9484,6 +9560,82 @@
             "time": "2026-02-21T21:49:50+00:00"
         },
         {
+            "name": "spatie/laravel-model-states",
+            "version": "2.12.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-model-states.git",
+                "reference": "13cccd3ecb4396c9a3360fb710d9dd40c0f1a1fe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-model-states/zipball/13cccd3ecb4396c9a3360fb710d9dd40c0f1a1fe",
+                "reference": "13cccd3ecb4396c9a3360fb710d9dd40c0f1a1fe",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "facade/ignition-contracts": "^1.0",
+                "illuminate/contracts": "^10.0 | ^11.0 | ^12.0",
+                "illuminate/database": "^10.0 | ^11.0 | ^12.0",
+                "illuminate/support": "^10.0 | ^11.0 | ^12.0",
+                "php": "^7.4|^8.0",
+                "spatie/laravel-package-tools": "^1.9",
+                "spatie/php-structure-discoverer": "^2.2"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0 | ^9.0 | ^10.0",
+                "pestphp/pest": "^2.0|^3.0",
+                "phpunit/phpunit": "^10.0|^11.0|^12.0",
+                "symfony/var-dumper": "^6.0 | ^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\ModelStates\\ModelStatesServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\ModelStates\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brent Roose",
+                    "email": "brent@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "State support for Eloquent models",
+            "homepage": "https://github.com/spatie/laravel-model-states",
+            "keywords": [
+                "spatie",
+                "state"
+            ],
+            "support": {
+                "source": "https://github.com/spatie/laravel-model-states/tree/2.12.1"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-08-01T09:20:29+00:00"
+        },
+        {
             "name": "spatie/laravel-model-status",
             "version": "1.20.0",
             "source": {
@@ -13803,112 +13955,6 @@
             "time": "2025-08-20T19:15:30+00:00"
         },
         {
-            "name": "doctrine/dbal",
-            "version": "4.4.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/dbal.git",
-                "reference": "476f7f0fa6ea4aa5364926db7fabdf6049075722"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/476f7f0fa6ea4aa5364926db7fabdf6049075722",
-                "reference": "476f7f0fa6ea4aa5364926db7fabdf6049075722",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/deprecations": "^1.1.5",
-                "php": "^8.2",
-                "psr/cache": "^1|^2|^3",
-                "psr/log": "^1|^2|^3"
-            },
-            "require-dev": {
-                "doctrine/coding-standard": "14.0.0",
-                "fig/log-test": "^1",
-                "jetbrains/phpstorm-stubs": "2023.2",
-                "phpstan/phpstan": "2.1.30",
-                "phpstan/phpstan-phpunit": "2.0.7",
-                "phpstan/phpstan-strict-rules": "^2",
-                "phpunit/phpunit": "11.5.50",
-                "slevomat/coding-standard": "8.27.1",
-                "squizlabs/php_codesniffer": "4.0.1",
-                "symfony/cache": "^6.3.8|^7.0|^8.0",
-                "symfony/console": "^5.4|^6.3|^7.0|^8.0"
-            },
-            "suggest": {
-                "symfony/console": "For helpful console commands such as SQL execution and import of files."
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Doctrine\\DBAL\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Guilherme Blanco",
-                    "email": "guilhermeblanco@gmail.com"
-                },
-                {
-                    "name": "Roman Borschel",
-                    "email": "roman@code-factory.org"
-                },
-                {
-                    "name": "Benjamin Eberlei",
-                    "email": "kontakt@beberlei.de"
-                },
-                {
-                    "name": "Jonathan Wage",
-                    "email": "jonwage@gmail.com"
-                }
-            ],
-            "description": "Powerful PHP database abstraction layer (DBAL) with many features for database schema introspection and management.",
-            "homepage": "https://www.doctrine-project.org/projects/dbal.html",
-            "keywords": [
-                "abstraction",
-                "database",
-                "db2",
-                "dbal",
-                "mariadb",
-                "mssql",
-                "mysql",
-                "oci8",
-                "oracle",
-                "pdo",
-                "pgsql",
-                "postgresql",
-                "queryobject",
-                "sasql",
-                "sql",
-                "sqlite",
-                "sqlserver",
-                "sqlsrv"
-            ],
-            "support": {
-                "issues": "https://github.com/doctrine/dbal/issues",
-                "source": "https://github.com/doctrine/dbal/tree/4.4.2"
-            },
-            "funding": [
-                {
-                    "url": "https://www.doctrine-project.org/sponsorship.html",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://www.patreon.com/phpdoctrine",
-                    "type": "patreon"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fdbal",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2026-02-26T12:12:19+00:00"
-        },
-        {
             "name": "dragon-code/contracts",
             "version": "2.24.0",
             "source": {
@@ -17171,55 +17217,6 @@
             "time": "2026-01-27T05:59:18+00:00"
         },
         {
-            "name": "psr/cache",
-            "version": "3.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/cache.git",
-                "reference": "aa5030cfa5405eccfdcb1083ce040c2cb8d253bf"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/cache/zipball/aa5030cfa5405eccfdcb1083ce040c2cb8d253bf",
-                "reference": "aa5030cfa5405eccfdcb1083ce040c2cb8d253bf",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.0.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Psr\\Cache\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "https://www.php-fig.org/"
-                }
-            ],
-            "description": "Common interface for caching libraries",
-            "keywords": [
-                "cache",
-                "psr",
-                "psr-6"
-            ],
-            "support": {
-                "source": "https://github.com/php-fig/cache/tree/3.0.0"
-            },
-            "time": "2021-02-03T23:26:27+00:00"
-        },
-        {
             "name": "rector/rector",
             "version": "2.3.8",
             "source": {
@@ -19433,84 +19430,6 @@
                 "source": "https://github.com/spatie/laravel-sql-commenter/tree/2.1.1"
             },
             "time": "2025-02-21T14:16:19+00:00"
-        },
-        {
-            "name": "staabm/phpstan-dba",
-            "version": "0.4.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/staabm/phpstan-dba.git",
-                "reference": "b4a6084d9c08db2d208cef81184bbf26d1581864"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/staabm/phpstan-dba/zipball/b4a6084d9c08db2d208cef81184bbf26d1581864",
-                "reference": "b4a6084d9c08db2d208cef81184bbf26d1581864",
-                "shasum": ""
-            },
-            "require": {
-                "composer-runtime-api": "^2.0",
-                "composer/semver": "^3.2",
-                "doctrine/dbal": "3.*|4.*",
-                "php": "^7.4 || ^8.0",
-                "phpstan/phpstan": "^2.0"
-            },
-            "conflict": {
-                "sqlftw/sqlftw": "<0.1.16"
-            },
-            "require-dev": {
-                "dibi/dibi": "^4.2",
-                "ext-mysqli": "*",
-                "ext-pdo": "*",
-                "php-parallel-lint/php-parallel-lint": "^1.4",
-                "phpstan/extension-installer": "^1.4",
-                "phpstan/phpstan-deprecation-rules": "^2.0",
-                "phpstan/phpstan-phpunit": "^2.0",
-                "phpstan/phpstan-strict-rules": "^2.0",
-                "phpunit/phpunit": "^8.5|^9.5",
-                "symplify/easy-coding-standard": "^12.5",
-                "tomasvotruba/unused-public": "^2.0",
-                "vlucas/phpdotenv": "^5.4"
-            },
-            "type": "phpstan-extension",
-            "extra": {
-                "phpstan": {
-                    "includes": [
-                        "config/dba.neon"
-                    ]
-                },
-                "branch-alias": {
-                    "dev-main": "0.3.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "staabm\\PHPStanDba\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "keywords": [
-                "Database Access Layer",
-                "PHPStan",
-                "code quality",
-                "dev",
-                "phpstan-extension",
-                "static analysis"
-            ],
-            "support": {
-                "issues": "https://github.com/staabm/phpstan-dba/issues",
-                "source": "https://github.com/staabm/phpstan-dba/tree/0.4.2"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/staabm",
-                    "type": "github"
-                }
-            ],
-            "time": "2025-08-07T09:33:14+00:00"
         },
         {
             "name": "staabm/side-effects-detector",

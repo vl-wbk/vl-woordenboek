@@ -42,15 +42,7 @@
 
             <div class="d-flex align-items-center justify-content-between gap-2">
                 <span class="text-danger fw-semibold" style="font-size:.85rem;">
-                    @auth
-                        @if (true)
-                            <x-heroicon-o-information-circle class="icon me-1"/> Jouw bijdragen worden meteen gepubliceerd.
-                        @else
-                            <x-heroicon-o-information-circle class="icon me-1"/> Wordt nagekeken voor publicatie.
-                        @endif
-                    @else
-                        <x-heroicon-o-information-circle class="icon me-1"/> Wordt nagekeken voor publicatie.
-                    @endauth
+                    <x-heroicon-o-information-circle class="icon me-1"/> Wordt nagekeken voor publicatie.
                 </span>
 
                 <button
