@@ -9,6 +9,7 @@ use A909M\FilamentStateFusion\Actions\StateFusionBulkAction;
 use A909M\FilamentStateFusion\Tables\Columns\StateFusionSelectColumn;
 use A909M\FilamentStateFusion\Tables\Filters\StateFusionSelectFilter;
 use App\Filament\Resources\Articles\Pages\ViewWord;
+use App\Policies\UserExamplePolicy;
 use App\States\ExampleSentence\Approved;
 use App\States\ExampleSentence\Pending;
 use App\States\ExampleSentence\Rejected;
@@ -72,6 +73,7 @@ final class CommunityExamplesRelationManager extends RelationManager
         return [
             BulkActionGroup::make([
                 StateFusionBulkAction::make('approve')
+                    ->authorize(UserExamplePolicy::changeStateAny)
                     ->label('Goedkeuren')
                     ->icon(Heroicon::OutlinedCheckBadge)
                     ->modalCloseButton(false)
@@ -101,17 +103,20 @@ final class CommunityExamplesRelationManager extends RelationManager
     {
         return [
             StateFusionAction::make('approve')
+                ->authorize(UserExamplePolicy::changeState)
                 ->label('Publiceren')
                 ->icon(Heroicon::OutlinedCheckBadge)
                 ->transitionTo(Approved::class),
 
             StateFusionAction::make('reject')
+                ->authorize(UserExamplePolicy::changeState)
                 ->label('Afwijzen')
                 ->icon(Heroicon::XMark)
                 ->transitionTo(Rejected::class),
 
             StateFusionAction::make('unpublish')
                 ->label('Offline halen')
+                ->authorize(UserExamplePolicy::changeState)
                 ->icon(Heroicon::OutlinedEyeSlash)
                 ->transitionTo(Unpublished::class),
 
