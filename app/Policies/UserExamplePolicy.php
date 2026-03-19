@@ -14,6 +14,15 @@ final readonly class UserExamplePolicy
     public const string changeState = 'change-state';
     public const string changeStateAny = 'change-state-any';
 
+    public function viewAny(User $user): Response
+    {
+        if ($user->user_type->in(enums: [UserTypes::Developer, UserTypes::Administrators, UserTypes::EditorInChief])) {
+            return Response::allow();
+        }
+
+        return Response::deny();
+    }
+
     public function deleteAny(User $user): Response
     {
         if ($user->user_type->in(enums: [UserTypes::Developer, UserTypes::Administrators, UserTypes::EditorInChief])) {
