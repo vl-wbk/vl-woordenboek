@@ -234,6 +234,11 @@ final class Article extends Model implements AuditableContract, Commentable
         return $this->hasMany(ArticleReport::class);
     }
 
+    public function userExamples(): HasMany
+    {
+        return $this->hasMany(UserExample::class);
+    }
+
     /**
      * Defines a one-to-many relationship with the `Etymology` model.
      *

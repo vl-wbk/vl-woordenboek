@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Web\Articles;
 
 use App\Enums\Articles\EtymologyStatus;
+use App\Enums\Articles\ExampleSentenceStatus;
 use App\Filament\Resources\Articles\ArticleResource;
 use App\Models\Article;
 use App\Models\WordOfTheDay;
 use App\Policies\ArticlePolicy;
+use App\States\ExampleSentence\Approved;
 use App\States\Reporting\Status;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Database\Eloquent\Builder;
@@ -74,6 +76,7 @@ final readonly class DictionaryArticleController
                     'notes',
                     'audits'
                 ]),
+                'exampleCount' => $word->userExamples()->whereState('status', Approved::class)->count(),
                 'articleResource' => ArticleResource::class,
                 'etymologies' => $word->etymologies()->whereNotIn('status', [EtymologyStatus::Draft, EtymologyStatus::Rejected, EtymologyStatus::Archived])->get(),
                 'upcomingSchedule' => WordOfTheDay::where('article_id', $word->id)->whereDate('scheduled_for', today())->first(),

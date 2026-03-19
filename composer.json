@@ -7,6 +7,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
+        "a909m/filament-statefusion": "^2.3",
         "aaronfrancis/fast-paginate": "^2.0",
         "archtechx/enums": "^1.1",
         "beyondcode/laravel-comments": "^1.8",

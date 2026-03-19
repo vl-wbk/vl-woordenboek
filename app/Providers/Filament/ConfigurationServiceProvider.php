@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use A909M\FilamentStateFusion\Actions\StateFusionAction;
 use CodeWithDennis\FactoryAction\FactoryAction;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
@@ -20,6 +21,10 @@ class ConfigurationServiceProvider extends ServiceProvider
                 ->persistFiltersInSession()
                 ->persistSortInSession()
                 ->persistSearchInSession();
+        });
+
+        StateFusionAction::configureUsing(function (StateFusionAction $stateFusionAction): void {
+            $stateFusionAction->modal(false);
         });
     }
 

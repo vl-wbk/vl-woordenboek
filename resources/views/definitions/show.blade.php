@@ -65,7 +65,7 @@
                                             <x-heroicon-o-magnifying-glass class="icon me-1"/> Zoeken
                                         </a>
                                     </li>
-                                    
+
                                     <li class="breadcrumb-item active fw-semibold">{{ $word->word }}</li>
                                 </ol>
                             </nav>
@@ -90,7 +90,7 @@
 
                                 <!-- Font size toolbar -->
                                 <div class="d-flex align-items-center gap-1">
-                            
+
                                     <span class="text-muted small me-1"><x-heroicon-o-language class="icon"/></span>
 
                                     <div class="btn-group btn-group-sm" role="group" aria-label="Font size">
@@ -138,9 +138,9 @@
                                     <span class="badge text-bg-success">{{ $word->status->getLabel() }}</span>
                                 </div>
                             </div>
-                        
+
                             <div class="vr d-none d-sm-block"></div>
-                        
+
                             <div>
                                 <div class="text-muted small mb-1"><i class="bi bi-geo-alt me-1"></i>Regio's</div>
                                     <div class="d-flex gap-1 flex-wrap">
@@ -173,13 +173,14 @@
                                         <div class="d-flex flex-column flex-sm-row gap-3">
                                              @if ($word->image_url)
                                                 <img
+                                                    loading="lazy"
                                                     src="{{ $word->image_url }}"
                                                     alt="{{ $word->image_alt ?? $word->word }}"
                                                     class="rounded border-0 shadow-sm"
                                                     style="height: 200px; width: 200px; object-fit: cover;"
                                                 />
                                             @endif
-                                            
+
                                             <div class="markdown-text">
                                                 {!! str($word->description)->markdown()->sanitizeHtml() !!}
                                             </div>
@@ -187,13 +188,46 @@
                                     </section>
 
                                     <!-- Example -->
-                                    <section class="mb-4 pb-4 border-bottom">
+                                    <section class="mb-4 pb-4 border-bottom" id="examples">
                                         <h5 class="fw-semibold mb-3">
                                             <span class="color-green fw-semibold me-1">//</span> Voorbeeld(en)
                                         </h5>
 
-                                        <div class="card card-body border-0 bg-light text-secondary">
-                                            {!! str($word->example)->markdown()->sanitizeHtml() !!}
+                                        <ul class="nav nav-tabs" id="exampleTabs" role="tablist">
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link active" id="tab-redactie" data-bs-toggle="tab" data-bs-target="#pane-redactie" type="button" role="tab" aria-controls="pane-redactie" aria-selected="true">
+                                                    <x-heroicon-s-pencil-square class="icon me-1"/> Redactie
+                                                </button>
+                                            </li>
+
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link" id="tab-community" data-bs-toggle="tab" data-bs-target="#pane-community" type="button" role="tab" aria-controls="pane-community" aria-selected="false">
+                                                    <x-heroicon-s-users class="icon me-1"/> Community
+
+                                                    @if ($exampleCount > 0)
+                                                        <span class="text-muted fst-italic small">
+                                                            ({{ $exampleCount }})
+                                                        </span>
+                                                    @endif
+                                                </button>
+                                            </li>
+                                        </ul>
+
+                                        <div class="tab-content border border-top-0 rounded-bottom" id="exampleTabsContent">
+                                            {{-- Redactie tab --}}
+                                            <div class="tab-pane bg-light-subtle fade show active p-3" id="pane-redactie" role="tabpanel" aria-labelledby="tab-redactie">
+                                                {!! str($word->example)->markdown()->sanitizeHtml() !!}
+                                            </div>
+
+
+                                            {{-- Community tab --}}
+                                            <div class="tab-pane bg-light-subtle fade p-3" id="pane-community" role="tabpanel" aria-labelledby="tab-community">
+                                                <livewire:user-examples-list :word="$word" :wordId="$word->id" />
+
+                                                <hr class="my-3"/>
+
+                                                <livewire:submit-user-example :wordId="$word->id" />
+                                            </div>
                                         </div>
                                     </section>
 
@@ -224,7 +258,7 @@
                                             <h5 class="fw-semibold mb-3">
                                                 <span class="color-green fw-semibold me-1">//</span> Geraadpleegde bronnen
                                             </h5>
-            
+
                                             <div class="d-flex flex-column gap-2" id="source-list">
                                                 @foreach($word->sources as $source)
                                                     @if ($source->referenceWork)
@@ -233,7 +267,7 @@
 
                                                             <div class="flex-grow-1">
                                                                 <div class="fw-medium small">{{ optional($source->referenceWork)->name }}</div>
-                                                                
+
                                                                 @if($source->notation)
                                                                     <div class="text-muted small">{{ $source->notation }}</div>
                                                                 @endif
@@ -242,9 +276,9 @@
                                                     @endif
                                                 @endforeach
                                             </div>
-                            
+
                                         </section>
-                                    @endif 
+                                    @endif
 
                                     <!-- Community Voting -->
                                     <livewire:voting-component :article="$word"/>
@@ -253,7 +287,7 @@
 
                                 <!-- ── SIDEBAR COLUMN (1/3) ── -->
                                 <div class="col-lg-4">
-                                    
+
 
                                 <!-- Article Details -->
                                 <div class="card border mb-3">
@@ -292,7 +326,7 @@
                                                 @endif
                                             </span>
                                         </li>
-                                    
+
                                         <li class="list-group-item d-flex justify-content-between px-3">
                                             <span class="text-muted"><x-heroicon-s-calendar-days class="icon color-green me-2"/> Publicatiedatum</span>
                                             <span class="fw-medium text-end">{{ optional($word->published_at)->translatedFormat('d F Y') ?? '-' }}</span>
@@ -321,7 +355,8 @@
                                         </div>
                                     </div>
                                 @endif
-                         </div><!-- /col-lg-4 -->
+                        </div><!-- /col-lg-4 -->
+                    </div>
                 </div>
             </div>
         </div>
