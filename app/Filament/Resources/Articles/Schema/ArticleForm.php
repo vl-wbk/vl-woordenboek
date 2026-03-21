@@ -50,6 +50,7 @@ final readonly class ArticleForm
         return $schema->components([
             GazeBanner::make('lock-banner')
                 ->lock()
+                ->poll(null)
                 ->columnSpanFull()
                 ->canTakeControl(fn (): bool => auth()->user()->can('release-resource-lock'))
                 ->hideOnCreate(),
@@ -322,14 +323,16 @@ final readonly class ArticleForm
     public static function getRelatedWordsRepeater(): array
     {
         return [
-            Select::make('Gerelateerde woorden')
+            Select::make('related')
                 ->label('Gerelateerde woorden')
-                ->relationship(name: 'related', ignoreRecord: true, titleAttribute: 'articles.word')
-                ->native(false)
-                ->searchable()
+                ->relationship('related', 'word')
                 ->multiple()
-                ->distinct(false)
-                ->optionsLimit(900000)
+                ->searchable()
+                ->getSearchResultsUsing(fn (string $search): array => Article::where('word', 'like', "%{$search}%")
+                    ->limit(50)
+                    ->pluck('word', 'id')
+                    ->toArray()
+                )
                 ->getOptionLabelFromRecordUsing(fn (Article $record) => "#{$record->id} - {$record->word}"),
         ];
     }

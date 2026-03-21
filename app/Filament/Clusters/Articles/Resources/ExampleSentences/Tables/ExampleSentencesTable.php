@@ -22,12 +22,17 @@ use Filament\Support\Enums\FontWeight;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 final readonly class ExampleSentencesTable
 {
     public static function configure(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn (Builder $query) => $query->with([
+                'article:id,word',
+                'author:id,name'
+            ]))
             ->heading(heading: 'Overzicht van community voorbeeldzinnen')
             ->description(description: 'Een overzicht van alle community voorbeeldzinnen die zijn aangedragen door gebruikers van het Vlaams Woordenboek. In de onderstaande tabel vind je een overzicht van alle voorbeelden die nog beoordeeld moeten worden.')
             ->headerActions(actions: self::registerTableHeaderActions())

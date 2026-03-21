@@ -59,7 +59,7 @@ final class StoreArticleSuggestionController
     public function store(StoreSuggestionRequest $storeSuggestionRequest, StoreArticleSuggestion $storeArticleSuggestion): RedirectResponse
     {
         /** @phpstan-ignore-next-line */
-        $this->throttleSubmission($storeSuggestionRequest, 'suggestion', function () use ($storeArticleSuggestion, $storeSuggestionRequest): RedirectResponse {
+        $this->throttleSubmission($storeSuggestionRequest, 'suggestion', function () use ($storeArticleSuggestion, $storeSuggestionRequest): void {
             $storeArticleSuggestion->execute(suggestionData: $storeSuggestionRequest->getData());
         });
 
