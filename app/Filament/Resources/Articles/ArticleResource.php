@@ -104,8 +104,8 @@ final class ArticleResource extends Resource
     public static function getRelations(): array
     {
         return [
-            LabelsRelationManager::class,
             NotesRelationManager::class,
+            LabelsRelationManager::class,
             ReportsRelationManager::class,
             AuditsRelationManager::class,
             EtymologyRelationManager::class,
