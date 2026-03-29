@@ -60,10 +60,10 @@ final class ArticleBuilder extends Builder
      *
      * @throws Throwable
      */
-    public function archive(?string $archivingReason = null): bool
+    public function archive(?string $archivingReason = null, int|string|null $redirectArticleId): bool
     {
-        return DB::transaction(function () use ($archivingReason): bool {
-            return $this->model->fill(attributes: ['state' => ArticleStates::Archived, 'archiving_reason' => $archivingReason, 'published_at' => null, 'archived_at' => now()])
+        return DB::transaction(function () use ($archivingReason, $redirectArticleId): bool {
+            return $this->model->fill(attributes: ['state' => ArticleStates::Archived, 'archiving_reason' => $archivingReason, 'published_at' => null, 'archived_at' => now(), 'redirect_article_id' => $redirectArticleId])
                 ->archiever()->associate(Auth::user())
                 ->save();
         });
@@ -88,6 +88,7 @@ final class ArticleBuilder extends Builder
                 'published_at' => null,
                 'archived_at' => null,
                 'publisher_id' => null,
+                'redirect_article_id' => null,
                 'editor_id' => null,
             ]);
 

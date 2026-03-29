@@ -159,6 +159,26 @@
 
                             <hr />
 
+                            @if ($word->isArchived())
+                                <div class="alert alert-danger alert-dismissible fade show border-0">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+                                    <h5 class="alert-heading fw-semibold">
+                                        <x-heroicon-s-archive-box class="icon me-1"/> Gearchiveerd artikel
+                                    </h5>
+
+                                    <small>Dit artikel werd gearchiveerd om de volgende reden: {{ $word->archiving_reason }}</small>
+
+                                    @if ($word->redirect_article_id)
+                                        <hr>
+
+                                        <a href="{{ route('word-information.show', $word->redirect_article_id) }}" class="btn btn-sm btn-outline-danger">
+                                            <x-heroicon-s-eye class="icon me-1"/> Bekijk actueel verwijsartikel
+                                        </a>
+                                    @endif
+                                </div>
+                            @endif
+
                             <!-- ══════════════════════════════════════════ 2-COLUMN LAYOUT  (col-8 main / col-4 sidebar) ══════════════════════════════════════════ -->
                             <div class="row g-4">
                                 <!-- ── MAIN COLUMN (2/3) ── -->
@@ -287,7 +307,6 @@
 
                                 <!-- ── SIDEBAR COLUMN (1/3) ── -->
                                 <div class="col-lg-4">
-
 
                                 <!-- Article Details -->
                                 <div class="card border mb-3">
