@@ -41,8 +41,8 @@ final readonly class SearchWordQuery
     /**
      * Filter by publication and archive status.
      *
-     * @param Builder<Article> $query
-     * @param Request $request
+     * @param  Builder<Article> $query
+     * @param  Request          $request
      * @return void
      */
     private function applyVisibilityFilters(Builder $query, Request $request): void
@@ -77,9 +77,9 @@ final readonly class SearchWordQuery
     /**
      * Search for the exact string in word, keywords, or description.
      *
-     * @param Builder<Article> $query
-     * @param Request $request
-     * @param bool $includeDescription
+     * @param  Builder<Article> $query
+     * @param  Request          $request
+     * @param  bool             $includeDescription
      * @return void
      */
     private function applyExactSearch(Builder $query, Request $request, bool $includeDescription): void
@@ -113,6 +113,11 @@ final readonly class SearchWordQuery
 
     /**
      * Search where every token must be present in the record (AND search).
+     *
+     * @param Builder<Article> $query
+     * @param Request $request
+     * @param bool $includeDescription
+     * @return void
      */
     private function applyTokenizedSearch(Builder $query, Request $request, bool $includeDescription): void
     {

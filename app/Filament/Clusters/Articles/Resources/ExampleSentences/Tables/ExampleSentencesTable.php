@@ -44,6 +44,9 @@ final readonly class ExampleSentencesTable
             ->toolbarActions(actions: self::registerToolbarActions());
     }
 
+    /**
+     * @return BulkActionGroup[]
+     */
     private static function registerToolbarActions(): array
     {
         return [
@@ -67,6 +70,9 @@ final readonly class ExampleSentencesTable
         ];
     }
 
+    /**
+     * @return TextColumn[]
+     */
     private static function registerTableColumns(): array
     {
         return [
@@ -97,6 +103,9 @@ final readonly class ExampleSentencesTable
         ];
     }
 
+    /**
+     * @return StateFusionAction[]
+     */
     private static function registerRecordActions(): array
     {
         return [
@@ -114,6 +123,9 @@ final readonly class ExampleSentencesTable
         ];
     }
 
+    /**
+     * @return Action[]
+     */
     private static function registerTableHeaderActions(): array
     {
         return [

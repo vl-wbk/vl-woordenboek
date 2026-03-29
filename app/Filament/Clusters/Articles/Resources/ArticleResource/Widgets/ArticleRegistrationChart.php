@@ -70,6 +70,9 @@ final class ArticleRegistrationChart extends ChartWidget
         ],
     ];
 
+    /**
+     * @return array{archived: Collection, created: Collection, deleted: Collection, published: Collection}
+     */
     protected function fetchChartData(): array
     {
         // Base trend query helper
@@ -90,7 +93,7 @@ final class ArticleRegistrationChart extends ChartWidget
     /**
      * Provides the chart data with specific colors for lines and points.
      *
-     * @return array
+     * @return array{datasets: array, labels: mixed}
      */
     protected function getData(): array
     {

@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Models\UserExample;
 use App\States\Etymology\Rejected;
 use App\States\ExampleSentence\Approved;
+use Illuminate\Contracts\Support\Renderable;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -45,7 +46,7 @@ class UserExamplesList extends Component
             ->setPath(route('word-information.show', ['word' => $this->articleId]));
     }
 
-    public function render()
+    public function render(): Renderable
     {
         return view('livewire.user-examples-list', data: [
             'examples' => $this->examples(),

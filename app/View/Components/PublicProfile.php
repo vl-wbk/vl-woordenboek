@@ -16,7 +16,7 @@ use Illuminate\View\Component;
 final class PublicProfile extends Component
 {
     /**
-     * @var array<int, int>
+     * @var array{0: int, 1: int}
      */
     protected array $cacheTTL = [10, 60];
 
@@ -37,7 +37,7 @@ final class PublicProfile extends Component
     }
 
     /**
-     * @return Collection<int, string>
+     * @return Collection<string, string>
      */
     public function getArticleReportCount(): Collection
     {
@@ -52,7 +52,7 @@ final class PublicProfile extends Component
     }
 
     /**
-     * @return Collection<int, string>
+     * @return Collection<string, string>
      */
     private function getSuggestedArticleCount(): Collection
     {
@@ -60,7 +60,7 @@ final class PublicProfile extends Component
     }
 
     /**
-     * @return Collection<int, string>
+     * @return Collection<string, string>
      */
     private function getArticleCount(): Collection
     {
@@ -68,7 +68,7 @@ final class PublicProfile extends Component
     }
 
     /**
-     * @return Collection<int, string>
+     * @return Collection<string, string>
      */
     private function getSuggestedEtymologyCount(): Collection
     {
@@ -76,7 +76,7 @@ final class PublicProfile extends Component
     }
 
     /**
-     * @return Collection<int, string>
+     * @return Collection<string, string>
      */
     private function getCountForRelation(string $relation, string $cachePrefix): Collection
     {

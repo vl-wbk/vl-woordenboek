@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Redis;
 
 final readonly class ViewCounterService
 {
-    public function incrementAndSync($model, int $delayInSeconds = 40)
+    public function incrementAndSync($model, int $delayInSeconds = 40): void
     {
         $modelName = strtolower(class_basename($model));
         $cacheKey = "{$modelName}:views:{$model->id}";

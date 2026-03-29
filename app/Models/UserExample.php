@@ -11,13 +11,22 @@ final class UserExample extends Model
 {
     use HasStates;
 
+    /**
+     * @var list<string>
+     */
     protected $guarded = ['id'];
 
+    /**
+     * @return BelongsTo<Article, covariant $this>
+     */
     public function article(): BelongsTo
     {
         return $this->belongsTo(Article::class);
     }
 
+    /**
+     * @return BelongsTo<User, covariant $this>
+     */
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class)

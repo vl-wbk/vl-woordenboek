@@ -14,7 +14,7 @@ final class RandomArticleNavigationItem extends Component
     public function render(): View
     {
         return view('components.random-article-navigation-item', data: [
-            'article' => Article::published()->inRandomOrder()->first(),
+            'article' => Article::query()->published()->inRandomOrder()->first(),
         ]);
     }
 }

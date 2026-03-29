@@ -39,6 +39,9 @@ final class RedactionQueueTable extends TableWidget
             ->recordActions($this->registerRecordActions());
     }
 
+    /**
+     * @return array<IconColumn|TextColumn|UserColumn>
+     */
     private function registerTableColumns(): array
     {
         return [
@@ -92,6 +95,9 @@ final class RedactionQueueTable extends TableWidget
         ];
     }
 
+    /**
+     * @return Filter[]
+     */
     private function registerTableFilters(): array
     {
         return [
@@ -107,6 +113,9 @@ final class RedactionQueueTable extends TableWidget
         ];
     }
 
+    /**
+     * @return Action[]
+     */
     private function registerRecordActions(): array
     {
         return [

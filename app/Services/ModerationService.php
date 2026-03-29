@@ -5,11 +5,14 @@ namespace App\Services;
 use App\Models\ModerationRule;
 use Illuminate\Support\Str;
 
+/**
+ * @todo Complete docblocks for this service class.
+ */
 class ModerationService
 {
     /**
      * Analyseert tekst en geeft SUGGESTIES terug, geen automatische vervangingen.
-     * 
+     *
      * @return list<array<string, array<mixed>|int|string>>
      */
     public function analyze(string $text): array
@@ -47,13 +50,12 @@ class ModerationService
     protected function matches(ModerationRule $rule, string $original, string $normalized): bool
     {
         if ($rule->is_regex) {
-            /** @phpstan-ignore-next-line */
-            return preg_match('/' . $rule->pattern . '/iu', $original);
+            return (bool) preg_match('/' . $rule->pattern . '/iu', $original);
         }
 
         $searchPattern = preg_quote($rule->pattern, '/');
 
-        return preg_match('/\b' . $searchPattern . '\b/i', $original);
+        return (bool) preg_match('/\b' . $searchPattern . '\b/i', $original);
     }
 
     protected function allowedByContext(ModerationRule $rule, string $text): bool

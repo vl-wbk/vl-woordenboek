@@ -10,23 +10,18 @@ use Illuminate\Contracts\Support\Htmlable;
 
 final class Unpublished extends SentenceState
 {
-    public function getColor(): string|array|null
+    public function getColor(): string
     {
         return 'warning';
     }
 
-    public function getIcon(): string|BackedEnum|Htmlable|null
+    public function getIcon(): BackedEnum
     {
         return Heroicon::OutlinedEyeSlash;
     }
 
-    public function getLabel(): string|Htmlable|null
+    public function getLabel(): string
     {
         return 'Offline gehaald';
-    }
-
-    public function getDescription(): string|Htmlable|null
-    {
-        return null;
     }
 }

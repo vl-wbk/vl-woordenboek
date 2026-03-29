@@ -74,8 +74,12 @@ use Override;
  * @property-read User $author
  * @property-read Disclaimer $disclaimer
  *
- * @package App\Models
  * @method isPublished()
+ * @method static ArticleBuilder<\App\Models\Article> query()
+ *
+ * @mixin ArticleBuilder<self>
+ *
+ * @package App\Models
  */
 #[UseEloquentBuilder(builderClass: ArticleBuilder::class)]
 final class Article extends Model implements AuditableContract, Commentable
@@ -234,6 +238,9 @@ final class Article extends Model implements AuditableContract, Commentable
         return $this->hasMany(ArticleReport::class);
     }
 
+    /**
+     * @return HasMany<UserExample, covariant $this>
+     */
     public function userExamples(): HasMany
     {
         return $this->hasMany(UserExample::class);
@@ -318,7 +325,7 @@ final class Article extends Model implements AuditableContract, Commentable
         $builder->where('published_at', '>', now()->parse($date));
     }
 
-    public function recordView()
+    public function recordView(): void
     {
         app(ViewCounterService::class)->incrementAndSync($this);
     }

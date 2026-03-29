@@ -11,9 +11,12 @@ use Spatie\LaravelData\WithData;
 
 final class StoreVolunteerApplicationRequest extends FormRequest
 {
+    /**
+     * @use WithData<VolunteerApplicationData>
+     */
     use WithData;
 
-    protected $dataClass = VolunteerApplicationData::class;
+    protected string $dataClass = VolunteerApplicationData::class;
 
     public function authorize(): bool
     {
