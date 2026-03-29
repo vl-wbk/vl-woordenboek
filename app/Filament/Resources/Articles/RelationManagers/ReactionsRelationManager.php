@@ -26,8 +26,8 @@ use Illuminate\Support\Facades\Cache;
 /**
  * ReactionsRelationManager
  *
- * This class serves as a bridge between the current Article resource and legacy comment data stored in the 'reactions' table. 
- * Its primary purpose is to provide a read-only or classification-focused interface for data imported from the previous Vlaams Woordenboek platform. 
+ * This class serves as a bridge between the current Article resource and legacy comment data stored in the 'reactions' table.
+ * Its primary purpose is to provide a read-only or classification-focused interface for data imported from the previous Vlaams Woordenboek platform.
  *
  * Design Architecture:
  * - Scope: Specifically limited to the 'View' context to prevent cluttering the Edit forms.
@@ -41,7 +41,7 @@ final class ReactionsRelationManager extends RelationManager
 {
     /**
      * The Eloquent relationship name.
-     * This must correspond to the `reactions()` method defined in the Article model. 
+     * This must correspond to the `reactions()` method defined in the Article model.
      * It handles the retrieval of related Reaction records.
      */
     protected static string $relationship = 'reactions';
@@ -50,7 +50,7 @@ final class ReactionsRelationManager extends RelationManager
      * The localized title displayed in the header of the Relation Manager.
      * "Community inzichten" is used here to distinguish legacy reactions from  modern system logs or user comments.
      */
-    protected static ?string $title = 'Community inzichten';
+    protected static ?string $title = 'Reacties VW 1.0';
 
     /**
      * The primary theme color for UI accents.
@@ -68,8 +68,8 @@ final class ReactionsRelationManager extends RelationManager
      * Generates a dynamic badge count for the Relation Manager tab.
      *
      * Technical Implementation:
-     * To optimize the performance of the Article resource (especially when multiple tabs  are present), the reaction count is stored in the application cache. 
-     * The cache key incorporates the route key of the owner record to ensure unique scoping. 
+     * To optimize the performance of the Article resource (especially when multiple tabs  are present), the reaction count is stored in the application cache.
+     * The cache key incorporates the route key of the owner record to ensure unique scoping.
      * This cache should be invalidated via a Model Observer on the Reaction model upon creation or deletion.
      *
      * @param  Model   $ownerRecord     The parent Article instance.
@@ -79,7 +79,7 @@ final class ReactionsRelationManager extends RelationManager
     public static function getBadge(Model $ownerRecord, string $pageClass): ?string
     {
         /** @var \App\Models\Article $entityRecord */
-        $entityRecord = $ownerRecord; 
+        $entityRecord = $ownerRecord;
 
         return Cache::rememberForever('community-insights:' . $entityRecord->getRouteKey(), function () use ($entityRecord): string {
             return (string) $entityRecord->reactions()->count();
@@ -87,18 +87,18 @@ final class ReactionsRelationManager extends RelationManager
     }
 
     /**
-     * Conditional rendering logic for the Relation manager. 
-     * 
-     * This method implements two giard claues: 
-     * 
+     * Conditional rendering logic for the Relation manager.
+     *
+     * This method implements two giard claues:
+     *
      * 1. Context Guard:
      * Ensures the manager only appears on the 'ViewWord' page. This keeps the 'Edit' and 'Create' workflows lean.
-     * 
-     * 2. Data Guard: 
+     *
+     * 2. Data Guard:
      * Checks if there is actually data to display. If no reactions exist for a given article,
      * The tab is completely hidden to improve the UX for "clean" articles.
      *
-     * @param  Model   $ownerRecord The parent Article instance. 
+     * @param  Model   $ownerRecord The parent Article instance.
      * @param  string  $pageClass   The current Filament page FQCN.
      * @return bool
      */
@@ -113,10 +113,10 @@ final class ReactionsRelationManager extends RelationManager
     }
 
     /**
-     * Defines the Table configuration and behavioral settings. 
-     * 
-     * The table is configured to provide a high-level overview of legacy data.? 
-     * It includes custom ezmpty state descriptions to explain to the user why they might see 
+     * Defines the Table configuration and behavioral settings.
+     *
+     * The table is configured to provide a high-level overview of legacy data.?
+     * It includes custom ezmpty state descriptions to explain to the user why they might see
      * no data and emphasizes the utility of these insights for content refinement.
      *
      * @param  Table $table  The Filament Table builder instance.
@@ -136,9 +136,9 @@ final class ReactionsRelationManager extends RelationManager
     }
 
     /**
-     * Configures the data filtering layer for the table. 
-     * 
-     * Provides a SelectFilter based on the InsightCategory BackedEnum. 
+     * Configures the data filtering layer for the table.
+     *
+     * Provides a SelectFilter based on the InsightCategory BackedEnum.
      * The use of native(false) ensures a consistent, searchable UI component regardless of the brower's default select rendering.
      *
      * @return array<int, SelectFilter> List of configured table filters.
@@ -153,14 +153,14 @@ final class ReactionsRelationManager extends RelationManager
     }
 
     /**
-     * Defines the visual schema for the table colums. 
-     * 
-     * Column Logic: 
-     * - 'id':                Bolded and colored for clear record identification. 
+     * Defines the visual schema for the table colums.
+     *
+     * Column Logic:
+     * - 'id':                Bolded and colored for clear record identification.
      * - 'insight_category':  Rendered as a badge tto provide immediate visual classification. (e.g., Correction, Example, Etymology)
      * - 'title':             Searchable field with a placeholder for records missing legacy headers.
      * - 'created_at':        Cast to a localized date format for chronological context.
-     * 
+     *
      * @return array<int, TextColumn> List of column definitions.
      */
     private function getTableColumnSchema(): array
@@ -192,9 +192,9 @@ final class ReactionsRelationManager extends RelationManager
      * Defines the record-level interactions (View and Edit).
      *
      * The ViewAction is heavily customized to serve as the primapry reading interface.
-     * It uses a modal schema that displays the full 'body' of the reaction. 
+     * It uses a modal schema that displays the full 'body' of the reaction.
      * A key feature here is the 'hintAction' on the 'insights_category' entry, whisch allows editors to classify the comment immediatly upon reading it.
-     * 
+     *
      * @return array<int, ViewAction|EditAction> List of actions.
      */
     private function getTableRecordActions(): array
@@ -221,15 +221,15 @@ final class ReactionsRelationManager extends RelationManager
     }
 
     /**
-     * Creates a specialized action for inline metadata updates. 
-     * 
-     * This actions returns a Filament action intended to be triggered from within an infolist. 
+     * Creates a specialized action for inline metadata updates.
+     *
+     * This actions returns a Filament action intended to be triggered from within an infolist.
      * It opens a secondary modal specifically for selecting a new 'InsightCategory'.
-     * This pattern reduces cognitive load by keeping the user focused on a single task: classifying the content they just read. 
-     * 
-     * Logic: 
-     * - Authorization: Checks the 'update' policy on theReaction modal 
-     * - Execution: Updates the model directly and returns a boolean status. 
+     * This pattern reduces cognitive load by keeping the user focused on a single task: classifying the content they just read.
+     *
+     * Logic:
+     * - Authorization: Checks the 'update' policy on theReaction modal
+     * - Execution: Updates the model directly and returns a boolean status.
      *
      * @internal This action is integrated into the ViewAction infolist via hintAction()
      * @return Action The configured Filament action instance.
