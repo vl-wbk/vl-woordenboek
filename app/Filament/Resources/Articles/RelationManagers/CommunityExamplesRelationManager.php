@@ -8,6 +8,7 @@ use A909M\FilamentStateFusion\Actions\StateFusionAction;
 use A909M\FilamentStateFusion\Actions\StateFusionBulkAction;
 use A909M\FilamentStateFusion\Tables\Columns\StateFusionSelectColumn;
 use A909M\FilamentStateFusion\Tables\Filters\StateFusionSelectFilter;
+use App\Filament\Clusters\Articles\Resources\ExampleSentences\Schema\ExampleSentenceForm;
 use App\Filament\Resources\Articles\Pages\ViewWord;
 use App\Policies\UserExamplePolicy;
 use App\States\ExampleSentence\Approved;
@@ -19,7 +20,9 @@ use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Schemas\Schema;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
@@ -51,6 +54,11 @@ final class CommunityExamplesRelationManager extends RelationManager
         }
 
         return null;
+    }
+
+    public function form(Schema $schema): Schema
+    {
+        return ExampleSentenceForm::configure($schema);
     }
 
     public function table(Table $table): Table
@@ -107,6 +115,12 @@ final class CommunityExamplesRelationManager extends RelationManager
                 ->label('Publiceren')
                 ->icon(Heroicon::OutlinedCheckBadge)
                 ->transitionTo(Approved::class),
+
+            EditAction::make()
+                ->modalHeading('Community voorbeeldzin bewerken')
+                ->modalIcon(Heroicon::OutlinedPencilSquare)
+                ->modalDescription('Staat er een typo in de voorbeeldzin? Geen probleem u kunt deze oplossen door het onderstaande formulier.')
+                ->modalCloseButton(false),
 
             StateFusionAction::make('reject')
                 ->authorize(UserExamplePolicy::changeState)

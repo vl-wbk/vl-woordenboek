@@ -5,20 +5,15 @@ declare(strict_types=1);
 namespace App\Filament\Clusters\Articles\Resources\ExampleSentences;
 
 use App\Filament\Clusters\Articles\ArticlesCluster;
-use App\Filament\Clusters\Articles\Resources\ExampleSentences\Pages\CreateExampleSentence;
-use App\Filament\Clusters\Articles\Resources\ExampleSentences\Pages\EditExampleSentence;
 use App\Filament\Clusters\Articles\Resources\ExampleSentences\Pages\ListExampleSentences;
-use App\Filament\Clusters\Articles\Resources\ExampleSentences\Schemas\ExampleSentenceForm;
+use App\Filament\Clusters\Articles\Resources\ExampleSentences\Schema\ExampleSentenceForm;
 use App\Filament\Clusters\Articles\Resources\ExampleSentences\Tables\ExampleSentencesTable;
 use App\Filament\Support\Concerns\HasActiveIcon;
-use App\Models\ExampleSentence;
 use App\Models\UserExample;
-use App\States\ExampleSentence\Approved;
 use App\States\ExampleSentence\Pending;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -40,6 +35,11 @@ final class ExampleSentenceResource extends Resource
     public static function table(Table $table): Table
     {
         return ExampleSentencesTable::configure($table);
+    }
+
+    public static function form(Schema $schema): Schema
+    {
+        return ExampleSentenceForm::configure($schema);
     }
 
     public static function getPages(): array

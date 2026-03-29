@@ -1,5 +1,7 @@
 <?php
 
+use App\Filament\Clusters\Articles\Resources\ExampleSentences\ExampleSentenceResource;
+
 return [
 
     /*
@@ -181,7 +183,7 @@ return [
             \App\Filament\Clusters\Volunteers\Resources\VolunteerApplications\VolunteerApplicationsResource::class => \App\Policies\VolunteerApplicationsPolicy::$permissionPrefixes,
         ],
         'exclude' => [
-            \Kenepa\ResourceLock\Resources\LockResource::class,
+            ExampleSentenceResource::class,
             \App\Filament\Clusters\Articles\Resources\PartOfSpeeches\PartOfSpeechResource::class,
             \App\Filament\Clusters\Articles\Resources\ReferenceWorks\ReferenceWorkResource::class,
             App\Filament\Clusters\Articles\Resources\WordOfTheDays\WordOfTheDayResource::class,

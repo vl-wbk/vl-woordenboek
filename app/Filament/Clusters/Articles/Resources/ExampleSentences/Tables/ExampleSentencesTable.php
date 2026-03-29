@@ -115,6 +115,12 @@ final readonly class ExampleSentencesTable
                 ->icon(Heroicon::OutlinedCheckBadge)
                 ->transitionTo(Approved::class),
 
+            EditAction::make()
+                ->modalHeading('Community voorbeeldzin bewerken')
+                ->modalIcon(Heroicon::OutlinedPencilSquare)
+                ->modalDescription('Staat er een typo in de voorbeeldzin? Geen probleem u kunt deze oplossen door het onderstaande formulier.')
+                ->modalCloseButton(false),
+
             StateFusionAction::make('reject')
                 ->authorize(UserExamplePolicy::changeState)
                 ->label('Afwijzen')

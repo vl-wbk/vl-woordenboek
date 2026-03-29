@@ -32,6 +32,15 @@ final readonly class UserExamplePolicy
         return Response::deny();
     }
 
+    public function update(User $user, UserExample $userExample): Response
+    {
+        if ($user->user_type->in(enums: [UserTypes::Developer, UserTypes::Administrators, UserTypes::EditorInChief])) {
+            return Response::allow();
+        }
+
+        return Response::deny();
+    }
+
     public function changeState(User $user, UserExample $userExample): Response
     {
         if ($user->user_type->in(enums: [UserTypes::Developer, UserTypes::Administrators, UserTypes::EditorInChief])) {
