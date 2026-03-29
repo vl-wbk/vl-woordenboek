@@ -167,12 +167,15 @@
                                         <x-heroicon-s-archive-box class="icon me-1"/> Gearchiveerd artikel
                                     </h5>
 
-                                    <small>Dit artikel werd gearchiveerd om de volgende reden: {{ $word->state->getDescription() }}</small>
-                                    <hr>
+                                    <small>Dit artikel werd gearchiveerd om de volgende reden: {{ $word->archiving_reason }}</small>
 
-                                    <a href="" class="btn btn-sm btn-outline-danger">
-                                        Bekijk actueel verwijsartikel
-                                    </a>
+                                    @if ($word->redirect_article_id)
+                                        <hr>
+
+                                        <a href="{{ route('word-information.show', $word->redirect_article_id) }}" class="btn btn-sm btn-outline-danger">
+                                            <x-heroicon-s-eye class="icon me-1"/> Bekijk actueel verwijsartikel
+                                        </a>
+                                    @endif
                                 </div>
                             @endif
 
