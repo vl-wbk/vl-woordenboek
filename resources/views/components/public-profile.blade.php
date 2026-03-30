@@ -13,8 +13,8 @@
     }
 
     body {
-        background-color: var(--background);
-        color: var(--foreground);
+        /* background-color: var(--background); */
+        /* color: var(--foreground); */
         overflow-x: hidden;
         -webkit-font-smoothing: antialiased;
     }
