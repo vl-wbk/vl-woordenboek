@@ -220,7 +220,7 @@
     <div class="row justify-content-center pt-3">
         <div class="col-lg-11">
             <div class="d-flex align-items-center gap-4 mb-5">
-                <img src="{{ $user->getFilamentAvatarUrl() }}" class="avatar shadow-sm"/>
+                <img src="{{ $user->getFilamentAvatarUrl() }}" loading="lazy" class="avatar shadow-sm"/>
 
                 <div class="flex-grow-1">
                     <h2 class="fw-bold mb-0">{{ $user->name }}</h2>
