@@ -217,7 +217,7 @@
 </style>
 
 <div class="container-fluid py-4">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center pt-3">
         <div class="col-lg-11">
             <div class="d-flex align-items-center gap-4 mb-5">
                 <img src="{{ $user->getFilamentAvatarUrl() }}" class="avatar shadow-sm"/>
@@ -308,7 +308,7 @@
                     </a>
 
                     @if ($user->is(auth()->user()))
-                        <a href="{{ route('bookmarks:index') }}" class="sidenav-link">
+                        <a href="{{ route('bookmarks:index') }}" class="sidenav-link {{ active('bookmarks:index') }} d-flex align-items-center">
                             <x-heroicon-o-bookmark class="icon color-green"/>
                             <span class="flex-grow-1">Bewaarde woorden</span>
                         </a>
@@ -329,21 +329,14 @@
                         </a>
 
 
-                        <a href="#" class="sidenav-link">
+                        <a href="{{ route('suggestions:processing') }}" class="sidenav-link {{ active('suggestions:processing') }} d-flex align-items-center">
                             <x-heroicon-o-pencil-square class="icon color-green"/>
 
                             <span class="flex-grow-1">In behandeling</span>
                             <span class="badge rounded-pill bg-count-badge ms-auto">{{ $totals->approval + $totals->draft }}</span>
                         </a>
 
-                        <a href="#" class="sidenav-link">
-                            <x-heroicon-o-x-circle class="icon color-green"/>
-
-                            <span class="flex-grow-1">Afgewezen</span>
-                            <span class="badge rounded-pill bg-count-badge ms-auto">{{ $totals->rejectedpublication }}</span>
-                        </a>
-
-                        <a href="#" class="sidenav-link">
+                        <a href="{{ route('suggestions:archived') }}" class="sidenav-link {{ active('suggestions:archived') }} d-flex align-items-center">
                             <x-heroicon-o-archive-box class="icon color-green"/>
 
                             <span class="flex-grow-1">Gearchiveerd</span>

@@ -2,31 +2,35 @@
     @if ($contributions->total() > 0)
         <div class="card-shadcn overflow-hidden mb-3">
             <div class="list-group list-group-flush">
-                @foreach ($contributions as $contribution)
-                    <div class="list-group-item p-3 word-item">
+                @foreach ($contributions as $article)
+                    <div class="list-group-item p-3 word-item position-relative">
+                        <a href="{{ route('word-information.show', $article) }}" class="stretched-link"></a>
+
                         <div class="d-flex justify-content-between align-items-start mb-2">
                             <div>
-                                <h5 class="fw-bold mb-0 d-inline-block me-2">Epifanie</h5>
-                                <span class="badge-status status-verified">Geverifieerd</span>
+                                <h5 class="fw-bold mb-0 d-inline-block me-2">{{ $article->word }}</h5>
                             </div>
-                            <span class="text-muted small">/ˌɛpɪˈfani/</span>
+                            <a href="{{ route('bookmark:remove', $article) }}" class="text-danger text-decoration-none position-relative" style="z-index: 2;">
+                                <x-heroicon-o-bookmark-slash class="icon me-1"/> Vergeten
+                            </a>
                         </div>
 
-                        <p class="text-muted mb-3">Een plotselinge, verlichtende openbaring of een diep inzicht...</p>
-                        <hr>
+                        <div class="text-muted mb-3">
+                            {!! str($article->description)->words(30)->markdown()->sanitizeHtml() !!}
+                        </div>
+
                         <div class="d-flex align-items-center gap-2">
-                            <a href="#" class="badge-chip">
-                                <x-heroicon-o-tag class="icon-xs me-1"/>
-                                Filosofie
-                            </a>
-                            <a href="#" class="badge-chip">
-                                <x-heroicon-o-tag class="icon-xs me-1"/>
-                                Filosofie
-                            </a>
+                            @foreach ($article->labels as $label)
+                                <a href="{{ route('label:index', $label) }}" class="badge-chip position-relative" style="z-index: 2;"">
+                                    <x-heroicon-o-tag class="icon-xs me-1"/>
+                                    {{ $label->name }}
+                                </a>
+                            @endforeach
+
                             <div class="ms-auto">
-                                <span class="text-muted small me-2"><x-heroicon-o-eye class="icon me-1"/> 124</span>
-                                <span class="text-success small me-2"><x-heroicon-o-hand-thumb-up class="icon me-1"/> 124</span>
-                                <span class="text-danger small me-2"><x-heroicon-o-hand-thumb-down class="icon me-1"/> 124</span>
+                                <span class="text-muted small me-2"><x-heroicon-o-eye class="icon me-1"/> {{ $article->views }}</span>
+                                <span class="text-muted small me-2"><x-heroicon-o-hand-thumb-up class="icon me-1"/> {{ $article->upvoters()->count() }}</span>
+                                <span class="text-muted small me-2"><x-heroicon-o-hand-thumb-down class="icon me-1"/> {{ $article->downvoters()->count() }}</span>
                             </div>
                         </div>
                     </div>

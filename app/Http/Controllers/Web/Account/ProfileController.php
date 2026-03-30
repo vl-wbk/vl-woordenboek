@@ -20,7 +20,7 @@ final readonly class ProfileController
         return view('account.index', data: [
             'user' => $user,
             'randomArticle' => Article::published()->inRandomOrder()->first(),
-            'contributions' => Article::where('author_id', $user->id)->published()->where('word', 'LIKE', "%{$searchTerm}%")->paginate(7),
+            'contributions' => Article::where('author_id', $user->id)->with('labels')->published()->where('word', 'LIKE', "%{$searchTerm}%")->paginate(7),
         ]);
     }
 }
