@@ -49,9 +49,7 @@ final class UserSuggestionQueryBuilder
     public function fetch(Request $request, $state)
     {
         return Article::where('author_id', $request->user()->id)
-            ->where(function (Builder  $query) use ($request): void {
-                $query->where('word', 'like', "%{$request->get('zoekterm')}%");
-            })
+            ->where('word', 'like', "%{$request->input('zoekterm')}%")
             ->with('labels')
             ->orderBy('word')
             ->where('state', $state)
