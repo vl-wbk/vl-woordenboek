@@ -21,7 +21,7 @@
 
                         <div class="d-flex align-items-center gap-2">
                             @foreach ($article->labels as $label)
-                                <a href="{{ route('label:index', $label) }}" class="badge-chip position-relative" style="z-index: 2;"">
+                                <a href="{{ route('label:show', $label) }}" class="badge-chip position-relative" style="z-index: 2;"">
                                     <x-heroicon-o-tag class="icon-xs me-1"/>
                                     {{ $label->name }}
                                 </a>
