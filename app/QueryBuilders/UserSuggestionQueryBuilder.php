@@ -48,15 +48,11 @@ final class UserSuggestionQueryBuilder
      */
     public function fetch(Request $request, $state)
     {
-        return QueryBuilder::for(Article::class)
-            ->with(['editor', 'labels'])
-            ->where('author_id', auth()->id())
-            ->allowedSorts($this->getAllowedSorts())
-            ->allowedFilters($this->getAllowedFilters())
-            // Search between the suggestions
+        return Article::where('author_id', $request->user()->id)
             ->where(function (Builder  $query) use ($request): void {
                 $query->where('word', 'like', "%{$request->get('zoekterm')}%");
             })
+            ->with('labels')
             ->orderBy('word')
             ->where('state', $state)
             ->fastPaginate(6)
