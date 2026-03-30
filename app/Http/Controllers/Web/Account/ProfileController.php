@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Web\Account;
 
+use App\Models\Article;
 use App\Models\User;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
@@ -14,18 +15,12 @@ final readonly class ProfileController
     #[Get(uri: 'account/{user}', name: 'account:public', middleware: ['auth', 'forbid-banned-user', 'verified'])]
     public function show(Request $request, User $user): Renderable
     {
+        $searchTerm = $request->string('zoekterm');
+
         return view('account.index', data: [
             'user' => $user,
-            'contributions' => $user->searchContributions('suggestions', $request->string('zoekterm', ), 'word'),
-        ]);
-    }
-
-    #[Get(uri: 'account/{user}/etymologie', name: 'account:public:etymologies', middleware: ['auth', 'forbid-banned-user', 'verified'])]
-    public function etymologies(Request $request, User $user): Renderable
-    {
-        return view('account.etymologies', data: [
-            'user' => $user,
-            'contributions' => $user->searchContributions('etymologies', $request->string('zoekterm'), 'etymology'),
+            'randomArticle' => Article::published()->inRandomOrder()->first(),
+            'contributions' => Article::where('author_id', $user->id)->published()->where('word', 'LIKE', "%{$searchTerm}%")->paginate(7),
         ]);
     }
 }
