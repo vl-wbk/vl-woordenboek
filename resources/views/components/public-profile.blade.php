@@ -325,7 +325,7 @@
                             <x-heroicon-o-document-text class="icon color-green"/>
 
                             <span class="flex-grow-1">Openstaande</span>
-                            <span class="badge rounded-pill bg-count-badge ms-auto">{{ $totals->new }}</span>
+                            {{-- <span class="badge rounded-pill bg-count-badge ms-auto">{{ $totals->new }}</span> --}}
                         </a>
 
 
@@ -333,14 +333,14 @@
                             <x-heroicon-o-pencil-square class="icon color-green"/>
 
                             <span class="flex-grow-1">In behandeling</span>
-                            <span class="badge rounded-pill bg-count-badge ms-auto">{{ $totals->approval + $totals->draft }}</span>
+                            {{-- <span class="badge rounded-pill bg-count-badge ms-auto">{{ $totals->approval + $totals->draft }}</span> --}}
                         </a>
 
                         <a href="{{ route('suggestions:archived') }}" class="sidenav-link {{ active('suggestions:archived') }} d-flex align-items-center">
                             <x-heroicon-o-archive-box class="icon color-green"/>
 
                             <span class="flex-grow-1">Gearchiveerd</span>
-                            <span class="badge rounded-pill bg-count-badge ms-auto">{{ $totals->archived }}</span>
+                            {{-- <span class="badge rounded-pill bg-count-badge ms-auto">{{ $totals->archived }}</span> --}}
                         </a>
                     </nav>
                 </div>
