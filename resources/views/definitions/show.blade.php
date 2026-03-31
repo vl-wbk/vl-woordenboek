@@ -262,17 +262,19 @@
                                             <div class="d-flex flex-column gap-2" id="source-list">
                                                 @foreach($word->sources as $source)
                                                     @if ($source->referenceWork)
-                                                        <div class="border bg-light bg-light-subtle shadow-sm rounded p-3 d-flex gap-3 align-items-start">
-                                                            <x-heroicon-s-book-open class="icon color-green flex-shrink-0 mt-1"/>
+                                                        <a href="{{ $source->referencework->external_url ?? "#" }}" class="text-decoration-none text-reset">
+                                                            <div class="border bg-light bg-light-subtle shadow-sm rounded p-3 d-flex gap-3 align-items-start h-100 transition-hover">
+                                                                <x-heroicon-s-book-open class="icon color-green flex-shrink-0 mt-1"/>
 
-                                                            <div class="flex-grow-1">
-                                                                <div class="fw-medium small">{{ optional($source->referenceWork)->name }}</div>
+                                                                <div class="flex-grow-1">
+                                                                    <div class="fw-medium small text-dark">{{ optional($source->referenceWork)->name }}</div>
 
-                                                                @if($source->notation)
-                                                                    <div class="text-muted small">{{ $source->notation }}</div>
-                                                                @endif
+                                                                    @if($source->notation)
+                                                                        <div class="text-muted small">{{ $source->notation }}</div>
+                                                                    @endif
+                                                                </div>
                                                             </div>
-                                                        </div>
+                                                        </a>
                                                     @endif
                                                 @endforeach
                                             </div>
