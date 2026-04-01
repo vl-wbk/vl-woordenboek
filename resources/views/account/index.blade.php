@@ -10,9 +10,6 @@
                             <div>
                                 <h5 class="fw-bold mb-0 d-inline-block me-2">{{ $article->word }}</h5>
                             </div>
-                            <a href="{{ route('bookmark:remove', $article) }}" class="text-danger text-decoration-none position-relative" style="z-index: 2;">
-                                <x-heroicon-o-bookmark-slash class="icon me-1"/> Vergeten
-                            </a>
                         </div>
 
                         <div class="text-muted mb-3">
