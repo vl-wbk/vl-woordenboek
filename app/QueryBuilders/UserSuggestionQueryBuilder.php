@@ -50,7 +50,7 @@ final class UserSuggestionQueryBuilder
     {
         return Article::where('author_id', $request->user()->id)
             ->where('word', 'like', "%{$request->input('zoekterm')}%")
-            ->with('labels')
+            ->with(['labels', 'editor'])
             ->orderBy('word')
             ->where('state', $state)
             ->fastPaginate(6)
