@@ -159,6 +159,26 @@
 
                             <hr />
 
+                            @if ($word->isArchived())
+                                <div class="alert alert-danger alert-dismissible fade show border-0">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+                                    <h5 class="alert-heading fw-semibold">
+                                        <x-heroicon-s-archive-box class="icon me-1"/> Gearchiveerd artikel
+                                    </h5>
+
+                                    <small>Dit artikel werd gearchiveerd om de volgende reden: {{ $word->archiving_reason }}</small>
+
+                                    @if ($word->redirect_article_id)
+                                        <hr>
+
+                                        <a href="{{ route('word-information.show', $word->redirect_article_id) }}" class="btn btn-sm btn-outline-danger">
+                                            <x-heroicon-s-eye class="icon me-1"/> Bekijk actueel verwijsartikel
+                                        </a>
+                                    @endif
+                                </div>
+                            @endif
+
                             <!-- ══════════════════════════════════════════ 2-COLUMN LAYOUT  (col-8 main / col-4 sidebar) ══════════════════════════════════════════ -->
                             <div class="row g-4">
                                 <!-- ── MAIN COLUMN (2/3) ── -->
@@ -262,17 +282,19 @@
                                             <div class="d-flex flex-column gap-2" id="source-list">
                                                 @foreach($word->sources as $source)
                                                     @if ($source->referenceWork)
-                                                        <div class="border bg-light bg-light-subtle shadow-sm rounded p-3 d-flex gap-3 align-items-start">
-                                                            <x-heroicon-s-book-open class="icon color-green flex-shrink-0 mt-1"/>
+                                                        <a href="{{ $source->referencework->external_url ?? "#" }}" class="text-decoration-none text-reset">
+                                                            <div class="border bg-light bg-light-subtle shadow-sm rounded p-3 d-flex gap-3 align-items-start h-100 transition-hover">
+                                                                <x-heroicon-s-book-open class="icon color-green flex-shrink-0 mt-1"/>
 
-                                                            <div class="flex-grow-1">
-                                                                <div class="fw-medium small">{{ optional($source->referenceWork)->name }}</div>
+                                                                <div class="flex-grow-1">
+                                                                    <div class="fw-medium small text-dark">{{ optional($source->referenceWork)->name }}</div>
 
-                                                                @if($source->notation)
-                                                                    <div class="text-muted small">{{ $source->notation }}</div>
-                                                                @endif
+                                                                    @if($source->notation)
+                                                                        <div class="text-muted small">{{ $source->notation }}</div>
+                                                                    @endif
+                                                                </div>
                                                             </div>
-                                                        </div>
+                                                        </a>
                                                     @endif
                                                 @endforeach
                                             </div>
@@ -287,7 +309,6 @@
 
                                 <!-- ── SIDEBAR COLUMN (1/3) ── -->
                                 <div class="col-lg-4">
-
 
                                 <!-- Article Details -->
                                 <div class="card border mb-3">

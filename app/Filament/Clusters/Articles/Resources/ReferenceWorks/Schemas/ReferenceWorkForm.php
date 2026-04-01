@@ -63,6 +63,13 @@ final readonly class ReferenceWorkForm
                 ->unique()
                 ->columnSpan(8) // Occupies 8 out of 12 columns in the grid
                 ->maxLength(255),
+
+            TextInput::make('external_url')
+                ->label('Hyperlink')
+                ->required()
+                ->unique()
+                ->url()
+                ->columnSpanFull()
         ];
     }
 }

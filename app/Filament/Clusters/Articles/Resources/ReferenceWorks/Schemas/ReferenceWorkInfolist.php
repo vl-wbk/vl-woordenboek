@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\ReferenceWorks\Schemas;
 
+use App\Models\ReferenceWork;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -71,13 +72,20 @@ final readonly class ReferenceWorkInfolist
                 ->columnSpan(3)
                 ->label('Aangemaakt op')
                 ->dateTime() // Formats the output as a data and time string
-                ->placeholder('-'),
+                ->placeholder('- niet opgegeven/gevonden'),
 
             TextEntry::make('updated_at')
                 ->dateTime()
                 ->columnSpan(3)
                 ->label('Laatst aangepast')
                 ->placeholder('-'),
+
+            TextEntry::make('external_url')
+                ->label('hyperlink')
+                ->url(fn (ReferenceWork $referenceWork): ?string => $referenceWork->external_url)
+                ->placeholder('-')
+                ->color('gray')
+                ->columnSpanFull()
         ];
     }
 }

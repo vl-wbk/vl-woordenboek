@@ -9,7 +9,10 @@ enum ArchiveReason: string implements HasLabel, HasDescription
 {
     case TooGeneral = 'Te algemeen';
     case TooRegional = 'Te regionaal/dialectisch';
-    case SubStandardQuality = 'Kwaliteit ondermaats';
+    case TooNiche = 'Jargon, vakterminologie';
+    case SubStandardQuality = 'Ondermaats in kwaliteit';
+
+    case Double = 'Dubbele entry';
 
     case Other = 'Andere redenen';
 
@@ -21,9 +24,11 @@ enum ArchiveReason: string implements HasLabel, HasDescription
     public function getDescription(): ?string
     {
         return match ($this) {
-            self::TooGeneral => 'Dit artikel is te algemeen om actief te blijven in het Vlaams Woordenboek',
-            self::TooRegional => 'Dit artikel is te regionaal of dialectisch waardoor het gearchiveerd is in het Vlaams Woordenboek',
-            self::SubStandardQuality => 'Dit artikel is te ondermaats in kwaliteit en daardoor gearchiveerd',
+            self::TooGeneral => 'te algemeen, niet typisch of overwegend gebruikelijk in Vlaanderen',
+            self::TooRegional => 'te regionaal of dialectisch, alleen lokaal bekend',
+            self::Double => 'dubbel, staat al in het Vlaams Woordenboek',
+            self::TooNiche => 'te specialistisch, te niche voor het Vlaams Woordenboek',
+            self::SubStandardQuality => 'te lage kwaliteit: vaag, te weinig info',
             default => null,
         };
     }

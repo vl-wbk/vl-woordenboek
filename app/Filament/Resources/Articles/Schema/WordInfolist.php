@@ -14,7 +14,9 @@ use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Actions\DisclaimerToolbarActions;
 use App\Filament\Resources\Articles\Actions\RestoreArticleAction;
+use App\Filament\Resources\Articles\ArticleResource;
 use App\Models\Article;
+use Filament\Actions\Action;
 use Filament\Actions\ForceDeleteAction;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Support\Icons\Heroicon;
@@ -62,7 +64,16 @@ final readonly class WordInfolist
                     ->title(fn (Article $article): HtmlString => self::archiveInformationAlert($article)['title'])
                     ->description(fn (Article $article): HtmlString => self::archiveInformationAlert($article)['description'])
                     ->visible(fn (Article $article): bool => $article->isArchived() && ! $article->trashed())
-                    ->action(UnarchiveAction::make()->label('Ongedaan maken')->color('danger')->outlined())
+                    ->actions([
+                        Action::make('Bekijk verwijsartikel')
+                            ->visible(fn (Article $article) => $article->redirect_article_id)
+                            ->color('gray')
+                            ->outlined()
+                            ->icon(Heroicon::OutlinedEye)
+                            ->url(fn (Article $article): string => ArticleResource::getUrl('view', ['record' => $article->redirect_article_id])),
+
+                        UnarchiveAction::make()->label('Ongedaan maken')->color('danger')->outlined()
+                    ])
                     ->border()
                     ->color('danger')
                     ->columnSpanFull(),
