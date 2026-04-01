@@ -4,8 +4,8 @@
             <div class="list-group list-group-flush">
                 @foreach ($results as $article)
                     <div class="list-group-item p-3 word-item position-relative">
-                        @if ($article->state->is(\App\Enums\ArticleStates::Archived))
-                            <a href="{{ route('word-information.show', $article) }}" class="stretched-link"></a>
+                        @if (auth()->user()->can('display', $article))
+                            <a href="{{ route('suggestions:show', $article) }}" class="stretched-link"></a>
                         @endif
 
                         <div class="d-flex justify-content-between align-items-start mb-2">

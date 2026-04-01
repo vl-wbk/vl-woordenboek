@@ -58,6 +58,15 @@ final class ArticlePolicy
         return Response::denyAsNotFound();
     }
 
+    public function viewSuggestion(User $user, Article $article): Response
+    {
+        if($article->author->is($user)) {
+            return Response::allow();
+        }
+
+        return Response::denyAsNotFound();
+    }
+
     /**
      * Determines whether a user can update an article's content.
      *
@@ -385,7 +394,7 @@ final class ArticlePolicy
     /**
      * Determines whether a user can permanently (force) delete multiple articles simultaneously.
      *
-     * This method controls bulk force-deletion, which permanently removes all targeted articles from the database without the possibility of restoration. 
+     * This method controls bulk force-deletion, which permanently removes all targeted articles from the database without the possibility of restoration.
      * Due to the destructive and irreversible nature of this operation, it is exclusively reserved for privileged roles.
      *
      * @param  User     $user  The user attempting to permanently delete multiple articles.
