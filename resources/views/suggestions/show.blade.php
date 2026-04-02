@@ -334,6 +334,22 @@
         </div>
 
         <div class="card-shadcn p-3 mb-4">
+            @if ($article->isArchived())
+                <div class="row">
+                    <div class="col-12">
+                        <div class="alert alert-danger mb-0 fade show border-0">
+                            <h6 class="alert-heading fw-semibold">
+                                <x-heroicon-s-archive-box class="icon me-1"/> Gearchiveerde record
+                            </h6>
+
+                            <small>Dit artikel werd gearchiveerd om de volgende reden: {{ $article->archiving_reason }}</small>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+            @endif
+
             <div class="row g-3">
                 <div class="col-6">
                     <div class="card bg-light card-body h-100">
