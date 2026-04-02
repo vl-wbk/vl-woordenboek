@@ -35,8 +35,14 @@ final class PublicProfile extends Component
             'publicationCount' => $this->getPublicationCount(),
             'kudosCount' => $this->getKudosCount(),
             'viewsCount' => $this->getViewsCount(),
+            'conceptCount' => $this->getConceptCount(),
             'totals' => $this->calculateTotals(),
         ]);
+    }
+
+    private function getConceptCount(): int
+    {
+        return auth()->user()->concepts()->count();
     }
 
     private function getSuggestionCount(): int

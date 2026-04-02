@@ -254,10 +254,6 @@
                                     <span class="ms-1 badge badge-gray">{{ $user->unreadMessagesCount() }}</span>
                                  @endif
                             </a>
-
-                            <a href="{{ route('profile.settings') }}" class="btn shadow-sm btn-shadcn btn-outline-shadcn">
-                                <x-heroicon-o-cog-8-tooth class="icon me-1" style="width: 18px;"/> Instellingen
-                            </a>
                         @endif
 
                         @if (auth()->user()->isNot($user))
@@ -274,6 +270,12 @@
 
                             <a href="{{ route('contacts:store') }}" onclick="event.preventDefault(); document.getElementById('storeContact').submit();" class="btn btn-shadcn shadow-sm btn-outline-shadcn">
                                 <x-heroicon-o-user-plus class="icon me-1" style="width: 18px;"/> contact toevoegen
+                            </a>
+                        @endif
+
+                        @if (auth()->user()->is($user))
+                            <a href="{{ route('definitions.create') }}" class="btn shadow-sm btn-shadcn btn-outline-shadcn">
+                                <x-heroicon-o-pencil-square class="icon me-1" style="width: 18px;"/> Nieuw concept
                             </a>
                         @endif
                     @endauth
@@ -311,6 +313,11 @@
                         <a href="{{ route('bookmarks:index') }}" class="sidenav-link {{ active('bookmarks:index') }} d-flex align-items-center">
                             <x-heroicon-o-bookmark class="icon color-green"/>
                             <span class="flex-grow-1">Bewaarde woorden</span>
+                        </a>
+
+                        <a href="" class="sidenav-link {{ active('bookmarks:index') }} d-flex align-items-center">
+                            <x-heroicon-o-clipboard-document-list class="icon color-green"/>
+                            <span class="flex-grow-1">Concepten</span>
                         </a>
                     @endif
                 </nav>
@@ -388,6 +395,17 @@
                         </div>
                         <div class="p-2 bg-primary bg-opacity-10 rounded text-primary">
                             <x-heroicon-s-paper-airplane style="width: 20px;"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card-shadcn p-3 d-flex align-items-center justify-content-between border-primary border-opacity-25 text-start">
+                        <div>
+                            <div class="small text-secondary mb-1">Aantal Concepten</div>
+                            <div class="fw-bold h5 mb-0 text-primary">{{ $conceptCount }}</div>
+                        </div>
+                        <div class="p-2 bg-primary bg-opacity-10 rounded text-primary">
+                            <x-heroicon-s-globe-europe-africa style="width: 20px;"/>
                         </div>
                     </div>
                 </div>
