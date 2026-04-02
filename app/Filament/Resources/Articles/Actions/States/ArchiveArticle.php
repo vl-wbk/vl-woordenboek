@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Articles\Actions\States;
 
+use App\Builders\ArticleBuilder;
 use Illuminate\Support\HtmlString;
 use App\Enums\Articles\ArchiveReason;
 use App\Enums\LanguageStatus;
@@ -11,7 +12,9 @@ use App\Models\Article;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Forms\Components\{Select, Textarea};
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Utilities\{Get, Set};
+use Filament\Support\Enums\Width;
 
 /**
  * ArchiveAction provides the interface for archiving dictionary articles.
@@ -67,6 +70,7 @@ final class ArchiveArticle extends Action
 
         // Confirmation box configuration
         $this->requiresConfirmation();
+        $this->modalWidth(Width::ExtraLarge);
         $this->modalIcon($this->actionIcon);
         $this->modalHeading(heading: __('filament/actions/archiveArticle.modal.heading'));
         $this->modalDescription(description: __('filament/actions/archiveArticle.modal.description'));
@@ -76,26 +80,45 @@ final class ArchiveArticle extends Action
         $this->failureNotificationTitle('Helaas! Er is iets misgelopen');
 
         $this->schema([
-            Select::make('reason')
-                ->label('Reden tot archivering')
-                ->options(ArchiveReason::class)
-                ->native(false)
-                ->afterStateUpdated(fn (Set $set, ?ArchiveReason $state) => $set('archiving_reason', $state->getDescription()))
-                ->live(),
+            Grid::make(12)
+                ->schema([
+                    Select::make('reason')
+                        ->columnSpan(6)
+                        ->label('Reden tot archivering')
+                        ->options(ArchiveReason::class)
+                        ->native(false)
+                        ->afterStateUpdated(fn (Set $set, ?ArchiveReason $state) => $set('archiving_reason', $state->getDescription()))
+                        ->live(),
 
-            Textarea::make('archiving_reason')
-                ->rows(4)
-                ->label(label: __('filament/actions/archiveArticle.form.archiving-reason.label'))
-                ->placeholder(placeholder: __('filament/actions/archiveArticle.form.archiving-reason.placeholder'))
-                ->maxLength(350)
-                ->helperText(new HtmlString('Deze tekst zal <strong>zichtbaar</strong> zijn voor eindgebruiker.'))
-                ->visible(fn (Get $get) => $get('archiving_reason') !== null || $get('reason') === ArchiveReason::Other)
-                ->default(null),
+                    Select::make('redirect_article_id')
+                        ->columnSpan(6)
+                        ->label('Artikel verwijzing')
+                        ->searchable()
+                        ->getSearchResultsUsing(function (string $search, $record) {
+                            return Article::query()
+                                ->where('word', 'like', "%{$search}%")
+                                ->published()
+                                ->when($record, fn (ArticleBuilder $query) => $query->where('id', '!=', $record->id))
+                                ->limit(6)
+                                ->pluck('word', 'id');
+                        })
+                        ->getOptionLabelUsing(fn ($value): ?string => Article::find($value)?->word),
+
+                    Textarea::make('archiving_reason')
+                        ->rows(4)
+                        ->columnSpanFull()
+                        ->required()
+                        ->label(label: __('filament/actions/archiveArticle.form.archiving-reason.label'))
+                        ->placeholder(placeholder: __('filament/actions/archiveArticle.form.archiving-reason.placeholder'))
+                        ->maxLength(350)
+                        ->helperText(new HtmlString('Deze tekst zal <strong>zichtbaar</strong> zijn voor eindgebruiker.'))
+                        ->default(null),
+            ])
         ]);
 
         $this->action(function (array $data, Article $article): void {
             // Attempt to transition the article to the "archived" state withing a process that can be customized.
-            if ($this->process(fn (Article $article): bool => $article->articleStatus()->transitionToArchived($data['archiving_reason']))) {
+            if ($this->process(fn (Article $article): bool => $article->articleStatus()->transitionToArchived($data['archiving_reason'], $data['redirect_article_id']))) {
                 $this->success();
                 return;
             }
