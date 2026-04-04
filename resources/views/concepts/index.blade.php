@@ -27,7 +27,7 @@
 
     @forelse ($concepts as $concept)
         <div class="card-shadcn bg-white rounded-3 mb-3 transition-all hover:border-dark-subtle shadow-sm">
-            <div class="card-body p-4">
+            <div class="card-body p-3">
                 {{-- Header: Concept Naam en Status --}}
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div class="d-flex align-items-center gap-2">
@@ -38,17 +38,31 @@
                             <h4 class="h6 fw-bold mb-0 tracking-tight text-dark">
                                 {{ $concept->word }}
                             </h4>
-                            <span class="text-muted small" style="font-size: 0.75rem;">Opgeslagen in concepten</span>
+                            <span class="text-muted small" style="font-size: 0.75rem;">
+                                @foreach ($concept->regions as $region)
+                                    @if (! $loop->last)
+                                        <span class="me-1">
+                                            <x-heroicon-o-map class="icon"/> {{ $region->name }},
+                                        </span>
+                                    @else
+                                        <span>
+                                            <x-heroicon-o-map class="icon"/> {{ $region->name }}
+                                        </span>
+                                    @endif
+                                @endforeach
+                            </span>
                         </div>
                     </div>
 
                     <div class="d-flex gap-2">
-                        <a href="" class="btn btn-sm btn-outline-primary px-2 rounded-2 shadow-sm fw-medium">
-                            <x-heroicon-o-pencil-square class="icon me-1"/> bewerken
-                        </a>
+                        @can ('update', $concept)
+                            <a href="{{ route('concepts:edit', $concept) }}" class="btn btn-sm btn-outline-primary px-2 rounded-2 shadow-sm fw-medium">
+                                <x-heroicon-o-pencil-square class="icon me-1"/> bewerken
+                            </a>
+                        @endcan
 
-                        @can ('send-submission', $concept)
-                            <a href="" class="btn btn-sm shadow-sm btn-dark px-2 rounded-2 shadow-sm fw-medium">
+                        @can ('submit-concept', $concept)
+                            <a href="{{ route('concepts:submit', $concept) }}" class="btn btn-sm shadow-sm btn-dark px-2 rounded-2 shadow-sm fw-medium">
                                 <x-heroicon-o-paper-airplane class="icon me-1"/> insturen
                             </a>
                         @endcan
@@ -58,7 +72,7 @@
                 {{-- Content: Preview --}}
                 <div class="mb-3">
                     <p class="text-muted small mb-0 leading-relaxed" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
-                        Dit concept beschrijft de noodzaak voor strengere protocollen binnen ziekenhuisnetwerken, met een specifieke focus op het beveiligen van patiëntgegevens tegen ransomware...
+                        {{ str($concept->description)->limit(175) }}
                     </p>
                 </div>
 
@@ -67,23 +81,26 @@
                     <div class="d-flex align-items-center gap-3">
                         {{-- Laatst bewerkt --}}
                         <div class="d-flex align-items-center text-muted small">
-                            <x-heroicon-o-arrow-path class="me-1.5 opacity-50" style="width: 14px;"/>
-                            <span>2 uur geleden gewijzigd</span>
+                            <x-heroicon-o-clock class="me-1 text-primary" style="width: 14px;"/>
+                            <span>{{ $concept->created_at->diffForHumans() }} aangemaakt</span>
                         </div>
 
-                        <div class="vr opacity-25 my-1" style="height: 12px;"></div>
+                        @if (! $concept->created_at->equalTo($concept->updated_at))
+                            <div class="vr opacity-25 my-1" style="height: 12px;"></div>
 
-                        {{-- Categorie --}}
-                        <div class="d-flex align-items-center text-muted small">
-                            <x-heroicon-o-folder class="me-1.5 opacity-50" style="width: 14px;"/>
-                            <span class="fw-medium">Technologie</span>
-                        </div>
+                            <div class="d-flex align-items-center text-muted small">
+                                <x-heroicon-o-clock class="me-1 text-primary" style="width: 14px;"/>
+                                <span class="fw-medium">{{ $concept->updated_at->diffForHumans() }} gewijzigd</span>
+                            </div>
+                        @endif
                     </div>
 
                     {{-- Verwijder optie --}}
-                    <button class="btn btn-link text-danger p-0 border-0 text-decoration-none small opacity-10 hover-opacity-100">
-                        <x-heroicon-o-trash class="me-1" style="width: 16px;"/> verwijder
-                    </button>
+                    @can ('delete', $concept)
+                        <a href="{{ route('concepts:delete', $concept) }}" class="btn btn-link text-danger p-0 border-0 text-decoration-none small opacity-10 hover-opacity-100">
+                            <x-heroicon-o-trash class="me-1" style="width: 16px;"/> verwijder
+                        </a>
+                    @endcan
                 </div>
             </div>
         </div>

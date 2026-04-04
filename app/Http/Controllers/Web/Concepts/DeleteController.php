@@ -13,6 +13,8 @@ final readonly class DeleteController
     #[Get(uri: 'verwijder-concept/{concept}', name: 'concepts:delete', middleware: ['auth', 'forbid-banned-user'])]
     public function __invoke(Concept $concept): RedirectResponse
     {
-        throw new \LogicException('needs implementation');
+        $concept->delete();
+
+        return redirect()->route('concepts:index');
     }
 }
