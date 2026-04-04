@@ -301,15 +301,15 @@
                                 <ol class="breadcrumb mb-0" style="font-size: 0.75rem;">
                                     <li class="breadcrumb-item"><a href="{{ url('/') }}" class="text-muted">VL Woordenboek</a></li>
                                     <li class="breadcrumb-item"><a href="{{ route('concepts:index') }}" class="text-muted">Mijn concepten</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">nieuw concept</li>
+                                    <li class="breadcrumb-item active" aria-current="page">concept: #{{ $concept->id }}</li>
                                 </ol>
                             </nav>
-                            <h1 class="fw-bold h3 mb-0">Nieuw concept</h1>
+                            <h1 class="fw-bold h3 mb-0">Concept wijzigen</h1>
                         </div>
                     </div>
 
                     <div class="card-shadcn p-4 mb-4 shadow-sm border">
-                        <form action="{{ route('concepts:store') }}" method="POST">
+                        <form action="{{ route('concepts:edit', $concept) }}" method="POST">
                             @csrf
 
                             <div class="row g-3 mb-2">
@@ -323,7 +323,7 @@
 
                                 <div class="col-md-12">
                                     <label for="word" class="form-label fw-semibold small mb-1 text-dark">Het Woord of Begrip <span class="fw-bold text-danger">*</span></label>
-                                    <input type="text" name="woord" id="word" class="form-control search-input-shadcn @error('woord') is-invalid @enderror" placeholder="Bijv. 'Goesting', 'Plezant', 'Amai'..." value="{{ old('woord') }}" autofocus>
+                                    <input type="text" name="woord" id="word" class="form-control search-input-shadcn @error('woord') is-invalid @enderror" placeholder="Bijv. 'Goesting', 'Plezant', 'Amai'..." value="{{ old('woord', $concept->word) }}" autofocus>
 
                                     @if ($errors->has('woord'))
                                         <x-forms.validation-error field="woord"/>
@@ -338,8 +338,11 @@
                                     <label for="word" class="form-label fw-semibold small mb-1 text-dark">Woordsoort</label>
                                     <select name="woordsoort" class="form-select search-input-shadcn py-2">
                                         <option value="">-- woordsoort --</option>
-                                            @foreach ($partOfSpeeches as $partOfSpeech => $value)
-                                                <option value="{{ $partOfSpeech }}" @selected(old('woordsoort') == $partOfSpeech)>{{ $value }}</option>
+                                            @foreach ($partOfSpeeches as $id => $label)
+                                                <option value="{{ $id }}"
+                                                    @selected((string) old('woordsoort', $concept->partOfSpeech?->id) === (string) $id)>
+                                                    {{ $label }}
+                                                </option>
                                             @endforeach
                                     </select>
 
@@ -347,7 +350,7 @@
 
                                 <div class="col-md-6">
                                     <label for="word" class="form-label fw-semibold small mb-1 text-dark">Kenmerken</label>
-                                    <input type="text" name="kenmerken" id="word" class="form-control search-input-shadcn @error('kenmerken') is-invalid @enderror" placeholder="de ~ (v.), -s" value="{{ old('kenmerken') }}">
+                                    <input type="text" name="kenmerken" id="word" class="form-control search-input-shadcn @error('kernmerken') is-invalid @enderror" placeholder="de ~ (v.), -s" value="{{ old('kenmerken', $concept->characteristics) }}">
 
                                 </div>
 
@@ -363,9 +366,10 @@
                                         </a>
                                     </div>
 
-                                    <select name="regio[]" size="6" class="form-select search-input-shadcn py-2" multiple>
-                                        @foreach ($regions as $region => $value)
-                                            <option value="{{ $region }}" {{ in_array($region, old('regio', [])) ? 'selected' : '' }}>
+                                    <select name="regio[]" size="6" class="form-select search-input-shadcn @error('regio') is-invalid @enderror py-2" multiple>
+                                        @foreach ($regions as $id => $value)
+                                            <option value="{{ $id }}"
+                                                @selected(in_array($id, old('regio', $concept->regions->pluck('id')->toArray())))>
                                                 {{ $value }}
                                             </option>
                                         @endforeach
@@ -389,7 +393,7 @@
                                         id="description"
                                         rows="5"
                                         class="form-control search-input-shadcn @error('beschrijving') is-invalid @enderror"
-                                        placeholder="Wat is de kern van het woord?">{{ old('beschrijving') }}</textarea>
+                                        placeholder="Wat is de kern van het woord?">{{ old('beschrijving', $concept->description) }}</textarea>
 
                                     @error('beschrijving') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
@@ -404,7 +408,7 @@
                                         id="description"
                                         rows="5"
                                         class="form-control search-input-shadcn @error('voorbeeld') is-invalid @enderror"
-                                        placeholder="Citeer een zin waar het woord tot leven komt...">{{ old('voorbeeld') }}</textarea>
+                                        placeholder="Citeer een zin waar het woord tot leven komt...">{{ old('voorbeeld', $concept->example) }}</textarea>
 
                                     @error('voorbeeld') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
@@ -416,7 +420,7 @@
                                     <div class="p-3 rounded-2 bg-light bg-opacity-50 border border-dashed mb-2">
 
                                     <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" value="1" name="notificatie" @checked(old('notify_author')) role="switch" id="is_private">
+                                        <input class="form-check-input" type="checkbox" value="1" checked name="notificatie" role="switch" id="is_private">
                                         <label class="form-check-label small fw-medium text-dark" for="is_private">
                                             Houd me op de hoogte.
                                         </label>
@@ -431,8 +435,8 @@
 
                         {{-- Footer Acties --}}
                         <div class="d-flex align-items-center justify-content-between pt-3 border-top">
-                            <a href="{{ route('concepts:index') }}" class="btn btn-outline-shadcn btn-sm px-4">
-                                Annuleren
+                            <a href="" class="btn btn-outline-danger btn-sm px-4">
+                                <x-heroicon-o-trash class="icon-xs me-1 opacity-70"/> Verwijderen
                             </a>
 
                             <div class="d-flex gap-2">

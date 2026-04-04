@@ -213,7 +213,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
 
     public function concepts(): HasMany
     {
-        return $this->hasMany(Concept::class);
+        return $this->hasMany(Concept::class, 'author_id');
     }
 
     /**

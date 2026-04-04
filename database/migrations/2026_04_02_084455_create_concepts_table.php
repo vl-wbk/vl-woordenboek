@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Concept;
+use App\Models\PartOfSpeech;
+use App\Models\Region;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -14,8 +17,19 @@ return new class extends Migration
     {
         Schema::create('concepts', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(User::class, 'author_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(PartOfSpeech::class)->nullable()->constrained()->nullOnDelete();
+            $table->string('word')->nullable()->index();
+            $table->string('characteristics')->nullable();
+            $table->text('description')->nullable();
+            $table->text('example')->nullable();
+            $table->boolean('notify_author');
             $table->timestamps();
+        });
+
+        Schema::create('concept_region', function (Blueprint $table): void {
+            $table->foreignIdFor(Concept::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Region::class)->nullable()->constrained()->nullOnDelete();
         });
     }
 
@@ -24,6 +38,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('concept_region');
         Schema::dropIfExists('concepts');
     }
 };

@@ -14,4 +14,11 @@ final readonly class ConceptPolicy
             ? Response::allow()
             : Response::denyAsNotFound();
     }
+
+    public function update(User $user, Concept $concept): Response
+    {
+        return $concept->authoredBy($user)
+            ? Response::allow()
+            : Response::denyAsNotFound();
+    }
 }

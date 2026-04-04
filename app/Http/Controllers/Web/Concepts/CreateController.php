@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Web\Concepts;
 
 use App\Actions\Articles\StoreArticleSuggestion;
+use App\Actions\Concepts\StoreSuggestionConcept;
 use App\Concerns\RateLimitSubmission;
 use App\Data\SuggestionData;
 use App\Http\Requests\Articles\StoreConceptRequest;
@@ -43,7 +44,7 @@ final readonly class CreateController
 
     protected function handleConceptCreation(SuggestionData $suggestionData): RedirectResponse
     {
-        $concept =
+        $concept = StoreSuggestionConcept::execute($suggestionData);
         flash('We het concept van de suggestie succesvol opgeslagen', 'alert-success');
 
         return redirect()->route('concepts:edit', $concept); // Redirect to the previous view.
