@@ -261,6 +261,29 @@
 
             <hr>
 
+            <div class="mb-4">
+                <nav class="nav flex-column">
+                     <a href="{{ route('account:public', $user) }}" class="sidenav-link {{ active('account:public') }} d-flex align-items-center">
+                        <x-heroicon-o-globe-europe-africa class="icon color-green"/>
+                        <span class="flex-grow-1">Publicaties</span>
+                    </a>
+
+                    @if ($user->is(auth()->user()))
+                        <a href="{{ route('bookmarks:index') }}" class="sidenav-link {{ active('bookmarks:index') }} d-flex align-items-center">
+                            <x-heroicon-o-bookmark class="icon color-green"/>
+                            <span class="flex-grow-1">Bewaarde woorden</span>
+                        </a>
+
+                        <a href="{{ route('concepts:index') }}" class="sidenav-link {{ active(['concepts:index', 'concepts:create']) }} d-flex align-items-center">
+                            <x-heroicon-o-clipboard-document-list class="icon color-green"/>
+                            <span class="flex-grow-1">Concepten</span>
+                        </a>
+                    @endif
+                </nav>
+            </div>
+
+            <hr>
+
 
             <div class="mb-2">
                 <div class="sidenav-label">Mijn suggesties</div>
@@ -309,8 +332,9 @@
                     </div>
 
                     <div class="card-shadcn p-4 mb-4 shadow-sm border">
-                        <form action="{{ route('concepts:edit', $concept) }}" method="POST">
+                        <form action="{{ route('concepts:update', $concept) }}" method="POST">
                             @csrf
+                            @method('PATCH')
 
                             <div class="row g-3 mb-2">
                                 @if (flash()->message)
@@ -435,20 +459,26 @@
 
                         {{-- Footer Acties --}}
                         <div class="d-flex align-items-center justify-content-between pt-3 border-top">
-                            <a href="" class="btn btn-outline-danger btn-sm px-4">
-                                <x-heroicon-o-trash class="icon-xs me-1 opacity-70"/> Verwijderen
-                            </a>
+                            @can ('delete', $concept)
+                                <a href="{{ route('concepts:delete', $concept) }}" class="btn btn-outline-danger btn-sm px-4">
+                                    <x-heroicon-o-trash class="icon-xs me-1 opacity-70"/> Verwijderen
+                                </a>
+                            @endcan
 
                             <div class="d-flex gap-2">
-                                <button type="submit" name="action" value="save" class="btn btn-outline-shadcn btn-sm px-4">
-                                    <x-heroicon-o-arrow-down-tray class="icon-xs me-1 opacity-70"/>
-                                    Opslaan als concept
-                                </button>
+                                @can ('update', $concept)
+                                    <button type="submit" name="action" value="save" class="btn btn-outline-shadcn btn-sm px-4">
+                                        <x-heroicon-o-arrow-down-tray class="icon-xs me-1 opacity-70"/>
+                                        Opslaan als concept
+                                    </button>
+                                @endcan
 
-                                <button type="submit" name="action" value="submit" class="btn btn-dark-shadcn btn-sm px-4 shadow-sm">
-                                    <x-heroicon-o-paper-airplane class="icon-xs me-1"/>
-                                    Insturen als suggestie
-                                </button>
+                                @can ('submit-concept', $concept)
+                                    <button type="submit" name="action" value="submit" class="btn btn-dark-shadcn btn-sm px-4 shadow-sm">
+                                        <x-heroicon-o-paper-airplane class="icon-xs me-1"/>
+                                        Insturen als suggestie
+                                    </button>
+                                @endcan
                             </div>
                         </div>
                     </form>

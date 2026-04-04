@@ -6,6 +6,7 @@ namespace App\Actions\Articles;
 
 use App\Data\SuggestionData;
 use App\Models\Article;
+use App\Models\Concept;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -47,7 +48,7 @@ final readonly class StoreArticleSuggestion
      *
      * @param SuggestionData $suggestionData The data transfer object carrying all details for the new article suggestion.
      */
-    public function execute(SuggestionData $suggestionData, ?int $concept = null): Article
+    public function execute(SuggestionData $suggestionData, ?Concept $concept = null): Article
     {
         $suggestion = DB::transaction(function () use ($suggestionData, $concept): Article {
             $suggestion = Article::query()->create($suggestionData->except('regions')->toArray());
@@ -58,7 +59,7 @@ final readonly class StoreArticleSuggestion
             }
 
             if ($concept) {
-                dd('concept given');
+                $concept->delete();
             }
 
             return $suggestion;

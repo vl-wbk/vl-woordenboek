@@ -21,4 +21,18 @@ final readonly class ConceptPolicy
             ? Response::allow()
             : Response::denyAsNotFound();
     }
+
+    public function delete(User $user, Concept $concept): Response
+    {
+        return $concept->authoredBy($user)
+            ? Response::allow()
+            : Response::denyAsNotFound();
+    }
+
+    public function submitConcept(User $user, Concept $concept): Response
+    {
+        return $concept->authoredBy($user)
+            ? Response::allow()
+            : Response::denyAsNotFound();
+    }
 }

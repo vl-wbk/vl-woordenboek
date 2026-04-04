@@ -31,4 +31,9 @@ final class StoreConceptRequest extends FormRequest
             'woordsoort' => [],
         ];
     }
+
+    public function getSubmissionAction(): string
+    {
+        return $this->input('action');
+    }
 }

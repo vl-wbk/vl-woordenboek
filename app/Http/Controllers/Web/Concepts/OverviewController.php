@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Web\Concepts;
 
+use App\Models\Concept;
 use Illuminate\Contracts\Support\Renderable;
 use Spatie\RouteAttributes\Attributes\Get;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +16,12 @@ final readonly class OverviewController
     {
         return view('concepts.index', data: [
             'user' => $request->user(),
-            'concepts' => $request->user()->concepts()->paginate(5),
+            'concepts' => Concept::where('author_id', $request->user()->id)
+                ->where('word', 'like', "%{$request->input('zoekterm')}%")
+                ->with(['partOfSpeech', 'regions'])
+                ->orderBy('word')
+                ->fastPaginate(5)
+                ->appends(request()->query()),
         ]);
     }
 }

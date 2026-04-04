@@ -121,4 +121,16 @@
             </div>
         </div>
     @endforelse
+
+    <hr>
+
+    <div class="d-flex align-items-center justify-content-between mt-3">
+        <div class="text-muted small">
+            Toont <span class="fw-semibold text-dark">{{ $concepts->firstItem() ?? '0' }}-{{ $concepts->lastItem() ?? '0' }}</span> van <span class="fw-semibold text-dark">{{ $concepts->total() }}</span> concepten
+        </div>
+
+        @if ($concepts->hasPages())
+            {{ $concepts->links() }}
+        @endif
+    </div>
 </x-public-profile>

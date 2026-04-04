@@ -53,7 +53,7 @@ final class UserSuggestionQueryBuilder
             ->with(['labels', 'editor'])
             ->orderBy('word')
             ->where('state', $state)
-            ->fastPaginate(6)
+            ->fastPaginate(5)
             ->appends(request()->query());
     }
 

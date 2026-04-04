@@ -261,6 +261,30 @@
 
             <hr>
 
+            <div class="mb-4">
+                <nav class="nav flex-column">
+                     <a href="{{ route('account:public', $user) }}" class="sidenav-link {{ active('account:public') }} d-flex align-items-center">
+                        <x-heroicon-o-globe-europe-africa class="icon color-green"/>
+                        <span class="flex-grow-1">Publicaties</span>
+                    </a>
+
+                    @if ($user->is(auth()->user()))
+                        <a href="{{ route('bookmarks:index') }}" class="sidenav-link {{ active('bookmarks:index') }} d-flex align-items-center">
+                            <x-heroicon-o-bookmark class="icon color-green"/>
+                            <span class="flex-grow-1">Bewaarde woorden</span>
+                        </a>
+
+                        <a href="{{ route('concepts:index') }}" class="sidenav-link {{ active(['concepts:index', 'concepts:create']) }} d-flex align-items-center">
+                            <x-heroicon-o-clipboard-document-list class="icon color-green"/>
+                            <span class="flex-grow-1">Concepten</span>
+                        </a>
+                    @endif
+                </nav>
+            </div>
+
+            <hr>
+
+
 
             <div class="mb-2">
                 <div class="sidenav-label">Mijn suggesties</div>

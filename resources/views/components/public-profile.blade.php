@@ -304,7 +304,7 @@
 
             <div class="mb-4">
                 <nav class="nav flex-column">
-                     <a href="{{ route('account:public', $user ?? auth()->user()) }}" class="sidenav-link {{ active('account:public') }} d-flex align-items-center">
+                     <a href="{{ route('account:public', $user) }}" class="sidenav-link {{ active('account:public') }} d-flex align-items-center">
                         <x-heroicon-o-globe-europe-africa class="icon color-green"/>
                         <span class="flex-grow-1">Publicaties</span>
                     </a>
