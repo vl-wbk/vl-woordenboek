@@ -72,7 +72,6 @@ final readonly class DictionaryArticleController
 
             return view('definitions.show', data: [
                 'word' => $word
-                    ->load(['sources', 'sources.referenceWork'])
                     ->loadCount([
                         'reports' => fn (Builder $query) => $query->where('state', Status::Open)->orWhere('state', Status::InProgress),
                         'notes',
