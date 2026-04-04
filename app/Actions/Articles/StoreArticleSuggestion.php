@@ -47,18 +47,26 @@ final readonly class StoreArticleSuggestion
      *
      * @param SuggestionData $suggestionData The data transfer object carrying all details for the new article suggestion.
      */
-    public function execute(SuggestionData $suggestionData): void
+    public function execute(SuggestionData $suggestionData, ?int $concept = null): Article
     {
-        DB::transaction(function () use ($suggestionData): void {
+        $suggestion = DB::transaction(function () use ($suggestionData, $concept): Article {
             $suggestion = Article::query()->create($suggestionData->except('regions')->toArray());
             $suggestion->regions()->sync($suggestionData->regions);
 
             if (auth()->check()) {
                 $suggestion->author()->associate(auth()->user()->getAuthIdentifier())->save();
             }
+
+            if ($concept) {
+                dd('concept given');
+            }
+
+            return $suggestion;
         });
 
         flash($this->getFlashMessage(), 'alert-success');
+
+        return $suggestion;
     }
 
     /** @todo document */

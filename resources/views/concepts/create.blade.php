@@ -309,23 +309,34 @@
                     </div>
 
                     <div class="card-shadcn p-4 mb-4 shadow-sm border">
-                        <form action="" method="POST">
+                        <form action="{{ route('concepts:store') }}" method="POST">
                             @csrf
 
                             <div class="row g-3 mb-2">
+                                @if (flash()->message)
+                                    <div class="col-12">
+                                        <div class="alert {{ flash()->class }}" role="alert">
+                                            {{ flash()->message }}
+                                        </div>
+                                    </div>
+                                @endif
+
                                 <div class="col-md-12">
                                     <label for="word" class="form-label fw-semibold small mb-1 text-dark">Het Woord of Begrip <span class="fw-bold text-danger">*</span></label>
-                                    <input type="text" name="word" id="word" class="form-control search-input-shadcn @error('word') is-invalid @enderror" placeholder="Bijv. 'Goesting', 'Plezant', 'Amai'..." value="{{ old('word') }}" autofocus>
+                                    <input type="text" name="woord" id="word" class="form-control search-input-shadcn @error('woord') is-invalid @enderror" placeholder="Bijv. 'Goesting', 'Plezant', 'Amai'..." value="{{ old('woord') }}" autofocus>
 
-                                    <div class="form-text text-muted-foreground" style="font-size: 0.75rem;">
-                                        Gebruik de spelling volgens de algemene regels
-                                    </div>
-                                    @error('word') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                    @if ($errors->has('woord'))
+                                        <x-forms.validation-error field="woord"/>
+                                    @else
+                                        <div class="form-text text-muted-foreground" style="font-size: 0.75rem;">
+                                            Gebruik de spelling volgens de algemene regels
+                                        </div>
+                                    @endif
                                 </div>
 
                                 <div class="col-md-6">
                                     <label for="word" class="form-label fw-semibold small mb-1 text-dark">Woordsoort</label>
-                                    <select name="" class="form-select search-input-shadcn py-2">
+                                    <select name="woordsoort" class="form-select search-input-shadcn py-2">
                                         <option value="">-- woordsoort --</option>
                                             @foreach ($partOfSpeeches as $partOfSpeech => $value)
                                                 <option value="{{ $partOfSpeech }}" @selected(old('woordsoort') == $partOfSpeech)>{{ $value }}</option>
@@ -336,7 +347,7 @@
 
                                 <div class="col-md-6">
                                     <label for="word" class="form-label fw-semibold small mb-1 text-dark">Kenmerken</label>
-                                    <input type="text" name="word" id="word" class="form-control search-input-shadcn @error('word') is-invalid @enderror" placeholder="de ~ (v.), -s" value="{{ old('word') }}">
+                                    <input type="text" name="word" id="word" class="form-control search-input-shadcn @error('kernmerken') is-invalid @enderror" placeholder="de ~ (v.), -s" value="{{ old('word') }}">
 
                                 </div>
 
@@ -352,26 +363,35 @@
                                         </a>
                                     </div>
 
-                                    <select name="regio" size="6" class="form-select search-input-shadcn py-2" multiple>
+                                    <select name="regio[]" size="6" class="form-select search-input-shadcn py-2" multiple>
                                         @foreach ($regions as $region => $value)
                                             <option value="{{ $region }}" {{ in_array($region, old('regio', [])) ? 'selected' : '' }}>
                                                 {{ $value }}
                                             </option>
                                         @endforeach
                                     </select>
+
+                                    @if ($errors->has('regio'))
+                                        @error('regio') <div class="text-danger small mt-2 fw-bold">Selecteer minstens één regio.</div> @enderror
+                                    @else
+                                        <div class="form-text text-muted-foreground d-flex align-items-center mt-2" style="font-size: 0.75rem;">
+                                            <x-heroicon-o-information-circle class="icon-xs me-1"/>
+                                            Houd Ctrl of Cmd ingedrukt voor multi-selectie.
+                                        </div>
+                                    @endif
                                 </div>
 
                                 <div class="col-6">
                                     <label for="description" class="form-label fw-semibold small mb-1 text-dark">
                                         Beschrijving(en) <span class="text-danger fw-bold">*</span>
                                     </label>
-                                    <textarea name="description"
-                                            id="description"
-                                            rows="5"
-                                            class="form-control search-input-shadcn @error('description') is-invalid @enderror"
-                                            placeholder="Wat is de kern van het woord?">{{ old('description') }}</textarea>
+                                    <textarea name="beschrijving"
+                                        id="description"
+                                        rows="5"
+                                        class="form-control search-input-shadcn @error('beschrijving') is-invalid @enderror"
+                                        placeholder="Wat is de kern van het woord?">{{ old('beschrijving') }}</textarea>
 
-                                    @error('description') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                    @error('beschrijving') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
 
 
@@ -380,18 +400,13 @@
                                         Voorbeeld(en) <span class="text-danger fw-bold">*</span>
                                     </label>
 
-                                    <textarea name="description"
+                                    <textarea name="voorbeeld"
                                         id="description"
                                         rows="5"
-                                        class="form-control search-input-shadcn @error('description') is-invalid @enderror"
-                                        placeholder="Citeer een zin waar het woord tot leven komt...">{{ old('description') }}</textarea>
+                                        class="form-control search-input-shadcn @error('voorbeeld') is-invalid @enderror"
+                                        placeholder="Citeer een zin waar het woord tot leven komt...">{{ old('voorbeeld') }}</textarea>
 
-                                    <div class="form-text text-muted-foreground d-flex align-items-center mt-2" style="font-size: 0.75rem;">
-                                        <x-heroicon-o-information-circle class="icon-xs me-1"/>
-                                        Je kunt later altijd nog details toevoegen. Dit wordt opgeslagen als concept.
-                                    </div>
-
-                                    @error('description') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                    @error('voorbeeld') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
 
 
@@ -401,7 +416,7 @@
                                     <div class="p-3 rounded-2 bg-light bg-opacity-50 border border-dashed mb-2">
 
                                     <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" role="switch" id="is_private" name="is_private">
+                                        <input class="form-check-input" type="checkbox" value="1" name="notificatie" role="switch" id="is_private">
                                         <label class="form-check-label small fw-medium text-dark" for="is_private">
                                             Houd me op de hoogte.
                                         </label>
@@ -421,12 +436,12 @@
                             </a>
 
                             <div class="d-flex gap-2">
-                                <button type="submit" name="action" value="draft" class="btn btn-outline-shadcn btn-sm px-4">
+                                <button type="submit" name="action" value="save" class="btn btn-outline-shadcn btn-sm px-4">
                                     <x-heroicon-o-arrow-down-tray class="icon-xs me-1 opacity-70"/>
                                     Opslaan als concept
                                 </button>
 
-                                <button type="submit" name="action" value="publish" class="btn btn-dark-shadcn btn-sm px-4 shadow-sm">
+                                <button type="submit" name="action" value="submit" class="btn btn-dark-shadcn btn-sm px-4 shadow-sm">
                                     <x-heroicon-o-paper-airplane class="icon-xs me-1"/>
                                     Insturen als suggestie
                                 </button>

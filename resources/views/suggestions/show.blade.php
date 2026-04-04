@@ -245,6 +245,10 @@
                     </div>
                 </div>
                 <div class="d-none d-md-flex gap-2">
+                    <a href="{{ route('concepts:create') }}" class="btn shadow-sm btn-shadcn btn-outline-shadcn">
+                        <x-heroicon-o-pencil-square class="icon me-1" style="width: 18px;"/> Nieuw concept
+                    </a>
+
                     <a href="{{ route('definitions.create') }}" class="btn btn-shadcn shadow-sm btn-dark-shadcn">
                         <x-heroicon-o-plus class="icon me-1" style="width: 18px;"/> Suggestie indienen
                     </a>
@@ -349,6 +353,19 @@
 
                 <hr>
             @endif
+
+            @if (flash()->message)
+                <div class="row">
+                    <div class="col-12">
+                        <div class="alert {{ flash()->class }} mb-0" role="alert">
+                            {{ flash()->message }}
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+            @endif
+
 
             <div class="row g-3">
                 <div class="col-6">
