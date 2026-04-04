@@ -274,7 +274,7 @@
                         @endif
 
                         @if (auth()->user()->is($user))
-                            <a href="{{ route('definitions.create') }}" class="btn shadow-sm btn-shadcn btn-outline-shadcn">
+                            <a href="{{ route('concepts:create') }}" class="btn shadow-sm btn-shadcn btn-outline-shadcn">
                                 <x-heroicon-o-pencil-square class="icon me-1" style="width: 18px;"/> Nieuw concept
                             </a>
                         @endif
@@ -315,7 +315,7 @@
                             <span class="flex-grow-1">Bewaarde woorden</span>
                         </a>
 
-                        <a href="" class="sidenav-link {{ active('bookmarks:index') }} d-flex align-items-center">
+                        <a href="{{ route('concepts:index') }}" class="sidenav-link {{ active(['concepts:index', 'concepts:create']) }} d-flex align-items-center">
                             <x-heroicon-o-clipboard-document-list class="icon color-green"/>
                             <span class="flex-grow-1">Concepten</span>
                         </a>
@@ -405,7 +405,7 @@
                             <div class="fw-bold h5 mb-0 text-primary">{{ $conceptCount }}</div>
                         </div>
                         <div class="p-2 bg-primary bg-opacity-10 rounded text-primary">
-                            <x-heroicon-s-globe-europe-africa style="width: 20px;"/>
+                            <x-heroicon-s-clipboard-document-list style="width: 20px;"/>
                         </div>
                     </div>
                 </div>
