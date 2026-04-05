@@ -94,7 +94,8 @@ final readonly class ExampleSentencesTable
                 ->sortable(),
 
             TextColumn::make('example')
-                ->label('Voorbeeldzin'),
+                ->label('Voorbeeldzin')
+                ->limit(75),
 
             TextColumn::make('created_at')
                 ->label('ingezonden op')
