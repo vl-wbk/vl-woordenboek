@@ -145,9 +145,9 @@
                                 <div class="text-muted small mb-1"><i class="bi bi-geo-alt me-1"></i>Regio's</div>
                                     <div class="d-flex gap-1 flex-wrap">
                                         @forelse($word->regions as $region)
-                                            <span class="badge rounded-pill text-bg-primary">
+                                            <a href="{{ route('region:show', $region) }}" class="badge rounded-pill text-bg-primary">
                                                 {{ $region->name }}
-                                            </span>
+                                            </a>
                                         @empty
                                             <span class="badge rounded-pill text-bg-primary">
                                                 Gans Vlaanderen
