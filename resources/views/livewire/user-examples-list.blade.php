@@ -7,7 +7,7 @@
         <ul class="list-unstyled mb-0">
             @foreach ($examples as $example)
                 <li class="py-2 {{ !$loop->last ? 'border-bottom' : '' }} border-light">
-                    <p class="color-green leading-relaxed">
+                    <p class="mb-2 leading-relaxed">
                         {{ ucfirst($example->example) }}
                     </p>
 
