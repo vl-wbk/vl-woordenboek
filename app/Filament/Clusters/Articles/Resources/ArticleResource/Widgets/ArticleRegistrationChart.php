@@ -138,7 +138,7 @@ final class ArticleRegistrationChart extends ChartWidget
                     'spanGaps' => true,
                 ],
             ],
-            'labels' => $data['published']->map(fn (TrendValue $value) => $value->date),
+            'labels' => $data['published']->map(fn (TrendValue $value) => now()->parse($value->date)->translatedFormat('d F Y')),
         ];
     }
 
