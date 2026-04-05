@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Web\Suggestions;
 
+use App\Enums\ArticleStates;
 use App\QueryBuilders\UserSuggestionQueryBuilder;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
@@ -30,8 +31,26 @@ final readonly class OverviewController
     public function __invoke(Request $request, UserSuggestionQueryBuilder $suggestionQuery): Renderable
     {
         return view('suggestions.index', data: [
-            'suggestionCount' => $request->user()->suggestions()->count(),
-            'results' => $suggestionQuery->fetch($request),
+            'user' => $request->user(),
+            'results' => $suggestionQuery->fetch($request, ArticleStates::New),
+        ]);
+    }
+
+    #[Get(uri: 'mijn-suggesties/in-behandeling', name: 'suggestions:processing', middleware: ['auth', 'verified', 'forbid-banned-user'])]
+    public function processing(Request $request, UserSuggestionQueryBuilder $suggestionQuery): Renderable
+    {
+        return view('suggestions.index', data: [
+            'user' => $request->user(),
+            'results' => $suggestionQuery->fetch($request, ArticleStates::Draft),
+        ]);
+    }
+
+    #[Get(uri: 'mijn-suggesties/gearchiveerd', name: 'suggestions:archived', middleware: ['auth', 'verified', 'forbid-banned-user'])]
+    public function archived(Request $request, UserSuggestionQueryBuilder $suggestionQuery): Renderable
+    {
+        return view('suggestions.index', data: [
+            'user' => $request->user(),
+            'results' => $suggestionQuery->fetch($request, ArticleStates::Archived),
         ]);
     }
 }

@@ -46,21 +46,14 @@ final class UserSuggestionQueryBuilder
      *
      * @phpstan-ignore-next-line    This annotation is used to suppress a potential PhpStan warning regarding the return type, as it can be either a Builder or a Relation.
      */
-    public function fetch(Request $request)
+    public function fetch(Request $request, $state)
     {
-        return QueryBuilder::for(Article::class)
-            ->with(['editor'])
-            ->where('author_id', auth()->id())
-            ->allowedSorts($this->getAllowedSorts())
-            ->allowedFilters($this->getAllowedFilters())
-            // Search between the suggestions
-            ->where(function (Builder  $query) use ($request): void {
-                $query->where('word', 'like', "%{$request->get('zoekterm')}%")
-                    ->orWhere('description', 'like', "%{$request->get('zoekterm')}%");
-            })
+        return Article::where('author_id', $request->user()->id)
+            ->where('word', 'like', "%{$request->input('zoekterm')}%")
+            ->with(['labels', 'editor'])
             ->orderBy('word')
-            ->whereNotIn('state', [ArticleStates::Archived, ArticleStates::ExternalData])
-            ->fastPaginate(6)
+            ->where('state', $state)
+            ->fastPaginate(5)
             ->appends(request()->query());
     }
 

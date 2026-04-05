@@ -42,6 +42,8 @@ final class UserBuilder extends Builder
      * @param  string|Stringable|null   $searchParam
      * @param  string                   $searchColumn
      * @return LengthAwarePaginator<int, Article>
+     *
+     * @deprecated refactor this out.
      */
     public function searchContributions(string $relation, string|Stringable|null $searchParam, string $searchColumn): LengthAwarePaginator
     {

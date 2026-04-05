@@ -42,12 +42,15 @@ final readonly class BookmarkController
     {
         $searchTerm = $request->get('zoekterm');
         $searchQuery = auth()->user()->bookmarks()
+            ->with(['labels'])
             ->where(function (Builder $query) use ($searchTerm): void {
-                $query->where('word', 'like', "%{$searchTerm}%")->orWhere('description', 'like', "%{$searchTerm}%");
-            })->fastPaginate();
+                $query->where('word', 'like', "%{$searchTerm}%");
+            })->fastPaginate(5);
 
         return view('definitions.bookmarks', data: [
-            'results' => $searchQuery,
+            'user' => $request->user(),
+            'randomArticle' => Article::published()->inRandomOrder()->first(),
+            'bookmarks' => $searchQuery,
         ]);
     }
 

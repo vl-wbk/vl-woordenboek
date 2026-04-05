@@ -71,11 +71,12 @@ final readonly class DictionaryArticleController
             $word->recordView(); // Increment the view counter for thearticle by one. Because the user decided to view the article.
 
             return view('definitions.show', data: [
-                'word' => $word->loadCount([
-                    'reports' => fn (Builder $query) => $query->where('state', Status::Open)->orWhere('state', Status::InProgress),
-                    'notes',
-                    'audits'
-                ]),
+                'word' => $word
+                    ->loadCount([
+                        'reports' => fn (Builder $query) => $query->where('state', Status::Open)->orWhere('state', Status::InProgress),
+                        'notes',
+                        'audits'
+                    ]),
                 'exampleCount' => $word->userExamples()->whereState('status', Approved::class)->count(),
                 'articleResource' => ArticleResource::class,
                 'etymologies' => $word->etymologies()->whereNotIn('status', [EtymologyStatus::Draft, EtymologyStatus::Rejected, EtymologyStatus::Archived])->get(),

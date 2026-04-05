@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\View\Components;
 
+use App\Enums\ArticleStates;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\Component;
 
 /**
@@ -27,63 +29,61 @@ final class PublicProfile extends Component
     public function render(): View
     {
         return view('components.public-profile', data: [
-            'user' => $this->user,
+            'user' => $this->user ?? auth()->user(),
             'contactExist' => $this->contactExists(),
-            'suggestedArticleCount' => $this->getSuggestedArticleCount(),
-            'suggestedEtymologiesCount' => $this->getSuggestedEtymologyCount(),
-            'reportCount' => $this->getArticleReportCount(),
-            'articleCount' => $this->getArticleCount(),
+            'suggestionCount' => $this->getSuggestionCount(),
+            'publicationCount' => $this->getPublicationCount(),
+            'kudosCount' => $this->getKudosCount(),
+            'viewsCount' => $this->getViewsCount(),
+            'conceptCount' => $this->getConceptCount(),
+            'totals' => $this->calculateTotals(),
         ]);
     }
 
-    /**
-     * @return Collection<string, string>
-     */
-    public function getArticleReportCount(): Collection
+    private function getConceptCount(): int
     {
-        return Cache::flexible('articles_' . $this->user->id, $this->cacheTTL, function (): Collection {
-            return collect(['total' => toHumanReadableNumber($this->user->reports()->count())]);
-        });
+        return auth()->user()->concepts()->count();
+    }
+
+    private function getSuggestionCount(): int
+    {
+        return $this->user->suggestions()->count();
+    }
+
+    private function getViewsCount(): int
+    {
+        return $this->user->suggestions->sum('views');
+    }
+
+    private function getKudosCount(): int
+    {
+        return User::withCount(['suggestions as total_upvotes' => function ($query) {
+            $query->join('votes', 'articles.id', '=', 'votes.votable_id')
+                ->where('votes.votable_type', \App\Models\Article::class);
+        }])->find($this->user->id)->total_upvotes;
+    }
+
+    private function getPublicationCount()
+    {
+        return $this->user->suggestions()->whereNotNull('published_at')->count();
+    }
+
+    private function calculateTotals()
+    {
+        $authorId = $this->user->id ?? auth()->id();
+
+        return collect(ArticleStates::cases())
+            ->reduce(function ($query, $status) {
+                return $query->selectRaw(
+                    expression: "COUNT(CASE WHEN state = ? THEN 1 END) AS " . strtolower($status->name),
+                    bindings: [$status->value]
+                );
+            }, DB::table('articles')->where('author_id', $authorId)->selectRaw('COUNT(*) AS total'))
+            ->first();
     }
 
     private function contactExists(): bool
     {
         return auth()->user()->contacts->doesntContain($this->user) && auth()->user()->isNot($this->user);
-    }
-
-    /**
-     * @return Collection<string, string>
-     */
-    private function getSuggestedArticleCount(): Collection
-    {
-        return $this->getCountForRelation('suggestions', 'suggested_articles');
-    }
-
-    /**
-     * @return Collection<string, string>
-     */
-    private function getArticleCount(): Collection
-    {
-        return $this->getCountForRelation('articles', 'articles_');
-    }
-
-    /**
-     * @return Collection<string, string>
-     */
-    private function getSuggestedEtymologyCount(): Collection
-    {
-        return $this->getCountForRelation('etymologies', 'suggested_etymologies');
-    }
-
-    /**
-     * @return Collection<string, string>
-     */
-    private function getCountForRelation(string $relation, string $cachePrefix): Collection
-    {
-        $cacheKey = "{$cachePrefix}_{$this->user->id}";
-
-        return Cache::flexible($cacheKey, $this->cacheTTL, function () use ($relation): Collection {
-            return collect(['total' => toHumanReadableNumber($this->user->{$relation}()->published()->count())]);
-        });
     }
 }

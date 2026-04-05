@@ -282,7 +282,7 @@
                                             <div class="d-flex flex-column gap-2" id="source-list">
                                                 @foreach($word->sources as $source)
                                                     @if ($source->referenceWork)
-                                                        <a href="{{ $source->referencework->external_url ?? "#" }}" class="text-decoration-none text-reset">
+                                                        <a href="{{ $source->referenceWork->external_url ?? "#" }}" class="text-decoration-none text-reset">
                                                             <div class="border bg-light bg-light-subtle shadow-sm rounded p-3 d-flex gap-3 align-items-start h-100 transition-hover">
                                                                 <x-heroicon-s-book-open class="icon color-green flex-shrink-0 mt-1"/>
 

@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Policies;
+
+use App\Models\Concept;
+use App\Models\User;
+use Illuminate\Auth\Access\Response;
+
+final readonly class ConceptPolicy
+{
+    public function update(User $user, Concept $concept): Response
+    {
+        return $concept->authoredBy($user)
+            ? Response::allow()
+            : Response::denyAsNotFound();
+    }
+
+    public function delete(User $user, Concept $concept): Response
+    {
+        return $concept->authoredBy($user)
+            ? Response::allow()
+            : Response::denyAsNotFound();
+    }
+
+    public function submitConcept(User $user, Concept $concept): Response
+    {
+        return $concept->authoredBy($user)
+            ? Response::allow()
+            : Response::denyAsNotFound();
+    }
+}
