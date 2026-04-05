@@ -4,7 +4,7 @@
             <div class="list-group list-group-flush">
                 @foreach ($results as $article)
                     <div class="list-group-item p-3 word-item position-relative">
-                        @if (auth()->user()->can('display', $article))
+                        @if (auth()->user()->can('view-suggestion', $article))
                             <a href="{{ route('suggestions:show', $article) }}" class="stretched-link"></a>
                         @endif
 

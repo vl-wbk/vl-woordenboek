@@ -211,6 +211,11 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
         return $this->hasMany(Etymology::class, 'author_id');
     }
 
+    public function concepts(): HasMany
+    {
+        return $this->hasMany(Concept::class, 'author_id');
+    }
+
     /**
      * Defines the relationship between a user and their bookmarked articles.
      *

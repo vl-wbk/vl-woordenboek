@@ -244,15 +244,6 @@
                         @endif
                     </div>
                 </div>
-                <div class="d-none d-md-flex gap-2">
-                    <a href="{{ route('concepts:create') }}" class="btn shadow-sm btn-shadcn btn-outline-shadcn">
-                        <x-heroicon-o-pencil-square class="icon me-1" style="width: 18px;"/> Nieuw concept
-                    </a>
-
-                    <a href="{{ route('definitions.create') }}" class="btn btn-shadcn shadow-sm btn-dark-shadcn">
-                        <x-heroicon-o-plus class="icon me-1" style="width: 18px;"/> Suggestie indienen
-                    </a>
-                </div>
             </div>
         </div>
     </div>
@@ -260,6 +251,15 @@
     <div class="row justify-content-center g-5">
         <div class="col-lg-2">
 
+
+            <div class="d-grid gap-2">
+                <a href="{{ route('concepts:index') }}" class="btn btn-outline-dark shadow-sm d-flex align-items-center text-start">
+                    <x-heroicon-o-arrow-uturn-left class="icon me-2" style="width: 1.2rem; height: 1.2rem;"/>
+                    <span>Terug naar concepten</span>
+                </a>
+            </div>
+
+            <hr>
 
             <div class="mb-4">
                 <nav class="nav flex-column">
@@ -312,185 +312,178 @@
                     </a>
                 </nav>
             </div>
-
-
-           <hr>
-
-           <div class="text-muted">
-                <p class="mb-1">
-                    Ingediend op <br>
-                    <time datetime="2025-03-12" class="text-dark fw-semibold">{{ $article->created_at->translatedFormat('d F Y') }}</time>
-                </p>
-
-                @if ($article->created_at->lt($article->updated_at))
-                    <small class="text-secondary">
-                        Bijgewerkt <time datetime="P2D">2 dagen geleden</time>
-                    </small>
-                @endif
-            </div>
         </div>
 
         <div class="col-lg-9">
 
             <div class="row g-4">
-    <div class="col-lg-12">
-        <div class="d-flex align-items-center justify-content-between mb-3">
-            <div>
-                <nav aria-label="breadcrumb" class="mb-1">
-                    <ol class="breadcrumb mb-0" style="font-size: 0.75rem;">
-                        <li class="breadcrumb-item"><a href="{{ url('/') }}" class="text-muted">VL Woordenboek</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('suggestions:index') }}" class="text-muted">Mijn suggesties</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">suggestie #{{ $article->id }}</li>
-                    </ol>
-                </nav>
-                <h1 class="fw-bold h3 mb-0">{{ $article->word }}</h1>
+                <div class="col-lg-12">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div>
+                            <nav aria-label="breadcrumb" class="mb-1">
+                                <ol class="breadcrumb mb-0" style="font-size: 0.75rem;">
+                                    <li class="breadcrumb-item"><a href="{{ url('/') }}" class="text-muted">VL Woordenboek</a></li>
+                                    <li class="breadcrumb-item"><a href="{{ route('concepts:index') }}" class="text-muted">Mijn concepten</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">concept: #{{ $concept->id }}</li>
+                                </ol>
+                            </nav>
+                            <h1 class="fw-bold h3 mb-0">Concept wijzigen</h1>
+                        </div>
+                    </div>
+
+                    <div class="card-shadcn p-4 mb-4 shadow-sm border">
+                        <form action="{{ route('concepts:update', $concept) }}" method="POST">
+                            @csrf
+                            @method('PATCH')
+
+                            <div class="row g-3 mb-2">
+                                @if (flash()->message)
+                                    <div class="col-12">
+                                        <div class="alert {{ flash()->class }}" role="alert">
+                                            {{ flash()->message }}
+                                        </div>
+                                    </div>
+                                @endif
+
+                                <div class="col-md-12">
+                                    <label for="word" class="form-label fw-semibold small mb-1 text-dark">Het Woord of Begrip <span class="fw-bold text-danger">*</span></label>
+                                    <input type="text" name="woord" id="word" class="form-control search-input-shadcn @error('woord') is-invalid @enderror" placeholder="Bijv. 'Goesting', 'Plezant', 'Amai'..." value="{{ old('woord', $concept->word) }}" autofocus>
+
+                                    @if ($errors->has('woord'))
+                                        <x-forms.validation-error field="woord"/>
+                                    @else
+                                        <div class="form-text text-muted-foreground" style="font-size: 0.75rem;">
+                                            Gebruik de spelling volgens de algemene regels
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="word" class="form-label fw-semibold small mb-1 text-dark">Woordsoort</label>
+                                    <select name="woordsoort" class="form-select search-input-shadcn py-2">
+                                        <option value="">-- woordsoort --</option>
+                                            @foreach ($partOfSpeeches as $id => $label)
+                                                <option value="{{ $id }}"
+                                                    @selected((string) old('woordsoort', $concept->partOfSpeech?->id) === (string) $id)>
+                                                    {{ $label }}
+                                                </option>
+                                            @endforeach
+                                    </select>
+
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="word" class="form-label fw-semibold small mb-1 text-dark">Kenmerken</label>
+                                    <input type="text" name="kenmerken" id="word" class="form-control search-input-shadcn @error('kernmerken') is-invalid @enderror" placeholder="de ~ (v.), -s" value="{{ old('kenmerken', $concept->characteristics) }}">
+
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center justify-content-between mb-1">
+                                        <label for="regions" class="form-label fw-semibold small mb-0 text-dark">
+                                            Regio's <span class="fw-bold text-danger">*</span>
+                                        </label>
+
+                                        <a href="{{ route('definitions.region-info') }}" target="_blank" class="text-muted text-decoration-none small d-flex align-items-center gap-1 hover-text-dark transition-all" style="font-size: 0.75rem;">
+                                            <x-heroicon-o-information-circle style="width: 14px;"/>
+                                            Regio info
+                                        </a>
+                                    </div>
+
+                                    <select name="regio[]" size="6" class="form-select search-input-shadcn @error('regio') is-invalid @enderror py-2" multiple>
+                                        @foreach ($regions as $id => $value)
+                                            <option value="{{ $id }}"
+                                                @selected(in_array($id, old('regio', $concept->regions->pluck('id')->toArray())))>
+                                                {{ $value }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+
+                                    @if ($errors->has('regio'))
+                                        @error('regio') <div class="text-danger small mt-2 fw-bold">Selecteer minstens één regio.</div> @enderror
+                                    @else
+                                        <div class="form-text text-muted-foreground d-flex align-items-center mt-2" style="font-size: 0.75rem;">
+                                            <x-heroicon-o-information-circle class="icon-xs me-1"/>
+                                            Houd Ctrl of Cmd ingedrukt voor multi-selectie.
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <div class="col-6">
+                                    <label for="description" class="form-label fw-semibold small mb-1 text-dark">
+                                        Beschrijving(en) <span class="text-danger fw-bold">*</span>
+                                    </label>
+                                    <textarea name="beschrijving"
+                                        id="description"
+                                        rows="5"
+                                        class="form-control search-input-shadcn @error('beschrijving') is-invalid @enderror"
+                                        placeholder="Wat is de kern van het woord?">{{ old('beschrijving', $concept->description) }}</textarea>
+
+                                    @error('beschrijving') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                </div>
+
+
+                                <div class="col-6">
+                                    <label for="description" class="form-label fw-semibold small mb-1 text-dark">
+                                        Voorbeeld(en) <span class="text-danger fw-bold">*</span>
+                                    </label>
+
+                                    <textarea name="voorbeeld"
+                                        id="description"
+                                        rows="5"
+                                        class="form-control search-input-shadcn @error('voorbeeld') is-invalid @enderror"
+                                        placeholder="Citeer een zin waar het woord tot leven komt...">{{ old('voorbeeld', $concept->example) }}</textarea>
+
+                                    @error('voorbeeld') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                </div>
+
+
+
+                                <div class="col-12">
+                                    <hr class="mt-0">
+                                    <div class="p-3 rounded-2 bg-light bg-opacity-50 border border-dashed mb-2">
+
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" value="1" checked name="notificatie" role="switch" id="is_private">
+                                        <label class="form-check-label small fw-medium text-dark" for="is_private">
+                                            Houd me op de hoogte.
+                                        </label>
+                                        <p class="text-muted mb-0" style="font-size: 0.7rem;">
+                                            Indien je wenst op de hoogte te blijven omtrent het feit dat je suggestie word gepubliceerd, dan sturen we je een mail.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        {{-- Footer Acties --}}
+                        <div class="d-flex align-items-center justify-content-between pt-3 border-top">
+                            @can ('delete', $concept)
+                                <a href="{{ route('concepts:delete', $concept) }}" class="btn btn-outline-danger btn-sm px-4">
+                                    <x-heroicon-o-trash class="icon-xs me-1 opacity-70"/> Verwijderen
+                                </a>
+                            @endcan
+
+                            <div class="d-flex gap-2">
+                                @can ('update', $concept)
+                                    <button type="submit" name="action" value="save" class="btn btn-outline-shadcn btn-sm px-4">
+                                        <x-heroicon-o-arrow-down-tray class="icon-xs me-1 opacity-70"/>
+                                        Opslaan als concept
+                                    </button>
+                                @endcan
+
+                                @can ('submit-concept', $concept)
+                                    <button type="submit" name="action" value="submit" class="btn btn-dark-shadcn btn-sm px-4 shadow-sm">
+                                        <x-heroicon-o-paper-airplane class="icon-xs me-1"/>
+                                        Insturen als suggestie
+                                    </button>
+                                @endcan
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-
-            <span class="badge rounded-pill border text-primary bg-primary bg-opacity-10 px-3 py-1 text-uppercase fw-bold text-xs">
-                <x-heroicon-s-tag class="icon-xs me-1"/> {{ $article->state->getLabel() }}
-            </span>
-        </div>
-
-        <div class="card-shadcn p-3 mb-4">
-            @if ($article->isArchived())
-                <div class="row">
-                    <div class="col-12">
-                        <div class="alert alert-danger mb-0 fade show border-0">
-                            <h6 class="alert-heading fw-semibold">
-                                <x-heroicon-s-archive-box class="icon me-1"/> Gearchiveerde record
-                            </h6>
-
-                            <small>Dit artikel werd gearchiveerd om de volgende reden: {{ $article->archiving_reason }}</small>
-                        </div>
-                    </div>
-                </div>
-
-                <hr>
-            @endif
-
-            @if (flash()->message)
-                <div class="row">
-                    <div class="col-12">
-                        <div class="alert {{ flash()->class }} mb-0" role="alert">
-                            {{ flash()->message }}
-                        </div>
-                    </div>
-                </div>
-
-                <hr>
-            @endif
-
-
-            <div class="row g-3">
-                <div class="col-6">
-                    <div class="card bg-light card-body h-100">
-                        <h6 class="fw-bold">Woordsoort</h5>
-                        <p class="text-light-emphasis">{{ $article->partOfSpeech->name ?? '- niet opgegeven' }}</p>
-                    </div>
-                </div>
-
-                <div class="col-6">
-                    <div class="card bg-light card-body h-100">
-                        <h6 class="fw-bold">Kenmerken</h5>
-                        <p class="text-light-emphasis">
-                            {{ $article->characteristics ?? '-niet opgegeven ' }}
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <div class="card bg-light card-body">
-                        <h6 class="fw-bold">Beschrijving</h5>
-
-                        <div class="text-light-emphasis">
-                            {!! str($article->description)->markdown()->sanitizeHtml() !!}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <div class="card bg-light card-body">
-                        <h6 class="fw-bold">Regio(s)</h5>
-                        <p class="text-light-emphasis">
-                            @foreach ($article->regions as $region)
-                                <span @if (!$loop->first) class="me-1" @endif>{{ $region->name }},</span>
-                            @endforeach
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <div class="card bg-light card-body">
-                        <h6 class="fw-bold">Voorbeeld</h5>
-                        <div class="text-light-emphasis">
-                            {!! str($article->description)->markdown()->sanitizeHtml() !!}
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            @if ($article->editor || $article->archiever || $article->publisher)
-                <hr>
-
-                <div class="row">
-                    @if ($article->editor)
-                        <div class="col-4">
-                            <span class="text-uppercase text-muted fw-bold small mb-2 d-block" style="letter-spacing: 0.5px;">
-                                Redactie door
-                            </span>
-
-                            <div class="card bg-white border rounded-4 p-3">
-                                <div class="d-flex align-items-center">
-                                    <img src="{{ $article->editor->getFilamentAvatarUrl() }}" class="rounded-circle bg-light d-flex align-items-center justify-content-center shadow-sm" style="width: 33px; height: 33px; flex-shrink: 0;"/>
-
-                                    <div class="ms-3 flex-grow-1">
-                                        <h6 class="mb-0 fw-bold text-dark">{{ $article->editor->name ?? config('app.name', 'Laravel') }}</h6>
-                                        <div class="text-muted small">{{ $article->editor->user_type->getLabel() ?? 'Verwijderde gebruiker' }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-
-                    @if ($article->publisher)
-                        <div class="col-4">
-                            <span class="text-uppercase text-muted fw-bold small mb-2 d-block" style="letter-spacing: 0.5px;">
-                                Eindredactie door
-                            </span>
-
-                            <div class="card bg-white border rounded-4 p-3">
-                                <div class="d-flex align-items-center">
-                                    <img src="{{ $article->publisher->getFilamentAvatarUrl() }}" class="rounded-circle bg-light d-flex align-items-center justify-content-center shadow-sm" style="width: 33px; height: 33px; flex-shrink: 0;"/>
-
-                                    <div class="ms-3 flex-grow-1">
-                                        <h6 class="mb-0 fw-bold text-dark">{{ $article->publisher->name ?? config('app.name', 'Laravel') }}</h6>
-                                        <div class="text-muted small">{{ $article->publisher->user_type->getLabel() ?? 'Verwijderde gebruiker' }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-
-                    @if ($article->archiever)
-                        <div class="col-4">
-                            <span class="text-uppercase text-muted fw-bold small mb-2 d-block" style="letter-spacing: 0.5px;">
-                                Gearchiveerd door
-                            </span>
-
-                            <div class="card bg-white border rounded-4 p-3">
-                                <div class="d-flex align-items-center">
-                                    <img src="{{ $article->archiever->getFilamentAvatarUrl() }}" class="rounded-circle bg-light d-flex align-items-center justify-content-center shadow-sm" style="width: 33px; height: 33px; flex-shrink: 0;"/>
-
-                                    <div class="ms-3 flex-grow-1">
-                                        <h6 class="mb-0 fw-bold text-dark">{{ $article->archiever->name ?? config('app.name', 'Laravel') }}</h6>
-                                        <div class="text-muted small">{{ $article->archiever->user_type->getLabel() ?? 'Verwijderde gebruiker' }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                </div>
-            @endif
         </div>
     </div>
 </div>
