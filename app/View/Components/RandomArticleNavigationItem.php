@@ -14,7 +14,12 @@ final class RandomArticleNavigationItem extends Component
     public function render(): View
     {
         return view('components.random-article-navigation-item', data: [
-            'article' => Article::query()->published()->inRandomOrder()->first(),
+            'article' => Article::query()->whereNull('deleted_at') // Equality first
+            ->where('published_at', '<=', now()) // Range second
+            ->select('id')
+            ->orderBy('published_at', 'desc') // Sort matches the second index column
+            ->inRandomOrder()
+            ->first(),
         ]);
     }
 }
