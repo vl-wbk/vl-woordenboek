@@ -8,6 +8,7 @@ use App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\Re
 use App\Filament\Clusters\UserManagement\Resources\RoleResource\RelationManagers;
 use App\Filament\Clusters\UserManagement\Resources\UserResource\RelationManagers\SuggestionsRelationManager;
 use App\Filament\Clusters\UserManagement\UserManagementCluster;
+use App\Filament\Resources\Users\RelationManagers\PasskeysRelationManager;
 use App\Filament\Resources\Users\Schema as UserSchema;
 use App\Filament\Resources\Users\Widgets\UserRegistrationChartWidget;
 use App\Filament\Support\Concerns\HasActiveIcon;
@@ -158,6 +159,7 @@ final class UserResource extends Resource
             SuggestionsRelationManager::class,
             ReportsRelationManager::class,
             RelationManagers\RolesRelationManager::class,
+            PasskeysRelationManager::class,
         ];
     }
 

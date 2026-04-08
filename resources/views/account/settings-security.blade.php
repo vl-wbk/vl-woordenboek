@@ -62,6 +62,10 @@
 
                            <hr class="my-3 text-body-tertiary">
 
+                           <livewire:passkeys />
+
+                           <hr class="my-3 text-body-tertiary">
+
                            <div class="card bg-white border-0 shadow-sm">
                                <div class="card-body">
                                    <h5 class="card-title fw-bold color-green">Aangemelde apparaten</h5>

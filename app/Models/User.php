@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Builders\UserBuilder;
 use App\Mail\AccountPrunedMailable;
+use App\Models\Concerns\ManagesUserGroups;
 use App\Models\Relations\Contactable;
 use App\Models\Relations\UsesPreferences;
 use App\Notifications\AccountDeletedNotification;
@@ -42,6 +43,8 @@ use Laravel\Pennant\Concerns\HasFeatures;
 use Laravel\Sanctum\HasApiTokens;
 use Override;
 use Overtrue\LaravelVote\Traits\Voter;
+use Spatie\LaravelPasskeys\Models\Concerns\HasPasskeys;
+use Spatie\LaravelPasskeys\Models\Concerns\InteractsWithPasskeys;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -80,7 +83,7 @@ use Spatie\Permission\Traits\HasRoles;
  */
 #[ObservedBy(classes: UserObserver::class)]
 #[UseEloquentBuilder(builderClass: UserBuilder::class)]
-class User extends Authenticatable implements FilamentUser, HasAvatar, BannableInterface, MustVerifyEmail, Commenter
+class User extends Authenticatable implements FilamentUser, HasAvatar, BannableInterface, MustVerifyEmail, Commenter, HasPasskeys
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory;
@@ -98,6 +101,8 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
     use Prunable;
     use UsesPreferences;
     use HasBookmarks;
+    use InteractsWithPasskeys;
+    use ManagesUserGroups;
 
     /**
      * Specifies which attributes can be mass assigned when creating or updating user records.

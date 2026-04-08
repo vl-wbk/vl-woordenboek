@@ -7,6 +7,7 @@ namespace App\Providers;
 use App\Models\User;
 use App\Policies\BanPolicy;
 use App\Policies\ExportPolicy;
+use App\Policies\PasskeyPolicy;
 use App\Policies\ThreadPolicy;
 use App\UserTypes;
 use Cmgmyr\Messenger\Models\Thread;
@@ -14,6 +15,7 @@ use Cog\Laravel\Ban\Models\Ban;
 use Filament\Actions\Exports\Models\Export;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Spatie\LaravelPasskeys\Models\Passkey;
 
 /**
  * Class AuhtorizationServiceProvider
@@ -39,6 +41,7 @@ final class AuthorizationServiceProvider extends ServiceProvider
         Gate::policy(Ban::class, BanPolicy::class);
         Gate::policy(Export::class, ExportPolicy::class);
 		Gate::policy(Thread::class, ThreadPolicy::class);
+        Gate::policy(Passkey::class, PasskeyPolicy::class);
 
         Gate::define('translator', function (User $user): bool {
             return $user->can('vertalingen');

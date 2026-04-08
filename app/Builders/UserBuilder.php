@@ -31,12 +31,6 @@ final class UserBuilder extends Builder
         return $this->model->user_type->is(UserTypes::Administrators);
     }
 
-    #[Deprecated('Refactor this out in order for the new permission bases system')]
-    public function isDeveloper(): bool
-    {
-        return $this->model->user_type->is(UserTypes::Developer);
-    }
-
     /**
      * @param  string                   $relation
      * @param  string|Stringable|null   $searchParam
