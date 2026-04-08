@@ -180,6 +180,7 @@ final class NotesRelationManager extends RelationManager
 
     /**
      * @todo Write docblock for this function
+     *
      * @return array<int, Tables\Filters\SelectFilter>
      */
     private function getFilters(): array
@@ -192,8 +193,8 @@ final class NotesRelationManager extends RelationManager
     }
 
     /**
-     * @todo Write docblock for this function. 
-     * 
+     * @todo Write docblock for this function.
+     *
      * @param  Builder<Note> $builder
      * @return Builder<Note>
      */

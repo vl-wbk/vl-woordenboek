@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Builders\UserBuilder;
 use App\Mail\AccountPrunedMailable;
+use App\Models\Concerns\ManagesUserGroups;
 use App\Models\Relations\Contactable;
 use App\Models\Relations\UsesPreferences;
 use App\Notifications\AccountDeletedNotification;
@@ -101,6 +102,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
     use UsesPreferences;
     use HasBookmarks;
     use InteractsWithPasskeys;
+    use ManagesUserGroups;
 
     /**
      * Specifies which attributes can be mass assigned when creating or updating user records.
