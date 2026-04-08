@@ -52,6 +52,7 @@
         "spatie/laravel-feed": "^4.4",
         "spatie/laravel-flash": "^1.10",
         "spatie/laravel-model-status": "^1.18",
+        "spatie/laravel-passkeys": "^1.6",
         "spatie/laravel-query-builder": "^6.3",
         "spatie/laravel-route-attributes": "^1.25",
         "spatie/laravel-welcome-notification": "^2.4",

@@ -16,6 +16,12 @@
                         </div>
                     @endif
 
+                    <div class="row">
+                        <div class="offset-md-1 col-10">
+                            <x-authenticate-passkey />
+                        </div>
+                    </div>
+
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 

@@ -21,3 +21,4 @@ Route::get('google-authenticatie/redirect', [\App\Http\Controllers\Shared\Authen
 Route::get('google-authenticatie/callback', [\App\Http\Controllers\Shared\Authentication\GoogleOAuthController::class, 'callback']);
 
 Route::feeds();
+Route::passkeys();
