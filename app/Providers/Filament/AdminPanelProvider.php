@@ -16,6 +16,7 @@ use Cog\Laravel\Ban\Http\Middleware\ForbidBannedUser;
 use Devonab\FilamentEasyFooter\EasyFooterPlugin;
 use DiscoveryDesign\FilamentGaze\FilamentGazePlugin;
 use DutchCodingCompany\FilamentDeveloperLogins\FilamentDeveloperLoginsPlugin;
+use Filament\Actions\Action;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -77,10 +78,10 @@ final class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
-            ->id('admin')
-            ->path('admin')
-            ->brandName(config('app.name'))
-            ->favicon(asset('favicon/favicon-32x32.png'))
+            ->id("admin")
+            ->path("admin")
+            ->brandName(config("app.name"))
+            ->favicon(asset("favicon/favicon-32x32.png"))
             ->maxContentWidth(Width::Full)
             ->topNavigation()
             ->font("Tilt Neon")
@@ -88,22 +89,22 @@ final class AdminPanelProvider extends PanelProvider
             ->passwordReset()
             ->databaseNotifications()
             ->databaseNotificationsPolling(null)
-            ->viteTheme('resources/css/filament/admin/theme.css')
+            ->viteTheme("resources/css/filament/admin/theme.css")
             ->userMenuItems([
-                MenuItem::make()
-                    ->label('Verlaat beheersconsole')
-                    ->url(fn (): string => route('home'))
-                    ->icon('heroicon-o-arrow-left-start-on-rectangle'),
-                MenuItem::make()
-                    ->label('Account instellingen')
-                    ->url(fn (): string => route('profile.settings'))
-                    ->icon('heroicon-o-adjustments-horizontal'),
+                Action::make("leave-console")
+                    ->label("Verlaat beheersconsole")
+                    ->url(fn(): string => route("home"))
+                    ->icon("heroicon-o-arrow-left-start-on-rectangle"),
+                Action::make("profile-settings")
+                    ->label("Account instellingen")
+                    ->url(fn(): string => route("profile.settings"))
+                    ->icon("heroicon-o-adjustments-horizontal"),
             ])
             ->collapsibleNavigationGroups(false)
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
-            ->discoverClusters(in: app_path('Filament/Clusters'), for: 'App\\Filament\\Clusters')
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            ->discoverResources(in: app_path("Filament/Resources"), for: "App\\Filament\\Resources")
+            ->discoverPages(in: app_path("Filament/Pages"), for: "App\\Filament\\Pages")
+            ->discoverClusters(in: app_path("Filament/Clusters"), for: "App\\Filament\\Clusters")
+            ->discoverWidgets(in: app_path("Filament/Widgets"), for: "App\\Filament\\Widgets")
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -116,30 +117,30 @@ final class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->colors([
-                'primary' => Color::Blue,
-                'gray' => Color::Slate,      // Cool gray for backgrounds/text
-                'success' => Color::Emerald, // High-contrast green for success
-                'danger' => Color::Rose,     // Standard warning red
-                'warning' => Color::Amber,   // Standard warning orange
-                'info' => Color::Cyan,       // Lighter blue/cyan for info
+                "primary" => Color::Blue,
+                "gray" => Color::Slate, // Cool gray for backgrounds/text
+                "success" => Color::Emerald, // High-contrast green for success
+                "danger" => Color::Rose, // Standard warning red
+                "warning" => Color::Amber, // Standard warning orange
+                "info" => Color::Cyan, // Lighter blue/cyan for info
             ])
             ->plugins([
                 FilamentErrorPagesPlugin::make(),
                 EnvironmentIndicatorPlugin::make()
-                    ->visible(! app()->isProduction())
+                    ->visible(!app()->isProduction())
                     ->showBorder(false)
                     ->color(Color::Red)
                     ->showGitBranch(),
                 FilamentShieldPlugin::make()
                     ->globallySearchable(false)
-                    ->navigationGroup('Toegangsbeheer')
-                    ->navigationLabel('Rollen & permissies'),
+                    ->navigationGroup("Toegangsbeheer")
+                    ->navigationLabel("Rollen & permissies"),
                 GlobalSearchModalPlugin::make()
                     ->searchItemTree(false)
                     ->expandedUrlTarget(enabled: false)
                     ->highlightQueryStyles([
-                        'background-color' => 'yellow',
-                        'font-weight' => 'bold',
+                        "background-color" => "yellow",
+                        "font-weight" => "bold",
                     ]),
                 PageBookmarksPlugin::make(),
                 FilamentGazePlugin::make(),
@@ -147,17 +148,13 @@ final class AdminPanelProvider extends PanelProvider
                 EasyFooterPlugin::make()
                     ->withGithub()
                     ->withLoadTime()
-                    ->withLinks([
-                        ['title' => 'Voorwaarden', 'url' => url('voorwaarden')],
-                    ]),
+                    ->withLinks([["title" => "Voorwaarden", "url" => url("voorwaarden")]]),
                 FilamentDeveloperLoginsPlugin::make()
-                    ->enabled(Config::boolean('app.debug', false))
+                    ->enabled(Config::boolean("app.debug", false))
                     ->users($this->defaultLoginsDuringDevelopment()),
             ])
             ->middleware([ForbidBannedUser::class])
-            ->authMiddleware([
-                Authenticate::class,
-            ]);
+            ->authMiddleware([Authenticate::class]);
     }
 
     /**
@@ -171,10 +168,10 @@ final class AdminPanelProvider extends PanelProvider
     private function defaultLoginsDuringDevelopment(): array
     {
         return [
-            'Redacteur' => 'Redacteur@domain.tld',
-            'Eind redacteur' => 'Eindredacteur@domain.tld',
-            'Ontwikkelaar' => 'Ontwikkelaar@domain.tld',
-            'Administrator' => 'Administrator@domain.tld',
+            "Redacteur" => "Redacteur@domain.tld",
+            "Eind redacteur" => "Eindredacteur@domain.tld",
+            "Ontwikkelaar" => "Ontwikkelaar@domain.tld",
+            "Administrator" => "Administrator@domain.tld",
         ];
     }
 }
