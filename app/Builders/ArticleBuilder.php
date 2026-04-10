@@ -31,8 +31,7 @@ final class ArticleBuilder extends Builder
      */
     public function published(): Builder
     {
-        return $this->whereNotNull('published_at')
-            ->where('published_at', '<=', now());
+        return $this->whereNotNull("published_at")->where("published_at", "<=", now());
     }
 
     /**
@@ -40,14 +39,20 @@ final class ArticleBuilder extends Builder
      */
     public function archived(): Builder
     {
-        return $this->orWhereNotNull('archived_at');
+        return $this->orWhereNotNull("archived_at");
+    }
+
+    public function isEditable(): bool
+    {
+        return $this->model->state->in([ArticleStates::New, ArticleStates::Draft, ArticleStates::Archived]) &&
+            !$this->model->state->is(ArticleStates::Approval);
     }
 
     /** @phpstan-ignore-next-line */
     public function isArchived(): bool
     {
         /** @phpstan-ignore-next-line */
-        return ! is_null($this->model->archived_at);
+        return !is_null($this->model->archived_at);
     }
 
     /**
@@ -63,8 +68,18 @@ final class ArticleBuilder extends Builder
     public function archive(?string $archivingReason = null, int|string|null $redirectArticleId): bool
     {
         return DB::transaction(function () use ($archivingReason, $redirectArticleId): bool {
-            return $this->model->fill(attributes: ['state' => ArticleStates::Archived, 'archiving_reason' => $archivingReason, 'published_at' => null, 'archived_at' => now(), 'redirect_article_id' => $redirectArticleId])
-                ->archiever()->associate(Auth::user())
+            return $this->model
+                ->fill(
+                    attributes: [
+                        "state" => ArticleStates::Archived,
+                        "archiving_reason" => $archivingReason,
+                        "published_at" => null,
+                        "archived_at" => now(),
+                        "redirect_article_id" => $redirectArticleId,
+                    ],
+                )
+                ->archiever()
+                ->associate(Auth::user())
                 ->save();
         });
     }
@@ -77,20 +92,22 @@ final class ArticleBuilder extends Builder
      *
      * @throws Throwable
      */
-    #[Deprecated('Should be refactored to a general publish action in the ArticleBuilder')]
+    #[Deprecated("Should be refactored to a general publish action in the ArticleBuilder")]
     public function unarchive(): void
     {
         DB::transaction(function (): void {
-            $this->model->update(attributes: [
-                'state' => ArticleStates::New,
-                'archiving_reason' => null,
-                'feedback' => null,
-                'published_at' => null,
-                'archived_at' => null,
-                'publisher_id' => null,
-                'redirect_article_id' => null,
-                'editor_id' => null,
-            ]);
+            $this->model->update(
+                attributes: [
+                    "state" => ArticleStates::New,
+                    "archiving_reason" => null,
+                    "feedback" => null,
+                    "published_at" => null,
+                    "archived_at" => null,
+                    "publisher_id" => null,
+                    "redirect_article_id" => null,
+                    "editor_id" => null,
+                ],
+            );
 
             $this->model->author->notify(new SendoutPublicationNotification($this->model));
         });
@@ -117,6 +134,6 @@ final class ArticleBuilder extends Builder
      */
     public function isPublished(): bool
     {
-        return ! $this->isHidden() && $this->model->published_at->isPast();
+        return !$this->isHidden() && $this->model->published_at->isPast();
     }
 }

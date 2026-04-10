@@ -21,7 +21,7 @@ use Filament\Support\Authorization\DenyResponse;
  */
 final class ArticlePolicy
 {
-    const string DisplayArticle = 'display';
+    const string DisplayArticle = "display";
 
     /**
      * Defines all action prefixes used for policy permission checks.
@@ -30,9 +30,24 @@ final class ArticlePolicy
      * @var list<string>
      */
     public static array $permissionPrefixes = [
-        'update', 'sendForApproval', 'publish', 'unpublish', 'detachEditor', 'attachDisclaimer', 'detachDisclaimer',
-        'archive', 'unarchive', 'delete', 'verwijderVanuitPublicatie', 'deleteAny', 'restore', 'restoreAny', 'export', 'updatePublished',
-        'geforceerdVerwijderen', 'meerdereGeforceerdVerwijderen'
+        "update",
+        "sendForApproval",
+        "publish",
+        "unpublish",
+        "detachEditor",
+        "attachDisclaimer",
+        "detachDisclaimer",
+        "archive",
+        "unarchive",
+        "delete",
+        "verwijderVanuitPublicatie",
+        "deleteAny",
+        "restore",
+        "restoreAny",
+        "export",
+        "updatePublished",
+        "geforceerdVerwijderen",
+        "meerdereGeforceerdVerwijderen",
     ];
 
     /**
@@ -50,7 +65,11 @@ final class ArticlePolicy
     {
         $allowedStates = $article->state->in([ArticleStates::Draft, ArticleStates::Approval]);
 
-        if (($article->isPublished() || $article->isArchived()) || ($user?->canAny(['update-published:article', 'update:article']) && $allowedStates)) {
+        if (
+            $article->isPublished() ||
+            $article->isArchived() ||
+            ($user?->canAny(["update-published:article", "update:article"]) && $allowedStates)
+        ) {
             return Response::allow();
         }
 
@@ -60,7 +79,7 @@ final class ArticlePolicy
 
     public function viewSuggestion(User $user, Article $article): Response
     {
-        if($article->author->is($user)) {
+        if ($article->author->is($user)) {
             return Response::allow();
         }
 
@@ -80,24 +99,20 @@ final class ArticlePolicy
     public function update(User $user, Article $article): Response
     {
         if ($article->trashed()) {
-            return Response::deny(message: 'DFit artikel is verwijderd en kan niet bewerkt worden.');
+            return Response::deny("Kan geen verwijderd artikel bewerken");
         }
 
-        $allowedStates = [ArticleStates::New , ArticleStates::RejectedPublication, ArticleStates::ExternalData, ArticleStates::Draft, ArticleStates::Archived];
+        if ($article->isPublished()) {
+            return $user->can("update-published:article")
+                ? Response::allow()
+                : Response::deny("Geen toestemming voor gepubliceerde artikelen.");
+        }
 
-        if ($article->isPublished() && $user->can('update-published:article')) {
+        if ($article->isEditable() && $user->can("update:article")) {
             return Response::allow();
         }
 
-        if ($article->isPublished() || $article->state->is(ArticleStates::Approval)) {
-            return DenyResponse::deny('Niet toegestaan');
-        }
-
-        if ($article->state->in(enums: $allowedStates) && $user->can('update:article')) {
-            return Response::allow();
-        }
-
-        return DenyResponse::deny('Niet toegestaan');
+        return Response::deny("Bewerken is momenteel niet toegestaan.");
     }
 
     /**
@@ -113,12 +128,12 @@ final class ArticlePolicy
     public function sendForApproval(User $user, Article $article): Response
     {
         if ($article->state->isNot(ArticleStates::Draft)) {
-            return Response::deny(message: 'Alleen klad artikelen kunnen ingezonden worden voor nazicht en publicatie');
+            return Response::deny(message: "Alleen klad artikelen kunnen ingezonden worden voor nazicht en publicatie");
         }
 
-        return ($user->can('send-for-approval:article') || $article->editor()->is($user))
+        return $user->can("send-for-approval:article") || $article->editor()->is($user)
             ? Response::allow()
-            : Response::deny(message: 'Je hebt geen permissie om dit artikel in te zenden voor nazicht en publicatie');
+            : Response::deny(message: "Je hebt geen permissie om dit artikel in te zenden voor nazicht en publicatie");
     }
 
     /**
@@ -142,7 +157,7 @@ final class ArticlePolicy
             return Response::deny();
         }
 
-        if ($user->cannot('publish:article')) {
+        if ($user->cannot("publish:article")) {
             return Response::deny();
         }
 
@@ -165,7 +180,7 @@ final class ArticlePolicy
      */
     public function unpublish(User $user, Article $article): Response
     {
-        if ($article->isPublished() && $user->can('unpublish:article')) {
+        if ($article->isPublished() && $user->can("unpublish:article")) {
             return Response::allow();
         }
 
@@ -192,17 +207,18 @@ final class ArticlePolicy
     public function detachEditor(User $user, Article $article): Response
     {
         if ($article->state->isNot(enum: ArticleStates::Draft)) {
-            return Response::deny(message: 'Het is niet mogelijk oim de redacteur los te koppelen van het artikelen buiten de klad versie status.');
+            return Response::deny(
+                message: "Het is niet mogelijk oim de redacteur los te koppelen van het artikelen buiten de klad versie status.",
+            );
         }
 
         if ($article->editor()->is($user)) {
             return Response::allow();
         }
 
-        if ($user->can('detach-editor:article')) {
+        if ($user->can("detach-editor:article")) {
             return Response::allow();
         }
-
 
         return Response::deny();
     }
@@ -219,7 +235,7 @@ final class ArticlePolicy
      */
     public function attachDisclaimer(User $user, Article $article): Response
     {
-        if ($user->can('attach-disclaimer:article') && $article->disclaimer()->doesntExist()) {
+        if ($user->can("attach-disclaimer:article") && $article->disclaimer()->doesntExist()) {
             return Response::allow();
         }
 
@@ -238,7 +254,7 @@ final class ArticlePolicy
      */
     public function detachDisclaimer(User $user, Article $article): Response
     {
-        if ($user->can('detach-disclaimer:article') && $article->disclaimer()->exists()) {
+        if ($user->can("detach-disclaimer:article") && $article->disclaimer()->exists()) {
             return Response::allow();
         }
 
@@ -258,10 +274,10 @@ final class ArticlePolicy
     public function archiveArticle(User $user, Article $article): Response
     {
         if ($article->trashed()) {
-            return Response::deny(message: 'U kunt geen verwijderde artikelen archiveren in het systeem.');
+            return Response::deny(message: "U kunt geen verwijderde artikelen archiveren in het systeem.");
         }
 
-        if ($article->state->in(enums: [ArticleStates::Published, ArticleStates::Approval]) && $user->can('archive:article')) {
+        if ($article->state->in(enums: [ArticleStates::Published, ArticleStates::Approval]) && $user->can("archive:article")) {
             return Response::allow();
         }
 
@@ -280,7 +296,7 @@ final class ArticlePolicy
      */
     public function unarchive(User $user, Article $article): Response
     {
-        if ($article->state->is(ArticleStates::Archived) && $user->can('unarchive:article')) {
+        if ($article->state->is(ArticleStates::Archived) && $user->can("unarchive:article")) {
             return Response::allow();
         }
 
@@ -300,24 +316,28 @@ final class ArticlePolicy
     public function delete(User $user, Article $article): Response
     {
         if ($article->state->is(ArticleStates::Published)) {
-            return $user->can('verwijder-vanuit-publicatie:article')
+            return $user->can("verwijder-vanuit-publicatie:article")
                 ? Response::allow()
-                : DenyResponse::deny('Je hebt geen permissie om gepubliceerde artikelen te verwijderen.');
+                : DenyResponse::deny("Je hebt geen permissie om gepubliceerde artikelen te verwijderen.");
         }
 
-        if (! $user->can('delete:article')) {
-            return DenyResponse::deny('Je hebt geen permissie om artikelen te verwijderen.');
+        if (!$user->can("delete:article")) {
+            return DenyResponse::deny("Je hebt geen permissie om artikelen te verwijderen.");
         }
 
-        $deletableStates = match(true) {
+        $deletableStates = match (true) {
             $user->user_type->is(UserTypes::Editor) => [ArticleStates::ExternalData, ArticleStates::New],
-            $user->user_type->in([UserTypes::Administrators, UserTypes::Developer]) => [ArticleStates::ExternalData, ArticleStates::New, ArticleStates::Archived],
+            $user->user_type->in([UserTypes::Administrators, UserTypes::Developer]) => [
+                ArticleStates::ExternalData,
+                ArticleStates::New,
+                ArticleStates::Archived,
+            ],
             default => [],
         };
 
         return $article->state->in($deletableStates)
             ? Response::allow()
-            : DenyResponse::deny('Het artikel kan in deze staat niet verwijderd worden.');
+            : DenyResponse::deny("Het artikel kan in deze staat niet verwijderd worden.");
     }
 
     /**
@@ -331,11 +351,11 @@ final class ArticlePolicy
      */
     public function restore(User $user): Response
     {
-        if ($user->can('restore:article')) {
+        if ($user->can("restore:article")) {
             return Response::allow();
         }
 
-        return Response::deny(message: 'Je hebt geen permissie om verwijderde artikelen te herstellen.');
+        return Response::deny(message: "Je hebt geen permissie om verwijderde artikelen te herstellen.");
     }
 
     /**
@@ -349,11 +369,11 @@ final class ArticlePolicy
      */
     public function restoreAny(User $user): Response
     {
-        if ($user->can('restore-any:article')) {
+        if ($user->can("restore-any:article")) {
             return Response::allow();
         }
 
-        return Response::deny(message: 'Je hebt geen permissie om verwijderde artikelen te herstellen.');
+        return Response::deny(message: "Je hebt geen permissie om verwijderde artikelen te herstellen.");
     }
 
     /**
@@ -368,11 +388,11 @@ final class ArticlePolicy
      */
     public function deleteAny(User $user): Response
     {
-        if ($user->can('delete-any:article')) {
+        if ($user->can("delete-any:article")) {
             return Response::allow();
         }
 
-        return Response::deny(message: 'Je hebt geen permissie om meerdere artikelen te verwijderen.');
+        return Response::deny(message: "Je hebt geen permissie om meerdere artikelen te verwijderen.");
     }
 
     /**
@@ -386,9 +406,9 @@ final class ArticlePolicy
      */
     public function forceDelete(User $user): Response
     {
-        return $user->can('geforceerd-verwijderen:article')
+        return $user->can("geforceerd-verwijderen:article")
             ? Response::allow()
-            : Response::deny(message: 'Je hebt geen permissies om merdere artikelen te verwijderen.');
+            : Response::deny(message: "Je hebt geen permissies om merdere artikelen te verwijderen.");
     }
 
     /**
@@ -402,8 +422,8 @@ final class ArticlePolicy
      */
     public function forceDeleteAny(User $user): Response
     {
-        return $user->can('meerdere-geforceerd-verwijderen:article')
+        return $user->can("meerdere-geforceerd-verwijderen:article")
             ? Response::allow()
-            : Response::deny(message: 'Je hebt geen permissie om artikelen permanent te verwijderen.');
+            : Response::deny(message: "Je hebt geen permissie om artikelen permanent te verwijderen.");
     }
 }
