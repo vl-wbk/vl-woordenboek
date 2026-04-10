@@ -31,12 +31,12 @@ class VolunteerApprovalNotification extends Notification implements ShouldQueue
                 "We hebben je aanmelding als vrijwilliger bekijken en goedgekeurd. Vanaf nu kun je bijdragen in het redactieteam van het Vlaams Woordenboek.",
             )
             ->line(
-                "Alvorens je begint met bijdragen vragen we je om de richtlijnen te raadplegen die je kunt raadplegen doormiddel van de onderstaande knoppen.",
+                "Hou je nog even in! Klik voor je eraan begint op de knop hieronder en lees de richtlijnen eerst. Dan weet je meteen wat de bedoeling is.",
             )
             ->action(
                 "richtlijnen",
                 "https://docs.google.com/document/d/1YvDcytvR7kqjBWXrUWD_taqIPSsqdpvo/edit?usp=sharing&rtpof=true&sd=true",
             )
-            ->line("Bedankt alvast voor je inzet");
+            ->line("Dikke merci voor je hulp!");
     }
 }
