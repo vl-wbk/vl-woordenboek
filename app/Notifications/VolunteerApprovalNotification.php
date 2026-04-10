@@ -33,7 +33,7 @@ class VolunteerApprovalNotification extends Notification implements ShouldQueue
                 "Alvorens je begint met bijdragen vragen we je om de richtlijnen te raadplegen die je kunt raadplegen doormiddel van de onderstaande knoppen.",
             )
             ->action(
-                "richtlijn: bewerking van suggesties",
+                "richtlijnen",
                 "https://docs.google.com/document/d/1YvDcytvR7kqjBWXrUWD_taqIPSsqdpvo/edit?usp=sharing&rtpof=true&sd=true",
             )
             ->line("Bedankt alvast voor je inzet");
