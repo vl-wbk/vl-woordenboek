@@ -70,12 +70,6 @@
                                 <textarea class="form-control" name="achtergrond" rows="4" placeholder="Vertel ons omtrent je achtergrond en/of interesse in de Vlaamse taal">{{ old('achtergrond') }}</textarea>
                             </div>
 
-                            <div class="d-flex justify-content-between align-items-center pt-4 border-top">
-                                <p class="small text-muted mb-0"></p>
-                                <button type="submit" class="btn btn-primary btn-lg px-5 shadow-sm">
-                                    Verzend aanmelding
-                                </button>
-                            </div>
 
                             <div class="mb-5">
                                 <label class="h6 fw-bold mb-1 d-block text-dark">2. Regio expertise</label>
@@ -90,6 +84,14 @@
                                     @endforeach
                                 </div>
                             </div>
+
+                            <div class="d-flex justify-content-between align-items-center pt-4 border-top">
+                                <p class="small text-muted mb-0"></p>
+                                <button type="submit" class="btn btn-primary btn-lg px-5 shadow-sm">
+                                    Verzend aanmelding
+                                </button>
+                            </div>
+
                         </form>
                     </div>
                 </div>
