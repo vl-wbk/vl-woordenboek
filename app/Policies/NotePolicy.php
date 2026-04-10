@@ -38,7 +38,7 @@ final readonly class NotePolicy
     public function update(User $user, Note $note): Response
     {
         return $note->authoredBy($user)
-            ? Response::allow();
+            ? Response::allow()
             : Response::deny(message: "U hebt geen toestemming om de notitie te wijzigen.");
     }
 
