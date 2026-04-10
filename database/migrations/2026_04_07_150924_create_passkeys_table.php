@@ -5,27 +5,26 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Spatie\LaravelPasskeys\Support\Config;
 
-return new class extends Migration
-{
-    public function up()
+return new class extends Migration {
+    public function up(): void
     {
         $authenticatableClass = Config::getAuthenticatableModel();
 
-        $authenticatableTableName = (new $authenticatableClass)->getTable();
+        $authenticatableTableName = new $authenticatableClass()->getTable();
 
-        Schema::create('passkeys', function (Blueprint $table) use ($authenticatableTableName,$authenticatableClass) {
+        Schema::create("passkeys", function (Blueprint $table) use ($authenticatableTableName, $authenticatableClass) {
             $table->id();
 
             $table
-                ->foreignIdFor($authenticatableClass, 'authenticatable_id')
-                ->constrained(table: $authenticatableTableName, indexName: 'passkeys_authenticatable_fk')
+                ->foreignIdFor($authenticatableClass, "authenticatable_id")
+                ->constrained(table: $authenticatableTableName, indexName: "passkeys_authenticatable_fk")
                 ->cascadeOnDelete();
 
-            $table->text('name');
-            $table->text('credential_id');
-            $table->json('data');
+            $table->text("name");
+            $table->text("credential_id");
+            $table->json("data");
 
-            $table->timestamp('last_used_at')->nullable();
+            $table->timestamp("last_used_at")->nullable();
             $table->timestamps();
         });
     }

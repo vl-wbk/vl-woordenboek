@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers\Filament;
 
 use A909M\FilamentStateFusion\Actions\StateFusionAction;
@@ -8,7 +10,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Support\ServiceProvider;
 
-class ConfigurationServiceProvider extends ServiceProvider
+final class ConfigurationServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
@@ -31,11 +33,12 @@ class ConfigurationServiceProvider extends ServiceProvider
     private function developmentActionButtonConfigurations(): void
     {
         FactoryAction::configureUsing(function (FactoryAction $action): void {
-            $action->color('gray')
+            $action
+                ->color("gray")
                 ->icon(Heroicon::OutlinedCog8Tooth)
                 ->modalIcon(Heroicon::OutlinedCog8Tooth)
-                ->modalSubmitActionLabel('Genereren')
-                ->modalIconColor('primary')
+                ->modalSubmitActionLabel("Genereren")
+                ->modalIconColor("primary")
                 ->hiddenLabel()
                 ->modalCloseButton(false);
         });
