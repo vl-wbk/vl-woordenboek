@@ -39,8 +39,7 @@ trait BelongsToAuthor
      */
     public function author(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'author_id')
-            ->withDefault(['name' => config('app.name', 'Laravel')]);
+        return $this->belongsTo(User::class, "author_id")->withDefault(["name" => config("app.name", "Laravel")]);
     }
 
     /**
@@ -66,5 +65,20 @@ trait BelongsToAuthor
     public function setAuthor(User $user): void
     {
         $this->author()->associate($user)->save();
+    }
+
+    /**
+     * Ownershup verification helper
+     *
+     * Determines if the provided user instance matches the author of this model.
+     * This lofic is the primary check used by Policy classes to authorize sensitive actions
+     * like editing of deleting a resource.
+     *
+     * @param  User $user  The user instance to check for ownership.
+     * @return bool        True if the provided user is identified as the author.
+     */
+    public function authoredBy(User $user): bool
+    {
+        return $this->is($user);
     }
 }

@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
-use App\Models\Note;
-use App\Models\User;
+use App\Models\{Note, User};
 use App\UserTypes;
 use Illuminate\Auth\Access\Response;
 
@@ -38,11 +37,9 @@ final readonly class NotePolicy
      */
     public function update(User $user, Note $note): Response
     {
-        if ($note->author()->is($user)) {
-			return Response::allow();
-		}
-
-		return Response::deny(message: 'U hebt geen toestemming om de notitie te wijzigen.');
+        return $note->authoredBy($user)
+            ? Response::allow();
+            : Response::deny(message: "U hebt geen toestemming om de notitie te wijzigen.");
     }
 
     /**
@@ -56,10 +53,8 @@ final readonly class NotePolicy
      */
     public function delete(User $user, Note $note): Response
     {
-        if ($note->author()->is($user)) {
-			return Response::allow();
-		}
-
-		return Response::deny(message: 'U hebt geen toestemming om de notitie te verwijderen.');
+        return $note->authoredBy($user)
+            ? Response::allow()
+            : Response::deny(message: "U hebt geen toestemming om de notitie te verwijderen.");
     }
 }

@@ -34,7 +34,7 @@ final readonly class UserExamplePolicy
     {
         return $user->user_type->in(enums: [UserTypes::Developer, UserTypes::Administrators, UserTypes::EditorInChief])
             ? Response::allow()
-            : Response::deny(message: 'U heeft geen toestemming om de lijst met gebruikersvoorbeelden te raadplegen.');
+            : Response::deny(message: "U heeft geen toestemming om de lijst met gebruikersvoorbeelden te raadplegen.");
     }
 
     /**
@@ -50,7 +50,7 @@ final readonly class UserExamplePolicy
     {
         return $user->user_type->in(enums: [UserTypes::Developer, UserTypes::Administrators, UserTypes::EditorInChief])
             ? Response::allow()
-            : Response::deny(message: 'U heeft geen toestemming om gebruikersvoorbeelden te verwijderen.');
+            : Response::deny(message: "U heeft geen toestemming om gebruikersvoorbeelden te verwijderen.");
     }
 
     /**
@@ -66,7 +66,7 @@ final readonly class UserExamplePolicy
     {
         return $user->user_type->in(enums: [UserTypes::Developer, UserTypes::Administrators, UserTypes::EditorInChief])
             ? Response::allow()
-            : Response::deny(message: 'U heeft geen toestemming om dit gebruikersvoorbeeld te bewerken.');
+            : Response::deny(message: "U heeft geen toestemming om dit gebruikersvoorbeeld te bewerken.");
     }
 
     /**
@@ -82,7 +82,7 @@ final readonly class UserExamplePolicy
     public function changeState(User $user, UserExample $userExample): Response
     {
         return $user->user_type->in(enums: [UserTypes::Developer, UserTypes::Administrators, UserTypes::EditorInChief])
-            ? Response::allow();
+            ? Response::allow()
             : Response::deny(message: "U heeft geen toestemming om de status van dit gebruikersvoorbeeld te wijzigen.");
     }
 
