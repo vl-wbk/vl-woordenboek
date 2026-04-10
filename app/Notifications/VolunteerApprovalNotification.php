@@ -28,7 +28,7 @@ class VolunteerApprovalNotification extends Notification implements ShouldQueue
         return new MailMessage()
             ->subject("Welkom als vrijwilliger bij het Vlaams Woordenboek")
             ->line(
-                "We hebben je aanmelding als vrijwilliger bekijken en goedgekeured. Vanaf nu kun je bijdragen in het redactie team van het Vlaams Woordenboek.",
+                "We hebben je aanmelding als vrijwilliger bekijken en goedgekeurd. Vanaf nu kun je bijdragen in het redactieteam van het Vlaams Woordenboek.",
             )
             ->line(
                 "Alvorens je begint met bijdragen vragen we je om de richtlijnen te raadplegen die je kunt raadplegen doormiddel van de onderstaande knoppen.",

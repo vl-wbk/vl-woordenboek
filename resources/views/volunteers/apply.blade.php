@@ -72,7 +72,7 @@
 
 
                             <div class="mb-5">
-                                <label class="h6 fw-bold mb-1 d-block text-dark">2. Regio expertise</label>
+                                <label class="h6 fw-bold mb-1 d-block text-dark">2. Regio expertise <span class="fw-bold text-danger">*</span></label>
                                 <p class="small text-muted mb-3">Selecteer de regio's waar je het meest over kunt vertellen.</p>
 
                                 <div class="d-flex flex-wrap gap-2 region-selector">
@@ -83,6 +83,8 @@
                                         </label>
                                     @endforeach
                                 </div>
+
+                                @error('regio') <div class="text-danger small mt-2 fw-bold">Selecteer minstens één regio.</div> @enderror
                             </div>
 
                             <div class="d-flex justify-content-between align-items-center pt-4 border-top">
@@ -91,7 +93,6 @@
                                     Verzend aanmelding
                                 </button>
                             </div>
-
                         </form>
                     </div>
                 </div>

@@ -20,7 +20,7 @@ final class StoreVolunteerApplicationRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return Gate::allows('apply', $this->volunteerPosition);
+        return Gate::allows("apply", $this->volunteerPosition);
     }
 
     /**
@@ -29,9 +29,10 @@ final class StoreVolunteerApplicationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'voornaam' => ['required', 'max:255'],
-            'achternaam' => ['required', 'max:255'],
-            'email' => ['required', 'max:255', 'email']
+            "voornaam" => ["required", "max:255"],
+            "achternaam" => ["required", "max:255"],
+            "regio" => ["required"],
+            "email" => ["required", "max:255", "email"],
         ];
     }
 }

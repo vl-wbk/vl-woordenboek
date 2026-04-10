@@ -57,7 +57,7 @@ final readonly class VolunteersController
         StoreVolunteerApplication $storeVolunteerApplication,
     ): RedirectResponse {
         $storeVolunteerApplication($volunteerPosition, $storeVolunteerApplicationRequest->getData());
-        flash(text: "We hebben uw aanmelding goed ontvangen, we kijken er spoedig naar!");
+        flash(text: "We hebben je aanmelding goed ontvangen, we kijken er spoedig naar!");
 
         return to_route("volunteers.apply", $volunteerPosition);
     }
