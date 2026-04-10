@@ -27,27 +27,53 @@ use JetBrains\PhpStorm\Deprecated;
 final class ArticleBuilder extends Builder
 {
     /**
+     * Scope: constrain the query to 'Live' articles only.
+     *
+     * This method applies a dual constraint filter:
+     * 1. Presence: The 'published_at' timestamp must not be null.
+     * 2. Chronology: The timestamp must be in the past or equal to 'now'.
+     *
+     * @internal This scope allows for "scheduled publishing." Articles with a future 'published_at' date will be excluded
+     * from this scope until that time is reached.
+     *
+     * NOTE: If using result caching, ensure the cache TTL accounts for upcoming scheduled publication timestamps.
+     *
      * @return Builder<Article>
      */
     public function published(): Builder
     {
-        return $this->whereNotNull('published_at')
-            ->where('published_at', '<=', now());
+        return $this->whereNotNull("published_at")->where("published_at", "<=", now());
     }
 
     /**
+     * Scope: filter the query to include only archived records.
+     *
+     * This method targets the 'archived_at' timestamp. If the timestamp is present, the record is considered part of the archive.
+     * This uses an 'orWhere' clause. When chaining this with other scopes, ensure you wrap this call in a logical
+     * grouping (Parameter Grouping) to prevent gloabl scope pollution.
+     *
      * @return Builder<Article>
      */
     public function archived(): Builder
     {
-        return $this->orWhereNotNull('archived_at');
+        return $this->orWhereNotNull("archived_at");
     }
 
-    /** @phpstan-ignore-next-line */
+    /**
+     * State check: determines if the current model instance is archived.
+     *
+     * Unline the 'archived' scope, this operates on the hydrated model's attribute property.
+     * It is used to drive UI logic, authorization checks, or state-dependent actions on a speific article.
+     *
+     * NOTE: This relies on the 'archived_at' attribute being present in the model's current attribute
+     * array (ensure it is selected in your query).
+     *
+     * @return bool true if the record has been archived
+     */
     public function isArchived(): bool
     {
-        /** @phpstan-ignore-next-line */
-        return ! is_null($this->model->archived_at);
+        /** @phpstan-ignore-next-line - Accessing model property via de Builder context */
+        return !is_null($this->model->archived_at);
     }
 
     /**
@@ -63,8 +89,18 @@ final class ArticleBuilder extends Builder
     public function archive(?string $archivingReason = null, int|string|null $redirectArticleId): bool
     {
         return DB::transaction(function () use ($archivingReason, $redirectArticleId): bool {
-            return $this->model->fill(attributes: ['state' => ArticleStates::Archived, 'archiving_reason' => $archivingReason, 'published_at' => null, 'archived_at' => now(), 'redirect_article_id' => $redirectArticleId])
-                ->archiever()->associate(Auth::user())
+            return $this->model
+                ->fill(
+                    attributes: [
+                        "state" => ArticleStates::Archived,
+                        "archiving_reason" => $archivingReason,
+                        "published_at" => null,
+                        "archived_at" => now(),
+                        "redirect_article_id" => $redirectArticleId,
+                    ],
+                )
+                ->archiever()
+                ->associate(Auth::user())
                 ->save();
         });
     }
@@ -77,20 +113,22 @@ final class ArticleBuilder extends Builder
      *
      * @throws Throwable
      */
-    #[Deprecated('Should be refactored to a general publish action in the ArticleBuilder')]
+    #[Deprecated("Should be refactored to a general publish action in the ArticleBuilder")]
     public function unarchive(): void
     {
         DB::transaction(function (): void {
-            $this->model->update(attributes: [
-                'state' => ArticleStates::New,
-                'archiving_reason' => null,
-                'feedback' => null,
-                'published_at' => null,
-                'archived_at' => null,
-                'publisher_id' => null,
-                'redirect_article_id' => null,
-                'editor_id' => null,
-            ]);
+            $this->model->update(
+                attributes: [
+                    "state" => ArticleStates::New,
+                    "archiving_reason" => null,
+                    "feedback" => null,
+                    "published_at" => null,
+                    "archived_at" => null,
+                    "publisher_id" => null,
+                    "redirect_article_id" => null,
+                    "editor_id" => null,
+                ],
+            );
 
             $this->model->author->notify(new SendoutPublicationNotification($this->model));
         });
@@ -117,6 +155,6 @@ final class ArticleBuilder extends Builder
      */
     public function isPublished(): bool
     {
-        return ! $this->isHidden() && $this->model->published_at->isPast();
+        return !$this->isHidden() && $this->model->published_at->isPast();
     }
 }
