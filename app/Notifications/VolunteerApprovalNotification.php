@@ -26,6 +26,7 @@ class VolunteerApprovalNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return new MailMessage()
+            ->subject("Welkom als vrijwilliger bij het Vlaams Woordenboek")
             ->line(
                 "We hebben je aanmelding als vrijwilliger bekijken en goedgekeured. Vanaf nu kun je bijdragen in het redactie team van het Vlaams Woordenboek.",
             )
