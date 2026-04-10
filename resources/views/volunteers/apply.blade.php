@@ -35,7 +35,7 @@
                         @endif
                         </div>
 
-                        <form action="{{ route('volunteers.apply', $position) }}" method="POST">
+                        <form action="{{ route('volunteers.apply.store', $position) }}" method="POST">
                             @csrf
 
                             <div class="mb-5">
@@ -61,6 +61,23 @@
                             </div>
 
                             <div class="mb-5">
+                                <label class="h6 fw-bold mb-3 d-block text-dark">3. Motivatie (optioneel)</label>
+                                <textarea class="form-control" name="motivatie" rows="4" placeholder="Waarom wil je ons team komen versterken?">{{ old('motivatie') }}</textarea>
+                            </div>
+
+                             <div class="mb-5">
+                                <label class="h6 fw-bold mb-3 d-block text-dark">4. Achtergrond (optioneel)</label>
+                                <textarea class="form-control" name="achtergrond" rows="4" placeholder="Vertel ons omtrent je achtergrond en/of interesse in de Vlaamse taal">{{ old('achtergrond') }}</textarea>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center pt-4 border-top">
+                                <p class="small text-muted mb-0"></p>
+                                <button type="submit" class="btn btn-primary btn-lg px-5 shadow-sm">
+                                    Verzend aanmelding
+                                </button>
+                            </div>
+
+                            <div class="mb-5">
                                 <label class="h6 fw-bold mb-1 d-block text-dark">2. Regio expertise</label>
                                 <p class="small text-muted mb-3">Selecteer de regio's waar je het meest over kunt vertellen.</p>
 
@@ -72,23 +89,6 @@
                                         </label>
                                     @endforeach
                                 </div>
-                            </div>
-
-                            <div class="mb-5">
-                                <label class="h6 fw-bold mb-3 d-block text-dark">3. Motivatie (optioneel)</label>
-                                <textarea class="form-control" name="motivatie" rows="4" placeholder="Waarom wil je ons team komen versterken?">{{ old('motivatie') }}</textarea>
-                            </div>
-
-                             <div class="mb-5">
-                                <label class="h6 fw-bold mb-3 d-block text-dark">4. Achtergrond (optioneel)</label>
-                                <textarea class="form-control" name="achtergrond" rows="4" placeholder="Vertel ons omtrent je achtergrond en of intresse in de Vlaamse taal">{{ old('achtergrond') }}</textarea>
-                            </div>
-
-                            <div class="d-flex justify-content-between align-items-center pt-4 border-top">
-                                <p class="small text-muted mb-0"></p>
-                                <button type="submit" class="btn btn-primary btn-lg px-5 shadow-sm">
-                                    Verzend aanmelding
-                                </button>
                             </div>
                         </form>
                     </div>
