@@ -423,7 +423,7 @@
                     <div class="card bg-light card-body">
                         <h6 class="fw-bold">Voorbeeld</h5>
                         <div class="text-light-emphasis">
-                            {!! str($article->description)->markdown()->sanitizeHtml() !!}
+                            {!! str($article->example)->markdown()->sanitizeHtml() !!}
                         </div>
                     </div>
                 </div>
