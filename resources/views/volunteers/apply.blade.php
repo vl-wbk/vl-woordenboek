@@ -61,8 +61,9 @@
                             </div>
 
                             <div class="mb-5">
-                                <label class="h6 fw-bold mb-3 d-block text-dark">3. Motivatie (optioneel)</label>
-                                <textarea class="form-control" name="motivatie" rows="4" placeholder="Waarom wil je ons team komen versterken?">{{ old('motivatie') }}</textarea>
+                                <label class="h6 fw-bold mb-3 d-block text-dark">3. Motivatie <span class="fw-bold text-danger">*</span></label>
+                                <textarea class="form-control @error('motivatie') is-invalid @enderror" name="motivatie" rows="4" placeholder="Waarom wil je ons team komen versterken?">{{ old('motivatie') }}</textarea>
+                                <x-forms.validation-error field="motivatie"/>
                             </div>
 
                              <div class="mb-5">
