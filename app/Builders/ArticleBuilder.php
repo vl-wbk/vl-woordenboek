@@ -27,6 +27,17 @@ use JetBrains\PhpStorm\Deprecated;
 final class ArticleBuilder extends Builder
 {
     /**
+     * Scope: constrain the query to 'Live' articles only.
+     *
+     * This method applies a dual constraint filter:
+     * 1. Presence: The 'published_at' timestamp must not be null.
+     * 2. Chronology: The timestamp must be in the past or equal to 'now'.
+     *
+     * @internal This scope allows for "scheduled publishing." Articles with a future 'published_at' date will be excluded
+     * from this scope until that time is reached.
+     *
+     * NOTE: If using result caching, ensure the cache TTL accounts for upcoming scheduled publication timestamps.
+     *
      * @return Builder<Article>
      */
     public function published(): Builder
@@ -35,6 +46,12 @@ final class ArticleBuilder extends Builder
     }
 
     /**
+     * Scope: filter the query to include only archived records.
+     *
+     * This method targets the 'archived_at' timestamp. If the timestamp is present, the record is considered part of the archive.
+     * This uses an 'orWhere' clause. When chaining this with other scopes, ensure you wrap this call in a logical
+     * grouping (Parameter Grouping) to prevent gloabl scope pollution.
+     *
      * @return Builder<Article>
      */
     public function archived(): Builder
@@ -48,7 +65,17 @@ final class ArticleBuilder extends Builder
             !$this->model->state->is(ArticleStates::Approval);
     }
 
-    /** @phpstan-ignore-next-line */
+    /**
+     * State check: determines if the current model instance is archived.
+     *
+     * Unline the 'archived' scope, this operates on the hydrated model's attribute property.
+     * It is used to drive UI logic, authorization checks, or state-dependent actions on a speific article.
+     *
+     * NOTE: This relies on the 'archived_at' attribute being present in the model's current attribute
+     * array (ensure it is selected in your query).
+     *
+     * @return bool true if the record has been archived
+     */
     public function isArchived(): bool
     {
         /** @phpstan-ignore-next-line */

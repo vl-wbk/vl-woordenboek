@@ -32,6 +32,7 @@ final class StoreVolunteerApplicationRequest extends FormRequest
             "voornaam" => ["required", "max:255"],
             "achternaam" => ["required", "max:255"],
             "regio" => ["required"],
+            'motivatie' => ['required'],
             "email" => ["required", "max:255", "email"],
         ];
     }
