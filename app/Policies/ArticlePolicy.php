@@ -137,6 +137,40 @@ final class ArticlePolicy
     }
 
     /**
+     * Determines whether the user can create a copy of an existing article.
+     *
+     * Duplication is permitted for articles in 'Kladversie', 'Publicatie', or 'Archief' states.
+     *
+     * This allows editors to:
+     * 1. Create safety backups of complex drafts.
+     * 2. Prepare new revisions of currently published entries without affecting the live site.
+     * 3. Repurpose archived data as a starting point for new lemmas.
+     *
+     * @param  User    $user     The user attempting to duplicate the article.
+     * @param  Article $article  The source article to be copied.
+     * @return Response
+     */
+    public function duplicate(User $user, Article $article): Response
+    {
+        $cloneableStates = [ArticleStates::Published, ArticleStates::Draft, ArticleStates::Archived];
+
+        if ($article->trashed()) {
+            return Response::deny(message: __('Je kan geen verwijderd artikel dupliceren.'));
+        }
+
+        if ($article->state->notIn(enums: $cloneableStates)) {
+            return Response::deny(message: __('Artikelen in de status :state kunnen niet worden gedepliceerd.', [
+                'state' => $article->state->getLabel()
+            ]));
+        }
+
+
+        return $user->can('create:article')
+            ? Response::allow()
+            : Response::deny('Je hebt geen rechten om nieuwe artikelen aan te maken.');
+    }
+
+    /**
      * Determines whether a user can publish an article.
      *
      * Publication is only allowed when:
