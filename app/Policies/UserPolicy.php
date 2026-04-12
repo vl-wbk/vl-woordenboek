@@ -41,7 +41,7 @@ final class UserPolicy
             return Response::allow();
         }
 
-        return Response::deny();
+        return Response::deny(message: __('Je hebt onvoldoende rechten om de gebruikerslijst te bekijken.'));
     }
 
     /**
@@ -59,7 +59,7 @@ final class UserPolicy
             return Response::allow();
         }
 
-        return Response::deny();
+        return Response::deny(message: __('Je hebt geen toestemming om nieuwe account aan te maken.'));
     }
 
     /**
@@ -80,7 +80,7 @@ final class UserPolicy
             return Response::allow();
         }
 
-        return Response::deny();
+        return Response::deny(message: __('Je hebt geen toestemming om accounts te deactiveren.'));
     }
 
     /**
@@ -101,7 +101,7 @@ final class UserPolicy
             return Response::allow();
         }
 
-        return Response::deny();
+        return Response::deny(message: __('Je hebt geen toestemming om accounts te reactiveren.'));
     }
 
     /**
@@ -124,6 +124,6 @@ final class UserPolicy
             return Response::allow();
         }
 
-        return Response::deny();
+        return Response::deny(message: __('Je hebt geen toestemming om deactiveringen te wijzigen.'));
     }
 }
