@@ -1,18 +1,18 @@
 <div>
     @if ($submitted)
-        <div class="alert alert-success d-flex align-items-center gap-2 mt-3 mb-0">
+        <div class="alert alert-success d-flex align-items-center gap-2 {{ $cssClasses }} mb-0">
             <i class="bi bi-check-circle-fill"></i>
             <span>Bedankt! Je voorbeeldzin werd ingediend en wordt nagekeken door onze redactie.</span>
         </div>
     @else
-        <div class="mt-3">
+        <div class="{{ $cssClasses }}">
             @if (session()->has('example_error'))
                 <div class="alert alert-danger small py-2">{{ session('example_error') }}</div>
             @endif
 
             <div class="row">
                 @guest
-                <div class="col-9 mb-2">
+                <div class="col-4 mb-2">
                     <input
                         type="text"
                         wire:model="contributorName"
@@ -26,6 +26,17 @@
                 </div>
             @endguest
 
+            <div class="col-8 mb-2">
+                <input
+                    wire:model="source"
+                    class="form-control bg-white form-control-sm @error('source') is-invalid @enderror"
+                    placeholder="Vertel ons de link waar je de voorbeeldzin hebt gevonden"
+                >
+                @error('source')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
             <div class="col-12 mb-2">
                 <textarea
                     wire:model="example"
@@ -37,7 +48,6 @@
                 @error('example')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
-            </div>
             </div>
 
             <div class="d-flex align-items-center justify-content-between gap-2">
@@ -58,6 +68,6 @@
                     </span>
                 </button>
             </div>
-             </div>
+         </div>
     @endif
 </div>

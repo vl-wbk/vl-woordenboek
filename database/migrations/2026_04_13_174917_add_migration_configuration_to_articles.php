@@ -9,7 +9,13 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('articles', function (Blueprint $table) {
-            $table->json('migration_configuration');
+            $table->json('migration_configuration')->nullable()->default(null);
+        });
+
+        Schema::table('user_examples', function (Blueprint $table): void {
+            $table->after('example', function () use ($table): void {
+                $table->string('source');
+           });
         });
 
         Article::chunk(100, function ($articles) {

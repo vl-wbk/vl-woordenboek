@@ -213,42 +213,54 @@
                                             <span class="color-green fw-semibold me-1">//</span> Voorbeeld(en)
                                         </h5>
 
-                                        <ul class="nav nav-tabs" id="exampleTabs" role="tablist">
-                                            <li class="nav-item" role="presentation">
-                                                <button class="nav-link active" id="tab-redactie" data-bs-toggle="tab" data-bs-target="#pane-redactie" type="button" role="tab" aria-controls="pane-redactie" aria-selected="true">
-                                                    <x-heroicon-s-pencil-square class="icon me-1"/> Redactie
-                                                </button>
-                                            </li>
+                                        @if (! $word->migration_configuration['examples'])
+                                            <ul class="nav nav-tabs" id="exampleTabs" role="tablist">
+                                                <li class="nav-item" role="presentation">
+                                                    <button class="nav-link active" id="tab-redactie" data-bs-toggle="tab" data-bs-target="#pane-redactie" type="button" role="tab" aria-controls="pane-redactie" aria-selected="true">
+                                                        <x-heroicon-s-pencil-square class="icon me-1"/> Redactie
+                                                    </button>
+                                                </li>
 
-                                            <li class="nav-item" role="presentation">
-                                                <button class="nav-link" id="tab-community" data-bs-toggle="tab" data-bs-target="#pane-community" type="button" role="tab" aria-controls="pane-community" aria-selected="false">
-                                                    <x-heroicon-s-users class="icon me-1"/> Community
+                                                <li class="nav-item" role="presentation">
+                                                    <button class="nav-link" id="tab-community" data-bs-toggle="tab" data-bs-target="#pane-community" type="button" role="tab" aria-controls="pane-community" aria-selected="false">
+                                                        <x-heroicon-s-users class="icon me-1"/> Community
 
-                                                    @if ($exampleCount > 0)
-                                                        <span class="text-muted fst-italic small">
-                                                            ({{ $exampleCount }})
-                                                        </span>
-                                                    @endif
-                                                </button>
-                                            </li>
-                                        </ul>
+                                                        @if ($exampleCount > 0)
+                                                            <span class="text-muted fst-italic small">
+                                                                ({{ $exampleCount }})
+                                                            </span>
+                                                        @endif
+                                                    </button>
+                                                </li>
+                                            </ul>
 
-                                        <div class="tab-content border border-top-0 rounded-bottom" id="exampleTabsContent">
-                                            {{-- Redactie tab --}}
-                                            <div class="tab-pane bg-light-subtle fade show active p-3" id="pane-redactie" role="tabpanel" aria-labelledby="tab-redactie">
-                                                {!! str($word->example)->markdown()->sanitizeHtml() !!}
+                                            <div class="tab-content border border-top-0 rounded-bottom" id="exampleTabsContent">
+                                                {{-- Redactie tab --}}
+                                                <div class="tab-pane bg-light-subtle fade show active p-3" id="pane-redactie" role="tabpanel" aria-labelledby="tab-redactie">
+                                                    {!! str($word->example)->markdown()->sanitizeHtml() !!}
+                                                </div>
+
+
+                                                {{-- Community tab --}}
+                                                <div class="tab-pane bg-light-subtle fade p-3" id="pane-community" role="tabpanel" aria-labelledby="tab-community">
+                                                    <livewire:user-examples-list :word="$word" :wordId="$word->id" />
+
+                                                    <hr class="my-3"/>
+
+                                                    <livewire:submit-user-example cssClasses='mt-3' :wordId="$word->id" />
+                                                </div>
                                             </div>
+                                        @elseif($word->migration_configuration['examples'])
+                                            <livewire:user-examples-list :word="$word" :wordId="$word->id" />
 
+                                            <hr class="my-3"/>
 
-                                            {{-- Community tab --}}
-                                            <div class="tab-pane bg-light-subtle fade p-3" id="pane-community" role="tabpanel" aria-labelledby="tab-community">
-                                                <livewire:user-examples-list :word="$word" :wordId="$word->id" />
-
-                                                <hr class="my-3"/>
-
-                                                <livewire:submit-user-example :wordId="$word->id" />
+                                            <div class="card border-0 shadow-sm">
+                                                <div class="card-body bg-lightbg-light-subtle">
+                                                    <livewire:submit-user-example :wordId="$word->id" />
+                                                </div>
                                             </div>
-                                        </div>
+                                        @endif
                                     </section>
 
                                     @if ($word->related->count() > 0)

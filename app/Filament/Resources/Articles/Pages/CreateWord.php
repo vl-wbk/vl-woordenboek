@@ -117,6 +117,11 @@ final class CreateWord extends CreateRecord
                 ->columnSpanFull()
                 ->schema([Section::make()->schema(ArticleForm::getRelatedWordsRepeater())]),
 
+            Step::make('Voorbeeldzinnen')
+                ->icon(Heroicon::OutlinedChatBubbleLeftRight)
+                ->columnSpanFull()
+                ->schema(ArticleForm::exampleSentenceRepeater()),
+
             Step::make(trans('Bronnen'))
                 ->icon(Heroicon::OutlinedBookOpen)
                 ->columnSpanFull()

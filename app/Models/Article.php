@@ -129,6 +129,7 @@ final class Article extends Model implements AuditableContract, Commentable
         'origin' => DataOrigin::Suggestion,
         'state' => ArticleStates::New ,
         'status' => LanguageStatus::Onbekend,
+        'migration_configuration' => '{"examples": true}',
     ];
 
     /**
@@ -382,7 +383,7 @@ final class Article extends Model implements AuditableContract, Commentable
             'notify_author' => 'boolean',
             'wtod' => 'boolean',
             'feedback' => 'array',
-            'migration_configuration' => 'array',
+            'migration_configuration' => 'json',
             'origin' => DataOrigin::class,
             'state' => ArticleStates::class,
             'status' => LanguageStatus::class,
