@@ -409,35 +409,18 @@
                                     @endif
                                 </div>
 
-                                <div class="col-6">
+                                 <div class="col-12">
                                     <label for="description" class="form-label fw-semibold small mb-1 text-dark">
-                                        Beschrijving(en) <span class="text-danger fw-bold">*</span>
+                                        Beschrijving en Voorbeeldzinnen <span class="text-danger fw-bold">*</span>
                                     </label>
                                     <textarea name="beschrijving"
                                         id="description"
-                                        rows="5"
+                                        rows="9"
                                         class="form-control search-input-shadcn @error('beschrijving') is-invalid @enderror"
                                         placeholder="Wat is de kern van het woord?">{{ old('beschrijving', $concept->description) }}</textarea>
 
                                     @error('beschrijving') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
-
-
-                                <div class="col-6">
-                                    <label for="description" class="form-label fw-semibold small mb-1 text-dark">
-                                        Voorbeeld(en) <span class="text-danger fw-bold">*</span>
-                                    </label>
-
-                                    <textarea name="voorbeeld"
-                                        id="description"
-                                        rows="5"
-                                        class="form-control search-input-shadcn @error('voorbeeld') is-invalid @enderror"
-                                        placeholder="Citeer een zin waar het woord tot leven komt...">{{ old('voorbeeld', $concept->example) }}</textarea>
-
-                                    @error('voorbeeld') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                </div>
-
-
 
                                 <div class="col-12">
                                     <hr class="mt-0">

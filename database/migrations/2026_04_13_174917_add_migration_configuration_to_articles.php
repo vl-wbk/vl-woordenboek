@@ -18,6 +18,10 @@ return new class extends Migration {
            });
         });
 
+        Schema::table('concepts', function (Blueprint $table) {
+            $table->dropColumn('example');
+        });
+
         Article::chunk(100, function ($articles) {
             foreach ($articles as $article) {
                 $article->update([

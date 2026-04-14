@@ -46,7 +46,6 @@ final class StoreSuggestionRequest extends FormRequest
             'kenmerken' => [],
             'beschrijving' => ['required'],
             'regio' => ['required', 'array', 'min:1'],
-            'voorbeeld' => ['required'],
             'woordsoort' => [],
         ];
     }

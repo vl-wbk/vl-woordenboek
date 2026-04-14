@@ -27,7 +27,6 @@ final class SuggestionData extends Data
      * It leverages the `MapInputName` attribute to handle potential discrepancies between request parameter names and internal property names.
      *
      * @param string              $word               The primary word or term associated with the suggestion. This field is mandatory. Mapped from the 'woord' input name.
-     * @param string              $description        A comprehensive description or definition of the suggested word. This field is mandatory. Mapped from the 'beschrijving' input name.
      * @param string              $example            An illustrative sentence or phrase showcasing the suggested word's usage. This field is mandatory. Mapped from the 'voorbeeld' input name.
      * @param array<int, string>  $regions            An array of region identifiers where the suggested word is relevant or used. Defaults to an empty array if no specific regions are provided. Mapped from the 'regio' input name.
      * @param string|null         $characteristics    Optional additional characteristics or notes about the suggested word. Can be null if no extra details are available. Mapped from the 'kenmerken' input name.
@@ -40,8 +39,6 @@ final class SuggestionData extends Data
         public string $word,
         #[MapInputName("beschrijving")]
         public string $description,
-        #[MapInputName('voorbeeld')]
-        public string $example,
         #[MapInputName('regio')]
         public array $regions = [],
         #[MapInputName('kenmerken')]
