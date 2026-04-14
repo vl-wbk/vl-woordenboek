@@ -10,7 +10,7 @@ return new class extends Migration {
     {
         $authenticatableClass = Config::getAuthenticatableModel();
 
-        $authenticatableTableName = new $authenticatableClass()->getTable();
+        $authenticatableTableName = (new $authenticatableClass())->getTable();
 
         Schema::create("passkeys", function (Blueprint $table) use ($authenticatableTableName, $authenticatableClass) {
             $table->id();
