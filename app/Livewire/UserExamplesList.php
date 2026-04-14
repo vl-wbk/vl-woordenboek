@@ -17,15 +17,8 @@ class UserExamplesList extends Component
     use WithPagination;
 
     public int $articleId;
-    public Article $article;
 
     public string $sortBy = 'created_at';
-
-    public function mount(int $wordId, Article $article): void
-    {
-        $this->articleId = $wordId;
-        $this->article = $article;
-    }
 
     public function updatedSortBy(): void
     {
@@ -50,7 +43,6 @@ class UserExamplesList extends Component
     {
         return view('livewire.user-examples-list', data: [
             'examples' => $this->examples(),
-            'word' => $this->article,
         ]);
     }
 }
