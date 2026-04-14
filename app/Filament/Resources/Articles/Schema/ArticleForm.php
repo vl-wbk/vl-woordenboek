@@ -261,33 +261,25 @@ final readonly class ArticleForm
         ];
     }
 
-    public static function exampleSentenceRepeater(): array
+    public static function exampleSentenceRepeater(): Repeater
     {
-        return [
-            Repeater::make('userExamples')
-                ->hiddenLabel()
-                ->autofocus()
-                ->relationship()
-                ->compact()
-                ->table([
-                    Repeater\TableColumn::make('Voorbeeldzin'),
-                    Repeater\TableColumn::make('Bron'),
-                ])
-                ->schema([
-                    Textarea::make('example')
-                        ->rows(1)
-                        ->required(),
+        return Repeater::make('userExamples')
+            ->hiddenLabel()
+            ->autofocus()
+            ->relationship()
+            ->compact()
+            ->table([
+                Repeater\TableColumn::make('Voorbeeldzin'),
+                Repeater\TableColumn::make('Bron'),
+            ])
+            ->schema([
+                Textarea::make('example')
+                    ->rows(1)
+                    ->required(),
 
-                    TextInput::make('source')
-                        ->required(),
-                ])
-                ->mutateRelationshipDataBeforeCreateUsing(function (array $data): array {
-                    $data['user_id'] = auth()->id();
-                    $data['status'] = Approved::class;
-
-                    return $data;
-                })
-        ];
+                TextInput::make('source')
+                    ->required(),
+            ]);
     }
 
     /**

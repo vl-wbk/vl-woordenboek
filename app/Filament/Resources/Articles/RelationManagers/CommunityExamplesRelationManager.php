@@ -8,6 +8,7 @@ use A909M\FilamentStateFusion\Actions\StateFusionAction;
 use A909M\FilamentStateFusion\Actions\StateFusionBulkAction;
 use A909M\FilamentStateFusion\Tables\Columns\StateFusionSelectColumn;
 use A909M\FilamentStateFusion\Tables\Filters\StateFusionSelectFilter;
+use App\Filament\Clusters\Articles\Resources\ExampleSentences\Actions\MigrateExamplesAction;
 use App\Filament\Clusters\Articles\Resources\ExampleSentences\Schema\ExampleSentenceForm;
 use App\Filament\Clusters\Volunteers\Resources\VolunteerPositions\Actions\CreateAction;
 use App\Filament\Resources\Articles\Pages\ViewWord;
@@ -168,6 +169,8 @@ final class CommunityExamplesRelationManager extends RelationManager
     private function registerHeaderActions(): array
     {
         return [
+            MigrateExamplesAction::make(),
+
             CreateAction::make()
                 ->label('Voorbeelzin toevoegen')
                 ->modalHeading('Voorbeeldzin toevoegen in het Vlaams Woordenboek')
