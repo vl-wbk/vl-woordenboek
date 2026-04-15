@@ -368,9 +368,11 @@
                                         <div class="card-body px-3 py-2">
                                             <div class="d-flex flex-wrap gap-2">
                                                 @foreach ($word->labels as $label)
-                                                    <a href="{{ route('label:show', $label) }}" class="badge shadow-sm text-bg-light border text-dark text-decoration-none">
-                                                        {{ $label->name }}
-                                                    </a>
+                                                    @if (! $label->private)
+                                                        <a href="{{ route('label:show', $label) }}" class="badge shadow-sm text-bg-light border text-dark text-decoration-none">
+                                                            {{ $label->name }}
+                                                        </a>
+                                                    @endif
                                                 @endforeach
                                             </div>
                                         </div>
