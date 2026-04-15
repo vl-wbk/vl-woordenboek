@@ -243,7 +243,7 @@
 
                                                 {{-- Community tab --}}
                                                 <div class="tab-pane bg-light-subtle fade p-3" id="pane-community" role="tabpanel" aria-labelledby="tab-community">
-                                                    <livewire:user-examples-list articleId="{{ $word->id }}" />
+                                                    <livewire:user-examples-list :articleId="{{ $word->id }}" />
 
                                                     <hr class="my-3"/>
 
