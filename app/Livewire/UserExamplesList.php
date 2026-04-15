@@ -24,6 +24,12 @@ class UserExamplesList extends Component
         $this->resetPage();
     }
 
+    public function mount($articleId = null)
+{
+    // Ensure it has a value, even if it's 0 or a default
+    $this->articleId = $articleId;
+}
+
     #[Computed]
     public function article()
     {
