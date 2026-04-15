@@ -247,11 +247,11 @@
 
                                                     <hr class="my-3"/>
 
-                                                    <livewire:submit-user-example cssClasses='mt-3' :wordId="$word->id" />
+                                                    <livewire:submit-user-example cssClasses='mt-3' :articleId="$word->id" />
                                                 </div>
                                             </div>
                                         @elseif($word->migration_configuration['examples'])
-                                            <livewire:user-examples-list :word="$word" :wordId="$word->id" />
+                                            <livewire:user-examples-list :word="$word" :articleId="$word->id" />
 
                                             <hr class="my-3"/>
 
