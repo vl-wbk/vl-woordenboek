@@ -243,7 +243,7 @@
 
                                                 {{-- Community tab --}}
                                                 <div class="tab-pane bg-light-subtle fade p-3" id="pane-community" role="tabpanel" aria-labelledby="tab-community">
-                                                    <livewire:user-examples-list :word="$word" :wordId="$word->id" />
+                                                    <livewire:user-examples-list wordId="{{ $word->id }}" />
 
                                                     <hr class="my-3"/>
 
@@ -256,7 +256,7 @@
                                             <hr class="my-3"/>
 
                                             <div class="card border-0 shadow-sm">
-                                                <div class="card-body bg-lightbg-light-subtle">
+                                                <div class="card-body bg-light bg-light-subtle">
                                                     <livewire:submit-user-example :wordId="$word->id" />
                                                 </div>
                                             </div>

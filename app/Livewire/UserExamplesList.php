@@ -2,10 +2,9 @@
 
 namespace App\Livewire;
 
-use App\Enums\Articles\ExampleSentenceStatus;
+
 use App\Models\Article;
 use App\Models\UserExample;
-use App\States\Etymology\Rejected;
 use App\States\ExampleSentence\Approved;
 use Illuminate\Contracts\Support\Renderable;
 use Livewire\Attributes\Computed;
@@ -16,13 +15,19 @@ class UserExamplesList extends Component
 {
     use WithPagination;
 
-    public int $articleId;
+    public int|string $articleId;
 
     public string $sortBy = 'created_at';
 
     public function updatedSortBy(): void
     {
         $this->resetPage();
+    }
+
+    #[Computed]
+    public function article()
+    {
+        return Article::findOrFail($this->articleId);
     }
 
     #[Computed]
@@ -43,6 +48,7 @@ class UserExamplesList extends Component
     {
         return view('livewire.user-examples-list', data: [
             'examples' => $this->examples(),
+            'word' => $this->article(),
         ]);
     }
 }

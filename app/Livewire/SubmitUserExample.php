@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\UserExample;
 use Livewire\Attributes\Validate;
+use Livewire\WithPagination;
 
 class SubmitUserExample extends Component
 {
