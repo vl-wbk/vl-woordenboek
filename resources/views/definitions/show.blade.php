@@ -257,7 +257,7 @@
 
                                             <div class="card border-0 shadow-sm">
                                                 <div class="card-body bg-light bg-light-subtle">
-                                                    <livewire:submit-user-example :word-id="$word->id" />
+                                                    <livewire:submit-user-example :articleId="$word->id" />
                                                 </div>
                                             </div>
                                         @endif

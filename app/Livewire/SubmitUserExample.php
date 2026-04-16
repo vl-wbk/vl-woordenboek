@@ -9,7 +9,7 @@ use Livewire\WithPagination;
 
 class SubmitUserExample extends Component
 {
-    public int $wordId;
+    protected int|string|null $articleId;
 
     public ?string $cssClasses = null;
 
@@ -24,9 +24,9 @@ class SubmitUserExample extends Component
 
     public bool $submitted = false;
 
-    public function mount(int $wordId, ?string $cssClasses = null): void
+    public function mount($articleId = null, ?string $cssClasses = null): void
     {
-        $this->wordId = $wordId;
+        $this->articleId = $articleId;
         $this->cssClasses = $cssClasses;
     }
 
@@ -35,7 +35,7 @@ class SubmitUserExample extends Component
         $this->validate();
 
         UserExample::create([
-            'article_id' => $this->wordId,
+            'article_id' => $this->articleId,
             'user_id' => auth()->id(),
             'contributor_name' => auth()->check() ? auth()->user()->name : ($this->contributorName ?: 'Anoniem'),
             'example' => $this->example,
