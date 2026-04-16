@@ -70,6 +70,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string|null $remember_token     Token for the "remember me" feature
  * @property Carbon|null $banned_at          Timestamp from when the user account has been banned.
  * @property bool $is_beta_tester     Indicates that the user is a beta tester of not.
+ * @property array{examples: bool} $migration_configuration
  * @property Carbon $created_at         Timestamp of account creation
  * @property Carbon $updated_at         Timestamp of the last update
  *
@@ -216,6 +217,9 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
         return $this->hasMany(Etymology::class, 'author_id');
     }
 
+    /**
+     * @return HasMany<Concept, covariant $this>
+     */
     public function concepts(): HasMany
     {
         return $this->hasMany(Concept::class, 'author_id');

@@ -58,7 +58,6 @@ final class StoreArticleSuggestionController
     #[Post(uri: 'woordenboek-artikelen/insturen', name: 'definitions.store')]
     public function store(StoreSuggestionRequest $storeSuggestionRequest, StoreArticleSuggestion $storeArticleSuggestion): RedirectResponse
     {
-        /** @phpstan-ignore-next-line */
         $this->throttleSubmission($storeSuggestionRequest, 'suggestion', function () use ($storeArticleSuggestion, $storeSuggestionRequest): void {
             $storeArticleSuggestion->execute(suggestionData: $storeSuggestionRequest->getData());
         });

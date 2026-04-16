@@ -50,7 +50,7 @@ final class RedactionQueueTable extends TableWidget
                 ->sortable()
                 ->description(fn (Article $article): string => "{$article->author->firstname} {$article->author->lastname}")
                 ->emptyStateHeading(config('app.name', 'Laravel')) // Custom empty state heading
-                ->emptyStateDescription(fn (Article $article): ?string => $article->contributor_name ?? 'Anonieme gebruiker')
+                ->emptyStateDescription(fn (Article $article): string => $article->contributor_name ?? 'Anonieme gebruiker')
                 ->label('Redacteur'),
 
             TextColumn::make('origin')

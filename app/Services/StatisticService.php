@@ -35,7 +35,7 @@ final class StatisticService
      * The first value (0) typically indicates no caching, while the second value (900) sets a 15-minute cache duration.
      * These values can be used to control how long certain data should be stored in cache, allowing for flexible cache strategies depending on the context or environment.
      *
-     * @var array<int, int>
+     * @var array{0: int, 1: int}
      */
     private array $cacheTTL = [0, 900];
 

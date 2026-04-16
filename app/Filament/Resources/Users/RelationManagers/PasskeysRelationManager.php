@@ -32,6 +32,11 @@ final class PasskeysRelationManager extends RelationManager
         return false;
     }
 
+    /**
+     * @param  User   $ownerRecord
+     * @param  string $pageClass
+     * @return bool
+     */
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
     {
         /** @var User $authUser */
@@ -42,7 +47,7 @@ final class PasskeysRelationManager extends RelationManager
             && $authUser->isDeveloper();
     }
 
-    public static function getBadge(Model $ownerRecord, string $pageClass): ?string
+    public static function getBadge(Model $ownerRecord, string $pageClass): string
     {
         return (string) $ownerRecord->passkeys()->count();
     }
@@ -56,6 +61,9 @@ final class PasskeysRelationManager extends RelationManager
             ->recordActions($this->registerRevokeAction());
     }
 
+    /**
+     * @return array<IconColumn|TextColumn>
+     */
     private function registerTableSchemaLayout(): array
     {
         return [
@@ -70,7 +78,7 @@ final class PasskeysRelationManager extends RelationManager
 
             TextColumn::make('data.aaguid')
                 ->label('Provider')
-                ->formatStateUsing(function (string $state): ?string {
+                ->formatStateUsing(function (string $state): string {
                     return PasskeyAuthenticatorAaguids::findByAaguid($state)['name'] ?? 'onbekende provider';
                 }),
 
@@ -99,6 +107,9 @@ final class PasskeysRelationManager extends RelationManager
         ];
     }
 
+    /**
+     * @return DeleteAction[]
+     */
     private function registerRevokeAction(): array
     {
         return [

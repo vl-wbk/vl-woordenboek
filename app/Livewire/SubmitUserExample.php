@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\UserExample;
+use Illuminate\Contracts\Support\Renderable;
 use Livewire\Attributes\Validate;
 use Livewire\WithPagination;
 
@@ -46,7 +47,7 @@ class SubmitUserExample extends Component
         $this->submitted = true;
     }
 
-    public function render()
+    public function render(): Renderable
     {
         return view('livewire.submit-user-example');
     }

@@ -25,7 +25,7 @@ final class MigrateExamplesAction extends Action
 {
     use CanCustomizeProcess;
 
-    public static function getDefaultName(): ?string
+    public static function getDefaultName(): string
     {
         return 'migrate-usage-examples';
     }

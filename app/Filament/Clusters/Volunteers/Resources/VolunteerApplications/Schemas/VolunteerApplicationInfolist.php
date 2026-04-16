@@ -28,13 +28,13 @@ final readonly class VolunteerApplicationInfolist
                             ->label('Voornaam')
                             ->columnSpan(3)
                             ->placeholder('- onbekend')
-                            ->formatStateUsing(fn (VolunteerApplications $volunteerApplication): ?string => $volunteerApplication->user->firstname ?? $volunteerApplication->firstname),
+                            ->formatStateUsing(fn (VolunteerApplications $volunteerApplication): string => $volunteerApplication->user->firstname ?? $volunteerApplication->firstname),
 
                         TextEntry::make('user.lastname')
                             ->label('Achternaam')
                             ->columnSpan(3)
                             ->placeholder('-onbekend')
-                            ->formatStateUsing(fn (VolunteerApplications $volunteerApplication): ?string => $volunteerApplication->user->lastname ?? $volunteerApplication->lastname),
+                            ->formatStateUsing(fn (VolunteerApplications $volunteerApplication): string => $volunteerApplication->user->lastname ?? $volunteerApplication->lastname),
 
                         TextEntry::make('user.email')
                             ->label('Email adres')

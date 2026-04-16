@@ -6,8 +6,8 @@ namespace App\Http\Controllers\Web\Concepts;
 
 use App\Models\Concept;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
-use Symfony\Component\HttpFoundation\Request;
 
 final readonly class OverviewController
 {

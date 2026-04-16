@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types= 1);
+
 namespace App\Filament\Clusters\Volunteers\Resources\VolunteerPositions\Schemas;
 
 use Filament\Infolists\Components\IconEntry;
@@ -9,7 +11,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Icons\Heroicon;
 
-class VolunteerPositionInfolist
+final readonly class VolunteerPositionInfolist
 {
     public static function configure(Schema $schema): Schema
     {
@@ -26,6 +28,9 @@ class VolunteerPositionInfolist
             ]);
     }
 
+    /**
+     * @return array<IconEntry|TextEntry>
+     */
     private static function registerInfolistComponents(): array
     {
         return [

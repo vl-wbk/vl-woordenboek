@@ -11,7 +11,6 @@ use App\Enums\Articles\EtymologySources;
 use App\Http\Requests\Articles\StoreEtymologyRequest;
 use App\Http\Requests\Support\StoreFeedbackRequest;
 use App\Models\Article;
-use Closure;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Spatie\RouteAttributes\Attributes\Get;
@@ -34,7 +33,7 @@ final class EthymologyController
     }
 
     #[Post(uri: 'etymologie/{article}/nieuwe-suggestie', name: 'etymology:store')]
-    public function store(StoreEtymologyRequest $storeEtymologyRequest, Article $article, StoreEtymologySubmission $storeEtymologySubmission): RedirectResponse|Closure
+    public function store(StoreEtymologyRequest $storeEtymologyRequest, Article $article, StoreEtymologySubmission $storeEtymologySubmission): RedirectResponse
     {
         $this->throttleSubmission($storeEtymologyRequest, 'etymologySubmission', function () use ($article, $storeEtymologyRequest, $storeEtymologySubmission): void {
             $etymology = $storeEtymologySubmission->execute(article: $article, etymologySubmissionData: $storeEtymologyRequest->getData());

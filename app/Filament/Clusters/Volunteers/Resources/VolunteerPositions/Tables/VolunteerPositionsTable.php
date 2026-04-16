@@ -57,6 +57,9 @@ final readonly class VolunteerPositionsTable
         ];
     }
 
+    /**
+     * @return array<ActionGroup|ViewAction>
+     */
     private static function registerRecordActions(): array
     {
         return [

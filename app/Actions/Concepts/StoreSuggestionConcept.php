@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 final readonly class StoreSuggestionConcept
 {
-    public static function execute(SuggestionData $suggestionData)
+    public static function execute(SuggestionData $suggestionData): Concept
     {
         return DB::transaction(function () use ($suggestionData): Concept {
 

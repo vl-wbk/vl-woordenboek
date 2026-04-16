@@ -78,6 +78,9 @@ final class CommunityExamplesRelationManager extends RelationManager
             ->recordActions(actions: $this->registerRecordActions());
     }
 
+    /**
+     * @return BulkActionGroup[]
+     */
     private function registerToolbarActions(): array
     {
         return [
@@ -101,6 +104,9 @@ final class CommunityExamplesRelationManager extends RelationManager
         ];
     }
 
+    /**
+     * @return StateFusionSelectFilter[]
+     */
     private function registerTableFilters(): array
     {
         return [
@@ -109,6 +115,9 @@ final class CommunityExamplesRelationManager extends RelationManager
         ];
     }
 
+    /**
+     * @return array<EditAction|StateFusionAction>
+     */
     private function registerRecordActions(): array
     {
         return [
@@ -139,6 +148,9 @@ final class CommunityExamplesRelationManager extends RelationManager
         ];
     }
 
+    /**
+     * @return TextColumn[]
+     */
     private function registerTableComponents(): array
     {
         return [
@@ -166,6 +178,9 @@ final class CommunityExamplesRelationManager extends RelationManager
         ];
     }
 
+    /**
+     * @return array<CreateAction|MigrateExamplesAction>
+     */
     private function registerHeaderActions(): array
     {
         return [

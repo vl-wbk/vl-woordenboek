@@ -11,6 +11,7 @@ use Spatie\LaravelData\WithData;
 
 final class StoreConceptRequest extends FormRequest
 {
+    /** @use WithData<SuggestionData> */
     use WithData;
 
     protected string $dataClass = SuggestionData::class;

@@ -66,6 +66,7 @@ use Override;
  * @property int|null $part_of_speech_id  The unique ID of the part of speech information.
  * @property string |null $archiving_reason   The reason why the article has been archived.
  * @property ?Carbon $published_at        The timestamp indicating when the article is published. null = unpublished.
+ * @property string|null $redirect_article_id The unique identifier from the article that will be redirect to when archiving the parent
  * @property Carbon $archived_at        Timestamp for when the article is archived at
  * @property Carbon $deleted_at         Timestamp for when the article is marked for deletion.
  * @property Carbon $created_at         Timestamp of when the article was created
