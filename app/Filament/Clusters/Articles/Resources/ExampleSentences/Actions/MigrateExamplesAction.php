@@ -101,6 +101,7 @@ final class MigrateExamplesAction extends Action
                 ->schema([
                     TextEntry::make('example')
                         ->hiddenLabel()
+                        ->markdown()
                         ->state(function (CommunityExamplesRelationManager $livewire): ?string {
                             return $livewire->getOwnerRecord()->example;
                         }),
