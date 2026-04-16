@@ -27,7 +27,6 @@ final class StoreConceptRequest extends FormRequest
             'kenmerken' => [],
             'beschrijving' => ['required'],
             'regio' => ['required', 'array', 'min:1'],
-            'voorbeeld' => ['required'],
             'woordsoort' => [],
         ];
     }

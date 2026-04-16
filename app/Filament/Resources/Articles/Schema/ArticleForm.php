@@ -14,6 +14,8 @@ use App\Models\Article;
 use App\Models\ReferenceWork;
 use App\Models\User;
 use App\Services\ModerationService;
+use App\States\ExampleSentence\Approved;
+use App\States\ExampleSentence\SentenceState;
 use App\UserTypes;
 use CodeWithDennis\SimpleAlert\Components\Enums\IconAnimation;
 use CodeWithDennis\SimpleAlert\Components\SimpleAlert;
@@ -206,19 +208,9 @@ final readonly class ArticleForm
                 ->toolbarButtons(self::getToolbarOptions())
                 ->placeholder('De beschrijving van het woord dat je wenst toe te voegen.')
                 ->helperText(str('Dit veld ondersteunt enkel [**Markdown**](https://www.markdownguide.org/cheat-sheet/)')->inlineMarkdown()->toHtmlString())
-                ->maxHeight('125px')
+                ->maxHeight('160px')
                 ->required()
                 ->autofocus(false),
-
-            MarkdownEditor::make('example')
-                ->label('Voorbeeld')
-                ->toolbarButtons(self::getToolbarOptions())
-                ->placeholder('Probeer zo helder mogelijk te zijn')
-                ->helperText(str('Dit veld ondersteunt enkel [**Markdown**](https://www.markdownguide.org/cheat-sheet/)')->inlineMarkdown()->toHtmlString())
-                ->columnSpanFull()
-                ->autofocus(false)
-                ->maxHeight('125px')
-                ->required(),
         ];
     }
 
@@ -267,6 +259,27 @@ final readonly class ArticleForm
                 ->columnSpanFull()
                 ->options(LanguageStatus::class),
         ];
+    }
+
+    public static function exampleSentenceRepeater(): Repeater
+    {
+        return Repeater::make('userExamples')
+            ->hiddenLabel()
+            ->autofocus()
+            ->relationship()
+            ->compact()
+            ->table([
+                Repeater\TableColumn::make('Voorbeeldzin'),
+                Repeater\TableColumn::make('Bron'),
+            ])
+            ->schema([
+                Textarea::make('example')
+                    ->rows(1)
+                    ->required(),
+
+                TextInput::make('source')
+                    ->required(),
+            ]);
     }
 
     /**

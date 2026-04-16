@@ -8,7 +8,9 @@ use A909M\FilamentStateFusion\Actions\StateFusionAction;
 use A909M\FilamentStateFusion\Actions\StateFusionBulkAction;
 use A909M\FilamentStateFusion\Tables\Columns\StateFusionSelectColumn;
 use A909M\FilamentStateFusion\Tables\Filters\StateFusionSelectFilter;
+use App\Filament\Clusters\Articles\Resources\ExampleSentences\Actions\MigrateExamplesAction;
 use App\Filament\Clusters\Articles\Resources\ExampleSentences\Schema\ExampleSentenceForm;
+use App\Filament\Clusters\Volunteers\Resources\VolunteerPositions\Actions\CreateAction;
 use App\Filament\Resources\Articles\Pages\ViewWord;
 use App\Policies\UserExamplePolicy;
 use App\States\ExampleSentence\Approved;
@@ -33,7 +35,7 @@ final class CommunityExamplesRelationManager extends RelationManager
 {
     protected static string $relationship = 'userExamples';
 
-    protected static ?string $title = 'Community voorbeeldzinnen';
+    protected static ?string $title = 'Voorbeeldzinnen';
 
     protected static string|BackedEnum|null $icon = 'heroicon-o-chat-bubble-left-right';
 
@@ -44,7 +46,7 @@ final class CommunityExamplesRelationManager extends RelationManager
 
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
     {
-        return $pageClass === ViewWord::class && $ownerRecord->userExamples->count() > 0;
+        return $pageClass === ViewWord::class;
     }
 
     public static function getBadge(Model $ownerRecord, string $pageClass): ?string
@@ -167,9 +169,14 @@ final class CommunityExamplesRelationManager extends RelationManager
     private function registerHeaderActions(): array
     {
         return [
-            Action::make('help-button')
-                ->icon(Heroicon::OutlinedLifebuoy)
-                ->label('Help')
+            MigrateExamplesAction::make(),
+
+            CreateAction::make()
+                ->label('Voorbeelzin toevoegen')
+                ->modalHeading('Voorbeeldzin toevoegen in het Vlaams Woordenboek')
+                ->modalDescription('Met voorbeeldzinnen worden het gebruik van het woord beter zichtbaar.')
+                ->modalIcon(Heroicon::OutlinedPlusCircle)
+                ->modalIconColor('primary'),
         ];
     }
 }

@@ -13,6 +13,7 @@ use App\Policies\UserExamplePolicy;
 use App\States\ExampleSentence\Rejected;
 use App\States\ExampleSentence\Approved;
 use App\States\ExampleSentence\Pending;
+use App\States\ExampleSentence\Unpublished;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
@@ -121,6 +122,12 @@ final readonly class ExampleSentencesTable
                 ->modalIcon(Heroicon::OutlinedPencilSquare)
                 ->modalDescription('Staat er een typo in de voorbeeldzin? Geen probleem u kunt deze oplossen door het onderstaande formulier.')
                 ->modalCloseButton(false),
+
+            StateFusionAction::make('offline')
+                ->authorize(UserExamplePolicy::changeState)
+                ->label('Offline halen')
+                ->icon(Heroicon::OutlinedCheckBadge)
+                ->transitionTo(Unpublished::class),
 
             StateFusionAction::make('reject')
                 ->authorize(UserExamplePolicy::changeState)

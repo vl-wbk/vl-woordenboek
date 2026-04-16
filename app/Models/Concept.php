@@ -13,7 +13,7 @@ final class Concept extends Model
     /**
      * @var list<string>
      */
-    protected $fillable = ['word', 'description', 'example', 'characteristics', 'notify_author', 'author_id', 'part_of_speech_id'];
+    protected $fillable = ['word', 'description', 'characteristics', 'notify_author', 'author_id', 'part_of_speech_id'];
 
     public function author(): BelongsTo
     {

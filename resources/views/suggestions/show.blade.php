@@ -398,15 +398,6 @@
                     </div>
                 </div>
 
-                <div class="col-12">
-                    <div class="card bg-light card-body">
-                        <h6 class="fw-bold">Beschrijving</h5>
-
-                        <div class="text-light-emphasis">
-                            {!! str($article->description)->markdown()->sanitizeHtml() !!}
-                        </div>
-                    </div>
-                </div>
 
                 <div class="col-12">
                     <div class="card bg-light card-body">
@@ -421,9 +412,10 @@
 
                 <div class="col-12">
                     <div class="card bg-light card-body">
-                        <h6 class="fw-bold">Voorbeeld</h5>
+                        <h6 class="fw-bold">Beschrijving en voorbeeldzinnen</h5>
+
                         <div class="text-light-emphasis">
-                            {!! str($article->example)->markdown()->sanitizeHtml() !!}
+                            {!! str($article->description)->markdown()->sanitizeHtml() !!}
                         </div>
                     </div>
                 </div>

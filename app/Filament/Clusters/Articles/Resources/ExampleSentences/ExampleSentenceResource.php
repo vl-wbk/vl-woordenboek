@@ -49,13 +49,8 @@ final class ExampleSentenceResource extends Resource
         ];
     }
 
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()->whereState('status', Pending::class);
-    }
-
     public static function getNavigationBadge(): ?string
     {
-        return (string) self::$model::whereState('status', Pending::class)->count();
+        return (string) self::$model::count();
     }
 }

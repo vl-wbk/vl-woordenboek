@@ -281,6 +281,7 @@ final readonly class WordInfolist
                     ->markdown()
                     ->columnSpan(12),
                 TextEntry::make('example')
+                    ->hidden(fn (Article $article): bool => $article->migration_configuration['examples'])
                     ->label(__('filament/resources/articles.infolist.edit-information-tab.text-entries.example'))
                     ->markdown()
                     ->columnSpan(12),
