@@ -9,7 +9,7 @@ use Livewire\WithPagination;
 
 class SubmitUserExample extends Component
 {
-    protected int|string|null $articleId;
+    public int|string|null $articleId;
 
     public ?string $cssClasses = null;
 
