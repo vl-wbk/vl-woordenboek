@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.7
 
 # --- Stage 1: install PHP dependencies with Composer ---
-FROM php:8.3-alpine AS vendor
+FROM php:8.4-alpine AS vendor
 
 RUN apk add --no-cache git libzip-dev libxml2-dev icu-dev oniguruma-dev \
     && docker-php-ext-install bcmath intl zip dom mbstring
@@ -46,7 +46,7 @@ RUN composer dump-autoload --optimize --no-scripts
 
 
 # --- Stage 4: runtime image ---
-FROM php:8.3-fpm-alpine AS runtime
+FROM php:8.4-fpm-alpine AS runtime
 
 RUN apk add --no-cache bash git icu-dev libzip-dev libxml2-dev oniguruma-dev curl-dev mysql-client \
     && docker-php-ext-install pdo_mysql mbstring zip dom xml curl bcmath opcache intl
