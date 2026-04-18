@@ -31,6 +31,7 @@
     "Register": "Registreren",
     "Reset Password": "Wachtwoord herstellen",
     "Reset Password Notification": "Notificatie wachtwoordherstel",
+    "Reset your password": "Je wachtwoord herstellen",
     "results": "resultaten",
     "Search for anything ...": "Zoeken ...",
     "Server Error": "Serverfout",
@@ -61,6 +62,7 @@
     "Too Many Requests": "Te veel serververzoeken",
     "Unauthorized": "Onbevoegd",
     "Verify Email Address": "Verifieer e-mailadres",
+    "Verify your email address": "Verify your email address",
     "Whoops!": "Oeps!",
     "You are receiving this email because we received a password reset request for your account.": "Je ontvangt deze e-mail omdat we een wachtwoordherstel verzoek hebben ontvangen voor je account."
 }

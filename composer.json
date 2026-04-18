@@ -8,9 +8,9 @@
     "require": {
         "php": "^8.3",
         "a909m/filament-statefusion": "^2.0",
-        "aaronfrancis/fast-paginate": "^2.0",
         "archtechx/enums": "^1.1",
-        "beyondcode/laravel-comments": "^1.8",
+        "aaronfrancis/fast-paginate": "dev-main",
+        "beyondcode/laravel-comments": "dev-l13-compatibility",
         "bezhansalleh/filament-shield": "^4.0",
         "charrafimed/global-search-modal": "^5.0",
         "cmgmyr/messenger": "^2.31",
@@ -24,7 +24,7 @@
         "dutchcodingcompany/filament-developer-logins": "^2.0",
         "filament/filament": "^5.0",
         "filament/spatie-laravel-settings-plugin": "^5.0",
-        "flowframe/laravel-trend": "^0.4.0",
+        "flowframe/laravel-trend": "^0.5.0",
         "forxer/laravel-gravatar": "^4.1",
         "garygreen/pretty-routes": "^1.0",
         "halaxa/json-machine": "*",
@@ -39,14 +39,14 @@
         "laravel/tinker": "^3.0",
         "marcelweidum/filament-expiration-notice": "^1.0",
         "mobiledetect/mobiledetectlib": "^4.8",
-        "overtrue/laravel-like": "^5.3",
-        "overtrue/laravel-vote": "^3.4",
+        "overtrue/laravel-like": "^6.0",
+        "overtrue/laravel-vote": "^4.0",
         "owen-it/laravel-auditing": "^14.0",
         "pxlrbt/filament-environment-indicator": "^3.5",
         "schmeits/filament-character-counter": "^5.0",
         "secondnetwork/blade-tabler-icons": "^3.29",
         "sentry/sentry-laravel": "^4.14",
-        "spatie/laravel-backup": "^9.3",
+        "spatie/laravel-backup": "^10.0",
         "spatie/laravel-data": "^4.13",
         "spatie/laravel-discord-alerts": "^1.8",
         "spatie/laravel-feed": "^4.4",
@@ -72,11 +72,11 @@
         "laravel/sail": "^1.41",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
-        "pestphp/pest": "^4.0",
+        "pestphp/pest": "^4.6",
         "pestphp/pest-plugin-laravel": "^4.0",
         "pestphp/pest-plugin-livewire": "^4.0",
         "pestphp/pest-plugin-type-coverage": "^4.0",
-        "phpunit/phpunit": "^12.5.12",
+        "phpunit/phpunit": "^12.5",
         "rector/rector": "^2.0",
         "roave/security-advisories": "dev-latest",
         "spatie/laravel-sql-commenter": "^2.1",
@@ -149,8 +149,16 @@
     },
     "repositories": [
         {
+            "url": "https://github.com/vl-wbk/fast-paginate.git",
+            "type": "git"
+        },
+        {
             "url": "https://github.com/vl-wbk/filament-factory-action.git",
             "type": "git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/laravel-shift/laravel-comments.git"
         }
     ],
     "extra": {
