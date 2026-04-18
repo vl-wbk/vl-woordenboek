@@ -27,7 +27,7 @@ De volgende functionaliteiten hebben we al reeds op de implementatie-planning st
 ## 🚀 Synchronisatie
 
 Omdat we boilerplate code van `laravel/laravel` up-to-date willen houden synchroniseren we regelmatig de code van hun starter-template met ons project.
-Zo was de laatste synchronistatie uitgevoerd op 12/02/2026 *(v12.11.2)*
+Zo was de laatste synchronistatie uitgevoerd op 18/04/2026 *(v13.2.0)*
 
 ## 🧐 Bijdragen
 
