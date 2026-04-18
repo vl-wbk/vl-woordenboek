@@ -26,9 +26,9 @@ final class ExampleSentenceResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-queue-list';
 
 
-    protected static ?string $modelLabel = 'Community voorbeelden';
+    protected static ?string $modelLabel = 'Voorbeeldzinnen';
 
-    protected static ?string $pluralModelLabel = 'Community voorbeelden';
+    protected static ?string $pluralModelLabel = 'Voorbeeldzinnen';
 
     protected static ?string $cluster = ArticlesCluster::class;
 

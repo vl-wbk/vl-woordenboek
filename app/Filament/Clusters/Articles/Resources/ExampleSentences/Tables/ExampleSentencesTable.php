@@ -34,8 +34,8 @@ final readonly class ExampleSentencesTable
                 'article:id,word',
                 'author:id,name'
             ]))
-            ->heading(heading: 'Overzicht van community voorbeeldzinnen')
-            ->description(description: 'Een overzicht van alle community voorbeeldzinnen die zijn aangedragen door gebruikers van het Vlaams Woordenboek. In de onderstaande tabel vind je een overzicht van alle voorbeelden die nog beoordeeld moeten worden.')
+            ->heading(heading: 'Overzicht van Voorbeeldzinnen')
+            ->description(description: 'Een overzicht van alle Voorbeeldzinnen die zijn aangedragen door gebruikers van het Vlaams Woordenboek. In de onderstaande tabel vind je een overzicht van alle voorbeelden die nog beoordeeld moeten worden.')
             ->headerActions(actions: self::registerTableHeaderActions())
             ->emptyStateIcon(icon: Heroicon::OutlinedQueueList)
             ->emptyStateHeading(heading: 'Geen voorbeeldzinnen gevonden')
