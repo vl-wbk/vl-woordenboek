@@ -31,6 +31,15 @@ class SubmitUserExample extends Component
         $this->cssClasses = $cssClasses;
     }
 
+    /**
+     * Validates and persists the user example to the database.
+     *
+     * This method triggers the standard Livewire validation. Upon success, it creates a 
+     * UserExample record, automatically attributing it to the logged-in user or 
+     * marking it as anonymous/guest-named.
+     *
+     * @return void
+     */
     public function submit(): void
     {
         $this->validate();
