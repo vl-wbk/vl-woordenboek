@@ -15,7 +15,7 @@ class UserExamplesList extends Component
 {
     use WithPagination;
 
-    protected int|string|null $articleId;
+    public int|string|null $articleId;
 
     public string $sortBy = 'created_at';
 
