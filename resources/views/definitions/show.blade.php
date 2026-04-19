@@ -251,7 +251,7 @@
                                                 </div>
                                             </div>
                                         @elseif($word->migration_configuration['examples'])
-                                            <livewire:user-examples-list :word="$word" :articleId="$word->id" />
+                                            <livewire:user-examples-list :articleId="$word->id" />
 
                                             <hr class="my-3"/>
 
