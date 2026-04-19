@@ -141,7 +141,7 @@ final class ArticlesRelationManager extends RelationManager
                 ->sortable()
                 ->date()
                 ->toggleable(isToggledHiddenByDefault: true),
-            TextColumn::make('articles.updated_at')
+            TextColumn::make('updated_at')
                 ->label('Laast gewijzigd')
                 ->sortable()
                 ->date()
