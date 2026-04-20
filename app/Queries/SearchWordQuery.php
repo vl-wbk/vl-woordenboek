@@ -41,7 +41,6 @@ final readonly class SearchWordQuery
             ->published()
             ->where(fn (Builder $query) => $this->applyVisibilityFilters($query, $request))
             ->where(fn (Builder $query) => $this->applySearchStrategy($query, $request))
-            ->orderByDesc('relevance')
             ->orderBy('created_at', 'desc')
             ->fastPaginate(self::RESULTS_PER_PAGE)
             ->appends($request->query());
