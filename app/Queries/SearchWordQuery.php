@@ -131,21 +131,22 @@ final readonly class SearchWordQuery
         bool $includeDescription,
         bool $leading,
     ): void {
-        $token = $this->getBoundaryToken($request, $leading);
+    // Gebruik de volledige genormaliseerde term
+    $term = $this->normalizeTerm($request);
 
-        if ($token === null) {
-            $query->whereRaw('0 = 1');
-            return;
-        }
-
-        $pattern = $leading ? "{$token}%" : "%{$token}";
-
-        $query->where(fn (Builder $q) => $q
-            ->where('word', 'LIKE', $pattern)
-            ->orWhere('keywords', 'LIKE', $pattern)
-            ->when($includeDescription, fn ($q) => $q->orWhere('description', 'LIKE', $pattern))
-        );
+    if ($term === '') {
+        $query->whereRaw('0 = 1');
+        return;
     }
+
+    $pattern = $leading ? "{$term}%" : "%{$term}";
+
+    $query->where(fn (Builder $q) => $q
+        ->where('word', 'LIKE', $pattern)
+        ->orWhere('keywords', 'LIKE', $pattern)
+        ->when($includeDescription, fn ($q) => $q->orWhere('description', 'LIKE', $pattern))
+    );
+}
 
     /**
      * Full-text search with intelligent strategy:
