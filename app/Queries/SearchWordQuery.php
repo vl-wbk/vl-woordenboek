@@ -9,6 +9,7 @@ use App\Models\Article;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -40,6 +41,7 @@ final readonly class SearchWordQuery
             ->published()
             ->where(fn (Builder $query) => $this->applyVisibilityFilters($query, $request))
             ->where(fn (Builder $query) => $this->applySearchStrategy($query, $request))
+            ->orderByDesc('relevance')
             ->orderBy('created_at', 'desc')
             ->fastPaginate(self::RESULTS_PER_PAGE)
             ->appends($request->query());
@@ -107,6 +109,10 @@ final readonly class SearchWordQuery
             return;
         }
 
+        $query->addSelect([
+            'relevance' => DB::raw('10')
+        ]);
+
         $query->where(fn (Builder $q) => $q
         ->whereRaw('LOWER(word) = ?', [$term])
         ->orWhereRaw('LOWER(keywords) = ?', [$term])
@@ -140,6 +146,10 @@ final readonly class SearchWordQuery
     }
 
     $pattern = $leading ? "{$term}%" : "%{$term}";
+
+    $query->addSelect([
+            'relevance' => DB::raw('5')
+        ]);
 
     $query->where(fn (Builder $q) => $q
         ->where('word', 'LIKE', $pattern)
@@ -202,7 +212,6 @@ final readonly class SearchWordQuery
     ): void {
         $phrase = '"' . $this->escapeFtToken($term) . '"';
 
-        // 1. Probeer eerst de exacte frase (meest relevant)
         $exists = Article::whereRaw("MATCH({$columns}) AGAINST(? IN BOOLEAN MODE)", [$phrase])->exists();
 
         if ($exists) {
@@ -210,13 +219,16 @@ final readonly class SearchWordQuery
             return;
         }
 
-        // 2. Fallback: Alle woorden moeten aanwezig zijn (AND-strategie),
-        // maar ze hoeven niet naast elkaar te staan.
-        // We filteren ook 'stopwoorden' of hele korte woorden eruit als dat nodig is.
-        $andExpr = implode(' ', array_map(
-            fn (string $t) => '+' . $this->escapeFtToken($t) . '*',
-            $tokens,
-        ));
+        $andExpr = collect($tokens)
+            ->map(fn (string $t) => $this->escapeFtToken($t))
+            ->filter() // <--- CRITICAL: Removes tokens that are now empty
+            ->map(fn (string $t) => "+{$t}*")
+            ->implode(' ');
+
+        if (empty($andExpr)) {
+            $query->whereRaw('0 = 1');
+            return;
+        }
 
         $query->whereRaw("MATCH({$columns}) AGAINST(? IN BOOLEAN MODE)", [$andExpr]);
     }
@@ -233,10 +245,11 @@ final readonly class SearchWordQuery
      */
     private function escapeFtToken(string $token): string
     {
+        // Remove characters that have special meaning in Boolean Mode
         return str_replace(
-            ['+',  '-',  '>',  '<',  '(',  ')',  '~',  '*',  '"',  '\\'],
-            ['\\+','\\-','\\>','\\<','\\(','\\)','\\~','\\*','\\"','\\\\'],
-            $token,
+            ['+', '-', '>', '<', '(', ')', '~', '*', '"', '\\'],
+            '',
+            $token
         );
     }
 
