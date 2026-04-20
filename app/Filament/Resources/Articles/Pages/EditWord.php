@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Articles\Pages;
 use App\Models\User;
 use App\Models\Article;
 use App\Enums\ArticleStates;
+use App\Filament\Resources\Articles\Actions\PreviewArticleAction;
 use App\Filament\Resources\Articles\ArticleResource;
 use App\Filament\Resources\Articles\Actions\SoftDeleteArticleAction;
 use App\Filament\Resources\Articles\Actions\States\PublishArticleAction;
@@ -68,10 +69,7 @@ final class EditWord extends EditRecord
                 PublishArticleAction::make(),
             ])->buttonGroup(),
 
-            Actions\Action::make('preview')
-                ->color('gray')
-                ->icon(Heroicon::OutlinedEye)
-                ->url(route('word-information.show', $this->record), shouldOpenInNewTab: true),
+            PreviewArticleAction::make(),
 
             Actions\ActionGroup::make([
                 SoftDeleteArticleAction::make()->icon('heroicon-o-trash'),
