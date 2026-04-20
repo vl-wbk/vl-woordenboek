@@ -202,28 +202,23 @@ final readonly class SearchWordQuery
     ): void {
         $phrase = '"' . $this->escapeFtToken($term) . '"';
 
+        // 1. Probeer eerst de exacte frase (meest relevant)
+        $exists = Article::whereRaw("MATCH({$columns}) AGAINST(? IN BOOLEAN MODE)", [$phrase])->exists();
 
-        $phraseCount = Article::whereRaw(
-            "MATCH({$columns}) AGAINST(? IN BOOLEAN MODE)",
-            [$phrase]
-        )->count();
-
-        if ($phraseCount > 0) {
+        if ($exists) {
             $query->whereRaw("MATCH({$columns}) AGAINST(? IN BOOLEAN MODE)", [$phrase]);
             return;
         }
 
-        if (! empty($tokens)) {
-            $orExpr = implode(' ', array_map(
-                fn (string $t) => $this->escapeFtToken($t) . '*',
-                $tokens,
-            ));
-            $query->whereRaw("MATCH({$columns}) AGAINST(? IN BOOLEAN MODE)", [$orExpr]);
-            return;
-        }
+        // 2. Fallback: Alle woorden moeten aanwezig zijn (AND-strategie),
+        // maar ze hoeven niet naast elkaar te staan.
+        // We filteren ook 'stopwoorden' of hele korte woorden eruit als dat nodig is.
+        $andExpr = implode(' ', array_map(
+            fn (string $t) => '+' . $this->escapeFtToken($t) . '*',
+            $tokens,
+        ));
 
-        // All tokens were below the minimum length (e.g. "de in op") — no match possible.
-        $query->whereRaw('0 = 1');
+        $query->whereRaw("MATCH({$columns}) AGAINST(? IN BOOLEAN MODE)", [$andExpr]);
     }
 
     /**
