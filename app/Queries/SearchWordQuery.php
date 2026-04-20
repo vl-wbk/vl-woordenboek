@@ -278,16 +278,6 @@ final readonly class SearchWordQuery
     }
 
     /**
-     * Get the first or last valid token from the normalized search term.
-     */
-    private function getBoundaryToken(Request $request, bool $first): ?string
-    {
-        $tokens = $this->getSearchTokens($request);
-
-        return $tokens[$first ? 0 : array_key_last($tokens)] ?? null;
-    }
-
-    /**
      * Split and normalize the search term into tokens of at least 3 characters.
      *
      * The 3-character minimum aligns with MySQL's default ft_min_word_len = 3.
