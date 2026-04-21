@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\Articles\Widgets;
 
 use App\Enums\ArticleStates;
@@ -8,7 +10,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
-class SuggestionQueueKpiStats extends StatsOverviewWidget
+final class SuggestionQueueKpiStats extends StatsOverviewWidget
 {
     protected function getStats(): array
     {
@@ -25,7 +27,7 @@ class SuggestionQueueKpiStats extends StatsOverviewWidget
                     ->selectRaw('AVG(DATEDIFF(NOW(), created_at)) as days')
                     ->value('days');
 
-                return number_format($avgDays, 1).' Dagen';
+                return number_format((int) $avgDays, 1).' Dagen';
             })
                 ->icon(Heroicon::Clock)
                 ->description('Tijd in de wachtrij')
@@ -36,7 +38,7 @@ class SuggestionQueueKpiStats extends StatsOverviewWidget
                     ->selectRaw('AVG(DATEDIFF(published_at, created_at)) as duration')
                     ->value('duration');
 
-                return $avgDays ? round($avgDays, 1).' Dagen' : 'N/A';
+                return $avgDays ? round((int) $avgDays, 1).' Dagen' : 'N/A';
             })
                 ->description('Van eerste concept tot publicatie-aanvraag')
                 ->color(fn ($state) => $state > 14 ? 'warning' : 'success')

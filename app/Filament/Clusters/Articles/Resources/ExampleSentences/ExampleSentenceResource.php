@@ -26,9 +26,9 @@ final class ExampleSentenceResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-queue-list';
 
 
-    protected static ?string $modelLabel = 'Community voorbeelden';
+    protected static ?string $modelLabel = 'Voorbeeldzinnen';
 
-    protected static ?string $pluralModelLabel = 'Community voorbeelden';
+    protected static ?string $pluralModelLabel = 'Voorbeeldzinnen';
 
     protected static ?string $cluster = ArticlesCluster::class;
 
@@ -49,13 +49,8 @@ final class ExampleSentenceResource extends Resource
         ];
     }
 
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()->whereState('status', Pending::class);
-    }
-
     public static function getNavigationBadge(): ?string
     {
-        return (string) self::$model::whereState('status', Pending::class)->count();
+        return (string) self::$model::count();
     }
 }

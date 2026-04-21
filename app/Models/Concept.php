@@ -13,8 +13,11 @@ final class Concept extends Model
     /**
      * @var list<string>
      */
-    protected $fillable = ['word', 'description', 'example', 'characteristics', 'notify_author', 'author_id', 'part_of_speech_id'];
+    protected $fillable = ['word', 'description', 'characteristics', 'notify_author', 'author_id', 'part_of_speech_id'];
 
+    /**
+     * @return BelongsTo<User, covariant $this>
+     */
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -25,11 +28,17 @@ final class Concept extends Model
         return $this->author()->is($user);
     }
 
+    /**
+     * @return BelongsTo<PartOfSpeech, covariant $this>
+     */
     public function partOfSpeech(): BelongsTo
     {
         return $this->belongsTo(PartOfSpeech::class);
     }
 
+    /**
+     * @return BelongsToMany<Region, covariant $this>
+     */
     public function regions(): BelongsToMany
     {
         return $this->belongsToMany(Region::class);

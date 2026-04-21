@@ -25,7 +25,7 @@ abstract class SentenceState extends State implements HasIcon, HasColor, HasLabe
     public static function config(): StateConfig
     {
         return parent::config()
-            ->default(Pending::class)
+            ->default(Approved::class)
             ->allowTransition([Pending::class], Approved::class)
             ->allowTransition([Pending::class], Rejected::class)
             ->allowTransition([Approved::class], Unpublished::class)

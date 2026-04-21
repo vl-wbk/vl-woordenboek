@@ -169,7 +169,7 @@ final readonly class UserInfolist
                 ->columnSpanFull()
                 ->icon('heroicon-o-chat-bubble-left-right')
                 ->iconColor('primary')
-                ->state(fn(user $user): ?string => $user->bans->first()->reason)
+                ->state(fn(User $user): ?string => $user->bans->first()->reason)
                 ->placeholder(placeholder: __('user-resqource.infolist.deactivation-information.entries.reason.placeholder')),
         ];
     }

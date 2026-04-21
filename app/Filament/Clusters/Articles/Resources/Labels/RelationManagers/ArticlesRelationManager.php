@@ -16,6 +16,7 @@ use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Manages the relationship between Labels and Articles in the Vlaams Woordenboek.
@@ -140,12 +141,14 @@ final class ArticlesRelationManager extends RelationManager
                 ->label('Toegevoegd op')
                 ->sortable()
                 ->date()
-                ->toggleable(isToggledHiddenByDefault: true),
+                ->toggleable(isToggledHiddenByDefault: true)
+                ->sortable(query: fn (Builder $query, string $direction): Builder => $query->orderBy('articles.created_at', $direction)),
+
             TextColumn::make('updated_at')
                 ->label('Laast gewijzigd')
-                ->sortable()
                 ->date()
-                ->toggleable(isToggledHiddenByDefault: true),
+                ->toggleable(isToggledHiddenByDefault: true)
+                ->sortable(query: fn (Builder $query, string $direction): Builder => $query->orderBy('articles.updated_at', $direction)),
         ];
     }
 }

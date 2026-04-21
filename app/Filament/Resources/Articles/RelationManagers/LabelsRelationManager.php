@@ -116,8 +116,7 @@ final class LabelsRelationManager extends RelationManager
                     ->formatStateUsing(fn(Label $label): string => Str::limit($label->description, 60, preserveWords: true)),
                 TextColumn::make('pivot.created_at')
                     ->label(label: __('filament/RelationManagers/LabelsRelationManager.table.columns.attached-at'))
-                    ->date()
-                    ->sortable(),
+                    ->date(),
             ])
             ->headerActions([
                 $this->getCreateAction(),

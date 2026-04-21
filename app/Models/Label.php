@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * The model supports testing through factories and implements timestamp tracking for relationship changes.
  *
  * @property int $id The unique identifier for the label
+ * @property bool $private INdicates that the label is for internal use only or not.
  * @property string $name The unique name of the label
  * @property string|null $description The detailed explanation of the label
  * @property Carbon $created_at Timestamp of when the label was created

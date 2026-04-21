@@ -11,6 +11,7 @@ use Spatie\LaravelData\WithData;
 
 final class StoreConceptRequest extends FormRequest
 {
+    /** @use WithData<SuggestionData> */
     use WithData;
 
     protected string $dataClass = SuggestionData::class;
@@ -27,7 +28,6 @@ final class StoreConceptRequest extends FormRequest
             'kenmerken' => [],
             'beschrijving' => ['required'],
             'regio' => ['required', 'array', 'min:1'],
-            'voorbeeld' => ['required'],
             'woordsoort' => [],
         ];
     }

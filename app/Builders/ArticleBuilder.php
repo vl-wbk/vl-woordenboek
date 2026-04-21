@@ -59,6 +59,12 @@ final class ArticleBuilder extends Builder
         return $this->orWhereNotNull("archived_at");
     }
 
+    public function isEditable(): bool
+    {
+        return $this->model->state->in([ArticleStates::New, ArticleStates::Draft, ArticleStates::Archived]) &&
+            !$this->model->state->is(ArticleStates::Approval);
+    }
+
     /**
      * State check: determines if the current model instance is archived.
      *
@@ -72,7 +78,7 @@ final class ArticleBuilder extends Builder
      */
     public function isArchived(): bool
     {
-        /** @phpstan-ignore-next-line - Accessing model property via de Builder context */
+        /** @phpstan-ignore-next-line */
         return !is_null($this->model->archived_at);
     }
 

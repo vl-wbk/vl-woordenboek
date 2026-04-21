@@ -2,9 +2,11 @@
 
 namespace App\Filament\Pages;
 
+use App\Enums\ArticleStates;
 use App\Filament\Clusters\Articles\ArticlesCluster;
 use App\Filament\Resources\Articles\Widgets\SuggestionQueueKpiStats;
 use App\Filament\Resources\Articles\Widgets\SuggestionQueueTable;
+use App\Models\Article;
 use BackedEnum;
 use Filament\Pages\Dashboard;
 
@@ -26,4 +28,10 @@ final class SuggestionQueueDashboard extends Dashboard
         ];
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return Article::where('state', ArticleStates::New)
+            ->orWhere('state', ArticleStates::ExternalData)
+            ->count();
+    }
 }

@@ -44,13 +44,16 @@ final class VolunteerApplicationsResource extends Resource
         return VolunteerApplicationsTable::configure($table);
     }
 
-    public static function getNavigationBadge(): ?string
+    public static function getNavigationBadge(): string
     {
         return Cache::flexible('volunteer_applications:count', [0, 360], function (): string {
             return (string) self::$model::where('state', ApplicationState::Open)->count();
         });
     }
 
+    /**
+     * @return array{index: \Filament\Resources\Pages\PageRegistration}
+     */
     public static function getPages(): array
     {
         return [

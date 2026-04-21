@@ -8,6 +8,7 @@ use App\Filament\Resources\Articles\Schema\{ArticleForm, FormSchema};
 use App\Models\Article;
 use App\Enums\ArticleStates;
 use App\Filament\Resources\Articles\ArticleResource;
+use App\States\ExampleSentence\Approved;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Resources\Pages\CreateRecord\Concerns\HasWizard;
 use Filament\Schemas\Schema;
@@ -116,6 +117,19 @@ final class CreateWord extends CreateRecord
                 ->icon(Heroicon::OutlinedLink)
                 ->columnSpanFull()
                 ->schema([Section::make()->schema(ArticleForm::getRelatedWordsRepeater())]),
+
+            Step::make('Voorbeeldzinnen')
+                ->icon(Heroicon::OutlinedChatBubbleLeftRight)
+                ->columnSpanFull()
+                ->schema([
+                    ArticleForm::exampleSentenceRepeater()
+                        ->mutateRelationshipDataBeforeCreateUsing(function (array $data): array {
+                            $data['user_id'] = auth()->id();
+                            $data['status'] = Approved::class;
+
+                            return $data;
+                        })
+                ]),
 
             Step::make(trans('Bronnen'))
                 ->icon(Heroicon::OutlinedBookOpen)

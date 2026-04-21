@@ -13,6 +13,7 @@ use App\Policies\UserExamplePolicy;
 use App\States\ExampleSentence\Rejected;
 use App\States\ExampleSentence\Approved;
 use App\States\ExampleSentence\Pending;
+use App\States\ExampleSentence\Unpublished;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
@@ -33,8 +34,8 @@ final readonly class ExampleSentencesTable
                 'article:id,word',
                 'author:id,name'
             ]))
-            ->heading(heading: 'Overzicht van community voorbeeldzinnen')
-            ->description(description: 'Een overzicht van alle community voorbeeldzinnen die zijn aangedragen door gebruikers van het Vlaams Woordenboek. In de onderstaande tabel vind je een overzicht van alle voorbeelden die nog beoordeeld moeten worden.')
+            ->heading(heading: 'Overzicht van Voorbeeldzinnen')
+            ->description(description: 'Een overzicht van alle Voorbeeldzinnen die zijn aangedragen door gebruikers van het Vlaams Woordenboek. In de onderstaande tabel vind je een overzicht van alle voorbeelden die nog beoordeeld moeten worden.')
             ->headerActions(actions: self::registerTableHeaderActions())
             ->emptyStateIcon(icon: Heroicon::OutlinedQueueList)
             ->emptyStateHeading(heading: 'Geen voorbeeldzinnen gevonden')
@@ -121,6 +122,12 @@ final readonly class ExampleSentencesTable
                 ->modalIcon(Heroicon::OutlinedPencilSquare)
                 ->modalDescription('Staat er een typo in de voorbeeldzin? Geen probleem u kunt deze oplossen door het onderstaande formulier.')
                 ->modalCloseButton(false),
+
+            StateFusionAction::make('offline')
+                ->authorize(UserExamplePolicy::changeState)
+                ->label('Offline halen')
+                ->icon(Heroicon::OutlinedCheckBadge)
+                ->transitionTo(Unpublished::class),
 
             StateFusionAction::make('reject')
                 ->authorize(UserExamplePolicy::changeState)

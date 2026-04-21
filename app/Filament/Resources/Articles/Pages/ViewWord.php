@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Articles\Pages;
 
 use App\Filament\Resources\Articles\Actions\DuplicationArticleAction;
+use App\Filament\Resources\Articles\Actions\PreviewArticleAction;
 use App\Models\Article;
 use App\Filament\Resources\Articles\ArticleResource;
 use App\Filament\Resources\Articles\Actions\RevokePublication;
@@ -64,11 +65,7 @@ final class ViewWord extends ViewRecord
 
     public function getpreviewAction(): FilamentActions\Action
     {
-        return FilamentActions\Action::make('preview')
-            ->color('gray')
-            ->hidden(fn (Article $article): bool => $article->trashed())
-            ->icon(Heroicon::OutlinedEye)
-            ->url(route('word-information.show', $this->record), shouldOpenInNewTab: true);
+        return PreviewArticleAction::make();
     }
 
     public function getCommentsAction(): CommentsAction

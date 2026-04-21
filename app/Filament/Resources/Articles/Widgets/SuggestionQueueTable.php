@@ -41,6 +41,9 @@ class SuggestionQueueTable extends TableWidget
             ->paginated([7, 14, 21, 28]);
     }
 
+    /**
+     * @return SelectFilter[]
+     */
     private function registerFilters(): array
     {
         return [

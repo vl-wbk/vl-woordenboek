@@ -132,21 +132,9 @@
                                 </div>
 
                                 <div class="mb-5">
-                                    <label for="beschrijving" class="form-label small text-uppercase fw-black text-muted">Beschrijving(en) <span class="text-danger fw-bold">*</span></label>
-                                    <textarea name="beschrijving" id="beschrijving" rows="4" class="form-control @error('beschrijving') is-invalid @enderror p-3 @error('beschrijving') is-invalid @enderror" placeholder="Wat is de kern van de betekenis?">{{ old('beschrijving') }}</textarea>
+                                    <label for="beschrijving" class="form-label small text-uppercase fw-black text-muted">Beschrijving en voorbeelden <span class="text-danger fw-bold">*</span></label>
+                                    <textarea name="beschrijving" id="beschrijving" rows="12" class="form-control @error('beschrijving') is-invalid @enderror p-3 @error('beschrijving') is-invalid @enderror" placeholder="Wat is de kern van de betekenis? Vergeet ook zeker niet de voorbeelden van het gebruik mee te geven.">{{ old('beschrijving') }}</textarea>
                                     @error('woord') <span class="text-danger small fw-bold">Verplicht veld</span> @enderror
-                                </div>
-
-                                <div class="mb-0">
-                                    <label for="voorbeeld" class="form-label small text-uppercase fw-black text-muted">Voorbeeld(en) <span class="text-danger fw-bold">*</span></label>
-                                    <textarea name="voorbeeld" id="voorbeeld" rows="5" class="form-control @error('voorbeeld') is-invalid @enderror p-3 @error('voorbeeld') is-invalid @enderror" placeholder="Citeer een zin waarin het woord tot leven komt...">{{ old('voorbeeld') }}</textarea>
-                                    @error('woord') <span class="text-danger small fw-bold">Verplicht veld</span> @enderror
-
-                                    <div class="mt-3 text-end">
-                                        <button type="button" class="btn btn-sm btn-outline-warning text-dark border-warning rounded-pill px-3 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#sourceInformation">
-                                            <x-heroicon-o-document-magnifying-glass class="icon icon-sm me-1"/> Citeerhulp
-                                        </button>
-                                    </div>
                                 </div>
                             </div>
 

@@ -21,6 +21,14 @@
                             <x-heroicon-o-calendar-days class="icon color-green me-1"/>
                             {{ optional($example->created_at)->translatedFormat('j M Y') }}
                         </span>
+
+                        @if ($example->source)
+                            <span class="mx-2 opacity-50">|</span>
+                            <span>
+                                <x-heroicon-o-book-open class="icon color-green me-1"/>
+                                {{ $example->source }}
+                            </span>
+                        @endif
                     </div>
                 </li>
             @endforeach

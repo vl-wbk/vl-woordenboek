@@ -38,7 +38,16 @@ final readonly class ExportPolicy
 			? Response::allow()
 			: Response::deny(message: 'U hebt geen toestemming om het gewenste export bestand te bekijken.');
     }
-	
+
+    /**
+     * Authorize the initiation of a new export process.
+     *
+     * This check is mapped to the 'export_article' permission string.
+     * Ensure this string remains synced with Permissions/Roles seeder.
+     *
+     * @param  User $user The authenticated user who tries to export the data.
+     * @return Response
+     */
     public function create(User $user): Response
     {
         return $user->can('export_article')

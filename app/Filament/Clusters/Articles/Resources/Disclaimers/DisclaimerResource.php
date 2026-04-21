@@ -139,7 +139,7 @@ final class DisclaimerResource extends Resource
      *
      * @return string|null The formatted count of records, or null if no badge should be displayed.
      */
-    public static function getNavigationBadge(): ?string
+    public static function getNavigationBadge(): string
     {
         return Cache::flexible('disclaimer_count', [10, 60], fn (): string => (string) self::$model::count());
     }
