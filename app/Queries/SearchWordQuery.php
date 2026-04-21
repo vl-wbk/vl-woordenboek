@@ -9,28 +9,59 @@ use App\Models\Article;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
+ * Handles full-text and pattern-based article search queries
+ *
+ * Supports four search strategy strategirs depending on the 'zoekpatroon' request parameter:
+ *
+ * - Full-text (default):   phrase match with token fallback via MySQL MATCH/AGAINST
+ * - Exact:                 strict lowercase equality on word/keywords/description
+ * - Starts-with:           LIKE prefix pattern (e.g. 'term%')
+ * - Ends-with:             LIKE suffix pattern (e.g. '%term')
+ *
+ * Results are always scoped to published articles. optionally extended with archived articles
+ * when 'archief=true' is passed. Pagination is fixed at {@see self::RESULTS_PER_PAGE} items per page.
+ *
  * @package App\Queries
  */
 final readonly class SearchWordQuery
 {
+    /**
+     * Number of articles return per page.
+     *
+     * @var int
+     */
     private const int RESULTS_PER_PAGE = 6;
 
+    /**
+     * Whitelisted MATCH() column lists keyed by search scope.
+     *
+     * Each value must exactly match a FULLTEXT index defined on the 'articles' table,
+     * as MySQL will throw an error if MATCH() references columns that don't form a valid index.
+     * The 'standard' scope searches word and keywords: the 'extended' scope additionally includes
+     * description and is activated when 'uitgebreid=true' is passed in the request.
+     *
+     * @var array<string, string>
+     */
     private const array FULLTEXT_COLUMN_SETS = [
         'standard' => 'word, keywords',
         'extended' => 'word, keywords, description',
     ];
 
     /**
-     * Execute the search query based on request parameters.
+     * Execute the article search query and return a paginated result set.
      *
-     * @param Request $request
-     * @return LengthAwarePaginator<int, Article>
+     * Applies allowed sorts and filters via Spatie QueryBuilder, eager-loads the author,
+     * regions, and bookmarkers relations, then delegates visibility ans dearch logic to
+     * applyVisibilityFilters() and applySearchStrategy() respectively. The current query string
+     * is appended to the paginator so that page links preserved all active filters and search parameters.
+     *
+     * @param  Request $request The incoming      HTTP request carrying the given parameters?
+     * @return LengthAwarePaginator<int, Article> A paginated slice of matching Article models with the needed relations eager-loaded
      */
     public function execute(Request $request): LengthAwarePaginator
     {
@@ -47,10 +78,14 @@ final readonly class SearchWordQuery
     }
 
     /**
-     * Filter by publication and archive status.
+     * Restrict results to published articles, optionally including archived ones.
      *
-     * @param Builder<Article> $query
-     * @param Request $request
+     * Only rows with a non-null 'published_at' are returned by default. when 'archief=true'
+     * is present in the request, rows- with a non-null 'archived_at' are unioned in via OR
+     * so that archived articles appear alongside published ones.
+     *
+     * @param  Builder<Article> $query   The base query to apply visibility constraints to.
+     * @param  Request          $request The incoming request, checked for the 'archief' boolean flag?
      * @return void
      */
     private function applyVisibilityFilters(Builder $query, Request $request): void
@@ -63,15 +98,20 @@ final readonly class SearchWordQuery
     }
 
     /**
-     * Determine and apply the correct search strategy.
+     * Route the request to the appropriate search strategy vased on 'zoekpatroon'.
      *
-     * @param Builder<Article> $query
-     * @param Request $request
+     * Delegates to exact, starts-with, ends-with, or full-text search depending on the pattern value.
+     * When the pattern is absent or unrecognised, full-text search is used as the default. Returns early
+     * without adding any WHERE clause when normalised term is empty, which has the effect of returning all
+     * otherwuse visible articles.
+     *
+     * @param  Builder<Article> $query   The query to apply the chosen strategy to.
+     * @param  Request          $request The incoming request carrying zoekterm and zoekpatroon
      * @return void
      */
     private function applySearchStrategy(Builder $query, Request $request): void
     {
-        $patternType        = $request->get('zoekpatroon');
+        $patternType        = $request->input('zoekpatroon');
         $includeDescription = $request->boolean('uitgebreid');
         $term = $this->normalizeTerm($request);
 
@@ -88,15 +128,16 @@ final readonly class SearchWordQuery
     }
 
     /**
-     * Exact phrase match using FT boolean mode with double-quote wrapping.
+     * Apply a strict equality search across word, keywords, and optionally description.
      *
-     * The term is run through escapeFtToken() to neutralize any MySQL FT
-     * boolean operator characters before being wrapped in quotes. PDO bindings
-     * handle SQL injection prevention independently.
+     * Compares trhe normalized term against lowercased column values so the match is case-insensitive
+     * regardless of the column collation. Returns zero rows when the term is empty to avoid unintentionally
+     * matching all articles. SQL injection prevention is handled entirely by PDO parameter binding,
+     * independently of any escaping done elsewhere in this class.
      *
-     * @param Builder<Article> $query
-     * @param Request $request
-     * @param bool $includeDescription
+     * @param  Builder<Article> $query              The query to apply equality constraints to.
+     * @param  Request          $request            The incoming request from which the search term is read.
+     * @param  bool             $includeDescription When true, the description column is included as an additional OR condition.
      * @return void
      */
     private function applyExactSearch(Builder $query, Request $request, bool $includeDescription): void
@@ -108,68 +149,59 @@ final readonly class SearchWordQuery
             return;
         }
 
-        $query->addSelect([
-            'relevance' => DB::raw('10')
-        ]);
-
         $query->where(fn (Builder $q) => $q
-        ->whereRaw('LOWER(word) = ?', [$term])
-        ->orWhereRaw('LOWER(keywords) = ?', [$term])
-        ->when($includeDescription, fn ($q) => $q->orWhereRaw('LOWER(description) = ?', [$term]))
-    );
+            ->whereRaw('LOWER(word) = ?', [$term])
+            ->orWhereRaw('LOWER(keywords) = ?', [$term])
+            ->when($includeDescription, fn ($q) => $q->orWhereRaw('LOWER(description) = ?', [$term]))
+        );
     }
 
     /**
-     * Boundary search stays as LIKE because MySQL FT wildcards are suffix-only
-     * (token*), making ends-with impossible via full-text. The `word` and
-     * `keywords` columns are short enough that LIKE remains fast with a column index.
+     * Apply a LIKE-based boundary search across word, keywords, and optionally description.
      *
-     * @param Builder<Article> $query
-     * @param Request $request
-     * @param bool $includeDescription
-     * @param bool $leading true = starts-with, false = ends-with
+     * Full-text boolean mode only supports suffix wildcards ('token*'), making a true ends-with search
+     * inpossible via MATCH/AGAINST. LIKE is therefore used for both directions. The word and keywords
+     * are short enough that a column index keeps LIKE performant even without a leading wildcard. Pass 'leading: true'
+     * for a starts-with pattern ('term%') or 'leading: false' for an ends-with pattern ('%term').
+     *
+     * @param  Builder<Article> $query
+     * @param  Request          $request
+     * @param  bool             $includeDescription When
+     * @param  bool             $leading                true = starts-with, false = ends-with
      * @return void
      */
-    private function applyBoundarySearch(
-        Builder $query,
-        Request $request,
-        bool $includeDescription,
-        bool $leading,
-    ): void {
-    // Gebruik de volledige genormaliseerde term
-    $term = $this->normalizeTerm($request);
+    private function applyBoundarySearch(Builder $query, Request $request, bool $includeDescription, bool $leading): void
+    {
+        // Gebruik de volledige genormaliseerde term
+        $term = $this->normalizeTerm($request);
 
-    if ($term === '') {
-        $query->whereRaw('0 = 1');
-        return;
+        if ($term === '') {
+            $query->whereRaw('0 = 1');
+            return;
+        }
+
+        $pattern = $leading ? "{$term}%" : "%{$term}";
+
+        $query->where(fn (Builder $q) => $q
+            ->where('word', 'LIKE', $pattern)
+            ->orWhere('keywords', 'LIKE', $pattern)
+            ->when($includeDescription, fn ($q) => $q->orWhere('description', 'LIKE', $pattern))
+        );
     }
 
-    $pattern = $leading ? "{$term}%" : "%{$term}";
-
-    $query->addSelect([
-            'relevance' => DB::raw('5')
-        ]);
-
-    $query->where(fn (Builder $q) => $q
-        ->where('word', 'LIKE', $pattern)
-        ->orWhere('keywords', 'LIKE', $pattern)
-        ->when($includeDescription, fn ($q) => $q->orWhere('description', 'LIKE', $pattern))
-    );
-}
-
     /**
-     * Full-text search with intelligent strategy:
+     * Apply MySQL full-text search using a phrase-or-token strategy.
      *
-     *   Multi-word → exact phrase first, OR-token fallback if no results.
-     *   Single-word → prefix wildcard (+token*).
-     *
-     * This correctly handles expressions and idioms ("het regent als een hond")
-     * while still returning useful results when no exact phrase match exists.
+     * For multi-word terms an exact phrase match is attempted first, falling back to an AND-token search
+     * if no results are found. This correctly handles idioms and expressions like 'het regent als een hond'
+     * while still returning useful results when no exatc phrase exists in the index. For single-word terms a
+     * prefix wildcard search ('+token*') is used directly. Tokens shorter then 1 characters are discarded before the
+     * expression is built because the MySQL FT engine silently ignores them, which would otherwise cause confusing
+     * empty-result bugs.
      *
      * @param Builder<Article> $query
-     * @param Request $request
-     * @param bool $includeDescription
-     * @return void
+     * @param Request          $request
+     * @param bool             $includeDescription
      */
     private function applyFullTextSearch(Builder $query, Request $request, bool $includeDescription): void
     {
@@ -191,26 +223,23 @@ final readonly class SearchWordQuery
     }
 
     /**
-     * Try an exact phrase match first. If it returns no rows, fall back to an
-     * OR search across all usable tokens so the user always gets results.
+     * Attempt a full-text phrase match and fall back to an AND-token search if it yields no results.
      *
-     * The pre-flight COUNT is a lightweight FT index scan with no row data
-     * fetched, keeping the overhead minimal even on large tables.
+     * The pre-flight existence check is a lightweight FT index index scan that fetches no row data.
+     * keeping overhead minimal even on large tables. When the phrase attempt fails, each token is passed
+     * through escapeFtToken() to neutralise boolean operators, empty results from escaping are discarded,
+     * and the remaining tokens are assembled into a required prefix-wildcard expression ('*token_1* +token2*').
+     * When every token is stripped to empty after escaping, zero rows are returned rather than r
+     * unning a malformed expression.
      *
-     * @param Builder<Article> $query
+     * @param Builder<Article>  $query
      * @param string            $term    Normalized full search term
      * @param array<int,string> $tokens  Filtered tokens (>= 3 chars)
      * @param string            $columns Whitelisted MATCH() column list
-     * @return void
      */
-    private function applyPhraseWithFallback(
-        Builder $query,
-        string $term,
-        array $tokens,
-        string $columns,
-    ): void {
+    private function applyPhraseWithFallback(Builder $query, string $term, array $tokens, string $columns): void
+    {
         $phrase = '"' . $this->escapeFtToken($term) . '"';
-
         $exists = Article::whereRaw("MATCH({$columns}) AGAINST(? IN BOOLEAN MODE)", [$phrase])->exists();
 
         if ($exists) {
@@ -219,9 +248,9 @@ final readonly class SearchWordQuery
         }
 
         $andExpr = collect($tokens)
-            ->map(fn (string $t) => $this->escapeFtToken($t))
+            ->map(fn (string $token): string => $this->escapeFtToken($token))
             ->filter() // <--- CRITICAL: Removes tokens that are now empty
-            ->map(fn (string $t) => "+{$t}*")
+            ->map(fn (string $token): string => "+{$token}*")
             ->implode(' ');
 
         if (empty($andExpr)) {
@@ -233,34 +262,36 @@ final readonly class SearchWordQuery
     }
 
     /**
-     * Escape MySQL FT boolean mode operator characters within a token or phrase.
+     * Strip MySQL full-text boolean mode operator characters from a token or phrase.
      *
-     * This prevents user input from injecting FT operators (e.g. +, -, *, ~)
-     * that would corrupt the boolean expression. It is NOT for SQL injection
-     * prevention — PDO parameter binding handles that independently.
+     * Removes the characters `+ - > < ( ) ~ * " \` to prevent user input from injecting
+     * FT operators that would corrupt the boolean mode expression. This is distinct from
+     * SQL injection prevention, which is handled entirely by PDO parameter binding and
+     * operates independently of this method.
      *
-     * Note: @ is intentionally excluded as it is not a reserved FT operator
-     * in MySQL boolean mode and is valid in Dutch text contexts.
+     * @param  string $token
+     * @return string
      */
+
     private function escapeFtToken(string $token): string
     {
         // Remove characters that have special meaning in Boolean Mode
         return str_replace(
-            ['+', '-', '>', '<', '(', ')', '~', '*', '"', '\\'],
-            '',
-            $token
+            search: ['+', '-', '>', '<', '(', ')', '~', '*', '"', '\\'],
+            replace: '',
+            subject: $token
         );
     }
 
     /**
-     * Return the whitelisted MATCH() column list for the chosen search scope.
+     * Return the whitelisted MATCH() column string for the requested search scope.
      *
-     * Using a constant whitelist rather than dynamic column construction
-     * ensures this string can never contain user-controlled input, even if
-     * this method is modified in the future.
+     * Column lists are drawn exclusively from {@see FULLTEXT_COLUMN_SETS}, ensuring that
+     * no user-controlled input can ever influence the column string even if this method
+     * is modified in the future.
      *
-     * The column sets must exactly match the FULLTEXT indexes on the articles
-     * table — MySQL will reject MATCH() calls that don't align with an index.
+     * @param  bool   $includeDescription
+     * @return string
      */
     private function buildMatchColumns(bool $includeDescription): string
     {
@@ -268,7 +299,14 @@ final readonly class SearchWordQuery
     }
 
     /**
-     * Normalize the raw search term: trim and lowercase for consistent matching.
+     * Normalise the raw `zoekterm` request value to a trimmed lowercase string.
+     *
+     * This is the canonical form of the search term used by all strategy methods.
+     * Returns an empty string when the parameter is absent or blank, which causes
+     * callers to short-circuit and avoid running empty queries.
+     *
+     * @param  Request $request
+     * @return string
      */
     private function normalizeTerm(Request $request): string
     {
@@ -278,12 +316,13 @@ final readonly class SearchWordQuery
     }
 
     /**
-     * Split and normalize the search term into tokens of at least 3 characters.
+     * Split `zoekterm` into individual tokens, discarding those shorter than 1 character.
      *
-     * The 3-character minimum aligns with MySQL's default ft_min_word_len = 3.
-     * Tokens shorter than this are silently ignored by the FT engine anyway,
-     * so filtering them out early prevents confusing empty-result bugs.
+     * The minimum length aligns with MySQL's default `ft_min_word_len` setting. Filtering
+     * short tokens out early prevents confusing empty-result bugs that would otherwise occur
+     * when the FT engine silently ignores them during expression evaluation.
      *
+     * @param  Request $request
      * @return array<int, string>
      */
     private function getSearchTokens(Request $request): array
@@ -298,6 +337,11 @@ final readonly class SearchWordQuery
     }
 
     /**
+     * Define the allowed sort fields exposed to the query string.
+     *
+     * The `alfabetisch` alias maps to the `word` column, `publicatie` maps to `published_at`,
+     * and `weergaves` maps to `views`.
+     *
      * @return array<int, AllowedSort>
      */
     private function getAllowedSorts(): array
@@ -310,6 +354,11 @@ final readonly class SearchWordQuery
     }
 
     /**
+     * Define the allowed filter scopes exposed to the query string.
+     *
+     * Currently exposes the `published_after` scope, which limits results to articles
+     * published after a given date.
+     *
      * @return array<int, AllowedFilter>
      */
     private function getAllowedFilters(): array
