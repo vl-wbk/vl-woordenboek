@@ -24,6 +24,41 @@ De volgende functionaliteiten hebben we al reeds op de implementatie-planning st
 - 🏷 **Categorieën en tags om woorden gemakkelijk te organiseren.**
 - 🔄 **Suggestiesysteem** waarmee gebruikers verbeteringen kunnen voorstellen voor bestaande woorden.
 
+## 🐳 Lokaal ontwikkelen met Docker
+
+### Vereisten
+
+- [Docker](https://docs.docker.com/get-docker/) en [Docker Compose](https://docs.docker.com/compose/)
+
+### Stappen
+
+1. **Kopieer de omgevingsvariabelen en genereer een app-sleutel:**
+   ```sh
+   cp .env.example .env
+   php artisan key:generate
+   ```
+
+2. **Start de containers:**
+   ```sh
+   docker compose up -d
+   ```
+
+3. **Voer de migraties en seeders uit:**
+   ```sh
+   docker compose exec app php artisan migrate --seed
+   ```
+
+4. **Open de applicatie** op [http://localhost](http://localhost).
+
+### Handige commando's
+
+| Commando | Beschrijving |
+|---|---|
+| `docker compose exec app composer test` | Voer de testsuite uit |
+| `docker compose exec app php artisan tinker` | Open de Laravel REPL |
+| `docker compose logs -f app` | Bekijk de applicatielogs |
+| `docker compose down` | Stop alle containers |
+
 ## 🚀 Synchronisatie
 
 Omdat we boilerplate code van `laravel/laravel` up-to-date willen houden synchroniseren we regelmatig de code van hun starter-template met ons project.
