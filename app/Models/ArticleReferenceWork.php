@@ -4,21 +4,24 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Table;
+use Illuminate\Database\Eloquent\Attributes\Unguarded;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class ArticleReferenceWork extends Pivot
+#[Unguarded]
+#[Table(name: 'article_sources', incrementing: true)]
+final class ArticleReferenceWork extends Pivot
 {
-    public $incrementing = true;
-
     /**
      * @var list<string>
      */
     public $with = ['referenceWork'];
 
-    protected $table = 'article_sources';
-
     /**
+     * Returns the article this source entry belongs to. 
+     * Inverse of Article::sources(). Use this when you have a pivot row and need to access the Article it was cited in. 
+     * 
      * @return BelongsTo<Article, covariant $this>
      */
     public function article(): BelongsTo
@@ -27,6 +30,7 @@ class ArticleReferenceWork extends Pivot
     }
 
     /**
+     * 
      * @return BelongsTo<ReferenceWork, covariant $this>
      */
     public function referenceWork(): BelongsTo
@@ -34,3 +38,4 @@ class ArticleReferenceWork extends Pivot
         return $this->belongsTo(ReferenceWork::class);
     }
 }
+ 
