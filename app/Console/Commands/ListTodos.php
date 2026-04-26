@@ -412,25 +412,53 @@ private function renderSummary(): void
         return collect($this->todos)->contains(fn ($t) => $t['overdue'] === true);
     }
 
-    private function resolveClassName(string $filePath): ?string
-    {
-        $content = file_get_contents($filePath);
+   private function resolveClassName(string $filePath): ?string
+{
+    $tokens = token_get_all(file_get_contents($filePath));
+    $namespace = '';
+    $class = '';
 
-        $content = preg_replace('!/\*.*?\*/!s', '', $content);
-        $content = preg_replace('/\/\/[^\n]*/', '', $content);
-
-        $namespace = '';
-
-        if (preg_match('/namespace\s+([^;]+);/', $content, $m)) {
-            $namespace = trim($m[1]);
+    for ($i = 0; $i < count($tokens); $i++) {
+        // Find the namespace
+        if ($tokens[$i][0] === T_NAMESPACE) {
+            for ($j = $i + 1; $j < count($tokens); $j++) {
+                if ($tokens[$j] === ';') {
+                    $i = $j;
+                    break;
+                }
+                if (is_array($tokens[$j])) {
+                    $namespace .= $tokens[$j][1];
+                }
+            }
         }
 
-        if (preg_match('/(?:^|[\s])(?:class|interface|trait|enum)\s+(\w+)/m', $content, $m)) {
-            return $namespace ? "{$namespace}\\{$m[1]}" : $m[1];
-        }
+        // Find the class, interface, or trait
+        if (in_array($tokens[$i][0], [T_CLASS, T_INTERFACE, T_TRAIT, T_ENUM], true)) {
+            // Ensure this isn't "::class" or a "use" statement
+            if ($i > 0 && $tokens[$i - 1][0] === T_DOUBLE_COLON) {
+                continue;
+            }
 
+            for ($j = $i + 1; $j < count($tokens); $j++) {
+                if ($tokens[$j][0] === T_STRING) {
+                    $class = $tokens[$j][1];
+                    break 2; // Found it, stop scanning the file
+                }
+            }
+        }
+    }
+
+    if ($class === '') {
         return null;
     }
+
+    $fqcn = trim($namespace) ? trim($namespace) . '\\' . $class : $class;
+    
+    // Final check to see if it's a real class in the current environment
+    return (class_exists($fqcn) || interface_exists($fqcn) || trait_exists($fqcn) || enum_exists($fqcn)) 
+        ? $fqcn 
+        : null;
+}
 
     private function getRelativePath(?string $absolutePath): string
     {
