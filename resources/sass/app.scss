@@ -39,12 +39,12 @@
         align-items: center;
     }
 
-    .nav-tabs-custom .nav-link:hover { color: #0d6efd; }
+    .nav-tabs-custom .nav-link:hover { color: $primary; }
 
     .nav-tabs-custom .nav-link.active {
-        color: #0d6efd;
+        color: $primary;
         background: transparent;
-        border-bottom: 2px solid #0d6efd;
+        border-bottom: 2px solid $primary;
     }
 
     .nav-tabs-custom .icon, .role-card-icon {
@@ -55,13 +55,13 @@
     /* Sidebar Sticky Offset */
     .sticky-sidebar { top: 2rem; }
 
-    .bg-primary-soft { background-color: rgba(13, 110, 253, 0.1); }
+    .bg-primary-soft { background-color: rgba($primary, 0.1); }
 
 /// Experimental
 /// Experimental
 
 .text-rss {
-    color: #f26522;
+    color: $brand-rss;
 }
 
 :root {
@@ -71,7 +71,7 @@
         --lexi-border: #dee2e6;
         --lexi-favorite: #ff4757;
         --lexi-label-bg: #eef2ff;
-        --lexi-label-text: #4338ca;
+        --lexi-label-text: #{$brand-indigo};
         --lexi-region-bg: #f0fdf4;
         --lexi-region-text: #15803d;
     }
@@ -168,7 +168,7 @@
     .back-link { color: var(--lexi-black); text-decoration: none; font-size: 0.85rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.4rem; }
 
     /* Cards */
-    .card-wotd { background: linear-gradient(135deg, #4338ca 0%, #6366f1 100%); color: white; }
+    .card-wotd { background: linear-gradient(135deg, $brand-indigo 0%, #6366f1 100%); color: white; }
     .card-coffee { background: #fff9f2; border: 1px dashed #eab308 !important; }
     .btn-coffee { background: #ffdd00; color: #000; font-weight: 700; border: none; }
     /* ... bestaande styles ... */
@@ -269,25 +269,25 @@ html {
 
 .information-statistic {
     background: #212529;
-    background: linear-gradient(90deg,rgba(33, 37, 41, 1) 0%, rgba(41, 37, 36, 1) 100%);
+    background: linear-gradient(90deg, $footer-bg 0%, rgba(41, 37, 36, 1) 100%);
 
     > .card-body > .card-title {
-        color: #ffe615;
+        color: $brand-yellow;
     }
 }
 
 .text-yellow {
-    color: oklch(70.7% 0.165 254.624);
+    color: $brand-blue;
 }
 
 .shadow-information-statistic {
-    box-shadow: 0 .125rem .25rem #ffe615;
+    box-shadow: 0 .125rem .25rem $brand-yellow;
 }
 
 .btn-filter {
-    color: #333332;
+    color: $btn-dark-gray;
     font-weight: 500;
-    @include button-variant(#ffe615, #ffe615);
+    @include button-variant($brand-yellow, $brand-yellow);
 }
 
 // Social buttons
@@ -305,7 +305,7 @@ html {
     }
 
     > h1, h2, h3, h4, h5, h6 {
-        color: #127453;
+        color: $brand-green;
     }
 }
 
@@ -390,11 +390,11 @@ html {
 // Footer
 
 .footer {
-    background-color: rgba(33, 37, 41, 1);
+    background-color: $footer-bg;
 }
 
 .footer-icon-color {
-    color: #127453
+    color: $brand-green
 }
 
 .bg-callout-card {
@@ -410,7 +410,7 @@ html {
 // Navigation (navbar)
 
 .bg-navbar {
-    background: #127453;
+    background: $brand-green;
 
     & .icon {
         color: #FFaF38;
@@ -420,22 +420,22 @@ html {
 // Buttons
 
 .btn-rss {
-    @include button-variant(#f26522, #f26522);
+    @include button-variant($brand-rss, $brand-rss);
 }
 
 .btn-search {
-    @include button-variant(#f6eacb, #f6eacb, #127453);
+    @include button-variant(#f6eacb, #f6eacb, $brand-green);
 }
 
 .btn-suggestion-submit, .btn-submit {
-    @include button-variant(#127453, #127453, #fff);
+    @include button-variant($brand-green, $brand-green, #fff);
 }
 
 .btn-white {
     @include button-variant(#fff, #d1d5db, #000);
 
     > .icon {
-        color: #127453;
+        color: $brand-green;
     }
 }
 
@@ -446,7 +446,7 @@ html {
 // Lists
 
 .list-inline-item > .icon {
-    color: #127453;
+    color: $brand-green;
 }
 
 // Forms
@@ -458,11 +458,11 @@ textarea.form-control {
 // backgrounds
 
 .bg-green{
-    background-color: #127453;
+    background-color: $brand-green;
 }
 
 .color-green {
-    color: #127453 !important;
+    color: $brand-green !important;
 }
 
 p {
@@ -498,7 +498,7 @@ p {
 
 .brand-gradient {
 
-  background: -webkit-linear-gradient(oklch(70.7% 0.165 254.624), oklch(70.7% 0.165 254.624));
+  background: -webkit-linear-gradient($brand-blue, $brand-blue);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -513,26 +513,26 @@ p {
 
 .badge-warning {
     background-color: oklch(98% 0.016 73.684);
-    border: 1px solid oklch(75% 0.183 55.934);
-    color: oklch(75% 0.183 55.934);
+    border: 1px solid $badge-warning-color;
+    color: $badge-warning-color;
 }
 
 .badge-primary {
     background-color: oklch(94.3% 0.029 294.588);
-    border: 1px solid oklch(60.6% 0.25 292.717);
-    color: oklch(60.6% 0.25 292.717);
+    border: 1px solid $badge-primary-color;
+    color: $badge-primary-color;
 }
 
 .badge-success {
     background-color: oklch(96.2% 0.044 156.743);
-    border: 1px solid oklch(79.2% 0.209 151.711);
-    color: oklch(79.2% 0.209 151.711);
+    border: 1px solid $badge-success-color;
+    color: $badge-success-color;
 }
 
 .badge-danger {
     background-color: oklch(97.1% 0.013 17.38);
-    border: 1px solid oklch(44.4% 0.177 26.899);
-    color: oklch(44.4% 0.177 26.899);
+    border: 1px solid $badge-danger-color;
+    color: $badge-danger-color;
 }
 
 // Public profile
@@ -547,7 +547,7 @@ p {
 }
 
 .btn-website {
-    @include button-variant(#333332, #333332);
+    @include button-variant($btn-dark-gray, $btn-dark-gray);
 }
 
 .btn-twitter {

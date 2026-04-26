@@ -1,3 +1,19 @@
+// Brand colors
+$brand-green: #127453;
+$brand-yellow: #ffe615;
+$brand-rss: #f26522;
+$brand-blue: oklch(70.7% 0.165 254.624);
+$brand-indigo: #4338ca;
+
+$footer-bg: rgba(33, 37, 41, 1);
+$btn-dark-gray: #333332;
+
+// Badge palette
+$badge-warning-color: oklch(75% 0.183 55.934);
+$badge-primary-color: oklch(60.6% 0.25 292.717);
+$badge-success-color: oklch(79.2% 0.209 151.711);
+$badge-danger-color: oklch(44.4% 0.177 26.899);
+
 // Body
 $body-bg: #F9F9F9;
 
@@ -29,4 +45,4 @@ $table-bg: #fff;
 // List group
 $list-group-active-color: #fff;
 
-$list-group-active-bg:        #127453;
+$list-group-active-bg:        $brand-green;
