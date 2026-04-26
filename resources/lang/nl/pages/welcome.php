@@ -38,7 +38,7 @@ return [
     'call-outs.volunteer.text' => 'Met een klein en fijn team vrijwilligers verwerken we alle suggesties die binnenkomen en werken we aan de (open-source) code achter het Vlaams Woordenboek. Wil je hier graag aan meewerken? Dan ben je van harte welkom.',
     'jumbotron' => [
         'headings' => [
-            'welcome' => 'Welkom op het <span class="text-warning">:applicationName</span>'
+            'welcome' => 'Welkom op het :applicationName'
         ],
         'leading-paragraph' => 'Het Vlaams Woordenboek is een woordenboek van :articleCount artikelen dat bestaat dankzij een gemeenschap enthousiastelingen. En dankzij al die mensen die ooit een of meerdere bijdragen hebben geleverd.'
     ],
