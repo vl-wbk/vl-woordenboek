@@ -25,6 +25,7 @@ use App\Models\Relations\BelongsToManyRegions;
 use App\States\RejectedPublication;
 use Carbon\Carbon;
 use Database\Factories\ArticleFactory;
+use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\UseEloquentBuilder;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
@@ -82,6 +83,7 @@ use Override;
  *
  * @package App\Models
  */
+#[Guarded(columns: 'id')]
 #[UseEloquentBuilder(builderClass: ArticleBuilder::class)]
 final class Article extends Model implements AuditableContract, Commentable
 {
@@ -101,15 +103,17 @@ final class Article extends Model implements AuditableContract, Commentable
     use Votable;
 
     /**
-     * Specifies attributes that are protected from mass assignment.
-     * This property ensures that the note's unique identifier remains immutable throughout its lifecycle, maintaining referential integrity while allowing other attributes to be mass assigned for efficient creation and updates.
-     * The minimal protection approach reflects a balance between security and development convenience.
+     * Relations that are always eager-loaded with this model.
+     *
+     * 'author' is included globally because virtually every part of the application
+     * that renders an Article also displays its author. Loading it here avoids
+     * repeated ->with('author') calls and N+1 queries across controllers and views.
+     *
+     * Add relations here only if they are needed on nearly every fetch — otherwise
+     * prefer explicit ->with() at the call site to keep queries lean.
      *
      * @var list<string>
      */
-    protected $guarded = ['id'];
-
-    /** @todo Document this */
     protected $with = ['author'];
 
     /**
@@ -241,6 +245,12 @@ final class Article extends Model implements AuditableContract, Commentable
     }
 
     /**
+     * Returns all user-submitted examples linked to this article. 
+     * 
+     * Each userExample belongs to a signle Article via the 'article_id' foreign key. 
+     * ERager-load this relation with ->with('userExamples') to avoid N+1 queries when 
+     * iterating over multiple articles.
+     * 
      * @return HasMany<UserExample, covariant $this>
      */
     public function userExamples(): HasMany
@@ -262,7 +272,12 @@ final class Article extends Model implements AuditableContract, Commentable
     }
 
     /**
-     * @todo document this function
+     * Returns all reactions left on this article by users.
+     *
+     * Each Reaction belongs to a single Article via the `article_id` foreign key.
+     * Eager-load this relation with ->with('reactions') to avoid N+1 queries
+     * when iterating over multiple articles.
+     *
      * @return HasMany<Reaction, covariant $this>
      */
     public function reactions(): HasMany
@@ -284,7 +299,12 @@ final class Article extends Model implements AuditableContract, Commentable
     }
 
     /**
-     * @todo Document this method
+     * Returns all reference works cited as sources for this article.
+     *
+     * Each ArticleReferenceWork belongs to a single Article via the `article_id`
+     * foreign key. Eager-load this relation with ->with('sources') to avoid N+1
+     * queries when iterating over multiple articles.
+     *
      * @return HasMany<ArticleReferenceWork, covariant $this>
      */
     public function sources(): HasMany
@@ -321,8 +341,7 @@ final class Article extends Model implements AuditableContract, Commentable
      * @param  string $date
      * @return void
      */
-    #[Scope]
-    protected function publishedAfter(EloquentBuilder $builder, string $date): void
+    #[Scope] protected function publishedAfter(EloquentBuilder $builder, string $date): void
     {
         $builder->where('published_at', '>', now()->parse($date));
     }
@@ -337,8 +356,7 @@ final class Article extends Model implements AuditableContract, Commentable
      * @param  string $date
      * @return void
      */
-    #[Scope]
-    protected function createdAfter(EloquentBuilder $builder, string $date): void
+    #[Scope] protected function createdAfter(EloquentBuilder $builder, string $date): void
     {
         $builder->where('created_at', '>', now()->parse($date));
     }
