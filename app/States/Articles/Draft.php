@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\States\Articles;
 
+use App\Attributes\Todo;
 use App\Enums\ArticleStates;
 use Illuminate\Support\Facades\DB;
 
@@ -32,7 +33,7 @@ final class Draft extends ArticleState
         $this->article->update(attributes: ['state' => ArticleStates::Approval]);
     }
 
-    /** @todo document */
+    #[Todo(message: 'Write docblock for this function', author: 'Tjoosten', priority: 'low')]
     public function transitionToExternalData(): bool
     {
         return DB::transaction(fn(): bool => $this->article->update(attributes: [
