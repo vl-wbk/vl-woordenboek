@@ -64,19 +64,16 @@
 <div class="bg-white">
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-12 col-lg-10 my-2 d-flex flex-column flex-lg-row align-items-start align-items-lg-center">
+            <div class="col-12 col-lg-10 my-2 d-flex flex-column flex-lg-row" style="align-items: first baseline;">
 
-                <span class="text-muted fw-bold text-uppercase mb-2 mb-lg-0 me-3"
+                <div class="text-muted fw-bold text-uppercase mb-2 mb-lg-0 me-3"
                       style="font-size: 0.75rem; letter-spacing: 0.5px; white-space: nowrap;">
                     {{ __('Snuister eens door deze woorden:') }}
-                </span>
+                </div>
 
-                <div class="trending-words">
+                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem 1rem">
                     @foreach($trendingWords as $word)
-                        <a href="{{ route('word-information.show', $word) }}"
-                           class="badge rounded-pill bg-white text-dark border text-decoration-none py-2 px-3 shadow-sm trending-tag">
-                            {{ $word->word }}
-                        </a>
+                        <a class="fw-bold text-dark" href="{{ route('word-information.show', $word) }}">{{ $word->word }}</a>
                     @endforeach
                 </div>
             </div>
