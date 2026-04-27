@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\ArticleReports;
 
+use App\Attributes\Todo;
 use App\Filament\Support\Concerns\HasActiveIcon;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
@@ -93,11 +94,10 @@ final class ArticleReportResource extends Resource
      * The infolist includes sections and fieldsets that display general information about the report, follow-up details, and user feedback.
      * It also provides header actions for viewing related user and article information.
      *
-     * @todo Refactor it to an infolist scheme.
-     *
      * @param \Filament\Schemas\Schema $schema The infolist instance to configure.
      * @return \Filament\Schemas\Schema The configured infolist instance.
      */
+    #[Todo(message: 'refactor this into an infolist schema')]
     public static function infolist(Schema $schema): Schema
     {
         return $schema
@@ -158,9 +158,9 @@ final class ArticleReportResource extends Resource
     }
 
     /**
-     * @todo provide docblock
      * @return array<int, SelectFilter|Filter>
      */
+    #[Todo(message: 'complete the docblock for this method', priority: 'low')]
     public static function getTableFilters(): array
     {
         return [

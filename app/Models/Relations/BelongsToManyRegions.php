@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace App\Models\Relations;
 
+use App\Attributes\Todo;
 use App\Models\Region;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-/**
- * @todo document this trait
- */
+#[Todo(message: 'provide docblock for this trait and his methods', priority: 'low')]
 trait BelongsToManyRegions
 {
     /**
-     * @todo document this method
      * @return BelongsToMany<Region, covariant $this>
      */
     public function regions(): BelongsToMany
@@ -22,7 +20,6 @@ trait BelongsToManyRegions
     }
 
     /**
-     * @todo Document this method
      * @param  array<int, string> $regions
      */
     public function syncRegions(array $regions): void
