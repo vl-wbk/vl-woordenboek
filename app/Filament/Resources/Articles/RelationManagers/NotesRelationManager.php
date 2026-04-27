@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Articles\RelationManagers;
 
+use App\Attributes\Todo;
 use App\Enums\Notes\Visibility;
 use App\Models\User;
 use App\UserTypes;
@@ -179,10 +180,9 @@ final class NotesRelationManager extends RelationManager
     }
 
     /**
-     * @todo Write docblock for this function
-     *
      * @return array<int, Tables\Filters\SelectFilter>
      */
+    #[Todo(message: 'Provide a full docblock for this function', priority: 'low')]
     private function getFilters(): array
     {
         return [
@@ -193,11 +193,10 @@ final class NotesRelationManager extends RelationManager
     }
 
     /**
-     * @todo Write docblock for this function.
-     *
      * @param  Builder<Note> $builder
      * @return Builder<Note>
      */
+    #[Todo(message: 'Provide a full docblock for this function', priority: 'low')]
     public function applyCustomQueryScopes(Builder $builder): Builder
     {
         /** @var User $authUser */

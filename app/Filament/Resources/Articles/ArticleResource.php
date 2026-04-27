@@ -79,8 +79,6 @@ final class ArticleResource extends Resource
     /**
      * The cluster used for grouping related resources.
      *
-     * @todo Check if we can use inheritDoc here
-     *
      * @var class-string<Cluster>|null
      */
     protected static ?string $cluster = ArticlesCluster::class;

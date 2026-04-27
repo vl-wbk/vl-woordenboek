@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Web\Etymology;
 
 use App\Actions\Articles\StoreEtymologySubmission;
 use App\Actions\Support\StoreFeedbackSubmission;
+use App\Attributes\Todo;
 use App\Concerns\RateLimitSubmission;
 use App\Enums\Articles\EtymologySources;
 use App\Http\Requests\Articles\StoreEtymologyRequest;
@@ -16,9 +17,7 @@ use Illuminate\Http\RedirectResponse;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Post;
 
-/**
- * @todo add docblocks for this class
- */
+#[Todo(message: 'Provide docblocks for this class and their methods', priority: 'low')]
 final class EthymologyController
 {
     use RateLimitSubmission;

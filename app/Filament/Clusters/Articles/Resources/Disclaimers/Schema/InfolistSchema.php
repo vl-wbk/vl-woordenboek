@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\Disclaimers\Schema;
 
+use App\Attributes\Todo;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Support\Icons\Heroicon;
 
-/**
- * @todo Document this class
- */
+#[Todo(message: 'Document this class an his methods', priority: 'low')]
 final readonly class InfolistSchema
 {
     public static function configure(Schema $schema): Schema
