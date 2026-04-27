@@ -344,11 +344,11 @@ private function getPriorityColor(string $priority): string
     private function formatPriority(string $priority): string
 {
     return match ($priority) {
-        'critical' => '<fg=white;bg=red;options=bold,blink> ✘ CRITICAL </>',
-        'urgent'   => '<fg=white;bg=magenta> ! URGENT   </>',
+        'critical' => '<fg=white;bg=red;options=bold,blink> ● CRITICAL </>',
+        'urgent'   => '<fg=white;bg=magenta> ● URGENT   </>',
         'high'     => '<fg=white;bg=red> ● HIGH     </>',
         'low'      => '<fg=black;bg=green> ● LOW      </>',
-        'info'     => '<fg=white;bg=blue> ℹ INFO     </>',
+        'info'     => '<fg=white;bg=blue> ● INFO     </>',
         default    => '<fg=black;bg=yellow> ● NORMAL   </>',
     };
 }

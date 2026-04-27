@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Users\Widgets;
 
+use App\Attributes\Todo;
 use App\Filament\Support\Filters\Charts\DateRangeFilterChart;
 use App\Models\User;
 use Filament\Actions\Action;
@@ -37,9 +38,7 @@ final class UserRegistrationChartWidget extends ChartWidget
      */
     protected ?string $maxHeight = '150px';
 
-    /**
-     * @todo write docblock
-     */
+    #[Todo(message: 'Write a docblock for this property', priority: 'low')]
     protected ?string $pollingInterval = null;
 
     /**

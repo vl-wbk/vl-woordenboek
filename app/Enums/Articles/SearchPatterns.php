@@ -48,8 +48,6 @@ enum SearchPatterns: string implements HasLabel
      *
      * Corresponds to SQL `LIKE '%query'` for suffix matching.
      * This pattern typically prevents the use of standard B-tree indexes for optimization, often resulting in full table scans unless specific database features like reverse indexes or full-text search are employed.
-     *
-     * @todo Investigate database-specific optimizations for suffix searches if performance becomes critical.
      */
     case EndsWith = 'endsWith';
 

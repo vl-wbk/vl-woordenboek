@@ -12,9 +12,6 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\Component;
 
-/**
- * @todo After initial deployment refactor this code
- */
 final class PublicProfile extends Component
 {
     /**

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Feedback;
 
+use App\Attributes\Todo;
 use App\Filament\Resources\Feedback\Schema\TableSchema;
 use App\Filament\Resources\Feedback\Schema\InfolistSchema;
 use App\Filament\Resources\Feedback\Widgets\FeedbackStatisticsWidget;
@@ -17,10 +18,8 @@ use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Cache;
 
-/**
- * @todo Document this class
- * @todo Provide additional end user documentation
- */
+#[Todo(message: 'Provide additional end user documentation for this resource', author: 'Tjoosten', priority: 'critical', tags: ['docs'])]
+#[Todo(message: 'Document this class and his methods', author: 'Tjoosten', priority: 'low', tags: ['docs'])]
 final class FeedbackResource extends Resource
 {
     use HasActiveIcon;

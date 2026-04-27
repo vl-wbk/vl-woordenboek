@@ -2,12 +2,11 @@
 
 namespace App\Services;
 
+use App\Attributes\Todo;
 use App\Models\ModerationRule;
 use Illuminate\Support\Str;
 
-/**
- * @todo Complete docblocks for this service class.
- */
+#[Todo(message: 'Write docblocks for this class and metheds', author: 'Tjoosten', priority: 'low')]
 class ModerationService
 {
     /**
