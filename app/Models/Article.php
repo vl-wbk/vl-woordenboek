@@ -83,7 +83,6 @@ use Override;
  *
  * @package App\Models
  */
-#[Guarded(columns: 'id')]
 #[UseEloquentBuilder(builderClass: ArticleBuilder::class)]
 final class Article extends Model implements AuditableContract, Commentable
 {
@@ -115,6 +114,8 @@ final class Article extends Model implements AuditableContract, Commentable
      * @var list<string>
      */
     protected $with = ['author'];
+
+    protected $guarded = ['id'];
 
     /**
      * Attributes excluded from the audit trail.
