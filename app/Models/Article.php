@@ -83,6 +83,7 @@ use Override;
  *
  * @package App\Models
  */
+#[Guarded(columns: 'id')]
 #[UseEloquentBuilder(builderClass: ArticleBuilder::class)]
 final class Article extends Model implements AuditableContract, Commentable
 {
