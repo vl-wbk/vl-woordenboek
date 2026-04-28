@@ -60,79 +60,21 @@
             </div>
         </div>
     </div>
-    
-   <style>
-    /* 1. Hide the overflow and ensure the track stays on one line */
-    .marquee-box {
-        overflow: hidden;
-        white-space: nowrap;
-        display: flex;
-        align-items: center;
-        /* Ensure it spans full width when stacked */
-        width: 100%;
-        mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-        -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-    }
-
-    /* 2. The track that holds the words */
-    .marquee-track {
-        display: flex;
-        gap: 0.5rem; 
-        padding-left: 0.5rem;
-        /* Faster base speed for mobile */
-        animation: scroll-rtl 175s linear infinite;
-    }
-
-    /* 3. The logic: move half the track's width then snap back */
-    @keyframes scroll-rtl {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(-50%); }
-    }
-
-    /* 4. Pause on hover and touch for usability */
-    .marquee-track:hover, .marquee-track:active {
-        animation-play-state: paused;
-    }
-
-    /* Original styles preserved */
-    .trending-tag {
-        transition: all 0.2s ease-in-out;
-    }
-
-    .trending-tag:hover {
-        background-color: var(--bs-primary) !important;
-        color: white !important;
-        border-color: var(--bs-primary) !important;
-    }
-
-    /* Desktop adjustments: Slow down speed and adjust spacing */
-    @media (min-width: 992px) {
-        .marquee-track {
-            animation-duration: 125s;
-        }
-    }
-</style>
 
 <div class="bg-white">
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-12 col-lg-10 my-2 d-flex flex-column flex-lg-row align-items-start align-items-lg-center">
-                
-                <span class="text-muted fw-bold text-uppercase mb-2 mb-lg-0 me-3" 
+            <div class="col-12 col-lg-10 my-2 d-flex flex-column flex-lg-row" style="align-items: first baseline;">
+
+                <div class="text-muted fw-bold text-uppercase mb-2 mb-lg-0 me-3"
                       style="font-size: 0.75rem; letter-spacing: 0.5px; white-space: nowrap;">
                     {{ __('Snuister eens door deze woorden:') }}
-                </span>
-                
-                <div class="marquee-box">
-                    <div class="marquee-track">    
-                        {{-- First Set --}}
-                        @foreach($trendingWords as $word)
-                            <a href="{{ route('word-information.show', $word) }}" 
-                               class="badge rounded-pill bg-white text-dark border text-decoration-none py-2 px-3 shadow-sm trending-tag">
-                                {{ $word->word }}
-                            </a>
-                        @endforeach
-                    </div>
+                </div>
+
+                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem 1rem">
+                    @foreach($trendingWords as $word)
+                        <a class="fw-bold text-dark" href="{{ route('word-information.show', $word) }}">{{ $word->word }}</a>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -164,8 +106,8 @@
                             <a href="{{ route('word-information.show', $wordOfTheDay->article) }}" class="btn btn-outline-dark btn-sm rounded-pill px-4 fw-bold">
                                 LEES VOLLEDIG ARTIKEL
                             </a>
-                            
-                            <div class="d-flex">  
+
+                            <div class="d-flex">
                                 <a href="{{ url('/feed/woord-van-de-dag') }}" class="text-rss text-decoration-none">
                                     <x-heroicon-o-rss class="icon text-danger me-1"/> RSS feed
                                 </a>
@@ -189,11 +131,11 @@
                 <div class="card bg-white border shadow-sm rounded-4 p-4 w-100 d-flex flex-column">
                     <h6 class="fw-bold text-uppercase small text-success mb-1">{{ __('pages/welcome.call-outs.suggestion.title') }}</h6>
                     <p class="fw-bold text-dark small mb-3">{{ __('pages/welcome.call-outs.suggestion.subtitle') }}</p>
-                    
+
                     <p class="text-muted small">
                         {{ __('pages/welcome.call-outs.suggestion.text') }}
                     </p>
-                    
+
                     <div class="mt-auto pt-3">
                         <a href="{{ route('definitions.create') }}" class="fw-bold text-dark text-decoration-none link-underline">
                             {{ __('pages/welcome.call-outs.suggestion.actionText') }} &rarr;
@@ -207,11 +149,11 @@
                     <div class="card bg-white border shadow-sm rounded-4 p-4 w-100 d-flex flex-column">
                         <h6 class="fw-bold text-uppercase small text-success mb-1">{{ __('pages/welcome.call-outs.volunteer.title') }}</h6>
                         <p class="fw-bold text-dark small mb-3">{{ __('pages/welcome.call-outs.volunteer.subtitle') }}</p>
-                        
+
                         <p class="text-muted small">
                             {{ __('pages/welcome.call-outs.volunteer.text') }}
                         </p>
-                        
+
                         <div class="mt-auto pt-3">
                             <a href="{{ route('support.volunteers') }}" class="fw-bold text-dark text-decoration-none link-underline">
                                 {{ __('pages/welcome.call-outs.volunteer.actionText') }} &rarr;
@@ -225,11 +167,11 @@
                 <div class="card bg-white border shadow-sm rounded-4 p-4 w-100 d-flex flex-column">
                     <h6 class="fw-bold text-uppercase small text-success mb-1">{{ __('pages/welcome.call-outs.information.title') }}</h6>
                     <p class="fw-bold text-dark small mb-3">{{ __('pages/welcome.call-outs.information.subtitle') }}</p>
-                    
+
                     <p class="text-muted small">
                         {{ __('pages/welcome.call-outs.information.text') }}
                     </p>
-                    
+
                     <div class="mt-auto pt-3">
                         <a href="{{ route('project-information') }}" class="fw-bold text-dark text-decoration-none link-underline">
                             {{ __('pages/welcome.call-outs.information.actionText') }} &rarr;
@@ -252,7 +194,7 @@
             <div class="d-flex justify-content-between align-items-end mb-4">
                 <h3 class="fw-bold h4 m-0">Laatst toegevoegd</h3>
                 {{-- <a href="#" class="link-primary text-decoration-none small fw-bold">Bekijk alle woorden &rarr;</a> --}}
-            </div>    
+            </div>
 
             @foreach($recent as $result)
     <div class="lexi-card {{ $loop->last ? 'mb-0' : '' }}">
@@ -290,7 +232,7 @@
         @endif
 
         <div class="d-flex align-items-center gap-3">
-            <a href="{{ route('word-information.show', $result) }}" 
+            <a href="{{ route('word-information.show', $result) }}"
                class="btn btn-sm rounded-pill btn-outline-dark fw-bold btn-sm shadow-sm">
                 Ontdek <x-heroicon-o-arrow-right class="icon-sm ms-1"/>
             </a>

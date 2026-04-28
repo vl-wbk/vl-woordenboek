@@ -1,0 +1,138 @@
+[
+    {
+        "word": "goesting",
+        "part_of_speech": "znw.",
+        "status": 2,
+        "description": "Zin, trek of lust om iets te doen of te eten.",
+        "example": "Ik heb vandaag echt geen goesting om te werken.",
+        "characteristics": "Wordt veel gebruikt in alledaagse spreektaal in heel Vlaanderen."
+    },
+    {
+        "word": "plezant",
+        "part_of_speech": "bnw.",
+        "status": 2,
+        "description": "Plezierig, leuk, aangenaam.",
+        "example": "Het was een heel plezante avond bij de buren.",
+        "characteristics": "Afgeleid van het Franse 'plaisant'."
+    },
+    {
+        "word": "frietkot",
+        "part_of_speech": "znw.",
+        "status": 2,
+        "description": "Een kleine, vaak vrijstaande zaak waar friet en snacks worden verkocht.",
+        "example": "We gaan na de match nog een pakske friet halen aan het frietkot.",
+        "characteristics": ""
+    },
+    {
+        "word": "schoon",
+        "part_of_speech": "bnw.",
+        "status": 2,
+        "description": "Mooi, aantrekkelijk. In Vlaanderen wordt 'schoon' vooral gebruikt in de betekenis van 'mooi', terwijl in Nederland 'schoon' vaker 'proper' betekent.",
+        "example": "Wat een schoon kleedje heb je aan vandaag!",
+        "characteristics": ""
+    },
+    {
+        "word": "kuisen",
+        "part_of_speech": "ww.",
+        "status": 2,
+        "description": "Schoonmaken, poetsen. Het werkwoord dat in Vlaanderen wordt gebruikt voor het reinigen van een ruimte of voorwerp.",
+        "example": "Op zaterdag kuist mijn moeder altijd het hele huis.",
+        "characteristics": "Komt van 'kies' (zuiver)."
+    },
+    {
+        "word": "tas",
+        "part_of_speech": "znw.",
+        "status": 2,
+        "description": "Een kopje, vooral voor warme dranken zoals koffie of thee.",
+        "example": "Wil je een tas koffie of liever thee?",
+        "characteristics": ""
+    },
+    {
+        "word": "bomma",
+        "part_of_speech": "znw.",
+        "status": 2,
+        "description": "Liefkozende benaming voor grootmoeder.",
+        "example": "Mijn bomma maakt de beste pannenkoeken van heel het dorp.",
+        "characteristics": "Vermoedelijk afgeleid van 'bonne maman' uit het Frans."
+    },
+    {
+        "word": "bompa",
+        "part_of_speech": "znw.",
+        "status": 2,
+        "description": "Liefkozende benaming voor grootvader. Het mannelijke equivalent van bomma.",
+        "example": "Mijn bompa vertelt altijd de schoonste verhalen over de oorlog.",
+        "characteristics": "Vermoedelijk via 'bon papa' uit het Frans."
+    },
+    {
+        "word": "nonkel",
+        "part_of_speech": "znw.",
+        "status": 2,
+        "description": "Oom. De broer van een van je ouders, of de man van een tante.",
+        "example": "Mijn nonkel Frans woont al jaren in Spanje.",
+        "characteristics": "Direct ontleend aan het Franse 'oncle'."
+    },
+    {
+        "word": "velo",
+        "part_of_speech": "znw.",
+        "status": 2,
+        "description": "Fiets.",
+        "example": "Ik kom morgen met de velo naar 't werk, het is toch zo'n schoon weer.",
+        "characteristics": "Van het Franse 'vélo', een afkorting van 'vélocipède'."
+    },
+    {
+        "word": "camion",
+        "part_of_speech": "znw.",
+        "status": 2,
+        "description": "Vrachtwagen, truck.",
+        "example": "Er stond een grote camion geparkeerd voor de deur.",
+        "characteristics": "Direct overgenomen uit het Frans."
+    },
+    {
+        "word": "vijs",
+        "part_of_speech": "znw.",
+        "status": 2,
+        "description": "Schroef.",
+        "example": "Geef me die vijs eens aan, ik moet die kast terug vastmaken.",
+        "characteristics": ""
+    },
+    {
+        "word": "ambetant",
+        "part_of_speech": "bnw.",
+        "status": 2,
+        "description": "Vervelend, lastig, irritant. Iets dat hinderlijk is of iemand die op de zenuwen werkt.",
+        "example": "Het is ambetant dat de bus vandaag weer te laat is.",
+        "characteristics": "Verbastering van het Franse 'embêtant'."
+    },
+    {
+        "word": "chance",
+        "part_of_speech": "znw.",
+        "status": 2,
+        "description": "Geluk, mazzel. Het toeval dat in iemands voordeel werkt.",
+        "example": "Ge hebt nogal chance gehad dat ge die trein nog hebt gehaald!",
+        "characteristics": "Onveranderd uit het Frans overgenomen, vaak op zijn Frans uitgesproken."
+    },
+    {
+        "word": "zot",
+        "part_of_speech": "bnw.",
+        "status": 2,
+        "description": "Gek, dwaas, krankzinnig.",
+        "example": "Zijt ge nu helemaal zot geworden om met dat weer te gaan zwemmen?",
+        "characteristics": "Algemeen Vlaams, in Nederland klinkt 'gek' natuurlijker."
+    },
+    {
+        "word": "sjotten",
+        "part_of_speech": "ww.",
+        "status": 5,
+        "description": "Voetballen, met een bal trappen.",
+        "example": "De gasten zijn buiten aan 't sjotten op het pleintje.",
+        "characteristics": "Van het Engelse 'shoot', volkstalige verbastering."
+    },
+    {
+        "word": "dikke nek",
+        "part_of_speech": "znw.",
+        "status": 5,
+        "description": "Een opschepper, iemand die zich hoogmoedig of arrogant gedraagt en graag opzichtig met zijn bezittingen pronkt.",
+        "example": "Sinds hij die nieuwe wagen heeft is hij echt nen dikke nek geworden.",
+        "characteristics": "Beeldspraak: de 'dikke nek' verwijst naar opgeblazen trots. Sterk negatieve connotatie."
+    }
+]
