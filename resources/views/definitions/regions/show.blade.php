@@ -353,7 +353,7 @@
                             <p class="text-muted small lh-base mb-3">
                                 De taal van <strong>{{ $region->name }}</strong> leeft dankzij jou. Heb je een suggestie voor een ontbrekende term?
                             </p>
-                            <a href="#" class="text-brand-green fw-bold small text-decoration-none d-flex align-items-center">
+                            <a href="{{ route('definitions.create') }}" class="text-brand-green fw-bold small text-decoration-none d-flex align-items-center">
                                 Suggestie inzenden <x-heroicon-m-arrow-small-right class="ms-1" style="width: 16px;"/>
                             </a>
                         </div>
