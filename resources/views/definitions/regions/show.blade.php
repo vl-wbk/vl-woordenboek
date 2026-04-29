@@ -317,7 +317,7 @@
                                     <x-heroicon-s-eye class="text-brand-green" style="width: 20px;"/>
                                 </div>
                                 <div class="col-10 border-start ps-3">
-                                    <div class="fs-4 fw-bold lh-1 text-dark">{{ toHumanReadableNumber((int) $analytics['views']['statistic']) }}</div>
+                                    <div class="fs-4 fw-bold lh-1 text-dark">{{ $analytics['views']['statistic'] }}</div>
                                     <div class="text-muted text-uppercase fw-semibold mt-1" style="font-size: 0.6rem; ls: 1px;">Totale interactie</div>
                                 </div>
                             </div>
