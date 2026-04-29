@@ -285,7 +285,7 @@
 
                         @else
                             {{-- Blankstate --}}
-                            <div class="card border-0 shadow-sm rounded-4 text-center py-5">
+                            <div class="card border-0 bg-white shadow-sm rounded-4 text-center py-5">
                                 <div class="card-body">
                                     <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 80px; height: 80px;">
                                         <x-heroicon-o-magnifying-glass class="text-muted" style="width: 40px;"/>
