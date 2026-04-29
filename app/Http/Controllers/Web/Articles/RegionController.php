@@ -31,12 +31,12 @@ final readonly class RegionController
      */
     private function getRelatedArticleSearch(Request $request, Region $region): LengthAwarePaginator
     {
-        $searchInput = $request->get('zoekterm');
+        $searchInput = $request->input('zoekterm');
         $sorting = $this->getSortBy($request->string('sortering'));
 
         return $region->articles()
             ->published()
-            ->when($request->filled('zoekterm'), fn(Builder $query): Builder => $query->where('word', 'LIKE', "%$searchInput%")->orWhere('keywords', 'LIKE', "%$searchInput%"))
+            ->when($request->filled('zoekterm'), fn(Builder $query): Builder => $query->where('word', 'LIKE', "$searchInput%"))
             ->orderBy($sorting['column'], $sorting['order'])
             ->fastPaginate()
             ->fragment('woorden');
