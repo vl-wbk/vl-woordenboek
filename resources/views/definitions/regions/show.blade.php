@@ -255,7 +255,7 @@
                                                 </div>
                                                 <div class="col-md-5 mb-3 mb-md-0">
                                                     <p class="text-muted small mb-0 line-clamp-2">
-                                                        {{ $relatedArticle->seoDescription() }}
+                                                        {{ $relatedArticle->seo_description }}
                                                     </p>
                                                 </div>
                                                 <div class="col-md-3 text-md-end">
