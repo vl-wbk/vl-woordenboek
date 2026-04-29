@@ -180,7 +180,7 @@
                 <div class="col-lg-3">
                 <a class="d-inline-flex align-items-center mb-2 text-white text-decoration-none" href="/" aria-label="Bootstrap">
                     <x:heroicon-s-book-open class="icon icon-back-to-results brand-gradient"/>
-                    <span class="fs-5 brand-gradient fw-bold ms-2">{{ config('app.name', 'Laravel') }}</span>
+                    <span class="fs-5 heading-footer fw-bold ms-2">{{ config('app.name', 'Laravel') }}</span>
                 </a>
                 <ul class="list-unstyled small text-white">
                     <li class="mb-2">
@@ -192,14 +192,14 @@
                         <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="text-white">CC BY-NC-SA 4.0 licentie.</a>
                     </li>
 
-                    <li class="mb-2 fst-italic brand-gradient">
+                    <li class="mb-2 fst-italic heading-footer">
                         {{ __('layout/application.footer.information-section.version-paragraph', ['version' => 'v0.1.0']) }}
                     </li>
                 </ul>
             </div>
 
             <div class="col-6 col-lg-2 offset-lg-1 mb-3">
-                <h5 class="brand-gradient">{{ __('layout/application.footer.links-section.heading') }}</h5>
+                <h5 class="heading-footer">{{ __('layout/application.footer.links-section.heading') }}</h5>
 
                 <ul class="list-unstyled">
                     <li class="mb-2">
@@ -239,7 +239,7 @@
             </div>
 
             <div class="col-6 col-lg-2 mb-3">
-                <h5 class="brand-gradient">{{ __('layout/application.footer.sources-section.heading') }}</h5>
+                <h5 class="heading-footer">{{ __('layout/application.footer.sources-section.heading') }}</h5>
 
                 <ul class="list-unstyled">
                     <li class="mb-2">
@@ -263,7 +263,7 @@
             </div>
 
             <div class="col-6 col-lg-2 mb-3">
-                <h5 class="brand-gradient">{{ __('layout/application.footer.contribution-section.heading') }}</h5>
+                <h5 class="heading-footer">{{ __('layout/application.footer.contribution-section.heading') }}</h5>
 
                 <ul class="list-unstyled">
                     <li class="mb-2">
@@ -287,7 +287,7 @@
             </div>
 
             <div class="col-6 col-lg-2 mb-3">
-                <h5 class="brand-gradient">{{ __('layout/application.footer.community-section.heading') }}</h5>
+                <h5 class="heading-footer">{{ __('layout/application.footer.community-section.heading') }}</h5>
 
                 <ul class="list-unstyled">
                     <li class="mb-2">
@@ -322,7 +322,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <span class="text-yellow">
+                    <span class="heading-footer">
                         &copy; {{ __('layout/application.footer.copyright', ['date' => date('Y'), 'application' => config('app.name', 'laravel')]) }}
                     </span>
 

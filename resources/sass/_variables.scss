@@ -1,5 +1,6 @@
 // Brand colors
 $brand-green: #127453;
+$brand-green-100: lighten($brand-green, 10%);
 $brand-yellow: #ffe615;
 $brand-rss: #f26522;
 $brand-blue: oklch(70.7% 0.165 254.624);
