@@ -71,7 +71,11 @@
                 <div class="col-lg-7">
                     <nav aria-label="breadcrumb" class="mb-2 d-none d-md-block">
                         <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item small"><a href="/" class="text-decoration-none">Woordenboek</a></li>
+                            <li class="breadcrumb-item small">
+                                <a href="/" class="text-decoration-none">
+                                    <x-heroicon-o-home class="icon me-1"/> {{ config('app.name', 'Laravel') }}
+                                </a>
+                            </li>
                             <li class="breadcrumb-item small active text-muted">regio: {{ $region->name }}</li>
                         </ol>
                     </nav>
