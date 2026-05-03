@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Models\Article;
 use App\Models\WordOfTheDay;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -62,40 +63,45 @@ final class PublishWordOfTheDayOnDiscord extends Command
     }
 
     /**
-     * Retrieve the word of the day record scheduled for today.
+     * Retrieve the word of the day record or a fallback article.
      *
-     * Queries the 'word_of_the_days' table for a row whose 'scheduled_for' data matches the current date.
-     * Returns null when no record has been scheduled, which causes the handle() method to exit with a warning.
+     * Queries the 'word_of_the_days' table for a record scheduled for the current date.
+     * If no scheduled record is found, it retrieves a random published article
+     * to ensure a content object is always returned.
      *
-     * @return WordOfTheDay|null The scheduled record for today, or null if none exists.
+     * @return WordOfTheDay|Article The scheduled record for today, or a random published article.
      */
-    private function fetchWordOfTheDay(): ?WordOfTheDay
+    private function fetchWordOfTheDay(): WordOfTheDay|Article
     {
         return WordOfTheDay::whereDate('scheduled_for', today())
-            ->first();
+            ->firstOr(callback: function (): Article {
+                return Article::published()->inRandomOrder()->first();
+            });
     }
 
     /**
-     *
-     * Write the duplicate-guard entry and dispatch the discord embed notification.
+     * Write the duplicate-guard entry and dispatch the Discord embed notification.
      *
      * The cache entry is written before the alert is sent so that a partial failure does not leave
      * the guard unset and risk a duplicate post on retry. The embed includes the article title, URL,
-     * DEO description, scheduling reason, and the name of the author or contributor. All fields fall
+     * SEO description, scheduling reason, and the name of the author or contributor. All fields fall
      * back gracefully when optional relations or attributes are absent.
      *
-     * @param  WordOfTheDay $wtod The word of the day record for today
+     * @param  WordOfTheDay|Article  $wtod  The word of the day record or fallback article.
      * @return void
      */
-    private function sendDiscordNotification (WordOfTheDay $wtod): void
+    private function sendDiscordNotification(WordOfTheDay|Article $wtod): void
     {
+        // Resolve which object holds the actual Article data
+        $article = $wtod instanceof WordOfTheDay ? $wtod->article : $wtod;
+
         Cache::put(self::CACHE_KEY, now()->toDateTimeString(), now()->endOfDay());
 
         DiscordAlert::message('Er is een woord van de dag geselecteerd voor de datum: ' . now()->format('d-m-Y'), [
             [
-                'title' => "📖 " . strtoupper($wtod->article->word),
-                'url' => route('word-information.show', $wtod->article),
-                'description' => $wtod->article->seo_description,
+                'title' => "📖 " . strtoupper($article->word),
+                'url' => route('word-information.show', $article),
+                'description' => $article->seo_description,
                 'author' => [
                     'name' => config('app.name', 'Laravel'),
                     'url' => config('app.url')
@@ -108,7 +114,7 @@ final class PublishWordOfTheDayOnDiscord extends Command
                     ],
                     [
                         'name' => 'Ingezonden door',
-                        'value' => $wtod->article->author->name ?? $wtod->article->contributor_name ?? 'Anoniem',
+                        'value' => $article->author->name ?? $article->contributor_name ?? 'Anoniem',
                         'inline' => true,
                     ],
                 ],
