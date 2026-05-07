@@ -186,6 +186,12 @@
 
                                     <!-- Description -->
                                     <section class="mb-4 pb-4 border-bottom">
+                                        @if (flash()->message)
+                                            <div class="alert {{ flash()->class }}" role="alert">
+                                                {{ flash()->message }}
+                                            </div>
+                                        @endif
+                                        
                                         <h5 class="fw-semibold mb-3">
                                             <span class="color-green fw-semibold me-1">//</span> Beschrijving
                                         </h5>

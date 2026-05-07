@@ -193,7 +193,7 @@
                                     </p>
                                     <p class="mb-0 text-muted" style="font-size: 0.7rem;">
                                         {{ $article->published_at ? $article->published_at->format('d/m/Y') : 'n.v.t.' }} 
-                                        &bull; {{ number_format($article->views, 0, ',', '.') }} views
+                                        &bull; {{ number_format($article->views, 0, ',', '.') }} weergaves
                                     </p>
                                 </div>
                                 <div class="col-5 text-end">
