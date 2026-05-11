@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Articles;
 
+use App\Attributes\Todo;
 use App\Data\SuggestionData;
 use App\Models\Article;
 use App\Models\Concept;
@@ -70,7 +71,7 @@ final readonly class StoreArticleSuggestion
         return $suggestion;
     }
 
-    /** @todo document */
+    #[Todo(message: 'Write a docblock for this function', priority: 'low')]
     private function getFlashMessage(): string
     {
         return auth()->check()

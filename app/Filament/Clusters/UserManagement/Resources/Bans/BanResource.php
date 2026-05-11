@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\UserManagement\Resources\Bans;
 
+use App\Attributes\Todo;
 use App\Features\DocumentationButtons;
 use App\Filament\Clusters\UserManagement\Resources\Bans\Concerns\TableSchemeLayout;
 use App\Filament\Clusters\UserManagement\Resources\Bans\Concerns\TableActions;
@@ -64,9 +65,7 @@ final class BanResource extends Resource
      */
     protected static ?string $cluster = UserManagementCluster::class;
 
-    /**
-     * @todo Document this function
-     */
+    #[Todo(message: 'Write a docblock for this method', priority: 'low')]
     public static function infolist(Schema $schema): Schema
     {
         return $schema

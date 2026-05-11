@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Enums\Articles;
 
+use App\Attributes\Todo;
 use ArchTech\Enums\Comparable;
 use Filament\Support\Contracts\{HasLabel, HasIcon, HasColor, HasDescription};
 
-/**
- * @todo Document enumeration
- */
+#[Todo(message: 'Document this enumeration', author: 'Tjoosten', priority: 'info', tags: ['docs'])]
 enum EtymologyStatus: int implements HasColor, HasDescription, HasIcon, HasLabel
 {
     use Comparable;

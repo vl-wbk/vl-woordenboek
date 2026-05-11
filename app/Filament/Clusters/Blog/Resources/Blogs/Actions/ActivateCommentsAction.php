@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources\Blogs\Actions;
 
+use App\Attributes\Todo;
 use App\Models\Blog;
 use App\Models\Comment;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 
 /**
- * @todo Document this class
  * @property Comment $record The database entity from the given comment.
  */
+#[Todo(message: 'Write docblocks for this class and methods', author: 'Tjoosten', priority: 'low', tags: ['docs'])]
 final class ActivateCommentsAction extends Action
 {
     use CanCustomizeProcess;

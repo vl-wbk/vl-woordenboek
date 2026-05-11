@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources\Categories\Schema;
 
+use App\Attributes\Todo;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -14,9 +15,7 @@ use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
 use Filament\Tables\Actions;
 
-/**
- * @todo write docblocks for this class
- */
+#[Todo('Wite docblocks for this clpass and his methods', priority: 'low')]
 final readonly class TableActionsDefinitions
 {
     /**

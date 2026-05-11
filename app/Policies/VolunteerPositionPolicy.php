@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
+use App\Attributes\Todo;
 use App\Models\User;
 use App\Models\VolunteerPosition;
 use App\Settings\VolunteerSettings;
 use Illuminate\Auth\Access\Response;
 
+#[Todo(message: 'Write docblocks for the class and his methods', priority: 'high')]
 final class VolunteerPositionPolicy
 {
     /**
@@ -18,9 +20,6 @@ final class VolunteerPositionPolicy
         'viewAny', 'view', 'update', 'delete', 'create'
     ];
 
-    /**
-     * @todo docblock
-     */
     public function apply(User $user, VolunteerPosition $volunteerPosition): Response
     {
         if ($volunteerPosition->is_open && app(VolunteerSettings::class)->pageRegistrationActive) {
@@ -32,9 +31,6 @@ final class VolunteerPositionPolicy
         return Response::denyAsNotFound();
     }
 
-    /**
-     * @todo docblock
-     */
     public function viewAny(User $user): Response
     {
         return ($user->can('view-any:volunteer-position'))
@@ -42,9 +38,6 @@ final class VolunteerPositionPolicy
             : Response::deny(message: 'U hebgt geen toestemming om de lijst met vrijwilligers posities te bekijken.');
     }
 
-    /**
-     * @todo docblock
-     */
     public function create(User $user): Response
     {
         return ($user->can('create:volunteer-position'))
@@ -52,9 +45,6 @@ final class VolunteerPositionPolicy
             : Response::deny(message: 'U hebt geen toestemming om een nieuwe vrijwilligers positie aa te maken in het systeem.');
     }
 
-    /**
-     * @todo docblock
-     */
     public function update(User $user, VolunteerPosition $volunteerPosition): Response
     {
         return ($user->can('update:volunteer-position'))
@@ -62,9 +52,6 @@ final class VolunteerPositionPolicy
             : Response::deny(message: 'U hebt geen toestemming om de gegevens van de vrijwilligers positie te wijzigen.');
     }
 
-    /**
-     * @todo docblock
-     */
     public function view(User $user, VolunteerPosition $volunteerPosition): Response
     {
         return ($user->can('view:volunteer-position'))
@@ -72,9 +59,6 @@ final class VolunteerPositionPolicy
             : Response::deny(message: 'U hebt geen toestemming om de vrijwilliger positie te bekijken.');
     }
 
-    /**
-     * @todo docblock
-     */
     public function delete(User $user, VolunteerPosition $volunteerPosition): Response
     {
         return ($user->can('delete:volunteer-position'))

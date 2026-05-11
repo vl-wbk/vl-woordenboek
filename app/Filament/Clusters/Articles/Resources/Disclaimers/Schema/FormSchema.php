@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\Disclaimers\Schema;
 
+use App\Attributes\Todo;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use App\Enums\DisclaimerTypes;
@@ -13,9 +14,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Support\Enums\IconSize;
 use Filament\Support\Icons\Heroicon;
 
-/**
- * @todo Document this class
- */
+#[Todo(message: 'Write docblocks for this clpass and methods', priority: 'low')]
 final readonly class FormSchema
 {
     private static function createSection(string $title, string|Heroicon $icon, string $description): Section

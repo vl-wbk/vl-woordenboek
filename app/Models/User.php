@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Attributes\Todo;
 use App\Builders\UserBuilder;
 use App\Mail\AccountPrunedMailable;
 use App\Models\Concerns\ManagesUserGroups;
@@ -252,9 +253,9 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
     /**
      * Determine if the user has beta testing privileges.
      *
-     * @todo Check if we can phase this method out
      * @return bool True if the user is a designated beta tester.
      */
+    #[Todo(message: 'Check if wa can phase this method out', priority: 'urgent')]
     public function isTester(): bool
     {
         return $this->is_beta_tester;

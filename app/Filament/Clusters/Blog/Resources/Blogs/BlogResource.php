@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources\Blogs;
 
+use App\Attributes\Todo;
 use App\Filament\Support\Concerns\HasActiveIcon;
 use Filament\Schemas\Schema;
 use App\Filament\Clusters\Blog\Resources\Blogs\Pages\ListBlogs;
@@ -78,9 +79,7 @@ final class BlogResource extends Resource
      */
     protected static ?string $modelLabel = 'Nieuwsbericht';
 
-    /**
-     * @todo Document this variable
-     */
+    #[Todo(message: "Write a docblock for this property", author: 'Tjoosten', priority: 'low', tags: ['docs'])]
     protected static ?string $pluralModelLabel = 'Nieuwsberichten';
 
     /**
@@ -95,9 +94,7 @@ final class BlogResource extends Resource
         return FormSchema::getComponents($schema);
     }
 
-    /**
-     * @todo Document this function
-     */
+    #[Todo(message: 'Write a docblock for the infolist', author: 'Tjoosten', priority: 'info', tags: ['docs'])]
     public static function infolist(Schema $schema): Schema
     {
         return BlogPostInfolist::getComponent($schema);
@@ -107,12 +104,11 @@ final class BlogResource extends Resource
      * Defines the structure and behavior of the table used to list blog posts.
      * It configures labels, descriptions, empty states, and delegates column and action definitions to `TableSchema` and `ResourceActionDefinitions`.
      *
-     * @todo Implement the needed status filter for the articles.
-     * @todo Add translation support for the table.
-     *
      * @param  Table $table  The Filament Table instance.
      * @return Table         The configured Filament Table instance.
      */
+    #[Todo(message: 'Add filters for the table', author: 'Tjoosten', tags: ['UX', 'Feature'], priority: 'urgent')]
+    #[Todo(message: 'Add translation support for the table', author: 'Tjoosten', tags: ['i18n'])]
     public static function table(Table $table): Table
     {
         return $table

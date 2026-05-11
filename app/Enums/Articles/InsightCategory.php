@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Enums\Articles;
 
+use App\Attributes\Todo;
 use Filament\Support\Contracts\HasDescription;
 use Filament\Support\Contracts\HasLabel;
 
-/**
- * @todo write docblocks for this enumeration class.
- */
+#[Todo(message: 'Write docblocks for this enumeration', priority: 'low')]
 enum InsightCategory: int implements HasDescription, HasLabel
 {
     case Fact = 1;

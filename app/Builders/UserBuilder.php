@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Builders;
 
+use App\Attributes\Todo;
 use App\Models\Article;
 use App\Models\User;
 use App\UserTypes;
@@ -14,10 +15,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Stringable;
 
 /**
- * @todo document this class
- *
  * @template-extends Builder<User>
  */
+#[Todo('Write a classdoc for this method', priority: 'low', tags: ['documentation'])]
 final class UserBuilder extends Builder
 {
     public function __construct(QueryBuilder $query)
@@ -25,7 +25,7 @@ final class UserBuilder extends Builder
         parent::__construct($query);
     }
 
-    #[Deprecated('Refactor this out in order for the new permission bases system')]
+    #[Todo('Refactor this out in order for the new permission based system', priority: 'low', tags: ['refactoring'])]
     public function isAdministrator(): bool
     {
         return $this->model->user_type->is(UserTypes::Administrators);
@@ -36,8 +36,6 @@ final class UserBuilder extends Builder
      * @param  string|Stringable|null   $searchParam
      * @param  string                   $searchColumn
      * @return LengthAwarePaginator<int, Article>
-     *
-     * @deprecated refactor this out.
      */
     public function searchContributions(string $relation, string|Stringable|null $searchParam, string $searchColumn): LengthAwarePaginator
     {

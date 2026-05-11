@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Data\Account;
 
+use App\Attributes\Todo;
 use Spatie\LaravelData\Data;
 
-/**
- * @todo Write docblock for this DTI
- */
+
+#[Todo(message: 'Provide docblocks for this class and their methods', priority: 'low')]
 final class UserRegistrationData extends Data
 {
     public function __construct(

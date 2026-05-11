@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\ArticleResource\Actions;
 
+use App\Attributes\Todo;
 use App\Enums\Articles\ArchiveReason;
 use App\Models\Article;
 use Filament\Actions\BulkAction;
@@ -16,9 +17,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\LazyCollection;
 
-/**
- * @todo Write docblocks for this action class.
- */
+#[Todo(message: 'Write a docblock for this class and their methods', priority: 'low')]
 final class BulkArchiveAction extends BulkAction
 {
     public static function getDefaultName(): string

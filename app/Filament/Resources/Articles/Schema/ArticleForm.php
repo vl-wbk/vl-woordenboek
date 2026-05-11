@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Articles\Schema;
 
+use App\Attributes\Todo;
 use App\Enums\ArticleStates;
 use App\Enums\LanguageStatus;
 use App\Features\DocumentationButtons;
@@ -41,10 +42,8 @@ use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Feature;
 
-/**
- * @todo Write docbloks for this form
- * @todo Perform a code clean up for this code.
- */
+#[Todo(message: 'Write docblocks for this class and their methods', priority: 'low')]
+#[Todo(message: 'Perform a code clean up for the code in this class', priority: 'normal')]
 final readonly class ArticleForm
 {
     public static function configure(Schema $schema): Schema

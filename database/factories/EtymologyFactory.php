@@ -2,15 +2,16 @@
 
 namespace Database\Factories;
 
+use App\Attributes\Todo;
 use App\Enums\Articles\EtymologySources;
 use App\Models\{Article, User};
 use App\Enums\Articles\EtymologyStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @todo GH #294 apply the new data structure to the seeder
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Etymology>
  */
+#[Todo('Provide docblocks for this class and his methods', priority: 'low')]
 final class EtymologyFactory extends Factory
 {
     /**
