@@ -250,8 +250,8 @@ final class Article extends Model implements AuditableContract, Commentable
     /**
      * Returns all user-submitted examples linked to this article. 
      * 
-     * Each userExample belongs to a signle Article via the 'article_id' foreign key. 
-     * ERager-load this relation with ->with('userExamples') to avoid N+1 queries when 
+     * Each userExample belongs to a single Article via the 'article_id' foreign key. 
+     * Eager-load this relation with ->with('userExamples') to avoid N+1 queries when 
      * iterating over multiple articles.
      * 
      * @return HasMany<UserExample, covariant $this>
@@ -386,8 +386,8 @@ final class Article extends Model implements AuditableContract, Commentable
     {
         return Attribute::get(function (): string {
             return (string) str($this->description)
-                ->markdown()     // Maak er HTML van (lost Markdown syntax op)
-                ->stripTags()    // Strip alle resulterende HTML tags
+                ->markdown()
+                ->stripTags()
                 ->squish()
                 ->limit(300);
         });
