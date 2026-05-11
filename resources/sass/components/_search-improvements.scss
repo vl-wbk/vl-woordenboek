@@ -13,14 +13,13 @@
 }
 
 .lexi-card:hover {
-    transform: translateY(-4px); /* Subtiele lift */
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
     border-color: #e0e0e0;
 }
 
 /* Typografie & Elementen */
 .word-title {
-    
+
     font-weight: 800;
     letter-spacing: -0.02em;
     color: #111111;
@@ -60,7 +59,7 @@
     font-weight: 400;
 }
 
-// Search jumbotron 
+// Search jumbotron
 
 .compact-search-group {
       border: 1px solid #000;
@@ -131,7 +130,7 @@
       border-color: #000;
     }
 
-    // Aside 
+    // Aside
     .filter-title {
     font-size: 0.7rem;
     font-weight: 700;
@@ -169,7 +168,7 @@
 
 .filter-link.active {
     color: #0d6efd;
-    background-color: rgba(13, 110, 253, 0.05); 
+    background-color: rgba(13, 110, 253, 0.05);
     padding-left: 10px; /* Subtle slide effect */
     font-weight: 600;
 }
@@ -194,7 +193,7 @@
     color: #198754; /* Matcht je groene thema */
 }
 
-// meh 
+// meh
  .hover-lift {
         transition: all 0.2s ease;
     }

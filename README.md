@@ -86,7 +86,7 @@ Laten we samen bouwen aan een uitgebreid en authentiek Vlaams Woordenboek!
 
 ## 📜 Gedragscode
 
-We streven naar een vriendelijke, respectvolle en inclusieve community. Door bij te dragen aan dit project, ga je akkoord met onze [Code of Conduct](https://github.com/Tjoosten/vl-woordenboek/blob/develop/CODE_OF_CONDUCT.md).
+We streven naar een vriendelijke, respectvolle en inclusieve community. Door bij te dragen aan dit project, ga je akkoord met onze [Code of Conduct](https://github.com/vl-wbk/vl-woordenboek?tab=coc-ov-file).
 We verwachten van alle bijdragers dat ze anderen met respect behandelen en samenwerken in een positieve sfeer.
 
 ## 📜 Licentie

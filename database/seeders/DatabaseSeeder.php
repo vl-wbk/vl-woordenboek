@@ -43,5 +43,6 @@ final class DatabaseSeeder extends Seeder
         $this->call(DisclaimerTableSeeder::class);
         $this->call(ReferenceWorkSeeder::class);
         $this->call(PreferenceTableSeeder::class);
+        $this->call(FlemishWordSeeder::class);
     }
 }

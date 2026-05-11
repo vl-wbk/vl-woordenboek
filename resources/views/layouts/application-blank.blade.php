@@ -15,12 +15,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap" rel="stylesheet">
 
-
-
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon/apple-touch-icon.png') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon//favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon//favicon-16x16.png') }}">
-    <link rel="manifest" href="{{ asset('favicon/site.webmanifest') }}">
+    <link rel="icon" type="image/png" href="{{ asset('favicon/favicon-96x96.png') }}" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon/favicon.svg') }}" />
+    <link rel="shortcut icon" href="{{ asset('favicon/favicon.ico') }}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon/apple-touch-icon.png') }}" />
+    <meta name="apple-mobile-web-app-title" content="Vlaams Woordenboek" />
+    <link rel="manifest" href="{{ asset('favicon/site.webmanifest') }}" />
 
     {{--  Open graph protocol integration --}}
     @yield('openGraph')
@@ -37,7 +37,7 @@
     <nav class="navbar navbar-expand-md navbar-dark bg-navbar shadow-sm">
         <div class="{{ $containerSize ?? 'container-fluid' }}">
             <a class="navbar-brand" href="{{ url('/') }}">
-                {{ config('app.name', 'Laravel') }}
+                <img src="{{ asset('img/app-logo.png') }}" class="rounded me-2" alt="Bootstrap" width="25" height="25"> {{ config('app.name', 'Laravel') }}
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -180,7 +180,7 @@
                 <div class="col-lg-3">
                 <a class="d-inline-flex align-items-center mb-2 text-white text-decoration-none" href="/" aria-label="Bootstrap">
                     <x:heroicon-s-book-open class="icon icon-back-to-results brand-gradient"/>
-                    <span class="fs-5 brand-gradient fw-bold ms-2">{{ config('app.name', 'Laravel') }}</span>
+                    <span class="fs-5 heading-footer fw-bold ms-2">{{ config('app.name', 'Laravel') }}</span>
                 </a>
                 <ul class="list-unstyled small text-white">
                     <li class="mb-2">
@@ -192,14 +192,14 @@
                         <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="text-white">CC BY-NC-SA 4.0 licentie.</a>
                     </li>
 
-                    <li class="mb-2 fst-italic brand-gradient">
+                    <li class="mb-2 fst-italic heading-footer">
                         {{ __('layout/application.footer.information-section.version-paragraph', ['version' => 'v0.1.0']) }}
                     </li>
                 </ul>
             </div>
 
             <div class="col-6 col-lg-2 offset-lg-1 mb-3">
-                <h5 class="brand-gradient">{{ __('layout/application.footer.links-section.heading') }}</h5>
+                <h5 class="heading-footer">{{ __('layout/application.footer.links-section.heading') }}</h5>
 
                 <ul class="list-unstyled">
                     <li class="mb-2">
@@ -239,7 +239,7 @@
             </div>
 
             <div class="col-6 col-lg-2 mb-3">
-                <h5 class="brand-gradient">{{ __('layout/application.footer.sources-section.heading') }}</h5>
+                <h5 class="heading-footer">{{ __('layout/application.footer.sources-section.heading') }}</h5>
 
                 <ul class="list-unstyled">
                     <li class="mb-2">
@@ -263,7 +263,7 @@
             </div>
 
             <div class="col-6 col-lg-2 mb-3">
-                <h5 class="brand-gradient">{{ __('layout/application.footer.contribution-section.heading') }}</h5>
+                <h5 class="heading-footer">{{ __('layout/application.footer.contribution-section.heading') }}</h5>
 
                 <ul class="list-unstyled">
                     <li class="mb-2">
@@ -287,7 +287,7 @@
             </div>
 
             <div class="col-6 col-lg-2 mb-3">
-                <h5 class="brand-gradient">{{ __('layout/application.footer.community-section.heading') }}</h5>
+                <h5 class="heading-footer">{{ __('layout/application.footer.community-section.heading') }}</h5>
 
                 <ul class="list-unstyled">
                     <li class="mb-2">
@@ -322,7 +322,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <span class="text-yellow">
+                    <span class="heading-footer">
                         &copy; {{ __('layout/application.footer.copyright', ['date' => date('Y'), 'application' => config('app.name', 'laravel')]) }}
                     </span>
 

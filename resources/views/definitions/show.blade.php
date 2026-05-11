@@ -186,6 +186,12 @@
 
                                     <!-- Description -->
                                     <section class="mb-4 pb-4 border-bottom">
+                                        @if (flash()->message)
+                                            <div class="alert {{ flash()->class }}" role="alert">
+                                                {{ flash()->message }}
+                                            </div>
+                                        @endif
+                                        
                                         <h5 class="fw-semibold mb-3">
                                             <span class="color-green fw-semibold me-1">//</span> Beschrijving
                                         </h5>
@@ -389,6 +395,32 @@
                                             </div>
                                         </div>
                                     </div>
+                                @endif
+
+                                @if (auth()->user() && $word->related->count() > 0 && $word->published())
+                                    <hr>
+
+                                    <section id="compare">
+                                        <form action="{{ route('article:compare', ['word' => $word]) }}" method="GET">
+                                            <label for="second_word" class="form-label fw-bold">
+                                                Vergelijk dit woord met een gerelateerd woord
+                                            </label>
+                                            
+                                            <div class="input-group">
+                                                <select class="form-select" id="second_word" name="second_word" onchange="this.form.submit()">
+                                                    <option value="" selected disabled>Selecteer een woord</option>
+                                                    
+                                                    @foreach ($word->related as $related)
+                                                        <option value="{{  $related->id }}">{{ $related->word }}</option>
+                                                    @endforeach
+                                                </select>
+                                                
+                                                <button type="submit" class="btn btn-dark">
+                                                    Vergelijk
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </section>
                                 @endif
                         </div><!-- /col-lg-4 -->
                     </div>
