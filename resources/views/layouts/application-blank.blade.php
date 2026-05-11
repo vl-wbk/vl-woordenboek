@@ -19,6 +19,7 @@
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon/favicon.svg') }}" />
     <link rel="shortcut icon" href="{{ asset('favicon/favicon.ico') }}" />
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon/apple-touch-icon.png') }}" />
+    <meta name="apple-mobile-web-app-title" content="Vlaams Woordenboek" />
     <link rel="manifest" href="{{ asset('favicon/site.webmanifest') }}" />
 
     {{--  Open graph protocol integration --}}
@@ -36,7 +37,7 @@
     <nav class="navbar navbar-expand-md navbar-dark bg-navbar shadow-sm">
         <div class="{{ $containerSize ?? 'container-fluid' }}">
             <a class="navbar-brand" href="{{ url('/') }}">
-                <img src="{{ asset('img/app-logo.png') }}" class="rounded me-2" alt="Bootstrap" width="30" height="24"> {{ config('app.name', 'Laravel') }}
+                <img src="{{ asset('img/app-logo.png') }}" class="rounded me-2" alt="Bootstrap" width="25" height="25"> {{ config('app.name', 'Laravel') }}
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
