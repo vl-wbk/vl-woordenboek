@@ -4,15 +4,35 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\Disclaimers\Schema;
 
-use App\Attributes\Todo;
 use Filament\Actions\{ActionGroup, ViewAction, EditAction, DeleteAction, BulkActionGroup, DeleteBulkAction};
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-#[Todo(message: 'write docblocks for this class and their methods', priority: 'low')]
+/**
+ * TableSchema
+ * 
+ * This class defines the tabular presentation logic for Disclaimer records within the 
+ * Filament admin panel. It centralizes the configuration of data columns, individual 
+ * row actions, and bulk management operations.
+ * 
+ * Development Guidelines:
+ * - UI text is managed via translation keys (e.g., disclaimer-resource.table.*) to support localization and maintainability.
+ * - The schema includes a relation count for 'articles' to provide immediate feedback on how widely a disclaimer is currently utilized.
+ * 
+ * @package App\Filament\Clusters\Articles\Resources\Disclaimers\Schema
+ */
 final readonly class TableSchema
 {
+    /**
+     * Configure Primary Table Entry Point
+     * 
+     * Orchestrates the construction of the data table by assembling localized headers, empty state configurations, and interactive components. 
+     * This serves as the high-level blueprint used by the DisclaimerResource.
+     *
+     * @param  Table $table  The Filament table instance to be configured.
+     * @return Table         The fully configured table ready for rendering.
+     */
     public static function configure(Table $table): Table
     {
         return $table
@@ -27,7 +47,12 @@ final readonly class TableSchema
     }
 
     /**
-     * @return array<int, TextColumn>
+     * Column Component Definition
+     * 
+     * Defines the specific data fields displayed in the table grid. 
+     * Note: 'articles_count' uses an aggregate relationship count to show usage metrics directly in the list view.
+     *
+     * @return array<int, TextColumn> A collection of configured table columns.
      */
     private static function configureColumnComponents(): array
     {
@@ -57,7 +82,12 @@ final readonly class TableSchema
     }
 
     /**
-     * @return array<int, ViewAction|ActionGroup>
+     * Individual Record Actions
+     * 
+     * Configures the interactive buttons available for each row. 
+     * We utilize ActionGroups to keep the UI clean by nesting editing and deletion within a dropdown, while keeping 'View' as a primary visible action.
+     *
+     * @return array<int, ViewAction|ActionGroup> A list of row-level actions.
      */
     private static function configureActions(): array
     {
@@ -79,7 +109,12 @@ final readonly class TableSchema
     }
 
     /**
-     * @return array<int, \Filament\Actions\BulkActionGroup>
+     * Bulk Action Configuration
+     * 
+     * Defines operations that can be performed on multiple selected records simultaneously. 
+     * By default, this provides safe bulk deletion capabilities.
+     *
+     * @return array<int, \Filament\Actions\BulkActionGroup> A list of bulk management groups.
      */
     private static function configureBulkActions(): array
     {

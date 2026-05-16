@@ -4,19 +4,38 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\Disclaimers\Schema;
 
-use App\Attributes\Todo;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use App\Enums\DisclaimerTypes;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\{Select, Textarea, TextInput};
 use Filament\Support\Enums\IconSize;
 use Filament\Support\Icons\Heroicon;
 
-#[Todo(message: 'Write docblocks for this clpass and methods', priority: 'low')]
+/**
+ * FormSchema
+ * 
+ * This class orchestrates the input architecture for the Disclaimer resource.
+ * It is designed to be highly modular, allowing future maintainers to update specific 
+ * form segments (Public Info, Management Metadata, or Internal Notices) without disrupting the overall layout.
+ * 
+ * To ensure consistency across the application, all form sections are generated via 
+ * the `createSection` helper, enforcing a unified look for headers, icons, and spacing.
+ *
+ * @package App\Filament\Clusters\Articles\Resources\Disclaimers\Schema
+ */
 final readonly class FormSchema
 {
+    /**
+     * Standardized Section Factory
+     * 
+     * Enforces a consistent UI pattern for form sections. Use this method to maintain 
+     * visual harmony; it sets default primary colors, large icons, and compact styling.
+     *
+     * @param  string          $title        Localized title of the section.
+     * @param  string|Heroicon $icon         The Heroicon identifier or Outlined enum.
+     * @param  string          $description  Localized instructional text for the user.
+     * @return Section                       A pre-configured Filament Section component.
+     */
     private static function createSection(string $title, string|Heroicon $icon, string $description): Section
     {
         return Section::make($title)
@@ -29,6 +48,15 @@ final readonly class FormSchema
             ->compact();
     }
 
+    /**
+     * Main Configuration Entry Point
+     * 
+     * This method builds the complete form schema by assembling individual sections. 
+     * When extending the model with new fields, identify the logical section below and update the corresponding private method.
+     *
+     * @param  Schema $schema  The base Filament schema container.
+     * @return Schema          The fully assembled form schema.
+     */
     public static function configure(Schema $schema): Schema
     {
         return $schema
@@ -55,6 +83,9 @@ final readonly class FormSchema
     }
 
     /**
+     * Public Content Schema
+     * Manages fields that are directly exposed to the end-user or impact the frontend rendering, such as the disclaimer type and the actual text message.
+     * 
      * @return array<int, Select|Textarea>
      */
     private static function getDisclaimerInformationSchema(): array
@@ -75,6 +106,11 @@ final readonly class FormSchema
     }
 
     /**
+     * Administrative Metadata Schema
+     * 
+     * Manages internal-only tracking data. This includes the unique identifier name,  functional descriptions, 
+     * and usage instructions to help other admins understand the "why" and "where" of this specific record.
+     * 
      * @return array<int, TextInput|Textarea>
      */
     private static function getManagementInformationSchema(): array
@@ -102,6 +138,11 @@ final readonly class FormSchema
     }
 
     /**
+     * Internal Editorial Schema
+     * 
+     * Handles specific overrides and notices for content editors. 
+     * These fields allow for granular control over how the disclaimer is described within the CMS, providing fallback logic if fields are left empty.
+     * 
      * @return array<TextInput|Textarea>
      */
     private static function getInternalDisclaimerSchema(): array

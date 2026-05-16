@@ -5,50 +5,47 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Articles\Schema;
 
 use App\Attributes\Todo;
-use App\Enums\ArticleStates;
-use App\Enums\LanguageStatus;
+use App\Enums\{ArticleStates, LanguageStatus};
 use App\Features\DocumentationButtons;
-use App\Filament\Clusters\Articles\Resources\ArticleResource\Actions\DisclaimerToolbarActions;
-use App\Filament\Clusters\Articles\Resources\ArticleResource\Actions\LanguageAdviceAction;
+use App\Filament\Clusters\Articles\Resources\ArticleResource\Actions\{DisclaimerToolbarActions, LanguageAdviceAction};
 use App\Filament\Resources\Articles\Actions\RemoveEditorAction;
-use App\Models\Article;
-use App\Models\ReferenceWork;
-use App\Models\User;
-use App\Services\ModerationService;
-use App\States\ExampleSentence\Approved;
-use App\States\ExampleSentence\SentenceState;
-use App\UserTypes;
+use App\Models\{Article, ReferenceWork};
 use CodeWithDennis\SimpleAlert\Components\Enums\IconAnimation;
 use CodeWithDennis\SimpleAlert\Components\SimpleAlert;
 use DiscoveryDesign\FilamentGaze\Forms\Components\GazeBanner;
 use Filament\Actions\Action;
-use Filament\Forms\Components\MarkdownEditor;
-use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Components\Radio;
-use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\{MarkdownEditor, Radio, Repeater, Select, Textarea, TextInput};
 use Filament\Infolists\Components\TextEntry;
-use Filament\Schemas\Components\Actions;
-use Filament\Schemas\Components\Group;
-use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\View;
+use Filament\Schemas\Components\{Group, Section};
 use Filament\Schemas\Schema;
-use Filament\Support\Enums\IconSize;
-use Filament\Support\Enums\TextSize;
 use Filament\Support\Icons\Heroicon;
-use Illuminate\Support\HtmlString;
-use Illuminate\Support\Str;
 use Laravel\Pennant\Feature;
 
-#[Todo(message: 'Write docblocks for this class and their methods', priority: 'low')]
+/**
+ * ArticleForm 
+ * 
+ * This class orchestrates the complex form schema for the article resource. It manages multiple layers of UI including 
+ * real-time collaboration banners (Gaze), editorial feedback alerts, and segmented data entry for linguistic metadata,
+ * regional associations, and academic source tracking.
+ * 
+ * @package App\Filament\Resources\Articles\Schema
+ */
 #[Todo(message: 'Perform a code clean up for the code in this class', priority: 'normal')]
 final readonly class ArticleForm
 {
+    /**
+     * Main schema configuration 
+     * 
+     * Constructs the full form struicture, organizing components into a 9-column wide main content 
+     * area and a 3-column wide sidebar for redactional metadata. 
+     *
+     * @param  Schema $schema   The Filament base schema instance. 
+     * @return Schema           The configured schema with all sections and components. 
+     */
     public static function configure(Schema $schema): Schema
     {
         return $schema->components([
+            // Collaboraion & Locking banner 
             GazeBanner::make('lock-banner')
                 ->lock()
                 ->poll(null)
@@ -56,6 +53,7 @@ final readonly class ArticleForm
                 ->canTakeControl(fn (): bool => auth()->user()->can('release-resource-lock'))
                 ->hideOnCreate(),
 
+            // Contextual disclaimer alert 
             SimpleAlert::make('dd')
                 ->icon(Heroicon::OutlinedExclamationTriangle, IconAnimation::Pulse)
                 ->title(fn (Article $article): string => $article->disclaimer->internal_title ?? $article->disclaimer->name)
@@ -71,6 +69,7 @@ final readonly class ArticleForm
 
             Group::make()
                 ->schema([
+                    // Main article content
                     Section::make('general-information')
                         ->compact()
                         ->collapsible()
@@ -82,6 +81,7 @@ final readonly class ArticleForm
                         ->description('De algemene informatie van het artikel in het Vlaams woordenboek')
                         ->schema(self::generalInformationComponent()),
 
+                    // Metadata & Regional context
                     Section::make('status-information')
                         ->compact()
                         ->collapsed()
@@ -92,6 +92,7 @@ final readonly class ArticleForm
                         ->iconColor('primary')
                         ->schema(self::regionInformationComponent()),
 
+                    // Cross-referencing
                     Section::make('related-word')
                         ->heading('Gerelateerde woorden')
                         ->icon(Heroicon::OutlinedLink)
@@ -101,6 +102,7 @@ final readonly class ArticleForm
                         ->description('Koppel woorden die gerelateerd zijn aan het woord dat je bewerkt. Zet enkel de woorden die niet bij de kenmerken geplaatst kunnen in de algemene informatie.')
                         ->schema(self::getRelatedWordsRepeater()),
 
+                    // Bibliography/Sources
                     Section::make('source-information')
                         ->compact()
                         ->collapsed()
@@ -117,6 +119,9 @@ final readonly class ArticleForm
     }
 
     /**
+     * General information component 
+     * Houses core fields like the word itself, part of speech, keywords and the main markdown description.
+     * 
      * @return array<int, TextInput|Select|MarkdownEditor>
      */
     public static function generalInformationComponent(): array
@@ -213,6 +218,13 @@ final readonly class ArticleForm
         ];
     }
 
+    /**
+     * Documentation guideline link
+     * Helper to generate a consistent external documentation button for form fields. 
+     *
+     * @param  string $url The hyperlink that refer'ences to our platform documentation (guideline).
+     * @return Action
+     */
     private static function guidelineAction(string $url): Action
     {
         return Action::make('richtlijn')
@@ -223,6 +235,9 @@ final readonly class ArticleForm
     }
 
     /**
+     * Region Information Component
+     * Manages regional mapping and the linguistic status of the entry.
+     * 
      * @return array<int, SimpleAlert|Select|Radio>
      */
     public static function regionInformationComponent(): array
@@ -260,6 +275,12 @@ final readonly class ArticleForm
         ];
     }
 
+    /**
+     * Example Sentence Repeater
+     * Configuration for adding usage examples and their specific sources.
+     * 
+     * @return Repeater
+     */
     public static function exampleSentenceRepeater(): Repeater
     {
         return Repeater::make('userExamples')
@@ -282,6 +303,9 @@ final readonly class ArticleForm
     }
 
     /**
+     * Source Repeater
+     * Handles the complex relation with ReferenceWorks, including preventing duplicate selections within the same article.
+     *
      * @return array<int, SimpleAlert|Repeater>
      */
     public static function sourceRepeater(): array
@@ -330,6 +354,9 @@ final readonly class ArticleForm
     }
 
     /**
+     * Related Words Configuration 
+     * Provides a searchable multi-select for internal article cross-referencing.
+     *
      * @return array<int, Select>
      */
     public static function getRelatedWordsRepeater(): array
@@ -350,6 +377,8 @@ final readonly class ArticleForm
     }
 
     /**
+     * Markdown toolbar options 
+     * 
      * @return array<int, array<string>>
      */
     private static function getToolbarOptions(): array
@@ -363,6 +392,12 @@ final readonly class ArticleForm
         ];
     }
 
+    /**
+     * Redactional Information Sidebar Section 
+     * Displays audit-trail information including author, current editor, and timestamps.
+     * 
+     * @return Section
+     */
     private static function redactionInformationSection(): Section
     {
         return Section::make()
