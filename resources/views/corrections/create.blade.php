@@ -57,7 +57,7 @@
                             </li>
                             <li class="breadcrumb-item"><a href="{{ route('search.results') }}" class="text-decoration-none">{{ __('Zoeken') }}</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('word-information.show', $word) }}" class="text-decoration-none">{{ $word->word }}</a></li>
-                            <li class="breadcrumb-item active fw-semibold" aria-current="page">{{ __('Correctie voorstellen') }}</li>
+                            <li class="breadcrumb-item active fw-semibold" aria-current="page">{{ __('correctie voorstellen') }}</li>
                         </ol>
                     </nav>
                     <a href="{{ route('word-information.show', $word) }}" class="btn btn-outline-secondary shadow-sm btn-sm d-inline-flex align-items-center">

@@ -426,7 +426,7 @@
                                 <hr>
 
                                 <div class="btn-group border shadow-sm w-100" role="group" aria-label="Verbetering melden">
-                                    @if (auth()->check())
+                                    @if (auth()->check() && auth()->user()->can('create', \App\Models\CorrectionProposal::class))
                                         <a href="{{ route('correction:create', $word) }}" class="btn btn-white w-100">
                                             <x-heroicon-o-pencil-square class="icon me-1"/>
                                             <span>Correctie voorstellen</span>
@@ -436,9 +436,9 @@
                                     <button type="button" class="btn btn-danger" title="Een probleem melden" data-bs-toggle="modal" data-bs-target="#reportModal">
                                         <x-heroicon-s-exclamation-triangle class="icon"/>
                                     
-                                        @guest
-                                            <span>Een probleem melden</span>
-                                        @endguest
+                                        @cannot ('create', \App\Models\CorrectionProposal::class)
+                                            <span class="ms-1">Een probleem melden</span>
+                                        @endcannot
                                     </button>
                                 </div>
                         </div><!-- /col-lg-4 -->
