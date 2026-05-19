@@ -19,6 +19,7 @@ use App\Contracts\States\ArticleStateContract;
 use App\Enums\ArticleStates;
 use App\Enums\DataOrigin;
 use App\Enums\LanguageStatus;
+use App\Models\Relations\Articles\HasCorrectionSupport;
 use App\Models\Relations\BelongsToAuthor;
 use App\Models\Relations\BelongsToEditor;
 use App\Models\Relations\BelongsToManyRegions;
@@ -102,6 +103,7 @@ final class Article extends Model implements AuditableContract, Commentable
     use HasNotables;
     use HasComments;
     use Votable;
+    use HasCorrectionSupport;
 
     /**
      * Relations that are always eager-loaded with this model.

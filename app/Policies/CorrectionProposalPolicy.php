@@ -22,6 +22,6 @@ final readonly class CorrectionProposalPolicy
 
     public function create(User $user): Response
     {
-        return Response::denyAsNotFound();
+        return Response::allow();
     }
 }

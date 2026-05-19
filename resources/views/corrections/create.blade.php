@@ -67,6 +67,14 @@
 
                 <!-- Main Grid Layout -->
                 <div class="row g-4">
+
+                    @if (flash()->message)
+                        <div class="col-lg-12">
+                            <div class="alert {{ flash()->class }} mb-0 shadow-sm border-0">
+                                <x-heroicon-o-check class="icon me-1"/> {{ flash()->message }}
+                            </div>
+                        </div>
+                    @endif
                     
                     <!-- ── LEFT COLUMN: CORRECTION FORM ── -->
                     <div class="col-lg-6">
@@ -82,7 +90,7 @@
                             </div>
                             
                             <div class="card-body bg-white p-4">
-                                <form action="" method="POST">
+                                <form action="{{ route('correction:store', $word) }}" method="POST">
                                     @csrf
 
                                     <!-- Target Word Display -->
@@ -95,10 +103,10 @@
                                     <div class="mb-3">
                                         <div class="d-flex justify-content-between align-items-center mb-2">
                                             <label for="description" class="form-label fw-semibold mb-0">Aangepaste beschrijving</label>
-                                            <span class="badge text-bg-light border text-muted small fw-normal">Markdown toegestaan</span>
+                                            <span class="badge bg-primary-subtle border text-primary small fw-normal">Markdown ondersteund</span>
                                         </div>
-                                        <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="6" placeholder="Typ hier de gecorrigeerde definitie of betekenis...">{{ old('description', $word->description) }}</textarea>
-                                        @error('description')
+                                        <textarea class="form-control bg-white @error('beschrijving') is-invalid @enderror" id="description" name="beschrijving" rows="6" placeholder="Typ hier de gecorrigeerde definitie of betekenis...">{{ old('beschrijving', $word->description) }}</textarea>
+                                        @error('beschrijving')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -111,8 +119,8 @@
                                             <x-heroicon-s-chat-bubble-bottom-center-text class="icon color-green me-1" style="width: 1.25rem; height: 1.25rem;"/>
                                             Waarom is deze wijziging nodig? <span class="text-danger ms-1">*</span>
                                         </label>
-                                        <textarea class="form-control bg-white @error('reason') is-invalid @enderror" id="reason" name="reason" rows="3" required placeholder="Bijv: 'De huidige betekenis klopt niet in de regio Antwerpen', of bronvermelding..."></textarea>
-                                        @error('reason')
+                                        <textarea class="form-control bg-white @error('beweegredenen') is-invalid @enderror" id="reason" name="beweegredenen" rows="3" placeholder="Bijv: 'Er stond een typo in de beschrijving. Of de beschrijving kon beter geformuleerd worden.'">{{ old('beweegredenen') }}</textarea>
+                                        @error('beweegredenen')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -180,11 +188,6 @@
                                                 </button>
                                             </li>
                                             <li class="nav-item flex-fill" role="presentation">
-                                                <button class="nav-link w-100 small fw-semibold py-1.5 border-0 text-center d-inline-flex align-items-center justify-content-center" id="labels-tab" data-bs-toggle="tab" data-bs-target="#labels-tab-pane" type="button" role="tab" aria-controls="labels-tab-pane" aria-selected="false">
-                                                    <x-heroicon-s-tag class="icon me-2 color-green"/> labels
-                                                </button>
-                                            </li>
-                                            <li class="nav-item flex-fill" role="presentation">
                                                 <button class="nav-link w-100 small fw-semibold py-1.5 border-0 text-center" id="related-tab" data-bs-toggle="tab" data-bs-target="#related-tab-pane" type="button" role="tab" aria-controls="related-tab-pane" aria-selected="false">
                                                     <x-heroicon-s-link class="icon me-2 color-green"/> gerelateerd
                                                 </button>
@@ -203,14 +206,12 @@
                                     <div class="tab-content overflow-y-auto px-1" id="liveArticleTabsContent" style="max-height: 50vh;">
                                         
                                         <!-- Tab 1: Description & Examples -->
-                                        <div class="tab-pane fade show active text-secondary small markdown-text" id="desc-tab-pane" role="tabpanel" aria-labelledby="desc-tab" tabindex="0">
-                                            beschrijving
+                                        <div class="tab-pane fade show active markdown-text" id="desc-tab-pane" role="tabpanel" aria-labelledby="desc-tab" tabindex="0">
+                                            {!! str($word->description)->markdown()->sanitizeHtml() !!}
                                         </div>
 
                                         <!-- Tab 2: Regions -->
-                                        <div class="tab-pane fade small text-secondary" id="regions-tab-pane" role="tabpanel" aria-labelledby="regions-tab" tabindex="0">
-                                            <strong class="d-block text-dark mb-1.5">Actieve Regio's:</strong>
-
+                                        <div class="tab-pane fade text-secondary" id="regions-tab-pane" role="tabpanel" aria-labelledby="regions-tab" tabindex="0">
                                             @forelse($word->regions as $region)
                                                 <span class="badge rounded-pill text-bg-primary-subtle text-primary border border-primary-subtle me-1 mb-1">{{ $region->name }}</span>
                                             @empty
@@ -219,7 +220,7 @@
                                         </div>
 
                                         <!-- Tab 3: Labels -->
-                                        <div class="tab-pane fade small text-secondary" id="labels-tab-pane" role="tabpanel" aria-labelledby="labels-tab" tabindex="0">
+                                        <div class="tab-pane fade text-secondary" id="labels-tab-pane" role="tabpanel" aria-labelledby="labels-tab" tabindex="0">
                                             <strong class="d-block text-dark mb-1.5">Gekoppelde labels:</strong>
                                             @php $hasPublicLabels = false; @endphp
                                             @foreach($word->labels as $label)
@@ -234,32 +235,52 @@
                                         </div>
 
                                         <!-- Tab 4: Related Articles -->
-                                        <div class="tab-pane fade small text-secondary" id="related-tab-pane" role="tabpanel" aria-labelledby="related-tab" tabindex="0">
-                                            <strong class="d-block text-dark mb-1.5">Gerelateerde artikelen:</strong>
-                                            @if(isset($word->relations) && $word->relations->count() > 0)
-                                                <ul class="list-unstyled mb-0">
-                                                    @foreach($word->relations as $related)
-                                                        <li class="mb-1">
-                                                            <a href="{{ route('word-information.show', $related) }}" class="text-decoration-none text-success fw-medium">
-                                                                {{ $related->word }}
-                                                            </a>
-                                                        </li>
+                                        <div class="tab-pane fade text-secondary" id="related-tab-pane" role="tabpanel" aria-labelledby="related-tab" tabindex="0">
+                                            @if(isset($word->related) && $word->related->count() > 0)
+                                                <div class="d-flex flex-column gap-3">
+                                                    @foreach($word->related as $related)
+                                                        <a href="{{ route('word-information.show', $related) }}" class="d-flex gap-2 align-items-center text-decoration-none text-dark">
+                                                            <div class="rounded bg-primary bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0" style="width:36px;height:36px;">
+                                                                <x-heroicon-s-book-open class="icon text-info"/>
+                                                            </div>
+                                                            <div>
+                                                                <div class="small fw-medium lh-sm">{{ $related->word }}</div>
+                                                                <div class="text-muted" style="font-size:.72rem;">{{ $related->partOfSpeech->name ?? '-' }}</div>
+                                                            </div>
+                                                        </a>
                                                     @endforeach
-                                                </ul>
+                                                </div>
                                             @else
                                                 <span class="text-muted fst-italic">Geen gerelateerde artikelen gevonden.</span>
                                             @endif
                                         </div>
 
                                         <!-- Tab 5: Sources -->
-                                        <div class="tab-pane fade small text-secondary" id="sources-tab-pane" role="tabpanel" aria-labelledby="sources-tab" tabindex="0">
-                                            <strong class="d-block text-dark mb-1.5">Geraadpleegde bronnen:</strong>
-                                            @if(!empty($word->sources))
-                                                <div class="lh-base">
-                                                    {{ $word->sources }}
+                                        <div class="tab-pane fade text-secondary" id="sources-tab-pane" role="tabpanel" aria-labelledby="sources-tab" tabindex="0">
+                                            @if(isset($word->sources) && $word->sources->count() > 0)
+                                                <!-- Stack list items vertically with a standardized gap -->
+                                                <div class="d-flex flex-column gap-2">
+                                                    @foreach($word->sources as $source)
+                                                        @if($source->referenceWork)
+                                                            <a href="{{ $source->referenceWork->external_url ?? '#' }}" class="text-decoration-none text-reset" target="_blank" rel="noopener"">
+                                                                <div class="border bg-light bg-light-subtle shadow-sm rounded p-3 d-flex gap-3 align-items-start transition-hover">
+                                                                    <x-heroicon-s-book-open class="icon text-success flex-shrink-0 mt-1"/>
+
+                                                                    <div class="flex-grow-1">
+                                                                    
+                                                                        <div class="fw-medium small text-dark">{{ $source->referenceWork->name }}</div>
+
+                                                                        @if($source->notation)
+                                                                            <div class="text-muted small mt-1">{{ $source->notation }}</div>
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                        @endif
+                                                    @endforeach
                                                 </div>
                                             @else
-                                                <span class="text-muted fst-italic">Geen specifieke bronnen opgegeven voor dit artikel.</span>
+                                                <span class="text-muted fst-italic">Geen geraadpleegde bronnen beschikbaar.</span>
                                             @endif
                                         </div>
 
