@@ -13,6 +13,8 @@ return new class extends Migration
         Schema::create('correction_proposals', static function (Blueprint $table): void {
             $table->id()
                 ->comment('The unique ideentifier (primary key) from the correction');
+            $table->string('state')
+                ->comment('The current state of the correction proposal in the system');
             $table->foreignIdFor(Article::class)
                 ->comment('The unique identifier from the dictionary article')
                 ->constrained()
