@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Override;
 use Spatie\ModelStates\HasStates;
 
-#[Fillable('description', 'reason')]
+#[Fillable('description', 'reason', 'state')]
 final class CorrectionProposal extends Model 
 {
     use BelongsToAuthor;

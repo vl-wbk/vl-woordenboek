@@ -42,7 +42,11 @@ final readonly class CorrectionProposalsTable
             ViewAction::make()
                 ->color('gray')
                 ->icon(Heroicon::OutlinedEye)
-                ->label('Bekijken'),
+                ->label('Bekijken')
+                ->modalIcon(Heroicon::OutlinedPencilSquare)
+                ->modalIconColor(fn (CorrectionProposal $correctionProposal): string => $correctionProposal->state->getColor())
+                ->modalHeading(fn (CorrectionProposal $correctionProposal): string => "Correctie #{$correctionProposal->id} - algemene informatie")
+                ->modalDescription('Alle gegevens omtrent de voorgestelde correctie die zijn ingezonden door de gebruiker'),
         ];
     }
 
@@ -51,7 +55,6 @@ final readonly class CorrectionProposalsTable
         return [
             StateFusionSelectFilter::make('state')
                 ->label('status')
-                ->default('Openstaand')
                 ->native(false),
         ];
     }

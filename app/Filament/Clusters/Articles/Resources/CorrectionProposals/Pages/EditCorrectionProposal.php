@@ -6,6 +6,7 @@ namespace App\Filament\Clusters\Articles\Resources\CorrectionProposals\Pages;
 
 use A909M\FilamentStateFusion\Actions\StateFusionAction;
 use A909M\FilamentStateFusion\Actions\StateFusionActionGroup;
+use App\Attributes\Todo;
 use App\Filament\Clusters\Articles\Resources\CorrectionProposals\CorrectionProposalResource;
 use App\Policies\CorrectionProposalPolicy;
 use App\States\Articles\Corrections\ApprovedState;
@@ -21,6 +22,7 @@ final class EditCorrectionProposal extends EditRecord
     protected static string $resource = CorrectionProposalResource::class;
 
     #[Override]
+    #[Todo('check if we can configure the redirect url from the state actions to the next pending proposal')]
     protected function getFormActions(): array
     {
         return [
@@ -30,7 +32,8 @@ final class EditCorrectionProposal extends EditRecord
             StateFusionAction::make('approve')
                 ->label('Goedkeuren')   
                 ->authorize(CorrectionProposalPolicy::Approve) 
-                ->transitionTo(ApprovedState::class), 
+                ->transitionTo(ApprovedState::class)
+                ->successRedirectUrl(CorrectionProposalResource::getUrl('index')),
 
             $this->getCancelFormAction(),
         ];

@@ -90,7 +90,7 @@ final readonly class CorrectionProposalForm
             ]);
     }
 
-    private static function correctionInformationTabs(): Section
+    public static function correctionInformationTabs(): Section
     {
         return Section::make('Metadata en status')
             ->icon(Heroicon::OutlinedInformationCircle)

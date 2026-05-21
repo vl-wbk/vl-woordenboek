@@ -48,6 +48,12 @@ final class CorrectionProposalResource extends Resource
         return CorrectionProposalsTable::configure($table);
     }
 
+    #[Override]
+    public static function infolist(Schema $schema): Schema
+    {
+        return CorrectionProposalInfolist::configure($schema);
+    }
+
     public static function getPages(): array
     {
         return [
