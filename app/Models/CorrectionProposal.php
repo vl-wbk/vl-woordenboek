@@ -13,7 +13,7 @@ use Override;
 use Spatie\ModelStates\HasStates;
 
 #[Fillable('description', 'reason', 'state')]
-final class CorrectionProposal extends Model 
+final class CorrectionProposal extends Model
 {
     use BelongsToAuthor;
     use HasStates;
@@ -26,6 +26,18 @@ final class CorrectionProposal extends Model
     public function moderator(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @throws \Throwable
+     */
+    public function reject(User $moderator, string $reason): void
+    {
+        $this->moderator()->associate($moderator);
+        $this->moderated_at = now();
+        $this->conclusion = $reason;
+
+        $this->saveOrFail();
     }
 
     #[Override]

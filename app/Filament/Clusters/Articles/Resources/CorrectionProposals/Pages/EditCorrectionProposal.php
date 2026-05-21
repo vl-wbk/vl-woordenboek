@@ -11,6 +11,7 @@ use App\Filament\Clusters\Articles\Resources\CorrectionProposals\CorrectionPropo
 use App\Policies\CorrectionProposalPolicy;
 use App\States\Articles\Corrections\ApprovedState;
 use App\States\Articles\Corrections\CorrectionState;
+use App\States\Articles\Corrections\RejectedState;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Resources\Pages\ViewRecord;
 use Filament\Support\Icons\Heroicon;
@@ -26,15 +27,9 @@ final class EditCorrectionProposal extends EditRecord
     protected function getFormActions(): array
     {
         return [
-            $this->getSubmitFormAction()
-                ->icon(Heroicon::OutlinedPaperAirplane),
-
-            StateFusionAction::make('approve')
-                ->label('Goedkeuren')   
-                ->authorize(CorrectionProposalPolicy::Approve) 
-                ->transitionTo(ApprovedState::class)
-                ->successRedirectUrl(CorrectionProposalResource::getUrl('index')),
-
+            $this->getSubmitFormAction()->icon(Heroicon::OutlinedPaperAirplane),
+            $this->getApproveFormAction(),
+            $this->getRejectFormAction(),
             $this->getCancelFormAction(),
         ];
     }
@@ -43,5 +38,24 @@ final class EditCorrectionProposal extends EditRecord
     public function getRecordTitle(): string|Htmlable
     {
         return "correctie: #{$this->getRecord()->id}";
+    }
+
+    private function getRejectFormAction(): StateFusionAction
+    {
+        return StateFusionAction::make('reject')
+            ->label('Afwijzen')
+            ->authorize(CorrectionProposalPolicy::Reject)
+            ->modal()
+            ->transitionTo(RejectedState::class)
+            ->successRedirectUrl(CorrectionProposalResource::getUrl('index'));
+    }
+
+    private function getApproveFormAction(): StateFusionAction
+    {
+        return StateFusionAction::make('approve')
+            ->label('Goedkeuren')
+            ->authorize(CorrectionProposalPolicy::Approve)
+            ->transitionTo(ApprovedState::class)
+            ->successRedirectUrl(CorrectionProposalResource::getUrl('index'));
     }
 }
