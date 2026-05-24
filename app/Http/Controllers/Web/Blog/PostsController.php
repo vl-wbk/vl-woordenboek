@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Post;
 use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
 final readonly class PostsController
 {
@@ -37,7 +38,8 @@ final readonly class PostsController
 	}
 
 	/**
-     * @throws InvalidDataClass
+     * @throws InvalidDataClass when the data transfer object contains invalid data
+     * @throws Throwable        when the guest article couldn't be store successfully.
      */
     #[Post(uri: 'nieuws/artikel-insturen', name: 'news:store', middleware: ['auth', 'forbid-banned-user', 'can:submitPost,App\Models\Blog'])]
 	public function store(StoreGuestArticleRequest $storeGuestArticleRequest, StoreGuestArticle $storeGuestArticle): RedirectResponse

@@ -8,9 +8,13 @@ use App\Models\ReferenceWork;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
-class ReferenceWorkSeeder extends Seeder
+final class ReferenceWorkSeeder extends Seeder
 {
+    /**
+     * @throws FileNotFoundException w<hen the data file for the seeder couldn't be found
+     */
     public function run(): void
     {
         $jsonDataFile = File::get(database_path('data/reference-works.json'));

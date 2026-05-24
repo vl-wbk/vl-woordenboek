@@ -6,6 +6,7 @@ namespace App\States\Articles;
 
 use App\Enums\ArticleStates;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 /**
  * Represents the "Published" state of a dictionary article.
@@ -30,6 +31,8 @@ final class Published extends ArticleState
      * Archiving an article removes it from public visibility while retaining it in the system for historical reference or potential future restoration.
      *
      * @param  string|null $archivingReason The reason for archiving the article (optional).
+     *
+     * @throws Throwable when the archiving of the dictionary article couldn't performed successfully.
      */
     public function transitionToArchived(?string $archivingReason = null, int|string|null $redirectArticleId = null): bool
     {
@@ -48,6 +51,8 @@ final class Published extends ArticleState
      *
      * @param  string|null $reason  The reason for transitioning the article back to the "Draft" state (optional). This reason will be recorded in the attached note.
      * @return bool                 True if the transition was successful, false otherwise.
+     *
+     * @throws Throwable when the database transaction couldn't completed successfully.
      */
     public function transitionToEditing(?string $reason = null): bool
     {

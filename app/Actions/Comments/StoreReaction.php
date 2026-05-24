@@ -9,6 +9,7 @@ use App\Models\Blog;
 use App\Models\Comment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 /**
  * The StoreReaction class is an action class responsible for handling the storage of a new comment (referred to as a "reaction" in this context) associated with a specific blog post.
@@ -44,7 +45,7 @@ final readonly class StoreReaction
      * @param  StoreCommentRequest $storeCommentRequest  The validated request object containing the comment's content. The `reactie` string is extracted from this request.
      * @return Comment|Model                             The newly created Comment model instance.
      *
-     * @throws \Throwable
+     * @throws Throwable when the database transaction couldn't complete successfully
      */
     public function handle(Blog $blog, StoreCommentRequest $storeCommentRequest): Comment|Model
     {

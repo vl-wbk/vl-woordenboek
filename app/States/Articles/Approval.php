@@ -8,6 +8,7 @@ use App\Enums\ArticleStates;
 use App\Notifications\SendoutPublicationNotification;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 /**
  * Approval represents an article awaiting editorial review in the Vlaams Woordenboek.
@@ -19,6 +20,9 @@ use Illuminate\Support\Facades\DB;
  */
 final class Approval extends ArticleState
 {
+    /**
+     * @throws Throwable when the database transaction couldn't complete successfully
+     */
     public function transitionToRejectedPublication(array $feedback): bool
     {
         return DB::transaction(function () use ($feedback): bool {
@@ -32,6 +36,8 @@ final class Approval extends ArticleState
      *
      * This transition occurs when an editor determines the article meets all quality standards and is ready for public viewing.
      * The article becomes visible to all users once published.
+     *
+     * @throws Throwable when the database transaction couldn't complete successfully
      */
     public function transitionToReleased(Carbon $publicationDate): bool
     {
@@ -51,6 +57,8 @@ final class Approval extends ArticleState
      *
      * This transition is used when an editor decides the article should not be published but should be retained for reference.
      * Archived articles can be restored later if circumstances change.
+     *
+     * @throws Throwable when the database transaction couldn't complete successfully
      */
     public function transitionToArchived(?string $archivingReason = null, int|string|null $redirectArticleId = null): bool
     {

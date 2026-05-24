@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Closure;
+use Detection\Cache\CacheException;
 use Detection\MobileDetect;
 
 /**
@@ -57,6 +58,8 @@ class AgentService extends MobileDetect
 
     /**
      * Get the platform name from the User Agent.
+     *
+     * @throws CacheException
      */
     public function platform(): ?string
     {
@@ -67,6 +70,8 @@ class AgentService extends MobileDetect
 
     /**
      * Get the browser name from the User Agent.
+     *
+     * @throws CacheException
      */
     public function browser(): ?string
     {
@@ -77,6 +82,8 @@ class AgentService extends MobileDetect
 
     /**
      * Determine if the device is a desktop computer.
+     *
+     * @throws CacheException
      */
     public function isDesktop(): bool
     {
@@ -119,6 +126,8 @@ class AgentService extends MobileDetect
      * Retrieve from the given key from the cache or resolve the value.
      *
      * @param Closure $callback
+
+     * @throws CacheException
      */
     protected function retrieveUsingCacheOrResolve(string $key, Closure $callback): mixed
     {

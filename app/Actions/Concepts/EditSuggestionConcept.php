@@ -7,6 +7,8 @@ namespace App\Actions\Concepts;
 use App\Http\Requests\Articles\StoreConceptRequest;
 use App\Models\Concept;
 use Illuminate\Support\Facades\DB;
+use Spatie\LaravelData\Exceptions\InvalidDataClass;
+use Throwable;
 
 /**
  * Updates an existing concept record with new suggestion data.
@@ -26,9 +28,12 @@ final readonly class EditSuggestionConcept
      * is used to save the concept and sync its regions while still returning the updated instance. The entire operation is
      * wrapped in a transaction so that the updated attributes and region pivots are always committed together or not at all.
      *
-     * @param  StoreConceptRequest $storeConceptRequest  The validated incoming request carrying the updated concept attributes and regions.
-     * @param  Concept             $concept              The existing concept record to be updated.
-     * @return Concept                                   The updated concept record with its regions synced.
+     * @param  StoreConceptRequest $storeConceptRequest The validated incoming request carrying the updated concept attributes and regions.
+     * @param  Concept             $concept             The existing concept record to be updated.
+     * @return Concept                                  The updated concept record with its regions synced.
+     *
+     * @throws InvalidDataClass when invalid data is present in the Data Transfer Object.
+     * @throws Throwable        when the database transaction couldn't completed successfully
      */
     public static function execute(StoreConceptRequest $storeConceptRequest, Concept $concept): Concept
     {

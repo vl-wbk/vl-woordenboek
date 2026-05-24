@@ -17,6 +17,7 @@ use App\Models\Feedback;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Cache;
+use Exception;
 
 #[Todo(message: 'Provide additional end user documentation for this resource', author: 'Tjoosten', priority: 'critical', tags: ['docs'])]
 #[Todo(message: 'Document this class and his methods', author: 'Tjoosten', priority: 'low', tags: ['docs'])]
@@ -28,6 +29,9 @@ final class FeedbackResource extends Resource
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-chat-bubble-left-right';
 
+    /**
+     * @throws Exception
+     */
     public static function table(Table $table): Table
     {
         return TableSchema::configure($table);

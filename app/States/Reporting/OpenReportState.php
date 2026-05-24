@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\States\Reporting;
 
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 /**
  * Represents the "Open" state of a report.
@@ -27,6 +28,8 @@ final class OpenReportState extends ReportState
      * The operation is wrapped in a database transaction to ensure atomicity.
      *
      * @return bool Returns `true` if the transition was successful, otherwise `false`.
+     *
+     * @throws Throwable when the database transaction couldn't complete successfully
      */
     public function transitionToInProgress(): bool
     {
@@ -35,6 +38,9 @@ final class OpenReportState extends ReportState
         ]));
     }
 
+    /**
+     * @throws Throwable when the database transaction couldn't complete successfully
+     */
     public function transitionToClosed(string $result): bool
     {
         return DB::transaction(function() use ($result): bool {
