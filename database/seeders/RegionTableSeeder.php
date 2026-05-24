@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Models\Region;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
 
@@ -36,6 +37,8 @@ final class RegionTableSeeder extends Seeder
      * This comprehensive process guarantees that the region data is accurately and efficiently inserted into the database, providing  a robust foundation for location-based features within the application.
      *
      * @return void This method does not return any value. Its side effect is the creation of records in the 'regions' database table.
+     *
+     * @throws FileNotFoundException
      */
     public function run(): void
     {

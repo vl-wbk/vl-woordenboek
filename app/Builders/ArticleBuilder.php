@@ -90,7 +90,7 @@ final class ArticleBuilder extends Builder
      *
      * @param string|null $archivingReason The optional reason for archiving the article.
      *
-     * @throws Throwable
+     * @throws Throwable when the database transaction couldn't complete successfully
      */
     public function archive(?string $archivingReason = null, int|string|null $redirectArticleId): bool
     {

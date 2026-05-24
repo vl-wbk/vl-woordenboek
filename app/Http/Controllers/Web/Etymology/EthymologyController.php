@@ -14,8 +14,10 @@ use App\Http\Requests\Support\StoreFeedbackRequest;
 use App\Models\Article;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
+use Spatie\LaravelData\Exceptions\InvalidDataClass;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Post;
+use Throwable;
 
 #[Todo(message: 'Provide docblocks for this class and their methods', priority: 'low')]
 final class EthymologyController
@@ -31,6 +33,10 @@ final class EthymologyController
         ]);
     }
 
+    /**
+     * @throws Throwable        when etymology record couldn't be stored in the application
+     * @throws InvalidDataClass when the given data transfer object is invalid
+     */
     #[Post(uri: 'etymologie/{article}/nieuwe-suggestie', name: 'etymology:store')]
     public function store(StoreEtymologyRequest $storeEtymologyRequest, Article $article, StoreEtymologySubmission $storeEtymologySubmission): RedirectResponse
     {

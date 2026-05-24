@@ -9,6 +9,7 @@ use App\Http\Requests\Account\DeleteBrowserSessionsRequest;
 use App\Http\Requests\Account\UpdateSocialReferencesRequest;
 use App\Models\Preferences;
 use App\Services\BrowserSessionService;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,6 +19,7 @@ use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Middleware;
 use Spatie\RouteAttributes\Attributes\Patch;
 use Spatie\RouteAttributes\Attributes\Prefix;
+use Throwable;
 
 #[Prefix('instellingen')]
 #[Middleware(['auth', 'forbid-banned-user'])]
@@ -25,9 +27,7 @@ final readonly class AccountSettingsController
 {
     public function __construct(
         private BrowserSessionService $browserSessionService,
-    )
-    {
-    }
+    ) {}
 
     #[Get(uri: 'account-informatie', name: 'profile.settings')]
     public function information(): Renderable
@@ -57,7 +57,8 @@ final readonly class AccountSettingsController
     }
 
     /**
-     * @throws InvalidDataClass
+     * @throws InvalidDataClass when the database transfer object contains invalid data
+     * @throws Throwable        when the social references for the user account couldn't be updated successfully.
      */
     #[Patch(uri: 'account-sociale-referenties', name: 'profile.settings.social-references')]
     public function updateSocialReferences(UpdateSocialReferencesRequest $updateSocialReferencesRequest, UpdateSocialRefences $updateSocialRefences): RedirectResponse
@@ -69,6 +70,9 @@ final readonly class AccountSettingsController
         return back();
     }
 
+    /**
+     * @throws AuthenticationException
+     */
     #[Delete(uri: 'browser-sessies-verwijderen', name: 'profile.delete-browser-sessions')]
     public function deleteBrowserSessions(DeleteBrowserSessionsRequest $deleteBrowserSessionsRequest): RedirectResponse
     {

@@ -17,6 +17,7 @@ use App\Filament\Clusters\Articles\Resources\Etymologies\Widgets\EtymologyStatis
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use BackedEnum;
+use Exception;
 use UnitEnum;
 
 final class EtymologyResource extends Resource
@@ -43,6 +44,9 @@ final class EtymologyResource extends Resource
         return FormSchema::configure($schema);
     }
 
+    /**
+     * @throws Exception
+     */
     public static function table(Table $table): Table
     {
         return $table

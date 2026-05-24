@@ -6,6 +6,7 @@ namespace App\Actions\Comments;
 
 use App\Models\Comment;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 /**
  * The DeleteReaction class is an action responsible for handling the deletion of a specific comment (referred to as a "reaction" in this context).
@@ -38,7 +39,7 @@ final readonly class DeleteReaction
      * @param  Comment $comment   The comment model instance to be deleted.
      * @return bool               Returns `true` if the comment was successfully deleted (or soft-deleted), `false` otherwise. The result is derived from the `delete()` method of the Eloquent model.
      *
-     * @throws \Throwable
+     * @throws Throwable when the database transaction couldn't perform successfully
      */
     public function handle(Comment $comment): bool
     {

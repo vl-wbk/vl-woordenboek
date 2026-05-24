@@ -7,6 +7,7 @@ namespace App\States\Posts;
 use App\Filament\Clusters\Blog\Resources\Blogs\Enums\Status;
 use App\Models\Blog;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 /**
  * The PublicationState class implements the PublicationStateContract and defines the logic for transitioning a blog post between different publication states, specifically 'Published' and 'Draft'.
@@ -44,6 +45,8 @@ class PublicationState implements PublicationStateContract
      * This ensures that the status change is atomic; either the update is fully committed to the database, or it is entirely rolled back if any error occurs, thereby maintaining data consistency and integrity.
      *
      * @return bool     Returns `true` if the update operation was successful within the transaction, `false` otherwise (e.g., if the transaction failed).
+     *
+     * @throws Throwable when the database transaction couldn't complete successfully
      */
     public function transitionToPublished(): bool
     {
@@ -59,6 +62,8 @@ class PublicationState implements PublicationStateContract
      * This guarantees that the status change is performed atomically, ensuring that the database remains in a consistent state even if an error occurs during the update process.
      *
      * @return bool  Returns `true` if the update operation was successful within the transaction,`false` otherwise (e.g., if the transaction failed).
+     *
+     * @throws Throwable when the database transaction couldn't complete successfully
      */
     public function transitionToDraft(): bool
     {

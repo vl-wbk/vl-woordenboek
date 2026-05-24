@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use League\CommonMark\Exception\CommonMarkException;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
 use App\Services\ReadTimeCalculator;
@@ -143,6 +144,8 @@ class Blog extends Model implements Feedable
      * Accessible via `$blog->read_time`.
      *
      * @return string The estimated reading time (e.g., "5 min read").
+     *
+     * @throws CommonMarkException
      */
     public function getReadTimeAttribute(): string
     {
@@ -156,6 +159,8 @@ class Blog extends Model implements Feedable
      * Accessible via `$blog->read_time_in_minutes`.
      *
      * @return int The estimated reading time in minutes.
+     *
+     * @throws CommonMarkException
      */
     public function getReadTimeInMinutesAttribute(): int
     {

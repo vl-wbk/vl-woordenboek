@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use League\CommonMark\CommonMarkConverter;
+use League\CommonMark\Exception\CommonMarkException;
 
 final readonly class ReadTimeCalculator
 {
@@ -34,8 +35,10 @@ final readonly class ReadTimeCalculator
     /**
      * Calculate the estimated read time for markdown content.
      *
-     * @param string $markdownContent The raw markdown string of the post.
-     * @return string A human-readable read time string (e.g., "5 min read").
+     * @param  string $markdownContent The raw markdown string of the post.
+     * @return string                  A human-readable read time string (e.g., "5 min read").
+     *
+     * @throws CommonMarkException
      */
     public function calculate(string $markdownContent): string
     {
@@ -80,8 +83,10 @@ final readonly class ReadTimeCalculator
      * - The number of words in the content based on a predefined `wordsPerMinute` rate.
      * - Additional time for each image, using a `secondsPerImage` value.
      *
-     * @param  string $markdownContent  The Markdown formatted string content of an article or post.
-     * @return int                      The estimated reading time, rounded up to the nearest whole minute.
+     * @param  string $markdownContent The Markdown formatted string content of an article or post.
+     * @return int                     The estimated reading time, rounded up to the nearest whole minute.
+     *
+     * @throws CommonMarkException
      */
     public function calculateInMinutes(string $markdownContent): int
     {

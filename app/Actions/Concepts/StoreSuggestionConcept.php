@@ -7,6 +7,7 @@ namespace App\Actions\Concepts;
 use App\Data\SuggestionData;
 use App\Models\Concept;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 /**
  * Persists a new concept record on behalf of the authenticated user.
@@ -29,6 +30,8 @@ final readonly class StoreSuggestionConcept
      *
      * @param  SuggestionData $suggestionData The validated suggestion payload, including a reqions array and all concept attributes.
      * @return                                The newly created concept record belonging to the authenticated user, with regions synced.
+     *
+     * @throws Throwable when the suggestion couldn't be stored successfully in the database
      */
     public static function execute(SuggestionData $suggestionData): Concept
     {

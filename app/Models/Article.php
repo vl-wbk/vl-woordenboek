@@ -1,7 +1,5 @@
 <?php
 
-/** @noinspection PhpMissingFieldTypeInspection */
-
 declare(strict_types=1);
 
 namespace App\Models;
@@ -248,12 +246,12 @@ final class Article extends Model implements AuditableContract, Commentable
     }
 
     /**
-     * Returns all user-submitted examples linked to this article. 
-     * 
-     * Each userExample belongs to a single Article via the 'article_id' foreign key. 
-     * Eager-load this relation with ->with('userExamples') to avoid N+1 queries when 
+     * Returns all user-submitted examples linked to this article.
+     *
+     * Each userExample belongs to a single Article via the 'article_id' foreign key.
+     * Eager-load this relation with ->with('userExamples') to avoid N+1 queries when
      * iterating over multiple articles.
-     * 
+     *
      * @return HasMany<UserExample, covariant $this>
      */
     public function userExamples(): HasMany

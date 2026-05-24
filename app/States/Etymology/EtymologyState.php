@@ -9,6 +9,7 @@ use App\Enums\Articles\EtymologyStatus;
 use App\Models\Etymology;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 /**
  * The EtymologyState class serves as an abstract base class (or concrete base for specific implementations) for managing the state transitions of an `Etymology` model.
@@ -48,6 +49,8 @@ readonly class EtymologyState implements EtymologyStateContract
      * The attributes for the update are prepared using `StatusData::from()->toArray()`.
      *
      * @return bool  Returns `true` if the update operation was successful (for Eloquent's `update` method, or `0` if no update occurred. In a transaction, it returns the result of the callback.
+     *
+     * @throws Throwable When the database transaction couldn't completed successfully
      */
     public function transitionToDraft(): bool
     {
@@ -67,6 +70,8 @@ readonly class EtymologyState implements EtymologyStateContract
      * The attributes for the update are prepared using `StatusData::from()->toArray()`.
      *
      * @return bool  Returns `true` if the update operation was successful, or `0` if no update occurred.
+     *
+     * @throws Throwable When the database transaction couldn't completed successfully
      */
     public function transitionToUnderReview(): bool
     {
@@ -87,6 +92,8 @@ readonly class EtymologyState implements EtymologyStateContract
      *
      * @param  string|null $reason  An optional string providing the reason for rejection.
      * @return bool                 Returns `true` if the update operation was successful, or `0` if no update occurred.
+     *
+     * @throws Throwable When the database transaction couldn't completed successfully
      */
     public function transitionToRejected(?string $reason = null): bool
     {
@@ -110,6 +117,8 @@ readonly class EtymologyState implements EtymologyStateContract
      * The entire operation is executed within a database transaction to guarantee atomicity and data consistency. The attributes are prepared using `StatusData::from()->toArray()`.
      *
      * @return bool Returns `true` if the update operation was successful, or `0` if no update occurred.
+     *
+     * @throws Throwable When the database transaction couldn't completed successfully
      */
     public function transitionToPublished(): bool
     {
@@ -134,6 +143,8 @@ readonly class EtymologyState implements EtymologyStateContract
      *
      * @param  string|null $reason  An optional string providing the reason for archiving.
      * @return bool                 Returns `true` if the update operation was successful, or `0` if no update occurred.
+     *
+     * @throws Throwable When the database transaction couldn't completed successfully
      */
     public function transitionToArchived(?string $reason = null): bool
     {

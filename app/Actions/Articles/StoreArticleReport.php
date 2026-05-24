@@ -9,6 +9,7 @@ use App\Http\Requests\Articles\StoreReportRequest;
 use App\Models\Article;
 use App\Models\ArticleReport;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 /**
  * The StoreArticleReport class is an action responsible for handling the creation and storage of a new report associated with a specific article.
@@ -52,6 +53,8 @@ final readonly class StoreArticleReport
      * @param  StoreReportRequest  $storeReportRequest    The validated request object containing the report's content and related data.
      * @param  Article             $article               The article to which the report will be attached.
      * @return void                                       This method does not return a value; its side effect is the creation of a new `ArticleReport` record in the database.
+     *
+     * @throws Throwable When the database transaction couldn't completed successfully
      */
     public function execute(StoreReportRequest $storeReportRequest, Article $article): void
     {

@@ -6,6 +6,7 @@ namespace App\States\Articles;
 
 use App\Enums\ArticleStates;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 /**
  * The NewState class represents the initial state of an article when it is first created.
@@ -27,8 +28,10 @@ final class Suggestion extends ArticleState
      * The method accepts an optional reason for the transition, although this parameter is not used within the logic.
      * Instead, its primary function is to update the article by registering the user responsible for editing and marking the article as moved into Draft state, effectively preparing it for further modifications.
      *
-     * @param  string|null  $reason  An optional explanation for the state transition, currently not used in the logic.
+     * @param  string|null  $reason An optional explanation for the state transition, currently not used in the logic.
      * @return bool                 Returns true if both the editor is set and the state update to Draft is successful, otherwise false.
+     *
+     * @throws Throwable when the database transaction couldn't complete successfully
      */
     public function transitionToEditing(?string $reason = null): bool
     {

@@ -29,7 +29,7 @@ final readonly class StoreGuestArticle
      * @param  GuestArticleData $articleData The validated Data Transfer Object (DTO) containing the core article details.
      * @return Blog                          The fully persisted and initialized Blog model instance with its primary key set.
      *
-     * @throws Throwable
+     * @throws Throwable when the database transaction couldn't complete successfully.
      */
     public function handle(GuestArticleData $articleData): Blog
 	{

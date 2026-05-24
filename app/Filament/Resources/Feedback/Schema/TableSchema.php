@@ -42,7 +42,7 @@ final readonly class TableSchema
      * It sets up the table's overall layout, messaging, and delegates to helper methods for defining columns and actions.
      * The `deferLoading` method is used to improve initial page load performance by fetching data only when the user interacts with the table.
      *
-     * @param Table $table The table instance to configure.
+     * @param  Table $table The table instance to configure.
      * @return Table         The fully configured table instance.
      * @throws Exception
      */
@@ -137,7 +137,7 @@ final readonly class TableSchema
     {
         return [
             self::viewAction(),
-            
+
             ActionGroup::make([
                 self::deleteAction(),
             ])

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use Illuminate\Auth\AuthenticationException;
 use stdClass;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -35,6 +36,8 @@ final readonly class BrowserSessionService
      * This operation only applies if the session driver is set to 'database'.
      *
      * @param string $password The current user's password, required for security by `Auth::logoutOtherDevices`.
+     *
+     * @throws AuthenticationException when the user password hash doesn't match with the given password.
      */
     public function logoutOtherBrowserSessions(string $password): void
     {
