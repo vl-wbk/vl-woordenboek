@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\View\Components;
 
 use App\Models\Article;
-use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 

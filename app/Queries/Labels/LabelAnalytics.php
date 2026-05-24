@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Queries\Labels;
 
-use App\Models\Article;
 use App\Models\ArticleReport;
 use App\Models\Label;
 use App\Models\User;

@@ -9,7 +9,6 @@ use App\Policies\BanPolicy;
 use App\Policies\ExportPolicy;
 use App\Policies\PasskeyPolicy;
 use App\Policies\ThreadPolicy;
-use App\UserTypes;
 use Cmgmyr\Messenger\Models\Thread;
 use Cog\Laravel\Ban\Models\Ban;
 use Filament\Actions\Exports\Models\Export;

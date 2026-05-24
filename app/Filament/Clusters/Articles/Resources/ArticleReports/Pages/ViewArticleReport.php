@@ -12,12 +12,10 @@ use App\Filament\Resources\Articles\Pages\ViewWord;
 use App\Filament\Resources\Users\UserResource;
 use App\Models\ArticleReport;
 use App\Models\User;
-use App\States\Reporting\Status;
 use Filament\Resources\Pages\ViewRecord;
 use Filament\Actions;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
-use Filament\Support\Icons\Heroicon;
 
 /**
  * Represents the page for viewing a single article report in the admin panel.

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Web\Articles;
 
 use App\Models\Article;
-use App\Models\User;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;

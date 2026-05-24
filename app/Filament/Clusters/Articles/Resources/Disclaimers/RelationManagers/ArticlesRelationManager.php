@@ -4,8 +4,6 @@ namespace App\Filament\Clusters\Articles\Resources\Disclaimers\RelationManagers;
 
 use App\Filament\Resources\Articles\ArticleResource;
 use Filament\Actions\CreateAction;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\DetachBulkAction;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;

@@ -6,7 +6,6 @@ use Livewire\Component;
 use App\Models\UserExample;
 use Illuminate\Contracts\Support\Renderable;
 use Livewire\Attributes\Validate;
-use Livewire\WithPagination;
 
 class SubmitUserExample extends Component
 {
@@ -34,8 +33,8 @@ class SubmitUserExample extends Component
     /**
      * Validates and persists the user example to the database.
      *
-     * This method triggers the standard Livewire validation. Upon success, it creates a 
-     * UserExample record, automatically attributing it to the logged-in user or 
+     * This method triggers the standard Livewire validation. Upon success, it creates a
+     * UserExample record, automatically attributing it to the logged-in user or
      * marking it as anonymous/guest-named.
      *
      * @return void

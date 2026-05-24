@@ -9,7 +9,6 @@ use App\Filament\Resources\Articles\ArticleResource;
 use App\Models\Article;
 use Deldius\UserField\UserColumn;
 use Filament\Actions\Action;
-use Filament\Actions\BulkActionGroup;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
@@ -18,7 +17,6 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Str;
 
 final class RedactionQueueTable extends TableWidget
 {

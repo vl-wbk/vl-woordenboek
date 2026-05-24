@@ -11,7 +11,6 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use App\Filament\Clusters\Articles\Resources\ArticleReports\ArticleReportResource;
-use App\Filament\Clusters\Articles\Resources\ArticleReports\Actions\TableActionsConfiguration;
 use App\Filament\Clusters\Articles\Resources\ArticleReports\Schema\TableColumnSchema;
 use App\Filament\Clusters\Volunteers\Resources\VolunteerPositions\Actions\CreateAction;
 use App\Filament\Resources\Articles\Pages\ViewWord;
@@ -19,7 +18,6 @@ use App\Models\ArticleReport;
 use Filament\Forms\Components\Textarea;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
-use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 

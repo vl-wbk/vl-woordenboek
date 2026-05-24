@@ -6,12 +6,8 @@ namespace App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets;
 
 use App\Filament\Support\Filters\Charts\DateRangeFilterChart;
 use App\Models\Article;
-use Filament\Actions\Action;
-use Filament\Schemas\Schema;
 use Filament\Support\Colors\Color;
-use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\ChartWidget;
-use Filament\Widgets\ChartWidget\Concerns\HasFiltersSchema;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 use Illuminate\Support\Collection;

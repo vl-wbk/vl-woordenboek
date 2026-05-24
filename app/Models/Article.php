@@ -40,7 +40,6 @@ use Overtrue\LaravelLike\Traits\Likeable;
 use Overtrue\LaravelVote\Traits\Votable;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
-use Override;
 
 /**
  * Article represents a dictionary entry in the Vlaams Woordenboek application.

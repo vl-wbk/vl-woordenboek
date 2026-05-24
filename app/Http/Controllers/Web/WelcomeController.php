@@ -7,8 +7,6 @@ namespace App\Http\Controllers\Web;
 use App\Enums\Articles\SearchPatterns;
 use App\Models\Article;
 use App\Models\WordOfTheDay;
-use App\Queries\Articles\SelectRandomArticle;
-use Doctrine\Inflector\Rules\Word;
 use Illuminate\Contracts\Support\Renderable;
 use Spatie\RouteAttributes\Attributes\Get;
 

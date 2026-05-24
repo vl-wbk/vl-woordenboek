@@ -6,7 +6,6 @@ namespace App\Filament\Clusters\Volunteers\Resources\VolunteerPositions\Schemas;
 
 use App\UserTypes;
 use Filament\Actions\Action;
-use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -14,7 +13,6 @@ use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
 use Schmeits\FilamentCharacterCounter\Forms\Components\Textarea;
-use Spatie\Permission\Models\Role;
 
 final readonly class VolunteerPositionForm
 {

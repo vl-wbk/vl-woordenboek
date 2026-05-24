@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Collection;
 use ReflectionClass;
 use ReflectionMethod;
-use ReflectionProperty;
 use Carbon\Carbon;
 use Throwable;
 
@@ -134,8 +133,8 @@ if ($selected && !in_array($selected, $validPriorities)) {
 
     private function capture(object $target, string $type, string $label, ReflectionClass $class): void
     {
-        $attributes = method_exists($target, 'getAttributes') 
-            ? $target->getAttributes(Todo::class) 
+        $attributes = method_exists($target, 'getAttributes')
+            ? $target->getAttributes(Todo::class)
             : [];
 
         foreach ($attributes as $attr) {
@@ -258,21 +257,21 @@ if ($selected && !in_array($selected, $validPriorities)) {
 
     // 2. Task Totals
     $this->line(sprintf(
-        " <fg=white>Total Tasks</>  <fg=blue;options=bold>%d</>", 
+        " <fg=white>Total Tasks</>  <fg=blue;options=bold>%d</>",
         $total
     ));
 
     // 3. Deadline Stats
     if ($hasDueLine > 0) {
         $this->line(sprintf(
-            " <fg=white>Scheduled  </>  <fg=green>%d</>", 
+            " <fg=white>Scheduled  </>  <fg=green>%d</>",
             $hasDueLine
         ));
     }
 
     if ($overdue > 0) {
         $this->line(sprintf(
-            " <fg=white>Overdue    </>  <fg=red;options=bold,blink>%d !!</>", 
+            " <fg=white>Overdue    </>  <fg=red;options=bold,blink>%d !!</>",
             $overdue
         ));
     }
@@ -426,8 +425,8 @@ private function getPriorityColor(string $priority): string
         if ($class === '') return null;
         $fqcn = trim($namespace) ? trim($namespace) . '\\' . $class : $class;
 
-        return (class_exists($fqcn) || interface_exists($fqcn) || trait_exists($fqcn) || enum_exists($fqcn)) 
-            ? $fqcn 
+        return (class_exists($fqcn) || interface_exists($fqcn) || trait_exists($fqcn) || enum_exists($fqcn))
+            ? $fqcn
             : null;
     }
 

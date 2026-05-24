@@ -8,7 +8,6 @@ use Illuminate\Auth\Access\Response;
 use App\Enums\ArticleStates;
 use App\Models\{Article, User};
 use App\States\Articles\ArticleState;
-use App\UserTypes;
 use Filament\Support\Authorization\DenyResponse;
 
 /**

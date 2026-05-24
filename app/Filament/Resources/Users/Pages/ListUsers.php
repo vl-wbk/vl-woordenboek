@@ -11,7 +11,6 @@ use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\CreateAction;
 use Filament\Support\Icons\Heroicon;
-use Filament\Widgets\Widget;
 use App\Filament\Resources\Users\UserResource;
 use Filament\Resources\Pages\ListRecords;
 use Laravel\Pennant\Feature;

@@ -11,7 +11,6 @@ use App\Filament\Resources\Articles\Pages\ViewWord;
 use App\UserTypes;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Enums\FontWeight;
-use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Models\Audit;

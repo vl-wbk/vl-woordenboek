@@ -6,7 +6,6 @@ namespace App\Enums\Articles;
 
 use Filament\Support\Contracts\HasDescription;
 use Filament\Support\Contracts\HasLabel;
-use Illuminate\Contracts\Support\Htmlable;
 
 enum RevokePublicationReason: string implements HasLabel, HasDescription
 {

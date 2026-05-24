@@ -15,7 +15,6 @@ use App\Filament\Resources\Users\Pages\ViewUser;
 use App\Models\Article;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Enums\FontWeight;
-use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 

@@ -7,7 +7,6 @@ namespace App\Filament\Resources\Users\RelationManagers;
 use App\Filament\Resources\Users\Pages\ViewUser;
 use App\Models\User;
 use App\Services\PasskeyAuthenticatorAaguids;
-use App\UserTypes;
 use BackedEnum;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -17,7 +16,6 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Cache;
 
 final class PasskeysRelationManager extends RelationManager
 {

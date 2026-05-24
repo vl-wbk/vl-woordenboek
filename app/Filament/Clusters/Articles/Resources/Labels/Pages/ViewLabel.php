@@ -9,7 +9,6 @@ use Filament\Support\Enums\Width;
 use Filament\Actions\DeleteAction;
 use App\Filament\Clusters\Articles\Resources\Labels\LabelResource;
 use Filament\Resources\Pages\ViewRecord;
-use Filament\Actions;
 
 final class ViewLabel extends ViewRecord
 {

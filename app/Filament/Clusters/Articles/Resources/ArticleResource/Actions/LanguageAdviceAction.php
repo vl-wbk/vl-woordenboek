@@ -13,7 +13,6 @@ use Filament\Infolists\Components\ViewEntry;
 use Filament\Schemas\Components\Section;
 use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
-use Illuminate\Contracts\Support\Arrayable;
 
 final class LanguageAdviceAction extends Action
 {
@@ -34,7 +33,7 @@ final class LanguageAdviceAction extends Action
         $this->modalDescription('Omdat we de beschrijvingen van artikelen zo neutraal mogelijk willen houden...');
         $this->modalWidth(Width::ThreeExtraLarge);
         $this->slideOver();
-        
+
         // Ensure the return type here matches the method signature
         $this->schema(fn (EditWord|CreateWord $livewire): array => $this->getInfolist($livewire));
 
@@ -67,11 +66,11 @@ final class LanguageAdviceAction extends Action
 
             $alternativesText = '';
             $alternatives = $s['alternatives'] ?? [];
-            
+
             if (is_iterable($alternatives) && !empty($alternatives)) {
                 $alternativesText = collect($alternatives)
                     // Use transform and filter to ensure we only have strings
-                    ->map(fn ($alt) => is_string($alt) ? e($alt) : '') 
+                    ->map(fn ($alt) => is_string($alt) ? e($alt) : '')
                     ->filter()
                     ->implode(', ');
             }

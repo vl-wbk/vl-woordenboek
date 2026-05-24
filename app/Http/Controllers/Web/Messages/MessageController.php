@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Web\Messages;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Messages\StoreReplyRequest;
 use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Spatie\LaravelData\Exceptions\InvalidDataClass;
 use Spatie\RouteAttributes\Attributes\Middleware;
 use Spatie\RouteAttributes\Attributes\Post;

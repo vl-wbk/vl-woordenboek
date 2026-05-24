@@ -8,7 +8,6 @@ use App\Models\ArticleReport;
 use App\States\Reporting\Status;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
-use Filament\Support\Icons\Heroicon;
 use Schmeits\FilamentCharacterCounter\Forms\Components\Textarea;
 
 /**

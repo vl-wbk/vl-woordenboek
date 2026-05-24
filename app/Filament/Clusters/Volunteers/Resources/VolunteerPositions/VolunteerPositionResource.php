@@ -20,7 +20,6 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use App\Models\VolunteerPosition;
 use Filament\Schemas\Components\Section;
-use Filament\Support\Enums\IconSize;
 
 final class VolunteerPositionResource extends Resource
 {

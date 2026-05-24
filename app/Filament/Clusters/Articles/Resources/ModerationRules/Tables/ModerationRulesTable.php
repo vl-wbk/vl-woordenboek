@@ -2,10 +2,7 @@
 
 namespace App\Filament\Clusters\Articles\Resources\ModerationRules\Tables;
 
-use App\Filament\Clusters\Articles\Resources\ModerationRules\ModerationRuleResource;
-use App\Models\ModerationRule;
 use Filament\Actions\ActionGroup;
-use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;

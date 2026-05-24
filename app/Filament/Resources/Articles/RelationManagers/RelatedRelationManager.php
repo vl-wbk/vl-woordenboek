@@ -6,13 +6,11 @@ namespace App\Filament\Resources\Articles\RelationManagers;
 
 use App\Filament\Resources\Articles\ArticleResource;
 use App\Filament\Resources\Articles\Pages\ViewWord;
-use Filament\Actions\CreateAction;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use BackedEnum;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Relation Manager for the 'related' Article relationship.

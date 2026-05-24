@@ -11,10 +11,8 @@ use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Forms\Components\Textarea;
 use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Tabs;
-use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
-use Illuminate\Support\Facades\DB;
 
 /**
  * RejectPublishingAction handles the rejection of articles submitted for publication.

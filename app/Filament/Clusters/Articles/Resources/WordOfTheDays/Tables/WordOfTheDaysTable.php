@@ -16,10 +16,8 @@ use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Columns\Summarizers\Count;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
@@ -52,7 +50,7 @@ final readonly class WordOfTheDaysTable
     /**
      * @return array<int, Group>
      */
-    private static function registerGroups(): array 
+    private static function registerGroups(): array
     {
         return [
             Group::make('scheduled_for')
@@ -67,7 +65,7 @@ final readonly class WordOfTheDaysTable
     /**
      * @return array<int, CreateAction>
      */
-    private static function registerEmptyStateActions(): array 
+    private static function registerEmptyStateActions(): array
     {
         $isVisible = WordOfTheDay::count() === 0;
 
@@ -82,7 +80,7 @@ final readonly class WordOfTheDaysTable
     /**
      * @return array<int, Filter|TernaryFilter>
      */
-    private static function registerTableFilters(): array 
+    private static function registerTableFilters(): array
     {
         return [
             Filter::make('scheduled_for')
@@ -95,7 +93,7 @@ final readonly class WordOfTheDaysTable
                     ->when($data['tot'], fn ($q, $date) => $q->whereDate('scheduled_for', '<=', $date))
                 )
                 ->indicateUsing(fn (array $data) => self::formatDateRangeIndicator($data)),
-        
+
             TernaryFilter::make('toekomst')
                 ->label('Planning status')
                 ->native(false)
@@ -129,7 +127,7 @@ final readonly class WordOfTheDaysTable
     /**
      * @return array<int, TextColumn>
      */
-    private static function registerTableColumnLayout(): array 
+    private static function registerTableColumnLayout(): array
     {
         return [
             TextColumn::make('scheduled_for')
@@ -174,7 +172,7 @@ final readonly class WordOfTheDaysTable
     /**
      * @return array<int, ViewAction|ActionGroup>
      */
-    private static function registerRecordActions(): array 
+    private static function registerRecordActions(): array
     {
         return [
             ViewAction::make()
@@ -183,7 +181,7 @@ final readonly class WordOfTheDaysTable
                 ->modalIconColor('primary')
                 ->modalHeading(fn ($record) => "Woord van de Dag: " . $record->scheduled_for->format('d-m-Y'))
                 ->modalDescription('Hieronder vind je de details van de planning voor dit specifieke artikel.'),
-            
+
             ActionGroup::make([
                 EditAction::make(),
                 DeleteAction::make()
@@ -194,7 +192,7 @@ final readonly class WordOfTheDaysTable
     /**
      * @return array<int, BulkActionGroup>
      */
-    private static function registerToolbarActions(): array 
+    private static function registerToolbarActions(): array
     {
         return [
             BulkActionGroup::make([

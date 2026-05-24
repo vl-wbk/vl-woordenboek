@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Web\Etymology;
 
 use App\Actions\Articles\StoreEtymologySubmission;
-use App\Actions\Support\StoreFeedbackSubmission;
 use App\Attributes\Todo;
 use App\Concerns\RateLimitSubmission;
 use App\Enums\Articles\EtymologySources;
 use App\Http\Requests\Articles\StoreEtymologyRequest;
-use App\Http\Requests\Support\StoreFeedbackRequest;
 use App\Models\Article;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;

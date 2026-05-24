@@ -8,7 +8,6 @@ use App\Models\ArticleReport;
 use App\States\Reporting\Status;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
-use Illuminate\Support\Facades\Gate;
 
 /**
  * Represents the action for assigning an article report to the current user.
