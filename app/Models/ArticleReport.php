@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Attributes\Todo;
 use App\States\Reporting\OpenReportState;
 use App\States\Reporting\ReportInProgressState;
 use App\States\Reporting\ClosedReportState;
@@ -77,7 +78,7 @@ final class ArticleReport extends Model
      *
      * @return BelongsTo<Article, covariant $this> The relationship instance linking the report to its article.
      */
-    public function article(): BelongsTo
+    public function article()
     {
         return $this->belongsTo(Article::class);
     }
@@ -106,6 +107,7 @@ final class ArticleReport extends Model
      *
      * @return ReportStateContract The state instance for the current report state.
      */
+    #[Todo(message: 'Refactor this to FusionState actions.')]
     public function status(): ReportStateContract
     {
         return match ($this->state) {

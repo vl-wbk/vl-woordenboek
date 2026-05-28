@@ -22,30 +22,30 @@ use Filament\Support\Icons\Heroicon;
 use Laravel\Pennant\Feature;
 
 /**
- * ArticleForm 
- * 
- * This class orchestrates the complex form schema for the article resource. It manages multiple layers of UI including 
+ * ArticleForm
+ *
+ * This class orchestrates the complex form schema for the article resource. It manages multiple layers of UI including
  * real-time collaboration banners (Gaze), editorial feedback alerts, and segmented data entry for linguistic metadata,
  * regional associations, and academic source tracking.
- * 
+ *
  * @package App\Filament\Resources\Articles\Schema
  */
 #[Todo(message: 'Perform a code clean up for the code in this class', priority: 'normal')]
 final readonly class ArticleForm
 {
     /**
-     * Main schema configuration 
-     * 
-     * Constructs the full form struicture, organizing components into a 9-column wide main content 
-     * area and a 3-column wide sidebar for redactional metadata. 
+     * Main schema configuration
      *
-     * @param  Schema $schema   The Filament base schema instance. 
-     * @return Schema           The configured schema with all sections and components. 
+     * Constructs the full form struicture, organizing components into a 9-column wide main content
+     * area and a 3-column wide sidebar for redactional metadata.
+     *
+     * @param  Schema $schema   The Filament base schema instance.
+     * @return Schema           The configured schema with all sections and components.
      */
     public static function configure(Schema $schema): Schema
     {
         return $schema->components([
-            // Collaboraion & Locking banner 
+            // Collaboraion & Locking banner
             GazeBanner::make('lock-banner')
                 ->lock()
                 ->poll(null)
@@ -53,7 +53,7 @@ final readonly class ArticleForm
                 ->canTakeControl(fn (): bool => auth()->user()->can('release-resource-lock'))
                 ->hideOnCreate(),
 
-            // Contextual disclaimer alert 
+            // Contextual disclaimer alert
             SimpleAlert::make('dd')
                 ->icon(Heroicon::OutlinedExclamationTriangle, IconAnimation::Pulse)
                 ->title(fn (Article $article): string => $article->disclaimer->internal_title ?? $article->disclaimer->name)
@@ -119,9 +119,9 @@ final readonly class ArticleForm
     }
 
     /**
-     * General information component 
+     * General information component
      * Houses core fields like the word itself, part of speech, keywords and the main markdown description.
-     * 
+     *
      * @return array<int, TextInput|Select|MarkdownEditor>
      */
     public static function generalInformationComponent(): array
@@ -220,12 +220,12 @@ final readonly class ArticleForm
 
     /**
      * Documentation guideline link
-     * Helper to generate a consistent external documentation button for form fields. 
+     * Helper to generate a consistent external documentation button for form fields.
      *
      * @param  string $url The hyperlink that refer'ences to our platform documentation (guideline).
      * @return Action
      */
-    private static function guidelineAction(string $url): Action
+    public static function guidelineAction(string $url): Action
     {
         return Action::make('richtlijn')
             ->color('primary')
@@ -237,7 +237,7 @@ final readonly class ArticleForm
     /**
      * Region Information Component
      * Manages regional mapping and the linguistic status of the entry.
-     * 
+     *
      * @return array<int, SimpleAlert|Select|Radio>
      */
     public static function regionInformationComponent(): array
@@ -278,7 +278,7 @@ final readonly class ArticleForm
     /**
      * Example Sentence Repeater
      * Configuration for adding usage examples and their specific sources.
-     * 
+     *
      * @return Repeater
      */
     public static function exampleSentenceRepeater(): Repeater
@@ -354,7 +354,7 @@ final readonly class ArticleForm
     }
 
     /**
-     * Related Words Configuration 
+     * Related Words Configuration
      * Provides a searchable multi-select for internal article cross-referencing.
      *
      * @return array<int, Select>
@@ -377,11 +377,11 @@ final readonly class ArticleForm
     }
 
     /**
-     * Markdown toolbar options 
-     * 
+     * Markdown toolbar options
+     *
      * @return array<int, array<string>>
      */
-    private static function getToolbarOptions(): array
+    public static function getToolbarOptions(): array
     {
         return [
             ['bold', 'italic', 'strike', 'link'],
@@ -393,9 +393,9 @@ final readonly class ArticleForm
     }
 
     /**
-     * Redactional Information Sidebar Section 
+     * Redactional Information Sidebar Section
      * Displays audit-trail information including author, current editor, and timestamps.
-     * 
+     *
      * @return Section
      */
     private static function redactionInformationSection(): Section

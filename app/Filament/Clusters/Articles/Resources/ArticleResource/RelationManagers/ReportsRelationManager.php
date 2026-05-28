@@ -4,7 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers;
 
+use App\Filament\Clusters\Articles\Resources\ArticleReports\Actions\CloseArticleReportAction;
+use App\Filament\Clusters\Articles\Resources\ArticleReports\Actions\TableActionsConfiguration;
+use App\Filament\Clusters\Articles\Resources\ArticleReports\Schema\ReportForm;
+use App\Filament\Clusters\Articles\Resources\ArticleReports\Schema\ReportInfolist;
+use App\Filament\Clusters\Articles\Resources\ArticleReports\Schema\TableSchema;
 use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\EditAction;
 use Filament\Support\Enums\Width;
 use Filament\Actions\ViewAction;
 use Filament\Actions\DeleteAction;
@@ -38,17 +45,9 @@ final class ReportsRelationManager extends RelationManager
         return new $pageClass() instanceof ViewWord;
     }
 
-    public function form(Schema $schema): Schema
+    public function infolist(Schema $schema): Schema
     {
-        return $schema->components(components: [
-            Textarea::make('description')
-                ->label('melding')
-                ->hiddenLabel()
-                ->required()
-                ->rows(6)
-                ->placeholder('Beschrijf zo duidelijk mogelijk wat er aan de hand is met het artikel. Zodat de bevoegde personen er snel en vlot mee aan de slag kunnen.')
-                ->columnSpanFull()
-        ]);
+        return ReportInfolist::configure($schema);
     }
 
     public function table(Table $table): Table
@@ -59,9 +58,9 @@ final class ReportsRelationManager extends RelationManager
             ->emptyStateIcon(self::$navigationIcon)
             ->emptyStateHeading('Geen meldingen gevonden')
             ->emptyStateDescription('Het lijk erop dat er momenteel geen openstaande meldingen zijn die gerelateerd zijn aan de artikelen van het Vlaams Woordenboek.')
-            ->columns(TableColumnSchema::make())
+            ->columns(TableSchema::make())
             ->filtersFormWidth(Width::Medium)
-            ->filters(ArticleReportResource::getTableFilters())
+            ->filters(TableSchema::getTableFilters())
             ->headerActions([
                 Action::make('Help')
                     ->icon('heroicon-o-lifebuoy'),
@@ -70,16 +69,40 @@ final class ReportsRelationManager extends RelationManager
                     ->modalHeading('Artikel melding toevoegen')
                     ->label('melding toevoegen'),
             ])
-            ->recordActions([
-                ViewAction::make()
-                    ->url(fn(ArticleReport $articleReport): string => ArticleReportResource::getUrl('view', ['record' => $articleReport->getRouteKey()])),
-                DeleteAction::make()
-                    ->modalHeading('Melding verwijderen'),
-            ])
+            ->recordActions($this->rowActions())
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    private function rowActions(): array
+    {
+        return [
+            ViewAction::make()
+                ->slideOver()
+                ->modalIcon('tabler-message-user')
+                ->modalIconColor('primary')
+                ->modalCancelAction(false)
+                ->modalHeading('Algemene informatie van de melding')
+                ->modalDescription(fn (ArticleReport $articleReport): string => trans(':user heeft op :date de volgende melding ingestuurd.', [
+                    'user' => $articleReport->author->name, 'date' => $articleReport->created_at->format('d/m/Y'),
+                ]))
+                ->extraModalFooterActions(actions: [
+                    ActionGroup::make([
+                        EditAction::make()
+                            ->label('Behandelen')
+                            ->color('gray')
+                            ->url(fn (ArticleReport $articleReport): string => ArticleReportResource::getUrl('edit', ['record' => $articleReport])),
+
+                        CloseArticleReportAction::make(),
+                    ])->buttonGroup(),
+
+                    DeleteAction::make()->icon('heroicon-o-trash'),
+                ]),
+
+            DeleteAction::make(),
+        ];
     }
 }

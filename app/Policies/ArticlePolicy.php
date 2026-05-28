@@ -7,6 +7,7 @@ namespace App\Policies;
 use Illuminate\Auth\Access\Response;
 use App\Enums\ArticleStates;
 use App\Models\{Article, User};
+use App\UserTypes;
 use App\States\Articles\ArticleState;
 use Filament\Support\Authorization\DenyResponse;
 
