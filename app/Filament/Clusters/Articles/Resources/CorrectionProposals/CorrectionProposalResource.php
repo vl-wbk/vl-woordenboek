@@ -22,15 +22,15 @@ use Override;
 
 final class CorrectionProposalResource extends Resource
 {
-    use HasActiveIcon; 
+    use HasActiveIcon;
 
     protected static ?string $model = CorrectionProposal::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-pencil-square';
 
-    protected static ?string $navigationLabel = 'Correctie voorstellen';
+    protected static ?string $navigationLabel = 'Correctievoorstellen';
 
-    protected static ?string $pluralModelLabel = 'Correctie voorstellen';
+    protected static ?string $pluralModelLabel = 'Correctievoorstellen';
 
     protected static ?string $modelLabel = 'Correctioneel voorstel';
 
