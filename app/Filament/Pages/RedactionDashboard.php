@@ -4,17 +4,13 @@ namespace App\Filament\Pages;
 
 use App\Enums\ArticleStates;
 use App\Filament\Clusters\Articles\ArticlesCluster;
-use App\Filament\Resources\Articles\ArticleResource;
 use App\Filament\Resources\Articles\Widgets\RedactionQueueKpis;
 use App\Filament\Resources\Articles\Widgets\RedactionQueueTable;
 use App\Filament\Support\Concerns\HasActiveIcon;
 use App\Models\Article;
 use App\UserTypes;
 use BackedEnum;
-use Filament\Actions\EditAction;
 use Filament\Pages\Dashboard;
-use Filament\Resources\Pages\ViewRecord;
-use Symfony\Component\HttpKernel\Attribute\Cache;
 
 class RedactionDashboard extends Dashboard
 {

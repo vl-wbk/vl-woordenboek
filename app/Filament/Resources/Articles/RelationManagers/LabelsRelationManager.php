@@ -19,7 +19,6 @@ use Illuminate\Support\Str;
 use App\Filament\Clusters\Articles\Resources\Labels\LabelResource;
 use App\Filament\Resources\Articles\Pages\ViewWord;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 

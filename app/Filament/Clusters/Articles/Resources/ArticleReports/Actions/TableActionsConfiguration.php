@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\ArticleReports\Actions;
 
+use App\Models\ArticleReport;
 use Filament\Actions\Action;
-use Filament\Actions\ViewAction;
-use Filament\Actions\DeleteAction;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 
 /**
  * Configures table actions for the Article Report resource.
@@ -17,8 +20,6 @@ use Filament\Actions\DeleteBulkAction;
  * These actions are used to provide administrators and moderators with tools to manage article reports efficiently within the Filament admin panel.
  *
  * This class centralizes the configuration of table actions, ensuring consistency and maintainability across the resource.
- *
- * @package App\Filament\Clusters\Articles\Resources\ArticleReportResource\Actions
  */
 final readonly class TableActionsConfiguration
 {
@@ -31,7 +32,27 @@ final readonly class TableActionsConfiguration
     public static function rowActions(): array
     {
         return [
-            ViewAction::make(),
+            ViewAction::make()
+                ->slideOver()
+                ->modalIcon('tabler-message-user')
+                ->modalIconColor('primary')
+                ->modalCancelAction(false)
+                ->modalHeading('Algemene informatie van de melding')
+                ->modalDescription(fn (ArticleReport $articleReport): string => trans(':user heeft op :date de volgende melding ingestuurd.', [
+                    'user' => $articleReport->author->name, 'date' => $articleReport->created_at->format('d/m/Y'),
+                ]))
+                ->extraModalFooterActions(actions: [
+                    ActionGroup::make([
+                        EditAction::make()
+                            ->label('Behandelen')
+                            ->color('gray'),
+
+                        CloseArticleReportAction::make(),
+                    ])->buttonGroup(),
+
+                    DeleteAction::make()->icon('heroicon-o-trash'),
+                ]),
+
             DeleteAction::make(),
         ];
     }
@@ -40,7 +61,7 @@ final readonly class TableActionsConfiguration
      * Defines the actions available for individual rows in the table.
      * Row actions are specific to each record in the table. For example, the "View" and "Delete" actions allow users to view the details of a report or delete it.
      *
-     * @return array<\Filament\Actions\BulkActionGroup> An array of configured row actions.
+     * @return array<BulkActionGroup> An array of configured row actions.
      */
     public static function bulkActions(): array
     {

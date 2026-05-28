@@ -11,8 +11,6 @@ use Filament\Actions\ActionGroup;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Support\Icons\Heroicon;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Contracts\Pagination\Paginator;
 
 /**
  * ListWordOfTheDays page - the bird's-eye view of our linguistic calendar.
@@ -72,12 +70,12 @@ final class ListWordOfTheDays extends ListRecords
     /**
      * Determines whether the "Schedule" action should be presented to the editor.
      *
-     * This logic acts as a visual guard; we only show the primary action button when there is existing data, 
+     * This logic acts as a visual guard; we only show the primary action button when there is existing data,
      * guiding the user toward the appropriate interaction based on the current volume of content.
      *
      * @return bool True if the action button should be rendered, false otherwise.
      */
-    private function canDisplayActionButton(): bool 
+    private function canDisplayActionButton(): bool
     {
         return WordOfTheDay::count() > 0;
     }

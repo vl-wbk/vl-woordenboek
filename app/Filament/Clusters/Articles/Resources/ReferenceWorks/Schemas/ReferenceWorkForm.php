@@ -7,8 +7,6 @@ namespace App\Filament\Clusters\Articles\Resources\ReferenceWorks\Schemas;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
-use Filament\Support\Enums\IconSize;
-use Filament\Support\Icons\Heroicon;
 
 /**
  * Defines the static form schema components used for creating and editing

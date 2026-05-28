@@ -6,7 +6,6 @@ namespace App\Filament\Clusters\Articles\Resources\ArticleReports\Widgets;
 
 use App\Models\ArticleReport;
 use App\States\Reporting\Status;
-use App\UserTypes;
 use Carbon\Carbon;
 use Filament\Widgets\ChartWidget;
 use Flowframe\Trend\Trend;

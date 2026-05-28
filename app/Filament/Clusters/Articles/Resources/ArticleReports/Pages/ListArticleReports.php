@@ -6,7 +6,6 @@ namespace App\Filament\Clusters\Articles\Resources\ArticleReports\Pages;
 
 use App\Filament\Clusters\Articles\Resources\ArticleReports\ArticleReportResource;
 use CodeWithDennis\FactoryAction\FactoryAction;
-use Filament\Actions;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\ListRecords;
 

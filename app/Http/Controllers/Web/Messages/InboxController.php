@@ -1,9 +1,9 @@
 <?php
 
 declare(strict_types=1);
-	
+
 	namespace App\Http\Controllers\Web\Messages;
-	
+
 	use App\Actions\Messages\SendMessage;
 	use App\Http\Requests\Messages\SendMessageRequest;
 	use App\Models\User;
@@ -12,11 +12,12 @@ declare(strict_types=1);
 	use Illuminate\Contracts\Support\Renderable;
 	use Illuminate\Http\RedirectResponse;
 	use Illuminate\Http\Request;
-	use Illuminate\Support\Facades\Session;
-	use Spatie\RouteAttributes\Attributes\Get;
+    use Spatie\LaravelData\Exceptions\InvalidDataClass;
+    use Spatie\RouteAttributes\Attributes\Get;
 	use Spatie\RouteAttributes\Attributes\Middleware;
 	use Spatie\RouteAttributes\Attributes\Post;
-	
+    use Throwable;
+
 	#[Middleware(middleware: ['auth', 'verified', 'forbid-banned-user'])]
 	final readonly class InboxController
 	{
@@ -27,27 +28,27 @@ declare(strict_types=1);
 				'threads' => $selectInboxQuery->compose($request)->paginate(),
 			]);
 		}
-		
+
 		#[Get(uri: '/inbox/nieuw-bericht', name: 'inbox:create')]
 		public function create(Request $request): Renderable
 		{
 			$reciever = User::query()->where('id', $request->get('participant'))->first();
-			
+
 			return view('account.messages.create', data: [
 				'reciever' => $reciever,
 			]);
 		}
-		
+
 		#[Get(uri: '/inbox/thread/{thread}', name: 'inbox:show', middleware: ['can:view,thread'])]
 		public function show(Thread $thread): Renderable
 		{
 			$userId = auth()->id();
 			$users = User::whereNotIn('id', $thread->participantsUserIds($userId))->get();
 			$participantRecord = $thread->participants()->where('user_id', $userId)->first();
-			
+
 			$thread->markAsRead($userId);
 			$thread->loadMissing(['participants.user']);
-			
+
 			return view('account.messages.show', data: [
 				'thread' => $thread,
 				'userParticipantRecord' => $participantRecord,
@@ -55,13 +56,17 @@ declare(strict_types=1);
 				'users' => $users,
 			]);
 		}
-		
-		#[Post(uri: '/inbox/nieuw-bericht', name: 'inbox:store')]
+
+        /**
+         * @throws Throwable        when the message couldn't be stored successfully in the application.
+         * @throws InvalidDataClass when the given data transfer object is invalid
+         */
+        #[Post(uri: '/inbox/nieuw-bericht', name: 'inbox:store')]
 		public function store(SendMessageRequest $sendMessageRequest, SendMessage $sendMessage): RedirectResponse
 		{
 			$thread = $sendMessage->handle($sendMessageRequest->getData());
 			// Session::flash('success_message', 'We hebben je bericht verzonden naar ' . $sendMessageRequest->getData()->getReceiver());
-			
+
 			return redirect()->action([self::class, 'show'], $thread);
 		}
 	}

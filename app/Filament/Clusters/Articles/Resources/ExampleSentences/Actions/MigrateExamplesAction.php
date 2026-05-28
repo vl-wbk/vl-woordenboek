@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Filament\Clusters\Articles\Resources\ExampleSentences\Actions;
 
 use App\Filament\Resources\Articles\RelationManagers\CommunityExamplesRelationManager;
-use App\Filament\Resources\Articles\Schema\ArticleForm;
 use App\Models\UserExample;
 use App\States\ExampleSentence\Approved;
 use Filament\Actions\Action;

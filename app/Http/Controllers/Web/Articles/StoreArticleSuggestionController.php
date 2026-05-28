@@ -11,8 +11,10 @@ use App\Models\PartOfSpeech;
 use App\Models\Region;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
+use Spatie\LaravelData\Exceptions\InvalidDataClass;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Post;
+use Throwable;
 
 /**
  * StoreArticleSuggestionController manages the creation of new dictionairy article suggestion entries.
@@ -54,6 +56,9 @@ final class StoreArticleSuggestionController
      * @param  StoreSuggestionRequest $storeSuggestionRequest   The form request that validates the request data?
      * @param  StoreArticleSuggestion $storeArticleSuggestion   The action that uis responsible for storing the dictionary article.
      * @return RedirectResponse                                 Redirects to search interface after submission.
+     *
+     * @throws Throwable        when the suggestion couldn't be stored successfully in the database
+     * @throws InvalidDataClass when the data transfer object couldn't be found in the application.
      */
     #[Post(uri: 'woordenboek-artikelen/insturen', name: 'definitions.store')]
     public function store(StoreSuggestionRequest $storeSuggestionRequest, StoreArticleSuggestion $storeArticleSuggestion): RedirectResponse

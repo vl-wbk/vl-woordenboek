@@ -11,6 +11,7 @@ use Filament\Support\Contracts\HasLabel;
 use Spatie\ModelStates\State;
 use Spatie\ModelStates\StateConfig;
 use App\Models\UserExample;
+use Spatie\ModelStates\Exceptions\InvalidConfig;
 
 /**
  * @extends State<UserExample>
@@ -22,6 +23,9 @@ abstract class SentenceState extends State implements HasIcon, HasColor, HasLabe
      */
     use StateFusionInfo;
 
+    /**
+     * @throws InvalidConfig When the state machine transitions not correctly confirured
+     */
     public static function config(): StateConfig
     {
         return parent::config()

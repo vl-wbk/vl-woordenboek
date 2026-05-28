@@ -6,7 +6,6 @@ use App\Models\Article;
 use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
-use Illuminate\Support\Facades\DB;
 
 class RedactionQueueKpis extends StatsOverviewWidget
 {

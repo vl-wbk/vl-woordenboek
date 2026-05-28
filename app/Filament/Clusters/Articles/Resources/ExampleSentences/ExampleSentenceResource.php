@@ -10,12 +10,10 @@ use App\Filament\Clusters\Articles\Resources\ExampleSentences\Schema\ExampleSent
 use App\Filament\Clusters\Articles\Resources\ExampleSentences\Tables\ExampleSentencesTable;
 use App\Filament\Support\Concerns\HasActiveIcon;
 use App\Models\UserExample;
-use App\States\ExampleSentence\Pending;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 
 final class ExampleSentenceResource extends Resource
 {

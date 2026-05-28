@@ -1,6 +1,6 @@
-<?php 
+<?php
 
-declare(strict_types=1); 
+declare(strict_types=1);
 
 namespace App\Filament\Clusters\Volunteers\Resources\VolunteerApplications\Actions;
 
@@ -10,10 +10,11 @@ use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 final class RejectionAction extends Action
 {
-    use CanCustomizeProcess; 
+    use CanCustomizeProcess;
 
     public static function getDefaultName(): ?string
     {
@@ -24,14 +25,14 @@ final class RejectionAction extends Action
     {
         parent::setUp();
 
-        $this->label('Afwijzen'); 
+        $this->label('Afwijzen');
         $this->color('danger');
-        $this->outlined(); 
+        $this->outlined();
         $this->authorize(VolunteerApplicationsPolicy::Approve);
         $this->icon(Heroicon::OutlinedXCircle);
         $this->requiresConfirmation();
 
-        // Modal settings 
+        // Modal settings
         $this->modalHeading('Aanmelding afwijzen');
         $this->modalDescription('U staat op het punt om een aanmelding af te wijzen! Weet je zeker dat je dit wilt?');
 
@@ -40,7 +41,7 @@ final class RejectionAction extends Action
 
         $this->action(function (): void {
             if ($this->process(fn (): bool => $this->handleVolunteerRequestRejection())) {
-                $this->success(); 
+                $this->success();
                 return;
             }
 
@@ -48,7 +49,10 @@ final class RejectionAction extends Action
         });
     }
 
-    private function handleVolunteerRequestRejection(): bool 
+    /**
+     * @throws Throwable when the database transaction couldn't complete successfully
+     */
+    private function handleVolunteerRequestRejection(): bool
     {
         return DB::transaction(function (): bool {
             return $this->record->update(attributes: ['state' => ApplicationState::Rejected]);

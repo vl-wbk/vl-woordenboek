@@ -6,7 +6,6 @@ namespace App\States\ExampleSentence;
 
 use BackedEnum;
 use Filament\Support\Icons\Heroicon;
-use Illuminate\Contracts\Support\Htmlable;
 
 final class Approved extends SentenceState
 {

@@ -10,7 +10,6 @@ use App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\Et
 use App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\ReportsRelationManager;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Schema\TableSchema;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets\ArticleRegistrationChart;
-use App\Filament\Resources\Articles\Pages;
 use App\Filament\Resources\Articles\Pages\RedactionDashboard;
 use App\Filament\Resources\Articles\RelationManagers\CommunityExamplesRelationManager;
 use App\Filament\Resources\Articles\RelationManagers\LabelsRelationManager;

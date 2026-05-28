@@ -8,7 +8,6 @@ use Filament\Actions\Action;
 use App\Models\User;
 use Cog\Laravel\Ban\Models\Ban;
 use Filament\Actions\Concerns\CanCustomizeProcess;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * This action handles the reactivation of previously deactivated user accounts in our Flemish dictionary community.

@@ -20,7 +20,6 @@ use App\Filament\Clusters\Blog\Resources\Blogs\Schema\FormSchema;
 use App\Filament\Clusters\Blog\Resources\Blogs\Schema\ResourceActionDefinitions;
 use App\Filament\Clusters\Blog\Resources\Blogs\Schema\TableSchema;
 use App\Models\Blog as BlogPosts;
-use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use BackedEnum;

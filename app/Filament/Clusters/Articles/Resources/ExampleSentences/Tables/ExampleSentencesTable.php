@@ -6,7 +6,6 @@ namespace App\Filament\Clusters\Articles\Resources\ExampleSentences\Tables;
 
 use A909M\FilamentStateFusion\Actions\StateFusionAction;
 use A909M\FilamentStateFusion\Actions\StateFusionBulkAction;
-use A909M\FilamentStateFusion\Tables\Filters\StateFusionSelectFilter;
 use App\Filament\Resources\Articles\ArticleResource;
 use App\Models\UserExample;
 use App\Policies\UserExamplePolicy;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\DataMigration;
 
+use JsonMachine\Exception\InvalidArgumentException;
 use ReflectionClass;
 use ReflectionException;
 use App\Models\Article;
@@ -54,12 +55,13 @@ final class ArticleImporter
      * The method carefully manages resources by ensuring proper cleanup of file handles, even in case of errors.
      * It tracks the number of successfully processed articles and provides detailed error logging for any failures.
      *
-     * @param  string        $filePath          Path to the JSON file containing article data
-     * @param  Closure|null  $progressCallback  Called to report progress (params: int $count, Article $lastArticle)
-     * @param  Closure|null  $warningCallback   Called when warnings occur (param: string $message)
+     * @param string $filePath Path to the JSON file containing article data
+     * @param Closure|null $progressCallback Called to report progress (params: int $count, Article $lastArticle)
+     * @param Closure|null $warningCallback Called when warnings occur (param: string $message)
      * @return int                              Number of successfully processed articles
      *
      * @throws RuntimeException If the file cannot be read or processed
+     * @throws InvalidArgumentException
      */
     public function importArticles(string $filePath, ?Closure $progressCallback = null, ?Closure $warningCallback = null): int
     {

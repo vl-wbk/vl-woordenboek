@@ -6,7 +6,6 @@ namespace App\Filament\Clusters\Articles\Resources\WordOfTheDays\Schemas;
 
 use App\Filament\Resources\Articles\ArticleResource;
 use App\Models\WordOfTheDay;
-use Filament\Actions\Action;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\FontWeight;
@@ -16,8 +15,8 @@ use Filament\Support\Icons\Heroicon;
  * WordOfTheDaysInfolist - the read-only display for our scheduled linguistic gems.
  *
  * This class defines the "Infolist" or view-only layout used to inspect a "Word of the Day" entry.
- * While the form is for editing, this schema is focused on clarity and readability, presenting 
- * the administrative details and the editorial reasoning behind a selection in a clean, 
+ * While the form is for editing, this schema is focused on clarity and readability, presenting
+ * the administrative details and the editorial reasoning behind a selection in a clean,
  * non-interactive format.
  *
  * It provides a quick way for team members to verify who scheduled a word, which word was chosen, and the specific occasion it commemorates.
@@ -29,7 +28,7 @@ final readonly class WordOfTheDaysInfolist
     /**
      * Configures the visual arrangement of the information display.
      *
-     * This method maps our database attributes to a 12-column grid. 
+     * This method maps our database attributes to a 12-column grid.
      * It highlights the selected word in bold primary colors and uses tooltips to provide relative time context (e.g., "3 days from now") for the scheduling dates.
      *
      * @param  Schema $schema   The base schema instance to be configured.

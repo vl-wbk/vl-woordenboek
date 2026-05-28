@@ -11,6 +11,7 @@ use App\Models\Article;
 use App\Models\PartOfSpeech;
 use App\Models\User;
 use App\UserTypes;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
 
@@ -25,6 +26,9 @@ use Illuminate\Support\Facades\File;
  */
 final class FlemishWordSeeder extends Seeder
 {
+    /**
+     * @throws FileNotFoundException when the data file for the database seeder couldn't be found.
+     */
     public function run(): void
     {
         $jsonDataFile = File::get(database_path('data/flemish-words.json'));

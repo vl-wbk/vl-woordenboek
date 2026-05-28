@@ -36,7 +36,7 @@ final class ArticleReportPolicy
      * @var list<string>
      */
     public static array $permissionPrefixes = [
-        'viewAny', 'view', 'markInProgress', 'markAsClosed', 'delete', 'deleteAny',
+        'viewAny', 'view', 'markAsClosed', 'delete', 'deleteAny',
     ];
 
     /**
@@ -77,29 +77,6 @@ final class ArticleReportPolicy
     }
 
     /**
-     * Determines whether the user can mark an article report as "In Progress."
-     *
-     * This action is allowed only if the article report does not already have an assignee and is in the "Open" state.
-     * These conditions ensure that only unassigned and open reports can be marked as "In Progress."
-     *
-     * @param  User $user                    The user attempting to mark the report as "In Progress."
-     * @param  ArticleReport $articleReport  The article report being updated.
-     * @return Response                      Returns `true` if the report can be marked as "In Progress," otherwise `false`.
-     */
-    public function markInProgress(User $user, ArticleReport $articleReport): Response
-    {
-        if ($user->cannot('mark-in-progress:article-report')) {
-            return Response::deny();
-        }
-
-        if ($articleReport->assignee()->doesntExist() && $articleReport->state->is(enum: Status::Open)) {
-            return Response::allow();
-        }
-
-        return Response::deny();
-    }
-
-    /**
      * Determines whether the user can mark an article report as "Closed."
      *
      * This action is permitted only if the article report has an assignee and the assignee is the currently authenticated user.
@@ -115,7 +92,7 @@ final class ArticleReportPolicy
             return Response::deny();
         }
 
-        if ($articleReport->assignee()->exists() && $articleReport->assignee()->is($user) && $articleReport->state->is(enum: Status::InProgress)) {
+        if ($articleReport->assignee()->exists() && $articleReport->assignee()->is($user) && $articleReport->state->in(enums: [Status::InProgress])) {
             return Response::allow();
         }
 
@@ -142,6 +119,23 @@ final class ArticleReportPolicy
         }
 
         return Response::deny();
+    }
+
+    public function update(User $user, ArticleReport $articleReport): Response
+    {
+        if ($articleReport->state->is(Status::Closed)) {
+            return Response::deny(message: __('Deze melding is reeds behandeld'));
+        }
+
+        if ($user->can('update:article', $articleReport->article()) && $articleReport->assignee()->is($user)) {
+            return Response::allow();
+        }
+
+        if ($user->can('update:article', $articleReport->article()) && $articleReport->assignee()->doesntExist()) {
+            return Response::allow();
+        }
+
+        return Response::deny(message: __('U bent niet gemachtigd om deze melding te behandelen'));
     }
 
     /**

@@ -8,7 +8,6 @@ use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Fieldset;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Components\IconEntry;
-use Filament\Infolists\Components;
 use Filament\Support\Enums\FontWeight;
 
 /**

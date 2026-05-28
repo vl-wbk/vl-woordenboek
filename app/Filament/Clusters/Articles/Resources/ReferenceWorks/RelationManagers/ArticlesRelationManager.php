@@ -4,15 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\ReferenceWorks\RelationManagers;
 
-use App\Filament\Clusters\Articles\Resources\ArticleReports\ArticleReportResource;
 use App\Filament\Resources\Articles\ArticleResource;
 use App\Models\ArticleReferenceWork;
-use App\Models\ReferenceWork;
 use Filament\Actions\Action;
-use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
-use Filament\Actions\DetachAction;
-use Filament\Actions\ViewAction;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Icons\Heroicon;

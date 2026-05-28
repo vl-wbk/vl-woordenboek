@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Models\Label;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
 use stdClass;
@@ -26,6 +27,8 @@ final class LabelTableSeeder extends Seeder
      * This method reads label definitions from a JSON file located in the database/data directory.
      * It processes each entry to create a new Label record, establishing the initial set of categories available for article classification.
      * The seeder uses Laravel's collection methods for efficient data processing and database insertion.
+     *
+     * @throws FileNotFoundException when the data file for the database seeder couldn't be found.
      */
     public function run(): void
     {

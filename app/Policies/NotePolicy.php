@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Policies;
 
 use App\Models\{Note, User};
-use App\UserTypes;
 use Illuminate\Auth\Access\Response;
 
 /**
