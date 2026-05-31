@@ -9,6 +9,7 @@ use App\UserTypes;
 use Carbon\CarbonPeriod;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Spatie\RouteAttributes\Attributes\Get;
 
 final readonly class IndexController
@@ -16,6 +17,8 @@ final readonly class IndexController
     #[Get(uri: 'revisies/{article}', name: 'article/revisions', middleware: ['auth', 'forbid-banned-user', 'verified'])]
     public function __invoke(Request $request, Article $article): Renderable
     {
+        abort_if($article->audits()->count() == 0 && $article->isPublished(), Response::HTTP_NOT_FOUND);
+
         return view('revisions.index', data: [
             'word' => $article,
             'audits' => $this->getArticleAudits($article),
@@ -44,16 +47,17 @@ final readonly class IndexController
     private function getActivityByDay(Article $article)
     {
 
-        return collect(
-            CarbonPeriod::create(
-                $this->getAllAudits($article)->min('created_at')->toDateString(),
-                $this->getAllAudits($article)->max('created_at')->toDateString()
-            )
-        )->mapWithKeys(fn ($date) => [
-            $date->toDateString() => $this->getAllAudits($article)->filter(
-                fn ($a) => $a->created_at->toDateString() === $date->toDateString()
-            )->count(),
-        ]);
+        return $this->getAllAudits($article)->isNotEmpty()
+            ? collect(
+                CarbonPeriod::create(
+                    $this->getAllAudits($article)->min('created_at')->toDateString(),
+                    $this->getAllAudits($article)->max('created_at')->toDateString()
+                )
+            )->mapWithKeys(fn ($date) => [
+                $date->toDateString() => $this->getAllAudits($article)->filter(
+                    fn ($a) => $a->created_at->toDateString() === $date->toDateString()
+                )->count(),
+            ]) : collect();
     }
 
     private function getAllAudits(Article $article)

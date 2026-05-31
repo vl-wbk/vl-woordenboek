@@ -20,6 +20,10 @@ return [
     'columns' => [
         'origin' => 'Oorsprong',
         'state' => 'Artikel status',
-        'part_of_speech_id' => 'Woordsoort ID',
+        'status' => 'taalstatus',
+        'part_of_speech_id' => 'Woordsoort',
+        'keywords' => 'Kernwoorden',
+        'word' => 'Titel',
+        'characteristics' => 'Karakteristieken',
     ]
 ];
