@@ -122,7 +122,7 @@ final class Article extends Model implements AuditableContract, Commentable
      *
      * @var list<string>
      */
-    protected $auditExclude = ['views', 'votes_today'];
+    protected $auditInclude = ['description', 'part_of_speech_id', 'keywords', 'characteristics', 'status', 'image_url', 'image_alt'];
 
     /**
      * Default values for new article instances.

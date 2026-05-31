@@ -75,6 +75,7 @@ final readonly class DictionaryArticleController
                         'notes',
                         'audits'
                     ]),
+                'revisionCount' => $word->audits()->where('event', 'updated')->count(),
                 'exampleCount' => $word->userExamples()->whereState('status', Approved::class)->count(),
                 'articleResource' => ArticleResource::class,
                 'etymologies' => $word->etymologies()->whereNotIn('status', [EtymologyStatus::Draft, EtymologyStatus::Rejected, EtymologyStatus::Archived])->get(),
