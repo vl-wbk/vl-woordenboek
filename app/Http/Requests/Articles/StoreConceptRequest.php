@@ -8,7 +8,7 @@ use App\Data\SuggestionData;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Spatie\LaravelData\WithData;
-
+ 
 final class StoreConceptRequest extends FormRequest
 {
     /** @use WithData<SuggestionData> */
