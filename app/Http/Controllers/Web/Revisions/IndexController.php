@@ -31,7 +31,7 @@ final readonly class IndexController
         return $article->audits()
             ->with(['user', 'auditable'])
             ->when(request('event'), fn ($q, $e) => $q->where('event', $e))
-            ->when(request('user'), fn ($q, $u) => $q->whereHas('user', fn ($q) => $q->where('name', 'like', "%$u%")->orWhere('email', 'like', "%$u%")
+            ->when(request('user'), fn ($q, $u) => $q->whereHas('user', fn ($q) => $q->where('name', 'like', "%$u%")
             ))
             ->when(request('from'), fn ($q, $d) => $q->whereDate('created_at', '>=', $d))
             ->when(request('to'), fn ($q, $d) => $q->whereDate('created_at', '<=', $d))
