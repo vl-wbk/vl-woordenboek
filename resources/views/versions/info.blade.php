@@ -140,9 +140,9 @@
                         <div class="card-body  p-0">
                             @foreach($audit->getModified() as $field => $value)
                                 @php
-                                    $oldVal  = $value['old'] ?? '';
-                                    $newVal  = $value['new'] ?? '';
-                                    $tokens  = computeWordDiff($oldVal, $newVal);
+                                    $oldVal = toAuditString($value['old'] ?? null);
+                                    $newVal = toAuditString($value['new'] ?? null);
+                                    $tokens = computeWordDiff(toAuditString($value['old'] ?? null), toAuditString($value['new'] ?? null));
 
                                     $addedChars   = collect($tokens)->where('type', 'ins')->sum(fn($t) => strlen($t['val']));
                                     $removedChars = collect($tokens)->where('type', 'del')->sum(fn($t) => strlen($t['val']));
