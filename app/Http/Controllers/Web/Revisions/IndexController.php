@@ -14,7 +14,7 @@ use Spatie\RouteAttributes\Attributes\Get;
 
 final readonly class IndexController
 {
-    #[Get(uri: 'revisies/{article}', name: 'article/revisions', middleware: ['auth', 'forbid-banned-user', 'verified'])]
+    #[Get(uri: 'revisies/{article}', name: 'article:revisions', middleware: ['auth', 'forbid-banned-user', 'verified'])]
     public function __invoke(Request $request, Article $article): Renderable
     {
         abort_if($article->audits()->count() == 0 && $article->isPublished(), Response::HTTP_NOT_FOUND);

@@ -64,13 +64,13 @@
                             </li>
 
                             <li class="breadcrumb-item">
-                                <a href="" class="text-decoration-none">
+                                <a href="{{ route('word-information.show', $audit->auditable) }}" class="text-decoration-none">
                                     {{ $audit->auditable->word }}
                                 </a>
                             </li>
 
                             <li class="breadcrumb-item">
-                                <a href="" class="text-decoration-none">
+                                <a href="{{ route('article:revisions', $audit->auditable) }}" class="text-decoration-none">
                                     {{ __('pages/version-info.breadcrumb.revisions') }}
                                 </a>
                             </li>
@@ -121,13 +121,15 @@
                                     <x-heroicon-s-trash class="icon me-1"/>
                                 @endif
 
-                                {{ $audit->event }}
+                                {{ __("pages/revisions/events.{$audit->event}")}}
                             </span>
                             <span class="ms-3 text-muted">{{ $audit->created_at->diffForHumans() }} uitgevoerd</span>
                         </div>
-                        <button class="btn btn-outline-danger btn-sm">
+                        {{--
+                         <button class="btn btn-outline-danger btn-sm">
                             <i class="bi bi-arrow-counterclockwise"></i> naar dit punt herstellen
                         </button>
+                        --}}
                     </div>
 
                     {{-- Diff Tabel --}}
@@ -246,35 +248,39 @@
                                     <th class="ps-3 text-muted">Tijdstip</th>
                                     <td class="pe-3 text-end">{{ $audit->created_at->translatedFormat('d M Y, H:i') }}</td>
                                 </tr>
-                                <tr>
-                                    <th class="ps-3 pb-3 text-muted">IP adres</th>
-                                    <td class="pb-3 pe-3 text-end font-monospace"><code>{{ $audit->ip_address }}</code></td>
-                                </tr>
-
-                                @if($audit->tags)
+                                @if (auth()->user()->user_type->in([\App\UserTypes::Administrators, \App\UserTypes::Developer]))
                                     <tr>
-                                        <th class="ps-3 text-muted">Reden</th>
-                                        <td class="pe-3 text-end font-italic">{{ $audit->tags }}</td>
+                                        <th class="ps-3 pb-3 text-muted">IP adres</th>
+                                        <td class="pb-3 pe-3 text-end font-monospace"><code>{{ $audit->ip_address }}</code></td>
                                     </tr>
+
+                                    @if($audit->tags)
+                                        <tr>
+                                            <th class="ps-3 text-muted">Reden</th>
+                                            <td class="pe-3 text-end font-italic">{{ $audit->tags }}</td>
+                                        </tr>
+                                    @endif
                                 @endif
                             </table>
                         </div>
 
-                        <div class="card-footer bg-light border-0 small text-muted p-3">
-                            <strong>User Agent:</strong><br>
-                            {{ $audit->user_agent }}
-                        </div>
+                        @if (auth()->user()->user_type->in([\App\UserTypes::Administrators, \App\UserTypes::Developer]))
+                            <div class="card-footer bg-light border-0 small text-muted p-3">
+                                <strong>User Agent:</strong><br>
+                                {{ $audit->user_agent }}
+                            </div>
+                        @endif
                     </div>
 
                     {{-- Revisiegeschiedenis --}}
                     <div class="card border-0 shadow-sm mt-4">
-                        <div class="card-header bg-secondary-subtle border-0 fw-bold">Recent in de geschiedenis</div>
+                        <div class="card-header bg-secondary-subtle border-0 text-dark fw-bold">Recente wijziging voor het artikel</div>
                         <div class="list-group list-group-flush small">
                             {{-- Laatste 5 edits voor dit artikel --}}
                             @foreach($recentAudits as $recentAudit)
                                 <a href="" class="list-group-item list-group-item-action">
                                     <div class="d-flex w-100 justify-content-between">
-                                        <span class="fw-bold">{{ $recentAudit->auditable->word }} - {{ $recentAudit->event }}</span>
+                                        <span class="fw-bold">{{ $recentAudit->auditable->word }} - {{ __("pages/revisions/events.{$recentAudit->event}")}}</span>
                                         <small class="text-muted">{{ $recentAudit->created_at->diffForHumans() }}</small>
                                     </div>
                                 </a>
