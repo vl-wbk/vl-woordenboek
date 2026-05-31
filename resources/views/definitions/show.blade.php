@@ -334,22 +334,24 @@
                                             @endif
                                         </span>
 
-                                        <div class="d-flex gap-3">
-                                            <a href="{{ route('article:revisions', $word) }}" class="small text-muted text-decoration-none d-flex align-items-center gap-1">
-                                                <x-heroicon-o-clock class="icon" style="width:13px;"/>
-                                                Bewerkingsgeschiedenis
-                                                @if(isset($revisionCount) && $revisionCount > 0)
-                                                    <span class="badge bg-secondary-subtle text-secondary fw-normal ms-1" style="font-size:.7rem;">{{ $revisionCount }}</span>
-                                                @endif
-                                            </a>
+                                        @if ($word->audits->count() > 0)
+                                            <div class="d-flex gap-3">
+                                                <a href="{{ route('article:revisions', $word) }}" class="small text-muted text-decoration-none d-flex align-items-center gap-1">
+                                                    <x-heroicon-o-clock class="icon" style="width:13px;"/>
+                                                    Bewerkingsgeschiedenis
+                                                    @if(isset($revisionCount) && $revisionCount > 0)
+                                                        <span class="badge bg-secondary-subtle text-secondary fw-normal ms-1" style="font-size:.7rem;">{{ $revisionCount }}</span>
+                                                    @endif
+                                                </a>
 
-                                            <span class="text-muted">·</span>
+                                                <span class="text-muted">·</span>
 
-                                            <a href="{{ route('article:revisions', $word) }}?event=updated" class="small text-muted text-decoration-none d-flex align-items-center gap-1">
-                                                <x-heroicon-o-users class="icon" style="width:13px;"/>
-                                                Bijdragers
-                                            </a>
-                                        </div>
+                                                <a href="{{ route('article:revisions', $word) }}?event=updated" class="small text-muted text-decoration-none d-flex align-items-center gap-1">
+                                                    <x-heroicon-o-users class="icon" style="width:13px;"/>
+                                                    Bijdragers
+                                                </a>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div><!-- /col-lg-8 -->
 
@@ -456,10 +458,10 @@
                                             <span>Correctie voorstellen</span>
                                         </a>
                                     @endif
-                                    
+
                                     <button type="button" class="btn btn-danger" title="Een probleem melden" data-bs-toggle="modal" data-bs-target="#reportModal">
                                         <x-heroicon-s-exclamation-triangle class="icon"/>
-                                    
+
                                         @cannot ('create', \App\Models\CorrectionProposal::class)
                                             <span class="ms-1">Een probleem melden</span>
                                         @endcannot
