@@ -191,7 +191,7 @@
                                                 {{ flash()->message }}
                                             </div>
                                         @endif
-                                        
+
                                         <h5 class="fw-semibold mb-3">
                                             <span class="color-green fw-semibold me-1">//</span> Beschrijving
                                         </h5>
@@ -323,6 +323,34 @@
                                     <!-- Community Voting -->
                                     <livewire:voting-component :article="$word"/>
                                     <livewire:report-article-modal :article=$word />
+
+                                    {{-- Wikipedia-stijl artikel footer --}}
+                                    <div class="border-top mt-4 pt-3 d-flex align-items-center justify-content-between flex-wrap gap-2">
+                                        <span class="small text-muted">
+                                            <x-heroicon-o-clock class="icon me-1" style="width:13px;"/>
+                                            Laatste wijziging: {{ optional($word->updated_at)->diffForHumans() }}
+                                            @if($word->editor)
+                                                door <a href="{{ route('account:public', $word->editor) }}" class="text-muted text-decoration-none fw-medium">{{ $word->editor->name }}</a>
+                                            @endif
+                                        </span>
+
+                                        <div class="d-flex gap-3">
+                                            <a href="{{ route('article:revisions', $word) }}" class="small text-muted text-decoration-none d-flex align-items-center gap-1">
+                                                <x-heroicon-o-clock class="icon" style="width:13px;"/>
+                                                Bewerkingsgeschiedenis
+                                                @if(isset($revisionCount) && $revisionCount > 0)
+                                                    <span class="badge bg-secondary-subtle text-secondary fw-normal ms-1" style="font-size:.7rem;">{{ $revisionCount }}</span>
+                                                @endif
+                                            </a>
+
+                                            <span class="text-muted">·</span>
+
+                                            <a href="{{ route('article:revisions', $word) }}?event=updated" class="small text-muted text-decoration-none d-flex align-items-center gap-1">
+                                                <x-heroicon-o-users class="icon" style="width:13px;"/>
+                                                Bijdragers
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div><!-- /col-lg-8 -->
 
                                 <!-- ── SIDEBAR COLUMN (1/3) ── -->
@@ -370,10 +398,6 @@
                                             <span class="text-muted"><x-heroicon-s-calendar-days class="icon color-green me-2"/> Publicatiedatum</span>
                                             <span class="fw-medium text-end">{{ optional($word->published_at)->translatedFormat('d F Y') ?? '-' }}</span>
                                         </li>
-                                        <li class="list-group-item d-flex justify-content-between px-3">
-                                            <span class="text-muted"><x-heroicon-s-calendar-days class="icon color-green me-2"/> Laatste wijziging</span>
-                                            <span class="fw-medium text-end">{{ optional($word->updated_at)->translatedFormat('d F Y') ?? '-' }}</span>
-                                        </li>
                                     </ul>
                                 </div>
 
@@ -405,16 +429,16 @@
                                             <label for="second_word" class="form-label fw-bold">
                                                 Vergelijk dit woord met een gerelateerd woord
                                             </label>
-                                            
+
                                             <div class="input-group">
                                                 <select class="form-select" id="second_word" name="second_word" onchange="this.form.submit()">
                                                     <option value="" selected disabled>Selecteer een woord</option>
-                                                    
+
                                                     @foreach ($word->related as $related)
                                                         <option value="{{  $related->id }}">{{ $related->word }}</option>
                                                     @endforeach
                                                 </select>
-                                                
+
                                                 <button type="submit" class="btn btn-dark">
                                                     Vergelijk
                                                 </button>
