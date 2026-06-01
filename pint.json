@@ -51,6 +51,7 @@
             ],
             "sort_algorithm": "none"
         },
+        "phpdoc_align": false,
         "ordered_interfaces": true,
         "ordered_traits": true,
         "protected_to_private": true,

@@ -1,6 +1,6 @@
-<?php 
+<?php
 
-declare(strict_types=1); 
+declare(strict_types=1);
 
 namespace App\States\Articles\Corrections;
 
@@ -22,19 +22,19 @@ final class PendingState extends CorrectionState implements HasColor, HasIcon, H
     }
 
     #[Override]
-    public function getIcon(): string|BackedEnum|Htmlable|null
+    public function getIcon(): BackedEnum
     {
         return Heroicon::OutlinedInformationCircle;
     }
 
     #[Override]
-    public function getColor(): string|array|null
+    public function getColor(): string
     {
         return 'info';
     }
 
     #[Override]
-    public function getDescription(): string|Htmlable|null
+    public function getDescription(): string
     {
         return 'test';
     }

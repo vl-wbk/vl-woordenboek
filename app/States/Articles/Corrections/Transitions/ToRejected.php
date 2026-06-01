@@ -12,6 +12,10 @@ use Spatie\ModelStates\Transition;
 
 final class ToRejected extends Transition
 {
+    /**
+     * @param CorrectionProposal $correctionProposal
+     * @param array{conclusion: string}|null $data
+     */
     public function __construct(
         private CorrectionProposal $correctionProposal,
         private ?array $data = null,
@@ -29,6 +33,9 @@ final class ToRejected extends Transition
        });
     }
 
+    /**
+     * @return array<Textarea>
+     */
     public function form(): array
     {
         return [

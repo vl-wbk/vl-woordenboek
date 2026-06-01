@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\Component;
+use stdClass;
 
 final class PublicProfile extends Component
 {
@@ -24,7 +25,7 @@ final class PublicProfile extends Component
     public function render(): View
     {
         return view('components.public-profile', data: [
-            'user' => $this->user ?? auth()->user(),
+            'user' => $this->user,
             'contactExist' => $this->contactExists(),
             'suggestionCount' => $this->getSuggestionCount(),
             'publicationCount' => $this->getPublicationCount(),
@@ -58,19 +59,19 @@ final class PublicProfile extends Component
         }])->find($this->user->id)->total_upvotes;
     }
 
-    private function getPublicationCount()
+    private function getPublicationCount(): int
     {
         return $this->user->suggestions()->whereNotNull('published_at')->count();
     }
 
-    private function calculateTotals()
+    private function calculateTotals(): stdClass
     {
         $authorId = $this->user->id ?? auth()->id();
 
         return collect(ArticleStates::cases())
             ->reduce(function ($query, $status) {
                 return $query->selectRaw(
-                    expression: "COUNT(CASE WHEN state = ? THEN 1 END) AS " . strtolower($status->name),
+                    expression: 'COUNT(CASE WHEN state = ? THEN 1 END) AS '.mb_strtolower($status->name),
                     bindings: [$status->value]
                 );
             }, DB::table('articles')->where('author_id', $authorId)->selectRaw('COUNT(*) AS total'))

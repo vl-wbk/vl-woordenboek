@@ -8,8 +8,10 @@ use App\Models\Article;
 use App\UserTypes;
 use Carbon\CarbonPeriod;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Collection as SupportCollection;
 use Spatie\RouteAttributes\Attributes\Get;
 
 final readonly class IndexController
@@ -17,7 +19,7 @@ final readonly class IndexController
     #[Get(uri: 'revisies/{article}', name: 'article:revisions', middleware: ['auth', 'forbid-banned-user', 'verified'])]
     public function __invoke(Request $request, Article $article): Renderable
     {
-        abort_if($article->audits()->count() == 0 && $article->isPublished(), Response::HTTP_NOT_FOUND);
+        abort_if($article->audits()->count() === 0 && $article->isPublished(), Response::HTTP_NOT_FOUND);
 
         return view('revisions.index', data: [
             'word' => $article,
@@ -44,7 +46,7 @@ final readonly class IndexController
             ->paginate(25);
     }
 
-    private function getActivityByDay(Article $article)
+    private function getActivityByDay(Article $article): SupportCollection
     {
 
         return $this->getAllAudits($article)->isNotEmpty()
@@ -60,7 +62,7 @@ final readonly class IndexController
             ]) : collect();
     }
 
-    private function getAllAudits(Article $article)
+    private function getAllAudits(Article $article): Collection
     {
         return $article->audits()->with(['user', 'auditable'])->get();
     }

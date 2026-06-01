@@ -120,15 +120,14 @@ final class StatisticService
      * Retrieves the count of users who registered on the current date.
      * This method queries the database to count the number of users whose 'created_at' date matches the current date.
      *
-     * @return int|string The count of users who registered today.
+     * @return int The count of users who registered today.
      */
-    public function registeredToday(): int|string
+    public function registeredToday(): int
     {
         return Cache::flexible(
             key: 'registered_today_count',
             ttl: $this->cacheTTL,
-            /** @phpstan-ignore-next-line */
-            callback: fn(): int|string => User::whereDate('created_at', now()->today())->count(),
+            callback: fn(): int => User::whereDate('created_at', now()->today())->count(),
         );
     }
 

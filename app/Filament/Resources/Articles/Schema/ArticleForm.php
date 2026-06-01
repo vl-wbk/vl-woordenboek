@@ -5,18 +5,27 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Articles\Schema;
 
 use App\Attributes\Todo;
-use App\Enums\{ArticleStates, LanguageStatus};
+use App\Enums\ArticleStates;
+use App\Enums\LanguageStatus;
 use App\Features\DocumentationButtons;
-use App\Filament\Clusters\Articles\Resources\ArticleResource\Actions\{DisclaimerToolbarActions, LanguageAdviceAction};
+use App\Filament\Clusters\Articles\Resources\ArticleResource\Actions\DisclaimerToolbarActions;
+use App\Filament\Clusters\Articles\Resources\ArticleResource\Actions\LanguageAdviceAction;
 use App\Filament\Resources\Articles\Actions\RemoveEditorAction;
-use App\Models\{Article, ReferenceWork};
+use App\Models\Article;
+use App\Models\ReferenceWork;
 use CodeWithDennis\SimpleAlert\Components\Enums\IconAnimation;
 use CodeWithDennis\SimpleAlert\Components\SimpleAlert;
 use DiscoveryDesign\FilamentGaze\Forms\Components\GazeBanner;
 use Filament\Actions\Action;
-use Filament\Forms\Components\{MarkdownEditor, Radio, Repeater, Select, Textarea, TextInput};
+use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\Radio;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Schemas\Components\{Group, Section};
+use Filament\Schemas\Components\Group;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Laravel\Pennant\Feature;
@@ -27,8 +36,6 @@ use Laravel\Pennant\Feature;
  * This class orchestrates the complex form schema for the article resource. It manages multiple layers of UI including
  * real-time collaboration banners (Gaze), editorial feedback alerts, and segmented data entry for linguistic metadata,
  * regional associations, and academic source tracking.
- *
- * @package App\Filament\Resources\Articles\Schema
  */
 #[Todo(message: 'Perform a code clean up for the code in this class', priority: 'normal')]
 final readonly class ArticleForm
@@ -64,7 +71,7 @@ final readonly class ArticleForm
                 ->actions([
                     DisclaimerToolbarActions::detachActionDefinition()
                         ->color('warning')
-                        ->outlined()
+                        ->outlined(),
                 ]),
 
             Group::make()
@@ -223,7 +230,6 @@ final readonly class ArticleForm
      * Helper to generate a consistent external documentation button for form fields.
      *
      * @param  string $url The hyperlink that refer'ences to our platform documentation (guideline).
-     * @return Action
      */
     public static function guidelineAction(string $url): Action
     {
@@ -278,8 +284,6 @@ final readonly class ArticleForm
     /**
      * Example Sentence Repeater
      * Configuration for adding usage examples and their specific sources.
-     *
-     * @return Repeater
      */
     public static function exampleSentenceRepeater(): Repeater
     {
@@ -314,7 +318,7 @@ final readonly class ArticleForm
             SimpleAlert::make('source-info-feedback')
                 ->columnSpanFull()
                 ->title('Feedback van de eindredacteur')
-                ->description(fn (?Article $record): ?string => $record?->feedback['sources'] ?? 'Feedback kon niet gevonden of geladen worden')
+                ->description(fn (?Article $record): string => $record?->feedback['sources'] ?? 'Feedback kon niet gevonden of geladen worden')
                 ->hiddenOn('create')
                 ->hidden(function (?Article $record): bool {
                     if (! $record) {
@@ -333,7 +337,7 @@ final readonly class ArticleForm
                 ->compact()
                 ->table([
                     Repeater\TableColumn::make('bron')->width(400),
-                    Repeater\TableColumn::make('referentie')
+                    Repeater\TableColumn::make('referentie'),
                 ])
                 ->schema([
                     Select::make('reference_work_id')
@@ -345,7 +349,7 @@ final readonly class ArticleForm
                         ->searchable()
                         ->disableOptionsWhenSelectedInSiblingRepeaterItems(),
                     Textarea::make('notation')->rows(1)
-                        ->required()
+                        ->required(),
                 ])
                 ->addActionLabel('Naslagwerk toevoegen')
                 ->defaultItems(0)
@@ -395,8 +399,6 @@ final readonly class ArticleForm
     /**
      * Redactional Information Sidebar Section
      * Displays audit-trail information including author, current editor, and timestamps.
-     *
-     * @return Section
      */
     private static function redactionInformationSection(): Section
     {

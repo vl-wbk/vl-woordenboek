@@ -24,12 +24,12 @@ final class RejectedState extends CorrectionState implements HasColor, HasIcon, 
         return Heroicon::OutlinedXCircle;
     }
 
-    public function getColor(): string|array|null
+    public function getColor(): string
     {
         return 'danger';
     }
 
-    public function getDescription(): string|Htmlable|null
+    public function getDescription(): null
     {
         return null;
     }

@@ -243,6 +243,7 @@ final readonly class SearchWordQuery
         $exists = Article::whereRaw("MATCH({$columns}) AGAINST(? IN BOOLEAN MODE)", [$phrase])->exists();
 
         if ($exists) {
+            /** @phpstan-ignore-next-line */
             $query->whereRaw("MATCH({$columns}) AGAINST(? IN BOOLEAN MODE)", [$phrase]);
             return;
         }
@@ -290,8 +291,8 @@ final readonly class SearchWordQuery
      * no user-controlled input can ever influence the column string even if this method
      * is modified in the future.
      *
-     * @param  bool   $includeDescription
-     * @return string
+     * @param   bool   $includeDescription
+     * @return 'word, keywords'|'word, keywords, description'
      */
     private function buildMatchColumns(bool $includeDescription): string
     {
