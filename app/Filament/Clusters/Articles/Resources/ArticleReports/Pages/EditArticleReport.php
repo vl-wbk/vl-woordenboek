@@ -10,11 +10,9 @@ use App\Filament\Resources\Users\UserResource;
 use App\Models\ArticleReport;
 use App\Models\User;
 use Filament\Actions\Action;
-use Filament\Actions\ActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Support\Icons\Heroicon;
-use Illuminate\Contracts\Support\Htmlable;
 
 /**
  * Represents the page for viewing a single article report in the admin panel.
@@ -34,7 +32,7 @@ final class EditArticleReport extends EditRecord
         return 'Behandelen';
     }
 
-    public function getTitle(): string|Htmlable
+    public function getTitle(): string
     {
         return 'Melding behandelen';
     }

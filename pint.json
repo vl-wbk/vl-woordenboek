@@ -1,5 +1,5 @@
 {
-    "preset": "laravel",
+    "preset": "PER",
     "notPath": [
         "tests/TestCase.php",
         "tmp"

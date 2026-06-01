@@ -267,7 +267,7 @@ final readonly class ReportForm
             ]);
     }
 
-    private static function exampleSentencesStep()
+    private static function exampleSentencesStep(): Step
     {
         return Step::make('Voorbeeldzinnen')
             ->icon(Heroicon::OutlinedChatBubbleBottomCenter)

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Models\Article;
 use App\Enums\ArticleStates;
 use App\Enums\LanguageStatus;
+use App\Models\Article;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -29,7 +29,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  * @see User            - The Eloquent model for users, potentially acting as authors, editors, or publishers.
  *
  * @extends Factory<Article>
- * @package Database\Factories
  */
 final class ArticleFactory extends Factory
 {
@@ -52,10 +51,10 @@ final class ArticleFactory extends Factory
     public function definition(): array
     {
         return [
-            'state' => $this->faker->randomElement(ArticleStates::cases())->value,
+            'state' => ArticleStates::random()->value,
             'part_of_speech_id' => null,
-            'author_id' => User::factory()->create()->id,
-            'editor_id' => User::factory()->create()->id,
+            'author_id' => User::factory(),
+            'editor_id' => User::factory(),
             'word' => fake()->word(),
             'views' => fake()->numberBetween(0, 1000),
             'status' => LanguageStatus::Onbekend,
@@ -84,7 +83,7 @@ final class ArticleFactory extends Factory
      */
     public function archived(): Factory
     {
-        return $this->state(fn(): array => ['state' => ArticleStates::Archived, 'archived_at' => now(), 'archiving_reason' => fake()->sentence, 'archiever_id' => User::factory()->create()->id]);
+        return $this->state(fn (): array => ['state' => ArticleStates::Archived, 'archived_at' => now(), 'archiving_reason' => fake()->sentence, 'archiever_id' => User::factory()->create()->id]);
     }
 
     /**
@@ -100,6 +99,6 @@ final class ArticleFactory extends Factory
      */
     public function published(): Factory
     {
-        return $this->state(fn(): array => ['state' => ArticleStates::Published, 'published_at' => now(), 'publisher_id' => User::factory()->create()->id]);
+        return $this->state(fn (): array => ['state' => ArticleStates::Published, 'published_at' => now(), 'publisher_id' => User::factory()->create()->id]);
     }
 }

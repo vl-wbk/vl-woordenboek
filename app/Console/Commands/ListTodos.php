@@ -34,8 +34,10 @@ class ListTodos extends Command
      */
     protected $description = 'List all #[Todo] attributes in the codebase';
 
+    /** @var Collection<int, array<string, mixed>> */
     private Collection $todos;
 
+    /** @var array<string, int> */
     private array $priorityOrder = [
     'critical' => 0,
     'urgent'   => 1,
@@ -109,6 +111,9 @@ if ($selected && !in_array($selected, $validPriorities)) {
         }
     }
 
+    /**
+     * @param ReflectionClass<object> $reflection
+     */
     private function extractFromClass(ReflectionClass $reflection): void
     {
         $className = $reflection->getName();
@@ -131,8 +136,12 @@ if ($selected && !in_array($selected, $validPriorities)) {
         }
     }
 
+    /**
+     * @param ReflectionClass<object> $class
+     */
     private function capture(object $target, string $type, string $label, ReflectionClass $class): void
     {
+        /** @var array<\ReflectionAttribute<Todo>> $attributes */
         $attributes = method_exists($target, 'getAttributes')
             ? $target->getAttributes(Todo::class)
             : [];
@@ -144,6 +153,10 @@ if ($selected && !in_array($selected, $validPriorities)) {
         }
     }
 
+    /**
+     * @param ReflectionClass<object> $class
+     * @return array<string, mixed>
+     */
     private function transformToEntry(Todo $todo, object $target, string $type, string $label, ReflectionClass $class): array
     {
         $file = method_exists($target, 'getFileName') ? $target->getFileName() : $class->getFileName();

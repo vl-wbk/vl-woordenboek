@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\UserManagement\Resources\UserResource\RelationManagers;
 
-use Filament\Tables\Columns\TextColumn;
-use Filament\Actions\ViewAction;
-use Filament\Tables\Columns\Column;
-use Filament\Tables\Columns\ColumnGroup;
-use Filament\Tables\Columns\Layout\Component;
-use App\Models\User;
 use App\Filament\Resources\Articles\ArticleResource;
 use App\Filament\Resources\Users\Pages\ViewUser;
 use App\Models\Article;
+use App\Models\User;
+use BackedEnum;
+use Filament\Actions\ViewAction;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Enums\FontWeight;
+use Filament\Tables\Columns\Column;
+use Filament\Tables\Columns\ColumnGroup;
+use Filament\Tables\Columns\Layout\Component;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,8 +24,6 @@ use Illuminate\Database\Eloquent\Model;
  *
  * This RelationManager displays suggestions on user detail pages (ViewUser) using a custom table layout.
  * It defines the relationship key, table headings, empty state messages, column layouts, and row actions.
- *
- * @package App\Filament\Clusters\UserManagement\Resources\UserResource\RelationManagers;
  */
 final class SuggestionsRelationManager extends RelationManager
 {
@@ -54,7 +53,7 @@ final class SuggestionsRelationManager extends RelationManager
      * This icon is displayed alongside the relation title in Filament's UI to visually denote the suggestions section.
      * It uses the 'heroicon-o-document-text' icon, which is part of the Heroicons set, to maintain a consistent look and feel.
      */
-    protected static string | \BackedEnum | null $icon = 'heroicon-o-document-text';
+    protected static string|BackedEnum|null $icon = 'heroicon-o-document-text';
 
     /**
      * Determines whether the suggestions relation view is allowed for a given record.
@@ -154,13 +153,13 @@ final class SuggestionsRelationManager extends RelationManager
      * The action defined here allows the user to view more detailed information about a suggestion.
      * It constructs a URL to the suggestion detail view provided by the ArticleResource, ensuring that users can easily access extended information about a particular suggestion.
      *
-     * @return array<mixed>  An array of action definitions that will be attached to each row in the table.
+     * @return array<int, ViewAction>  An array of action definitions that will be attached to each row in the table.
      */
     public function getTableActionDefinitions(): array
     {
         return [
             ViewAction::make()
-                ->url(fn(Article $article): string => ArticleResource::getUrl('view', ['record' => $article])),
+                ->url(fn (Article $article): string => ArticleResource::getUrl('view', ['record' => $article])),
         ];
     }
 }

@@ -41,7 +41,7 @@ final readonly class SearchArticlesQuery
             ->where('status', Status::Published)
             /** @param Builder<Blog> $blog */
             ->when($request->has('zoekterm') && $request->get('zoekterm') !== null, function (Builder $builder) use ($request): void {
-                $builder->where('title', 'LIKE', "%{$request->get('zoekterm')}%");
+                $builder->where('title', 'LIKE', "%{$request->input('zoekterm')}%");
             })
             ->simpleFastPaginate(6)
             ->appends(request()->query());

@@ -28,8 +28,8 @@ final readonly class ReadTimeCalculator
     public function __construct()
     {
         // Get these values from config or set defaults
-        $this->wordsPerMinute = config('read_time.words_per_minute', 200);
-        $this->secondsPerImage = config('read_time.seconds_per_image', 5);
+        $this->wordsPerMinute = config()->integer('read_time.words_per_minute', 200);
+        $this->secondsPerImage = config()->integer('read_time.seconds_per_image', 5);
     }
 
     /**

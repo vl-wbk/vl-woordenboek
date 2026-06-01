@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers;
 
+use App\Models\User;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\ViewAction;
 use App\Models\Article;
@@ -23,10 +24,13 @@ final class AuditsRelationManager extends RelationManager
 
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
     {
+        /** @var User $authenticatedUser */
+        $authenticatedUser = auth()->user();
+
         /** @var Article $ownerRecord */
         return $ownerRecord->audits->count() > 0
             && new $pageClass() instanceof ViewWord
-            && auth()->user()->user_type->isNot(UserTypes::Normal);
+            && $authenticatedUser->user_type->isNot(UserTypes::Normal);
     }
 
     public function table(Table $table): Table

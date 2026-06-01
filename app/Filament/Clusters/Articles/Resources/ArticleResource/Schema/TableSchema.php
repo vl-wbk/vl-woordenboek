@@ -31,7 +31,7 @@ final readonly class TableSchema
     public static function configure(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn (Builder $query) => $query->with('author'))
+            ->modifyQueryUsing(fn (Builder $query) => $query->with(['author', 'partOfSpeech'])->select(['id', 'author_id', 'characteristics', 'part_of_speech_id', 'state', 'word', 'updated_at', 'created_at']))
             ->deferLoading()
             ->striped(false)
             ->heading(heading: __('Woordenboek artikelen'))

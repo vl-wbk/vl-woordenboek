@@ -16,6 +16,7 @@ use App\Observers\UserObserver;
 use App\UserTypes;
 use Carbon\Carbon;
 use Cmgmyr\Messenger\Traits\Messagable;
+use Cog\Laravel\Ban\Models\Ban;
 use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
@@ -323,5 +324,11 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function getActiveBan(): ?Ban
+    {
+        // Assuming 'Ban' is your model class
+        return $this->bans()->latest()->first();
     }
 }

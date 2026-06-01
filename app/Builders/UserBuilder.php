@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Builders;
 
 use App\Models\User;
+use App\Models\Article;
 use App\UserTypes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
@@ -13,12 +14,12 @@ use Illuminate\Support\Stringable;
 
 /**
  * UserBuilder
- * 
+ *
  * This custom Eloquent Builder extends the default Laravel query capabilities for the User model.
  * It serves as a central location for reusable query logic, domain-specific filters, and model-related data retrieval patterns.
- * 
+ *
  * Maintainer Note: Using a custom builder keeps the Model class clean and provides IDE-friendly type-hinting when performing complex queries.
- * 
+ *
  * @template-extends Builder<User>
  * @package App\Builders
  */
@@ -39,7 +40,7 @@ final class UserBuilder extends Builder
     /**
      * Administrative Check
      * Evaluates if the current model instance associated with the builder has administrative privileges based on the user_type enum.
-     * 
+     *
      *! Refactoring Note:
      *! This is currently coupled to the UserTypes enum. Future development should pivot this toward the Spatie Permission system or a dedicated Gate check.
      *
@@ -52,8 +53,8 @@ final class UserBuilder extends Builder
 
     /**
      * Search through user contributions
-     * 
-     * Dynamically queries a user's relationship (typically articles) with optional fuzzy search filtering. 
+     *
+     * Dynamically queries a user's relationship (typically articles) with optional fuzzy search filtering.
      * This method enforces that only 'published' content is retrieved and handles the pagination automatically.
      *
      * @param  string                   $relation       The name of the Eloquent relationship to query (e.g., 'articles').

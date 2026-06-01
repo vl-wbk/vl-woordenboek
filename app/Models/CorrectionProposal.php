@@ -32,11 +32,18 @@ final class CorrectionProposal extends Model
     use BelongsToAuthor;
     use HasStates;
 
+    /**
+     * @return BelongsTo<User, covariant $this>
+     */
     public function article(): BelongsTo
     {
         return $this->belongsTo(Article::class);
     }
 
+
+    /**
+     * @return BelongsTo<User, covariant $this>
+     */
     public function moderator(): BelongsTo
     {
         return $this->belongsTo(User::class);

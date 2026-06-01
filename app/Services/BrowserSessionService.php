@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Services;
 
 use Illuminate\Auth\AuthenticationException;
-use stdClass;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use stdClass;
 
 /**
  * Service for managing browser sessions for authenticated users.
@@ -23,8 +23,6 @@ use Illuminate\Support\Collection;
  *
  * @see \Illuminate\Auth\AuthManager::logoutOtherDevices()
  * @see \Illuminate\Session\DatabaseSessionHandler
- *
- * @package App\Services
  */
 final readonly class BrowserSessionService
 {
@@ -50,26 +48,6 @@ final readonly class BrowserSessionService
     }
 
     /**
-     * Deletes other browser session records from the database for the current user.
-     *
-     * This private method is a helper for `logoutOtherBrowserSessions`.
-     * It directly interacts with the database to remove session entries that belong to the current authenticated user but are not the current active session.
-     * This ensures that old, invalidated sessions are purged from storage.
-     * This operation only applies if the session driver is set to 'database'.
-     */
-    private function deleteOtherSessionRecords(): void
-    {
-        if (config('session.driver') !== 'database') {
-            return;
-        }
-
-        DB::connection(config('session.connection'))->table(config('session.table', 'sessions'))
-            ->where('user_id', Auth::user()->getAuthIdentifier())
-            ->where('id', '!=', request()->session()->getId())
-            ->delete();
-    }
-
-    /**
      * Retrieves properties of all active browser sessions for the current user.
      *
      * This method fetches all session records from the database associated with the authenticated user, excluding the current session.
@@ -85,16 +63,38 @@ final readonly class BrowserSessionService
         }
 
         return collect(
-            DB::connection(config('session.connection'))->table(config('session.table', 'sessions'))
+            DB::connection(config()->string('session.connection'))
+                ->table(config()->string('session.table', 'sessions'))
                 ->where('user_id', Auth::user()->getAuthIdentifier())
                 ->orderBy('last_activity', 'desc')
                 ->get(),
-        )->map(fn(stdClass $session) => (object) [
+        )->map(fn (stdClass $session) => (object) [
             'agent' => $this->createAgent($session),
             'ip_address' => $session->ip_address,
             'is_current_device' => $session->id === request()->session()->getId(),
             'last_active' => Carbon::createFromTimestamp($session->last_activity)->diffForHumans(),
         ]);
+    }
+
+    /**
+     * Deletes other browser session records from the database for the current user.
+     *
+     * This private method is a helper for `logoutOtherBrowserSessions`.
+     * It directly interacts with the database to remove session entries that belong to the current authenticated user but are not the current active session.
+     * This ensures that old, invalidated sessions are purged from storage.
+     * This operation only applies if the session driver is set to 'database'.
+     */
+    private function deleteOtherSessionRecords(): void
+    {
+        if (config('session.driver') !== 'database') {
+            return;
+        }
+
+        DB::connection(config()->string('session.connection'))
+            ->table(config()->string('session.table', 'sessions'))
+            ->where('user_id', Auth::user()->getAuthIdentifier())
+            ->where('id', '!=', request()->session()->getId())
+            ->delete();
     }
 
     /**
@@ -108,6 +108,6 @@ final readonly class BrowserSessionService
      */
     private function createAgent(stdClass $session): AgentService
     {
-        return tap(new AgentService(), fn($agent): string => $agent->setUserAgent($session->user_agent));
+        return tap(new AgentService(), fn ($agent): string => $agent->setUserAgent($session->user_agent));
     }
 }

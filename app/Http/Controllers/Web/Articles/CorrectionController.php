@@ -1,6 +1,6 @@
-<?php 
+<?php
 
-declare(strict_types=1); 
+declare(strict_types=1);
 
 namespace App\Http\Controllers\Web\Articles;
 
@@ -15,10 +15,12 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Attributes\Controllers\Authorize;
 use Laravel\Pennant\Feature;
+use Spatie\LaravelData\Exceptions\InvalidDataClass;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Post;
+use Throwable;
 
-final readonly class CorrectionController 
+final readonly class CorrectionController
 {
     #[Get(uri: '/woordenboek-artikel/{article}/correctie', name: 'correction:create', middleware: ['auth', 'forbid-banned-user'])]
     #[Authorize(ability: 'create', models: 'App\Models\CorrectionProposal')]
@@ -29,6 +31,10 @@ final readonly class CorrectionController
         ]);
     }
 
+    /**
+     * @throws Throwable
+     * @throws InvalidDataClass
+     */
     #[Post(uri: '/woordenboek-artikel/{article}/correctie', name: 'correction:store', middleware: ['auth', 'forbid-banned-user'])]
     #[Authorize(ability: 'create', models: 'App\Models\CorrectionProposal')]
     public function store(Article $article, ArticleCorrectRequest $articleCorrectRequest, StoreArticleCorrection $storeArticleCorrection): RedirectResponse

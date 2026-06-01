@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\States\ExampleSentence\SentenceState;
@@ -25,8 +27,6 @@ use Spatie\ModelStates\HasStates;
  * @property string  $example           The actual content of the example sentence.
  * @property ?Carbon $created_at        The timestamp from when the record has been updated.
  * @property ?Carbon $updated_at        The timestamp from when the record has last been updated.
- *
- * @package App\Models
  */
 final class UserExample extends Model
 {
@@ -40,7 +40,7 @@ final class UserExample extends Model
      *
      * @var list<string>
      */
-    protected $guarded = ["id"];
+    protected $guarded = ['id'];
 
     /**
      * Parent article relationship
@@ -66,9 +66,10 @@ final class UserExample extends Model
      */
     public function author(): BelongsTo
     {
-        return $this->belongsTo(User::class)->withDefault(function ($user, $example) {
-            $user->name = $example->contributor_name ?? config("app.name", "Laravel");
-        });
+        return $this->belongsTo(User::class)
+            ->withDefault(function (User $user, UserExample $example) {
+                $user->name = $example->contributor_name ?? config()->string('app.name', 'Laravel');
+            });
     }
 
     /**
@@ -82,7 +83,7 @@ final class UserExample extends Model
     protected function casts(): array
     {
         return [
-            "status" => SentenceState::class,
+            'status' => SentenceState::class,
         ];
     }
 }

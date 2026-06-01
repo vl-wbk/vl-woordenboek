@@ -1,6 +1,6 @@
-<?php 
+<?php
 
-declare(strict_types=1); 
+declare(strict_types=1);
 
 namespace App\Http\Requests\Articles;
 
@@ -10,14 +10,18 @@ use Spatie\LaravelData\WithData;
 
 final class ArticleCorrectRequest extends FormRequest
 {
-    use WithData; 
+    /** @use WithData<CorrectionData> */
+    use WithData;
 
     protected string $dataClass = CorrectionData::class;
 
-    public function rules(): array 
+    /**
+     * @return array[]
+     */
+    public function rules(): array
     {
         return [
-            'beschrijving' => ['required'], 
+            'beschrijving' => ['required'],
             'beweegredenen' => ['required'],
         ];
     }

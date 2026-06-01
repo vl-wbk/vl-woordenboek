@@ -34,34 +34,13 @@ enum ArticleStates: int implements HasLabel, HasIcon, HasColor, HasDescription
 {
     use Comparable;
 
-    /**
-     * The article is a new suggestion, meaning it has been recently submitted and requires review.
-     */
-    case New = 0;
-
-    /**
-     * The article is a draft, indicating it's a work in progress and not yet ready for publication.
-     */
-    case Draft = 1;
-
-    /**
-     * The article is awaiting approval from an editor or administrator before it can be published.
-     */
-    case Approval = 2;
-
-    /**
-     * The article has been published and is publicly visible on the website.
-     */
-    case Published = 3;
-
-    /**
-     * The article has been archived, meaning it's no longer actively displayed but is kept for historical or reference purposes.
-     */
-    case Archived = 4;
-
-    case ExternalData = 5;
-
-    case RejectedPublication = 6;
+    case New = 0;                   // The article is a new suggestion, meaning it has been recently submitted and requires review.
+    case Draft = 1;                 // The article is a draft, indicating it's a work in progress and not yet ready for publication.
+    case Approval = 2;              // The article is awaiting approval from an editor or administrator before it can be published.
+    case Published = 3;             // The article has been published and is publicly visible on the website.
+    case Archived = 4;              // The article has been archived, meaning it's no longer actively displayed but is kept for historical or reference purposes.
+    case ExternalData = 5;          // The article contains information imported from an external source or database integration.
+    case RejectedPublication = 6;   // The article was submitted for review but was denied and is not scheduled for publication.
 
     /**
      * Returns the human-readable Dutch label for each state.
@@ -120,5 +99,11 @@ enum ArticleStates: int implements HasLabel, HasIcon, HasColor, HasDescription
     public function getIcon(): string
     {
         return 'heroicon-o-document-text';
+    }
+
+    public static function random(): self
+    {
+        $cases = self::cases();
+        return $cases[array_rand($cases)];
     }
 }

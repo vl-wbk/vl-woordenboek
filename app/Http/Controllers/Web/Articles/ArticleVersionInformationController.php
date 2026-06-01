@@ -43,6 +43,9 @@ final readonly class ArticleVersionInformationController
             ->first();
     }
 
+    /**
+     * @return Collection<int, int>
+     */
     private function getRecentAudits(Audit $audit): Collection
     {
         return Audit::with('auditable')

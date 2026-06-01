@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\View\Components;
 
+use App\Builders\ArticleBuilder;
 use App\Enums\ArticleStates;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\Component;
 use stdClass;
@@ -53,7 +55,7 @@ final class PublicProfile extends Component
 
     private function getKudosCount(): int
     {
-        return User::withCount(['suggestions as total_upvotes' => function ($query) {
+        return User::withCount(['suggestions as total_upvotes' => function (ArticleBuilder $query) {
             $query->join('votes', 'articles.id', '=', 'votes.votable_id')
                 ->where('votes.votable_type', \App\Models\Article::class);
         }])->find($this->user->id)->total_upvotes;

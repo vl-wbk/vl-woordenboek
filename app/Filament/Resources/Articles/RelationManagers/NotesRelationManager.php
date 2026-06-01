@@ -6,27 +6,28 @@ namespace App\Filament\Resources\Articles\RelationManagers;
 
 use App\Attributes\Todo;
 use App\Enums\Notes\Visibility;
-use App\Models\User;
-use App\UserTypes;
-use Filament\Actions\ActionGroup;
-use Filament\Schemas\Schema;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
-use Filament\Actions\ViewAction;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\EditAction;
-use Filament\Support\Enums\Width;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Actions\CreateAction;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
 use App\Filament\Resources\Articles\Pages\ViewWord;
 use App\Models\Note;
+use App\Models\User;
+use App\UserTypes;
+use BackedEnum;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\CreateAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Forms;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Schemas\Schema;
 use Filament\Support\Enums\FontWeight;
+use Filament\Support\Enums\Width;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -37,8 +38,6 @@ use Illuminate\Support\Facades\Auth;
  * It provides a comprehensive interface within the Filament admin panel for managing notes, including creation, viewing, editing, and deletion capabilities.
  *
  * This manager is specifically designed to work within the context of dictionary articles, appearing on the ViewRecord page to maintain proper context and user experience.
- *
- * @package App\Filmanent\Resources\Articleresource\RelationManagers
  */
 final class NotesRelationManager extends RelationManager
 {
@@ -57,7 +56,20 @@ final class NotesRelationManager extends RelationManager
     /**
      * Sets the icon to be displayed for the NotesRelationManager in the Filament admin panel.
      */
-    protected static string | \BackedEnum | null $icon = 'heroicon-o-document-text';
+    protected static string|BackedEnum|null $icon = 'heroicon-o-document-text';
+
+    /**
+     * Controls the visibility of the notes interface.
+     * This method ensures notes are only accessible when viewing dictionary articles through the ViewRecord page, maintaining proper context and preventing access from inappropriate locations.
+     *
+     * @param Model  $ownerRecord  The current article being viewed
+     * @param string $pageClass    The active page class name
+     * @return bool                True when accessed from ViewRecord, false otherwise
+     */
+    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
+    {
+        return $pageClass === ViewWord::class;
+    }
 
     /**
      * Constructs the form interface for note creation and editing.
@@ -65,8 +77,8 @@ final class NotesRelationManager extends RelationManager
      * Users must provide both a title and body content.
      * The title field occupies 7 columns for optimal visual balance, while the body textarea spans the full width to accommodate longer content.
      *
-     * @param \Filament\Schemas\Schema $schema The Filament form builder instance
-     * @return \Filament\Schemas\Schema Thee fully configured form ready for display
+     * @param Schema $schema The Filament form builder instance
+     * @return Schema Thee fully configured form ready for display
      */
     public function form(Schema $schema): Schema
     {
@@ -112,8 +124,8 @@ final class NotesRelationManager extends RelationManager
      * The infolist provides a clean, full-width display of the note's content without uncessary labels or decorations.
      * This presentation choice emphasizes readability and content focus.
      *
-     * @param \Filament\Schemas\Schema $schema The Filament infolist builder instance.
-     * @return \Filament\Schemas\Schema The configured display layout
+     * @param Schema $schema The Filament infolist builder instance.
+     * @return Schema The configured display layout
      */
     public function infolist(Schema $schema): Schema
     {
@@ -126,20 +138,6 @@ final class NotesRelationManager extends RelationManager
                     ->columnSpanFull(),
             ]);
     }
-
-    /**
-     * Controls the visibility of the notes interface.
-     * This method ensures notes are only accessible when viewing dictionary articles through the ViewRecord page, maintaining proper context and preventing access from inappropriate locations.
-     *
-     * @param Model  $ownerRecord  The current article being viewed
-     * @param string $pageClass    The active page class name
-     * @return bool                True when accessed from ViewRecord, false otherwise
-     */
-    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
-    {
-        return $pageClass === ViewWord::class;
-    }
-
 
     /**
      * Configures and builds the main table interface for managing notes.
@@ -175,21 +173,8 @@ final class NotesRelationManager extends RelationManager
                 ActionGroup::make([
                     $this->getEditAction(),
                     $this->getDeleteAction(),
-                ])
+                ]),
             ]);
-    }
-
-    /**
-     * @return array<int, Tables\Filters\SelectFilter>
-     */
-    #[Todo(message: 'Provide a full docblock for this function', priority: 'low')]
-    private function getFilters(): array
-    {
-        return [
-            Tables\Filters\SelectFilter::make('visibility')
-                ->hidden(fn (): bool => auth()->user()->user_type->is(UserTypes::Editor))
-                ->options(Visibility::class),
-        ];
     }
 
     /**
@@ -209,6 +194,19 @@ final class NotesRelationManager extends RelationManager
     }
 
     /**
+     * @return array<int, Tables\Filters\SelectFilter>
+     */
+    #[Todo(message: 'Provide a full docblock for this function', priority: 'low')]
+    private function getFilters(): array
+    {
+        return [
+            Tables\Filters\SelectFilter::make('visibility')
+                ->hidden(fn (): bool => auth()->user()->user_type->is(UserTypes::Editor))
+                ->options(Visibility::class),
+        ];
+    }
+
+    /**
      * Configures the view action for individual notes, creating an intuitive modal interface for examining note details.
      * The modal presentation emphasizes clarity and context, featuring a gray document icon that provides immediate visual recognition of the content type.
      * Each note's title serves as the modal heading, creating a clear hierarchy of information.
@@ -221,10 +219,10 @@ final class NotesRelationManager extends RelationManager
         return ViewAction::make()
             ->modalIcon('heroicon-o-document-text')
             ->modalIconColor('gray')
-            ->modalHeading(fn(Note $note): string => $note->title)
-            ->modalDescription(fn(Note $note): string => trans(__('filament/RelationManagers/NotesRelationManager.actions.view-action.modal.description'), [
+            ->modalHeading(fn (Note $note): string => $note->title)
+            ->modalDescription(fn (Note $note): string => trans(__('filament/RelationManagers/NotesRelationManager.actions.view-action.modal.description'), [
                 'author' => $note->author->name,
-                'date' => $note->created_at->format('d/m/Y')
+                'date' => $note->created_at->format('d/m/Y'),
             ]));
     }
 
@@ -332,6 +330,7 @@ final class NotesRelationManager extends RelationManager
                 ->modalWidth(Width::ThreeExtraLarge)
                 ->mutateDataUsing(function (array $data): array {
                     $data['author_id'] = Auth::user()->getAuthIdentifier();
+
                     return $data;
                 }),
         ];
@@ -344,7 +343,7 @@ final class NotesRelationManager extends RelationManager
      * The confirmation process requires deliberate user acknowledgment, featuring explicit confirmation text to prevent accidental data loss.
      * The implementation groups these actions logically, preparing the structure for potential future bulk operations while maintaining a clean, focused interface for current functionality.
      *
-     * @return array<int, \Filament\Actions\BulkActionGroup> The configured bulk actions for the notes table
+     * @return array<int, BulkActionGroup> The configured bulk actions for the notes table
      */
     private function registerTableBulkActions(): array
     {

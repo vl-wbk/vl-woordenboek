@@ -44,7 +44,7 @@ use UnitEnum;
  *
  * @package App\Filament\Clustsers\Articles\Resources\Labels
  */
-#[Todo(message: 'Implement translation systeem voor deze resource', prtiority: 'critical')]
+#[Todo(message: 'Implement translation systeem voor deze resource', priority: 'critical')]
 #[Todo(message: 'Make this resource cleaner by breaking up this rezsource to their respective schema classes')]
 final class LabelResource extends Resource
 {

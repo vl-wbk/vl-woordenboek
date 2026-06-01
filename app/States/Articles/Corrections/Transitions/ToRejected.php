@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace App\States\Articles\Corrections\Transitions;
 
 use App\Models\CorrectionProposal;
+use App\Models\User;
 use App\States\Articles\Corrections\RejectedState;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\DB;
 use Schmeits\FilamentCharacterCounter\Forms\Components\Textarea;
 use Spatie\ModelStates\Transition;
+use Throwable;
 
 final class ToRejected extends Transition
 {
@@ -21,13 +24,18 @@ final class ToRejected extends Transition
         private ?array $data = null,
     ) {}
 
+    /**
+     * @throws Throwable when the transition couldn't completed successfully
+     */
     public function handle(): CorrectionProposal
     {
-       return DB::transaction(function (): CorrectionProposal {
+        $authUser = $this->getAuthenticatedUser();
+
+       return DB::transaction(function () use ($authUser): CorrectionProposal {
           $this->correctionProposal->state = new RejectedState($this->correctionProposal);
           $this->correctionProposal->save();
 
-          $this->correctionProposal->reject(auth()->user(), $this->data['conclusion']);
+          $this->correctionProposal->reject($authUser, $this->data['conclusion']);
 
           return $this->correctionProposal;
        });
@@ -47,5 +55,19 @@ final class ToRejected extends Transition
                 ->rows(5)
                 ->maxLength(500),
         ];
+    }
+
+    /**
+     * @throws AuthenticationException
+     */
+    private function getAuthenticatedUser(): User
+    {
+        $authenticatedUser = auth()->user();
+
+        if (! $authenticatedUser instanceof User) {
+            throw new AuthenticationException(message: 'Only authenticated users can reject proposals.');
+        }
+
+        return $authenticatedUser;
     }
 }
