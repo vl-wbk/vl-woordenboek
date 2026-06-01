@@ -8,6 +8,7 @@ use App\Models\Category;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
+use JsonException;
 
 /**
  * The ArticleCategorySeeder class is a database seeder responsible for populating the 'categories' table.
@@ -38,16 +39,19 @@ final class ArticleCategorySeeder extends Seeder
      * @return void     This method does not return any value. Its primary effect is the creation of records within the 'categories' database table.
      *
      * @throws FileNotFoundException
+     * @throws JsonException
      */
     public function run(): void
     {
-        $jsonDataFile = File::get(database_path('data/categories.json'));
-        $regions = json_decode($jsonDataFile, true);
+        $dataPath = database_path('data/categories.json');
 
-        foreach ($regions as $value) {
-            Category::query()->create([
-                'description' => $value['description'],
-                'name' => $value['name'],
+        /** @var array<int, object{name: string, description: string}> $categories */
+        $categories = json_decode(File::get($dataPath), false, 512, JSON_THROW_ON_ERROR);
+
+        foreach ($categories as $category) {
+            Category::query()->create(attributes: [
+                'description' => $category->description,
+                'name' => $category->name,
             ]);
         }
     }

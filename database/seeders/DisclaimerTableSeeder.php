@@ -8,6 +8,7 @@ use App\Models\Disclaimer;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
+use JsonException;
 
 /**
  * The DisclaimerTableSeeder class is a database seeder responsible for populating the 'disclaimers' table.
@@ -39,13 +40,16 @@ final class DisclaimerTableSeeder extends Seeder
      * @return void     This method does not return any value. Its primary effect is the creation of records within the 'disclaimers' database table.
      *
      * @throws FileNotFoundException when the data file for the database seeder couldn't be found
+     * @throws JsonException
      */
     public function run(): void
     {
-        $jsonDataFile = File::get(database_path('data/disclaimers.json'));
-        $regions = json_decode($jsonDataFile);
+        $dataPath = database_path('data/disclaimers.json');
 
-        foreach ($regions as $value) {
+        /** @var array<int, object{id: int, name: string, type: string, message: string, usage: string, description: string}> $disclaimers */
+        $disclaimers = json_decode(File::get($dataPath), false, 512, JSON_THROW_ON_ERROR);
+
+        foreach ($disclaimers as $value) {
             Disclaimer::create(['id' => $value->id, 'name' => $value->name, 'type' => $value->type, 'message' => $value->message, 'usage' => $value->usage, 'description' => $value->description]);
         }
     }

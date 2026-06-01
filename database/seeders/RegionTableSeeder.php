@@ -8,6 +8,7 @@ use App\Models\Region;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
+use JsonException;
 
 /**
  * The RegionTableSeeder class is responsible for populating the 'regions' table in the database.
@@ -18,10 +19,8 @@ use Illuminate\Support\Facades\File;
  * such as address management, localized content display, or geographical filtering functionalities.
  * This automated approach helps maintain data consistency and reduces manual data entry errors.
  *
- * @see \App\Models\Region           - The Eloquent model representing a region in the database.
- * @see \Illuminate\Database\Seeder  - The base class for all seeders in Laravel.
- *
- * @package Database\Seeders
+ * @see Region  - The Eloquent model representing a region in the database.
+ * @see Seeder  - The base class for all seeders in Laravel.
  */
 final class RegionTableSeeder extends Seeder
 {
@@ -39,14 +38,19 @@ final class RegionTableSeeder extends Seeder
      * @return void This method does not return any value. Its side effect is the creation of records in the 'regions' database table.
      *
      * @throws FileNotFoundException
+     * @throws JsonException
      */
     public function run(): void
     {
-        $jsonDataFile = File::get(database_path('data/regions.json'));
-        $regions = json_decode($jsonDataFile);
+        $datafile = database_path('data/regions.json');
+
+        /** @var array<int, object{id: int, name: string}> $regions */
+        $regions = json_decode(File::get($datafile), false, 512, JSON_THROW_ON_ERROR);
 
         foreach ($regions as $value) {
-            Region::create(['id' => $value->id, 'name' => $value->name]);
+            Region::create(attributes: [
+                'id' => $value->id, 'name' => $value->name,
+            ]);
         }
     }
 }
