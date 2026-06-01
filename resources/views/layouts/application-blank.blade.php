@@ -309,7 +309,7 @@
                     </li>
 
                     <li class="mb-2">
-                        <a href="https://www.forum.chimpy.be" target="_blank" rel="noopener" class="text-white">
+                        <a href="https://www.forum.vlaamswoordenboek.be" target="_blank" rel="noopener" class="text-white">
                             <x:tabler-messages class="icon me-2"/>{{ __('layout/application.footer.community-section.forum') }}
                         </a>
                     </li>
