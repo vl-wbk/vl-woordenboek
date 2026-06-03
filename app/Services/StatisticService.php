@@ -123,24 +123,19 @@ final class StatisticService
     public function getMetrics(): array
     {
         $thisWeek = [now()->startOfWeek(), now()->endOfDay()];
-        $lastWeek = [now()->subWeek()->startOfWeek(), now()->subWeek()->endOfWeek()];
 
         return [
             $this->formatMetric('Artikelweergaves', 'eye', 'views',
-                (int) Article::whereBetween('updated_at', $thisWeek)->sum('views'),
-                (int) Article::whereBetween('updated_at', $lastWeek)->sum('views')
+                (int) Article::sum('views'),
             ),
             $this->formatMetric('Aantal artikelen', 'document-text', 'articles',
-                Article::whereBetween('created_at', $thisWeek)->count(),
-                Article::whereBetween('created_at', $lastWeek)->count()
+                Article::count(),
             ),
             $this->formatMetric('Bewerkingen', 'pencil', 'edits',
-                Audit::whereBetween('created_at', $thisWeek)->count(),
-                Audit::whereBetween('created_at', $lastWeek)->count()
+                Audit::count(),
             ),
             $this->formatMetric('Nieuwe gebruikers', 'users', 'volunteers',
                 User::whereBetween('created_at', $thisWeek)->count(),
-                User::whereBetween('created_at', $lastWeek)->count(),
             ),
         ];
     }
@@ -156,12 +151,14 @@ final class StatisticService
     /**
      * Internal helper to build metric arrays.
      */
-    private function formatMetric(string $title, string $icon, string $color, int|float $current, int|float $prev): array
+    private function formatMetric(string $title, string $icon, string $color, int|float $current): array
     {
-        return array_merge(
-            ['title' => $title, 'value' => toHumanReadableNumber($current), 'icon' => $icon, 'color' => $color],
-            $this->weekTrend((int) $current, (int) $prev)
-        );
+        return [
+            'title' => $title,
+            'value' => toHumanReadableNumber($current),
+            'icon'  => $icon,
+            'color' => $color,
+        ];
     }
 
     /**

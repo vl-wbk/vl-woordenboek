@@ -86,30 +86,22 @@
             <div class="metrics-grid">
                 @foreach($metrics as $metric)
                     <div class="metric-card shadow-sm">
+                        <div class="card-accent accent-{{ $metric['color'] }}"></div>
                         <div class="metric-top">
                             <div>
                                 <p class="metric-label">{{ $metric['title'] }}</p>
                                 <p class="metric-value">{{ $metric['value'] }}</p>
                             </div>
-                            <div class=" metric-icon icon-{{ $metric['color'] }}" aria-hidden="true">
+                            <div class="metric-icon icon-{{ $metric['color'] }}" aria-hidden="true">
                                 <x-dynamic-component :component="'heroicon-s-'.$metric['icon']" style="width:20px;height:20px;" />
                             </div>
                         </div>
-
-                        @php $prev = $prevMap[$metric['color']] ?? '—'; @endphp
-
-                        <div class="metric-trend" style="justify-content:space-between;">
-                            <span style="font-size:11px;color:#9ca3af;">
-                                Vorige periode: <strong style="color:#6b7280;">{{ $prev }}</strong>
-                            </span>
-
-                            @if($metric['up'] === true)
-                                <span style="font-size:11px;font-weight:600;color:#16a34a;">{{ $metric['trend'] }} ↑</span>
-                            @elseif($metric['up'] === false)
-                                <span style="font-size:11px;font-weight:600;color:#dc2626;">{{ $metric['trend'] }} ↓</span>
-                            @else
-                                <span style="font-size:11px;color:#9ca3af;">gelijk</span>
-                            @endif
+                        <div class="metric-footer">
+                            <div class="footer-left">
+                                <x-heroicon-o-chart-bar style="width:13px;height:13px;" />
+                                <span class="footer-text">Sinds registratie</span>
+                            </div>
+                            <x-heroicon-o-chevron-right style="width:13px;height:13px;" />
                         </div>
                     </div>
                 @endforeach
