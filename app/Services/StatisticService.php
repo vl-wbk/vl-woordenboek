@@ -6,7 +6,6 @@ namespace App\Services;
 
 use App\Models\Article;
 use App\Models\User;
-use App\UserTypes;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 use Illuminate\Support\Collection;
@@ -18,8 +17,6 @@ use OwenIt\Auditing\Models\Audit;
  *
  * This class provides methods to retrieve various statistics related to the application, such as article views, user counts, and trend data for charts.
  * It leverages the 'flowframe/trend' package for generating trend data and Eloquent models for retrieving counts and sums.
- *
- * @package App\Services
  */
 final class StatisticService
 {
@@ -47,11 +44,7 @@ final class StatisticService
      */
     public function getArticleViews(): string
     {
-        return Cache::flexible(
-            key: 'article_views',
-            ttl: $this->cacheTTL,
-            callback: fn(): string => toHumanReadableNumber(number: (float) Article::sum('views')),
-        );
+        return $this->cached('article_views', fn () => toHumanReadableNumber((float) Article::sum('views')));
     }
 
     /**
@@ -62,58 +55,7 @@ final class StatisticService
      */
     public function getArticleCount(): string
     {
-        return Cache::flexible(
-            key: 'article_count',
-            ttl: $this->cacheTTL,
-            callback: fn(): string => toHumanReadableNumber(number: Article::count()),
-        );
-    }
-
-    /**
-     * Retrieves the total count of edits made to articles.
-     * This method queries the audit table to count the total number of edits (audit records) made to articles.
-     *
-     * @return string The total count of edits made to articles.
-     */
-    public function getEditCount(): string
-    {
-        return Cache::flexible(
-            key: 'edit_count',
-            ttl: $this->cacheTTL,
-            callback: fn(): string => toHumanReadableNumber(number: Audit::count()),
-        );
-    }
-
-    /**
-     * Retrieves the total count of registered users.
-     * This method queries the database to count the total number of registered users.
-     *
-     * @return string The total count of registered users.
-     */
-    public function getUserCount(): string
-    {
-        return Cache::flexible(
-            key: 'user_count',
-            ttl: $this->cacheTTL,
-            callback: fn(): string => toHumanReadableNumber(number: User::count()),
-        );
-    }
-
-    /**
-     * Retrieves the count of non-'Normal' users (e.g., volunteers, administrators).
-     *
-     * This method queries the database to count the number of users whose 'user_type' is not 'Normal'.
-     * This is used to determine the number of volunteers and administrators in the system.
-     *
-     * @return string The count of non-'Normal' users.
-     */
-    public function getVolunteerCount(): string
-    {
-        return Cache::flexible(
-            key: 'volunteer_count',
-            ttl: $this->cacheTTL,
-            callback: fn(): string => toHumanReadableNumber(number: User::whereNot('user_type', UserTypes::Normal)->count()),
-        );
+        return $this->cached('article_count', fn () => toHumanReadableNumber(Article::count()));
     }
 
     /**
@@ -127,7 +69,7 @@ final class StatisticService
         return Cache::flexible(
             key: 'registered_today_count',
             ttl: $this->cacheTTL,
-            callback: fn(): int => User::whereDate('created_at', now()->today())->count(),
+            callback: fn (): int => User::whereDate('created_at', now()->today())->count(),
         );
     }
 
@@ -189,10 +131,84 @@ final class StatisticService
     }
 
     /**
-     * Formats the trend data into a structure suitable for charts.
-     * This method takes a collection of `TrendValue` objects and extracts the aggregate values and date labels into separate collections.
+     * Retrieves application metrics formatted for display.
      *
-     * @param  Collection<int, TrendValue> $trendData A collection of `TrendValue` objects.
+     * @return array<int, array<string, mixed>>
+     */
+    public function getMetrics(): array
+    {
+        $thisWeek = [now()->startOfWeek(), now()->endOfDay()];
+        $lastWeek = [now()->subWeek()->startOfWeek(), now()->subWeek()->endOfWeek()];
+
+        return [
+            $this->formatMetric('Artikelweergaves', 'eye', 'views',
+                (int) Article::whereBetween('updated_at', $thisWeek)->sum('views'),
+                (int) Article::whereBetween('updated_at', $lastWeek)->sum('views')
+            ),
+            $this->formatMetric('Aantal artikelen', 'document-text', 'articles',
+                Article::whereBetween('created_at', $thisWeek)->count(),
+                Article::whereBetween('created_at', $lastWeek)->count()
+            ),
+            $this->formatMetric('Bewerkingen', 'pencil', 'edits',
+                Audit::whereBetween('created_at', $thisWeek)->count(),
+                Audit::whereBetween('created_at', $lastWeek)->count()
+            ),
+            $this->formatMetric('Nieuwe gebruikers', 'users', 'volunteers',
+                User::whereBetween('created_at', $thisWeek)->count(),
+                User::whereBetween('created_at', $lastWeek)->count(),
+            ),
+        ];
+    }
+
+    /**
+     * Internal helper to handle cache logic.
+     */
+    private function cached(string $key, callable $callback): string
+    {
+        return Cache::flexible($key, $this->cacheTTL, $callback);
+    }
+
+    /**
+     * Internal helper to build metric arrays.
+     */
+    private function formatMetric(string $title, string $icon, string $color, int|float $current, int|float $prev): array
+    {
+        return array_merge(
+            ['title' => $title, 'value' => toHumanReadableNumber($current), 'icon' => $icon, 'color' => $color],
+            $this->weekTrend((int) $current, (int) $prev)
+        );
+    }
+
+    /**
+     * Calculates the weekly trend percentage.
+     */
+    private function weekTrend(int $current, int $previous): array
+    {
+        if ($previous === 0) {
+            return [
+                'trend' => $current > 0 ? 'nieuw' : '—',
+                'trend_label' => '',
+                'up' => $current > 0 ? true : null,
+            ];
+        }
+
+        $pct = (int) round((($current - $previous) / $previous) * 100);
+
+        return [
+            'trend' => ($pct > 0 ? '+' : '').$pct.'%',
+            'trend_label' => 'vs vorige week',
+            'up' => match (true) {
+                $pct > 0 => true,
+                $pct < 0 => false,
+                default => null,
+            },
+        ];
+    }
+
+    /**
+     * Formats the trend data into a structure suitable for charts.
+     *
+     * @param  Collection<int, TrendValue> $trendData
      * @return array{data: Collection<int, string>, labels: Collection<int, string>}
      */
     private function formatChartData(Collection $trendData): array
@@ -203,27 +219,13 @@ final class StatisticService
         ];
     }
 
-    /**
-     * Extracts the aggregate values from a TrendValue collection.
-     * This method takes a collection of `TrendValue` objects and extracts the 'aggregate' property from each object into a new collection.
-     *
-     * @param  Collection<int, TrendValue> $trendData  A collection of `TrendValue` objects.
-     * @return Collection<int, string>                 A collection of aggregate values.
-     */
     private function extractTrendValues(Collection $trendData): Collection
     {
-        return $trendData->map(fn(TrendValue $value): mixed => $value->aggregate);
+        return $trendData->map(fn (TrendValue $value): mixed => $value->aggregate);
     }
 
-    /**
-     * Extracts the date labels from a TrendValue collection.
-     * This method takes a collection of `TrendValue` objects and extracts the 'date' property from each object into a new collection.
-     *
-     * @param  Collection<int, TrendValue> $trendData A collection of `TrendValue` objects.
-     * @return Collection<int, string>                A collection of date labels.
-     */
     private function extractTrendLabels(Collection $trendData): Collection
     {
-        return $trendData->map(fn(TrendValue $value): string => $value->date);
+        return $trendData->map(fn (TrendValue $value): string => $value->date);
     }
 }

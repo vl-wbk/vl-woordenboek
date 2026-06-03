@@ -518,3 +518,32 @@ p {
 .btn-bluesky {
     @include button-variant(#00afe1, #00afe1, #fff);
 }
+
+// Analytics
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+}
+.metric-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: border-color 0.2s;
+}
+.metric-card:hover { border-color: rgba(0,0,0,0.2); }
+.metric-top { display: flex; justify-content: space-between; align-items: flex-start; }
+.metric-icon { width: 36px; height: 36px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.metric-label { font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 4px; font-weight: 600; }
+.metric-value { font-size: 26px; font-weight: 600; color: #111827; margin: 0; line-height: 1; }
+.metric-trend { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #6b7280; border-top: 0.5px solid rgba(0,0,0,0.08); padding-top: 10px; }
+.trend-up { color: #16a34a; }
+.trend-down { color: #dc2626; }
+.icon-views     { background: #dbeafe; color: #1d4ed8; }
+.icon-articles  { background: #dcfce7; color: #15803d; }
+.icon-edits     { background: #fef3c7; color: #b45309; }
+.icon-volunteers{ background: #ede9fe; color: #6d28d9; }
