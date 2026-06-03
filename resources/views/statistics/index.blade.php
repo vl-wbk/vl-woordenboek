@@ -99,7 +99,12 @@
                         <div class="metric-footer">
                             <div class="footer-left">
                                 <x-heroicon-o-chart-bar style="width:13px;height:13px;" />
-                                <span class="footer-text">Sinds registratie</span>
+
+                                @if ($metric['title'] === 'Nieuwe gebruikers')
+                                    <span class="footer-text">Sinds deze week</span>
+                                @else
+                                    <span class="footer-text">Sinds registratie</span>
+                                @endif
                             </div>
                             <x-heroicon-o-chevron-right style="width:13px;height:13px;" />
                         </div>

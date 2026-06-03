@@ -53,9 +53,9 @@ final class StatisticService
      *
      * @return string The total count of articles.
      */
-    public function getArticleCount(): string
+    public function getArticleCount(): int
     {
-        return $this->cached('article_count', fn () => toHumanReadableNumber(Article::count()));
+        return $this->cached('article_count', fn () => Article::count());
     }
 
     /**
@@ -143,7 +143,7 @@ final class StatisticService
     /**
      * Internal helper to handle cache logic.
      */
-    private function cached(string $key, callable $callback): string
+    private function cached(string $key, callable $callback): int
     {
         return Cache::flexible($key, $this->cacheTTL, $callback);
     }
