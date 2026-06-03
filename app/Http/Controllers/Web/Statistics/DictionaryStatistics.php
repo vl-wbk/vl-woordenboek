@@ -20,7 +20,7 @@ final class DictionaryStatistics extends Controller
 
         return view('statistics.index', [
             'metrics'            => $statistics->getMetrics(),
-            'articleCount' => $statistics->getArticleCount(),
+            'articleCount' => Article::query()->count(),
             'userRegistrations' => $statistics->userRegistrationChartData(),
             'articleChart' => $statistics->articleChartData(),
             'targetArticleCount' => 40000,
