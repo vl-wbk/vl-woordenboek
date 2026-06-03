@@ -145,7 +145,7 @@ final class StatisticService
      */
     private function cached(string $key, callable $callback): int
     {
-        return Cache::flexible($key, $this->cacheTTL, $callback);
+        return (int) Cache::flexible($key, $this->cacheTTL, $callback);
     }
 
     /**
