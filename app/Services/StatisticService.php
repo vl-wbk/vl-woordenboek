@@ -59,21 +59,6 @@ final class StatisticService
     }
 
     /**
-     * Retrieves the count of users who registered on the current date.
-     * This method queries the database to count the number of users whose 'created_at' date matches the current date.
-     *
-     * @return int The count of users who registered today.
-     */
-    public function registeredToday(): int
-    {
-        return Cache::flexible(
-            key: 'registered_today_count',
-            ttl: $this->cacheTTL,
-            callback: fn (): int => User::whereDate('created_at', now()->today())->count(),
-        );
-    }
-
-    /**
      * Generates data for a weekly user registration trend chart over the past year.
      *
      * This method uses the `flowframe/trend` package to generate a weekly trend of user registrations over the past year.
