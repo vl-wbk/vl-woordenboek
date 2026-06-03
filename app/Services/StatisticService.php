@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Models\Article;
 use App\Models\User;
+use Carbon\Carbon;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 use Illuminate\Support\Collection;
@@ -208,6 +209,13 @@ final class StatisticService
 
     private function extractTrendLabels(Collection $trendData): Collection
     {
-        return $trendData->map(fn (TrendValue $value): string => $value->date);
+        return $trendData->map(function (TrendValue $value): string {
+            [$year, $week] = explode('-', $value->date);
+
+            return Carbon::now()
+                ->setISODate((int) $year, (int) $week)
+                ->startOfWeek()
+                ->translatedFormat('F Y');
+        });
     }
 }
