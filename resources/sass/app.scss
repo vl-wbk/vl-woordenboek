@@ -619,3 +619,36 @@ p {
     font-size: 12px;
     color: var(--color-text-secondary);
 }
+
+.prog-bar-track {
+    display: flex;
+    height: 22px;
+    border-radius: 10px;
+    overflow: hidden;
+    // gap: 2px;
+    margin-bottom: .25rem;
+}
+.prog-segment {
+    height: 100%;
+    transition: flex .3s ease, opacity .2s;
+}
+.prog-segment.hidden { flex: 0 !important; min-width: 0 !important; opacity: 0; }
+
+.legend-grid { display: flex; flex-wrap: wrap; gap: 8px 16px; }
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: 0.5px solid var(--color-border-tertiary);
+    background: var(--color-background-primary);
+    transition: opacity .18s, border-color .18s;
+    user-select: none;
+}
+.legend-item:hover { border-color: var(--color-border-secondary); background: var(--color-background-secondary); }
+.legend-item.hidden { opacity: .35; }
+.legend-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.legend-label { font-size: 12px; font-weight: 500; color: var(--color-text-primary); }
+.legend-pct { font-size: 11px; color: var(--color-text-secondary); font-variant-numeric: tabular-nums; }

@@ -15,59 +15,39 @@
                     <div class="card bg-white border-0 shadow-sm p-3 p-md-4 h-100">
                         <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center mb-3">
                             <h5 class="fw-bold color-green mb-2 mb-sm-0">Hoe is onze data verdeeld in het {{ config('app.name', 'Laravel') }}?</h5>
-                            <span class="badge bg-success-subtle text-success fw-bold">{{ $articleCount }} Artikelen</span>
+                            <span class="badge bg-success-subtle text-success fw-bold">{{ toHumanReadableNumber($articleCount) }} Artikelen</span>
                         </div>
 
-                        <div class="progress mb-4" style="height: 25px; border-radius: 8px;">
+                        <div class="prog-bar-track" id="prog-track">
+                            @php $total = $articleCount ?: 1; @endphp
+                            <div class="prog-segment" id="seg-published" data-pct="{{ ($publishedCount/$total)*100 }}" style="background:#1D9E75"></div>
+                            <div class="prog-segment" id="seg-review"    data-pct="{{ ($reviewCount/$total)*100 }}"    style="background:#EF9F27"></div>
+                            <div class="prog-segment" id="seg-draft"     data-pct="{{ ($draftCount/$total)*100 }}"     style="background:#888780"></div>
+                            <div class="prog-segment" id="seg-archived"  data-pct="{{ ($archivedCount/$total)*100 }}"  style="background:#E24B4A"></div>
+                            <div class="prog-segment" id="seg-external"  data-pct="{{ ($externalCount/$total)*100 }}"  style="background:#378ADD"></div>
+                            <div class="prog-segment" id="seg-rejected"  data-pct="{{ ($rejectedCount/$total)*100 }}"  style="background:#5DCAA5"></div>
+                            <div class="prog-segment" id="seg-new"       data-pct="{{ ($newCount/$total)*100 }}"       style="background:#2C2C2A"></div>
+                        </div>
+
+                        <div class="legend-grid mt-3" id="prog-legend">
                             @php
-                                $total = $articleCount ?: 1;
-                                $pct = fn($val) => ($val / $total) * 100;
+                                $statuses = [
+                                    ['key'=>'published', 'label'=>'Publicaties',         'count'=>$publishedCount, 'color'=>'#1D9E75'],
+                                    ['key'=>'review',    'label'=>'In beoordeling',      'count'=>$reviewCount,    'color'=>'#EF9F27'],
+                                    ['key'=>'draft',     'label'=>'In behandeling',      'count'=>$draftCount,     'color'=>'#888780'],
+                                    ['key'=>'archived',  'label'=>'Archief',             'count'=>$archivedCount,  'color'=>'#E24B4A'],
+                                    ['key'=>'external',  'label'=>'Extern',              'count'=>$externalCount,  'color'=>'#378ADD'],
+                                    ['key'=>'rejected',  'label'=>'Tijdelijk afgewezen', 'count'=>$rejectedCount,  'color'=>'#5DCAA5'],
+                                    ['key'=>'new',       'label'=>'Suggesties',          'count'=>$newCount,       'color'=>'#2C2C2A'],
+                                ];
                             @endphp
-
-                            <div class="progress-bar bg-success" style="width: {{ $pct($publishedCount) }}%"></div>
-                            <div class="progress-bar bg-warning" style="width: {{ $pct($reviewCount) }}%"></div>
-                            <div class="progress-bar bg-secondary" style="width: {{ $pct($draftCount) }}%"></div>
-                            <div class="progress-bar bg-danger" style="width: {{ $pct($archivedCount) }}%"></div>
-                            <div class="progress-bar bg-primary" style="width: {{ $pct($externalCount) }}%"></div>
-                            <div class="progress-bar bg-info" style="width: {{ $pct($rejectedCount) }}%"></div>
-                            <div class="progress-bar bg-dark" style="width: {{ $pct($newCount) }}%"></div>
-                        </div>
-
-                        <div class="d-flex flex-wrap gap-3 small">
-                            <div class="d-flex align-items-center fw-bold">
-                                <span class="rounded-circle shadow-sm bg-success me-2" style="width: 10px; height: 10px;"></span> Publicaties
-                                <span class="ms-1 fst-italic fw-normal small text-muted">({{ round($pct($publishedCount), 2) }}%)</span>
-                            </div>
-
-                            <div class="d-flex align-items-center fw-bold">
-                                <span class="rounded-circle shadow-sm bg-warning me-2" style="width: 10px; height: 10px;"></span> In beoordeling
-                                <span class="ms-1 fst-italic fw-normal small text-muted">({{ round($pct($reviewCount), 2) }}%)</span>
-                            </div>
-
-                            <div class="d-flex align-items-center fw-bold">
-                                <span class="rounded-circle shadow-sm bg-secondary me-2" style="width: 10px; height: 10px;"></span> In behandeling
-                                <span class="ms-1 fst-italic fw-normal small text-muted">({{ round($pct($draftCount), 2) }}%)</span>
-                            </div>
-
-                            <div class="d-flex align-items-center fw-bold">
-                                <span class="rounded-circle bg-danger shadow-sm me-2" style="width: 10px; height: 10px;"></span> Archief
-                                <span class="ms-1 fst-italic fw-normal small text-muted">({{ round($pct($archivedCount), 2) }}%)</span>
-                            </div>
-
-                            <div class="d-flex align-items-center fw-bold">
-                                <span class="rounded-circle shadow-sm bg-primary me-2" style="width: 10px; height: 10px;"></span> Extern
-                                <span class="ms-1 fst-italic fw-normal small text-muted">({{ round($pct($externalCount), 2) }}%)</span>
-                            </div>
-
-                            <div class="d-flex fw-bold align-items-center">
-                                <span class="rounded-circle shadow-sm bg-info me-2" style="width: 10px; height: 10px;"></span>Tijdelijk afgewezen
-                                <span class="ms-1 fst-italic fw-normal small text-muted">({{ round($pct($rejectedCount), 2) }}%)</span>
-                            </div>
-
-                            <div class="d-flex align-items-center fw-bold">
-                                <span class="rounded-circle shadow-sm bg-dark me-2" style="width: 10px; height: 10px;"></span> Suggesties
-                                <span class="ms-1 fst-italic fw-normal small text-muted">({{ round($pct($newCount), 2) }}%)</span>
-                            </div>
+                            @foreach($statuses as $s)
+                                <div class="legend-item" data-key="{{ $s['key'] }}">
+                                    <span class="legend-dot" style="background:{{ $s['color'] }}"></span>
+                                    <span class="legend-label">{{ $s['label'] }}</span>
+                                    <span class="legend-pct">({{ round(($s['count']/$total)*100, 1) }}%)</span>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -322,5 +302,50 @@
 
             articleChart.update();
         }
+
+        const hidden = new Set();
+        const items = document.querySelectorAll('#prog-legend .legend-item');
+        const segs  = document.querySelectorAll('#prog-track .prog-segment');
+
+        const pcts = {};
+        segs.forEach(s => pcts[s.id.replace('seg-','')] = parseFloat(s.dataset.pct));
+
+        function reflow() {
+            const visKeys = [...Object.keys(pcts)].filter(k => !hidden.has(k));
+            const sum = visKeys.reduce((a, k) => a + pcts[k], 0) || 1;
+
+            segs.forEach(s => {
+                const key = s.id.replace('seg-', '');
+                s.style.borderRadius = '0';
+
+                if (hidden.has(key)) {
+                    s.classList.add('hidden');
+                    s.style.flex = 0;
+                } else {
+                    s.classList.remove('hidden');
+                    s.style.flex = pcts[key] / sum;
+                }
+            });
+
+            // Re-apply rounded corners to the new first and last visible segments
+            const visSegs = [...segs].filter(s => !hidden.has(s.id.replace('seg-', '')));
+            if (visSegs.length === 1) {
+                visSegs[0].style.borderRadius = '10px';
+            } else if (visSegs.length > 1) {
+                visSegs[0].style.borderRadius = '10px 0 0 10px';
+                visSegs[visSegs.length - 1].style.borderRadius = '0 10px 10px 0';
+            }
+        }
+
+        items.forEach(item => {
+            item.addEventListener('click', () => {
+                const key = item.dataset.key;
+                if (hidden.has(key)) { hidden.delete(key); item.classList.remove('hidden'); }
+                else if (hidden.size < items.length - 1) { hidden.add(key); item.classList.add('hidden'); }
+                reflow();
+            });
+        });
+
+        reflow();
     </script>
 @endsection
