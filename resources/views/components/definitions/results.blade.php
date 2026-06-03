@@ -1,64 +1,75 @@
 @forelse($results as $result)
-    <div class="lexi-card {{ $result->isArchived() ? 'border-danger-subtle' : '' }}">
-   @if ($result->regions()->exists())
-    <div class="d-flex flex-wrap gap-2 mb-3">
-        @foreach($result->regions as $region)
-            <span class="lexi-tag-enhanced">
-                <x-heroicon-o-map-pin class="icon me-1"/> {{ $region->name }}
-            </span>
-        @endforeach
-    </div>
-@endif
+    <div class="card bg-white p-3 mb-2 shadow-sm border-start">
+        <div class="d-flex align-items-start gap-4">
 
-    <div class="content-body">
-        <a href="{{ route('word-information.show', $result) }}" class="text-decoration-none">
-            <h4 class="word-title mb-2">{{ $result->word }} <span class="word-type ms-2">{{ strtolower($result->characteristics) }}</span></h3>
-        </a>
+            <!-- Main Content -->
+            <div class="flex-grow-1">
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <h5 class="fw-bold m-0">{{ $result->word }}</h5>
+                    <span class="badge bg-danger-subtle text-danger rounded-pill" style="font-size: 0.6rem;">Archief</span>
+                    <span class="badge bg-danger-subtle text-danger rounded-pill" style="font-size: 0.6rem;">Archief</span>
+                </div>
 
-        <div class="text-secondary opacity-75 mb-2" style="font-weight: 400;">
-            {!! str($result->description)->words(22)->markdown()->sanitizeHtml() !!}
-        </div>
-    </div>
-
-    <div class="d-flex justify-content-between align-items-center pt-2 border-top border-light-subtle">
-        @if ($result->author)
-            <span class="small text-muted">
-                @if ($result->author()->exists())
-                     Door <span class="text-dark fw-semibold">{{ $result->author->name ?? $result->contributor_name ?? config('app.name') }}</span>
-                @else
-                    Door <span class="text-dark fw-semibold">{{  $result->contributor_name ?? config('app.name') }}</span>
+                <!-- Regions -->
+                @if($result->regions->isNotEmpty())
+                    <div class="d-flex flex-wrap gap-2 mb-2">
+                        @foreach($result->regions as $region)
+                            <span class="d-inline-flex align-items-center text-primary small fw-semibold">
+                                <x-heroicon-o-map-pin style="width: 14px; height: 14px;" class="me-1"/>
+                                {{ $region->name }}
+                            </span>
+                        @endforeach
+                    </div>
                 @endif
 
-                <span class="">•</span> {{  __('Weergaves: :count', ['count' => $result->views]) }}
-            </span>
-        @endif
+                <div class="text-secondary small mb-3">
+                    {!! str($result->description)->words(25)->markdown()->sanitizeHtml() !!}
+                </div>
 
-        <div class="d-flex align-items-center gap-3">
-            @auth
-                @if ($result->bookmarkers->contains(auth()->user()))
-                    <a href="{{ route('bookmark:remove', $result) }}" class="text-danger text-decoration-none p-2 hover-bg-light rounded-circle">
-                        <x-heroicon-s-bookmark class="icon"/> Vergeet dit woord
-                    </a>
-                @else
-                    <a href="{{ route('bookmark:create', $result) }}" class="text-dark text-decoration-none p-2 hover-bg-light rounded-circle">
-                        <x-heroicon-o-bookmark class="icon"/> Bewaar
-                    </a>
-                @endif
-            @endauth
-           
+                <!-- Contextual Footer -->
+                <div class="small text-muted d-flex align-items-center flex-wrap gap-2">
+                    <span class="badge bg-success-subtle text-success border">Door {{ $result->author->name ?? $result->contributor_name ?? config('app.name') }}</span>
+                    <span>•</span>
+                    <span>{{ __('Weergaves: :count', ['count' => $result->views]) }}</span>
+                </div>
+            </div>
 
-            <a href="{{ route('word-information.show', $result) }}" 
-               class="btn btn-sm rounded-pill btn-outline-dark fw-bold btn-sm shadow-sm">
-                Ontdek <x-heroicon-o-arrow-right class="icon-sm ms-1"/>
-            </a>
+            <!-- Action Column -->
+            <div class="d-flex flex-column align-items-center gap-2 flex-shrink-0">
+                <a href="{{ route('word-information.show', $result) }}" class="btn btn-dark btn-sm w-100">
+                    <x-heroicon-o-eye class="icon me-1"/>Ontdek
+                </a>
+
+                <div class="d-flex align-items-center gap-2 text-muted mt-1">
+                    @auth
+                        <a href="{{ route($result->bookmarkers->contains(auth()->user()) ? 'bookmark:remove' : 'bookmark:create', $result) }}"
+                           class="text-decoration-none {{ $result->bookmarkers->contains(auth()->user()) ? 'text-danger' : 'text-muted' }}"
+                        >
+
+                            @if($result->bookmarkers->contains(auth()->user()))
+                                <x-heroicon-s-bookmark-slash class="icon-sm"/>
+                            @else
+                                <x-heroicon-s-bookmark class="icon-sm"/>
+                            @endif
+                        </a>
+                    @endauth
+
+                    <span class="vr mx-1"></span>
+
+                    <button type="button"
+                            onclick="shareWord('{{ $result->word }}', '{{ route('word-information.show', $result) }}')"
+                            class="btn btn-link text-decoration-none text-muted p-0 border-0 d-flex align-items-center">
+                        <x-heroicon-o-share class="icon-sm me-2"/> Delen
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 @empty
     <div class="card bg-sidenav border-0 shadow-sm overflow-hidden">
     <div class="card-body p-4 p-md-5">
         <div class="row g-5">
-            
+
             <div class="col-lg-7">
                 <div class="mb-4 text-start">
                     <span class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 rounded-pill small fw-bold text-uppercase">Niet gevonden</span>
@@ -70,7 +81,7 @@
                             Deze term is nog niet toegevoegd aan het Vlaams Woordenboek. Als een door de gemeenschap gedreven platform zijn we afhankelijk van bijdragers/lezers zoals jij.
                         @endif
                     </p>
-                    
+
                     <div class="d-flex flex-wrap gap-3">
                         @if (request()->has('filter.published_after'))
                             <a class="btn btn-primary px-4 py-2 fw-bold shadow-sm" href="{{ request()->fullUrlWithQuery(['filter' => array_merge(request('filter', []), ['published_after' => null])]) }}" class="btn-remove">
@@ -103,7 +114,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="col-md-6">
                             <div class="d-flex">
                                 <i class="bi bi-archive text-primary fs-5"></i>
