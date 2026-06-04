@@ -25,8 +25,6 @@ use Throwable;
  * Future developers extending or using this class should note that any modifications to the suggestion
  * process should maintain transactional integrity, ensuring that a failure in any step will roll back the
  * entire process.
- *
- * @package App\Actions\Articles
  */
 final readonly class StoreArticleSuggestion
 {
@@ -50,25 +48,22 @@ final readonly class StoreArticleSuggestion
      *
      * @param  SuggestionData $suggestionData The data transfer object carrying all details for the new article suggestion.
      * @param  Concept|null   $concept        The concept version of the dictionary article (database entity).
-     * @return Article
      *
      * @throws Throwable when the database transaction couldn't be completed safely.
      */
     public function execute(SuggestionData $suggestionData, ?Concept $concept = null): Article
     {
         $suggestion = DB::transaction(function () use ($suggestionData, $concept): Article {
-            $suggestion = Article::query()->create($suggestionData->except('regions')->toArray());
-            $suggestion->regions()->sync($suggestionData->regions);
+            // Merge author_id into data array to insert in one query.
+            $data = $suggestionData->except('regions')->toArray();
+            $data['author_id'] = auth()->id(); // Returns null for guests if column is nullable.
 
-            if (auth()->check()) {
-                $suggestion->author()->associate(auth()->user()->getAuthIdentifier())->save();
-            }
+            $article = Article::create($data);
+            $article->regions()->sync($suggestionData->regions);
 
-            if ($concept) {
-                $concept->delete();
-            }
+            $concept?->delete();
 
-            return $suggestion;
+            return $article;
         });
 
         flash($this->getFlashMessage(), 'alert-success');
