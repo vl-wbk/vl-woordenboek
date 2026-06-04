@@ -5,9 +5,15 @@
             <!-- Main Content -->
             <div class="flex-grow-1">
                 <div class="d-flex align-items-center gap-2 mb-1">
-                    <h5 class="fw-bold m-0">{{ $result->word }}</h5>
-                    <span class="badge bg-danger-subtle text-danger rounded-pill" style="font-size: 0.6rem;">Archief</span>
-                    <span class="badge bg-danger-subtle text-danger rounded-pill" style="font-size: 0.6rem;">Archief</span>
+                    <h5 class="fw-bold m-0 mb-1">{{ $result->word }}</h5>
+
+                    <span class="badge bg-danger-subtle text-danger rounded-pill" style="font-size: 0.6rem;">
+                        <x-heroicon-s-archive-box class="icon-sm me-1"/>gearchiveerd
+                    </span>
+
+                    <span class="badge bg-secondary-subtle text-secondary rounded-pill" style="font-size: 0.6rem;">
+                        <x-heroicon-s-clock class="icon-sm me-1"/>verouderd artikel
+                    </span>
                 </div>
 
                 <!-- Regions -->
@@ -37,28 +43,17 @@
             <!-- Action Column -->
             <div class="d-flex flex-column align-items-center gap-2 flex-shrink-0">
                 <a href="{{ route('word-information.show', $result) }}" class="btn btn-dark btn-sm w-100">
-                    <x-heroicon-o-eye class="icon me-1"/>Ontdek
+                    <x-heroicon-o-eye class="icon-sm me-1"/>Ontdek
                 </a>
 
                 <div class="d-flex align-items-center gap-2 text-muted mt-1">
-                    @auth
-                        <a href="{{ route($result->bookmarkers->contains(auth()->user()) ? 'bookmark:remove' : 'bookmark:create', $result) }}"
-                           class="text-decoration-none {{ $result->bookmarkers->contains(auth()->user()) ? 'text-danger' : 'text-muted' }}"
-                        >
-
-                            @if($result->bookmarkers->contains(auth()->user()))
-                                <x-heroicon-s-bookmark-slash class="icon-sm"/>
-                            @else
-                                <x-heroicon-s-bookmark class="icon-sm"/>
-                            @endif
-                        </a>
-                    @endauth
+                    <span>
+                        <x-heroicon-c-hand-thumb-up class="icon me-1 text-success"/> {{ $result->totalUpvotes() }}
+                    </span>
 
                     <span class="vr mx-1"></span>
 
-                    <button type="button"
-                            onclick="shareWord('{{ $result->word }}', '{{ route('word-information.show', $result) }}')"
-                            class="btn btn-link text-decoration-none text-muted p-0 border-0 d-flex align-items-center">
+                    <button type="button" onclick="shareWord('{{ $result->word }}', '{{ route('word-information.show', $result) }}')" class="btn btn-link text-decoration-none text-muted p-0 border-0 d-flex align-items-center">
                         <x-heroicon-o-share class="icon-sm me-2"/> Delen
                     </button>
                 </div>
