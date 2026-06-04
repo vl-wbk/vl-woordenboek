@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Actions\Articles;
 
-use App\Attributes\Todo;
 use App\Data\SuggestionData;
 use App\Models\Article;
 use App\Models\Concept;
@@ -29,33 +28,22 @@ use Throwable;
 final readonly class StoreArticleSuggestion
 {
     /**
-     * Executes the suggestion storage workflow.
+     * Processes and persists a new article suggestion.
      *
-     * This method performs the following steps within a single transaction:
-     *
-     * 1. Creates a new Article record with the data provided in the SuggestionData object, while explicitly excluding the
-     *    'regions' attribute. This ensures that the main article data is stored without interference from the region
-     *    associations.
-     *
-     * 2. Synchronizes the article's associated regions using the region IDs provided in the 'regions' field of the
-     *    SuggestionData. This establishes the many-to-many relationship between the article and its regions.
-     *
-     * 3. Checks if a creator_id is provided in the SuggestionData. If so, it associates the newly created article with
-     *    the specified author. This step binds the article to its creator for tracking and future reference.
-     *
-     * All these operations are wrapped within a database transaction. This design ensures that if any step fails, the
-     * transaction will roll back, keeping the database in a consistent state.
+     * This method runs within a database transaction to ensure data integrity.
+     * It icreates the article record, snchronizes the associated regions, and deletes the related concept if one
+     * is provided. Finally, it triggers a success notification for the user.
      *
      * @param  SuggestionData $suggestionData The data transfer object carrying all details for the new article suggestion.
      * @param  Concept|null   $concept        The concept version of the dictionary article (database entity).
+     * @return Article                        The newly created article as suggestion.
      *
-     * @throws Throwable when the database transaction couldn't be completed safely.
+     * @throws Throwable                      If the database transaction fails.
      */
     public function execute(SuggestionData $suggestionData, ?Concept $concept = null): Article
     {
         $suggestion = DB::transaction(function () use ($suggestionData, $concept): Article {
-            // Merge author_id into data array to insert in one query.
-            $data = $suggestionData->except('regions')->toArray();
+            $data = $suggestionData->except('regions')->toArray(); // Merge author_id into data array to insert in one query.
             $data['author_id'] = auth()->id(); // Returns null for guests if column is nullable.
 
             $article = Article::create($data);
@@ -71,7 +59,14 @@ final readonly class StoreArticleSuggestion
         return $suggestion;
     }
 
-    #[Todo(message: 'Write a docblock for this function', priority: 'low')]
+    /**
+     * Generates a localized success message based on the user's authentication status.
+     *
+     * This method returns a message informing the user that their suggestion has been received.
+     * It provides a different call-to-action depending on whether the user is authenticated, encouraging guest users to register for status tracking.
+     *
+     * @return string The translated success message.
+     */
     private function getFlashMessage(): string
     {
         return auth()->check()
