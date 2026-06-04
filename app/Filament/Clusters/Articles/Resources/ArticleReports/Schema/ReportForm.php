@@ -68,6 +68,9 @@ final readonly class ReportForm
             ]);
     }
 
+    /**
+     * @return array<int, Fieldset>
+     */
     private static function reportInformationTab(): array
     {
         return [
