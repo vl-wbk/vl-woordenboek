@@ -66,7 +66,7 @@ final class UserExample extends Model
      */
     public function author(): BelongsTo
     {
-        return $this->belongsTo(User::class)
+        return $this->belongsTo(User::class, 'user_id')
             ->withDefault(function (User $user, UserExample $example) {
                 $user->name = $example->contributor_name ?? config()->string('app.name', 'Laravel');
             });

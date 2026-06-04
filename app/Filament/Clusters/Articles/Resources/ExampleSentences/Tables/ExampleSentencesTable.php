@@ -90,7 +90,6 @@ final readonly class ExampleSentencesTable
                 ->label('ingezonden door')
                 ->icon(Heroicon::OutlinedUserCircle)
                 ->searchable()
-                ->searchable()
                 ->sortable(),
 
             TextColumn::make('example')

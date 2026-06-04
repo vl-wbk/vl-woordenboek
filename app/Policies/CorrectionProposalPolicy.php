@@ -17,6 +17,7 @@ use Laravel\Pennant\Feature;
 final readonly class CorrectionProposalPolicy
 {
     public const string Approve = 'approve';
+
     public const string Reject = 'reject';
 
     public function before(User $user): ?Response
@@ -53,7 +54,7 @@ final readonly class CorrectionProposalPolicy
     public function update(User $user, CorrectionProposal $correctionProposal): Response
     {
         $hasCorrectUserType = $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Editor, UserTypes::EditorInChief, UserTypes::Developer]);
-        $isEditable = $correctionProposal->state == PendingState::class;
+        $isEditable = $correctionProposal->state === PendingState::class;
 
         return ($hasCorrectUserType && $isEditable)
             ? Response::allow()
@@ -63,14 +64,14 @@ final readonly class CorrectionProposalPolicy
     public function approve(User $user): bool
     {
         return $user->user_type->in(enums: [
-            UserTypes::EditorInChief, UserTypes::Developer, UserTypes::Administrators
+            UserTypes::EditorInChief, UserTypes::Developer, UserTypes::Administrators,
         ]);
     }
 
     public function reject(User $user): bool
     {
         return $user->user_type->in(enums: [
-            UserTypes::EditorInChief, UserTypes::Developer, UserTypes::Administrators
+            UserTypes::EditorInChief, UserTypes::Developer, UserTypes::Administrators,
         ]);
     }
 }

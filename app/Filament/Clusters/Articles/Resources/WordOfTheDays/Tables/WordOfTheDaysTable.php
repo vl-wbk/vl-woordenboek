@@ -44,7 +44,7 @@ final readonly class WordOfTheDaysTable
             ->filters(filters: self::registerTableFilters())
             ->recordActions(actions: self::registerRecordActions())
             ->toolbarActions(actions: self::registerToolbarActions())
-            ->defaultSort('scheduled_for', 'desc');;
+            ->defaultSort('scheduled_for', 'desc');
     }
 
     /**
@@ -58,7 +58,7 @@ final readonly class WordOfTheDaysTable
                 ->titlePrefixedWithLabel(false)
                 ->getTitleFromRecordUsing(fn ($record): string => $record->scheduled_for->format('F Y'))
                 ->date()
-                ->collapsible()
+                ->collapsible(),
         ];
     }
 
@@ -73,7 +73,7 @@ final readonly class WordOfTheDaysTable
             CreateAction::make()
                 ->label('Woord inplannen')
                 ->visible($isVisible)
-                ->icon(Heroicon::OutlinedPlusCircle)
+                ->icon(Heroicon::OutlinedPlusCircle),
         ];
     }
 
@@ -104,13 +104,12 @@ final readonly class WordOfTheDaysTable
                 ->queries(
                     true: fn (Builder $query) => $query->whereDate('scheduled_for', '>=', now()),
                     false: fn (Builder $query) => $query->whereDate('scheduled_for', '<', now()),
-                )
+                ),
         ];
     }
 
     /**
      * @param  array<string> $data
-     * @return string|null
      */
     private static function formatDateRangeIndicator(array $data): ?string
     {
@@ -147,7 +146,7 @@ final readonly class WordOfTheDaysTable
             TextColumn::make('status')
                 ->label('Status')
                 ->badge()
-                ->state(fn (WordOfTheDay $record): string => $record->scheduled_for->isPast() && !$record->scheduled_for->isToday() ? 'Verstreken' : 'Gepland')
+                ->state(fn (WordOfTheDay $record): string => $record->scheduled_for->isPast() && ! $record->scheduled_for->isToday() ? 'Verstreken' : 'Gepland')
                 ->color(fn (string $state): string => $state === 'Gepland' ? 'success' : 'gray')
                 ->icon(fn (string $state): Heroicon => $state === 'Gepland' ? Heroicon::Calendar : Heroicon::CheckCircle),
 
@@ -179,12 +178,12 @@ final readonly class WordOfTheDaysTable
                 ->modalFooterActions([EditAction::make(), DeleteAction::make()])
                 ->modalIcon(Heroicon::OutlinedInformationCircle)
                 ->modalIconColor('primary')
-                ->modalHeading(fn ($record) => "Woord van de Dag: " . $record->scheduled_for->format('d-m-Y'))
+                ->modalHeading(fn ($record) => 'Woord van de Dag: '.$record->scheduled_for->format('d-m-Y'))
                 ->modalDescription('Hieronder vind je de details van de planning voor dit specifieke artikel.'),
 
             ActionGroup::make([
                 EditAction::make(),
-                DeleteAction::make()
+                DeleteAction::make(),
             ])->tooltip('Opties'),
         ];
     }

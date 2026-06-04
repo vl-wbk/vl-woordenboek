@@ -18,7 +18,6 @@ use Illuminate\Auth\Access\Response;
  * Each method checks for a specific, granular permission (e.g., 'create:category').
  *
  * @link file://tests/Unit/Authorization/CategoryPolicyTest.php - The file path to the corresponding unit tests.
- * @package App\Policies
  */
 final class CategoryPolicy
 {
@@ -31,7 +30,7 @@ final class CategoryPolicy
      *
      * @var list<string>
      */
-    public static array $permissionPrefixes = ["view", "viewAny", "create", "update", "delete", "deleteAny"];
+    public static array $permissionPrefixes = ['view', 'viewAny', 'create', 'update', 'delete', 'deleteAny'];
 
     /**
      * Determine whether the user can view a collection of categories (Index/List).
@@ -47,7 +46,9 @@ final class CategoryPolicy
      */
     public function viewAny(User $user): Response
     {
-        return $user->can("view-any:category") ? Response::allow() : Response::deny();
+        return $user->can('view-any:category')
+            ? Response::allow()
+            : Response::deny(message: __('U hebt geen machtiging om een overzicht van categorieen te raadplegen.'));
     }
 
     /**
@@ -64,7 +65,9 @@ final class CategoryPolicy
      */
     public function view(User $user, Category $category): Response
     {
-        return $user->can("view:category") ? Response::allow() : Response::deny();
+        return $user->can('view:category')
+            ? Response::allow()
+            : Response::deny(message: __('U hebt geen machtiging om de informatie omtrent een catgeorie te bekijken.'));
     }
 
     /**
@@ -80,7 +83,9 @@ final class CategoryPolicy
      */
     public function create(User $user): Response
     {
-        return $user->can("create:category") ? Response::allow() : Response::deny();
+        return $user->can('create:category')
+            ? Response::allow()
+            : Response::deny(message: __('U hebt geen machtiging om een categorie aan te maken.'));
     }
 
     /**
@@ -97,7 +102,9 @@ final class CategoryPolicy
      */
     public function update(User $user, Category $category): Response
     {
-        return $user->can("update:category") ? Response::allow() : Response::deny();
+        return $user->can('update:category')
+            ? Response::allow()
+            : Response::deny(message: __('U hebt geen machtiging om een categorie aan te passen.'));
     }
 
     /**
@@ -114,7 +121,9 @@ final class CategoryPolicy
      */
     public function delete(User $user, Category $category): Response
     {
-        return $user->can("delete:category") ? Response::allow() : Response::deny();
+        return $user->can('delete:category')
+            ? Response::allow()
+            : Response::deny(message: __('U hebt geen machtiging om een categorie te verwijderen.'));
     }
 
     /**
@@ -130,6 +139,8 @@ final class CategoryPolicy
      */
     public function deleteAny(User $user): Response
     {
-        return $user->can("delete-any:category") ? Response::allow() : Response::deny();
+        return $user->can('delete-any:category')
+            ? Response::allow()
+            : Response::deny(message: __('U hebt geen machtiging om meerdere categorieen te verwijderen.'));
     }
 }

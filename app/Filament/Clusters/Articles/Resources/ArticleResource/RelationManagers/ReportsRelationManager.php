@@ -5,44 +5,44 @@ declare(strict_types=1);
 namespace App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers;
 
 use App\Filament\Clusters\Articles\Resources\ArticleReports\Actions\CloseArticleReportAction;
-use App\Filament\Clusters\Articles\Resources\ArticleReports\Actions\TableActionsConfiguration;
-use App\Filament\Clusters\Articles\Resources\ArticleReports\Schema\ReportForm;
+use App\Filament\Clusters\Articles\Resources\ArticleReports\ArticleReportResource;
 use App\Filament\Clusters\Articles\Resources\ArticleReports\Schema\ReportInfolist;
 use App\Filament\Clusters\Articles\Resources\ArticleReports\Schema\TableSchema;
-use Filament\Actions\Action;
-use Filament\Actions\ActionGroup;
-use Filament\Actions\EditAction;
-use Filament\Support\Enums\Width;
-use Filament\Actions\ViewAction;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use App\Filament\Clusters\Articles\Resources\ArticleReports\ArticleReportResource;
-use App\Filament\Clusters\Articles\Resources\ArticleReports\Schema\TableColumnSchema;
 use App\Filament\Clusters\Volunteers\Resources\VolunteerPositions\Actions\CreateAction;
 use App\Filament\Resources\Articles\Pages\ViewWord;
 use App\Models\ArticleReport;
-use Filament\Forms\Components\Textarea;
+use BackedEnum;
+use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
+use Filament\Support\Enums\Width;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
 final class ReportsRelationManager extends RelationManager
 {
     protected static string $relationship = 'reports';
-    protected static ?string $title = 'Meldingen';
-    protected static ?string $navigationIcon = 'heroicon-o-flag';
-    protected static string | \BackedEnum | null $icon = 'heroicon-o-flag';
 
-    public function isReadOnly(): bool
-    {
-        return $this->getOwnerRecord()->trashed() ? true : false;
-    }
+    protected static ?string $title = 'Meldingen';
+
+    protected static ?string $navigationIcon = 'heroicon-o-flag';
+
+    protected static string|BackedEnum|null $icon = 'heroicon-o-flag';
 
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
     {
         return new $pageClass() instanceof ViewWord;
+    }
+
+    public function isReadOnly(): bool
+    {
+        return (bool) $this->getOwnerRecord()->trashed();
     }
 
     public function infolist(Schema $schema): Schema
