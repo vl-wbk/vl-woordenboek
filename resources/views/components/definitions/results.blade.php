@@ -13,7 +13,7 @@
                         </span>
                     @endif
 
-                    @if ($result->is($wordOfTheDay->article))
+                    @if ($wordOfTheday && $result->is($wordOfTheDay->article))
                         <span class="badge bg-dark-subtle text-dark rounded-pill" style="font-size: 0.6rem;">
                         <x-heroicon-s-sparkles class="icon-sm me-1"/>woord van de dag
                     </span>
