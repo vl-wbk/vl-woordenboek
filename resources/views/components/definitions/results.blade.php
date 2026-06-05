@@ -38,8 +38,18 @@
 
                 <!-- Contextual Footer -->
                 <div class="small text-muted d-flex align-items-center flex-wrap gap-2">
-                    <span class="badge bg-success-subtle text-success border">Door {{ $result->author->name ?? $result->contributor_name ?? config('app.name') }}</span>
+                    <span class="badge bg-success-subtle text-success border">
+                        Door
+
+                        @if ($result->author()->exists())
+                            {{ $result->author->name ?? $result->contributor_name ?? config('app.name') }}
+                        @else
+                            {{ $result->contributor_name ?? config('app.name') }}
+                        @endif
+                    </span>
+                    
                     <span>•</span>
+                    
                     <span>{{ __('Weergaves: :count', ['count' => $result->views]) }}</span>
                 </div>
             </div>
