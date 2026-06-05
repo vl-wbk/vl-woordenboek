@@ -12,10 +12,12 @@ use App\Settings\VolunteerSettings;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
+use Spatie\LaravelData\Exceptions\InvalidDataClass;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Post;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
 final readonly class VolunteersController
 {
@@ -50,6 +52,11 @@ final readonly class VolunteersController
         );
     }
 
+    /**
+     *
+     * @throws InvalidDataClass  when the Data Transef Object contains invalid data.
+     * @throws Throwable         when the volunteer application couldn't be stored successgfully
+     */
     #[Post(uri: "vrijwilligers/aanmelden/{volunteerPosition}", name: "volunteers.apply.store", middleware: ["auth"])]
     public function store(
         StoreVolunteerApplicationRequest $storeVolunteerApplicationRequest,

@@ -7,6 +7,7 @@ namespace App\Actions\Concepts;
 use App\Models\Article;
 use App\Models\Concept;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 /**
  * Converts a concept into a published article suggestion.
@@ -30,6 +31,8 @@ final readonly class SubmitConceptAsSuggestion
      *
      * @param  Concept $concept The conept to promote, optionally with its regions relation already loaded.
      * @return Article          The newly created article record carrying the concept's attributes and regions.
+     *
+     * @throws Throwable when the concept couldn't be stored as concept in the database.
      */
     public function handle(Concept $concept): Article
     {

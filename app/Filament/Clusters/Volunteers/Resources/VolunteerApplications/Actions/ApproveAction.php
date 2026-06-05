@@ -14,6 +14,7 @@ use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use Spatie\Permission\Models\Role;
+use Throwable;
 
 /**
  * @property \App\Models\VolunteerApplications $record
@@ -55,6 +56,9 @@ final class ApproveAction extends Action
         });
     }
 
+    /**
+     * @throws Throwable when the database transaction couldn't complete successfully
+     */
     private function handleVolunteerRequestApproval(): bool
     {
         $role = Role::findById($this->record->volunteerPosition->role_id);

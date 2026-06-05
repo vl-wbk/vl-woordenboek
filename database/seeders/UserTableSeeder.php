@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Attributes\Todo;
 use App\Models\User;
 use App\UserTypes;
 use Illuminate\Database\Seeder;
 
-/** @todo document */
+#[Todo(message: 'Write docblocks for this class and the methods', priority: 'low')]
 final class UserTableSeeder extends Seeder
 {
-    /** @todo document */
     public function run(): void
     {
         collect(UserTypes::cases())->each(function (UserTypes $userType): void {

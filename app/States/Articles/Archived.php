@@ -6,6 +6,7 @@ namespace App\States\Articles;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 /**
  * Represents the archived state of a dictionary article.
@@ -27,6 +28,8 @@ final class Archived extends ArticleState
      * This method is used to restore an article that was previously archived. It changes the article's state
      * to "published" and ensures that the change is persisted to the database. This functionality is useful
      * when archived content becomes relevant again or when an article was archived by mistake.
+     *
+     * @throws Throwable when the data transaction couldn' be completed successfully
      */
     public function transitionToReleased(Carbon $publicationDate): bool
     {

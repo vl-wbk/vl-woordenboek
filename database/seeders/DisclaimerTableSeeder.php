@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Models\Disclaimer;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
 
@@ -36,6 +37,8 @@ final class DisclaimerTableSeeder extends Seeder
      * This comprehensive and automated procedure guarantees that all disclaimer data is accurately and efficiently inserted into the database, providing a solid foundation for managing and displaying various disclaimers throughout the application.
      *
      * @return void     This method does not return any value. Its primary effect is the creation of records within the 'disclaimers' database table.
+     *
+     * @throws FileNotFoundException when the data file for the database seeder couldn't be found
      */
     public function run(): void
     {

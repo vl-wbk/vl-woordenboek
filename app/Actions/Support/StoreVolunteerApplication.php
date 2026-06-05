@@ -8,9 +8,13 @@ use App\Data\VolunteerApplicationData;
 use App\Models\User;
 use App\Models\VolunteerPosition;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 final readonly class StoreVolunteerApplication
 {
+    /**
+     * @throws Throwable when the database transaction couldn't complete successfully
+     */
     public function __invoke(VolunteerPosition $volunteerPosition, VolunteerApplicationData $volunteerApplicationData): void
     {
         $authenticatedUser = $this->findUser($volunteerApplicationData);

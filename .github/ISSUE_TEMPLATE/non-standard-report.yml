@@ -19,7 +19,7 @@ body:
     id: voorgestelde-oplossing
     attributes:
       label: Voorgestelde oplossing
-      description: Wat is het effect van dit probleem of deze melding?
+      description: Welke oplossing stel je voor om het probleem te verhelpen?
   - type: textarea
     id: aanvullende-opmerkingen
     attributes:

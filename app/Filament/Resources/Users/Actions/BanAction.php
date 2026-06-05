@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Users\Actions;
 
+use App\Attributes\Todo;
 use Filament\Actions\Action;
 use App\Models\User;
 use Cog\Contracts\Ban\Ban;
@@ -48,6 +49,7 @@ final class BanAction extends Action
      * We use a danger color scheme and shield-lock icon to indicate the serious nature of this action.
      * The form requires explicit confirmation before proceeding with the deactivation.
      */
+    #[Todo(message: 'Register a DTO class for the form data in the action logic', author: 'Tjoosten', priority: 'info', tags: ['refactoring'])]
     protected function setUp(): void
     {
         parent::setUp();
@@ -64,9 +66,6 @@ final class BanAction extends Action
         );
 
         $this->action(function (): void {
-            /**
-             * @todo Make use of an Dataobject in this data storage handling.
-             */
             $result = $this->process(static fn(array $data, User $record): Ban => $record->ban([
                 'comment' => $data['comment'],
                 'expired_at' => $data['expired_at'],

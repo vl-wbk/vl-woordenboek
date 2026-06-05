@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\Disclaimers\Schema;
 
+use App\Attributes\Todo;
 use Filament\Actions\{ActionGroup, ViewAction, EditAction, DeleteAction, BulkActionGroup, DeleteBulkAction};
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-/**
- * @todo Document this class
- */
+#[Todo(message: 'write docblocks for this class and their methods', priority: 'low')]
 final readonly class TableSchema
 {
     public static function configure(Table $table): Table

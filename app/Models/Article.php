@@ -1,7 +1,5 @@
 <?php
 
-/** @noinspection PhpMissingFieldTypeInspection */
-
 declare(strict_types=1);
 
 namespace App\Models;
@@ -52,28 +50,29 @@ use Override;
  * and includes auditing capabilities to track changes. The model supports relationships with authors,
  * editors, regions, and definitions while also providing likability features.
  *
- * @property int $id                 The unique identifier for the article
- * @property string $word               The dictionary word being defined
- * @property ArticleStates $state              The current state of the article in its lifecycle
- * @property string|null $keywords           The keywords that are attached to the article
- * @property string $description        The detailed explanation of the word
- * @property int $author_id          The ID of the user who created the article
- * @property bool $notify_author        The boolean flag to check if the author of the article wants a publication notification.
- * @property LanguageStatus $status             The current language validation status
- * @property DataOrigin $origin             The origin of the data where the dictionary article is based on.
- * @property string|null $example            Optional usage example of the word
- * @property string|null $characteristics    Additional word characteristics
- * @property int|null $editor_id          The ID of the assigned editor
- * @property int|null $part_of_speech_id  The unique ID of the part of speech information.
- * @property string |null $archiving_reason   The reason why the article has been archived.
- * @property ?Carbon $published_at        The timestamp indicating when the article is published. null = unpublished.
- * @property string|null $redirect_article_id The unique identifier from the article that will be redirect to when archiving the parent
- * @property Carbon $archived_at        Timestamp for when the article is archived at
- * @property Carbon $deleted_at         Timestamp for when the article is marked for deletion.
- * @property Carbon $created_at         Timestamp of when the article was created
- * @property Carbon $updated_at         Timestamp of the last update
+ * @property int                   $id                       The unique identifier for the article
+ * @property string                $word                     The dictionary word being defined
+ * @property ArticleStates         $state                    The current state of the article in its lifecycle
+ * @property string|null           $keywords                 The keywords that are attached to the article
+ * @property string                $description              The detailed explanation of the word
+ * @property int                   $author_id                The ID of the user who created the article
+ * @property bool                  $notify_author            The boolean flag to check if the author of the article wants a publication notification.
+ * @property LanguageStatus        $status                   The current language validation status
+ * @property DataOrigin            $origin                   The origin of the data where the dictionary article is based on.
+ * @property string|null           $example                  Optional usage example of the word
+ * @property string|null           $characteristics          Additional word characteristics
+ * @property int|null              $editor_id                The ID of the assigned editor
+ * @property int|null              $part_of_speech_id        The unique ID of the part of speech information.
+ * @property string|null           $archiving_reason         The reason why the article has been archived.
+ * @property ?Carbon               $published_at             The timestamp indicating when the article is published. null = unpublished.
+ * @property string|null           $redirect_article_id      The unique identifier from the article that will be redirect to when archiving the parent
+ * @property Carbon                $archived_at              Timestamp for when the article is archived at
+ * @property Carbon                $deleted_at               Timestamp for when the article is marked for deletion.
+ * @property Carbon                $created_at               Timestamp of when the article was created
+ * @property Carbon                $updated_at               Timestamp of the last update
+ * @property array{examples: bool} $migration_configuration  The json field where we put configuration that indicates when a article is migrated to a new standard
  *
- * @property-read User $author
+ * @property-read User       $author
  * @property-read Disclaimer $disclaimer
  *
  * @method isPublished()
@@ -247,12 +246,12 @@ final class Article extends Model implements AuditableContract, Commentable
     }
 
     /**
-     * Returns all user-submitted examples linked to this article. 
-     * 
-     * Each userExample belongs to a signle Article via the 'article_id' foreign key. 
-     * ERager-load this relation with ->with('userExamples') to avoid N+1 queries when 
+     * Returns all user-submitted examples linked to this article.
+     *
+     * Each userExample belongs to a single Article via the 'article_id' foreign key.
+     * Eager-load this relation with ->with('userExamples') to avoid N+1 queries when
      * iterating over multiple articles.
-     * 
+     *
      * @return HasMany<UserExample, covariant $this>
      */
     public function userExamples(): HasMany
@@ -385,8 +384,8 @@ final class Article extends Model implements AuditableContract, Commentable
     {
         return Attribute::get(function (): string {
             return (string) str($this->description)
-                ->markdown()     // Maak er HTML van (lost Markdown syntax op)
-                ->stripTags()    // Strip alle resulterende HTML tags
+                ->markdown()
+                ->stripTags()
                 ->squish()
                 ->limit(300);
         });

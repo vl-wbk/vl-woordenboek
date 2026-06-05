@@ -75,7 +75,10 @@ final class PublishWordOfTheDayOnDiscord extends Command
     {
         return WordOfTheDay::whereDate('scheduled_for', today())
             ->firstOr(callback: function (): Article {
-                return Article::published()->inRandomOrder()->first();
+                return Article::published()
+                    ->whereDoesntHave('disclaimer')
+                    ->inRandomOrder()
+                    ->first();
             });
     }
 

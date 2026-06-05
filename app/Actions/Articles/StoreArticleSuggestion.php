@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Actions\Articles;
 
+use App\Attributes\Todo;
 use App\Data\SuggestionData;
 use App\Models\Article;
 use App\Models\Concept;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 /**
  * StoreArticleSuggestion encapsulates the process of saving a new article suggestion.
@@ -46,7 +48,11 @@ final readonly class StoreArticleSuggestion
      * All these operations are wrapped within a database transaction. This design ensures that if any step fails, the
      * transaction will roll back, keeping the database in a consistent state.
      *
-     * @param SuggestionData $suggestionData The data transfer object carrying all details for the new article suggestion.
+     * @param  SuggestionData $suggestionData The data transfer object carrying all details for the new article suggestion.
+     * @param  Concept|null   $concept        The concept version of the dictionary article (database entity).
+     * @return Article
+     *
+     * @throws Throwable when the database transaction couldn't be completed safely.
      */
     public function execute(SuggestionData $suggestionData, ?Concept $concept = null): Article
     {
@@ -70,7 +76,7 @@ final readonly class StoreArticleSuggestion
         return $suggestion;
     }
 
-    /** @todo document */
+    #[Todo(message: 'Write a docblock for this function', priority: 'low')]
     private function getFlashMessage(): string
     {
         return auth()->check()

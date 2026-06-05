@@ -6,6 +6,7 @@ namespace App\Services\DataMigration;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use JsonMachine\Exception\InvalidArgumentException;
 use JsonMachine\Items;
 use RuntimeException;
 
@@ -30,10 +31,12 @@ final readonly class JsonFileStreamer
      * This method ensures that the specified JSON file exists and is readable.
      * It opens a stream to the file and uses `JsonMachine\Items` to parse the JSON content iteratively, which is crucial for handling large files efficiently.
      *
-     * @param  string  $filePath  The path to the JSON file, relative to the configured Laravel disk (e.g., 'data_migrations/users.json').
-     * @return Items              An iterable object that yields JSON items one by one. You can iterate over this object in a `foreach` loop to process each JSON element.
+     * @param  string $filePath  The path to the JSON file, relative to the configured Laravel disk (e.g., 'data_migrations/users.json').
+     * @return Items             An iterable object that yields JSON items one by one. You can iterate over this object in a `foreach` loop to process each JSON element.
      *
      * @throws RuntimeException If the specified file does not exist or cannot be opened for reading.
+     *
+     * @throws InvalidArgumentException
      */
     public function streamJson(string $filePath): Items
     {

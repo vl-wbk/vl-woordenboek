@@ -17,7 +17,6 @@ final class RandomArticleNavigationItem extends Component
             'article' => Article::query()->whereNull('deleted_at') // Equality first
             ->where('published_at', '<=', now()) // Range second
             ->select('id')
-            ->orderBy('published_at', 'desc') // Sort matches the second index column
             ->inRandomOrder()
             ->first(),
         ]);

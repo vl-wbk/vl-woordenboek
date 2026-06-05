@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\States\Articles;
 
+use App\Attributes\Todo;
 use App\Enums\ArticleStates;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 /**
  * Draft handles the state transitions for articles in the Draft state.
@@ -32,7 +34,10 @@ final class Draft extends ArticleState
         $this->article->update(attributes: ['state' => ArticleStates::Approval]);
     }
 
-    /** @todo document */
+    /**
+     * @throws Throwable When the database transaction couldn't completed successfully
+     */
+    #[Todo(message: 'Write docblock for this function', author: 'Tjoosten', priority: 'low')]
     public function transitionToExternalData(): bool
     {
         return DB::transaction(fn(): bool => $this->article->update(attributes: [
@@ -47,6 +52,8 @@ final class Draft extends ArticleState
      * It reverts the article's state to ArticleStates::New and clears the assigned editor.
      *
      * @return bool True if the update succeeds, false otherwise.
+     *
+     * @throws Throwable When the database transaction couldn't completed successfully
      */
     public function transitionToSuggestion(): bool
     {

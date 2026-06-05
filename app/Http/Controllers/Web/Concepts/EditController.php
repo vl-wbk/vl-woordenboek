@@ -13,9 +13,11 @@ use App\Models\Region;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
+use Spatie\LaravelData\Exceptions\InvalidDataClass;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Patch;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Throwable;
 
 final readonly class EditController
 {
@@ -34,6 +36,10 @@ final readonly class EditController
         ]);
     }
 
+    /**
+     * @throws InvalidDataClass  when the Data Transfer Object contains invalid data.
+     * @throws Throwable         when the storage action couldn't not perform successfully.
+     */
     #[Patch(uri: 'concept/{concept}', name: 'concepts:update', middleware: ['auth', 'verified'])]
     public function update(StoreConceptRequest $storeConceptRequest, Concept $concept): RedirectResponse
     {
@@ -44,6 +50,10 @@ final readonly class EditController
         };
     }
 
+    /**
+     * @throws InvalidDataClass  when the data transfer object contains invalid data.
+     * @throws Throwable         when the action that is responsible for updating the concept couldn't complete
+     */
     private function handleConceptUpdate(StoreConceptRequest $storeConceptRequest, Concept $concept): RedirectResponse
     {
         EditSuggestionConcept::execute($storeConceptRequest, $concept);
@@ -52,6 +62,10 @@ final readonly class EditController
         return redirect()->route('concepts:edit', $concept);
     }
 
+    /**
+     * @throws InvalidDataClass  when the Data Transfer Object contains invalid data.
+     * @throws Throwable         when the storage action couldn't not perform successfully.
+     */
     private function handleStoreSubmission(StoreConceptRequest $storeConceptRequest, Concept $concept): RedirectResponse
     {
         $suggestion = (new StoreArticleSuggestion())->execute($storeConceptRequest->getData(), $concept);

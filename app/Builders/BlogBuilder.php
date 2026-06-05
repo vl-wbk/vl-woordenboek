@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace App\Builders;
 
+use App\Attributes\Todo;
 use App\Models\Blog;
 use App\Filament\Clusters\Blog\Resources\Blogs\Enums\Status;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * @todo Document clpass
+/**s
  * @template-extends Builder<Blog>
  */
+#[Todo(message: 'Provide docblocks for this class and methods', author: 'Tjoosten', priority: 'high', tags: ['documentation'])]
 final class BlogBuilder extends Builder
 {
     public function hasCommentsEnabled(): bool

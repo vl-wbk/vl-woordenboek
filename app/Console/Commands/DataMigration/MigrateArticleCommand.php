@@ -7,6 +7,7 @@ namespace App\Console\Commands\DataMigration;
 use App\Services\DataMigration\ArticleImporterFactory;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
+use JsonMachine\Exception\InvalidArgumentException;
 use RuntimeException;
 use Symfony\Component\Console\Attribute\AsCommand;
 
@@ -50,6 +51,9 @@ final class MigrateArticleCommand extends Command
             Log::critical("Article migration: Critical error.", ['error' => $runtimeException->getMessage(), 'path' => self::$sourceFile]);
 
             return Command::FAILURE;
+        } catch (InvalidArgumentException $e) {
+            $this->newLine();
+            $this->error("A critical error occurred during article migration: {$e->getMessage()}");
         }
     }
 }

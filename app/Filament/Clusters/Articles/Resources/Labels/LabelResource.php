@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\Labels;
 
+use App\Attributes\Todo;
 use App\Filament\Clusters\Articles\ArticlesCluster;
 use App\Filament\Clusters\Articles\Resources\Labels\Pages\ListLabels;
 use App\Filament\Clusters\Articles\Resources\Labels\Pages\ViewLabel;
@@ -42,11 +43,10 @@ use UnitEnum;
  * to categorize and organize dictionary articles, making them easier to find and manage. The resource
  * provides a complete interface for administrators to create, view, edit, and delete labels.
  *
- * @TODO Implement translation support for this resource.
- * @todo Clean this resource up through their respective schema classes.
- *
  * @package App\Filament\Clustsers\Articles\Resources\Labels
  */
+#[Todo(message: 'Implement translation systeem voor deze resource', prtiority: 'critical')]
+#[Todo(message: 'Make this resource cleaner by breaking up this rezsource to their respective schema classes')]
 final class LabelResource extends Resource
 {
     use HasActiveIcon;

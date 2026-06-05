@@ -13,6 +13,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Post;
+use Spatie\LaravelData\Exceptions\InvalidDataClass;
+use Throwable;
 
 final class FeedbackController
 {
@@ -29,6 +31,10 @@ final class FeedbackController
         ]);
     }
 
+    /**
+     * @throws InvalidDataClass when the Data Transfer object contains invalid data
+     * @throws Throwable        when the action class that stores the feedback couldn't complete successfully
+     */
     #[Post(uri: 'feedback', name: 'feedback:store')]
     public function store(StoreFeedbackRequest $storeFeedbackRequest, StoreFeedbackSubmission $storeFeedbackSubmission): RedirectResponse
     {

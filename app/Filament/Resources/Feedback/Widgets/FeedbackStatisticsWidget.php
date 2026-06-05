@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Feedback\Widgets;
 
+use App\Attributes\Todo;
 use Filament\Widgets\ChartWidget;
 use Flowframe\Trend\Trend;
 use App\Models\Feedback;
@@ -12,9 +13,7 @@ use Flowframe\Trend\TrendValue;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
-/**
- * @todo Complete the docblocks for this class
- */
+#[Todo(message: 'Complete the docblocks for this class and their methods', priority: 'normal')]
 final class FeedbackStatisticsWidget extends ChartWidget
 {
     public ?string $filter = 'perWeek';

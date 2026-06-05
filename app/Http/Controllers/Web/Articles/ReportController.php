@@ -10,10 +10,14 @@ use App\Models\Article;
 use Spatie\RouteAttributes\Attributes\Post;
 use Spatie\RouteAttributes\Attributes\Middleware;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Throwable;
 
 #[Middleware(middleware: ['auth', 'forbid-banned-user', 'verified'])]
 final readonly class ReportController
 {
+    /**
+     * @throws Throwable
+     */
     #[Post(uri: '/{article}/rapportering', name: 'article-report.create')]
     public function __invoke(StoreReportRequest $storeReportRequest, StoreArticleReport $storeArticleReport, Article $article): RedirectResponse
     {

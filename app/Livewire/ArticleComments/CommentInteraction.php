@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Livewire\ArticleComments;
 
+use App\Attributes\Todo;
 use App\Models\Comment;
 use Illuminate\Contracts\Support\Renderable;
 use Livewire\Component;
+use Exception;
 
 class CommentInteraction extends Component
 {
@@ -29,6 +31,10 @@ class CommentInteraction extends Component
         auth()->user()->like($this->comment);
     }
 
+    /**
+     * @throws Exception when the reaction cannot be unliked.
+     */
+    #[Todo('Provide a custom exception with the rescue helper for this function', author: 'Tjoosten')]
     public function unlikeComment(): void
     {
         auth()->user()->unlike($this->comment);
