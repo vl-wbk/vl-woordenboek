@@ -57,7 +57,7 @@
             <!-- Action Column -->
             <div class="d-flex flex-column align-items-center gap-2 flex-shrink-0">
                 <a href="{{ route('word-information.show', $result) }}" class="btn btn-dark btn-sm w-100">
-                    <x-heroicon-o-eye class="icon-sm me-1"/>Ontdek
+                    <x-heroicon-o-eye class="icon-sm me-1"/> Ontdek
                 </a>
 
                 <div class="d-flex align-items-center gap-2 text-muted mt-1">
