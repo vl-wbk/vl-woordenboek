@@ -174,7 +174,6 @@
 
         {{-- CARD 2: Recente zoekopdrachten --}}
         <style>[x-cloak] { display: none !important; }</style>
-        <style>[x-cloak] { display: none !important; }</style>
 
 <div
     data-base-url="{{ route('search.results') }}"
@@ -241,7 +240,7 @@
 
         {{-- CARD 3: Volunteer Callout --}}
         @if (app(\App\Settings\VolunteerSettings::class)->pageActive)
-            <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+            <div class="card bg-white border-0 shadow-sm rounded-3 overflow-hidden">
                 <div class="card-body position-relative">
                     {{-- Decorative background icon --}}
 
