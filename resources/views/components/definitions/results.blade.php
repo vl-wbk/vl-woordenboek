@@ -5,15 +5,19 @@
             <!-- Main Content -->
             <div class="flex-grow-1">
                 <div class="d-flex align-items-center gap-2 mb-1">
-                    <h5 class="fw-bold m-0 mb-1">{{ $result->word }}</h5>
+                    <h5 class="fw-bold color-green m-0 mb-1">{{ $result->word }}</h5>
 
-                    <span class="badge bg-danger-subtle text-danger rounded-pill" style="font-size: 0.6rem;">
-                        <x-heroicon-s-archive-box class="icon-sm me-1"/>gearchiveerd
-                    </span>
+                    @if ($result->isArchived())
+                        <span class="badge bg-danger-subtle text-danger rounded-pill" style="font-size: 0.6rem;">
+                            <x-heroicon-s-archive-box class="icon-sm me-1"/>gearchiveerd
+                        </span>
+                    @endif
 
-                    <span class="badge bg-secondary-subtle text-secondary rounded-pill" style="font-size: 0.6rem;">
-                        <x-heroicon-s-clock class="icon-sm me-1"/>verouderd artikel
+                    @if ($result->is($wordOfTheDay->article))
+                        <span class="badge bg-dark-subtle text-dark rounded-pill" style="font-size: 0.6rem;">
+                        <x-heroicon-s-sparkles class="icon-sm me-1"/>woord van de dag
                     </span>
+                    @endif
                 </div>
 
                 <!-- Regions -->
@@ -28,7 +32,7 @@
                     </div>
                 @endif
 
-                <div class="text-secondary small mb-3">
+                <div class="text-secondary mb-3" style="font-size: .85rem;">
                     {!! str($result->description)->words(25)->markdown()->sanitizeHtml() !!}
                 </div>
 

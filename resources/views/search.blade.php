@@ -172,6 +172,56 @@
             </div>
         </div>
 
+        {{-- CARD 2: Recente zoekopdrachten --}}
+        <style>[x-cloak] { display: none !important; }</style>
+        <style>[x-cloak] { display: none !important; }</style>
+
+<div
+    data-base-url="{{ route('search.results') }}"
+    x-data="{
+        history: JSON.parse(localStorage.getItem('searchHistory') || '[]'),
+        clear() { this.history = []; localStorage.removeItem('searchHistory'); },
+        baseUrl: $el.dataset.baseUrl,
+    }"
+    x-init="
+        // SECURE: Js::from encodes the input into a safe JSON string
+        const term = {{ Js::from(request()->get('zoekterm')) }};
+        
+        if (term && !history.includes(term)) {
+            history = [term, ...history].slice(0, 5);
+            localStorage.setItem('searchHistory', JSON.stringify(history));
+        }
+    "
+    x-show="history.length > 0"
+    x-cloak
+    class="card bg-white border-0 shadow-sm rounded-3"
+>
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="filter-title mb-0">Recent gezocht</span>
+            <button @click="clear()" class="btn btn-link text-danger p-0 text-decoration-none" style="font-size: 0.80rem;">
+                <x-heroicon-o-trash class="icon icon-sm me-1"/> Wissen
+            </button>
+        </div>
+        <div class="d-flex flex-column gap-1">
+            <template x-for="term in history" :key="term">
+                <a :href="baseUrl + '?zoekterm=' + encodeURIComponent(term)"
+                   class="filter-link d-flex align-items-center justify-content-between">
+                    <span class="d-flex align-items-center">
+                        <x-heroicon-o-clock class="icon me-2 text-muted" style="width:14px;"/>
+                        <span x-text="term"></span>
+                    </span>
+                    <x-heroicon-o-arrow-up-left class="icon text-muted" style="width:13px;"/>
+                </a>
+            </template>
+        </div>
+    </div>
+</div>
+
+        <style>
+    .recent-search-item:hover .recent-search-remove { opacity: 1 !important; }
+</style>
+
         {{-- CARD 2: "Didn't find it?" (The Action Card) --}}
         <div class="card bg-white border-0 shadow-sm rounded-3 bg-light">
             <div class="card-body">
@@ -216,6 +266,7 @@
 @endsection
 
 @section('scripts')
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
             <script>
                 function shareWord(title, url) {
                     if (navigator.share) {
