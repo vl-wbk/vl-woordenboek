@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Actions\Articles;
 
-use App\Attributes\Todo;
+use App\Concerns\HandlesDatabaseTransactions;
 use App\Data\SuggestionData;
 use App\Models\Article;
 use App\Models\Concept;
-use Illuminate\Support\Facades\DB;
 use Throwable;
 
 /**
@@ -26,57 +25,85 @@ use Throwable;
  * process should maintain transactional integrity, ensuring that a failure in any step will roll back the
  * entire process.
  *
- * @package App\Actions\Articles
+ * @see tests/Unit/Actions/Articles/StoreArticleSuggestionTest.php
  */
 final readonly class StoreArticleSuggestion
 {
+    use HandlesDatabaseTransactions;
+
     /**
-     * Executes the suggestion storage workflow.
+     * Processes and persists a new article suggestion.
      *
-     * This method performs the following steps within a single transaction:
-     *
-     * 1. Creates a new Article record with the data provided in the SuggestionData object, while explicitly excluding the
-     *    'regions' attribute. This ensures that the main article data is stored without interference from the region
-     *    associations.
-     *
-     * 2. Synchronizes the article's associated regions using the region IDs provided in the 'regions' field of the
-     *    SuggestionData. This establishes the many-to-many relationship between the article and its regions.
-     *
-     * 3. Checks if a creator_id is provided in the SuggestionData. If so, it associates the newly created article with
-     *    the specified author. This step binds the article to its creator for tracking and future reference.
-     *
-     * All these operations are wrapped within a database transaction. This design ensures that if any step fails, the
-     * transaction will roll back, keeping the database in a consistent state.
+     * This method runs within a database transaction to ensure data integrity.
+     * It creates the article record, snchronizes the associated regions, and deletes the related concept if one
+     * is provided. Finally, it triggers a success notification for the user.
      *
      * @param  SuggestionData $suggestionData The data transfer object carrying all details for the new article suggestion.
      * @param  Concept|null   $concept        The concept version of the dictionary article (database entity).
-     * @return Article
+     * @return Article                        The newly created article as suggestion.
      *
-     * @throws Throwable when the database transaction couldn't be completed safely.
+     * @throws Throwable                      If the database transaction fails.
      */
     public function execute(SuggestionData $suggestionData, ?Concept $concept = null): Article
     {
-        $suggestion = DB::transaction(function () use ($suggestionData, $concept): Article {
-            $suggestion = Article::query()->create($suggestionData->except('regions')->toArray());
-            $suggestion->regions()->sync($suggestionData->regions);
+        /** @var Article $suggestion */
+        $suggestion = $this->executeInTransaction(
+            callback: fn (): Article => $this->storeSuggestion($suggestionData, $concept)
+        );
 
-            if (auth()->check()) {
-                $suggestion->author()->associate(auth()->user()->getAuthIdentifier())->save();
-            }
-
-            if ($concept) {
-                $concept->delete();
-            }
-
-            return $suggestion;
-        });
-
-        flash($this->getFlashMessage(), 'alert-success');
+        flash($this->getFlashMessage(), 'text-success');
 
         return $suggestion;
     }
 
-    #[Todo(message: 'Write a docblock for this function', priority: 'low')]
+    /**
+     * Persists a new article suggestion by mapping the DTO to the model.
+     *
+     * This method handles the core persistence logic: mapping the validated suggestion data to the Article model,
+     * synchronizing region associations, and cleaning up any related concepts. It relies on a helper method to
+     * sanitize and prepare the attributes, ensuring the domain model remains decoupled from the raw request structure.
+     *
+     * @param  SuggestionData $suggestionData The data transfer object containing the suggestion.
+     * @param  Concept|null   $concept        Optional concept record to be deleted after the article is created.
+     * @return Article                        The created article instance.
+     */
+    private function storeSuggestion(SuggestionData $suggestionData, ?Concept $concept = null): Article
+    {
+        $article = Article::create($this->prepareAttributes($suggestionData));
+        $article->regions()->sync($suggestionData->regions);
+
+        $concept?->delete();
+
+        return $article;
+    }
+
+    /**
+     * Maps and prepares the suggestion data for database insertion.
+     *
+     * This method extracts the fillable attributes from the DTO and injects the current user's ID as the author.
+     * By centralizing this logic, we ensure a consistent way to prepare model attributes before persistence.
+     *
+     * @param  SuggestionData $suggestionData The raw DTO data.
+     * @return array<string, mixed>           An associative array of attributes ready for model assignment.
+     */
+    private function prepareAttributes(SuggestionData $suggestionData): array
+    {
+        /** @var array<string, mixed> $data */
+        $data = $suggestionData->except('regions')->toArray();
+
+        return array_merge($data, [
+            'author_id' => auth()->id(),
+        ]);
+    }
+
+    /**
+     * Generates a localized success message based on the user's authentication status.
+     *
+     * This method returns a message informing the user that their suggestion has been received.
+     * It provides a different call-to-action depending on whether the user is authenticated, encouraging guest users to register for status tracking.
+     *
+     * @return string The translated success message.
+     */
     private function getFlashMessage(): string
     {
         return auth()->check()

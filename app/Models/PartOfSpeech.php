@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Carbon\Carbon;
+use Database\Factories\PartOfSpeechFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -28,6 +30,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 final class PartOfSpeech extends Model
 {
+    /** @use HasFactory<PartOfSpeechFactory> */
+    use HasFactory;
+
     /**
      * Mass Assignment Configuration
      *
@@ -43,11 +48,22 @@ final class PartOfSpeech extends Model
     protected $fillable = ['name', 'value', 'suggestible'];
 
     /**
+     * Default eager loading configuration.
+     *
+     * We load 'articles' by default to avoid N+1 issues when displaying  categories alongside their associated entries. 
+     * Use with caution if memory usage becomes a bottleneck.
+     * 
      * @var list<string>
      */
     protected $with = ['articles'];
 
     /**
+     * Get the articles associated with this part of speech. 
+     * 
+     * Defines the one-to-many relationship with the Article Model. 
+     * Since we eager-load this relationship by default, ensure you are aware of the 
+     * memory impact when retrieving large collections of PartofSpeech records. 
+     * 
      * @return HasMany<Article, covariant $this>
      */
     public function articles(): HasMany
@@ -56,6 +72,11 @@ final class PartOfSpeech extends Model
     }
 
     /**
+     * Define attribute type casting. 
+     * 
+     * Ensure 'suggestible' is always treated as a boolean to maintain strict type safety 
+     * when evaluating it in our blade views or logic. 
+     * 
      * @return array<string, string>
      */
     protected function casts(): array

@@ -65,18 +65,23 @@
 
                 {{-- Status Melding --}}
                 @if (flash()->message)
-                    <div class="alert {{ flash()->class }} border-0 shadow-sm rounded-0 border-start border-success border-4 mb-5 p-4 bg-success-200" role="alert">
+                    <div
+                        class="alert alert-secondary border-0 shadow-sm rounded-0 border-start border-secondary rounded border-4 mb-5 p-4"
+                        role="alert"
+                    >
                         <div class="d-flex align-items-center">
                             <div class="flex-shrink-0 me-3">
-                                @if(flash()->class === 'alert-success')
-                                    <x-heroicon-s-check-circle class="icon icon-lg text-success" />
-                                @else
-                                    <x-heroicon-s-information-circle class="icon icon-lg text-primary" />
-                                @endif
                             </div>
                             <div>
-                                <h6 class="fw-bold mb-1" style="color: #1a2a3a;">Systeemmelding</h6>
-                                <p class="mb-0 text-muted">{{ flash()->message }}</p>
+                                <h6 class="fw-bold {{ (flash()->class === 'text-success') ? 'text-success' : 'text-danger' }} mb-1" style="color: #1a2a3a;">
+                                    @if(flash()->class === 'text-success')
+                                        <x-heroicon-s-check class="icon me-1"/> Suggestie goed ontvangen
+                                    @elseif (flash()->class === 'text-danger')
+                                        <x-heroicon-s-wrench-screwdriver class="icon icon-lg" /> Er is iets misgelopen!
+                                    @endif
+                                </h6>
+
+                                <p class="mb-0 text-secondary">{{ flash()->message }}</p>
                             </div>
                             <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>

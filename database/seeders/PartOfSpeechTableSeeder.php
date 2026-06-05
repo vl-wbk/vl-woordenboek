@@ -42,7 +42,7 @@ final class PartOfSpeechTableSeeder extends Seeder
         $jsonDataFile = database_path('data/part_of_speech.json');
 
         /** @var array<int, object{name: string, value: string}> $parts */
-        $parts = json_decode(File::get($jsonDataFile), true, 512, JSON_THROW_ON_ERROR);
+        $parts = json_decode(File::get($jsonDataFile), false, 512, JSON_THROW_ON_ERROR);
 
         foreach ($parts as $partOfSpeech) {
             PartOfSpeech::create(attributes: [

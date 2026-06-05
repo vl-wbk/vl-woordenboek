@@ -36,7 +36,7 @@ final class FlemishWordSeeder extends Seeder
         $jsonDataFile = database_path('data/flemish-words.json');
 
         /** @var array<int, object{word: string, part_of_speech: string, status: int, description: string, example: string, characteristics: string}> $words */
-        $words = json_decode(File::get($jsonDataFile), true, 512, JSON_THROW_ON_ERROR);
+        $words = json_decode(File::get($jsonDataFile), false, 512, JSON_THROW_ON_ERROR);
 
         $editor = User::where('user_type', UserTypes::EditorInChief->value)->first()
             ?? User::where('user_type', UserTypes::Administrators->value)->first()

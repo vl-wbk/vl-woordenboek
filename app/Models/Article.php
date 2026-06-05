@@ -5,12 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Services\ViewCounterService;
-use App\States\Articles\ExternalData;
-use App\States\Articles\Suggestion;
-use App\States\Articles\Draft;
-use App\States\Articles\Approval;
-use App\States\Articles\Published;
-use App\States\Articles\Archived;
+use App\States\Articles;
 use App\Builders\ArticleBuilder;
 use App\Models\Relations\HasNotables;
 use App\Contracts\States\ArticleStateContract;
@@ -21,7 +16,6 @@ use App\Models\Relations\Articles\HasCorrectionSupport;
 use App\Models\Relations\BelongsToAuthor;
 use App\Models\Relations\BelongsToEditor;
 use App\Models\Relations\BelongsToManyRegions;
-use App\States\RejectedPublication;
 use Carbon\Carbon;
 use Database\Factories\ArticleFactory;
 use Illuminate\Database\Eloquent\Attributes\Guarded;
@@ -153,13 +147,13 @@ final class Article extends Model implements AuditableContract, Commentable
     public function articleStatus(): ArticleStateContract
     {
         return match ($this->state) {
-            ArticleStates::ExternalData => new ExternalData($this),
-            ArticleStates::New => new Suggestion($this),
-            ArticleStates::Draft => new Draft($this),
-            ArticleStates::Approval => new Approval($this),
-            ArticleStates::Published => new Published($this),
-            ArticleStates::Archived => new Archived($this),
-            ArticleStates::RejectedPublication => new RejectedPublication($this)
+            ArticleStates::ExternalData => new Articles\ExternalData($this),
+            ArticleStates::New => new Articles\Suggestion($this),
+            ArticleStates::Draft => new Articles\Draft($this),
+            ArticleStates::Approval => new Articles\Approval($this),
+            ArticleStates::Published => new Articles\Published($this),
+            ArticleStates::Archived => new Articles\Archived($this),
+            ArticleStates::RejectedPublication => new Articles\RejectedPublication($this)
         };
     }
 
