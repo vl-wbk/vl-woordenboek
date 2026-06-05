@@ -183,15 +183,13 @@
         clear() { this.history = []; localStorage.removeItem('searchHistory'); },
         baseUrl: $el.dataset.baseUrl,
     }"
-    x-init="
-        // SECURE: Js::from encodes the input into a safe JSON string
+    x-init="(() => {
         const term = {{ Js::from(request()->get('zoekterm')) }};
-        
         if (term && !history.includes(term)) {
             history = [term, ...history].slice(0, 5);
             localStorage.setItem('searchHistory', JSON.stringify(history));
         }
-    "
+    })()"
     x-show="history.length > 0"
     x-cloak
     class="card bg-white border-0 shadow-sm rounded-3"
