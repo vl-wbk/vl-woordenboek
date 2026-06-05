@@ -1,0 +1,31 @@
+name: Auto-reply op nieuwe bijdragen
+on:
+  issues:
+    types: [opened]
+  pull_request:
+    types: [opened]
+
+jobs:
+  reply:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Plaats reactie
+        # Zorgt ervoor dat alleen 'buitenstaanders' (NONE) een bericht krijgen
+        if: github.event.issue.author_association == 'NONE' || github.event.pull_request.author_association == 'NONE'
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.issue.number || github.event.pull_request.number }}
+          body: |
+            Bedankt voor je bericht en voor je interesse in dit project. 🌟
+            
+            Het Vlaams Woordenboek wordt op 'best-effort' basis beheerd door de stuurgroep en de community, waarbij we het onderhoud volledig in onze vrije tijd uitvoeren. Om de stabiliteit en de kwaliteit van het platform te waarborgen, hanteren we een zorgvuldig proces voor het beoordelen van nieuwe meldingen en bijdragen. Houd er daarom rekening mee dat de responstijd kan variëren van enkele dagen tot weken.
+            
+            **Hoe je ons kunt ondersteunen:**
+            * **Zelf op onderzoek uit:** We moedigen je aan om zelf alvast te onderzoeken of je vraag of bug vaker is voorgekomen. Heb je zelf een oplossing of een verbetering voor de website gevonden? Deel deze dan direct via een issue of stuur een pull request in. Dat helpt het platform enorm vooruit.
+            * **Duidelijke meldingen:** Voeg bij bugs of suggesties zoveel mogelijk context toe, zoals schermafbeeldingen of stappen om het probleem te reproduceren.
+            * **Community-support:** Kijk gerust of je anderen in de issues kunt helpen met hun vragen. We stimuleren onderlinge ondersteuning binnen de community.
+            
+            Bedankt voor je begrip, geduld en proactieve inzet voor dit project.
