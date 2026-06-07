@@ -8,6 +8,7 @@ use A909M\FilamentStateFusion\Actions\StateFusionAction;
 use A909M\FilamentStateFusion\Actions\StateFusionActionGroup;
 use App\Attributes\Todo;
 use App\Filament\Clusters\Articles\Resources\CorrectionProposals\CorrectionProposalResource;
+use App\Models\CorrectionProposal;
 use App\Policies\CorrectionProposalPolicy;
 use App\States\Articles\Corrections\ApprovedState;
 use App\States\Articles\Corrections\CorrectionState;
@@ -56,6 +57,9 @@ final class EditCorrectionProposal extends EditRecord
             ->label('Goedkeuren')
             ->authorize(CorrectionProposalPolicy::Approve)
             ->transitionTo(ApprovedState::class)
-            ->successRedirectUrl(CorrectionProposalResource::getUrl('index'));
+            ->successRedirectUrl(CorrectionProposalResource::getUrl('index'))
+            ->after(function (CorrectionProposal $record) {
+                
+            });
     }
 }
