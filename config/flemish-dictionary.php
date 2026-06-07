@@ -27,14 +27,6 @@ return [
      * - guest_limit:  (int) Max attempts allowed for unauthenticated users (via IP).
      * - member_limit: (int) Max attempts allowed for logged-in users (via User ID).
      * - decay_seconds: (int) The time window (in seconds) before the limit resets.
-     * 
-     * ! Note: These limits are basically the wizarding world's version of a Dementor's 
-     * ! kiss, just significantly less soul-sucking and more "429 Too Many Requests."
-     * ! Treat this configuration like the barrier at Platform 9 3/4, if you try to 
-     * ! sprint through it while holding a coffee and a dream, you’re not catching the 
-     * ! train you're just hitting a brick wall and becoming a viral video on TikTok. 
-     * ! ----
-     * ! #nerdbib made me do it, but the resulting social media humiliation is on you.
      */
     'rate-limiting' => [
         'default' => [
@@ -47,13 +39,6 @@ return [
             'guest_limit'  => 4,
             'member_limit' => 10,
             'decay_seconds' => 3600, // Throttled to a 1-hour window
-        ],
-    ],
-
-    'reputation' => [
-        'corrections' => [
-            'enabled' => true, 
-            'approve' => 5
         ],
     ],
 ];
