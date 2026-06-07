@@ -54,7 +54,7 @@ final readonly class CorrectionProposalPolicy
     public function update(User $user, CorrectionProposal $correctionProposal): Response
     {
         $hasCorrectUserType = $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Editor, UserTypes::EditorInChief, UserTypes::Developer]);
-        $isEditable = $correctionProposal->state === PendingState::class;
+        $isEditable = in_array($correctionProposal->state, [PendingState::class]);
 
         return ($hasCorrectUserType && $isEditable)
             ? Response::allow()
