@@ -54,25 +54,25 @@ use Spatie\Permission\Traits\HasRoles;
  * It supports role-based access control through user types, welcome notifications for new users,
  * and interaction tracking through the "likes" system.
  *
- * @property int $id                 Unique identifier for the user
- * @property string $name               The unique username from the account
- * @property string $firstname          User's first name
- * @property string $lastname           User's last name
- * @property string $email              User's email address for authentication
- * @property ?string $bio                  A short description of the user in the platform
- * @property ?string $twitter              The URL to the twitter account of the user.
- * @property ?string $bluesky              The URL to the bluesky account of the user.
- * @property ?string $website              The URL to the website of the user
- * @property UserTypes $user_type          The assigned role group
- * @property string $password           Hashed password for authentication
- * @property Carbon|null $last_seen_at       Timestamp of last activity
- * @property Carbon|null $email_verified_at  Timestamp of email verification
- * @property string|null $remember_token     Token for the "remember me" feature
- * @property Carbon|null $banned_at          Timestamp from when the user account has been banned.
- * @property bool $is_beta_tester     Indicates that the user is a beta tester of not.
- * @property array{examples: bool} $migration_configuration
- * @property Carbon $created_at         Timestamp of account creation
- * @property Carbon $updated_at         Timestamp of the last update
+ * @property int                    $id                 Unique identifier for the user
+ * @property string                 $name               The unique username from the account
+ * @property string                 $firstname          User's first name
+ * @property string                 $lastname           User's last name
+ * @property string                 $email              User's email address for authentication
+ * @property ?string                $bio                  A short description of the user in the platform
+ * @property ?string                $twitter              The URL to the twitter account of the user.
+ * @property ?string                $bluesky              The URL to the bluesky account of the user.
+ * @property ?string                $website              The URL to the website of the user
+ * @property UserTypes              $user_type          The assigned role group
+ * @property string                 $password           Hashed password for authentication
+ * @property Carbon|null            $last_seen_at       Timestamp of last activity
+ * @property Carbon|null            $email_verified_at  Timestamp of email verification
+ * @property string|null            $remember_token     Token for the "remember me" feature
+ * @property Carbon|null            $banned_at          Timestamp from when the user account has been banned.
+ * @property bool                   $is_beta_tester     Indicates that the user is a beta tester of not.
+ * @property array{examples: bool}  $migration_configuration
+ * @property Carbon                 $created_at         Timestamp of account creation
+ * @property Carbon                 $updated_at         Timestamp of the last update
  *
  * @method bans()
  * @method static UserBuilder|static query()
@@ -111,7 +111,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
      *
      * @var list<string>
      */
-    protected $fillable = ['name', 'bluesky', 'twitter', 'website', 'firstname', 'lastname', 'inactivity_warning_sent_at', 'is_beta_tester', 'email', 'user_type', 'password', 'last_seen_at', 'email_verified_at', 'google_id', 'google_token', 'google_refresh_token'];
+    protected $fillable = ['name', 'trust_score', 'bluesky', 'twitter', 'website', 'firstname', 'lastname', 'inactivity_warning_sent_at', 'is_beta_tester', 'email', 'user_type', 'password', 'last_seen_at', 'email_verified_at', 'google_id', 'google_token', 'google_refresh_token'];
 
     /**
      * Defines default values for new user instances.
@@ -194,8 +194,12 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
     /**
      * Finds and collects all the articles that this user has written.
      *
-     * This function connects a single author (this user) to multiple articles.
-     * Think of it as opening a file cabinet labeled with this user's name: everything inside is the articles they have contributed.
+     * This function connects a single author to multiple articles.
+     * Think of it as opening a file cabinet labeled his/her username: everything inside is the articles they have contributed.
+     * 
+     * If you find nothing, please refrain from casting 'Revelio' on the database. 
+     * If the articles aren't showing up, the writing ability has clearly been hexed by Gilderoy Lockhart, 
+     * or the user accidentally left the drafts in the Chamber of Secrets.
      *
      * @return HasMany<Blog, covariant $this>
      */
