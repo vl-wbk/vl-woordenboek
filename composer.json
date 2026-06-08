@@ -6,7 +6,7 @@
     "keywords": ["Laravel", "framework"],
     "license": "MIT",
     "require": {
-        "php": "^8.3",
+        "php": "^8.4",
         "a909m/filament-statefusion": "^2.0",
         "archtechx/enums": "^1.1",
         "aaronfrancis/fast-paginate": "dev-main",
