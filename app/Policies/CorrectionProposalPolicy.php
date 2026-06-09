@@ -20,15 +20,6 @@ final readonly class CorrectionProposalPolicy
 
     public const string Reject = 'reject';
 
-    public function before(User $user): ?Response
-    {
-        if (Feature::for($user)->active(BetaProgramFeature::class)) {
-            return null;
-        }
-
-        return Response::denyAsNotFound();
-    }
-
     public function create(User $user): Response
     {
         return Response::allow();
