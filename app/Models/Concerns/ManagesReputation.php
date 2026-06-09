@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 trait ManagesReputation
 {
-    // 1. Current Level Name
     protected static array $reputationThresholds = [
         ['label' => 'Zoeker',    'threshold' => 0,    'actions' => []],
         ['label' => 'Lezer',      'threshold' => 100,  'actions' => []],
@@ -28,16 +27,16 @@ trait ManagesReputation
     }
 
     public function awardPoints(int $points = 0, string $reason = 'submission_approved'): void
-{
-    $this->increment('reputation', $points);
-    $this->reputationLogs()->create(['points' => $points, 'reason' => $reason]);
-}
+    {
+        $this->increment('reputation', $points);
+        $this->reputationLogs()->create(['points' => $points, 'reason' => $reason]);
+    }
 
-public function subtractPoints(int $points = 0, string $reason = 'submission_invalidated'): void
-{
-    $this->decrement('reputation', $points);
-    $this->reputationLogs()->create(['points' => $points, 'reason' => $reason]);
-}
+    public function subtractPoints(int $points = 0, string $reason = 'submission_invalidated'): void
+    {
+        $this->decrement('reputation', $points);
+        $this->reputationLogs()->create(['points' => $points, 'reason' => $reason]);
+    }
 
 
     public function reputationThresholds(): array
@@ -91,44 +90,46 @@ public function subtractPoints(int $points = 0, string $reason = 'submission_inv
     }
 
     public function availableActions(): array
-{
-    $unlocked = [];
-    foreach (self::$reputationThresholds as $level) {
-        if ($this->reputation >= $level['threshold']) {
-            $unlocked = array_merge($unlocked, $level['actions']);
-        }
-    }
-
-    return $unlocked;
-}
-
-/**
- * Get all actions the user hasn't unlocked yet.
- */
-public function unavailableActions(): array
-{
-    $unavailable = [];
-    foreach (self::$reputationThresholds as $level) {
-        if ($this->reputation < $level['threshold']) {
-            foreach ($level['actions'] as $action) {
-                $unavailable[] = [
-                    'action' => $action,
-                    'threshold' => $level['threshold']
-                ];
+    {
+        $unlocked = [];
+        foreach (self::$reputationThresholds as $level) {
+            if ($this->reputation >= $level['threshold']) {
+                $unlocked = array_merge($unlocked, $level['actions']);
             }
         }
+
+        return $unlocked;
     }
-    return $unavailable;
-}
+
+    /**
+     * Get all actions the user hasn't unlocked yet.
+     */
+    public function unavailableActions(): array
+    {
+        $unavailable = [];
+
+        foreach (self::$reputationThresholds as $level) {
+            if ($this->reputation < $level['threshold']) {
+                foreach ($level['actions'] as $action) {
+                    $unavailable[] = [
+                        'action' => $action,
+                        'threshold' => $level['threshold']
+                    ];
+                }
+            }
+        }
+        return $unavailable;
+    }
 
     public function canPerform(string $actionName): bool
     {
         foreach (self::$reputationThresholds as $level) {
-        // If user meets the threshold, check if the action is in this level's array
-        if ($this->reputation >= $level['threshold'] && in_array($actionName, $level['actions'])) {
-            return true;
+            // If user meets the threshold, check if the action is in this level's array
+            if ($this->reputation >= $level['threshold'] && in_array($actionName, $level['actions'])) {
+                return true;
+            }
         }
-    }
-    return false;
+
+        return false;
     }
 }
