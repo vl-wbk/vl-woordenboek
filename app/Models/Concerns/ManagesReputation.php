@@ -43,7 +43,7 @@ trait ManagesReputation
     protected static array $reputationThresholds = [
         ['label' => 'Zoeker',           'threshold' => 0,    'actions' => []],
         ['label' => 'Lezer',            'threshold' => 100,  'actions' => []],
-        ['label' => 'Schrijver',        'threshold' => 5,  'actions' => ['artikel beschrijvingen bewerken']],
+        ['label' => 'Schrijver',        'threshold' => 500,  'actions' => ['artikel beschrijvingen bewerken']],
         ['label' => 'Taalliefhebber',   'threshold' => 1000, 'actions' => []],
         ['label' => 'Woordkunstenaar',  'threshold' => 2000, 'actions' => []],
         ['label' => 'Ambassadeur',      'threshold' => 4000, 'actions' => []],
