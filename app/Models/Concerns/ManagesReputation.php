@@ -43,7 +43,7 @@ trait ManagesReputation
     protected static array $reputationThresholds = [
         ['label' => 'Zoeker',           'threshold' => 0,    'actions' => []],
         ['label' => 'Lezer',            'threshold' => 100,  'actions' => []],
-        ['label' => 'Schrijver',        'threshold' => 500,  'actions' => ['artikel beschrijvingen bewerken']],
+        ['label' => 'Schrijver',        'threshold' => 5,  'actions' => ['artikel beschrijvingen bewerken']],
         ['label' => 'Taalliefhebber',   'threshold' => 1000, 'actions' => []],
         ['label' => 'Woordkunstenaar',  'threshold' => 2000, 'actions' => []],
         ['label' => 'Ambassadeur',      'threshold' => 4000, 'actions' => []],
@@ -200,7 +200,10 @@ trait ManagesReputation
      * All actions the model is currently allowed to perform.
      *
      * Walks every reached threshold and merges their action lists into one flat array.
+     * Use this when you need to display a "Your current privileges" summary.
+     * For a single yes/no permission check, see canPerform() is more direct.
      *
+     * @see canPerform()
      *
      * @return string[] Flat list of unlocked action strings, may be empty.
      */
@@ -217,6 +220,15 @@ trait ManagesReputation
         return $unlocked;
     }
 
+    /**
+     * All actions the model cannot yet perform, along with the score needed to unlock each.
+     *
+     * Useful for building a "here is what you can unlock next" UI.
+     * Each entry tells you the action name and the exact threshold required, so you can show
+     * the user something like "500 pts needed to unlock article editing".
+     *
+     * @return array{action: string, threshold: int}
+     */
     public function unavailableActions(): array
     {
         $unavailable = [];
@@ -235,6 +247,23 @@ trait ManagesReputation
         return $unavailable;
     }
 
+    /**
+     * Check whether the model is allowed to perform a specific action.
+     *
+     * This is your go-to for a single permission gate — for example, before
+     * letting a user edit an article description:
+     *
+     *   if (! $user->canPerform('artikel beschrijvingen bewerken')) {
+     *       abort(403);
+     *   }
+     *
+     * The action string must exactly match what is defined in {@see $reputationThresholds}.
+     * A typo here will silently return false, so consider extracting action
+     * strings to constants or an enum if the list grows.
+     *
+     * @param  string  $actionName  The action to check, e.g. 'artikel beschrijvingen bewerken'.
+     * @return bool True if the model's reputation qualifies it for this action.
+     */
     public function canPerform(string $actionName): bool
     {
         foreach (self::$reputationThresholds as $level) {

@@ -56,7 +56,7 @@ final class EditCorrectionProposal extends EditRecord
             ->after(function (CorrectionProposal $correctionProposal): void {
                 $this->executeInTransaction(
                     callback: fn () => $correctionProposal->author->awardPoints(
-                        points: -5,
+                        points: -6,
                         reason: 'Afwijzing van een correctie')
                     );
                 });

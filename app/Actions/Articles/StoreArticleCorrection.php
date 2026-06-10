@@ -101,7 +101,9 @@ final readonly class StoreArticleCorrection
             return;
         }
 
+        $article->correctionReason = $data->reason;
         $article->update(['description' => $data->description]);
+
         $user->awardPoints(2, 'Correctie van een artikel beschrijving');
     }
 
