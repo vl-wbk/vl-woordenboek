@@ -10,7 +10,7 @@
           <h1 class="fw-bold mb-0">"{{ request()->get('zoekterm', '') }}"</h1>
           <p class="text-muted small mt-2">
             @if ($results->total() > 0)
-                Toont {{ $results->firstItem() ?? 0 }} tot {{ $results->lastItem() ?? 0 }} van de {{ $results->total() }} resultaten 
+                Toont {{ $results->firstItem() ?? 0 }} tot {{ $results->lastItem() ?? 0 }} van de {{ $results->total() }} resultaten
             @else
             Geen resultaten gevonden
             @endif
@@ -98,7 +98,7 @@
     <div class="sticky-top d-flex flex-column gap-3" style="top: 1.5rem; z-index: 900;">
 
         {{-- CARD 1: Filters & Personal Navigation --}}
-        <div class="card border-0 shadow-sm rounded-3">
+        <div class="card bg-white border-0 shadow-sm rounded-3">
             <div class="card-body">
                  @if ($results->total() > 0)
                     <div class="filter-group mb-4">
@@ -115,13 +115,13 @@
                             {{-- Handmatige check voor weergaves (omdat dit geen standaard toggle is in je huidige component) --}}
                             @if (request('sort') === '-weergaves')
     <a href="{{ request()->fullUrlWithQuery(['sort' => 'weergaves']) }}" class="filter-link">
-        <x-tabler-sort-descending-numbers class="icon me-2"/> 
+        <x-tabler-sort-descending-numbers class="icon me-2"/>
         {{ __('pages/search.sidenav.sort.views') }}
     </a>
 @else
     <a href="{{ request()->fullUrlWithQuery(['sort' => '-weergaves']) }}" class="filter-link">
         {{-- I added the descending icon here to differentiate the "inactive" state --}}
-        <x-tabler-sort-ascending-numbers class="icon  me-2"/> 
+        <x-tabler-sort-ascending-numbers class="icon  me-2"/>
         {{ __('pages/search.sidenav.sort.views') }}
     </a>
 @endif
@@ -172,8 +172,55 @@
             </div>
         </div>
 
+        {{-- CARD 2: Recente zoekopdrachten --}}
+        <style>[x-cloak] { display: none !important; }</style>
+
+<div
+    data-base-url="{{ route('search.results') }}"
+    x-data="{
+        history: JSON.parse(localStorage.getItem('searchHistory') || '[]'),
+        clear() { this.history = []; localStorage.removeItem('searchHistory'); },
+        baseUrl: $el.dataset.baseUrl,
+    }"
+    x-init="(() => {
+        const term = {{ Js::from(request()->get('zoekterm')) }};
+        if (term && !history.includes(term)) {
+            history = [term, ...history].slice(0, 5);
+            localStorage.setItem('searchHistory', JSON.stringify(history));
+        }
+    })()"
+    x-show="history.length > 0"
+    x-cloak
+    class="card bg-white border-0 shadow-sm rounded-3"
+>
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="filter-title mb-0">Recent gezocht</span>
+            <button @click="clear()" class="btn btn-link text-danger p-0 text-decoration-none" style="font-size: 0.80rem;">
+                <x-heroicon-o-trash class="icon icon-sm me-1"/> Wissen
+            </button>
+        </div>
+        <div class="d-flex flex-column gap-1">
+            <template x-for="term in history" :key="term">
+                <a :href="baseUrl + '?zoekterm=' + encodeURIComponent(term)"
+                   class="filter-link d-flex align-items-center justify-content-between">
+                    <span class="d-flex align-items-center">
+                        <x-heroicon-o-clock class="icon me-2 text-muted" style="width:14px;"/>
+                        <span x-text="term"></span>
+                    </span>
+                    <x-heroicon-o-arrow-up-left class="icon text-muted" style="width:13px;"/>
+                </a>
+            </template>
+        </div>
+    </div>
+</div>
+
+        <style>
+    .recent-search-item:hover .recent-search-remove { opacity: 1 !important; }
+</style>
+
         {{-- CARD 2: "Didn't find it?" (The Action Card) --}}
-        <div class="card border-0 shadow-sm rounded-3 bg-light">
+        <div class="card bg-white border-0 shadow-sm rounded-3 bg-light">
             <div class="card-body">
                 <h6 class="fw-bold text-dark mb-2">
                     Niet gevonden wat je zocht?
@@ -181,10 +228,10 @@
                 <p class="small text-muted mb-3">
                     Help ons het woordenboek uit te breiden of probeer iets willekeurigs.
                 </p>
-                
+
                 <div class="d-grid gap-2">
                     <a href="{{ route('definitions.create') }}" class="btn btn-primary btn-sm fw-medium">
-                        <x-heroicon-o-plus class="icon me-1" style="width:16px;"/> 
+                        <x-heroicon-o-plus class="icon me-1" style="width:16px;"/>
                         {{ __('pages/search.sidenav.buttons.submit-suggestion') }}
                     </a>
                 </div>
@@ -193,12 +240,12 @@
 
         {{-- CARD 3: Volunteer Callout --}}
         @if (app(\App\Settings\VolunteerSettings::class)->pageActive)
-            <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+            <div class="card bg-white border-0 shadow-sm rounded-3 overflow-hidden">
                 <div class="card-body position-relative">
                     {{-- Decorative background icon --}}
-                    
+
                     <span class="filter-title mb-2 d-block text-primary">{{ __('components/volunteer-callout.heading') }}!</span>
-                    
+
                     <p class="small text-muted mb-3 position-relative">
                         {{ __('components/volunteer-callout.description', ['applicationName' => config('app.name', 'Laravel')]) }}
                     </p>
@@ -213,4 +260,22 @@
     </div>
 </aside>
     </div>
+@endsection
+
+@section('scripts')
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+            <script>
+                function shareWord(title, url) {
+                    if (navigator.share) {
+                        navigator.share({
+                            title: title,
+                            url: url
+                        }).catch(console.error);
+                    } else {
+                        // Fallback for browsers that don't support it (e.g., copy to clipboard)
+                        navigator.clipboard.writeText(url);
+                        alert('Link gekopieerd naar klembord!');
+                    }
+                }
+            </script>
 @endsection
