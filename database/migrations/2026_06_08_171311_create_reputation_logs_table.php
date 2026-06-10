@@ -9,7 +9,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table): void {
-            $table->after('id', fn () => $table->integer('reputation'));
+            $table->after('id', function () use ($table): void {
+                $table->integer('reputation')->default(0);
+                $table->timestamp('last_decayed_at')->nullable();
+            });
         });
 
         Schema::create('reputation_logs', function (Blueprint $table) {
