@@ -409,17 +409,21 @@
                         </div>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="card-shadcn p-3 d-flex align-items-center justify-content-between border-primary border-opacity-25 text-start">
-                        <div>
-                            <div class="small text-secondary mb-1">Aantal Concepten</div>
-                            <div class="fw-bold h5 mb-0 text-primary">{{ $conceptCount }}</div>
-                        </div>
-                        <div class="p-2 bg-primary bg-opacity-10 rounded text-primary">
-                            <x-heroicon-s-clipboard-document-list style="width: 20px;"/>
+
+                @if (auth()->user()->is($user))
+                    <div class="col">
+                        <div class="card-shadcn p-3 d-flex align-items-center justify-content-between border-primary border-opacity-25 text-start">
+                            <div>
+                                <div class="small text-secondary mb-1">Aantal Concepten</div>
+                                <div class="fw-bold h5 mb-0 text-primary">{{ $conceptCount }}</div>
+                            </div>
+                            <div class="p-2 bg-primary bg-opacity-10 rounded text-primary">
+                                <x-heroicon-s-clipboard-document-list style="width: 20px;"/>
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endif
+
                 <div class="col">
                     <div class="card-shadcn p-3 d-flex align-items-center justify-content-between border-primary border-opacity-25 text-start">
                         <div>
