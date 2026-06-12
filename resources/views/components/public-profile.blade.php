@@ -384,16 +384,19 @@
                 </div>
             @endif
 
-            <hr>
+            @if (auth()->user()->is($user))
+                <div>
+                    <div class="sidenav-label">Account</div>
 
-            <div class="px-1">
-                <nav class="nav flex-column gap-1">
-                    <a href="{{ route('account:reputation') }}" class="social-link-compact text-decoration-none">
-                        <x-heroicon-o-queue-list class="social-icon-sm"/>
-                        <span class="text-truncate">Bekijk mijn reputatie</span>
-                    </a>
-                </nav>
-            </div>
+                    <nav class="nav flex-column">
+                        <a href="{{ route('account:reputation') }}" class="sidenav-link {{ active('account:reputation') }} d-flex align-items-center">
+                            <x-heroicon-o-shield-check class="icon color-green"/>
+                            <span class="flex-grow-1">Mijn reputatie</span>
+                            {{-- <span class="badge rounded-pill bg-count-badge ms-auto">{{ $totals->new }}</span> --}}
+                        </a>
+                    </nav>
+                </div>
+            @endif
         </div>
 
         <div class="col-lg-9">
