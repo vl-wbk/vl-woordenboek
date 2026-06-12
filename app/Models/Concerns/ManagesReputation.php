@@ -98,8 +98,13 @@ trait ManagesReputation
      */
     public function subtractPoints(int $points = 0, string $reason = 'submission_invalidated'): void
     {
-        $this->decrement('reputation', $points);
-        $this->reputationLogs()->create(['points' => $points, 'reason' => $reason]);
+        $points = abs($points);
+        $amountToDecrement = min($this->reputation, $points);
+
+        if ($amountToDecrement > 0) {
+            $this->decrement('reputation', $amountToDecrement);
+            $this->reputationLogs()->create(['points' => $points, 'reason' => $reason]);
+        }
     }
 
     /**
