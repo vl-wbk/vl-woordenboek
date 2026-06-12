@@ -19,6 +19,7 @@ use Filament\Resources\Pages\EditRecord;
 use Filament\Resources\Pages\ViewRecord;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Contracts\Support\Htmlable;
+use App\Models\CorrectionProposal;
 use Override;
 
 final class EditCorrectionProposal extends EditRecord
