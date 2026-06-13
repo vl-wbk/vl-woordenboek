@@ -383,6 +383,17 @@
                     </nav>
                 </div>
             @endif
+
+            <hr>
+
+            <div class="px-1">
+                <nav class="nav flex-column gap-1">
+                    <a href="{{ route('account:reputation') }}" class="social-link-compact text-decoration-none">
+                        <x-heroicon-o-queue-list class="social-icon-sm"/>
+                        <span class="text-truncate">Bekijk mijn reputatie</span>
+                    </a>
+                </nav>
+            </div>
         </div>
 
         <div class="col-lg-9">

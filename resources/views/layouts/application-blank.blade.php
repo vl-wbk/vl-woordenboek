@@ -122,7 +122,13 @@
                             </li>
                         @endif
                     @else
-                        <li class=nav-item"">
+                        <li class="nav-item">
+                            <a href="{{ route('notifications:index') }}" class="nav-link">
+                                <x-heroicon-s-bell class="icon me-1"/> {{ auth()->user()->unreadNotifications->count() }}
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
                             <a href="{{ route('profile:inbox') }}" class="nav-link">
                                 <x-heroicon-s-envelope class="icon me-1"/> {{ auth()->user()->unreadMessagesCount() }}
                             </a>
