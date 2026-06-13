@@ -384,16 +384,19 @@
                 </div>
             @endif
 
-            <hr>
+            @if (auth()->user()->is($user))
+                <div>
+                    <div class="sidenav-label">Account</div>
 
-            <div class="px-1">
-                <nav class="nav flex-column gap-1">
-                    <a href="{{ route('account:reputation') }}" class="social-link-compact text-decoration-none">
-                        <x-heroicon-o-queue-list class="social-icon-sm"/>
-                        <span class="text-truncate">Bekijk mijn reputatie</span>
-                    </a>
-                </nav>
-            </div>
+                    <nav class="nav flex-column">
+                        <a href="{{ route('account:reputation') }}" class="sidenav-link {{ active('account:reputation') }} d-flex align-items-center">
+                            <x-heroicon-o-shield-check class="icon color-green"/>
+                            <span class="flex-grow-1">Mijn reputatie</span>
+                            {{-- <span class="badge rounded-pill bg-count-badge ms-auto">{{ $totals->new }}</span> --}}
+                        </a>
+                    </nav>
+                </div>
+            @endif
         </div>
 
         <div class="col-lg-9">
@@ -409,17 +412,21 @@
                         </div>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="card-shadcn p-3 d-flex align-items-center justify-content-between border-primary border-opacity-25 text-start">
-                        <div>
-                            <div class="small text-secondary mb-1">Aantal Concepten</div>
-                            <div class="fw-bold h5 mb-0 text-primary">{{ $conceptCount }}</div>
-                        </div>
-                        <div class="p-2 bg-primary bg-opacity-10 rounded text-primary">
-                            <x-heroicon-s-clipboard-document-list style="width: 20px;"/>
+
+                @if (auth()->user()->is($user))
+                    <div class="col">
+                        <div class="card-shadcn p-3 d-flex align-items-center justify-content-between border-primary border-opacity-25 text-start">
+                            <div>
+                                <div class="small text-secondary mb-1">Aantal Concepten</div>
+                                <div class="fw-bold h5 mb-0 text-primary">{{ $conceptCount }}</div>
+                            </div>
+                            <div class="p-2 bg-primary bg-opacity-10 rounded text-primary">
+                                <x-heroicon-s-clipboard-document-list style="width: 20px;"/>
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endif
+
                 <div class="col">
                     <div class="card-shadcn p-3 d-flex align-items-center justify-content-between border-primary border-opacity-25 text-start">
                         <div>

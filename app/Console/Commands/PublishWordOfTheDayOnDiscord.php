@@ -74,11 +74,13 @@ final class PublishWordOfTheDayOnDiscord extends Command
     private function fetchWordOfTheDay(): WordOfTheDay|Article
     {
         return WordOfTheDay::whereDate('scheduled_for', today())
-            ->firstOr(callback: function (): Article {
-                return Article::published()
-                    ->whereDoesntHave('disclaimer')
-                    ->inRandomOrder()
-                    ->first();
+            ->firstOr(callback: function (): WordOfTheDay {
+                $fallbackArticle = Article::published()->whereDoesntHave('disclaimer')->inRandomOrder() ->first();
+
+                return WordOfTheDay::create(attributes: [
+                    'article_id' => $fallbackArticle->getKey(),
+                    'scheduled_for' => today(),
+                ]);
             });
     }
 
