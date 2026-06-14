@@ -7,6 +7,8 @@ namespace App\States\Articles\Corrections\Transitions;
 use App\Models\CorrectionProposal;
 use App\Models\User;
 use App\States\Articles\Corrections\RejectedState;
+use Filament\Forms\Components\Toggle;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\DB;
 use Schmeits\FilamentCharacterCounter\Forms\Components\Textarea;
@@ -42,11 +44,19 @@ final class ToRejected extends Transition
     }
 
     /**
-     * @return array<Textarea>
+     * @return array<Textarea|Toggle>
      */
     public function form(): array
     {
         return [
+            Toggle::make('exclude_reputation')
+                ->label('Vrijstellen van reputatie aftek.')
+                ->offColor('danger')
+                ->offIcon(Heroicon::OutlinedXMark)
+                ->onColor('success')
+                ->onIcon(Heroicon::OutlinedCheck)
+                ->autofocus(),
+
             Textarea::make('conclusion')
                 ->label('Reden tot afwijzing')
                 ->hiddenLabel()

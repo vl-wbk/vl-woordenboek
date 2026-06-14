@@ -383,6 +383,23 @@
                     </nav>
                 </div>
             @endif
+<<<<<<< HEAD
+=======
+
+            @if (auth()->user()->is($user))
+                <div>
+                    <div class="sidenav-label">Account</div>
+
+                    <nav class="nav flex-column">
+                        <a href="{{ route('account:reputation') }}" class="sidenav-link {{ active('account:reputation') }} d-flex align-items-center">
+                            <x-heroicon-o-shield-check class="icon color-green"/>
+                            <span class="flex-grow-1">Mijn reputatie</span>
+                            {{-- <span class="badge rounded-pill bg-count-badge ms-auto">{{ $totals->new }}</span> --}}
+                        </a>
+                    </nav>
+                </div>
+            @endif
+>>>>>>> user-reputation
         </div>
 
         <div class="col-lg-9">
