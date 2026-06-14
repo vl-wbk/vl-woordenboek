@@ -2,7 +2,7 @@
 
 @section('openGraph')
     <meta name="robots" content="noindex, nofollow" />
-
+    
     <meta property="og:title" content="{{ $word->word }} - {{ config('app.name', 'Laravel') }}"/>
     <meta property="og:type" content="article"/>
     <meta property="og:url" content="{{ request()->fullUrl() }}"/>
@@ -23,7 +23,7 @@
 @section('content')
     <style>
         .markdown-text p:not(:last-child) { margin-bottom: .70rem; }
-
+        
         /* Segmented Pill Navigation Styles */
         .segmented-tabs .nav-link {
             color: #6c757d !important;
@@ -44,7 +44,7 @@
     <div class="container-fluid py-5">
         <div class="row justify-content-center">
             <div class="col-12 col-xl-11">
-
+                
                 <!-- Breadcrumb Navigation Header -->
                 <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-4">
                     <nav aria-label="breadcrumb">
@@ -75,25 +75,20 @@
                             </div>
                         </div>
                     @endif
-
+                    
                     <!-- ── LEFT COLUMN: CORRECTION FORM ── -->
                     <div class="col-lg-6">
                         <div class="card shadow-sm border-0 mb-4">
                             <div class="card-header bg-white border-bottom p-4">
                                 <h2 class="h5 fw-bold text-dark mb-2 d-flex align-items-center">
                                     <x-heroicon-o-pencil-square class="color-green me-2" style="width: 1.5rem; height: 1.5rem;"/>
-
-                                    @if (auth()->user()->canPerform('artikel beschrijvingen bewerken'))
-                                        Artikel corrigeren
-                                    @else
-                                        Verbetering doorgeven
-                                    @endif
+                                    Verbetering doorgeven
                                 </h2>
                                 <p class="text-muted small mb-0">
                                     Bedankt om mee te bouwen aan het Vlaams woordenboek. Wijzig hieronder de velden die een correctie vereisen.
                                 </p>
                             </div>
-
+                            
                             <div class="card-body bg-white p-4">
                                 <form action="{{ route('correction:store', $word) }}" method="POST">
                                     @csrf
@@ -115,7 +110,7 @@
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
-
+                                    
                                     <hr>
 
                                     <!-- Context / Reason for Correction -->
@@ -135,15 +130,8 @@
                                         <span class="text-muted small"><span class="text-danger">*</span> Verplicht veld</span>
                                         <div class="d-flex gap-2">
                                             <a href="{{ route('word-information.show', $word) }}" class="btn btn-link px-3 text-decoration-none text-secondary">Annuleren</a>
-
                                             <button type="submit" class="btn btn-submit shadow-sm px-4 fw-medium">
-                                                <x-heroicon-s-paper-airplane class="icon me-1" style="transform: rotate(-45deg);"/>
-
-                                                @if (auth()->user()->canPerform('artikel beschrijvingen bewerken'))
-                                                    artikel aanpassen
-                                                @else
-                                                    correctie indienen
-                                                @endif
+                                                <x-heroicon-s-paper-airplane class="icon me-1" style="transform: rotate(-45deg);"/> correctie indienen
                                             </button>
                                         </div>
                                     </div>
@@ -155,7 +143,7 @@
                     <!-- ── RIGHT COLUMN: CURRENT LIVE VERSION ── -->
                     <div class="col-lg-6">
                         <div class="position-sticky" style="top: 2rem;">
-
+                            
                             <!-- Compact Alert Notice -->
                             <div class="alert alert-info border-0 shadow-sm mb-3 d-flex align-items-center gap-2 py-2 px-3" role="alert">
                                 <x-heroicon-s-information-circle class="icon text-info flex-shrink-0" style="width: 1.25rem; height: 1.25rem;"/>
@@ -167,7 +155,7 @@
                             <!-- Context Card View with App-style Tab Control -->
                             <div class="card shadow-sm border-0 bg-white" id="article-content">
                                 <div class="card-header bg-white p-3 border-bottom-0">
-
+                                    
                                     <!-- Meta Header Details -->
                                     <div class="mb-3 text-muted small">
                                         <!-- Top Row: Word and Part of Speech -->
@@ -177,7 +165,7 @@
                                                 <span class="badge bg-primary-subtle text-primary border border-primary-subtle-semibold">{{ $word->partOfSpeech->name }}</span>
                                             @endif
                                         </div>
-
+                                        
                                         <!-- Bottom Row: Characteristics -->
                                         @if($word->characteristics)
                                             <div class="fst-italic text-secondary mt-1" style="font-size: 0.85rem;">
@@ -185,7 +173,7 @@
                                             </div>
                                         @endif
                                     </div>
-
+                                    
                                     <!-- App-style Segmented Pills Control -->
                                     <div class="overflow-x-auto pb-1">
                                         <ul class="nav nav-pills bg-light rounded-2 p-1 gap-1 border segmented-tabs flex-nowrap" id="liveArticleTabs" role="tablist">
@@ -216,7 +204,7 @@
                                 <!-- Card Body with Content Panels & Internal Scroll -->
                                 <div class="card-body p-3 pt-0">
                                     <div class="tab-content overflow-y-auto px-1" id="liveArticleTabsContent" style="max-height: 50vh;">
-
+                                        
                                         <!-- Tab 1: Description & Examples -->
                                         <div class="tab-pane fade show active markdown-text" id="desc-tab-pane" role="tabpanel" aria-labelledby="desc-tab" tabindex="0">
                                             {!! str($word->description)->markdown()->sanitizeHtml() !!}
@@ -279,7 +267,7 @@
                                                                     <x-heroicon-s-book-open class="icon text-success flex-shrink-0 mt-1"/>
 
                                                                     <div class="flex-grow-1">
-
+                                                                    
                                                                         <div class="fw-medium small text-dark">{{ $source->referenceWork->name }}</div>
 
                                                                         @if($source->notation)
@@ -304,7 +292,7 @@
                     </div><!-- /col-lg-5 -->
 
                 </div><!-- /row -->
-
+                
             </div>
         </div>
     </div>
