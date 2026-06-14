@@ -40,6 +40,7 @@ final readonly class CorrectionController
     public function store(Article $article, ArticleCorrectRequest $articleCorrectRequest, StoreArticleCorrection $storeArticleCorrection): RedirectResponse
     {
         $storeArticleCorrection($article, $articleCorrectRequest->getData());
+        flash('We hebben je correctie goed ontvangen! We modereren deze zo spoedig mogelijk.', 'alert-success');
 
         return back();
     }

@@ -12,7 +12,6 @@ use App\Contracts\States\ArticleStateContract;
 use App\Enums\ArticleStates;
 use App\Enums\DataOrigin;
 use App\Enums\LanguageStatus;
-use App\Models\Concerns\ManagesArticleAudits;
 use App\Models\Relations\Articles\HasCorrectionSupport;
 use App\Models\Relations\BelongsToAuthor;
 use App\Models\Relations\BelongsToEditor;
@@ -89,7 +88,7 @@ final class Article extends Model implements AuditableContract, Commentable
     use BelongsToManyRegions;
     use BelongsToEditor;
     use BelongsToAuthor;
-    use ManagesArticleAudits;
+    use Auditable;
     use Likeable;
     use SoftDeletes;
     use HasNotables;
