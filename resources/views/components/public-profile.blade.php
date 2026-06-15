@@ -383,11 +383,7 @@
                     </nav>
                 </div>
             @endif
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
->>>>>>> next
+
 
             @if (auth()->user()->is($user))
                 <div>
@@ -402,10 +398,6 @@
                     </nav>
                 </div>
             @endif
-<<<<<<< HEAD
-=======
->>>>>>> user-reputation
->>>>>>> next
         </div>
 
         <div class="col-lg-9">

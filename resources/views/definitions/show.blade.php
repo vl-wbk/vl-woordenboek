@@ -455,7 +455,12 @@
                                     @if (auth()->check() && auth()->user()->can('create', \App\Models\CorrectionProposal::class))
                                         <a href="{{ route('correction:create', $word) }}" class="btn btn-white w-100">
                                             <x-heroicon-o-pencil-square class="icon me-1"/>
-                                            <span>Correctie voorstellen</span>
+
+                                            @if (auth()->user()->canPerform('artikel beschrijvingen bewerken'))
+                                                <span>Artkel corriggeren</span>
+                                            @else
+                                                <span>Correctie voorstellen</span>
+                                            @endif
                                         </a>
                                     @endif
 
