@@ -50,7 +50,7 @@ trait BelongsToAuthor
      *
      * @throws AuthenticationException
      */
-    public function setCurrentUserAsAuthor(): self
+    public function setCurrentUserAsAuthor(): void
     {
         $authUser = Auth::user();
 
@@ -59,8 +59,6 @@ trait BelongsToAuthor
         }
 
         $this->setAuthor($authUser);
-
-        return $this;
     }
 
     /**
