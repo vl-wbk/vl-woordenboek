@@ -5,8 +5,10 @@ declare(strict_types=1);
 
 namespace App\Models\Concerns;
 
+use App\Models\Appeal;
 use App\Models\ReputationLog;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -66,6 +68,11 @@ trait ManagesReputation
         return $this->hasMany(ReputationLog::class);
     }
 
+    public function appeals(): HasMany
+{
+    return $this->hasMany(Appeal::class);
+}
+
     /**
      * Add points to the model's reputation and log why.
      *
@@ -77,10 +84,17 @@ trait ManagesReputation
      * @param  string   $reason     A short description of why the points were awarded.
      * @return void
      */
-    public function awardPoints(int $points = 0, string $reason = 'submission_approved'): void
+    public function awardPoints(Model $resource, int $points = 0, string $reason = 'submission_approved'): void
     {
         $this->increment('reputation', $points);
-        $this->reputationLogs()->create(['points' => $points, 'reason' => $reason]);
+
+        $this->reputationLogs()->create(attributes: [
+            'points' => $points,
+            'type' => 'award',
+            'resource_type' => $resource->getMorphClass(),
+            'resource_id' => $resource->getKey(),
+            'reason' => $reason
+        ]);
     }
 
     /**
@@ -96,14 +110,21 @@ trait ManagesReputation
      * @param  string   $reason     A short description of why the points were deducted.
      * @return void
      */
-    public function subtractPoints(int $points = 0, string $reason = 'submission_invalidated'): void
+    public function subtractPoints(Model $resource, int $points = 0, string $reason = 'submission_invalidated'): void
     {
         $points = abs($points);
         $amountToDecrement = min($this->reputation, $points);
 
         if ($amountToDecrement > 0) {
             $this->decrement('reputation', $amountToDecrement);
-            $this->reputationLogs()->create(['points' => $points, 'reason' => $reason]);
+
+            $this->reputationLogs()->create(attributes: [
+                'points' => $points,
+                'resource_type' => $resource->getMorphClass(),
+                'resource_id' => $resource->getKey(),
+                'type' => 'deduction',
+                'reason' => $reason
+            ]);
         }
     }
 

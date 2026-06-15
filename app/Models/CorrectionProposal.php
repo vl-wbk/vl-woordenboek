@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Override;
 use Spatie\ModelStates\HasStates;
 use Throwable;
@@ -38,6 +39,11 @@ final class CorrectionProposal extends Model
     public function article(): BelongsTo
     {
         return $this->belongsTo(Article::class);
+    }
+
+    public function appeals(): MorphMany
+    {
+        return $this->morphMany(Appeal::class, 'resource');
     }
 
 

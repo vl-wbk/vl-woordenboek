@@ -290,17 +290,19 @@
 
     <div class="row justify-content-center g-5">
         <div class="col-lg-2">
-            <div class="">
-                <div class="sidenav-label">
-                    <x-heroicon-s-magnifying-glass class="icon-sm me-1"/> Zoeken
+            @if (! active(['account:reputation', 'appeal:*']))
+                <div class="">
+                    <div class="sidenav-label">
+                        <x-heroicon-s-magnifying-glass class="icon-sm me-1"/> Zoeken
+                    </div>
+
+                    <form method="GET" action="{{ request()->url() }}" class="position-relative">
+                        <input type="text" name="zoekterm" value="{{ request()->input('zoekterm') }}" class="search-input-shadcn" placeholder="Woord zoeken...">
+                    </form>
                 </div>
 
-                <form method="GET" action="{{ request()->url() }}" class="position-relative">
-                    <input type="text" name="zoekterm" value="{{ request()->input('zoekterm') }}" class="search-input-shadcn" placeholder="Woord zoeken...">
-                </form>
-            </div>
-
-            <hr>
+                <hr>
+            @endif
 
             <div class="mb-4">
                 <nav class="nav flex-column">
@@ -389,7 +391,7 @@
                     <div class="sidenav-label">Account</div>
 
                     <nav class="nav flex-column">
-                        <a href="{{ route('account:reputation') }}" class="sidenav-link {{ active('account:reputation') }} d-flex align-items-center">
+                        <a href="{{ route('account:reputation') }}" class="sidenav-link {{ active(['account:reputation', 'appeal:*']) }} d-flex align-items-center">
                             <x-heroicon-o-shield-check class="icon color-green"/>
                             <span class="flex-grow-1">Mijn reputatie</span>
                             {{-- <span class="badge rounded-pill bg-count-badge ms-auto">{{ $totals->new }}</span> --}}

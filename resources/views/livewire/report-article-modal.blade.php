@@ -21,9 +21,9 @@
                         <label for="exampleInputEmail1" class="form-label">{{ __('components/article-report.form.word.label') }}</label>
                         <input class="form-control" disabled value="{{ $article->word }}" id="exampleInputEmail1">
                     </div>
-                    <div class="mb-0">
+                    <div class="mb-3">
                         <label for="description" class="form-label">{{ __('components/article-report.form.report.label') }} <span class="fw-bold text-danger">*</span></label>
-                        <textarea name="melding" id="description" class="form-control" placeholder="{{ __('components/article-report.form.report.placeholder') }}" rows="4"></textarea>
+                        <textarea name="melding" id="description" class="form-control" placeholder="{{ __('components/article-report.form.report.placeholder') }}" rows="4" required></textarea>
                     </div>
                 </div>
 

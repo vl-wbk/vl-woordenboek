@@ -7,11 +7,11 @@ namespace App\States\Articles\Corrections\Transitions;
 use App\Models\CorrectionProposal;
 use App\Models\User;
 use App\States\Articles\Corrections\RejectedState;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\DB;
-use Schmeits\FilamentCharacterCounter\Forms\Components\Textarea;
 use Spatie\ModelStates\Transition;
 use Throwable;
 
@@ -63,6 +63,7 @@ final class ToRejected extends Transition
                 ->placeholder('Vertel ons kort waarom je deze correctie afwijst.')
                 ->required()
                 ->rows(5)
+                ->helperText('Let op! dit eindbesluit zal gedeeld worden met de gebruiker')
                 ->maxLength(500),
         ];
     }

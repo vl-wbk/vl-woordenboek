@@ -19,7 +19,6 @@ use Filament\Resources\Pages\EditRecord;
 use Filament\Resources\Pages\ViewRecord;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Contracts\Support\Htmlable;
-use App\Models\CorrectionProposal;
 use Override;
 
 final class EditCorrectionProposal extends EditRecord
@@ -58,8 +57,9 @@ final class EditCorrectionProposal extends EditRecord
                 if (! $data['exclude_reputation']) {
                     $this->executeInTransaction(
                         callback: fn () => $correctionProposal->author->subtractPoints(
+                            resource: $correctionProposal,
                             points: 6,
-                            reason: 'Afwijzing van een correctie')
+                            reason: __('Afwijzing van een correctie voor het woord: :word', ['word' => $correctionProposal->article->word]))
                         );
                 }
             });
@@ -75,8 +75,9 @@ final class EditCorrectionProposal extends EditRecord
             ->after(function (CorrectionProposal $correctionProposal): void {
                 $this->executeInTransaction(
                     callback: fn () => $correctionProposal->author->awardPoints(
+                        resource: $correctionProposal,
                         points: 4,
-                        reason: 'Goedkeuring van een correctie')
+                        reason: __('Goedkeuring van een correctie voor het woord: :word', ['word' => $correctionProposal->article->word]))
                     );
                 });
     }
