@@ -198,7 +198,7 @@
             <span>Max. <strong>3 beroepen per maand</strong> &mdash; {{ $appealsThisMonth }}/3 gebruikt.</span>
         </div>
         @if ($appealsThisMonth < 3)
-            <a href="{{ route('appeal:create') }}" class="btn btn-sm btn-primary flex-shrink-0" style="font-size: 0.75rem;">
+            <a href="{{ route('appeal:create') }}" class="btn btn-sm disabled btn-primary flex-shrink-0" style="font-size: 0.75rem;">
                 <x-heroicon-o-plus style="width: 12px;"/> Nieuw beroep
             </a>
         @else
