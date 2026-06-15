@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Web\Account;
 
 use App\Notifications\TestNotification;
-use App\Queries\NotificationsQuery;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Delete;
@@ -19,17 +18,52 @@ final readonly class NotificationsController
     #[Get(uri: '/meldingen', name: 'notifications:index')]
     public function __invoke(Request $request): Renderable
     {
-        $queryService = new NotificationsQuery($request->user());
+        $user = auth()->user();
+        $tab  = $request->input('tab', 'all');
+        $q    = $request->input('zoekterm');
 
-        return view('notifications.index', [
-            'notifications' => $queryService->getPaginated(
-                $request->input('tab', 'all'),
-                $request->input('zoekterm')
-            ),
-            'tabCounts'     => $queryService->getCounts(),
-            'tabs'          => $queryService->getTabs(),
-            'typeConfig'    => $queryService->getTypeConfig(),
-        ]);
+        $query = $user->notifications();
+        $user->notify(new TestNotification());
+
+        // Tab filter
+        match($tab) {
+            'unread'     => $query->whereNull('read_at'),
+            'suggesties' => $query->where('data->type', 'suggesties'),
+            'kudos'      => $query->where('data->type', 'kudos'),
+            'reacties'   => $query->where('data->type', 'reacties'),
+            'systeem'    => $query->where('data->type', 'systeem'),
+            default      => null,
+        };
+
+        // Zoekterm filter
+        if ($q) {
+            $query->where(function ($sub) use ($q) {
+                $sub->where('data->title', 'like', "%{$q}%")
+                    ->orWhere('data->body', 'like', "%{$q}%");
+            });
+        }
+
+        $notifications = $query->latest()->paginate(7);
+
+        $totalCount   = $user->notifications()->count();
+        $unreadCount  = $user->unreadNotifications()->count();
+        $kudosCount   = $user->notifications()->where('data->type', 'kudos')->count();
+
+        $typeCounts = [
+            'suggesties' => $user->notifications()->where('data->type', 'suggesties')->count(),
+            'kudos'      => $kudosCount,
+            'reacties'   => $user->notifications()->where('data->type', 'reacties')->count(),
+            'systeem'    => $user->notifications()->where('data->type', 'systeem')->count(),
+        ];
+
+        return view('notifications.index', compact(
+            'notifications',
+            'totalCount',
+            'unreadCount',
+            'kudosCount',
+            'typeCounts',
+            'user'
+        ));
     }
 
     #[Patch(uri: '/meldingen/{id}/gelezen', name: 'notifications:read')]

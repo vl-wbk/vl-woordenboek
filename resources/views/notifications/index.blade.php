@@ -192,6 +192,33 @@
 
 @php
     $activeTab = request()->input('tab', 'all');
+    $unreadCount = $notifications->getCollection()->filter(fn($n) => is_null($n->read_at))->count();
+
+    $tabCounts = [
+        'all'        => $totalCount,
+        'unread'     => $unreadCount,
+        'suggesties' => $typeCounts['suggesties'] ?? 0,
+        'kudos'      => $typeCounts['kudos'] ?? 0,
+        'reacties'   => $typeCounts['reacties'] ?? 0,
+        'systeem'    => $typeCounts['systeem'] ?? 0,
+    ];
+
+    $tabs = [
+        ['key' => 'all',        'label' => 'Alle'],
+        ['key' => 'unread',     'label' => 'Ongelezen'],
+        ['key' => 'suggesties', 'label' => 'Suggesties'],
+        ['key' => 'kudos',      'label' => 'Kudos'],
+        ['key' => 'reacties',   'label' => 'Reacties'],
+        ['key' => 'systeem',    'label' => 'Systeem'],
+    ];
+
+    $typeConfig = [
+        'suggesties' => ['iconClass' => 'ic-blue',   'badgeClass' => 'nb-blue',   'label' => 'Suggestie'],
+        'kudos'      => ['iconClass' => 'ic-green',  'badgeClass' => 'nb-green',  'label' => 'Kudos'],
+        'reacties'   => ['iconClass' => 'ic-purple', 'badgeClass' => 'nb-purple', 'label' => 'Reactie'],
+        'contact'    => ['iconClass' => 'ic-red',    'badgeClass' => 'nb-red',    'label' => 'Contact'],
+        'systeem'    => ['iconClass' => 'ic-gray',   'badgeClass' => 'nb-gray',   'label' => 'Systeem'],
+    ];
 @endphp
 
 <div class="container-fluid py-4">
@@ -223,7 +250,7 @@
                     </div>
                 </div>
                 <div class="d-none d-md-flex gap-2 align-items-center">
-                    @if($tabCounts['unread'] > 0)
+                    @if($unreadCount > 0)
                         <form method="POST" action="{{ route('notifications:readAll') }}">
                             @csrf @method('PATCH')
                             <button type="submit" class="btn btn-shadcn shadow-sm btn-outline-shadcn">
@@ -301,8 +328,8 @@
                     <a href="{{ route('notifications:index') }}" class="sidenav-link {{ active('notifications:index') }}">
                         <x-heroicon-o-bell class="icon color-green"/>
                         <span class="flex-grow-1">Meldingen</span>
-                        @if($tabCounts['unread'] > 0)
-                            <span class="sidenav-count">{{ $tabCounts['unread'] }}</span>
+                        @if($unreadCount > 0)
+                            <span class="sidenav-count">{{ $unreadCount }}</span>
                         @endif
                     </a>
                     <a href="" class="sidenav-link {{ active('account:reputation') }}">
@@ -399,7 +426,7 @@
 
                         {{-- Actions --}}
                         <div class="n-actions">
-                            @if($isUnread && isset($data['url']))
+                            @if(!$isUnread === false && isset($data['url']))
                                 <a href="{{ $data['url'] }}" class="btn btn-shadcn btn-outline-shadcn btn-xs">
                                     {{ $data['action_label'] ?? 'Bekijk' }}
                                 </a>
