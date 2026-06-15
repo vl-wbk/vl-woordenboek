@@ -19,6 +19,7 @@ use Filament\Resources\Pages\EditRecord;
 use Filament\Resources\Pages\ViewRecord;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Contracts\Support\Htmlable;
+use App\Models\CorrectionProposal;
 use Override;
 
 final class EditCorrectionProposal extends EditRecord
@@ -53,13 +54,15 @@ final class EditCorrectionProposal extends EditRecord
             ->modal()
             ->transitionTo(RejectedState::class)
             ->successRedirectUrl(CorrectionProposalResource::getUrl('index'))
-            ->after(function (CorrectionProposal $correctionProposal): void {
-                $this->executeInTransaction(
-                    callback: fn () => $correctionProposal->author->awardPoints(
-                        points: -6,
-                        reason: 'Afwijzing van een correctie')
-                    );
-                });
+            ->after(function (CorrectionProposal $correctionProposal, array $data): void {
+                if (! $data['exclude_reputation']) {
+                    $this->executeInTransaction(
+                        callback: fn () => $correctionProposal->author->subtractPoints(
+                            points: 6,
+                            reason: 'Afwijzing van een correctie')
+                        );
+                }
+            });
     }
 
     private function getApproveFormAction(): StateFusionAction
