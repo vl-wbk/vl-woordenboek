@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Web\Account;
 
+use App\Models\Article;
+use App\Notifications\SendoutPublicationNotification;
 use App\Notifications\TestNotification;
 use App\Queries\NotificationsQuery;
 use Illuminate\Contracts\Support\Renderable;

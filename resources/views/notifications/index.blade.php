@@ -305,7 +305,7 @@
                             <span class="sidenav-count">{{ $tabCounts['unread'] }}</span>
                         @endif
                     </a>
-                    <a href="" class="sidenav-link {{ active('account:reputation') }}">
+                    <a href="{{ route('account:reputation') }}" class="sidenav-link {{ active('account:reputation') }}">
                         <x-heroicon-o-queue-list class="icon color-green"/>
                         <span class="flex-grow-1">Reputatie</span>
                     </a>
@@ -389,7 +389,7 @@
                         {{-- Body --}}
                         <div class="n-body">
                             <p class="n-title mb-0">{{ $data['title'] ?? 'Nieuwe melding' }}</p>
-                            <p class="n-desc mb-0">{{ $data['body'] ?? '' }}</p>
+                            <p class="n-desc mb-2">{{ $data['body'] ?? '' }}</p>
                             <div class="n-meta">
                                 <span class="n-badge {{ $cfg['badgeClass'] }}">{{ $cfg['label'] }}</span>
                                 <x-heroicon-o-clock style="width:11px;"/>
