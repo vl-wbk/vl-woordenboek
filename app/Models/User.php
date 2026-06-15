@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Attributes\Todo;
 use App\Builders\UserBuilder;
 use App\Mail\AccountPrunedMailable;
+use App\Models\Concerns\ManagesReputation;
 use App\Models\Concerns\ManagesUserGroups;
 use App\Models\Relations\Contactable;
 use App\Models\Relations\UsesPreferences;
@@ -104,6 +105,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
     use HasBookmarks;
     use InteractsWithPasskeys;
     use ManagesUserGroups;
+    use ManagesReputation;
 
     /**
      * Specifies which attributes can be mass assigned when creating or updating user records.
