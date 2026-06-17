@@ -386,6 +386,7 @@
                 </div>
             @endif
 
+
             @if (auth()->user()->is($user))
                 <div>
                     <div class="sidenav-label">Account</div>
