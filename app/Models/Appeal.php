@@ -18,4 +18,11 @@ class Appeal extends Model
     {
         return $this->belongsTo(ReputationLog::class);
     }
+
+    protected function casts(): array
+    {
+        return [
+            'reviewed_at' => 'datetime',
+        ];
+    }
 }

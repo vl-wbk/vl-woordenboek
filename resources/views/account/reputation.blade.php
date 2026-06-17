@@ -198,7 +198,7 @@
             <span>Max. <strong>3 beroepen per maand</strong> &mdash; {{ $appealsThisMonth }}/3 gebruikt.</span>
         </div>
         @if ($appealsThisMonth < 3)
-            <a href="{{ route('appeal:create') }}" class="btn btn-sm disabled btn-primary flex-shrink-0" style="font-size: 0.75rem;">
+            <a href="{{ route('appeal:create') }}" class="btn btn-sm btn-primary flex-shrink-0" style="font-size: 0.75rem;">
                 <x-heroicon-o-plus style="width: 12px;"/> Nieuw beroep
             </a>
         @else
@@ -247,8 +247,8 @@
                     <div style="min-width: 0;">
                         <div class="fw-medium text-truncate">{{ $appeal->reputationLog->reason }}</div>
                         @if ($appeal->moderator_note)
-                            <div class="mt-1 px-2 py-1 rounded" style="font-size: 0.7rem; background: #f8faff; border-left: 2px solid #93c5fd; color: #374151;">
-                                <span class="fw-semibold" style="color: #2563eb;">Notitie:</span>
+                            <div class="py-1 rounded" style="font-size: 0.7rem; color: #374151;">
+                                <span class="fw-semibold" style="color: #2563eb;">Eindbesluit:</span>
                                 {{ $appeal->moderator_note }}
                             </div>
                         @endif
