@@ -54,7 +54,7 @@ final class SendoutPublicationNotification extends Notification implements Shoul
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -66,9 +66,6 @@ final class SendoutPublicationNotification extends Notification implements Shoul
      */
     public function toMail(object $notifiable): MailMessage
     {
-        // We only send the notification when the article is published the first time. This call marks that.
-        $this->article->update(attributes: ['notify_author' => false]);
-
         // Build up the notification email
         return (new MailMessage())
             ->subject(subject: __('mail-notifications.article-publication.subject', ['app' => config('app.name', 'laravel')]))
@@ -86,5 +83,16 @@ final class SendoutPublicationNotification extends Notification implements Shoul
     private function articleUrl(): string
     {
         return url('woordenboek-artikel/' . $this->article->id);
+    }
+
+    public function toArray($notifiable): array
+    {
+        return [
+            'type'         => 'suggesties',
+            'title'        => 'We hebben een van je suggestie gepubliceerd',
+            'body'         => 'Het gaat om de suggestie van de woord: ' . $this->article->word,
+            'url'          => $this->articleUrl(),
+            'action_label' => 'bekijken',
+        ];
     }
 }
