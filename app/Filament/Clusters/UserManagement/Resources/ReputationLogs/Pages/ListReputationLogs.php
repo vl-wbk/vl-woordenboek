@@ -9,11 +9,4 @@ use Filament\Resources\Pages\ListRecords;
 class ListReputationLogs extends ListRecords
 {
     protected static string $resource = ReputationLogResource::class;
-
-    protected function getHeaderActions(): array
-    {
-        return [
-            CreateAction::make(),
-        ];
-    }
 }

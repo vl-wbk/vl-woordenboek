@@ -16,11 +16,4 @@ class ListAppeals extends ListRecords
     {
         return AppealResource::getWidgets();
     }
-
-    protected function getHeaderActions(): array
-    {
-        return [
-            CreateAction::make(),
-        ];
-    }
 }
