@@ -68,11 +68,6 @@ trait ManagesReputation
         return $this->hasMany(ReputationLog::class);
     }
 
-    public function appeals(): HasMany
-{
-    return $this->hasMany(Appeal::class);
-}
-
     /**
      * Add points to the model's reputation and log why.
      *

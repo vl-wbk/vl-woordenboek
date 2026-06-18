@@ -16,7 +16,7 @@ use Spatie\RouteAttributes\Attributes\Post;
 final readonly class AppealController
 {
     #[Get(uri: 'nieuw-beroep', name: 'appeal:create')]
-    public function create(): Renderable
+    public function create(Request $request): Renderable
     {
         $appealedLogIds = auth()->user()
             ->appeals()
@@ -30,31 +30,20 @@ final readonly class AppealController
             ->latest()
             ->get();
 
-        $appealsThisMonth = auth()->user()
-            ->appeals()
-            ->whereMonth('created_at', now()->month)
-            ->whereYear('created_at', now()->year)
-            ->count();
 
-        abort_if($appealsThisMonth >= 3, 403, 'Maandelijkse limiet bereikt.');
+        abort_if($request->user()->monthlyAppeals >= 3, 403, 'Maandelijkse limiet bereikt.');
 
         return view('account.reputation.appeal', data: [
             'user' => auth()->user(),
             'reputationLogs' => $reputationLogs,
-            'appealsThisMonth' => $appealsThisMonth
+            'appealsThisMonth' => $request->user()->monthlyAppeals
         ]);
     }
 
     #[Post(uri: 'nieuw-beroep', name: 'appeal:store')]
     public function store(Request $request): RedirectResponse
     {
-        $appealsThisMonth = auth()->user()
-            ->appeals()
-            ->whereMonth('created_at', now()->month)
-            ->whereYear('created_at', now()->year)
-            ->count();
-
-        abort_if($appealsThisMonth >= 3, 429, 'Maandelijkse limiet bereikt.');
+        abort_if($request->user()->monthlyAppeals  >= 3, 429, 'Maandelijkse limiet bereikt.');
 
         $request->validate([
     'reputation_log_id' => [

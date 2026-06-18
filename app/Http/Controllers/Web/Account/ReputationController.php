@@ -16,23 +16,18 @@ final readonly class ReputationController
     {
         $appealStatus = request('appeal_status');
 
-$appeals = $request->user()->appeals()
-    ->with('reputationLog')
-    ->when($appealStatus, fn ($q) => $q->where('status', $appealStatus))
-    ->latest()
-    ->paginate(5, ['*'], 'appeal_page');
-
-        $appealsThisMonth = $request->user()->appeals()
-            ->whereMonth('created_at', now()->month)
-            ->whereYear('created_at', now()->year)
-            ->count();
+        $appeals = $request->user()->appeals()
+            ->with('reputationLog')
+            ->when($appealStatus, fn ($q) => $q->where('status', $appealStatus))
+            ->latest()
+            ->paginate(5, ['*'], 'appeal_page');
 
         return view('account.reputation', data: [
             'user' => $request->user(),
             'reputationLogs' => $request->user()->reputationLogs()->latest()->paginate(10),
             'displayFeedbackDialog' => true,
             'appeals' => $appeals,
-            'appealsThisMonth' => $appealsThisMonth
+            'appealsThisMonth' => $request->user()->monthlyAppeals
         ]);
     }
 }
