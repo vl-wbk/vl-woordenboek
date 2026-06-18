@@ -137,9 +137,54 @@
                                 </div>
 
                                 <div class="mb-5">
-                                    <label for="beschrijving" class="form-label small text-uppercase fw-black text-muted">Beschrijving en voorbeelden <span class="text-danger fw-bold">*</span></label>
-                                    <textarea name="beschrijving" id="beschrijving" rows="12" class="form-control @error('beschrijving') is-invalid @enderror p-3 @error('beschrijving') is-invalid @enderror" placeholder="Wat is de kern van de betekenis? Vergeet ook zeker niet de voorbeelden van het gebruik mee te geven.">{{ old('beschrijving') }}</textarea>
+                                    <label for="beschrijving" class="form-label small text-uppercase fw-black text-muted">Beschrijving <span class="text-danger fw-bold">*</span></label>
+                                    <textarea name="beschrijving" id="beschrijving" rows="6" class="form-control @error('beschrijving') is-invalid @enderror p-3 @error('beschrijving') is-invalid @enderror" placeholder="Wat is de kern van de betekenis?">{{ old('beschrijving') }}</textarea>
                                     @error('woord') <span class="text-danger small fw-bold">Verplicht veld</span> @enderror
+                                </div>
+
+                                <div class="mb-1">
+                                    <label for="woordsoort" class="form-label small text-uppercase fw-black text-muted">Voorbeeldzinnen <span class="text-danger fw-bold">*</span></label>
+
+                                    <div id="kv-container">
+                                        @foreach(old('voorbeeldzin', [[]]) as $i => $pair)
+                                            <div class="row g-2 align-items-start kv-row mb-2">
+                                                <div class="col">
+                                                    <input type="text"
+                                                        name="voorbeeldzin[{{ $i }}][bron]"
+                                                        value="{{ old("source.$i.key") }}"
+                                                        class="form-control @error("voorbeeldzin.$i.bron") is-invalid @enderror"
+                                                        placeholder="bijv. https://www.vrt.be"
+                                                    />
+
+                                                    @error("voorbeeldzin.$i.bron")
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col-7">
+                                                    <textarea type="text"
+                                                        name="voorbeeldzin[{{ $i }}][waarde]"
+                                                        class="form-control resizable @error("voorbeeldzin.$i.waarde") is-invalid @enderror"
+                                                        rows="1"
+                                                        placeholder="Voorbeeldzin">{{ old("voorbeeldzin.$i.waarde") }}</textarea>
+
+                                                    @error("voorbeeldzin.$i.waarde")
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col-auto d-flex align-items-center" style="padding-top: 1px;">
+                                                    <button type="button" class="btn shadow-sm btn-outline-danger remove-row">
+                                                        <x-heroicon-o-trash class="icon"/>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+
+                                    <button type="button" class="btn btn-outline-secondary btn-sm mt-2" id="add-pair">
+                                        <x-heroicon-o-plus-circle class="icon me-1"/> extra voorbeeldzin
+                                    </button>
                                 </div>
                             </div>
 
@@ -296,4 +341,42 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+<script>
+    document.getElementById('add-pair').addEventListener('click', () => {
+        const container = document.getElementById('kv-container');
+        const rows = container.querySelectorAll('.kv-row');
+        const index = rows.length;
+        const clone = rows[0].cloneNode(true);
+
+        clone.querySelectorAll('input').forEach(input => {
+            input.value = '';
+            input.classList.remove('is-invalid');
+            // update name index: source[0][key] → source[N][key]
+            input.name = input.name.replace(/\[\d+\]/, `[${index}]`);
+        });
+        clone.querySelectorAll('.invalid-feedback').forEach(el => el.remove());
+
+        container.appendChild(clone);
+    });
+
+    document.getElementById('kv-container').addEventListener('click', e => {
+        if (e.target.closest('.remove-row')) {
+            const rows = document.querySelectorAll('.kv-row');
+            if (rows.length > 1) {
+                e.target.closest('.kv-row').remove();
+            }
+        }
+    });
+</script>
+@endsection
+
+@section('styles')
+    <style>
+        textarea.resizable {
+            resize: vertical !important;
+        }
+    </style>
 @endsection

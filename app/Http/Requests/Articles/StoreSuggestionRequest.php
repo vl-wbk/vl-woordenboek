@@ -47,6 +47,20 @@ final class StoreSuggestionRequest extends FormRequest
             'beschrijving' => ['required'],
             'regio' => ['required', 'array', 'min:1'],
             'woordsoort' => [],
+
+            'voorbeeldzin'             => ['required', 'array', 'min:1'],
+            'voorbeeldzin.*.bron'       => ['required', 'string', 'regex:/^[a-zA-Z_][a-zA-Z0-9_]*$/'],
+            'voorbeeldzin.*.waarde'     => ['required', 'string', 'max:255'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'voorbeeldzin.required'         => 'Ten minste één sleutel-voorbeeldzin paar is vereist.',
+            'voorbeeldzin.*.bron.required'  => 'Elk paar moet een bron hebben.',
+            'voorbeeldzin.*.bron.regex'     => 'De bron moet beginnen met een letter of underscore en mag geen spaties bevatten.',
+            'voorbeeldzin.*.waarde.required'=> 'Elk paar moet een voorbeeldzin hebben.',
         ];
     }
 }
