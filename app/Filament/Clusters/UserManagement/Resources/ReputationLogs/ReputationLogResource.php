@@ -1,23 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Clusters\UserManagement\Resources\ReputationLogs;
 
-use App\Filament\Clusters\UserManagement\Resources\ReputationLogs\Pages\CreateReputationLog;
-use App\Filament\Clusters\UserManagement\Resources\ReputationLogs\Pages\EditReputationLog;
 use App\Filament\Clusters\UserManagement\Resources\ReputationLogs\Pages\ListReputationLogs;
-use App\Filament\Clusters\UserManagement\Resources\ReputationLogs\Schemas\ReputationLogForm;
 use App\Filament\Clusters\UserManagement\Resources\ReputationLogs\Tables\ReputationLogsTable;
 use App\Filament\Clusters\UserManagement\UserManagementCluster;
 use App\Filament\Support\Concerns\HasActiveIcon;
 use App\Models\ReputationLog;
 use BackedEnum;
 use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use UnitEnum;
 
-class ReputationLogResource extends Resource
+final class ReputationLogResource extends Resource
 {
     use HasActiveIcon;
 

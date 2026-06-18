@@ -1,15 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Clusters\UserManagement\Resources\Appeals\Pages;
 
 use App\Filament\Clusters\UserManagement\Resources\Appeals\Actions\ApproveAppealAction;
 use App\Filament\Clusters\UserManagement\Resources\Appeals\Actions\RejectAppealAction;
 use App\Filament\Clusters\UserManagement\Resources\Appeals\AppealResource;
 use Filament\Actions\Action;
-use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
 
-class ViewAppeal extends ViewRecord
+final class ViewAppeal extends ViewRecord
 {
     protected static string $resource = AppealResource::class;
 

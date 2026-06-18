@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\UserManagement\Resources\Appeals;
 
-use App\Filament\Clusters\UserManagement\Resources\Appeals\Pages\CreateAppeal;
-use App\Filament\Clusters\UserManagement\Resources\Appeals\Pages\EditAppeal;
 use App\Filament\Clusters\UserManagement\Resources\Appeals\Pages\ListAppeals;
 use App\Filament\Clusters\UserManagement\Resources\Appeals\Pages\ViewAppeal;
 use App\Filament\Clusters\UserManagement\Resources\Appeals\Schemas\AppealForm;
@@ -18,7 +16,6 @@ use App\Models\Appeal;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Override;
 use UnitEnum;
