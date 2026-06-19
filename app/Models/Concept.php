@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Observers\ConceptObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\{BelongsTo, BelongsToMany, HasMany, MorphMany, MorphToMany};
+use Illuminate\Database\Eloquent\Relations\{BelongsTo, BelongsToMany, MorphMany};
 
+
+#[ObservedBy(ConceptObserver::class)]
 final class Concept extends Model
 {
     use HasFactory;
@@ -30,9 +34,9 @@ final class Concept extends Model
         return $this->author()->is($user);
     }
 
-    public function userExamples(): HasMany
+    public function userExamples(): MorphMany
     {
-        return $this->hasMany(UserExample::class, 'concepts_user_examples');
+        return $this->morphMany(UserExample::class, 'exampleable');
     }
 
     /**

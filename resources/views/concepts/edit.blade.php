@@ -423,6 +423,55 @@
                                 </div>
 
                                 <div class="col-12">
+                                    <label for="description" class="form-label fw-semibold small mb-1 text-dark">
+                                        Voorbeeldzinnen <span class="text-danger fw-bold">*</span>
+                                    </label>
+
+                                    <div id="kv-container">
+                                        @foreach(old('voorbeeldzin', $concept->userExamples ?? [[]]) as $i => $pair)
+                                            <div class="row g-2 align-items-start kv-row mb-2">
+                                                <input type="hidden" name="voorbeeldzin[{{ $i }}][id]" value="{{ $pair['id'] ?? '' }}" />
+
+                                                <div class="col">
+                                                    <input type="text"
+                                                        name="voorbeeldzin[{{ $i }}][bron]"
+                                                        value="{{ old("voorbeeldzin.$i.bron", is_array($pair) ? ($pair['bron'] ?? '') : $pair->source) }}"
+                                                        class="form-control @error("voorbeeldzin.$i.bron") is-invalid @enderror"
+                                                        placeholder="bijv. https://www.vrt.be"
+                                                    />
+
+                                                    @error("voorbeeldzin.$i.bron")
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col-7">
+                                                    <textarea type="text"
+                                                        name="voorbeeldzin[{{ $i }}][waarde]"
+                                                        class="form-control resizable @error("voorbeeldzin.$i.waarde") is-invalid @enderror"
+                                                        rows="3"
+                                                        placeholder="Voorbeeldzin">{{ old("voorbeeldzin.$i.waarde", is_array($pair) ? ($pair['waarde'] ?? '') : $pair->example) }}</textarea>
+
+                                                    @error("voorbeeldzin.$i.waarde")
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col-auto d-flex align-items-center" style="padding-top: 1px;">
+                                                    <button type="button" class="btn shadow-sm btn-outline-danger remove-row">
+                                                        <x-heroicon-o-trash class="icon"/>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+
+                                    <button type="button" class="btn btn-outline-secondary btn-sm mt-2" id="add-pair">
+                                        <x-heroicon-o-plus-circle class="icon me-1"/> extra voorbeeldzin
+                                    </button>
+                                </div>
+
+                                <div class="col-12">
                                     <hr class="mt-0">
                                     <div class="p-3 rounded-2 bg-light bg-opacity-50 border border-dashed mb-2">
 
@@ -470,4 +519,47 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    document.getElementById('add-pair').addEventListener('click', () => {
+        const container = document.getElementById('kv-container');
+        const rows = container.querySelectorAll('.kv-row');
+        const index = rows.length;
+        const clone = rows[0].cloneNode(true);
+
+        // Clear all inputs, including the hidden id field
+        clone.querySelectorAll('input, textarea').forEach(field => {
+            if (field.type === 'hidden') {
+                field.value = ''; // crucial: new rows must NOT inherit an existing id
+            } else {
+                field.value = '';
+            }
+            field.classList.remove('is-invalid');
+            field.name = field.name.replace(/\[\d+\]/, `[${index}]`);
+        });
+
+        clone.querySelectorAll('.invalid-feedback').forEach(el => el.remove());
+
+        container.appendChild(clone);
+    });
+
+    document.getElementById('kv-container').addEventListener('click', e => {
+        if (e.target.closest('.remove-row')) {
+            const rows = document.querySelectorAll('.kv-row');
+            if (rows.length > 1) {
+                e.target.closest('.kv-row').remove();
+            }
+        }
+    });
+</script>
+@endsection
+
+@section('styles')
+    <style>
+        textarea.resizable {
+            resize: vertical !important;
+        }
+    </style>
 @endsection

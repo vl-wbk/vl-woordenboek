@@ -10,6 +10,8 @@ use Spatie\LaravelData\Data;
 final class ExampleSentenceData extends Data
 {
     public function __construct(
+        public ?int $id = null,
+
         #[MapInputName('bron')]
         public string $bron,
         #[MapInputName('waarde')]

@@ -35,6 +35,11 @@ final class StoreConceptRequest extends FormRequest
         ];
     }
 
+    public function getSubmissionAction(): string
+    {
+        return $this->input('action');
+    }
+
     public function messages(): array
     {
         return [
