@@ -222,6 +222,34 @@ final readonly class ArticleForm
                 ->maxHeight('160px')
                 ->required()
                 ->autofocus(false),
+
+            MarkdownEditor::make('example')
+                ->maxHeight('160px')
+                ->helperText(str('Dit veld ondersteunt enkel [**Markdown**](https://www.markdownguide.org/cheat-sheet/)')->inlineMarkdown()->toHtmlString())
+                ->columnSpanFull()
+                ->visible(fn (Article $article): bool => $article->migration_configuration['examples'] === false)
+                ->hintAction(LanguageAdviceAction::make()),
+
+            Repeater::make('userExamples')
+                ->label('Voorbeeldzinnen (nieuw formaat)')
+                ->relationship()
+                ->compact()
+                ->columnSpanFull()
+                ->autofocus()
+                ->compact()
+                ->visible(fn (Article $article): bool => $article->migration_configuration['examples'] === true)
+                ->table([
+                     Repeater\TableColumn::make('Voorbeeldzin'),
+                     Repeater\TableColumn::make('Bron'),
+                 ])
+                ->schema([
+                     Textarea::make('example')
+                        ->rows(1)
+                        ->required(),
+
+                     TextInput::make('source')
+                        ->required(),
+                 ]),
         ];
     }
 

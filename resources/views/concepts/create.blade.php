@@ -512,21 +512,28 @@
 
 @section('scripts')
 <script>
+    function reindexVoorbeeldzinRows() {
+        document.querySelectorAll('#kv-container .kv-row').forEach((row, i) => {
+            row.querySelectorAll('input, textarea').forEach(field => {
+                field.name = field.name.replace(/\[\d+\]/, `[${i}]`);
+            });
+        });
+    }
+
     document.getElementById('add-pair').addEventListener('click', () => {
         const container = document.getElementById('kv-container');
         const rows = container.querySelectorAll('.kv-row');
-        const index = rows.length;
         const clone = rows[0].cloneNode(true);
 
-        clone.querySelectorAll('input').forEach(input => {
-            input.value = '';
-            input.classList.remove('is-invalid');
-            // update name index: source[0][key] → source[N][key]
-            input.name = input.name.replace(/\[\d+\]/, `[${index}]`);
+        clone.querySelectorAll('input, textarea').forEach(field => {
+            // never carry over an existing id into a "new" row
+            field.value = '';
+            field.classList.remove('is-invalid');
         });
         clone.querySelectorAll('.invalid-feedback').forEach(el => el.remove());
 
         container.appendChild(clone);
+        reindexVoorbeeldzinRows();
     });
 
     document.getElementById('kv-container').addEventListener('click', e => {
@@ -534,6 +541,7 @@
             const rows = document.querySelectorAll('.kv-row');
             if (rows.length > 1) {
                 e.target.closest('.kv-row').remove();
+                reindexVoorbeeldzinRows();
             }
         }
     });

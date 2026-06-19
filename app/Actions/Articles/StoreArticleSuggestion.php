@@ -85,7 +85,7 @@ final readonly class StoreArticleSuggestion
         $article->userExamples()->createMany(
             $suggestionData->exampleSentences->toCollection()
                 ->map(fn (ExampleSentenceData $exampleSentenceData) => [
-                    'user_id' => auth()->user()->getKey() ?? null,
+                    'user_id' => auth()->id(),
                     'example' => $exampleSentenceData->waarde,
                     'source' => $exampleSentenceData->bron
                 ])
