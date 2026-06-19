@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Data;
 
+use App\Data\Article\ExampleSentenceData;
+use Spatie\LaravelData\Attributes\DataCollectionOf;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Attributes\MapInputName;
+use Spatie\LaravelData\DataCollection;
 
 /**
  * SuggestionData
@@ -48,5 +51,8 @@ final class SuggestionData extends Data
         public ?int $part_of_speech_id = null,
         #[MapInputName('notificatie')]
         public ?bool $notify_author = false,
+        #[MapInputName('voorbeeldzin')]
+        #[DataCollectionOf(ExampleSentenceData::class)]
+        public DataCollection $exampleSentences = new DataCollection(ExampleSentenceData::class, [])
     ) {}
 }
