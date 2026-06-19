@@ -6,12 +6,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\{BelongsTo, BelongsToMany};
+use Illuminate\Database\Eloquent\Relations\{BelongsTo, BelongsToMany, HasMany, MorphMany, MorphToMany};
 
 final class Concept extends Model
 {
-    use HasFactory; 
-    
+    use HasFactory;
+
     /**
      * @var list<string>
      */
@@ -29,6 +29,11 @@ final class Concept extends Model
     {
         return $this->author()->is($user);
     }
+
+    public function examples(): MorphMany
+{
+    return $this->morphMany(UserExample::class, 'exampleable');
+}
 
     /**
      * @return BelongsTo<PartOfSpeech, covariant $this>

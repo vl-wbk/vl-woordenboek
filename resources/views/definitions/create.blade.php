@@ -151,7 +151,7 @@
                                                 <div class="col">
                                                     <input type="text"
                                                         name="voorbeeldzin[{{ $i }}][bron]"
-                                                        value="{{ old("source.$i.key") }}"
+                                                        value="{{ old("voorbeeldzin.$i.bron") }}"
                                                         class="form-control @error("voorbeeldzin.$i.bron") is-invalid @enderror"
                                                         placeholder="bijv. https://www.vrt.be"
                                                     />
@@ -165,7 +165,7 @@
                                                     <textarea type="text"
                                                         name="voorbeeldzin[{{ $i }}][waarde]"
                                                         class="form-control resizable @error("voorbeeldzin.$i.waarde") is-invalid @enderror"
-                                                        rows="1"
+                                                        rows="3"
                                                         placeholder="Voorbeeldzin">{{ old("voorbeeldzin.$i.waarde") }}</textarea>
 
                                                     @error("voorbeeldzin.$i.waarde")

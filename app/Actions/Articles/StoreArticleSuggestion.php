@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Articles;
 
 use App\Concerns\HandlesDatabaseTransactions;
+use App\Data\Article\ExampleSentenceData;
 use App\Data\SuggestionData;
 use App\Models\Article;
 use App\Models\Concept;
@@ -72,9 +73,23 @@ final readonly class StoreArticleSuggestion
         $article = Article::create($this->prepareAttributes($suggestionData));
         $article->regions()->sync($suggestionData->regions);
 
+        $this->storeExampleSentences($article, $suggestionData);
+
         $concept?->delete();
 
         return $article;
+    }
+
+    private function storeExampleSentences(Article $article, SuggestionData $suggestionData): void
+    {
+        $article->userExamples()->createMany(
+            $suggestionData->exampleSentences->toCollection()
+                ->map(fn (ExampleSentenceData $exampleSentenceData) => [
+                    'user_id' => auth()->user()->getKey() ?? null,
+                    'example' => $exampleSentenceData->waarde,
+                    'source' => $exampleSentenceData->bron
+                ])
+        )->all();
     }
 
     /**
