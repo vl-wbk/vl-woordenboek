@@ -12,20 +12,16 @@ return new class extends Migration
     {
         Schema::table('user_examples', function (Blueprint $table): void {
             $table->dropForeign(['article_id']);
-        });
-
-        Schema::table('user_examples', function (Blueprint $table): void {
             $table->string('exampleable_type')->nullable()->after('status');
             $table->renameColumn('article_id', 'exampleable_id');
+            $table->index(['exampleable_type', 'exampleable_id']);
             $table->softDeletes();
         });
 
-        DB::table('user_examples')->update([
-            'exampleable_type' => Article::class,
-        ]);
+        DB::table('user_examples')->update(['exampleable_type' => Article::class]);
 
         Schema::table('user_examples', function (Blueprint $table): void {
-            $table->index(['exampleable_type', 'exampleable_id']);
+            $table->string('exampleable_type')->nullable(false)->change();
         });
     }
 
