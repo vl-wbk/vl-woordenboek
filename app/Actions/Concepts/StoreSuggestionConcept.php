@@ -52,7 +52,7 @@ final readonly class StoreSuggestionConcept
 
     private static function storeExampleSentences(Concept $concept, SuggestionData $suggestionData): void
     {
-        $concept->examples()->createMany(
+        $concept->userExamples()->createMany(
             $suggestionData->exampleSentences->toCollection()
                 ->map(fn (ExampleSentenceData $exampleSentenceData) => [
                     'user_id' => auth()->user()->getKey() ?? null,

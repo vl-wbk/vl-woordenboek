@@ -30,10 +30,10 @@ final class Concept extends Model
         return $this->author()->is($user);
     }
 
-    public function examples(): MorphMany
-{
-    return $this->morphMany(UserExample::class, 'exampleable');
-}
+    public function userExamples(): HasMany
+    {
+        return $this->hasMany(UserExample::class, 'concepts_user_examples');
+    }
 
     /**
      * @return BelongsTo<PartOfSpeech, covariant $this>

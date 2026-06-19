@@ -7,7 +7,6 @@ namespace App\Models;
 use App\States\ExampleSentence\SentenceState;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;
 use Spatie\ModelStates\HasStates;
 
@@ -51,9 +50,9 @@ final class UserExample extends Model
      *
      * @return BelongsTo<Article, covariant $this>
      */
-    public function exampleable(): MorphTo
+    public function article(): BelongsTo
     {
-        return $this->morphTo();
+        return $this->belongsTo(Article::class);
     }
 
     /**
