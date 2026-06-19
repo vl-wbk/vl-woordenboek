@@ -14,11 +14,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('user_examples', function (Blueprint $table): void {
+            $table->dropForeign(['article_id']);
+
             $table->after('status', function() use($table): void {
                 $table->string('exampleable_type')->nullable();
             });
 
             $table->renameColumn('article_id', 'exampleable_id');
+            $table->index(['exampleable_type', 'exampleable_id']);
             $table->softDeletes();
         });
 

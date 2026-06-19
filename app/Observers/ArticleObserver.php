@@ -10,6 +10,15 @@ final readonly class ArticleObserver
 {
     public function deleting(Article $article): void
     {
-        $article->userExamples()->delete();
+        if ($article->isForceDeleting()) {
+            $article->userExamples()->forceDelete();
+        } else {
+            $article->userExamples()->delete();
+        }
+    }
+
+    public function restoring(Article $article): void
+    {
+        $article->userExamples()->restore();
     }
 }
