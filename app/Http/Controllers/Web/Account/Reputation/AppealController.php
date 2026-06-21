@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Web\Account\Reputation;
 
+use App\Actions\Account\Reputation\RegisterAppeal;
+use App\Http\Requests\StoreAppealRequest;
+use App\Models\Appeal;
 use App\Models\ReputationLog;
+use App\Rules\CanAppealReputation;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Attributes\Controllers\Authorize;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Middleware;
 use Spatie\RouteAttributes\Attributes\Post;
@@ -16,6 +21,7 @@ use Spatie\RouteAttributes\Attributes\Post;
 final readonly class AppealController
 {
     #[Get(uri: 'nieuw-beroep', name: 'appeal:create')]
+    #[Authorize('create', Appeal::class)]
     public function create(Request $request): Renderable
     {
         $appealedLogIds = auth()->user()
@@ -30,9 +36,6 @@ final readonly class AppealController
             ->latest()
             ->get();
 
-
-        abort_if($request->user()->monthlyAppeals >= 3, 403, 'Maandelijkse limiet bereikt.');
-
         return view('account.reputation.appeal', data: [
             'user' => auth()->user(),
             'reputationLogs' => $reputationLogs,
@@ -41,50 +44,9 @@ final readonly class AppealController
     }
 
     #[Post(uri: 'nieuw-beroep', name: 'appeal:store')]
-    public function store(Request $request): RedirectResponse
+    public function store(StoreAppealRequest $request, RegisterAppeal $registerAppeal): RedirectResponse
     {
-        abort_if($request->user()->monthlyAppeals  >= 3, 429, 'Maandelijkse limiet bereikt.');
-
-        $request->validate([
-    'reputation_log_id' => [
-        'required',
-        'exists:reputation_logs,id',
-        function ($attribute, $value, $fail) {
-            $log = ReputationLog::find($value);
-
-            if (!$log || $log->user_id !== auth()->id()) {
-                $fail('Deze registratie bestaat niet.');
-                return;
-            }
-
-            if ($log->type !== 'deduction') {
-                $fail('Je kan alleen negatieve aanpassingen aanvechten.');
-                return;
-            }
-
-            $alreadyAppealed = auth()->user()
-                ->appeals()
-                ->where('reputation_log_id', $value)
-                ->exists();
-
-            if ($alreadyAppealed) {
-                $fail('Je hebt dit al aangevochten.');
-            }
-        },
-    ],
-    'reason' => ['required', 'string', 'min:20', 'max:500'],
-], [
-    'reputation_log_id.required' => 'Kies een reputatiewijziging om aan te vechten.',
-    'reason.required'            => 'Geef een reden op.',
-    'reason.min'                 => 'Je reden is te kort (min. 20 tekens).',
-    'reason.max'                 => 'Je reden is te lang (max. 500 tekens).',
-]);
-
-        auth()->user()->appeals()->create([
-            'reputation_log_id' => $request->reputation_log_id,
-            'reason'            => $request->reason,
-            'status'            => 'pending',
-        ]);
+        $registerAppeal($request->user(), $request->getData());
 
         return back()
             ->with('success', 'Je beroep is ingediend. We laten je binnen 5 werkdagen weten wat de beslissing is.');

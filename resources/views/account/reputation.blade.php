@@ -195,9 +195,10 @@
                         <div class="d-flex align-items-center gap-2 p-2 rounded flex-grow-1 me-3"
                             style="background-color: #fffbeb; border: 0.5px solid #fde68a; font-size: 0.75rem; color: #92400e;">
                             <x-heroicon-o-information-circle style="width: 13px; flex-shrink: 0;"/>
-                            <span>Max. <strong>3 beroepen per maand</strong> &mdash; {{ $appealsThisMonth }}/3 gebruikt.</span>
+                            <span>Max. <strong>3 beroepen per maand</strong> &mdash; {{ $user->monthlyAppeals }}/3 gebruikt.</span>
                         </div>
-                        @if ($appealsThisMonth < 3)
+
+                        @if ($user->can('create', \App\Models\Appeal::class))
                             <a href="{{ route('appeal:create') }}" class="btn btn-sm btn-primary flex-shrink-0" style="font-size: 0.75rem;">
                                 <x-heroicon-o-plus style="width: 12px;"/> Nieuw beroep
                             </a>

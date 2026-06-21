@@ -27,7 +27,6 @@ final readonly class ReputationController
             'reputationLogs' => $request->user()->reputationLogs()->latest()->paginate(10),
             'displayFeedbackDialog' => true,
             'appeals' => $appeals,
-            'appealsThisMonth' => $request->user()->monthlyAppeals
         ]);
     }
 }
