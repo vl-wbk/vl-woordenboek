@@ -9,6 +9,7 @@ use A909M\FilamentStateFusion\Actions\StateFusionActionGroup;
 use App\Attributes\Todo;
 use App\Concerns\HandlesDatabaseTransactions;
 use App\Filament\Clusters\Articles\Resources\CorrectionProposals\CorrectionProposalResource;
+use App\Models\CorrectionProposal;
 use App\Policies\CorrectionProposalPolicy;
 use App\States\Articles\Corrections\ApprovedState;
 use App\States\Articles\Corrections\CorrectionState;
