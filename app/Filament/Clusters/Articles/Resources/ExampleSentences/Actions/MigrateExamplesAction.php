@@ -38,15 +38,11 @@ final class MigrateExamplesAction extends Action
             $article = $livewire->getOwnerRecord();
 
             DB::transaction(function () use ($data, $article) {
-                // 1. Create the new examples
-                collect($data['userExamples'])->each(fn (array $example) => UserExample::query()->create(array_merge($example, [
-                    'article_id' => $article->id,
+                collect($data['userExamples'])->each(fn (array $example) => $article->userExamples()->create(array_merge($example, [
                     'user_id' => auth()->id(),
                     'status' => Approved::class,
-                ]))
-                );
+                ])));
 
-                // 2. Mark the article as migrated so the button disappears
                 $config = $article->migration_configuration ?? [];
                 $config['examples'] = true;
 

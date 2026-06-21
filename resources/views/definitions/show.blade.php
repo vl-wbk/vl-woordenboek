@@ -242,7 +242,7 @@
 
                                             <div class="tab-content border border-top-0 rounded-bottom" id="exampleTabsContent">
                                                 {{-- Redactie tab --}}
-                                                <div class="tab-pane bg-light-subtle fade show active p-3" id="pane-redactie" role="tabpanel" aria-labelledby="tab-redactie">
+                                                <div class="tab-pane markdown-text bg-light-subtle fade show active p-3" id="pane-redactie" role="tabpanel" aria-labelledby="tab-redactie">
                                                     {!! str($word->example)->markdown()->sanitizeHtml() !!}
                                                 </div>
 

@@ -42,7 +42,7 @@ class UserExamplesList extends Component
         $direction = $this->sortBy === 'created_at_asc' ? 'asc' : 'desc';
 
         return UserExample::query()
-            ->where('article_id', $this->articleId)
+            ->whereMorphRelation('exampleable', Article::class, 'id', '=', $this->article->getKey())
             ->whereState('status', Approved::class)
             ->with('author')
             ->orderBy('created_at', $direction)
