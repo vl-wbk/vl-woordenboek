@@ -9,6 +9,7 @@ use App\Filament\Clusters\Articles\Resources\ExampleSentences\Pages\ListExampleS
 use App\Filament\Clusters\Articles\Resources\ExampleSentences\Schema\ExampleSentenceForm;
 use App\Filament\Clusters\Articles\Resources\ExampleSentences\Tables\ExampleSentencesTable;
 use App\Filament\Support\Concerns\HasActiveIcon;
+use App\Models\Article;
 use App\Models\UserExample;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -49,6 +50,6 @@ final class ExampleSentenceResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return (string) self::$model::count();
+        return (string) self::$model::whereMorphRelation('exampleable', Article::class, 'id', '!=', null)->count();
     }
 }

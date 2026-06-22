@@ -12,13 +12,16 @@ use App\Contracts\States\ArticleStateContract;
 use App\Enums\ArticleStates;
 use App\Enums\DataOrigin;
 use App\Enums\LanguageStatus;
+use App\Models\Concerns\ManagesArticleAudits;
 use App\Models\Relations\Articles\HasCorrectionSupport;
 use App\Models\Relations\BelongsToAuthor;
 use App\Models\Relations\BelongsToEditor;
 use App\Models\Relations\BelongsToManyRegions;
+use App\Observers\ArticleObserver;
 use Carbon\Carbon;
 use Database\Factories\ArticleFactory;
 use Illuminate\Database\Eloquent\Attributes\Guarded;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\UseEloquentBuilder;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
@@ -28,6 +31,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kirschbaum\Commentions\Contracts\Commentable;
 use Kirschbaum\Commentions\HasComments;
@@ -78,6 +82,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  */
 #[Guarded(columns: 'id')]
 #[UseEloquentBuilder(builderClass: ArticleBuilder::class)]
+#[ObservedBy(ArticleObserver::class)]
 final class Article extends Model implements AuditableContract, Commentable
 {
     /**
@@ -88,7 +93,7 @@ final class Article extends Model implements AuditableContract, Commentable
     use BelongsToManyRegions;
     use BelongsToEditor;
     use BelongsToAuthor;
-    use Auditable;
+    use ManagesArticleAudits;
     use Likeable;
     use SoftDeletes;
     use HasNotables;
@@ -249,9 +254,9 @@ final class Article extends Model implements AuditableContract, Commentable
      *
      * @return HasMany<UserExample, covariant $this>
      */
-    public function userExamples(): HasMany
+    public function userExamples(): MorphMany
     {
-        return $this->hasMany(UserExample::class);
+        return  $this->morphMany(UserExample::class, 'exampleable');
     }
 
     /**

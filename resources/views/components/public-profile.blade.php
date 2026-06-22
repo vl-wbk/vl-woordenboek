@@ -383,6 +383,27 @@
                     </nav>
                 </div>
             @endif
+
+
+            @if (auth()->user()->is($user))
+                <div>
+                    <div class="sidenav-label">Account</div>
+
+                    <nav class="nav flex-column">
+                    <a href="{{ route('notifications:index') }}" class="sidenav-link {{ active('notifications:index') }}">
+                        <x-heroicon-o-bell class="icon color-green"/>
+                        <span class="flex-grow-1">Meldingen</span>
+                        @if(auth()->user()->unreadNotifications()->count() > 0)
+                            <span class="sidenav-count">{{ auth()->user()->unreadNotifications()->count() }}</span>
+                        @endif
+                    </a>
+                    <a href="{{ route('account:reputation') }}" class="sidenav-link {{ active('account:reputation') }}">
+                        <x-heroicon-o-queue-list class="icon color-green"/>
+                        <span class="flex-grow-1">Reputatie</span>
+                    </a>
+                </nav>
+                </div>
+            @endif
         </div>
 
         <div class="col-lg-9">

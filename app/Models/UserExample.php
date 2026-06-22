@@ -7,6 +7,9 @@ namespace App\Models;
 use App\States\ExampleSentence\SentenceState;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Spatie\ModelStates\HasStates;
 
@@ -31,6 +34,7 @@ use Spatie\ModelStates\HasStates;
 final class UserExample extends Model
 {
     use HasStates;
+    use SoftDeletes;
 
     /**
      * Mass assignment configuration
@@ -42,17 +46,9 @@ final class UserExample extends Model
      */
     protected $guarded = ['id'];
 
-    /**
-     * Parent article relationship
-     *
-     * Every example sentence is contextually tied to a specific dictionary article.
-     * This relationship is critival for grouping examples within the frontend dictionary views.
-     *
-     * @return BelongsTo<Article, covariant $this>
-     */
-    public function article(): BelongsTo
+    public function exampleable(): MorphTo
     {
-        return $this->belongsTo(Article::class);
+        return $this->morphTo();
     }
 
     /**

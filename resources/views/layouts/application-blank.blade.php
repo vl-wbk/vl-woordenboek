@@ -124,7 +124,13 @@
                     @else
                         <li class="nav-item">
                             <a href="{{ route('notifications:index') }}" class="nav-link">
-                                <x-heroicon-s-bell class="icon me-1"/> {{ auth()->user()->unreadNotifications->count() }}
+                                @if (auth()->user()->unreadNotifications()->count() > 0)
+                                    <x-heroicon-s-bell-alert class="icon me-1"/>
+                                @else
+                                    <x-heroicon-s-bell class="icon me-1"/>
+                                @endif
+
+                                {{ auth()->user()->unreadNotifications()->count() }}
                             </a>
                         </li>
 
