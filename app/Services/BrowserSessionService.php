@@ -63,7 +63,7 @@ final readonly class BrowserSessionService
         }
 
         return collect(
-            DB::connection(config()->string('session.connection', $this->getDefaultConnection()))
+            DB::connection(config('session.connection'))
                 ->table(config()->string('session.table', 'sessions'))
                 ->where('user_id', Auth::user()->getAuthIdentifier())
                 ->orderBy('last_activity', 'desc')
@@ -90,7 +90,7 @@ final readonly class BrowserSessionService
             return;
         }
 
-        DB::connection(config()->string('session.connection', $this->getDefaultConnection()))
+        DB::connection(config('session.connection'))
             ->table(config()->string('session.table', 'sessions'))
             ->where('user_id', Auth::user()->getAuthIdentifier())
             ->where('id', '!=', request()->session()->getId())
