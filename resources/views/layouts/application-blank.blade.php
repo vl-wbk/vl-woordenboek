@@ -130,7 +130,7 @@
                                     <x-heroicon-s-bell class="icon me-1"/>
                                 @endif
 
-                                {{ auth()->user()->unreadNotifications()->count() }}
+                                {{ auth()->user()->unreadNotifications()->where('type', '!=', \Filament\Notifications\DatabaseNotification::class)->count() }}
                             </a>
                         </li>
 

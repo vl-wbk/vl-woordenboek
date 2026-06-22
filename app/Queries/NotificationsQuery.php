@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Queries;
 
 use App\Models\User;
+use Filament\Notifications\DatabaseNotification;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -17,7 +18,7 @@ final readonly class NotificationsQuery
 
     public function getPaginated(string $tab, ?string $search): LengthAwarePaginator
     {
-        return $this->applyFilters($this->user->notifications(), $tab, $search)
+        return $this->applyFilters($this->user->notifications()->where('type', '!=', DatabaseNotification::class), $tab, $search)
             ->latest()
             ->paginate(7);
     }
@@ -25,10 +26,10 @@ final readonly class NotificationsQuery
     public function getCounts(): array
     {
         return [
-            'all'        => $this->user->notifications()->count(),
-            'unread'     => $this->user->unreadNotifications()->count(),
-            'suggesties' => $this->user->notifications()->where('data->type', 'suggesties')->count(),
-            'systeem'    => $this->user->notifications()->where('data->type', 'systeem')->count(),
+            'all'        => $this->user->notifications()->where('type', '!=', DatabaseNotification::class)->count(),
+            'unread'     => $this->user->unreadNotifications()->where('type', '!=', DatabaseNotification::class)->count(),
+            'suggesties' => $this->user->notifications()->where('type', '!=', DatabaseNotification::class)->where('data->type', 'suggesties')->count(),
+            'systeem'    => $this->user->notifications()->where('type', '!=', DatabaseNotification::class)->where('data->type', 'systeem')->count(),
         ];
     }
 
