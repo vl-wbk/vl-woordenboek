@@ -83,7 +83,7 @@
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <x-tabler-info-square-rounded class="icon  me-1" /> {{ __('layout/application.footer.links-section.project-information') }}
+                            <x-tabler-info-square-rounded class="icon me-1" aria-hidden="true" /> {{ __('layout/application.footer.links-section.project-information') }}
                         </a>
 
                         <ul class="dropdown-menu border-0 shadow-sm">
@@ -160,7 +160,7 @@
                                 </a>
 
                                 <a class="dropdown-item" href="{{ route('bookmarks:index') }}">
-                                    <x-heroicon-o-book-open class="text-muted icon me-1"/> {{ __('layout/application.navigation.user-menu.saved-words') }}
+                                    <x-heroicon-o-book-open class="text-muted icon me-1" aria-hidden="true"/> {{ __('layout/application.navigation.user-menu.saved-words') }}
                                 </a>
 
                                 <div class="dropdown-divider"></div>
@@ -304,25 +304,25 @@
                 <ul class="list-unstyled">
                     <li class="mb-2">
                         <a href="https://github.com/vl-wbk/vl-woordenboek" target="_blank" rel="noopener" class="text-white">
-                            <x:tabler-brand-github class="icon me-2"/>Github
+                            <x:tabler-brand-github class="icon me-2" aria-label="GitHub logo"/>Github
                         </a>
                     </li>
 
                     <li class="mb-2">
                         <a href="https://discord.com/invite/bqKNs2SDz8" target="_blank" rel="noopener" class="text-white">
-                            <x:tabler-brand-discord class="icon me-2"/>Discord
+                            <x:tabler-brand-discord class="icon me-2" aria-label="Discord logo"/>Discord
                         </a>
                     </li>
 
                     <li class="mb-2">
                         <a href="https://www.facebook.com/vlaamswoordenboek" target="_blank" rel="noopener" class="text-white">
-                            <x:tabler-brand-facebook class="icon me-2"/>Facebook
+                            <x:tabler-brand-facebook class="icon me-2" aria-label="Facebook logo"/>Facebook
                         </a>
                     </li>
 
                     <li class="mb-2">
                         <a href="https://www.forum.vlaamswoordenboek.be" target="_blank" rel="noopener" class="text-white">
-                            <x:tabler-messages class="icon me-2"/>{{ __('layout/application.footer.community-section.forum') }}
+                            <x:tabler-messages class="icon me-2" aria-label="icoontje voor het forum"/>{{ __('layout/application.footer.community-section.forum') }}
                         </a>
                     </li>
                 </ul>
@@ -340,10 +340,10 @@
 
                     <div class="float-end">
                         <a href="{{ route('terms-of-service') }}" class="text-white text-decoration-none">
-                            <x-tabler-gavel class="icon me-1"/> {{ __('layout/application.footer.terms') }}
+                            <x-tabler-gavel class="icon me-1" aria-hidden="true"/> {{ __('layout/application.footer.terms') }}
                         </a>
                         <a href="https://vl-wbk.github.io/documentatie-portaal/" class="text-white ms-3 text-decoration-none" target="_blank">
-                            <x-tabler-book-2 class="icon me-1"/> {{ __('layout/application.footer.documentation') }}
+                            <x-tabler-book-2 class="icon me-1" aria-hidden="true"/> {{ __('layout/application.footer.documentation') }}
                         </a>
                     </div>
                 </div>
