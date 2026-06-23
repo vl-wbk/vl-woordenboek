@@ -34,22 +34,39 @@ final readonly class PartOfSpeechPolicy
     {
         return $user->can('woordenboek-ondersteuning')
             ? Response::allow()
-            : Response::deny();
+            : Response::deny(message: __('U hebt geen machtiging om de informatie van een woordsoort te bekijken.'));
     }
 
+    /**
+     * Determines if the user is authorized to view the index list of parts of speech.
+     *
+     * Access to the collection of parts of speech is restricted to users with dictionary support permissions.
+     *
+     * @param  User $user The authenticed user instance requesting access
+     * @return Response
+     */
     public function viewAny(User $user): Response
     {
         return $user->can('woordenboek-ondersteuning')
             ? Response::allow()
-            : Response::deny();
+            : Response::deny(message: __('U hebt geen machtiging om de oplijsting van alle woordsoorten te bekijken.'));
     }
 
+    /**
+     * Determines if the user is authorized to create a new part-of-speech record.
+     *
+     * Creation privileges are restricted to ensure that only authorized staff can
+     * extend the linguistic framework of the dictionary.
+     *
+     * @param  User $user The authenticated user instance requesting access.
+     * @return Response
+     */
     public function create(User $user): Response
     {
 
         return $user->can('woordenboek-ondersteuning')
             ? Response::allow()
-            : Response::deny();
+            : Response::deny(message: __('U hebt geen machtiging om een nieuwe woordsoort toe te voegen.'));
     }
 
     /**
@@ -66,7 +83,7 @@ final readonly class PartOfSpeechPolicy
     {
         return $user->can('woordenboek-ondersteuning')
             ? Response::allow()
-            : Response::deny();
+            : Response::deny(message: __('U hebt niet de machtinging om een woordsoort aan te passen.'));
     }
 
     /**
