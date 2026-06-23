@@ -29,7 +29,8 @@
                             </div>
 
                             <div class="col-12 col-sm-8 col-lg-7">
-                                <input type="text" class="form-control bg-white shadow-sm" name="zoekterm" value="{{ request()->get('zoekterm') }}" placeholder="{{ __('components/search-form.inputs.search-term.placeholder') }}" aria-label="searchterm">
+                                <label for="searchTerm" class="visually-hidden">Definitie opzoeken</label>
+                                <input type="text" id="searchTerm" class="form-control bg-white shadow-sm" name="zoekterm" value="{{ request()->get('zoekterm') }}" placeholder="{{ __('components/search-form.inputs.search-term.placeholder') }}" aria-label="searchterm">
                             </div>
                             <div class="col-12 col-sm-4 col-lg-2">
                                 <button type="submit" class="btn shadow-sm w-100 btn-submit">
@@ -213,7 +214,7 @@
             <h4 class="word-title mb-2">{{ $result->word }} <span class="word-type ms-2">{{ strtolower($result->characteristics) }}</span></h3>
         </a>
 
-        <div class="text-secondary opacity-75 mb-2" style="font-weight: 400;">
+        <div class="lexi-card-paragraph mb-2" style="font-weight: 400;">
             {!! str($result->description)->words(22)->markdown()->sanitizeHtml() !!}
         </div>
     </div>
