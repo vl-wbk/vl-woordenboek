@@ -186,7 +186,7 @@
         @yield('content')
     </main>
 
-    <footer class="footer mt-auto pt-4 pt-md-3 mt-5">
+    <footer aria-label="Hoofd footer" class="footer mt-auto pt-4 pt-md-3 mt-5">
         <div class="container-fluid pt-4 pb-2 py-md-4x text-body-secondary">
             <div class="row">
                 <div class="col-lg-3">
@@ -328,9 +328,8 @@
                 </ul>
             </div>
         </div>
-    </div>
-</footer>
-    <div class="footer py-2" style="background-color: oklch(21.6% 0.006 56.043)">
+    </footer>
+    <section class="footer py-2" role="region" aria-label="copyright footer" style="background-color: oklch(21.6% 0.006 56.043)">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
@@ -349,10 +348,11 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-0649FN8Q9F"></script>
+
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}

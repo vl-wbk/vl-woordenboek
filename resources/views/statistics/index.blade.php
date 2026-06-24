@@ -4,8 +4,8 @@
     <div class="py-4 py-md-5">
         {{-- Header --}}
         <div class="container-fluid mb-4 mb-md-5">
-            <h2 class="color-green fw-bold">Statistieken: status van ons {{ config('app.name', 'Laravel') }}</h2>
-            <p class="text-muted lead">Wij houden onze groei graag transparant.</p>
+            <h1 class="h2 color-green fw-bold">Statistieken: status van ons {{ config('app.name', 'Laravel') }}</h1>
+            <p class="text-body lead">Wij houden onze groei graag transparant.</p>
         </div>
 
         {{-- 1. Wiki-Gezondheid Dashboard --}}
@@ -14,7 +14,7 @@
                 <div class="col-12 col-lg-9">
                     <div class="card bg-white border-0 shadow-sm p-3 p-md-4 h-100">
                         <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center mb-3">
-                            <h5 class="fw-bold color-green mb-2 mb-sm-0">Hoe is onze data verdeeld in het {{ config('app.name', 'Laravel') }}?</h5>
+                            <h2 class="h5 fw-bold color-green mb-2 mb-sm-0">Hoe is onze data verdeeld in het {{ config('app.name', 'Laravel') }}?</h2>
                             <span class="badge bg-success-subtle text-success-emphasis fw-bold">{{ toHumanReadableNumber($articleCount) }} Artikelen</span>
                         </div>
 
@@ -51,10 +51,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-3">
-                    <div class="card border-0 shadow-sm p-4 h-100 bg-success text-white">
-                        <h5 class="fw-bold mb-1">Onze doelstelling</h5>
-                        <p class="opacity-75">We streven naar {{ toHumanReadableNumber($targetArticleCount) }} artikelen voor het einde van het jaar.</p>
+
+                 <div class="col-12 col-lg-3">
+                    <div class="card border-0 shadow-sm p-4 h-100 text-white" style="background-color: #14532d;">
+                        <h3 class="h5 fw-bold mb-1">Onze doelstelling</h3>
+                        <p class="text-white fst-italic">We streven naar {{ toHumanReadableNumber($targetArticleCount) }} artikelen voor het einde van het jaar.</p>
                         <h3 class="fw-bold mt-3">{{ round(($articleCount / $targetArticleCount) * 100) }}% bereikt</h3>
                     </div>
                 </div>
@@ -101,17 +102,17 @@
                         <div class="card-header bg-white border-bottom px-4 pt-4 pb-3">
                             <div class="d-flex align-items-start justify-content-between gap-3 mb-3">
                                 <div>
-                                    <h6 class="fw-semibold text-dark mb-1">
+                                    <h4 class="h6 fw-semibold text-dark mb-1">
                                         <x-heroicon-o-signal class="icon color-green me-1"/> Artikelactiviteit
-                                    </h6>
-                                    <small class="text-muted">Suggestieve, gepubliceerde en gearchiveerde artikelen</small>
+                                    </h4>
+                                    <small class="text-secondary-emphasis">Suggestieve, gepubliceerde en gearchiveerde artikelen</small>
                                 </div>
                             </div>
                             <div class="d-flex flex-wrap gap-3">
                                 @foreach([['#dc3545', 'Gearchiveerd', 0], ['#212529', 'Suggesties', 1], ['#198754', 'Publicaties', 2]] as [$color, $label, $index])
                                     <div class="d-flex align-items-center gap-2 cursor-pointer" onclick="toggleDataset(this, {{ $index }})" style="cursor: pointer; transition: opacity 0.2s;">
                                         <span style="width:12px; height:12px; border-radius:2px; background:{{ $color }}; flex-shrink:0;"></span>
-                                        <span class="small text-muted fw-medium">{{ $label }}</span>
+                                        <span class="small text-secondary-emphasis fw-medium">{{ $label }}</span>
                                     </div>
                                 @endforeach
                             </div>
@@ -128,17 +129,17 @@
                         <div class="card-header bg-white border-bottom px-4 pt-4 pb-3">
                             <div class="d-flex align-items-start justify-content-between gap-3 mb-3">
                                 <div>
-                                    <h6 class="fw-semibold text-dark mb-1">
+                                    <h4 class="h6 fw-semibold text-dark mb-1">
                                         <x-heroicon-o-user-plus class="icon color-green me-1"/> Registratietrend
-                                    </h6>
-                                    <small class="text-muted">Overzicht van nieuwe gebruikers</small>
+                                    </h4>
+                                    <small class="text-secondary-emphasis">Overzicht van nieuwe gebruikers</small>
                                 </div>
                             </div>
                             <div class="d-flex flex-wrap gap-3">
                                 {{-- Legend for the single bar chart dataset --}}
                                 <div class="d-flex align-items-center gap-2" style="cursor: pointer; transition: opacity 0.2s;">
                                     <span style="width:12px; height:12px; border-radius:2px; background:#198754; flex-shrink:0;"></span>
-                                    <span class="small text-muted fw-medium">Nieuwe Registraties</span>
+                                    <span class="small text-secondary-emphasis fw-medium">Nieuwe Registraties</span>
                                 </div>
                             </div>
                         </div>
@@ -157,16 +158,16 @@
                 {{-- Card Header --}}
                 <div class="card-header bg-white border-bottom px-4 pt-4 pb-0">
                     <div class="d-flex color-green align-items-center justify-content-between mb-3">
-                        <h6 class="fw-semibold mb-0 d-flex align-items-center gap-2">
+                        <h4 class="h6 fw-semibold mb-0 d-flex align-items-center gap-2">
                             <x-heroicon-o-queue-list class="text-success" style="width:16px;height:16px;" />
                             Recent in het {{ config('app.name', 'Laravel') }}
-                        </h6>
+                        </h4>
                     </div>
 
                     {{-- Tabs --}}
                     <ul class="nav nav-tabs border-0 gap-1" id="activityTabs" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active text-muted fw-medium px-3 py-2" id="published-tab" data-bs-toggle="tab" data-bs-target="#pane-published" type="button" role="tab" aria-controls="pane-published" aria-selected="true">
+                            <button class="nav-link active text-secondary-emphasis fw-medium px-3 py-2" id="published-tab" data-bs-toggle="tab" data-bs-target="#pane-published" type="button" role="tab" aria-controls="pane-published" aria-selected="true">
                                 Publicaties
                             </button>
                         </li>
@@ -195,7 +196,7 @@
                                             @foreach($recentArticles as $change)
                                                 <tr @can ('view', $change) onclick="window.location='{{ route('word-information.show', $change) }}'" @endcan>
                                                     <td class="ps-4 fw-semibold">
-                                                        <span class="badge bg-secondary-subtle text-secondary">
+                                                        <span class="badge bg-secondary-subtle text-secondary-emphasis">
                                                             #{{ $change->id }}
                                                         </span>
                                                     </td>
@@ -228,7 +229,7 @@
                                                     <td>{{ $change->published_at->diffForHumans() }}</td>
 
                                                     <td class="pe-4">
-                                                        <a href="{{ route('word-information.show', $change) }}" class="float-end">
+                                                        <a href="{{ route('word-information.show', $change) }}" class="statistic-table-link float-end">
                                                             Bekijk
                                                         </a>
                                                     </td>

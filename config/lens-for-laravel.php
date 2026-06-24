@@ -10,7 +10,7 @@ return [
     | Default: 'lens-for-laravel'
     |
     */
-    'route_prefix' => 'lens-for-laravel',
+    'route_prefix' => 'wcag',
 
     /*
     |--------------------------------------------------------------------------
