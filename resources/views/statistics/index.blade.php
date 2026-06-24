@@ -15,7 +15,7 @@
                     <div class="card bg-white border-0 shadow-sm p-3 p-md-4 h-100">
                         <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center mb-3">
                             <h5 class="fw-bold color-green mb-2 mb-sm-0">Hoe is onze data verdeeld in het {{ config('app.name', 'Laravel') }}?</h5>
-                            <span class="badge bg-success-subtle text-success fw-bold">{{ toHumanReadableNumber($articleCount) }} Artikelen</span>
+                            <span class="badge bg-success-subtle text-success-emphasis fw-bold">{{ toHumanReadableNumber($articleCount) }} Artikelen</span>
                         </div>
 
                         <div class="prog-bar-track" id="prog-track">
@@ -219,7 +219,7 @@
                                                                 </span>
                                                             @endif
                                                         @else
-                                                            <span class="badge bg-danger-subtle text-danger">
+                                                            <span class="badge bg-danger-subtle text-danger-emphasis">
                                                                 <x-heroicon-o-x-mark class="icon icon-sm me-1"/> Afbeelding
                                                             </span>
                                                         @endif
