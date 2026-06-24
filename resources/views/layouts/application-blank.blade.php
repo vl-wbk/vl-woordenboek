@@ -182,7 +182,7 @@
 
     @yield('jumbotron')
 
-    <main class="{{ $paddingContent ?? 'mb-5' }} flex-shrink-0">
+    <main id="main-content" class="{{ $paddingContent ?? 'mb-5' }} flex-shrink-0">
         @yield('content')
     </main>
 

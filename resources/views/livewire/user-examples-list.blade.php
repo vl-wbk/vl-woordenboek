@@ -80,7 +80,7 @@
         <div class="card border-0 bg-light py-2 text-center">
             <div class="card-body">
                 <x-heroicon-o-chat-bubble-left-right class="text-muted mb-2" style="width: 40px; height: 40px;"/>
-                <p class="text-secondary small mb-0">
+                <p class="text-secondary-emphasis small mb-0">
                     Er zijn nog geen voorbeeldzinnen toegevoegd door de community.
                     <br>Wees de eerste om een voorbeeld te delen!
                 </p>

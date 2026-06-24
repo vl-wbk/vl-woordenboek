@@ -1,7 +1,7 @@
 @extends('layouts.application-blank', ["title" => __('pages/welcome.page-title')])
 
 @section('jumbotron')
-    <div class="bg-light bg-blend-hard-light rounded-3 shadow-sm">
+    <header class="bg-light bg-blend-hard-light rounded-3 shadow-sm">
         <div class="container-fluid">
             <div class="py-5">
                 <div class="row justify-content-center">
@@ -80,7 +80,7 @@
             </div>
         </div>
     </div>
-</div>
+</header>
 @endsection
 
 @section('content')
