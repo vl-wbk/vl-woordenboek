@@ -138,7 +138,7 @@
                             <div class="d-flex flex-wrap gap-3">
                                 {{-- Legend for the single bar chart dataset --}}
                                 <div class="d-flex align-items-center gap-2" style="cursor: pointer; transition: opacity 0.2s;">
-                                    <span style="width:12px; height:12px; border-radius:2px; background:#198754; flex-shrink:0;"></span>
+                                    <span style="width:12px; height:12px; border-radius:2px; background:#0f172a; flex-shrink:0;"></span>
                                     <span class="small text-secondary-emphasis fw-medium">Nieuwe Registraties</span>
                                 </div>
                             </div>
@@ -259,36 +259,107 @@
         const commonOptions = { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true }, y: { stacked: true } } };
 
         new Chart(document.getElementById('myChart'), {
-            type: 'bar',
-            data: { labels: @json($userRegistrations['labels']), datasets: [{ label: 'Nieuwe Registraties', data: @json($userRegistrations['data']), backgroundColor: '#198754' }] },
+            type: 'line',
+            data: {
+                labels: @json($userRegistrations['labels']),
+                datasets: [{
+                    label: 'Nieuwe Registraties',
+                    data: @json($userRegistrations['data']),
+                    borderColor: '#0f172a',    // Darker line
+                    backgroundColor: 'rgba(15, 23, 42, 0.1)', // Subtle area fill
+                    tension: 0.3,              // <--- This adds the curve
+                    fill: true,                // Enables the area fill
+                    borderWidth: 2,
+                    pointRadius: 0,            // Hide points for a cleaner look
+                    pointHoverRadius: 4
+                }]
+            },
             options: {
                 ...commonOptions,
                 plugins: {
-                    legend: { display: false } // Schakelt standaard legenda uit
+                    legend: { display: false }
+                },
+                scales: {
+                    x: { grid: { display: false } },
+                    y: {
+                        grid: { color: '#f1f5f9' },
+                        border: { dash: [4, 4] }
+                    }
                 }
             }
         });
 
         const ctx = document.getElementById('articleEdits').getContext('2d');
 
-        // Jouw specifieke Chart configuratie
+        /**
+         * Refines the multi-line chart by adding subtle area fills
+         * to create a modern, layered dashboard effect.
+         */
         const articleChart = new Chart(ctx, {
-            type: 'bar',
+            type: 'line',
             data: {
                 labels: @json($articleChart['labels']),
                 datasets: [
-                    { label: 'Gearchiveerd', data: @json($articleChart['archived']), backgroundColor: '#dc3545' },
-                    { label: 'Suggesties', data: @json($articleChart['created']), backgroundColor: '#212529' },
-                    { label: 'Publicaties', data: @json($articleChart['published']), backgroundColor: '#198754' }
+                    {
+                        label: 'Gearchiveerd',
+                        data: @json($articleChart['archived']),
+                        borderColor: '#ef4444',             // red-500
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)', // red-500 @ 10%
+                        tension: 0.3,
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        fill: true
+                    },
+                    {
+                        label: 'Suggesties',
+                        data: @json($articleChart['created']),
+                        borderColor: '#0f172a',             // slate-900
+                        backgroundColor: 'rgba(15, 23, 42, 0.1)',  // slate-900 @ 10%
+                        tension: 0.3,
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        fill: true
+                    },
+                    {
+                        label: 'Publicaties',
+                        data: @json($articleChart['published']),
+                        borderColor: '#22c55e',             // green-500
+                        backgroundColor: 'rgba(34, 197, 94, 0.1)', // green-500 @ 10%
+                        tension: 0.3,
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        fill: true
+                    }
                 ]
             },
-           options: {
-               ...commonOptions,
-               plugins: {
-                   legend: { display: false } // Schakelt standaard legenda uit
-               }
-           }
-       });
+            options: {
+                ...commonOptions,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#0f172a',
+                        padding: 10,
+                        cornerRadius: 6,
+                        caretSize: 6
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#64748b' }
+                    },
+                    y: {
+                        grid: { color: '#f1f5f9' },
+                        border: { dash: [4, 4] },
+                        ticks: { color: '#64748b' }
+                    }
+                }
+            }
+        });
 
         // Functie voor de custom legenda die we in HTML hebben
         function toggleDataset(el, index) {
