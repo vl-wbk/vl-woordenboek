@@ -38,7 +38,7 @@
 
                 <!-- Contextual Footer -->
                 <div class="small text-muted d-flex align-items-center flex-wrap gap-2">
-                    <span class="badge bg-success-subtle text-success border">
+                    <span class="badge bg-success-subtle text-success-emphasis border">
                         Door
 
                         @if ($result->author()->exists())
@@ -47,9 +47,9 @@
                             {{ $result->contributor_name ?? config('app.name') }}
                         @endif
                     </span>
-                    
+
                     <span>•</span>
-                    
+
                     <span>{{ __('Weergaves: :count', ['count' => $result->views]) }}</span>
                 </div>
             </div>

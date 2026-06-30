@@ -16,14 +16,14 @@
                             <x-heroicon-o-user-circle class="icon color-green me-1"/>
                             {{ $example->author->name ?? $example->contributor_name ?? 'Anoniem' }}
                         </span>
-                        <span class="mx-2 opacity-50">|</span>
+                        <span class="mx-2 vertical-divider">|</span>
                         <span>
                             <x-heroicon-o-calendar-days class="icon color-green me-1"/>
                             {{ optional($example->created_at)->translatedFormat('j M Y') }}
                         </span>
 
                         @if ($example->source)
-                            <span class="mx-2 opacity-50">|</span>
+                            <span class="mx-2 vertical-divider">|</span>
                             <span>
                                 <x-heroicon-o-book-open class="icon color-green me-1"/>
                                 {{ $example->source }}
@@ -39,7 +39,7 @@
             {{-- Linkerkant: Paginering --}}
             <div class="d-flex align-items-center gap-3">
                 @if ($examples->onFirstPage())
-                    <span class="text-muted small opacity-50"><i class="bi bi-arrow-left me-1"></i> Vorige</span>
+                    <span class="small disabled-link"><x-heroicon-o-chevron-left class="icon me-1"/> Vorige</span>
                 @else
                     <button type="button" wire:click="previousPage" class="btn btn-link btn-sm p-0 text-decoration-none text-primary shadow-none">
                         <i class="bi bi-arrow-left me-1"></i> Vorige
@@ -47,7 +47,7 @@
                 @endif
 
                 <span class="text-muted small fw-medium">
-                    {{ $examples->currentPage() }} <span class="opacity-50">/</span> {{ $examples->lastPage() }}
+                    {{ $examples->currentPage() }} <span class="vertical-divider">/</span> {{ $examples->lastPage() }}
                 </span>
 
                 @if ($examples->hasMorePages())
@@ -55,7 +55,7 @@
                         Volgende <i class="bi bi-arrow-right ms-1"></i>
                     </button>
                 @else
-                    <span class="text-muted small opacity-50">Volgende <i class="bi bi-arrow-right ms-1"></i></span>
+                    <span class="small disabled-link">Volgende <x-heroicon-o-chevron-right class="icon ms-1"/></span>
                 @endif
 
                 {{-- Loading Spinner (geparkeerd naast de navigatie) --}}
@@ -65,7 +65,10 @@
             {{-- Rechterkant: Sortering --}}
             <div class="d-flex align-items-center">
                 <x-heroicon-o-funnel class="color-green icon"/>
-                <select wire:model.live="sortBy" class="form-select form-select-sm w-auto border-0 bg-light shadow-none" style="font-size: 0.85rem;">
+
+                <label for="sortBySelect" class="visually-hidden">Sortering van de voorbeeldzinnen op basis van datum</label>
+
+                <select wire:model.live="sortBy" id="sortBySelect" class="form-select form-select-sm w-auto border-0 bg-light shadow-none" style="font-size: 0.85rem;">
                     <option value="created_at">Datum (nieuwste eerst)</option>
                     <option value="created_at_asc">Datum (oudste eerst)</option>
                 </select>
@@ -77,7 +80,7 @@
         <div class="card border-0 bg-light py-2 text-center">
             <div class="card-body">
                 <x-heroicon-o-chat-bubble-left-right class="text-muted mb-2" style="width: 40px; height: 40px;"/>
-                <p class="text-secondary small mb-0">
+                <p class="text-secondary-emphasis small mb-0">
                     Er zijn nog geen voorbeeldzinnen toegevoegd door de community.
                     <br>Wees de eerste om een voorbeeld te delen!
                 </p>
