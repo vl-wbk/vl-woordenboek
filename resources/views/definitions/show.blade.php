@@ -121,7 +121,7 @@
                             <h1 class="display-5 color-green fw-bold mb-0">{{ $word->word }}</h1>
                             @if ($word->partOfSpeech)
                                 <span class="fw-bold">{{ $word->partOfSpeech->name }}</span>
-                                <span class="opacity-50 mx-1">|</span>
+                                <span class="vertical-divider mx-1">|</span>
                             @endif
 
                             <span class="text-muted fst-italic">{{ $word->characteristics }}</span>
@@ -262,7 +262,7 @@
                                             <hr class="my-3"/>
 
                                             <div class="card border-0 shadow-sm">
-                                                <div class="card-body bg-light bg-light-subtle">
+                                                <div class="card-body bg-lighte">
                                                     <livewire:submit-user-example :articleId="$word->id" />
                                                 </div>
                                             </div>
@@ -339,8 +339,11 @@
                                                 <a href="{{ route('article:revisions', $word) }}" class="small text-muted text-decoration-none d-flex align-items-center gap-1">
                                                     <x-heroicon-o-clock class="icon" style="width:13px;"/>
                                                     Bewerkingsgeschiedenis
+
                                                     @if(isset($revisionCount) && $revisionCount > 0)
-                                                        <span class="badge bg-secondary-subtle text-secondary fw-normal ms-1" style="font-size:.7rem;">{{ $revisionCount }}</span>
+                                                        <span class="badge bg-secondary-subtle text-secondary-emphasis fw-normal ms-1" style="font-size: .7rem;">
+                                                            {{ $revisionCount }}
+                                                        </span>
                                                     @endif
                                                 </a>
 

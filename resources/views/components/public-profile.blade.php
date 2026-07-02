@@ -394,7 +394,7 @@
                         <x-heroicon-o-bell class="icon color-green"/>
                         <span class="flex-grow-1">Meldingen</span>
                         @if(auth()->user()->unreadNotifications()->count() > 0)
-                            <span class="sidenav-count">{{ auth()->user()->unreadNotifications()->count() }}</span>
+                            <span class="sidenav-count">{{ auth()->user()->unreadNotifications()->where('type', '!=', \Filament\Notifications\DatabaseNotification::class)->count() }}</span>
                         @endif
                     </a>
                     <a href="{{ route('account:reputation') }}" class="sidenav-link {{ active('account:reputation') }}">

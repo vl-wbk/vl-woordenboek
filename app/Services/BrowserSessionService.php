@@ -64,7 +64,7 @@ final readonly class BrowserSessionService
 
         return collect(
             DB::connection(config('session.connection'))
-                ->table(config()->string('session.table', 'sessions'))
+                ->table(config('session.table', 'sessions'))
                 ->where('user_id', Auth::user()->getAuthIdentifier())
                 ->orderBy('last_activity', 'desc')
                 ->get(),
@@ -91,7 +91,7 @@ final readonly class BrowserSessionService
         }
 
         DB::connection(config('session.connection'))
-            ->table(config()->string('session.table', 'sessions'))
+            ->table(config('session.table', 'sessions'))
             ->where('user_id', Auth::user()->getAuthIdentifier())
             ->where('id', '!=', request()->session()->getId())
             ->delete();
@@ -109,10 +109,5 @@ final readonly class BrowserSessionService
     private function createAgent(stdClass $session): AgentService
     {
         return tap(new AgentService(), fn ($agent): string => $agent->setUserAgent($session->user_agent));
-    }
-
-    private function getDefaultConnection(): string
-    {
-        return config()->string('database.default');
     }
 }

@@ -16,7 +16,11 @@ final readonly class AuditPolicy
 
     public function revert(User $user, Audit $audit): Response
     {
-        $hasCorrectRole = $user->user_type->in(enums: [UserTypes::EditorInChief, UserTypes::Developer, UserTypes::Administrators]);
+        $hasCorrectRole = $user->user_type->in(enums: [
+            UserTypes::EditorInChief,
+            UserTypes::Developer,
+            UserTypes::Administrators
+        ]);
 
         return ($audit->event === 'updated' && $hasCorrectRole)
             ? Response::allow()

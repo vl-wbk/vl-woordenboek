@@ -7,6 +7,8 @@
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
 
+@import 'base/typography';
+
 /// Layout
 ///
 /// The Layout/ folder contains everything that takes part in laying out the site or application.
@@ -22,6 +24,31 @@
 
 
 /// SHAME CSS  - Break it up in partials
+
+.statistic-table-link {
+    color: #0A47A3;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.statistic-table-link:hover {
+    color: #002D6E; /* A darker blue for a clear visual change */
+    text-decoration-thickness: 2px; /* Subtle bolding of the underline */
+}
+
+/* Focus state (vital for keyboard/accessibility navigation) */
+.statistic-table-link:focus {
+    outline: 2px solid #0A47A3;
+    outline-offset: 3px;
+    border-radius: 2px;
+}
+
+/* Active state (the moment the link is being clicked) */
+.statistic-table-link:active {
+    color: #00173B; /* Even darker blue to simulate being pressed */
+}
 
 .nav-tabs-custom {
     gap: 1rem;
@@ -42,6 +69,7 @@
 .nav-tabs-custom .nav-link:hover {
     color: $primary;
 }
+
 
 .nav-tabs-custom .nav-link.active {
     color: $primary;

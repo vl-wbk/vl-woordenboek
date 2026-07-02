@@ -13,7 +13,9 @@
             @auth
                 <div class="row">
                     <div class="col-8 mb-2">
+                        <label for="source" class="visually-hidden-focusable">Bron vermelding</label>
                         <input
+                            id="source"
                             wire:model="source"
                             class="form-control bg-white form-control-sm @error('source') is-invalid @enderror"
                             placeholder="Vertel ons de link waar je de voorbeeldzin hebt gevonden"
@@ -24,7 +26,9 @@
                     </div>
 
                     <div class="col-12 mb-2">
+                        <label for="example" class="visually-hidden-focusable">Voorbeeldzin</label>
                         <textarea
+                            id="example"
                             wire:model="example"
                             class="form-control bg-white form-control-sm @error('example') is-invalid @enderror"
                             rows="2"
@@ -40,7 +44,7 @@
                         <button
                             wire:click="submit"
                             wire:loading.attr="disabled"
-                            class="btn shadow-sm btn-sm btn-outline-success"
+                            class="btn shadow-sm btn-sm btn-success"
                         >
                             <span wire:loading.remove wire:target="submit">
                                 <x-heroicon-s-paper-airplane class="icon me-1"/> Indienen

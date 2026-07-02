@@ -214,7 +214,7 @@ final readonly class SearchWordQuery
             return;
         }
 
-        if (str_word_count($term) > 1) {
+        if (count($tokens) > 1) {
             $this->applyPhraseWithFallback($query, $term, $tokens, $columns);
         } else {
             $escaped = $this->escapeFtToken($tokens[0]);
@@ -277,11 +277,13 @@ final readonly class SearchWordQuery
     private function escapeFtToken(string $token): string
     {
         // Remove characters that have special meaning in Boolean Mode
-        return str_replace(
+        $token = str_replace(
             search: ['+', '-', '>', '<', '(', ')', '~', '*', '"', '\\'],
-            replace: '',
+            replace: ' ',
             subject: $token
         );
+
+        return trim(preg_replace('/\s+/', ' ', $token));
     }
 
     /**
@@ -328,10 +330,13 @@ final readonly class SearchWordQuery
      */
     private function getSearchTokens(Request $request): array
     {
-        return $request->string('zoekterm')
-            ->trim()
-            ->lower()
-            ->explode(' ')
+        $term = $request->string('zoekterm')->trim()->lower()->toString();
+
+        // Split on whitespace AND hyphens (and other separators) so tokens
+        // line up with how MySQL's FT parser tokenized the indexed content.
+        $parts = preg_split('/[\s\-]+/u', $term, -1, PREG_SPLIT_NO_EMPTY);
+
+        return collect($parts)
             ->filter(fn (string $token) => mb_strlen($token) >= 1)
             ->values()
             ->all();
