@@ -356,7 +356,7 @@ final class ArticlePolicy
         }
 
 
-        DenyResponse::deny("Het artikel kan in deze staat niet verwijderd worden.");
+        return DenyResponse::deny("Het artikel kan in deze staat niet verwijderd worden.");
     }
 
     /**
