@@ -127,7 +127,11 @@ final class ArticlePolicy
      */
     public function sendForApproval(User $user, Article $article): Response
     {
-        return $article->state->in(enums: [ArticleStates::Draft, ArticleStates::RejectedPublication]) && ($user->can("send-for-approval:article")) || $article->editor()->is($user)
+        if ($article->state->notIn(enums: [ArticleStates::Draft, ArticleStates::RejectedPublication])) {
+            return Response::deny();
+        }
+
+        return $user->can("send-for-approval:article") || $article->editor()->is($user)
             ? Response::allow()
             : Response::deny(message: "Je hebt geen permissie om dit artikel in te zenden voor nazicht en publicatie");
     }
