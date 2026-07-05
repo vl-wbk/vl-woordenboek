@@ -399,11 +399,6 @@ final readonly class ArticleForm
                 ->relationship('related', 'word')
                 ->multiple()
                 ->searchable()
-                ->getSearchResultsUsing(fn (string $search): array => Article::where('word', 'like', "%{$search}%")
-                    ->limit(50)
-                    ->pluck('word', 'id')
-                    ->toArray()
-                )
                 ->getOptionLabelFromRecordUsing(fn (Article $record) => "#{$record->id} - {$record->word}"),
         ];
     }
