@@ -128,7 +128,7 @@ final class ArticlePolicy
     public function sendForApproval(User $user, Article $article): Response
     {
         if ($article->state->notIn(enums: [ArticleStates::Draft, ArticleStates::RejectedPublication])) {
-            return Response::deny();
+            return Response::deny(); //! TODO implement custom deny message
         }
 
         return $user->can("send-for-approval:article") || $article->editor()->is($user)
