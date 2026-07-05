@@ -89,7 +89,7 @@ final class SendoutPublicationNotification extends Notification implements Shoul
     {
         return [
             'type'         => 'suggesties',
-            'title'        => 'We hebben een van je suggestie gepubliceerd',
+            'title'        => 'We hebben een van je suggesties gepubliceerd',
             'body'         => 'Het gaat om de suggestie van de woord: ' . $this->article->word,
             'url'          => $this->articleUrl(),
             'action_label' => 'bekijken',
