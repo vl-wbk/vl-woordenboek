@@ -351,12 +351,23 @@ final class ArticlePolicy
                 : DenyResponse::deny("Je hebt geen permissie om gepubliceerde artikelen te verwijderen.");
         }
 
-        if ($user->can("delete:article")) {
-            return Response::allow();
+        if (!$user->can("delete:article")) {
+            return DenyResponse::deny("Je hebt geen permissie om artikelen te verwijderen.");
         }
 
+        $deletableStates = match (true) {
+            $user->user_type->is(UserTypes::Editor) => [ArticleStates::ExternalData, ArticleStates::New],
+            $user->user_type->in([UserTypes::Administrators, UserTypes::Developer]) => [
+                ArticleStates::ExternalData,
+                ArticleStates::New,
+                ArticleStates::Archived,
+            ],
+            default => [],
+        };
 
-        return DenyResponse::deny("Het artikel kan in deze staat niet verwijderd worden.");
+        return $article->state->in($deletableStates)
+            ? Response::allow()
+            : DenyResponse::deny("Het artikel kan in deze staat niet verwijderd worden.");
     }
 
     /**
