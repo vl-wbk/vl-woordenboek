@@ -101,6 +101,7 @@ final readonly class ArticleForm
 
                     // Cross-referencing
                     Section::make('related-word')
+                        ->compact()
                         ->heading('Gerelateerde woorden')
                         ->icon(Heroicon::OutlinedLink)
                         ->collapsed()
