@@ -399,7 +399,22 @@ final readonly class ArticleForm
                 ->relationship('related', 'word')
                 ->multiple()
                 ->searchable()
-                ->getOptionLabelFromRecordUsing(fn (Article $record) => "#{$record->id} - {$record->word}"),
+                ->getOptionLabelFromRecordUsing(fn (Article $record) => "#{$record->id} - {$record->word}")
+               ->getSearchResultsUsing(
+                    fn (string $search): array => Article::whereNotNull('word')  // ← Filter nulls
+                        ->where(fn ($q) => $q
+                            ->where('word', 'like', "%{$search}%")
+                            ->orWhere('id', 'like', "%{$search}%")
+                        )
+                        ->limit(50)
+                        ->orderBy('id', 'asc')
+                        ->get()
+                        ->mapWithKeys(fn (Article $article) => [     // ← Map to proper format
+                            $article->id => "#{$article->id} - {$article->word}"
+                        ])
+                        ->toArray()
+                ),
+
         ];
     }
 
