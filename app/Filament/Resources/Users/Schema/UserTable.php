@@ -54,6 +54,9 @@ final readonly class UserTable
         ];
     }
 
+    /**
+     * @return array<int, ActionGroup|ViewAction>
+     */
     private static function configureRecordActions(): array
     {
         return [
@@ -73,6 +76,9 @@ final readonly class UserTable
         ];
     }
 
+    /**
+     * @return SelectFilter[]
+     */
     private static function configureTableFilters(): array
     {
         return [
@@ -83,6 +89,10 @@ final readonly class UserTable
         ];
     }
 
+    /**
+     *
+     * @return array<int, TextColumn|UserColumn>
+     */
     private static function configureTableColumnSchema(): array
     {
         return [

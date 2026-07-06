@@ -219,8 +219,14 @@
                                     <!-- Description -->
                                     <section class="mb-4 pb-4 border-bottom" id="description">
                                         @if (flash()->message)
-                                            <div class="alert {{ flash()->class }}" role="alert" id="flash-alert">
+                                            <div class="alert {{ flash()->class }} border-0" role="alert" id="flash-alert">
                                                 {{ flash()->message }}
+                                            </div>
+                                        @endif
+
+                                        @if (session()->has('status'))
+                                            <div class="alert alert-success alert-dismissible border-0" role="alert">
+                                                <span class="fw-bold">Succes:</span> {{ session()->get('status') }}
                                             </div>
                                         @endif
 
