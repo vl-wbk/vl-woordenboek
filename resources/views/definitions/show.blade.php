@@ -494,27 +494,28 @@
 
                                 <hr>
 
-                                <div class="btn-group border shadow-sm w-100" role="group" aria-label="Verbetering melden" id="action-buttons">
+                                <ul class="list-unstyled mb-0">
                                     @if (auth()->check() && auth()->user()->can('create', \App\Models\CorrectionProposal::class))
-                                        <a href="{{ route('correction:create', $word) }}" class="btn btn-white w-100" id="correct-btn">
-                                            <x-heroicon-o-pencil-square class="icon me-1"/>
+                                        <li class="mb-1">
+                                            <a href="{{ route('correction:create', $word) }}" class="text-secondary fw-semibold text-decoration-none" id="correct-btn">
+                                                <x-heroicon-s-pencil-square class="icon me-1"/>
 
-                                            @if (auth()->user()->canPerform('artikel beschrijvingen bewerken'))
-                                                <span>Artkel corriggeren</span>
-                                            @else
-                                                <span>Correctie voorstellen</span>
-                                            @endif
-                                        </a>
+                                                @if (auth()->user()->canPerform('artikel beschrijvingen bewerken'))
+                                                    <span>Artikel beschrijving corrigeren</span>
+                                                @else
+                                                    <span>Correctie beschrijving voorstellen</span>
+                                                @endif
+                                            </a>
+                                        </li>
                                     @endif
 
-                                    <button type="button" class="btn btn-danger" title="Een probleem melden" data-bs-toggle="modal" data-bs-target="#reportModal" id="report-btn">
-                                        <x-heroicon-s-exclamation-triangle class="icon"/>
-
-                                        @cannot ('create', \App\Models\CorrectionProposal::class)
+                                    <li>
+                                        <a href="#" title="Een probleem melden" class="fw-semibold text-danger text-decoration-none" data-bs-toggle="modal" data-bs-target="#reportModal" id="report-btn">
+                                            <x-heroicon-s-exclamation-triangle class="icon"/>
                                             <span class="ms-1">Een probleem melden</span>
-                                        @endcannot
-                                    </button>
-                                </div>
+                                        </a>
+                                    </li>
+                                </ul>
                         </div><!-- /col-lg-4 -->
                     </div>
                 </div>
