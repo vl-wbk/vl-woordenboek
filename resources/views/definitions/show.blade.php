@@ -482,9 +482,9 @@
                                     </div>
                                     <div class="card-body p-2">
                                         {{-- Use a separate link for the image viewer --}}
-                                        <a href="{{ asset($word->region_chart) }}" target="_blank" rel="noopener">
+                                        <a href="{{ asset('storage/' . $word->region_chart) }}" target="_blank" rel="noopener">
                                             <img
-                                                src="{{ asset($word->region_chart) }}"
+                                                src="{{ asset('storage/' . $word->region_chart) }}"
                                                 alt="Regionale verspreiding van {{ $word->word }}"
                                                 class="img-fluid rounded"
                                                 loading="lazy"
