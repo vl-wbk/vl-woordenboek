@@ -90,7 +90,8 @@ final class NotesRelationManager extends RelationManager
                     ->columnSpan(4)
                     ->native(false)
                     ->hidden(fn (): bool => auth()->user()->user_type->is(UserTypes::Editor))
-                    ->options(Visibility::class),
+                    ->options(Visibility::class)
+                    ->default(Visibility::EditorInChief),
 
                 TextInput::make('title')
                     ->required()
