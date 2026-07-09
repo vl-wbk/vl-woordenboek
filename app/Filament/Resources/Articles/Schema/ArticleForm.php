@@ -17,6 +17,7 @@ use CodeWithDennis\SimpleAlert\Components\Enums\IconAnimation;
 use CodeWithDennis\SimpleAlert\Components\SimpleAlert;
 use DiscoveryDesign\FilamentGaze\Forms\Components\GazeBanner;
 use Filament\Actions\Action;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Repeater;
@@ -29,6 +30,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Laravel\Pennant\Feature;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 /**
  * ArticleForm
@@ -228,7 +230,7 @@ final readonly class ArticleForm
                 ->maxHeight('160px')
                 ->helperText(str('Dit veld ondersteunt enkel [**Markdown**](https://www.markdownguide.org/cheat-sheet/)')->inlineMarkdown()->toHtmlString())
                 ->columnSpanFull()
-                ->visible(fn (Article $article): bool => $article->migration_configuration['examples'] === false)
+                ->visible(fn (?Article $record): bool => $record?->migration_configuration['examples'] === false)
                 ->hintAction(LanguageAdviceAction::make()),
 
             Repeater::make('userExamples')
@@ -238,7 +240,7 @@ final readonly class ArticleForm
                 ->columnSpanFull()
                 ->autofocus()
                 ->compact()
-                ->visible(fn (Article $article): bool => $article->migration_configuration['examples'] === true)
+                ->visible(fn (?Article $record): bool => $record?->migration_configuration['examples'] === true)
                 ->table([
                      Repeater\TableColumn::make('Voorbeeldzin'),
                      Repeater\TableColumn::make('Bron'),
@@ -303,6 +305,18 @@ final readonly class ArticleForm
                 ->preload()
                 ->minItems(1)
                 ->required(),
+
+            FileUpload::make('region_chart')
+                ->label('Kaart van de regionale spreiding')
+                ->image()
+                ->disk('public')
+                ->columnSpanFull()
+                ->deletable()
+                ->previewable(false),
+
+            TextInput::make('region_chart_source')
+                ->label('Bron van het kaartje')
+                ->columnSpanFull(),
 
             Radio::make('status')
                 ->columnSpanFull()
