@@ -69,7 +69,6 @@ final readonly class SearchWordQuery
             ->allowedSorts($this->getAllowedSorts())
             ->allowedFilters($this->getAllowedFilters())
             ->with(['author', 'regions', 'bookmarkers'])
-            ->published() /** @phpstan-ignore-line */
             ->where(fn (Builder $query) => $this->applyVisibilityFilters($query, $request))
             ->where(fn (Builder $query) => $this->applySearchStrategy($query, $request))
             ->orderBy('created_at', 'desc')
@@ -90,10 +89,11 @@ final readonly class SearchWordQuery
      */
     private function applyVisibilityFilters(Builder $query, Request $request): void
     {
-        $query->whereNotNull('published_at');
-
         if ($request->boolean('archief')) {
-            $query->orWhereNotNull('archived_at');
+            $query->whereNotNull('archived_at');
+        } else {
+            // Enkel gepubliceerde artikelen (oorspronkelijk gedrag van ->published())
+            $query->published();
         }
     }
 
