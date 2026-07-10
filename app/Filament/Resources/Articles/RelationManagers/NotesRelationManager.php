@@ -179,10 +179,14 @@ final class NotesRelationManager extends RelationManager
     }
 
     /**
-     * @param  Builder<Note> $builder
-     * @return Builder<Note>
+     * Apply role-based visibility constraints to the query builder.
+     *
+     * This method intercepts the query builder instance and restricts the visible records based on the authenticated user's type.
+     * Editors and Editors-in-chief are strictly limited to their respective visibility levels.
+     *
+     * @param  Builder<Note> $builder The initial query builder instance for the note model.
+     * @return Builder<Note>          The modified query builder instance containing the visibility constraints.
      */
-    #[Todo(message: 'Provide a full docblock for this function', priority: 'low')]
     public function applyCustomQueryScopes(Builder $builder): Builder
     {
         /** @var User $authUser */
@@ -195,9 +199,14 @@ final class NotesRelationManager extends RelationManager
     }
 
     /**
-     * @return array<int, Tables\Filters\SelectFilter>
+     * Retrieve the table filter configuration for the resource.
+     *
+     * Generates a collection of filters including a visibility select filter.
+     * The visibility filter is dunamically hidden for standard Editors,
+     * as their access scope is already hard-coded via query constraints.
+     *
+     * @return array<int, Tables\Filters\SelectFilter> An array containing configured Filament table select filters.
      */
-    #[Todo(message: 'Provide a full docblock for this function', priority: 'low')]
     private function getFilters(): array
     {
         return [
