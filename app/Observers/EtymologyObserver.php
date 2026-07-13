@@ -49,6 +49,16 @@ final readonly class EtymologyObserver
         };
     }
 
+    /**
+     * Handle the Etymology "created" event.
+     *
+     * Finalizes ownership metadata immediately after the record is comitted to the database.
+     * If an active session is detected, it binds the currently authenticated user to the record's primary author
+     * relation and flushes the change to the database.
+     *
+     * @param  Etymology $etymology The newly comitted etymology model instance.
+     * @return void
+     */
     public function created(Etymology $etymology): void
     {
         if (Auth::check()) {
