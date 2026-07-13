@@ -4,16 +4,25 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Articles\Resources\Labels\RelationManagers;
 
+use App\Enums\ArticleStates;
+use App\Enums\LanguageStatus;
 use Filament\Actions\AttachAction;
 use Filament\Actions\ViewAction;
 use Filament\Actions\DetachAction;
 use Filament\Actions\DetachBulkAction;
 use App\Filament\Resources\Articles\ArticleResource;
 use App\Models\Article;
+use Filament\Actions\Action;
+use Filament\Forms\Components\DatePicker;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\FontWeight;
+use Filament\Support\Enums\Width;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -63,6 +72,9 @@ final class ArticlesRelationManager extends RelationManager
                     ->modalDescription('Door de rijke omvang van het woordenboek kan het even duren vooraleer huet woord gevonden.')
                     ->modalAlignment(Alignment::Center),
             ])
+            ->filters(filters: $this->getFilterSchema(), layout: FiltersLayout::Modal)
+            ->filtersFormWidth(Width::ThreeExtraLarge)
+            ->filtersFormColumns(12)
             ->heading('Artikelen')
             ->description('Alle artikelen vanuit het woordenboek dat gekoppeld zijn aan het gereleateerde label')
             ->emptyStateIcon('heroicon-o-book-open')
@@ -78,7 +90,7 @@ final class ArticlesRelationManager extends RelationManager
      * Defines individual row actions available in the table interface.
      * Currently provides only the ability to detach articles from the label, maintaining a focused set of operations for relationship management.
      *
-     * @return array<mixed>
+     * @return array<int, ViewAction|DetachAction>
      */
     protected function getTableActions(): array
     {
@@ -91,10 +103,62 @@ final class ArticlesRelationManager extends RelationManager
     }
 
     /**
+     * @return array<int, Filter|SelectFilter|TrashedFilter>
+     */
+    protected function getFilterSchema(): array
+    {
+        return [
+            SelectFilter::make('state')
+                ->label('Artikel status')
+                ->columnSpan(6)
+                ->multiple()
+                ->options(ArticleStates::class),
+
+            SelectFilter::make('status')
+                ->label('Taal status')
+                ->columnSpan(6)
+                ->options(LanguageStatus::class)
+                ->native(false),
+
+            Filter::make('created_at')
+                ->columnSpanFull()
+                ->columns(12)
+                ->schema([
+                    DatePicker::make('created_from')
+                        ->native(false)
+                        ->placeholder('Registratie datum')
+                        ->label(__('Vanaf'))
+                        ->columnSpan(6),
+
+                    DatePicker::make('created_until')
+                        ->placeholder('Registratie datum')
+                        ->native(false)
+                        ->label(__('Tot'))
+                        ->columnSpan(6),
+                ])
+                ->query(function (Builder $query, array $data): Builder {
+                    return $query
+                        ->when($data['created_from'], fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date))
+                        ->when($data['created_until'], fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date));
+                }),
+
+            SelectFilter::make('disclaimer')
+                ->columnSpanFull()
+                ->native(false)
+                ->relationship('disclaimer', 'name'),
+
+            TrashedFilter::make()
+                ->columnSpanFull()
+                ->native(false)
+                ->visible(fn(): bool => auth()->user()->canAny('restore', Article::class)),
+        ];
+    }
+
+    /**
      * Configures bulk actions for managing multiple article relationships simultaneously.
      * Enables efficient batch operations for detaching multiple articles from a label at once.
      *
-     * @return array<mixed>
+     * @return array<int, DetachBulkAction>
      */
     private function getBulkActions(): array
     {
@@ -113,7 +177,7 @@ final class ArticlesRelationManager extends RelationManager
      * - Description preview
      * - Relationsup creation timestamp
      *
-     * @return array<mixed>  The configured table layout.
+     * @return array<int, TextColumn>  The configured table layout.
      */
     private function getTableLayout(): array
     {
