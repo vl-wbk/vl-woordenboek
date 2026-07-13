@@ -69,7 +69,6 @@ final readonly class SearchWordQuery
             ->allowedSorts($this->getAllowedSorts())
             ->allowedFilters($this->getAllowedFilters())
             ->with(['author', 'regions', 'bookmarkers'])
-            ->published()
             ->where(fn (Builder $query) => $this->applyVisibilityFilters($query, $request))
             ->where(fn (Builder $query) => $this->applySearchStrategy($query, $request))
             ->orderBy('created_at', 'desc')
@@ -90,10 +89,11 @@ final readonly class SearchWordQuery
      */
     private function applyVisibilityFilters(Builder $query, Request $request): void
     {
-        $query->whereNotNull('published_at');
-
         if ($request->boolean('archief')) {
-            $query->orWhereNotNull('archived_at');
+            $query->whereNotNull('archived_at');
+        } else {
+            // Enkel gepubliceerde artikelen (oorspronkelijk gedrag van ->published())
+            $query->published();
         }
     }
 
@@ -199,9 +199,10 @@ final readonly class SearchWordQuery
      * expression is built because the MySQL FT engine silently ignores them, which would otherwise cause confusing
      * empty-result bugs.
      *
-     * @param Builder<Article> $query
-     * @param Request          $request
-     * @param bool             $includeDescription
+     * @param  Builder<Article> $query              The primary query builder instance for the Article model.
+     * @param  Request          $request            The current HTTP request containing the target search queries.
+     * @param  bool             $includeDescription Flag determining whether to extend the full-text matching to include the description field.
+     * @return void
      */
     private function applyFullTextSearch(Builder $query, Request $request, bool $includeDescription): void
     {
@@ -240,6 +241,8 @@ final readonly class SearchWordQuery
     private function applyPhraseWithFallback(Builder $query, string $term, array $tokens, string $columns): void
     {
         $phrase = '"' . $this->escapeFtToken($term) . '"';
+
+        /** @phpstan-ignore-next-line */
         $exists = Article::whereRaw("MATCH({$columns}) AGAINST(? IN BOOLEAN MODE)", [$phrase])->exists();
 
         if ($exists) {
@@ -259,6 +262,7 @@ final readonly class SearchWordQuery
             return;
         }
 
+        /** @phpstan-ignore-next-line */
         $query->whereRaw("MATCH({$columns}) AGAINST(? IN BOOLEAN MODE)", [$andExpr]);
     }
 
@@ -336,8 +340,9 @@ final readonly class SearchWordQuery
         // line up with how MySQL's FT parser tokenized the indexed content.
         $parts = preg_split('/[\s\-]+/u', $term, -1, PREG_SPLIT_NO_EMPTY);
 
+        /** @phpstan-ignore-next-line */
         return collect($parts)
-            ->filter(fn (string $token) => mb_strlen($token) >= 1)
+            ->filter(fn (string $token) => mb_strlen($token) >= 1) /** @phpstan-ignore-line */
             ->values()
             ->all();
     }

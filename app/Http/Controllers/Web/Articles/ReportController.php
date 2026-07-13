@@ -12,7 +12,6 @@ use Spatie\RouteAttributes\Attributes\Middleware;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Throwable;
 
-#[Middleware(middleware: ['auth', 'forbid-banned-user', 'verified'])]
 final readonly class ReportController
 {
     /**

@@ -54,11 +54,9 @@ trait BelongsToAuthor
     {
         $authUser = Auth::user();
 
-        if (! $authUser instanceof User) {
-            throw new AuthenticationException(message: 'Cannot set current user as author: no user is authenticated.');
+        if ($authUser instanceof User) {
+            $this->setAuthor($authUser);
         }
-
-        $this->setAuthor($authUser);
 
         return $this;
     }

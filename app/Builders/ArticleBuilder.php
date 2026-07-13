@@ -61,7 +61,7 @@ final class ArticleBuilder extends Builder
 
     public function isEditable(): bool
     {
-        return $this->model->state->in([ArticleStates::New, ArticleStates::Draft, ArticleStates::Archived]) &&
+        return $this->model->state->in([ArticleStates::New, ArticleStates::Draft, ArticleStates::Archived, ArticleStates::RejectedPublication]) &&
             !$this->model->state->is(ArticleStates::Approval);
     }
 

@@ -127,8 +127,8 @@ final class ArticlePolicy
      */
     public function sendForApproval(User $user, Article $article): Response
     {
-        if ($article->state->isNot(ArticleStates::Draft)) {
-            return Response::deny(message: "Alleen klad artikelen kunnen ingezonden worden voor nazicht en publicatie");
+        if ($article->state->notIn(enums: [ArticleStates::Draft, ArticleStates::RejectedPublication])) {
+            return Response::deny(); //! TODO implement custom deny message
         }
 
         return $user->can("send-for-approval:article") || $article->editor()->is($user)

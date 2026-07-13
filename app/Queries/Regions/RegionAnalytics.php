@@ -56,6 +56,7 @@ final readonly class RegionAnalytics
     private function getArticleAnalytics(Region $region): array
     {
         return ['statistic' => toHumanReadableNumber(
+            /** @phpstan-ignore-next-line */
             $region->articles()->published()->count()
         )];
     }

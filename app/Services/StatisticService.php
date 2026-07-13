@@ -22,7 +22,12 @@ use OwenIt\Auditing\Models\Audit;
 final class StatisticService
 {
     /**
-     * Constant representing the string 'perWeek'. Used as a parameter for the `flowframe/trend` package to specify weekly trend intervals.
+     * The trend interval granularity identifier.
+     *
+     * Defines the configuration keyword passed downstream to the `flowframe/trend`
+     * analytics engine to group data metrics and compile aggregates into distinct weekly intervals.
+     *
+     * @var string
      */
     private const string WEEKLY = 'perWeek';
 
@@ -41,18 +46,18 @@ final class StatisticService
      * Retrieves the total number of article views.
      * This method calculates the sum of the 'views' column across all articles in the database.
      *
-     * @return string The total number of article views.
+     * @return int The total number of article views.
      */
-    public function getArticleViews(): string
+    public function getArticleViews(): int
     {
-        return $this->cached('article_views', fn () => toHumanReadableNumber((float) Article::sum('views')));
+        return $this->cached('article_views', fn (): int => (int) toHumanReadableNumber((float) Article::sum('views')));
     }
 
     /**
      * Retrieves the total count of articles.
      * This method queries the database to count the total number of articles.
      *
-     * @return string The total count of articles.
+     * @return int The total count of articles.
      */
     public function getArticleCount(): int
     {
@@ -83,7 +88,7 @@ final class StatisticService
      * This method uses the `flowframe/trend` package to generate weekly trends for created, published, and archived articles over the past year.
      * It then extracts the data and labels into separate collections for use in charts.
      *
-     * @return array<mixed>
+     * @return array{archived: Collection<int, string>, created: Collection<int, string>, labels: Collection<int, string>, published: Collection<int, string>}
      */
     public function articleChartData(): array
     {
@@ -117,9 +122,12 @@ final class StatisticService
     }
 
     /**
-     * Retrieves application metrics formatted for display.
+     * Retrieve and compile gloabl application performance and usage metrics.
      *
-     * @return array<int, array<string, mixed>>
+     * This method aggregates high-level telemetry data across multiple domains-including, content interaction stats, absolute resource tallies,
+     * administrative lifecycle changes and current-week acquisition velocities-formatting them into standard KPI card configurations.
+     *
+     * @return array<int, array{color: string, icon: string, title: string, value: string}> An array of compiled metric configurations tailored for UI result cards
      */
     public function getMetrics(): array
     {
@@ -142,7 +150,15 @@ final class StatisticService
     }
 
     /**
-     * Internal helper to handle cache logic.
+     * Retrieve a value from the cache using a flexible (stale-while-revalidate) strategy, or execute the fallback.
+     *
+     * This internal helper wraps the framework's flexible caching mechanism to safely manage data persistence.
+     * It utilizes the class-defined time-to-live configuration to serve fresg data, allow stale grace periods,
+     * and cast the evaluated result into an integer.
+     *
+     * @param  string   $key      The unique identifier token utilized to locate or store the cached payload.
+     * @param  callable $callback The fallback execution routing logic executed if the cache needs fresh synchronization.
+     * @return int                The evaluation response cast cleanly as an integer representation.
      */
     private function cached(string $key, callable $callback): int
     {
@@ -150,7 +166,17 @@ final class StatisticService
     }
 
     /**
-     * Internal helper to build metric arrays.
+     * Format raw metric properties into a standarized structure for KPI cards.
+     *
+     * This method compiles metadata alongside a numeric value, converting the raw integer of float into a localized,
+     * abbreviated human-readable format (e.g., 1.2k, 3.4M) for clean presentation on UI dashboards.
+     *
+     * @param string    $title   The display title or heading for the metric card.
+     * @param string    $icon    The icon identifier of class string (e.g., Heroicon name).
+     * @param string    $color   The theme color designation (e.g, Tailwind class or state key).
+     * @param int|float $current The raw numerical value to be formatted and displayed.
+     *
+     * @return array{color: string, icon: string, title: string, value: string} The compiled associative array containing all formatted KPI card properties.
      */
     private function formatMetric(string $title, string $icon, string $color, int|float $current): array
     {
@@ -163,36 +189,13 @@ final class StatisticService
     }
 
     /**
-     * Calculates the weekly trend percentage.
-     */
-    private function weekTrend(int $current, int $previous): array
-    {
-        if ($previous === 0) {
-            return [
-                'trend' => $current > 0 ? 'nieuw' : '—',
-                'trend_label' => '',
-                'up' => $current > 0 ? true : null,
-            ];
-        }
-
-        $pct = (int) round((($current - $previous) / $previous) * 100);
-
-        return [
-            'trend' => ($pct > 0 ? '+' : '').$pct.'%',
-            'trend_label' => 'vs vorige week',
-            'up' => match (true) {
-                $pct > 0 => true,
-                $pct < 0 => false,
-                default => null,
-            },
-        ];
-    }
-
-    /**
-     * Formats the trend data into a structure suitable for charts.
+     * Format raw trend data into a structured payload optimized for chart components.
      *
-     * @param  Collection<int, TrendValue> $trendData
-     * @return array{data: Collection<int, string>, labels: Collection<int, string>}
+     * Consolidates the dataset by extracting both the numerical trend aggregates and their corresponding
+     * localized human-readable time labels into a structured associative array required by frontend graphing utilities.
+     *
+     * @param  Collection<int, TrendValue> $trendData A collection of raw trend data metrics.
+     * @return array{data: Collection<int, string>, labels: Collection<int, string>} An associative array containing the separate data and label collections.
      */
     private function formatChartData(Collection $trendData): array
     {
@@ -202,11 +205,30 @@ final class StatisticService
         ];
     }
 
+    /**
+     * Extract the raw aggregate metrics from a collection of trend data.
+     *
+     * This method maps over the dataset to isolated the calculated mumeric values (such as counts, sums, or averages),
+     * separating them from their associated time periods for easy consumption by charts or tables.
+     *
+     * @param  Collection<int, TrendValue> $trendData A collection of raw trend data entries containing aggregates.
+     * @return Collection<int, string>                A collection containing only the isolated aggregate values.
+     */
     private function extractTrendValues(Collection $trendData): Collection
     {
         return $trendData->map(fn (TrendValue $value): mixed => $value->aggregate);
     }
 
+    /**
+     * Extract and format display labels from a collection of trend data.
+     *
+     * This method iterates over raw trend metrics containing year-weaak strings,
+     * parses the periods into localizec human-readable month and year representation (e.g., "January 2026")
+     * based on the start of that specific ISO week.
+     *
+     * @param  Collection<int, TrendValue> $trendData A collection of raw trend data entries containing the date keys.
+     * @return Collection<int, string>                A Collection of formatted, translated month and year strings.
+     */
     private function extractTrendLabels(Collection $trendData): Collection
     {
         return $trendData->map(function (TrendValue $value): string {

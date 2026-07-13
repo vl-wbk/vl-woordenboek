@@ -85,7 +85,7 @@ final readonly class UserForm
                             ->label(label: __('user-resource.form.section.inputs.lastname'))
                             ->required()
                             ->columnSpan(3),
- 
+
                         Components\TextInput::make('email')
                             ->label(label: __('user-resource.form.section.inputs.email'))
                             ->required()
@@ -112,7 +112,7 @@ final readonly class UserForm
                             ->onIcon(Heroicon::Check)
                             ->columnSpanFull()
                             ->dehydrated(false)
-                            ->formatStateUsing(fn (User $record) => $record ? Feature::for($record)->active(BetaProgramFeature::class) : false)
+                            ->formatStateUsing(fn (?User $record) => $record ? Feature::for($record)->active(BetaProgramFeature::class) : false)
                             ->afterStateUpdated(function ($state, $record): void {
                                 $state ? Feature::for($record)->activate(BetaProgramFeature::class) : Feature::for($record)->deactivate(BetaProgramFeature::class);
                             }),
