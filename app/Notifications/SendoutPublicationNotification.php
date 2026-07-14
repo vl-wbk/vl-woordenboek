@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Article;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -61,10 +62,10 @@ final class SendoutPublicationNotification extends Notification implements Shoul
      * Build the mail representation of the notification.
      * This method updates the article's `notify_author` attribute to `false` to ensure the notification is sent only once per publication.
      *
-     * @param  object $notifiable The notifiable entity.
+     * @param  User $notifiable The notifiable entity.
      * @return MailMessage The mail message instance.
      */
-    public function toMail(object $notifiable): MailMessage
+    public function toMail(User $notifiable): MailMessage
     {
         // Build up the notification email
         return (new MailMessage())
@@ -85,7 +86,7 @@ final class SendoutPublicationNotification extends Notification implements Shoul
         return url('woordenboek-artikel/' . $this->article->id);
     }
 
-    public function toArray($notifiable): array
+    public function toArray(User $notifiable): array
     {
         return [
             'type'         => 'suggesties',

@@ -45,6 +45,11 @@ final class PasskeysRelationManager extends RelationManager
             && $authUser->isDeveloper();
     }
 
+    /**
+     * @param  User $ownerRecord
+     * @param  string $pageClass
+     * @return string
+     */
     public static function getBadge(Model $ownerRecord, string $pageClass): string
     {
         return (string) $ownerRecord->passkeys()->count();

@@ -59,7 +59,7 @@ trait ManagesReputation
      * @see awardPoints()
      * @see subtractPoints()
      *
-     * @return HasMany<ReputationLog, ManagesReputation>
+     * @return HasMany<ReputationLog, covariant $this>
      */
     public function reputationLogs(): HasMany
     {
@@ -232,7 +232,7 @@ trait ManagesReputation
      * Each entry tells you the action name and the exact threshold required, so you can show
      * the user something like "500 pts needed to unlock article editing".
      *
-     * @return array{action: string, threshold: int}
+     * @return list<array{action: string, threshold: int}>
      */
     public function unavailableActions(): array
     {

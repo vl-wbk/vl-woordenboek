@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Articles\RelationManagers;
 
+use App\Models\Article;
 use App\Filament\Resources\Articles\ArticleResource;
 use App\Filament\Resources\Articles\Pages\ViewWord;
 use BackedEnum;
@@ -67,7 +68,10 @@ final class RelatedRelationManager extends RelationManager
      */
     public function isReadOnly(): bool
     {
-        return $this->getOwnerRecord()->trashed() ? true : false;
+        /** @var Article $article */
+        $article = $this->getOwnerRecord();
+
+        return $article->trashed() ? true : false;
     }
 
     /**

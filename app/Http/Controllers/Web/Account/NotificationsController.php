@@ -14,6 +14,7 @@ use Spatie\RouteAttributes\Attributes\Delete;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Middleware;
 use Spatie\RouteAttributes\Attributes\Patch;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 #[Middleware(['auth', 'forbid-banned-user'])]
 final readonly class NotificationsController
@@ -35,7 +36,7 @@ final readonly class NotificationsController
     }
 
     #[Patch(uri: '/meldingen/{id}/gelezen', name: 'notifications:read')]
-    public function read(string $id)
+    public function read(string $id): RedirectResponse
     {
         auth()->user()
             ->notifications()
@@ -46,7 +47,7 @@ final readonly class NotificationsController
     }
 
     #[Patch(uri: '/meldingen/alles-gelezen', name: 'notifications:readAll')]
-    public function readAll()
+    public function readAll(): RedirectResponse
     {
         auth()->user()->unreadNotifications->markAsRead();
 
@@ -54,7 +55,7 @@ final readonly class NotificationsController
     }
 
     #[Delete(uri: '/meldingen/{id}', name: 'notifications:destroy')]
-    public function destroy(string $id)
+    public function destroy(string $id): RedirectResponse
     {
         auth()->user()
             ->notifications()
@@ -65,7 +66,7 @@ final readonly class NotificationsController
     }
 
     #[Delete(uri: '/meldingen', name: 'notifications:destroyAll')]
-    public function destroyAll()
+    public function destroyAll(): RedirectResponse
     {
         auth()->user()->notifications()->delete();
 
