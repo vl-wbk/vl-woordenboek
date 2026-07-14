@@ -32,6 +32,11 @@ final class SoftDeleteArticleAction extends DeleteAction
         });
     }
 
+    /**
+     * @param  Article $article
+     * @param  array{motivation: string, deletion_reason: string} $data
+     * @return bool
+     */
     private function softDeleteArticle(Article $article, array $data): bool
     {
         $article->update(attributes: [

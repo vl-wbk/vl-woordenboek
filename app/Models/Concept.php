@@ -34,6 +34,9 @@ final class Concept extends Model
         return $this->author()->is($user);
     }
 
+    /**
+     * @return MorphMany<UserExample, covariant $this>
+     */
     public function userExamples(): MorphMany
     {
         return $this->morphMany(UserExample::class, 'exampleable');

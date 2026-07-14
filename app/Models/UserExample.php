@@ -46,6 +46,9 @@ final class UserExample extends Model
      */
     protected $guarded = ['id'];
 
+    /**
+     * @return MorphTo<Model, covariant $this>
+     */
     public function exampleable(): MorphTo
     {
         return $this->morphTo();

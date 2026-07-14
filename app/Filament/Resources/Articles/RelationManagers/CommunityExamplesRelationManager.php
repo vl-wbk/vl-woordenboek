@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Articles\RelationManagers;
 
+use App\Models\Article;
 use A909M\FilamentStateFusion\Actions\StateFusionAction;
 use A909M\FilamentStateFusion\Actions\StateFusionBulkAction;
 use A909M\FilamentStateFusion\Tables\Filters\StateFusionSelectFilter;

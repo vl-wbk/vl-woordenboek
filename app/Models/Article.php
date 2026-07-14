@@ -58,6 +58,8 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property LanguageStatus        $status                   The current language validation status
  * @property DataOrigin            $origin                   The origin of the data where the dictionary article is based on.
  * @property string|null           $example                  Optional usage example of the word
+ * @property string|null           $reqion_chart             The filename of the image that documents the regional spread of the word.
+ * @property string|null           $region_chart_source      The source of the regional spread chart.
  * @property string|null           $characteristics          Additional word characteristics
  * @property int|null              $editor_id                The ID of the assigned editor
  * @property int|null              $part_of_speech_id        The unique ID of the part of speech information.
@@ -252,7 +254,7 @@ final class Article extends Model implements AuditableContract, Commentable
      * Eager-load this relation with ->with('userExamples') to avoid N+1 queries when
      * iterating over multiple articles.
      *
-     * @return HasMany<UserExample, covariant $this>
+     * @return MorphMany<UserExample, covariant $this>
      */
     public function userExamples(): MorphMany
     {
