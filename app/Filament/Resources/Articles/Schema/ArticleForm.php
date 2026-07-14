@@ -411,25 +411,10 @@ final readonly class ArticleForm
         return [
             Select::make('related')
                 ->label('Gerelateerde woorden')
-                ->relationship('related', 'word')
+                ->relationship('related', 'word') // Filament uses 'word' to search
                 ->multiple()
                 ->searchable()
                 ->getOptionLabelFromRecordUsing(fn (Article $record) => "#{$record->id} - {$record->word}")
-               ->getSearchResultsUsing(
-                    fn (string $search): array => Article::whereNotNull('word')  // ← Filter nulls
-                        ->where(fn ($q) => $q
-                            ->where('word', 'like', "%{$search}%")
-                            ->orWhere('id', 'like', "%{$search}%")
-                        )
-                        ->limit(50)
-                        ->orderBy('id', 'asc')
-                        ->get()
-                        ->mapWithKeys(fn (Article $article) => [     // ← Map to proper format
-                            $article->id => "#{$article->id} - {$article->word}"
-                        ])
-                        ->toArray()
-                ),
-
         ];
     }
 
