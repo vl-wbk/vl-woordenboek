@@ -232,15 +232,10 @@ final readonly class ReportForm
                     ->schema(components: [
                         Select::make('related')
                             ->label('Gerelateerde woorden')
-                            ->relationship('related', 'word')
+                            ->relationship('related', 'word') // Filament uses 'word' to search
                             ->multiple()
                             ->searchable()
-                            ->getSearchResultsUsing(fn (string $search): array => Article::where('word', 'like', "%{$search}%")
-                                ->limit(50)
-                                ->pluck('word', 'id')
-                                ->toArray()
-                            )
-                            ->getOptionLabelFromRecordUsing(fn (Article $record) => "#{$record->id} - {$record->word}"),
+                            ->getOptionLabelFromRecordUsing(fn (Article $record) => "#{$record->id} - {$record->word}")
                     ]),
             ]);
     }
