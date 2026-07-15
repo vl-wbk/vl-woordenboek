@@ -86,7 +86,7 @@
 @section('content')
 <div class="container-fluid py-5">
     @if ($wordOfTheDay)
-        {{-- Woord van de Dag --}}
+    {{-- Woord van de Dag --}}
        <article class="row mb-3 justify-content-center">
             <div class="col-lg-10">
                 <div class="card border-0 bg-transparent">
@@ -126,121 +126,144 @@
 
     {{-- Footer Actions --}}
     <section class="row justify-content-center">
-    <div class="col-lg-10">
-        <div class="row g-4">
-            <div class="col d-flex">
-                <div class="card bg-white border shadow-sm rounded-4 p-4 w-100 d-flex flex-column">
-                    <h6 class="fw-bold text-uppercase small text-success mb-1">{{ __('pages/welcome.call-outs.suggestion.title') }}</h6>
-                    <p class="fw-bold text-dark small mb-3">{{ __('pages/welcome.call-outs.suggestion.subtitle') }}</p>
-
-                    <p class="text-muted small">
-                        {{ __('pages/welcome.call-outs.suggestion.text') }}
-                    </p>
-
-                    <div class="mt-auto pt-3">
-                        <a href="{{ route('definitions.create') }}" class="fw-bold text-dark text-decoration-none link-underline">
-                            {{ __('pages/welcome.call-outs.suggestion.actionText') }} &rarr;
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            @if (app(\App\Settings\VolunteerSettings::class)->pageActive)
+        <div class="col-lg-10">
+            <div class="row g-4">
                 <div class="col d-flex">
                     <div class="card bg-white border shadow-sm rounded-4 p-4 w-100 d-flex flex-column">
-                        <h6 class="fw-bold text-uppercase small text-success mb-1">{{ __('pages/welcome.call-outs.volunteer.title') }}</h6>
-                        <p class="fw-bold text-dark small mb-3">{{ __('pages/welcome.call-outs.volunteer.subtitle') }}</p>
+                        <h6 class="fw-bold text-uppercase small text-success mb-1">{{ __('pages/welcome.call-outs.suggestion.title') }}</h6>
+                        <p class="fw-bold text-dark small mb-3">{{ __('pages/welcome.call-outs.suggestion.subtitle') }}</p>
 
                         <p class="text-muted small">
-                            {{ __('pages/welcome.call-outs.volunteer.text') }}
+                            {{ __('pages/welcome.call-outs.suggestion.text') }}
                         </p>
 
                         <div class="mt-auto pt-3">
-                            <a href="{{ route('support.volunteers') }}" class="fw-bold text-dark text-decoration-none link-underline">
-                                {{ __('pages/welcome.call-outs.volunteer.actionText') }} &rarr;
+                            <a href="{{ route('definitions.create') }}" class="fw-bold text-dark text-decoration-none link-underline">
+                                {{ __('pages/welcome.call-outs.suggestion.actionText') }} &rarr;
                             </a>
                         </div>
                     </div>
                 </div>
-            @endif
 
-            <div class="col d-flex">
-                <div class="card bg-white border shadow-sm rounded-4 p-4 w-100 d-flex flex-column">
-                    <h6 class="fw-bold text-uppercase small text-success mb-1">{{ __('pages/welcome.call-outs.information.title') }}</h6>
-                    <p class="fw-bold text-dark small mb-3">{{ __('pages/welcome.call-outs.information.subtitle') }}</p>
+                @if (app(\App\Settings\VolunteerSettings::class)->pageActive)
+                    <div class="col d-flex">
+                        <div class="card bg-white border shadow-sm rounded-4 p-4 w-100 d-flex flex-column">
+                            <h6 class="fw-bold text-uppercase small text-success mb-1">{{ __('pages/welcome.call-outs.volunteer.title') }}</h6>
+                            <p class="fw-bold text-dark small mb-3">{{ __('pages/welcome.call-outs.volunteer.subtitle') }}</p>
 
-                    <p class="text-muted small">
-                        {{ __('pages/welcome.call-outs.information.text') }}
-                    </p>
+                            <p class="text-muted small">
+                                {{ __('pages/welcome.call-outs.volunteer.text') }}
+                            </p>
 
-                    <div class="mt-auto pt-3">
-                        <a href="{{ route('project-information') }}" class="fw-bold text-dark text-decoration-none link-underline">
-                            {{ __('pages/welcome.call-outs.information.actionText') }} &rarr;
-                        </a>
+                            <div class="mt-auto pt-3">
+                                <a href="{{ route('support.volunteers') }}" class="fw-bold text-dark text-decoration-none link-underline">
+                                    {{ __('pages/welcome.call-outs.volunteer.actionText') }} &rarr;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+                <div class="col d-flex">
+                    <div class="card bg-white border shadow-sm rounded-4 p-4 w-100 d-flex flex-column">
+                        <h6 class="fw-bold text-uppercase small text-success mb-1">{{ __('pages/welcome.call-outs.information.title') }}</h6>
+                        <p class="fw-bold text-dark small mb-3">{{ __('pages/welcome.call-outs.information.subtitle') }}</p>
+
+                        <p class="text-muted small">
+                            {{ __('pages/welcome.call-outs.information.text') }}
+                        </p>
+
+                        <div class="mt-auto pt-3">
+                            <a href="{{ route('project-information') }}" class="fw-bold text-dark text-decoration-none link-underline">
+                                {{ __('pages/welcome.call-outs.information.actionText') }} &rarr;
+                            </a>
+                        </div>
                     </div>
                 </div>
+
             </div>
-
         </div>
-    </div>
-</section>
+    </section>
 
-<div class="row justify-content-center">
-    <div class="col-lg-10"><hr class="my-5 opacity-10"></div>
-</div>
+    <div class="row justify-content-center">
+        <div class="col-lg-10"><hr class="my-5 opacity-10"></div>
+    </div>
 
     {{-- Grid: Laatste Woorden --}}
     <section class="row justify-content-center">
         <div class="col-lg-10">
             <div class="d-flex justify-content-between align-items-end mb-4">
                 <h3 class="fw-bold h4 m-0">Laatst toegevoegd</h3>
-                {{-- <a href="#" class="link-primary text-decoration-none small fw-bold">Bekijk alle woorden &rarr;</a> --}}
+                <a href="{{ route('search.results') }}" class="link-primary text-decoration-none small fw-bold">Bekijk alle woorden &rarr;</a>
             </div>
 
-            @foreach($recent as $result)
-    <div class="lexi-card {{ $loop->last ? 'mb-0' : '' }}">
-   @if ($result->regions()->exists())
-    <div class="d-flex flex-wrap gap-2 mb-3">
-        @foreach($result->regions as $region)
-            <span class="lexi-tag-enhanced">
-                <x-heroicon-o-map-pin class="icon me-1"/> {{ $region->name }}
-            </span>
-        @endforeach
+            <div class="row g-4">
+                @foreach($recent as $result)
+                    <div class="col-4 d-flex align-items-stretch">
+                        <div class="word-card d-flex flex-column shadow-sm w-100">
+
+                            @if ($result->regions()->exists())
+                                <div class="d-flex flex-wrap gap-2 mb-2">
+                                    @foreach($result->regions as $region)
+                                    {{-- Show the first 2 regions as clickable tags --}}
+                                    @if($loop->iteration <= 1)
+                                        <a href="{{ route('region:show', $region) }}" class="word-card__tag d-inline-flex align-items-center text-decoration-none transition-all">
+                                            <x-heroicon-o-map-pin class="icon me-1" aria-hidden="true"/> {{ $region->name }}
+                                        </a>
+                                    @endif
+
+                                    {{-- If there are more than 2, show the count badge and stop the loop --}}
+                                    @if($loop->iteration > 1)
+                                    @php
+                                            $remainingNames = $result->regions->slice(2)->pluck('name')->implode(', ');
+                                        @endphp
+                                        <span class="badge border-light-subtle rounded-pill bg-light text-dark border ms-1 px-2.5 py-1.5"
+                                            title="{{ $remainingNames }}"
+                                            style="font-weight: 500; cursor: help; font-size: 0.8rem;">
+                                            +{{ $loop->remaining + 1 }} regio's
+                                        </span>
+                                        @break
+                                    @endif
+                                @endforeach
+                                </div>
+                            @endif
+
+                            <a href="{{ route('word-information.show', $result) }}" class="word-card__title color-green">
+                                {{ $result->word }}
+                                <span class="word-card__pos">{{ strtolower($result->characteristics) }}</span>
+                            </a>
+
+                            <div class="word-card__desc flex-grow-1">
+                                {!! str($result->description)->words(22)->markdown()->sanitizeHtml() !!}
+                            </div>
+
+                            <div class="word-card__footer mt-auto">
+                                @if ($result->author)
+                                    <span class="word-card__meta">
+                                        Door
+                                        <strong>
+                                            @if ($result->author()->exists())
+                                                {{ $result->author->name ?? $result->contributor_name ?? config('app.name') }}
+                                            @else
+                                                {{ $result->contributor_name ?? config('app.name') }}
+                                            @endif
+                                        </strong>
+                                        <span class="word-card__sep">·</span>
+                                        {{ __('Weergaves: :count', ['count' => $result->views]) }}
+                                    </span>
+                                @else
+                                    <span></span>
+                                @endif
+
+                                <a href="{{ route('word-information.show', $result) }}" class="word-card__link">
+                                    Lees meer <x-heroicon-o-arrow-right class="icon" aria-hidden="true"/>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </section>
     </div>
-@endif
-
-    <div class="content-body">
-        <a href="{{ route('word-information.show', $result) }}" class="text-decoration-none">
-            <h4 class="word-title mb-2">{{ $result->word }} <span class="word-type ms-2">{{ strtolower($result->characteristics) }}</span></h3>
-        </a>
-
-        <div class="lexi-card-paragraph mb-2" style="font-weight: 400;">
-            {!! str($result->description)->words(22)->markdown()->sanitizeHtml() !!}
-        </div>
-    </div>
-
-    <div class="d-flex justify-content-between align-items-center pt-2 border-top border-light-subtle">
-        @if ($result->author)
-            <span class="small text-muted">
-                @if ($result->author()->exists())
-                     Door <span class="text-dark fw-semibold">{{ $result->author->name ?? $result->contributor_name ?? config('app.name') }}</span>
-                @else
-                    Door <span class="text-dark fw-semibold">{{  $result->contributor_name ?? config('app.name') }}</span>
-                @endif
-
-                <span class="">•</span> {{  __('Weergaves: :count', ['count' => $result->views]) }}
-            </span>
-        @endif
-
-        <div class="d-flex align-items-center gap-3">
-            <a href="{{ route('word-information.show', $result) }}"
-               class="btn btn-sm rounded-pill btn-outline-dark fw-bold btn-sm shadow-sm">
-                Ontdek <x-heroicon-o-arrow-right class="icon-sm ms-1"/>
-            </a>
-        </div>
-    </div>
-</div>
-@endforeach
-    </section>
 </div>
 @endsection

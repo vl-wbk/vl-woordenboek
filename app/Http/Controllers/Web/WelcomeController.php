@@ -19,7 +19,7 @@ final readonly class WelcomeController
             'searchPatterns' => SearchPatterns::cases(),
             'trendingWords' => Article::published()->inRandomOrder()->limit(15)->get(),
             'wordOfTheDay' => WordOfTheDay::whereDate('scheduled_for', today())->first(),
-            'recent' => Article::with('regions')->published()->orderBy('published_at', 'desc')->limit(3)->get(),
+            'recent' => Article::with('regions')->published()->orderBy('published_at', 'desc')->limit(6)->get(),
             'articleCount' => Article::published()->count('id'),
         ]);
     }
