@@ -22,6 +22,87 @@
 
 @import 'components/search-improvements';
 
+/// Recent cards
+.word-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 1.1rem 1.25rem;
+}
+
+.word-card__tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: #2563eb;
+    background: #eff6ff;
+    border-radius: 99px;
+    padding: 3px 9px;
+}
+
+.word-card__title {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    color: #111827;
+    text-decoration: none;
+    margin-bottom: 5px;
+}
+
+.word-card__title:hover { color: #374151; }
+
+.word-card__pos {
+    font-size: 12px;
+    font-weight: 400;
+    font-style: italic;
+    color: #9ca3af;
+    margin-left: 6px;
+}
+
+.word-card__desc {
+    font-size: 13px;
+    color: #6b7280;
+    line-height: 1.65;
+    margin-bottom: 14px;
+}
+
+.word-card__desc p { margin: 0; }
+
+.word-card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 12px;
+    border-top: 1px solid #f3f4f6;
+}
+
+.word-card__meta {
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+.word-card__meta strong {
+    font-weight: 500;
+    color: #6b7280;
+}
+
+.word-card__sep { margin: 0 4px; }
+
+.word-card__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #111827;
+    text-decoration: none;
+}
+
+.word-card__link:hover { color: #6b7280; }
+
 
 /// SHAME CSS  - Break it up in partials
 
