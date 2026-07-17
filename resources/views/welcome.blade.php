@@ -49,12 +49,10 @@
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" name="archief" type="checkbox" id="checkCheckedArchived" value="1" @checked(request()->boolean('archief') === true) switch>
                                     <label class="form-check-label" for="checkCheckedArchived">
-                                        {{ __('Ik wens ook te zoeken in het archief') }}
+                                        {{ __('Ik wens te zoeken in het archief') }}
                                     </label>
                                 </div>
                             </div>
-
-                            {{-- ... existing checkboxes for uitgebreid and archief ... --}}
                         </div>
                     </form>
                 </div>
