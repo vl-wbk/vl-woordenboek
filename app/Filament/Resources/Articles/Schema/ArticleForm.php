@@ -175,9 +175,10 @@ final readonly class ArticleForm
                 ->hintAction(self::guidelineAction('https://vl-wbk.github.io/documentatie/richtlijnen/kenmerken'))
                 ->columnSpan(6)
                 ->required()
+                ->default('-')
                 ->autofocus(false)
                 ->maxLength(255)
-                ->helperText('Dit veld is verplicht. Maar als er geen kenmerken zijn, vul dan \'-\' in.'),
+                ->helperText('Indien er geen kenmerken zijn voor dit woord laat de waarde dan op \'-\' staan.'),
 
             TextInput::make('keywords')
                 ->label('Kernwoorden')

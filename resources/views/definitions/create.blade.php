@@ -131,7 +131,11 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label for="kenmerken" class="form-label small text-uppercase fw-bold text-muted">Kenmerken</label>
-                                        <input type="text" name="kenmerken" id="kenmerken" value="{{ old('kenmerken') }}" class="form-control " placeholder="bijv. de ~ (v.), -s">
+                                        <input type="text" name="kenmerken" id="kenmerken" value="{{ old('kenmerken', '-') }}" class="form-control mb-1" placeholder="bijv. de ~ (v.), -s aria-describedbt="characteristicsHelpBlock">
+
+                                        <span id="characteristicsHelpBlock" class="form-text text-muted">
+                                            <x-heroicon-o-information-circle class="icon me-1"/> bijv. de ~ (v.), -s
+                                        </span>
                                     </div>
                                 </div>
 
