@@ -32,7 +32,7 @@
           </div>
 
           <div class="filter-chip-wrapper">
-            <span class="filter-hint">Ook zoeken in:</span>
+            <span class="filter-hint">Zoeken in:</span>
             <div class="chip-group">
               <input type="checkbox" name="archief" id="archive" value="1" @checked(request()->boolean('archief') === true)>
               <label for="archive" class="chip-label">Het archief</label>
