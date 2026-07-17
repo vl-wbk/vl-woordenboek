@@ -412,11 +412,36 @@
 
                 <div class="col-12">
                     <div class="card bg-light card-body">
-                        <h6 class="fw-bold">Beschrijving en voorbeeldzinnen</h5>
+                        <h6 class="fw-bold">Beschrijving</h5>
 
                         <div class="text-light-emphasis">
                             {!! str($article->description)->markdown()->sanitizeHtml() !!}
                         </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="card bg-light card-body">
+                        <h6 class="fw-bold">Voorbeeldzinnen</h6>
+
+                        @if ($article->userExamples()->exists())
+                            <ul class="mb-0 list-unstyled space-y-4">
+                                @foreach ($article->userExamples as $example)
+                                    <li class="break-words @if (! $loop->last) pb-3 border-bottom mb-3 @endif">
+                                        {{-- Main Sentence --}}
+                                        <div class="text-gray-900">
+                                            <span class="badge rounded-pill bg-dark text-white">{{ $loop->iteration }}</span>
+                                            <span class="ms-2">{{ $example->example }}</span>
+                                        </div>
+
+                                        {{-- Source Media Object --}}
+                                        <div class="d-flex align-items-center text-muted small ms-4">
+                                            <cite class="italic ms-1">bron: {{ $example->source }}</cite>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
                     </div>
                 </div>
             </div>
