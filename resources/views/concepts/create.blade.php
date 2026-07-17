@@ -476,7 +476,7 @@
                                             Houd me op de hoogte.
                                         </label>
                                         <p class="text-muted mb-0" style="font-size: 0.7rem;">
-                                            Indien je wenst op de hoogte te blijven omtrent het feit dat je suggestie word gepubliceerd, dan sturen we je een mail.
+                                            Indien je wenst op de hoogte te blijven omtrent het feit dat je suggestie wordt gepubliceerd, dan sturen we je een mail.
                                         </p>
                                     </div>
                                 </div>
