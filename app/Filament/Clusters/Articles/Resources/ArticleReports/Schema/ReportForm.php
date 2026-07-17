@@ -8,7 +8,9 @@ use App\Enums\LanguageStatus;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Actions\LanguageAdviceAction;
 use App\Filament\Resources\Articles\Schema\ArticleForm;
 use App\Models\Article;
+use App\Models\ArticleReport;
 use App\Models\ReferenceWork;
+use Filament\Actions\Action;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Repeater;
@@ -16,6 +18,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Schemas\Components\Callout;
 use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Group;
@@ -31,6 +34,21 @@ final readonly class ReportForm
     public static function configure(Schema $schema): Schema
     {
         return $schema->components(components: [
+            Callout::make(fn (ArticleReport $articleReport): string => optional($articleReport->article->disclaimer)->name ?? 'No disclaimer')
+                ->description(fn (ArticleReport $articleReport): string => optional($articleReport->article->disclaimer)->message ?? 'No disclaimer message')
+                ->visible(fn (ArticleReport $articleReport): bool => $articleReport->article->disclaimer()->exists())
+                ->icon(Heroicon::InformationCircle)
+                ->columnSpanFull()
+                ->warning()
+                ->actions(actions: [
+                    Action::make('detach')
+                        ->visible(fn(ArticleReport $articleReport): bool => auth()->user()->can('detachDisclaimer', $articleReport->article))
+                        ->label(label: __('disclaimer-resource.actions.detach.label'))
+                        ->icon('heroicon-o-link-slash')
+                        ->action(fn(ArticleReport $articleReport) => $articleReport->article->disclaimer()->dissociate()->save())
+                        ->color('warning')
+                ]),
+
             Grid::make(2)
                 ->schema([
                     self::articleForm(),
