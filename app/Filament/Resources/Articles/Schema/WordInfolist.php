@@ -253,7 +253,7 @@ final readonly class WordInfolist
                     ->label(__('filament/resources/articles.infolist.article-information-tab.text-entries.word'))
                     ->columnSpan(4),
                 TextEntry::make('keywords')
-                    ->label('Kernwoorden')
+                    ->label('Alternatieve zoektermen')
                     ->placeholder('-')
                     ->columnSpan(4),
                 TextEntry::make('partOfSpeech.name')

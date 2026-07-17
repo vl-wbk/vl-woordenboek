@@ -181,7 +181,7 @@ final readonly class ArticleForm
                 ->helperText('Indien er geen kenmerken zijn voor dit woord laat de waarde dan op \'-\' staan.'),
 
             TextInput::make('keywords')
-                ->label('Kernwoorden')
+                ->label('Alternatieve zoektermen')
                 ->translateLabel()
                 ->hintAction(self::guidelineAction('https://vl-wbk.github.io/documentatie/richtlijnen/kernwoorden'))
                 ->placeholder('Kernwoord 1, Kernwoord 2, Kernwoord 3, etc...')
