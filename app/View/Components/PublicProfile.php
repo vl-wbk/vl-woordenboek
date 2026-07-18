@@ -6,7 +6,9 @@ namespace App\View\Components;
 
 use App\Builders\ArticleBuilder;
 use App\Enums\ArticleStates;
+use App\Models\Article;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
@@ -26,44 +28,24 @@ final class PublicProfile extends Component
 
     public function render(): View
     {
+        // In your Controller
+$contributionData = Article::where('author_id', $this->user->id)
+    ->where('created_at', '>=', now()->subYear())
+        ->get()
+        ->groupBy(function($date) {
+            return Carbon::parse($date->created_at)->format('Y-m-d');
+        })
+        ->map(function ($dayActivities) {
+            return $dayActivities->count();
+        })
+        ->toArray();
+
         return view('components.public-profile', data: [
             'user' => $this->user,
             'contactExist' => $this->contactExists(),
-            'suggestionCount' => $this->getSuggestionCount(),
-            'publicationCount' => $this->getPublicationCount(),
-            'kudosCount' => $this->getKudosCount(),
-            'viewsCount' => $this->getViewsCount(),
-            'conceptCount' => $this->getConceptCount(),
             'totals' => $this->calculateTotals(),
+            'contributionData' => $contributionData
         ]);
-    }
-
-    private function getConceptCount(): int
-    {
-        return auth()->user()->concepts()->count();
-    }
-
-    private function getSuggestionCount(): int
-    {
-        return $this->user->suggestions()->count();
-    }
-
-    private function getViewsCount(): int
-    {
-        return $this->user->suggestions->sum('views');
-    }
-
-    private function getKudosCount(): int
-    {
-        return User::withCount(['suggestions as total_upvotes' => function (ArticleBuilder $query) {
-            $query->join('votes', 'articles.id', '=', 'votes.votable_id')
-                ->where('votes.votable_type', \App\Models\Article::class);
-        }])->find($this->user->id)->total_upvotes;
-    }
-
-    private function getPublicationCount(): int
-    {
-        return $this->user->suggestions()->whereNotNull('published_at')->count();
     }
 
     private function calculateTotals(): stdClass

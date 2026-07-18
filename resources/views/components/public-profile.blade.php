@@ -289,94 +289,64 @@
     </div>
 
     <div class="row justify-content-center g-5">
-        <div class="col-lg-2">
-            <div class="">
-                <div class="sidenav-label">
-                    <x-heroicon-s-magnifying-glass class="icon-sm me-1"/> Zoeken
+        <div class="col-lg-3 minimal-sidebar compact-sidebar">
+
+            <!-- Expanded User Stats Section -->
+            <div class="mb-4 px-2">
+                <h6 class="text-dark fw-bold mb-3" style="font-size: 0.9rem;">{{ $user->name ?? 'Gebruiker' }}</h6>
+
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="stat-label">Reputatie</span>
+                    <span class="stat-value fw-semibold text-dark">{{ $user->reputation ?? '0' }}</span>
                 </div>
-
-                <form method="GET" action="{{ request()->url() }}" class="position-relative">
-                    <input type="text" name="zoekterm" value="{{ request()->input('zoekterm') }}" class="search-input-shadcn" placeholder="Woord zoeken...">
-                </form>
-            </div>
-
-            <hr>
-
-            <div class="mb-4">
-                <nav class="nav flex-column">
-                     <a href="{{ route('account:public', $user) }}" class="sidenav-link {{ active('account:public') }} d-flex align-items-center">
-                        <x-heroicon-o-globe-europe-africa class="icon color-green"/>
-                        <span class="flex-grow-1">Publicaties</span>
-                    </a>
-
-                    @if ($user->is(auth()->user()))
-                        <a href="{{ route('bookmarks:index') }}" class="sidenav-link {{ active('bookmarks:index') }} d-flex align-items-center">
-                            <x-heroicon-o-bookmark class="icon color-green"/>
-                            <span class="flex-grow-1">Bewaarde woorden</span>
-                        </a>
-
-                        <a href="{{ route('concepts:index') }}" class="sidenav-link {{ active(['concepts:index', 'concepts:create']) }} d-flex align-items-center">
-                            <x-heroicon-o-clipboard-document-list class="icon color-green"/>
-                            <span class="flex-grow-1">Concepten</span>
-                        </a>
-                    @endif
-                </nav>
-            </div>
-
-            @if (auth()->check() && $user->is(auth()->user()))
-                <div class="mb-4">
-                    <div class="sidenav-label">Mijn suggesties</div>
-
-                    <nav class="nav flex-column">
-                        <a href="{{ route('suggestions:index') }}" class="sidenav-link {{ active('suggestions:index') }} d-flex align-items-center">
-                            <x-heroicon-o-document-text class="icon color-green"/>
-
-                            <span class="flex-grow-1">Openstaande</span>
-                            {{-- <span class="badge rounded-pill bg-count-badge ms-auto">{{ $totals->new }}</span> --}}
-                        </a>
-
-
-                        <a href="{{ route('suggestions:processing') }}" class="sidenav-link {{ active('suggestions:processing') }} d-flex align-items-center">
-                            <x-heroicon-o-pencil-square class="icon color-green"/>
-
-                            <span class="flex-grow-1">In behandeling</span>
-                            {{-- <span class="badge rounded-pill bg-count-badge ms-auto">{{ $totals->approval + $totals->draft }}</span> --}}
-                        </a>
-
-                        <a href="{{ route('suggestions:archived') }}" class="sidenav-link {{ active('suggestions:archived') }} d-flex align-items-center">
-                            <x-heroicon-o-archive-box class="icon color-green"/>
-
-                            <span class="flex-grow-1">Gearchiveerd</span>
-                            {{-- <span class="badge rounded-pill bg-count-badge ms-auto">{{ $totals->archived }}</span> --}}
-                        </a>
-                    </nav>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="stat-label">Inzendingen</span>
+                    <span class="stat-value text-dark">{{ $user->submissions_count ?? '0' }}</span>
                 </div>
-            @endif
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="stat-label">Definities</span>
+                    <span class="stat-value text-dark">{{ $user->definitions_count ?? '0' }}</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="stat-label">Bewerkingen</span>
+                    <span class="stat-value text-dark">{{ $user->edits_count ?? '0' }}</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="stat-label">Lid sinds</span>
+                    <span class="stat-value text-muted">{{ $user->created_at ? $user->created_at->translatedFormat('M Y') : 'Onbekend' }}</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="stat-label">Laatst gezien</span>
+                    <span class="stat-value text-muted">{{ $user->last_seen_at ? $user->last_seen_at->diffForHumans() : 'Onbekend' }}</span>
+                </div>
+            </div>
 
             @if($user->website || $user->bluesky || $user->twitter)
-                <div class="px-1">
-                    <div class="sidenav-label mb-2 d-flex align-items-center justify-content-between">
-                        <span>Socials</span>
-                    </div>
+                <hr class="minimal-hr">
+                <div class="mb-3">
+                    <!-- Cleaned up header without inline styles -->
+                    <h6 class="text-dark fw-bold mb-2 px-2 fs-6">{{ $user->name ?? 'Gebruiker' }}</h6>
 
+                    <!-- Increased gap slightly to gap-1 for better hover separation -->
                     <nav class="nav flex-column gap-1">
                         @if ($user->website)
-                            <a href="{{ $user->website }}" class="social-link-compact" title="Website">
-                                <x-heroicon-s-globe-alt class="social-icon-sm" />
-                                <span class="text-truncate">{{ $user->website }}</span>
+                            <a href="{{ $user->website }}" target="_blank" rel="noopener noreferrer" class="minimal-sidenav-link d-flex align-items-center" title="{{ $user->website }}">
+                                <x-heroicon-s-globe-alt class="icon" />
+                                <!-- Changed to 'Website' for consistency with the other platforms -->
+                                <span class="text-truncate">Website</span>
                             </a>
                         @endif
 
                         @if ($user->bluesky)
-                            <a href="https://bsky.app/profile/{{ $user->bluesky }}" class="social-link-compact" title="Bluesky">
-                                <x-tabler-brand-bluesky class="social-icon-sm"/>
+                            <a href="https://bsky.app/profile/{{ $user->bluesky }}" target="_blank" rel="noopener noreferrer" class="minimal-sidenav-link d-flex align-items-center" title="Bluesky Profiel">
+                                <x-tabler-brand-bluesky class="icon"/>
                                 <span class="text-truncate">Bluesky</span>
                             </a>
                         @endif
 
                         @if ($user->twitter)
-                            <a href="https://www.x.com/{{ ltrim($user->twitter, '@') }}" class="social-link-compact" title="Twitter">
-                                <x-tabler-brand-x class="social-icon-sm"/>
+                            <a href="https://www.x.com/{{ ltrim($user->twitter, '@') }}" target="_blank" rel="noopener noreferrer" class="minimal-sidenav-link d-flex align-items-center" title="Twitter Profiel">
+                                <x-tabler-brand-x class="icon"/>
                                 <span class="text-truncate">Twitter</span>
                             </a>
                         @endif
@@ -384,94 +354,54 @@
                 </div>
             @endif
 
+            <hr class="minimal-hr">
 
-            @if (auth()->user()->is($user))
-                <div>
-                    <div class="sidenav-label">Account</div>
-
-                    <nav class="nav flex-column">
-                    <a href="{{ route('notifications:index') }}" class="sidenav-link {{ active('notifications:index') }}">
-                        <x-heroicon-o-bell class="icon color-green"/>
-                        <span class="flex-grow-1">Meldingen</span>
-                        @if(auth()->user()->unreadNotifications()->count() > 0)
-                            <span class="sidenav-count">{{ auth()->user()->unreadNotifications()->where('type', '!=', \Filament\Notifications\DatabaseNotification::class)->count() }}</span>
-                        @endif
-                    </a>
-                    <a href="{{ route('account:reputation') }}" class="sidenav-link {{ active('account:reputation') }}">
-                        <x-heroicon-o-queue-list class="icon color-green"/>
-                        <span class="flex-grow-1">Reputatie</span>
-                    </a>
-                </nav>
-                </div>
-            @endif
+            <nav class="nav flex-column">
+                <a href="{{ route('suggestions:index') }}" class="minimal-sidenav-link text-danger-hover d-flex align-items-center">
+                    <x-heroicon-o-document-text class="icon"/>
+                    <span class="flex-grow-1 text-danger">Rapporteer deze gebruiker</span>
+                </a>
+            </nav>
         </div>
 
-        <div class="col-lg-9">
-            <div class="row g-3 mb-4 text-center">
-                <div class="col">
-                    <div class="card-shadcn p-3 d-flex align-items-center justify-content-between border-primary border-opacity-25 text-start">
-                        <div>
-                            <div class="small text-secondary mb-1">Ingezonden suggesties</div>
-                            <div class="fw-bold h5 mb-0 text-primary">{{ $suggestionCount }}</div>
-                        </div>
-                        <div class="p-2 bg-primary bg-opacity-10 rounded text-primary">
-                            <x-heroicon-s-paper-airplane style="width: 20px;"/>
-                        </div>
-                    </div>
-                </div>
+        <div class="col-lg-8">
+            <x-heatmap :contributionData="$contributionData" />
 
-                @if (auth()->user()->is($user))
-                    <div class="col">
-                        <div class="card-shadcn p-3 d-flex align-items-center justify-content-between border-primary border-opacity-25 text-start">
-                            <div>
-                                <div class="small text-secondary mb-1">Aantal Concepten</div>
-                                <div class="fw-bold h5 mb-0 text-primary">{{ $conceptCount }}</div>
-                            </div>
-                            <div class="p-2 bg-primary bg-opacity-10 rounded text-primary">
-                                <x-heroicon-s-clipboard-document-list style="width: 20px;"/>
-                            </div>
-                        </div>
-                    </div>
-                @endif
+            <ul class="nav nav-tabs minimal-tabs mt-4 d-flex align-items-end">
+                <li class="nav-item">
+                    <a class="nav-link {{ active('account:public') }}" aria-current="page" href="{{ route('account:public', $user) }}">
+                        Publicaties
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ active('bookmarks:index') }}" href="{{ route('bookmarks:index') }}">Bewaarde woorden</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ active('suggestions:index') }}" href="{{ route('suggestions:index') }}">Suggesties</a>
+                </li>
 
-                <div class="col">
-                    <div class="card-shadcn p-3 d-flex align-items-center justify-content-between border-primary border-opacity-25 text-start">
-                        <div>
-                            <div class="small text-secondary mb-1">Aantal Publicaties</div>
-                            <div class="fw-bold h5 mb-0 text-primary">{{ $publicationCount }}</div>
-                        </div>
-                        <div class="p-2 bg-primary bg-opacity-10 rounded text-primary">
-                            <x-heroicon-s-globe-europe-africa style="width: 20px;"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card-shadcn p-3 d-flex align-items-center justify-content-between border-primary border-opacity-25 text-start">
-                        <div>
-                            <div class="small text-secondary mb-1">Aantal Weergaves</div>
-                            <div class="fw-bold h5 mb-0 text-primary">{{ $viewsCount }}</div>
-                        </div>
-                        <div class="p-2 bg-primary bg-opacity-10 rounded text-primary">
-                            <x-heroicon-s-eye style="width: 20px;"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card-shadcn p-3 d-flex align-items-center justify-content-between border-primary border-opacity-25 text-start">
-                        <div>
-                            <div class="small text-secondary mb-1">Aantal kudos</div>
-                            <div class="fw-bold h5 mb-0 text-primary">{{ $kudosCount }}</div>
-                        </div>
-                        <div class="p-2 bg-primary bg-opacity-10 rounded text-primary">
-                            <x-heroicon-s-hand-thumb-up style="width: 20px;"/>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Concepten</a>
+                </li>
 
-            <hr>
+                <!-- Right-aligned Create Button -->
+                <li class="nav-item ms-auto mb-2">
+                    {{ $action ?? '' }}
+                </li>
+            </ul>
 
-            {{ $slot }}
+<!--
+/**
+ * Component: Minimal Listing Card
+ * Description: A clean, white card layout containing search, filters, list items, and pagination, designed to sit seamlessly on a #F9F9F9 background.
+ */
+-->
+<div class="tab-content mt-4" id="myTabContent">
+  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+    {{ $slot }}</div>
+
+</div>
         </div>
     </div>
 </div>

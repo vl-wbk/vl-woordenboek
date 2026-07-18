@@ -1,58 +1,113 @@
 <x-public-profile :user="$user">
-    @if ($results->total() > 0)
-        <div class="card-shadcn overflow-hidden mb-3">
-            <div class="list-group list-group-flush">
-                @foreach ($results as $article)
-                    <div class="list-group-item p-3 word-item position-relative">
-                        @if (auth()->user()->can('view-suggestion', $article))
-                            <a href="{{ route('suggestions:show', $article) }}" class="stretched-link"></a>
-                        @endif
+    <x-slot name="action">
+        <button class="btn minimal-btn-primary">
+            nieuwe suggestie
+        </button>
+    </x-slot>
 
-                        <div class="d-flex justify-content-between align-items-start mb-2">
-                            <div>
-                                <h5 class="fw-bold mb-0 d-inline-block me-2">{{ $article->word }}</h5>
-                            </div>
-                        </div>
-
-                        <div class="text-muted mb-3">
-                            {!! str($article->description)->words(30)->markdown()->sanitizeHtml() !!}
-                        </div>
-
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div class="d-flex align-items-center gap-3 text-muted-foreground small">
-                                {{-- Submission Date --}}
-                                <div class="d-flex align-items-center">
-                                    <x-heroicon-o-calendar class="icon-xs me-1 opacity-70" style="width: 14px;"/>
-                                    <span>Ingediend op {{ $article->created_at->translatedFormat('d F Y') }}</span>
-                                </div>
-
-                                @if ($article->editor()->exists())
-                                    <div class="border-start" style="height: 12px; opacity: 0.3;"></div>
-
-                                    {{-- Downvotes --}}
-                                    <div class="d-flex align-items-center transition-colors hover:text-danger">
-                                        <x-heroicon-o-hand-thumb-down class="icon-xs me-1" style="width: 14px;"/>
-                                        <span>Toegewezen redacteur: {{ $article->editor->name }}</span>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
+    <div class="card border-0 shadow-sm minimal-card">
+        @if (auth()->user()->is($user))
+            <div class="card-header bg-white border-bottom px-4 py-3">
+                <div class="d-flex flex-column flex-md-row gap-3">
+                    <div class="search-wrapper w-100">
+                        <input type="text" class="form-control minimal-input" placeholder="Search items...">
                     </div>
-                @endforeach
+
+                    <div class="filter-actions d-flex gap-2 flex-shrink-0">
+                        <select class="form-select minimal-select w-auto">
+                            <option value="">All statussen</option>
+                            <option value="1">Design</option>
+                            <option value="2">Development</option>
+                        </select>
+
+                        <button class="btn minimal-btn">
+                            Zoeken
+                        </button>
+                    </div>
+                </div>
             </div>
+        @endif
+
+      <!-- Card Body: The Listing -->
+      <div class="card-body p-0">
+            <div class="minimal-list">
+          <!-- List Item 1 -->
+          <!--
+/**
+ * Component: Minimal List Item with Actions
+ * Description: A list item row featuring the title, metadata, a status badge, and a clean dropdown menu for actions.
+ */
+-->
+    @foreach ($results as $article)
+    <div class="minimal-list-item px-4 py-3 d-flex justify-content-between align-items-center">
+  <div>
+    <h5 class="item-title color-green">{{ $article->word }}</h5>
+
+    <div class="me-5">
+        <p class="item-meta text-dark my-2">Updated 2 days ago &middot;</p>
+
+    <ul class="list-inline item-meta mb-0">
+        <li class="list-inline-item">
+            <strong>Created:</strong> {{ $article->created_at->format('M d, Y') }} <small class="ms-1 fst-italic">(laatste wijziging: DD/MM/YYYY)</small>
+        </li>
+    </ul>
+    </div>
+  </div>
+
+  <!-- Right side wrapper for badge and actions -->
+  <div class="item-actions d-flex align-items-center gap-3">
+    <span class="badge minimal-badge">Active</span>
+
+    <!-- Actions Dropdown -->
+    <div class="dropdown">
+      <button class="btn minimal-action-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Acties">
+        <!-- Heroicon: ellipsis-vertical -->
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 1.25rem; height: 1.25rem;">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
+        </svg>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end minimal-dropdown">
+        <li><a class="dropdown-item d-flex align-items-center gap-2" href="#">Bewerken</a></li>
+        <li><a class="dropdown-item d-flex align-items-center gap-2" href="#">Details bekijken</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item text-danger d-flex align-items-center gap-2" href="#">Verwijderen</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+    @endforeach
+
         </div>
+      </div>
 
-        <hr>
+      <!-- Card Footer: Pagination -->
+      <div class="card-footer bg-white border-top px-4 py-3 d-flex flex-column flex-md-row justify-content-between align-items-center">
+        <span class="text-muted small mb-3 mb-md-0">
+            Toont <span class="fw-semibold text-dark">{{ $results->firstItem() }} - {{ $results->lastItem() }}</span> van <span class="fw-semibold text-dark">{{ $results->total() }}</span> suggesties
+        </span>
+        @if ($results->hasPages())
+        <nav aria-label="Page navigation">
+          <ul class="pagination minimal-pagination mb-0">
+            <li class="page-item disabled">
+              <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+            </li>
+            <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#">Next</a>
+            </li>
+          </ul>
+        </nav>
+        @endif
+      </div>
+    </div>
 
-        <div class="d-flex align-items-center justify-content-between mt-3">
-            <div class="text-muted small">
-                Toont <span class="fw-semibold text-dark">{{ $results->firstItem() }}-{{ $results->lastItem() }}</span> van <span class="fw-semibold text-dark">{{ $results->total() }}</span> suggesties
-            </div>
+  </div>
 
-            @if ($results->hasPages())
-                {{ $results->links() }}
-            @endif
-        </div>
+    @if ($results->total() > 0)
+
     @else {{-- Show the blankslate --}}
         <div class="card-shadcn border-dashed py-6 my-4 bg-light bg-opacity-10">
             <div class="d-flex flex-column align-items-center justify-content-center text-center p-5">
