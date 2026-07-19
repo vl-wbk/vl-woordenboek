@@ -122,19 +122,13 @@
     }
 
     .border-dashed {
+        border-color: var(--muted-foreground) !important;
     border-style: dashed !important;
     border-width: 2px !important;
-    background-color: #fafafa !important; /* Iets grijzer dan de witte pagina */
 }
 
 .text-muted-foreground {
     color: var(--muted-foreground);
-}
-
-/* Subtiele animatie bij hover op de blank slate */
-.card-shadcn.border-dashed:hover {
-    border-color: var(--muted-foreground) !important;
-    transition: border-color 0.3s ease;
 }
 
 .text-xs {
@@ -226,20 +220,14 @@
                     <h2 class="fw-bold mb-0">{{ $user->name }}</h2>
                     <p class="text-muted small mb-2">{{ $user->bio ?? 'Gebruiker van het Vlaams Woordenboek' }}</p>
 
-                    <div class="d-flex gap-2 text-uppercase fw-bold" style="font-size: 0.80rem;">
-                         <span class="badge rounded-pill border text-primary bg-primary bg-opacity-10 px-3 py-1">
-                            <x-heroicon-o-user-group class="icon-sm me-1"/>{{ $user->user_type->getLabel() }}
-                        </span>
-
-                        @if (auth()->user()->created_at->lt(auth()->user()->created_at->addWeeks(2)))
-                            <span class="badge rounded-pill border text-dark bg-dark bg-opacity-10 px-3 py-1">
-                                <x-heroicon-o-clock class="icon-sm me-1"/>Recent geregistreerd
+                    <div class="d-flex gap-2 text-uppercase fw-bold">
+                        @if ($user->hasVerifiedEmail())
+                             <span class="badge rounded-pill border text-success bg-success bg-opacity-10 px-2 py-1">
+                                <x-tabler-rosette-discount-check class="icon-sm me-1"/> Geverifieerd
                             </span>
-                        @endif
-
-                        @if (auth()->user()->hasVerifiedEmail())
-                             <span class="badge rounded-pill border text-success bg-success bg-opacity-10 px-3 py-1">
-                                <x-heroicon-o-shield-check class="icon-sm me-1"/> Geverifieerd
+                        @else
+                            <span class="badge rounded-pill border-danger text-danger bg-danger bg-opacity-10 px-2 py-1">
+                                <x-tabler-rosette-discount-check-off class="icon-sm me-1"/> Niet geverifieerd
                             </span>
                         @endif
                     </div>
@@ -248,12 +236,22 @@
                     @auth
                         @if (auth()->user()->is($user))
                             <a href="{{ route('profile:inbox') }}" class="btn btn-shadcn shadow-sm btn-outline-shadcn">
-                               <x-heroicon-s-inbox class="icon me-1" style="width: 18px;"/> Mijn inbox
+                               <x-heroicon-s-inbox class="icon color-green me-1" style="width: 18px;"/> Mijn inbox
 
                                 @if($user->unreadMessagesCount() > 0)
                                     <span class="ms-1 badge badge-gray">{{ $user->unreadMessagesCount() }}</span>
                                  @endif
                             </a>
+
+                            @if (active('account:reputation'))
+                                <a href="{{ route('account:public', $user) }}" class="btn btn-shadcn shadow-sm btn-outline-shadcn">
+                                    <x-tabler-user-circle class="icon color-green me-1" style="width: 18px;"/> Openbaar profiel
+                                </a>
+                            @else
+                                <a href="{{ route('account:reputation') }}" class="btn btn-shadcn shadow-sm btn-outline-shadcn">
+                                    <x-tabler-script class="icon color-green me-1" style="width: 18px;"/> Reputatie dashboard
+                                </a>
+                            @endif
                         @endif
 
                         @if (auth()->user()->isNot($user))
@@ -272,17 +270,7 @@
                                 <x-heroicon-o-user-plus class="icon me-1" style="width: 18px;"/> contact toevoegen
                             </a>
                         @endif
-
-                        @if (auth()->user()->is($user))
-                            <a href="{{ route('concepts:create') }}" class="btn shadow-sm btn-shadcn btn-outline-shadcn">
-                                <x-heroicon-o-pencil-square class="icon me-1" style="width: 18px;"/> Nieuw concept
-                            </a>
-                        @endif
                     @endauth
-
-                    <a href="{{ route('definitions.create') }}" class="btn btn-shadcn shadow-sm btn-dark-shadcn">
-                        <x-heroicon-o-plus class="icon me-1" style="width: 18px;"/> Suggestie indienen
-                    </a>
                 </div>
             </div>
         </div>
@@ -293,27 +281,27 @@
 
             <!-- Expanded User Stats Section -->
             <div class="mb-4 px-2">
-                <h6 class="text-dark fw-bold mb-3" style="font-size: 0.9rem;">{{ $user->name ?? 'Gebruiker' }}</h6>
+                <h6 class="text-dark fw-bold mb-3" style="font-size: 0.9rem;">Activiteit</h6>
 
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <span class="stat-label">Reputatie</span>
-                    <span class="stat-value fw-semibold text-dark">{{ $user->reputation ?? '0' }}</span>
+                    <span class="stat-value fw-semibold text-dark">{{  $user->reputation ?? '0' }}</span>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <span class="stat-label">Inzendingen</span>
-                    <span class="stat-value text-dark">{{ $user->submissions_count ?? '0' }}</span>
+                    <span class="stat-value text-dark">{{ $suggestionCount }}</span>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mb-2">
-                    <span class="stat-label">Definities</span>
+                    <span class="stat-label">Publicaties</span>
                     <span class="stat-value text-dark">{{ $user->definitions_count ?? '0' }}</span>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mb-2">
-                    <span class="stat-label">Bewerkingen</span>
+                    <span class="stat-label">Correcties</span>
                     <span class="stat-value text-dark">{{ $user->edits_count ?? '0' }}</span>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <span class="stat-label">Lid sinds</span>
-                    <span class="stat-value text-muted">{{ $user->created_at ? $user->created_at->translatedFormat('M Y') : 'Onbekend' }}</span>
+                    <span class="stat-value text-muted">{{ $user->created_at ? $user->created_at->translatedFormat('d F, Y') : 'Onbekend' }}</span>
                 </div>
                 <div class="d-flex justify-content-between align-items-center">
                     <span class="stat-label">Laatst gezien</span>
@@ -325,7 +313,7 @@
                 <hr class="minimal-hr">
                 <div class="mb-3">
                     <!-- Cleaned up header without inline styles -->
-                    <h6 class="text-dark fw-bold mb-2 px-2 fs-6">{{ $user->name ?? 'Gebruiker' }}</h6>
+                    <h6 class="text-dark fw-bold mb-2 px-2 fs-6">Links</h6>
 
                     <!-- Increased gap slightly to gap-1 for better hover separation -->
                     <nav class="nav flex-column gap-1">
@@ -353,55 +341,50 @@
                     </nav>
                 </div>
             @endif
-
-            <hr class="minimal-hr">
-
-            <nav class="nav flex-column">
-                <a href="{{ route('suggestions:index') }}" class="minimal-sidenav-link text-danger-hover d-flex align-items-center">
-                    <x-heroicon-o-document-text class="icon"/>
-                    <span class="flex-grow-1 text-danger">Rapporteer deze gebruiker</span>
-                </a>
-            </nav>
         </div>
 
         <div class="col-lg-8">
-            <x-heatmap :contributionData="$contributionData" />
+            @if (! active('account:reputation'))
+                <x-heatmap :contributionData="$contributionData" />
 
-            <ul class="nav nav-tabs minimal-tabs mt-4 d-flex align-items-end">
-                <li class="nav-item">
-                    <a class="nav-link {{ active('account:public') }}" aria-current="page" href="{{ route('account:public', $user) }}">
-                        Publicaties
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ active('bookmarks:index') }}" href="{{ route('bookmarks:index') }}">Bewaarde woorden</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ active('suggestions:index') }}" href="{{ route('suggestions:index') }}">Suggesties</a>
-                </li>
+                <ul class="nav nav-tabs minimal-tabs mt-4 d-flex align-items-end">
+                    <li class="nav-item">
+                        <a class="nav-link {{ active('account:public') }}" aria-current="page" href="{{ route('account:public', $user) }}">
+                            <x-tabler-world-map class="icon me-1 color-green"/> Publicaties
+                        </a>
+                    </li>
+                    
+                    @if (auth()->user()->is($user))
+                        <li class="nav-item">
+                            <a class="nav-link {{ active('bookmarks:index') }}" href="{{ route('bookmarks:index') }}">
+                                <x-tabler-bookmarks class="icon me-1 color-green" /> Bewaarde woorden
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ active('suggestions:index') }}" href="{{ route('suggestions:index') }}">
+                                <x-tabler-vocabulary class="icon me-1 color-green"/> Suggesties
+                            </a>
+                        </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Concepten</a>
-                </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ active('concepts:index') }}" href="{{ route('concepts:index') }}">
+                                <x-tabler-sketching class="icon me-1 color-green"/> Concepten
+                            </a>
+                        </li> 
+                    @endif
 
-                <!-- Right-aligned Create Button -->
-                <li class="nav-item ms-auto mb-2">
-                    {{ $action ?? '' }}
-                </li>
-            </ul>
+                    <!-- Right-aligned Create Button -->
+                    <li class="nav-item ms-auto mb-2">
+                        {{ $action ?? '' }}
+                    </li>
+                </ul>
+            @endif
 
-<!--
-/**
- * Component: Minimal Listing Card
- * Description: A clean, white card layout containing search, filters, list items, and pagination, designed to sit seamlessly on a #F9F9F9 background.
- */
--->
-<div class="tab-content mt-4" id="myTabContent">
-  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-
-    {{ $slot }}</div>
-
-</div>
+            <div class="tab-content mt-4" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    {{ $slot }}</div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

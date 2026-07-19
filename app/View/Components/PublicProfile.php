@@ -10,9 +10,12 @@ use App\Models\Article;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\Component;
+use OwenIt\Auditing\Models\Audit;
 use stdClass;
 
 final class PublicProfile extends Component
@@ -28,38 +31,36 @@ final class PublicProfile extends Component
 
     public function render(): View
     {
-        // In your Controller
-$contributionData = Article::where('author_id', $this->user->id)
-    ->where('created_at', '>=', now()->subYear())
-        ->get()
-        ->groupBy(function($date) {
-            return Carbon::parse($date->created_at)->format('Y-m-d');
-        })
-        ->map(function ($dayActivities) {
-            return $dayActivities->count();
-        })
-        ->toArray();
+        $contributionData = Audit::where('user_id', $this->user->id)
+            ->where('auditable_type', Article::class)
+            ->selectRaw('DATE(created_at) as date, count(*) as total')
+            ->where('created_at', '>=', now()->subYear())
+            ->groupByRaw('DATE(created_at)')
+            ->pluck('total', 'date')
+            ->toArray();
 
         return view('components.public-profile', data: [
             'user' => $this->user,
+            'suggestionCount' => $this->getCachedSuggestionCount(),
             'contactExist' => $this->contactExists(),
-            'totals' => $this->calculateTotals(),
             'contributionData' => $contributionData
         ]);
     }
 
-    private function calculateTotals(): stdClass
+    private function getCachedPublicationCount(): int 
     {
-        $authorId = $this->user->id ?? auth()->id();
+        $cacheKey = 'user_publication_count_' . $this->user->id;
 
-        return collect(ArticleStates::cases())
-            ->reduce(function ($query, $status) {
-                return $query->selectRaw(
-                    expression: 'COUNT(CASE WHEN state = ? THEN 1 END) AS '.mb_strtolower($status->name),
-                    bindings: [$status->value]
-                );
-            }, DB::table('articles')->where('author_id', $authorId)->selectRaw('COUNT(*) AS total'))
-            ->first();
+    }
+
+    private function getCachedSuggestionCount(): string
+    {
+        $cacheKey = 'user_suggestion_count_' . $this->user->id;
+        $cacheTtl = now()->addMinutes(5);
+
+        return Cache::remember($cacheKey, $cacheTtl, function (): string {
+            return toHumanReadableNumber($this->user->suggestions()->count());
+        });
     }
 
     private function contactExists(): bool

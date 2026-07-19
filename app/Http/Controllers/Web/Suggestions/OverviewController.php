@@ -32,6 +32,8 @@ final readonly class OverviewController
     {
         return view('suggestions.index', data: [
             'user' => $request->user(),
+            'suggestionStates' => $suggestionQuery->getSearchableStates(),
+            'suggestionCount' => $suggestionQuery->getTotalCount($request),
             'results' => $suggestionQuery->fetch($request, ArticleStates::New),
         ]);
     }
