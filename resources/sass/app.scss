@@ -22,6 +22,479 @@
 
 @import 'components/search-improvements';
 
+// ── Contribution Heatmap ─────────────────────────────────────────────────────
+
+.hm-root {
+  // Private design tokens — scoped to the component, not global
+  --_cell-gap:  2px;
+  --_outer-gap: 4px;   // month row + content-area gap
+  --_label-w:   28px;
+  --_radius:    2px;
+  --_month-fs:  11px;
+  --_label-fs:  10px;
+  --_muted:     #6e7681;
+
+  // Cell level colours — GitHub light palette
+  --_l0: #ebedf0;
+  --_l1: #9be9a8;
+  --_l2: #40c463;
+  --_l3: #30a14e;
+  --_l4: #216e39;
+
+  --_ring: #0969da;   // keyboard focus ring
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+// ── Month-label row ──────────────────────────────────────────────────────────
+
+.hm-month-row {
+  display: flex;
+  margin-bottom: var(--_outer-gap);
+}
+
+.hm-month-spacer {
+  width: var(--_label-w);
+  flex-shrink: 0;
+}
+
+.hm-months {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(var(--col-weeks), 1fr);
+  font-size: var(--_month-fs);
+  color: var(--_muted);
+  user-select: none;
+
+  span {
+    overflow: hidden;
+    white-space: nowrap;
+    // No ellipsis — clipping cleanly is correct at this scale
+  }
+}
+
+// ── Content row (labels + grid) ──────────────────────────────────────────────
+
+.hm-content {
+  display: flex;
+  gap: var(--_outer-gap);
+  width: 100%;
+}
+
+// ── Day-of-week labels ───────────────────────────────────────────────────────
+
+.hm-day-labels {
+  display: flex;
+  flex-direction: column;
+  gap: var(--_cell-gap);    // match grid row gap so labels stay aligned
+  width: var(--_label-w);
+  flex-shrink: 0;
+  font-size: var(--_label-fs);
+  color: var(--_muted);
+  user-select: none;
+
+  span {
+    display: flex;
+    align-items: center;
+    // Heights synced to cell size by JS
+  }
+}
+
+// ── Contribution grid ────────────────────────────────────────────────────────
+
+.hm-grid {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  grid-template-rows: repeat(7, 1fr);
+  grid-template-columns: repeat(var(--col-weeks), 1fr);
+  grid-auto-flow: column;
+  gap: var(--_cell-gap);
+  // Height set by JS to keep cells square
+}
+
+// ── Day cells ────────────────────────────────────────────────────────────────
+
+.day-cell {
+  aspect-ratio: 1;               // square fallback before JS fires
+  border-radius: var(--_radius);
+  cursor: pointer;
+  outline: 2px solid transparent;
+  outline-offset: 1px;
+  // outline-color (not the shorthand `outline`) is what's actually animatable
+  transition:
+    transform     0.1s ease,
+    outline-color 0.1s ease;
+
+  &:hover {
+    transform: scale(1.25);
+    z-index: 1;                  // float above neighbours when scaled
+  }
+
+  // Only show ring for keyboard navigation — no ring on click
+  &:focus-visible {
+    outline-color: var(--_ring);
+    transform: scale(1.2);
+  }
+
+  // Padding cells and legend swatches: purely decorative, no interaction
+  &[aria-hidden="true"] {
+    cursor: default;
+    pointer-events: none;
+  }
+}
+
+// ── Level colours ────────────────────────────────────────────────────────────
+
+.level-0 { background-color: var(--_l0); }
+.level-1 { background-color: var(--_l1); }
+.level-2 { background-color: var(--_l2); }
+.level-3 { background-color: var(--_l3); }
+.level-4 { background-color: var(--_l4); }
+
+/* minimal tabs */
+/* Container adjustments */
+.minimal-tabs {
+  border-bottom: 1px solid #E5E7EB; /* Faint dividing line */
+  gap: 1.5rem; /* Generous breathing room between tabs */
+}
+
+/* Base Tab Styling */
+.minimal-tabs .nav-link {
+  color: #9CA3AF; /* Muted gray for inactive tabs */
+  border: none;
+  background-color: transparent !important; /* Forces transparent background */
+  padding: 0.5rem 0; /* Removes horizontal padding to align text perfectly */
+  font-weight: 500;
+  transition: color 0.2s ease;
+  border-bottom: 2px solid transparent; /* Invisible border to prevent jumping */
+  margin-bottom: -1px; /* Pulls the border down to overlap the container line */
+}
+
+/* Hover State */
+.minimal-tabs .nav-link:hover:not(.disabled) {
+  color: #374151; /* Darkens the text on hover */
+  border-color: transparent;
+}
+
+/* Active Tab Styling */
+.minimal-tabs .nav-link.active {
+  color: #111827; /* Sharp near-black for high contrast */
+  border: none;
+  border-bottom: 2px solid #111827; /* Bold minimal underline */
+}
+
+/* Dropdown Menu Refinements */
+.minimal-tabs .dropdown-menu {
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border-radius: 6px;
+  margin-top: 8px;
+}
+
+/**
+ * Component Styles: Minimal Card & Pagination
+ */
+
+/* Minimal Card Base */
+.minimal-card {
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02); /* Extremely faint shadow */
+}
+
+.minimal-card .card-header,
+.minimal-card .card-footer {
+  border-color: #E5E7EB;
+}
+
+/* Form Controls */
+.minimal-input,
+.minimal-select {
+  border: 1px solid #E5E7EB;
+  border-radius: 6px;
+  color: #111827;
+  font-size: 0.95rem;
+  box-shadow: none !important; /* Prevents Bootstrap blue glow */
+  transition: border-color 0.2s ease;
+}
+
+.minimal-input::placeholder {
+  color: #9CA3AF;
+}
+
+.minimal-input:focus,
+.minimal-select:focus {
+  border-color: #111827;
+}
+
+/* Button */
+.minimal-btn {
+  border: 1px solid #E5E7EB;
+  color: #374151;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.minimal-btn:hover {
+  background-color: #F3F4F6;
+  color: #111827;
+  border-color: #D1D5DB;
+}
+
+/* Minimal Primary Button */
+.minimal-btn-primary {
+  background-color: #111827;
+  color: #FFFFFF;
+  border: 1px solid #111827;
+  border-radius: 6px;
+  // padding: 0.4rem 1.25rem;
+  padding: .2rem .5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.minimal-btn-primary:hover {
+  background-color: #374151; /* Lighter gray to indicate hover */
+  border-color: #374151;
+  color: #FFFFFF;
+}
+
+.minimal-btn-primary:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.2); /* Subtle dark focus ring */
+}
+/**
+ * Component Styles: Minimal List Item Actions
+ */
+
+/* Action Button (Three dots) */
+.minimal-action-btn {
+  background-color: transparent;
+  border: none;
+  color: #9CA3AF;
+  padding: 0.25rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.minimal-action-btn:hover,
+.minimal-action-btn:focus,
+.dropdown.show > .minimal-action-btn {
+  background-color: #E5E7EB;
+  color: #111827;
+  box-shadow: none;
+}
+
+/* Minimal Dropdown Styling */
+.minimal-dropdown {
+  border: 1px solid #E5E7EB;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 0.5rem 0;
+  margin-top: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.minimal-dropdown .dropdown-item {
+  color: #374151;
+  // padding: 0.4rem 1rem;
+  font-weight: 500;
+  transition: background-color 0.15s ease;
+}
+
+.minimal-dropdown .dropdown-item:hover {
+  background-color: #F3F4F6;
+  color: #111827;
+}
+
+.minimal-dropdown .dropdown-item.text-danger:hover {
+  background-color: #FEF2F2;
+  color: #DC2626 !important;
+}
+
+.minimal-dropdown .dropdown-divider {
+  border-top-color: #E5E7EB;
+  margin: 0.4rem 0;
+}
+/**
+ * Component Styles: Compact Minimal Sidebar
+ */
+
+/* User Stats */
+.compact-sidebar .stat-label {
+  font-size: 0.8rem;
+  color: #6B7280;
+}
+
+.compact-sidebar .stat-value {
+  font-size: 0.8rem;
+}
+
+/* Labels & Separators */
+.compact-sidebar .sidenav-label {
+  font-size: 0.7rem; /* Scaled down */
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #9CA3AF;
+  font-weight: 600;
+  padding: 0 0.5rem;
+  margin-bottom: 0.25rem; /* Tighter margin */
+}
+
+.compact-sidebar .icon-sm {
+  width: 0.9rem; /* Smaller icons for labels */
+  height: 0.9rem;
+}
+
+.compact-sidebar .minimal-hr {
+  border-color: #E5E7EB;
+  opacity: 1;
+  margin: 1rem 0; /* Reduced from 1.5rem */
+}
+
+/* Base Link Styling */
+.compact-sidebar .minimal-sidenav-link {
+  color: #6B7280;
+  font-weight: 500;
+  font-size: 0.85rem; /* Scaled down from 0.95rem */
+  padding: 0.35rem 0.5rem; /* Tighter padding */
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  margin-bottom: 0.15rem; /* Tighter stacking */
+}
+
+/* Icon Styling */
+.compact-sidebar .minimal-sidenav-link .icon {
+  width: 1.1rem; /* Scaled down from 1.25rem */
+  height: 1.1rem;
+  margin-right: 0.5rem; /* Tighter spacing */
+  color: #9CA3AF;
+  transition: color 0.2s ease;
+}
+
+/* Hover State */
+.compact-sidebar .minimal-sidenav-link:hover {
+  color: #111827;
+  background-color: #E5E7EB;
+}
+
+.compact-sidebar .minimal-sidenav-link:hover .icon {
+  color: #374151;
+}
+
+/* Active State */
+.compact-sidebar .minimal-sidenav-link.active {
+  color: #111827;
+  background-color: #FFFFFF;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  font-weight: 600;
+}
+
+.compact-sidebar .minimal-sidenav-link.active .icon {
+  color: #111827;
+}
+
+/* Danger Action Overrides */
+.compact-sidebar .minimal-sidenav-link.text-danger-hover:hover {
+  background-color: #FEF2F2;
+}
+
+.compact-sidebar .minimal-sidenav-link.text-danger-hover:hover .icon,
+.compact-sidebar .minimal-sidenav-link.text-danger-hover:hover .text-danger {
+  color: #DC2626 !important;
+}
+
+/* Input */
+.compact-sidebar .minimal-input {
+  background-color: transparent;
+  border: 1px solid #E5E7EB;
+  border-radius: 6px;
+  padding: 0.35rem 0.75rem; /* Tighter input padding */
+  color: #111827;
+  font-size: 0.85rem; /* Matches link font size */
+  transition: border-color 0.2s ease;
+}
+
+.compact-sidebar .minimal-input:focus {
+  border-color: #111827;
+  outline: none;
+  box-shadow: none;
+}
+
+/* List Items */
+.minimal-list-item {
+  border-bottom: 1px solid #E5E7EB;
+  background-color: #fff;
+  transition: background-color 0.15s ease;
+}
+
+.minimal-list-item:last-child {
+  border-bottom: none;
+}
+
+.minimal-list-item:hover {
+  background-color: #F9FAFB; /* Very faint hover effect for rows */
+}
+
+.item-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.item-meta {
+  margin: 0.25rem 0 0 0;
+  font-size: 0.85rem;
+  color: #6B7280;
+}
+
+/* Badges */
+.minimal-badge {
+  border: 1px solid #D1D5DB;
+  color: #374151;
+  font-weight: 500;
+  padding: 0.35em 0.65em;
+  border-radius: 4px;
+}
+
+/* Minimal Pagination Override */
+.minimal-pagination .page-link {
+  color: #6B7280;
+  border: 1px solid #E5E7EB;
+  margin: 0 2px;
+  border-radius: 6px;
+  box-shadow: none !important;
+}
+
+.minimal-pagination .page-link:hover {
+  background-color: #F3F4F6;
+  color: #111827;
+  border-color: #D1D5DB;
+}
+
+.minimal-pagination .page-item.active .page-link {
+  background-color: #111827;
+  border-color: #111827;
+  color: #FFFFFF;
+}
+
+.minimal-pagination .page-item.disabled .page-link {
+  background-color: transparent;
+  color: #9CA3AF;
+  border-color: #E5E7EB;
+}
+
 /// Recent cards
 .word-card {
     background: #ffffff;
