@@ -61,9 +61,11 @@ final class PublicProfile extends Component
     {
         $cacheKey = 'user_correction_count_' . $this->user->id;
 
-        $user = $this->user->withCount(['corrections' => function (DatabaseEloquentBuilder $query): void {
-            $query->whereState('state', ApprovedState::class);
-        }])->first();
+        $user = $this->user
+            ->newQuery()
+            ->withCount(['corrections' => function (DatabaseEloquentBuilder $query): void {
+                $query->whereState('state', ApprovedState::class);
+            }])->first();
 
         return Cache::remember($cacheKey, $this->cacheTTL(), fn (): string => toHumanReadableNumber($user->corrections_count));
     }
@@ -72,9 +74,12 @@ final class PublicProfile extends Component
     {
         $cacheKey = 'user_publication_count_' . $this->user->id;
 
-        $user = $this->user->withCount(['suggestions' => function (DatabaseEloquentBuilder $query): void {
-            $query->where('state', ArticleStates::Published);
-        }])->first();
+        $user = $this->user
+            ->newQuery()
+            ->where('id', $this->user->id)->withCount(['suggestions' => function (DatabaseEloquentBuilder $query): void {
+                $query->where('articles.state', ArticleStates::Published);
+            }])->first();
+
 
         return Cache::remember($cacheKey, $this->cacheTTL(), fn (): string => toHumanReadableNumber($user->suggestions_count));
     }
