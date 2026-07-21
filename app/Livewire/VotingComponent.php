@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire;
 
 use App\Models\Article;
+use App\Models\User;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -45,13 +46,15 @@ class VotingComponent extends Component
             return;
         }
 
-        Auth::user()->upvote($this->article);
+        /** @var User $authenticatedUser */
+        $authenticatedUser = Auth::user();
+
+        $authenticatedUser->upvote($this->article);
         $this->article->refresh();
     }
 
     /**
      * Register a downvote for the article.
-     * * @return mixed
      */
     public function downvote(): void
     {
@@ -60,7 +63,10 @@ class VotingComponent extends Component
             return;
         }
 
-        Auth::user()->downvote($this->article);
+        /** @var User $authenticatedUser */
+        $authenticatedUser = Auth::user();
+
+        $authenticatedUser->downvote($this->article);
         $this->article->refresh();
     }
 

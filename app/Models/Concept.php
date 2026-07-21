@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Database\Factories\ConceptFactory;
 use App\Observers\ConceptObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\{BelongsTo, BelongsToMany, MorphMany}
 #[ObservedBy(ConceptObserver::class)]
 final class Concept extends Model
 {
+    /** @use HasFactory<ConceptFactory> */
     use HasFactory;
 
     /**

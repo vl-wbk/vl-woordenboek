@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Queries\Labels;
 
+use App\Models\Article;
 use App\Models\ArticleReport;
 use App\Models\Label;
 use App\Models\User;
@@ -44,10 +45,15 @@ final readonly class LabelAnalytics
      * @param  Label $label The label for which to calculate article analytics.
      * @return array<string, string>
      */
-    private function getArticleAnalytics(Label $label): array
+     private function getArticleAnalytics(Label $label): array
     {
+        $articleCount = Article::query()
+            ->published()
+            ->whereHas('labels', fn (Builder $query): Builder => $query->whereKey($label->id))
+            ->count();
+
         return ['statistic' => toHumanReadableNumber(
-            $label->articles()->published()->count() // Count published articles directly associated with this label
+            number: (int) $articleCount // Count published articles directly associated with this label
         )];
     }
 
@@ -62,8 +68,13 @@ final readonly class LabelAnalytics
      */
     private function getViewAnalytics(Label $label): array
     {
+        $viewCount = Article::query()
+            ->published()
+            ->whereHas('labels', fn (Builder $query): Builder => $query->whereKey($label->id))
+            ->sum('views');
+
         return ['statistic' => toHumanReadableNumber(
-            (int) $label->articles()->published()->sum('views') // Sum views for published articles directly associated with this label
+            number: (int) $viewCount // Sum views for published articles directly associated with this label
         )];
     }
 

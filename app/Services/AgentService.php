@@ -116,6 +116,7 @@ final class AgentService extends MobileDetect
                 continue;
             }
 
+            /** @phpstan-ignore-next-line */
             if ($this->match($regex, $userAgent)) {
                 return $key ?: reset($this->matchesArray);
             }

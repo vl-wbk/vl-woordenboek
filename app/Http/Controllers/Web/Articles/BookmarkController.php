@@ -40,6 +40,7 @@ final readonly class BookmarkController
     public function index(Request $request): Renderable
     {
         $searchTerm = $request->get('zoekterm');
+
         $searchQuery = auth()->user()->bookmarks()
             ->with(['labels'])
             ->where(function (Builder $query) use ($searchTerm): void {

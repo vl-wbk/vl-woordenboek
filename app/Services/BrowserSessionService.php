@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -62,10 +63,13 @@ final readonly class BrowserSessionService
             return collect();
         }
 
+        /** @var User $authenticatedUser */
+        $authenticatedUser = Auth::user();
+
         return collect(
             DB::connection(config('session.connection'))
                 ->table(config('session.table', 'sessions'))
-                ->where('user_id', Auth::user()->getAuthIdentifier())
+                ->where('user_id', $authenticatedUser->getAuthIdentifier())
                 ->orderBy('last_activity', 'desc')
                 ->get(),
         )->map(fn (stdClass $session) => (object) [
@@ -90,9 +94,12 @@ final readonly class BrowserSessionService
             return;
         }
 
+        /** @var User $authenticatedUser */
+        $authenticatedUser = Auth::user();
+
         DB::connection(config('session.connection'))
             ->table(config('session.table', 'sessions'))
-            ->where('user_id', Auth::user()->getAuthIdentifier())
+            ->where('user_id', $authenticatedUser->getAuthIdentifier())
             ->where('id', '!=', request()->session()->getId())
             ->delete();
     }
