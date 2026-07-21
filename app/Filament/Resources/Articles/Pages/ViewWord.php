@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Articles\Pages;
 
+use App\Filament\Clusters\Articles\Resources\ArticleResource\Actions\RejectSuggestionAction;
 use App\Filament\Resources\Articles\Actions\DuplicationArticleAction;
 use App\Filament\Resources\Articles\Actions\PreviewArticleAction;
 use App\Filament\Resources\Articles\Actions\RevokePublication;
@@ -149,6 +150,7 @@ final class ViewWord extends ViewRecord
     {
         return ActionGroup::make([
             FilamentActions\EditAction::make()->icon('heroicon-o-pencil-square')->color('gray'),
+            RejectSuggestionAction::make(),
             DuplicationArticleAction::make(),
             ArticleStateActions\ArchiveArticle::make(),
             ArticleStateActions\PublishArticleAction::make(),
