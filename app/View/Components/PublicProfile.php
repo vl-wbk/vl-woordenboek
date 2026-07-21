@@ -9,6 +9,7 @@ use App\Enums\ArticleStates;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\Component;
 use stdClass;
@@ -40,7 +41,10 @@ final class PublicProfile extends Component
 
     private function getConceptCount(): int
     {
-        return auth()->user()->concepts()->count();
+        /** @var User $authenticatedUser */
+        $authenticatedUser = Auth::user();
+
+        return $authenticatedUser->concepts()->count();
     }
 
     private function getSuggestionCount(): int
@@ -55,10 +59,12 @@ final class PublicProfile extends Component
 
     private function getKudosCount(): int
     {
-        return User::withCount(['suggestions as total_upvotes' => function (ArticleBuilder $query) {
+        $user = User::withCount(['suggestions as total_upvotes' => function (ArticleBuilder $query) {
             $query->join('votes', 'articles.id', '=', 'votes.votable_id')
                 ->where('votes.votable_type', \App\Models\Article::class);
-        }])->find($this->user->id)->total_upvotes;
+        }])->find($this->user->id);
+
+        return $user->total_upvotes ?? 0;
     }
 
     private function getPublicationCount(): int
@@ -82,6 +88,9 @@ final class PublicProfile extends Component
 
     private function contactExists(): bool
     {
-        return auth()->user()->contacts->doesntContain($this->user) && auth()->user()->isNot($this->user);
+        /** @var User $authenticatedUser */
+        $authenticatedUser = Auth::user();
+
+        return $authenticatedUser->contacts->doesntContain($this->user) && $authenticatedUser->isNot($this->user);
     }
 }

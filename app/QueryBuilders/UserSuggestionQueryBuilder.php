@@ -6,6 +6,7 @@ namespace App\QueryBuilders;
 
 use App\Enums\ArticleStates;
 use App\Models\Article;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
@@ -45,7 +46,10 @@ final class UserSuggestionQueryBuilder
      */
     public function fetch(Request $request, $state)
     {
-        return Article::where('author_id', $request->user()->id)
+        /** @var User $user */
+        $user = $request->user();
+
+        return Article::where('author_id', $user->id)
             ->where('word', 'like', "%{$request->input('zoekterm')}%")
             ->with(['labels', 'editor'])
             ->orderBy('word')
