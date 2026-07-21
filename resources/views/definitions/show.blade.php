@@ -544,9 +544,9 @@
                                     @endif
 
                                     <li>
-                                        <a href="#" title="Een probleem melden" class="fw-semibold text-danger text-decoration-none" data-bs-toggle="modal" data-bs-target="#reportModal" id="report-btn">
-                                            <x-heroicon-s-exclamation-triangle class="icon"/>
-                                            <span class="ms-1">Een probleem melden</span>
+                                        <a href="#" title="Tip de redactie" class="fw-semibold text-danger text-decoration-none" data-bs-toggle="modal" data-bs-target="#reportModal" id="report-btn">
+                                            <x-tabler-message-report class="icon"/>
+                                            <span class="ms-1">Tip de redactie</span>
                                         </a>
                                     </li>
                                 </ul>
