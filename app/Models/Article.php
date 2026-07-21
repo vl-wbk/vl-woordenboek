@@ -5,25 +5,23 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Services\ViewCounterService;
-use App\States\Articles\ExternalData;
-use App\States\Articles\Suggestion;
-use App\States\Articles\Draft;
-use App\States\Articles\Approval;
-use App\States\Articles\Published;
-use App\States\Articles\Archived;
+use App\States\Articles;
 use App\Builders\ArticleBuilder;
 use App\Models\Relations\HasNotables;
 use App\Contracts\States\ArticleStateContract;
 use App\Enums\ArticleStates;
 use App\Enums\DataOrigin;
 use App\Enums\LanguageStatus;
+use App\Models\Concerns\ManagesArticleAudits;
+use App\Models\Relations\Articles\HasCorrectionSupport;
 use App\Models\Relations\BelongsToAuthor;
 use App\Models\Relations\BelongsToEditor;
 use App\Models\Relations\BelongsToManyRegions;
-use App\States\RejectedPublication;
+use App\Observers\ArticleObserver;
 use Carbon\Carbon;
 use Database\Factories\ArticleFactory;
 use Illuminate\Database\Eloquent\Attributes\Guarded;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\UseEloquentBuilder;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
@@ -33,6 +31,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kirschbaum\Commentions\Contracts\Commentable;
 use Kirschbaum\Commentions\HasComments;
@@ -40,7 +39,6 @@ use Overtrue\LaravelLike\Traits\Likeable;
 use Overtrue\LaravelVote\Traits\Votable;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
-use Override;
 
 /**
  * Article represents a dictionary entry in the Vlaams Woordenboek application.
@@ -84,6 +82,7 @@ use Override;
  */
 #[Guarded(columns: 'id')]
 #[UseEloquentBuilder(builderClass: ArticleBuilder::class)]
+#[ObservedBy(ArticleObserver::class)]
 final class Article extends Model implements AuditableContract, Commentable
 {
     /**
@@ -94,12 +93,13 @@ final class Article extends Model implements AuditableContract, Commentable
     use BelongsToManyRegions;
     use BelongsToEditor;
     use BelongsToAuthor;
-    use Auditable;
+    use ManagesArticleAudits;
     use Likeable;
     use SoftDeletes;
     use HasNotables;
     use HasComments;
     use Votable;
+    use HasCorrectionSupport;
 
     /**
      * Relations that are always eager-loaded with this model.
@@ -123,7 +123,7 @@ final class Article extends Model implements AuditableContract, Commentable
      *
      * @var list<string>
      */
-    protected $auditExclude = ['views', 'votes_today'];
+    protected $auditInclude = ['description', 'part_of_speech_id', 'keywords', 'characteristics', 'status', 'image_url', 'image_alt'];
 
     /**
      * Default values for new article instances.
@@ -152,13 +152,13 @@ final class Article extends Model implements AuditableContract, Commentable
     public function articleStatus(): ArticleStateContract
     {
         return match ($this->state) {
-            ArticleStates::ExternalData => new ExternalData($this),
-            ArticleStates::New => new Suggestion($this),
-            ArticleStates::Draft => new Draft($this),
-            ArticleStates::Approval => new Approval($this),
-            ArticleStates::Published => new Published($this),
-            ArticleStates::Archived => new Archived($this),
-            ArticleStates::RejectedPublication => new RejectedPublication($this)
+            ArticleStates::ExternalData => new Articles\ExternalData($this),
+            ArticleStates::New => new Articles\Suggestion($this),
+            ArticleStates::Draft => new Articles\Draft($this),
+            ArticleStates::Approval => new Articles\Approval($this),
+            ArticleStates::Published => new Articles\Published($this),
+            ArticleStates::Archived => new Articles\Archived($this),
+            ArticleStates::RejectedPublication => new Articles\RejectedPublication($this)
         };
     }
 
@@ -254,9 +254,9 @@ final class Article extends Model implements AuditableContract, Commentable
      *
      * @return HasMany<UserExample, covariant $this>
      */
-    public function userExamples(): HasMany
+    public function userExamples(): MorphMany
     {
-        return $this->hasMany(UserExample::class);
+        return  $this->morphMany(UserExample::class, 'exampleable');
     }
 
     /**

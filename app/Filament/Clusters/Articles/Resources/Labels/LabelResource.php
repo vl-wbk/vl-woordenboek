@@ -17,7 +17,6 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
-use Filament\Forms\Components\Slider;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -45,7 +44,7 @@ use UnitEnum;
  *
  * @package App\Filament\Clustsers\Articles\Resources\Labels
  */
-#[Todo(message: 'Implement translation systeem voor deze resource', prtiority: 'critical')]
+#[Todo(message: 'Implement translation systeem voor deze resource', priority: 'critical')]
 #[Todo(message: 'Make this resource cleaner by breaking up this rezsource to their respective schema classes')]
 final class LabelResource extends Resource
 {

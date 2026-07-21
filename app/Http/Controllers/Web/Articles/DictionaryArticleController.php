@@ -16,8 +16,6 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use Spatie\RouteAttributes\Attributes\Get;
 
@@ -77,6 +75,7 @@ final readonly class DictionaryArticleController
                         'notes',
                         'audits'
                     ]),
+                'revisionCount' => $word->audits()->where('event', 'updated')->count(),
                 'exampleCount' => $word->userExamples()->whereState('status', Approved::class)->count(),
                 'articleResource' => ArticleResource::class,
                 'etymologies' => $word->etymologies()->whereNotIn('status', [EtymologyStatus::Draft, EtymologyStatus::Rejected, EtymologyStatus::Archived])->get(),

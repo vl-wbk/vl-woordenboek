@@ -5,37 +5,17 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Users\Schema;
 
 use Deldius\UserField\UserColumn;
-use Filament\Actions\Action;
-use Filament\Actions\ActionGroup;
-use Filament\Actions\AttachAction;
-use Filament\Actions\ViewAction;
-use Filament\Actions\EditAction;
-use App\Filament\Resources\Users\Actions\BanAction;
-use App\Filament\Resources\Users\Actions\UnbanAction;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use App\Filament\Resources\Users\UserResource;
+use Filament\Actions\{EditAction, ViewAction, ActionGroup};
+use App\Filament\Resources\Users\Actions\{BanAction, UnbanAction};
+use Filament\Actions\{DeleteAction, BulkActionGroup, DeleteBulkAction};
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Support\Facades\Gate;
 use App\UserTypes;
 use App\Models\User;
 
-/**
- * Defines how user accounts are presented inside the Filament panel.
- *
- * This table highlights the most important operational information for admins:
- * status (banned or not), user type, roles, contact details, and activity timestamps.
- *
- * Actions such as banning and unbanning are shown only if permitted by policies, keeping security roles separate from UI logic.
- * Clicking a record takes administrators directly to the user detail page for quick moderation.
- *
- * Any updates to the administrator's user overview - new fields, new actions or visual changes should be made here to
- * keep the UserResource maintainable.
- */
 final readonly class UserTable
 {
     /**
@@ -53,63 +33,97 @@ final readonly class UserTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->emptyStateIcon(icon: Heroicon::Users)
+            ->emptyStateHeading(heading: __('Geen gebruikers gevonden'))
+            ->emptyStateDescription(description: __('Er zijn geen gebruikers gevonden matchend met de opgegeven zoek criteria en of filters.'))
             ->heading(heading: __('user-resource.tables.heading'))
             ->description(description: __('user-resource.tables.description'))
-            ->recordUrl(null)
-            ->columns([
-                UserColumn::make('id')
-                    ->label('Gebruiker')
-                    ->showActiveState()
-                    ->searchable()
-                    ->sortable(),
+            ->recordUrl(url: null)
+            ->columns(components: self::configureTableColumnSchema())
+            ->filters(filters: self::configureTableFilters())
+            ->recordActions(actions: self::configureRecordActions())
+            ->toolbarActions(actions: self::configureToolbarActions());
+    }
 
-                TextColumn::make('user_type')
-                    ->label(label: __('user-resource.tables.columns.user-type'))
-                    ->badge()
-                    ->sortable(),
+    private static function configureToolbarActions(): array
+    {
+        return [
+            BulkActionGroup::make([
+                DeleteBulkAction::make(),
+            ]),
+        ];
+    }
 
-                TextColumn::make('roles.name')
-                    ->label(label: __('user-resource.tables.columns.roles.label'))
-                    ->icon('heroicon-o-key')
-                    ->placeholder(placeholder: __('user-resource.tables.columns.roles.placeholder'))
-                    ->color('danger')
-                    ->toggleable(isToggledHiddenByDefault: false)
-                    ->badge(),
+    /**
+     * @return array<int, ActionGroup|ViewAction>
+     */
+    private static function configureRecordActions(): array
+    {
+        return [
+            ViewAction::make(),
 
-                TextColumn::make('last_seen_at')
-                    ->placeholder('-')
-                    ->sortable()
-                    ->since()
-                    ->label(label: __('user-resource.tables.columns.last-seen-at')),
-                TextColumn::make('created_at')
-                    ->sortable()
-                    ->label('Registratie tijdstip'),
-            ])
-            ->filters([
-                SelectFilter::make('user_type')
-                    ->label(label: __('user-resource.tables.filters.user-type'))
-                    ->native(false)
-                    ->options(UserTypes::class),
-            ])
-            ->recordActions([
-                ViewAction::make(),
+            ActionGroup::make([
+                EditAction::make(),
+
+                // Custom actions for activating/deactivating user accounts in the application platform.
+                BanAction::make()->visible(fn(User $user): bool => Gate::allows('deactivate', $user)),
+                UnbanAction::make()->authorize(fn(User $user): bool => Gate::allows('reactivate', $user)),
 
                 ActionGroup::make([
-                    EditAction::make(),
+                    DeleteAction::make(),
+                ])->dropdown(false)
+            ]),
+        ];
+    }
 
-                    // Custom actions for activating/deactivating user accounts in the application platform.
-                    BanAction::make()->visible(fn(User $user): bool => Gate::allows('deactivate', $user)),
-                    UnbanAction::make()->authorize(fn(User $user): bool => Gate::allows('reactivate', $user)),
+    /**
+     * @return SelectFilter[]
+     */
+    private static function configureTableFilters(): array
+    {
+        return [
+            SelectFilter::make('user_type')
+                ->label(label: __('user-resource.tables.filters.user-type'))
+                ->native(false)
+                ->options(UserTypes::class),
+        ];
+    }
 
-                    ActionGroup::make([
-                        DeleteAction::make(),
-                    ])->dropdown(false)
-                ]),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
-            ]);
+    /**
+     *
+     * @return array<int, TextColumn|UserColumn>
+     */
+    private static function configureTableColumnSchema(): array
+    {
+        return [
+            UserColumn::make('id')
+                ->label('Gebruiker')
+                ->showActiveState()
+                ->searchable()
+                ->sortable(),
+
+            TextColumn::make('user_type')
+                ->label(label: __('user-resource.tables.columns.user-type'))
+                ->badge()
+                ->sortable(),
+
+            TextColumn::make('roles.name')
+                ->label(label: __('user-resource.tables.columns.roles.label'))
+                ->icon('heroicon-o-key')
+                ->placeholder(placeholder: __('user-resource.tables.columns.roles.placeholder'))
+                ->color('danger')
+                ->toggleable(isToggledHiddenByDefault: false)
+                ->badge(),
+
+            TextColumn::make('last_seen_at')
+                ->placeholder('-')
+                ->sortable()
+                ->since()
+                ->label(label: __('user-resource.tables.columns.last-seen-at')),
+
+            TextColumn::make('created_at')
+                ->sortable()
+                ->label('Registratie tijdstip'),
+        ];
     }
 }

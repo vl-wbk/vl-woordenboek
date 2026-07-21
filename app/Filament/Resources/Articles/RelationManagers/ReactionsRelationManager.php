@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Articles\RelationManagers;
 use App\Enums\Articles\InsightCategory;
 use App\Filament\Resources\Articles\Pages\ViewWord;
 use App\Models\Reaction;
+use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
@@ -34,7 +35,6 @@ use Illuminate\Support\Facades\Cache;
  * - Performance: Implements a aggressive caching strategy for the tab badges to prevent redundant COUNT queries on large datasets.
  * - Interaction: Features an "In-Modal Action" pattern, allowing editors to update metadata (categorization) without navigating away from the full-text view of the reaction.
  *
- * @package App\Filament\Resources\Articles\RelationManagers
  * @property-read \App\Models\Article $ownerRecord The parent Article model instance.
  */
 final class ReactionsRelationManager extends RelationManager
@@ -53,16 +53,16 @@ final class ReactionsRelationManager extends RelationManager
     protected static ?string $title = 'Reacties VW 1.0';
 
     /**
+     * The icon rendered in the relation manager tab.
+     * Uses the 'tag' icon to signify that the primary task here is the  categorization/labeling of community feedback.
+     */
+    protected static BackedEnum|null|string $icon = 'heroicon-o-tag';
+
+    /**
      * The primary theme color for UI accents.
      * This color is applied to the ID column, modal icons, and primary action buttons to maintain visual consistency across the resource.
      */
     private static string $defaultColor = 'primary';
-
-    /**
-     * The icon rendered in the relation manager tab.
-     * Uses the 'tag' icon to signify that the primary task here is the  categorization/labeling of community feedback.
-     */
-    protected static \BackedEnum|null|string $icon = 'heroicon-o-tag';
 
     /**
      * Generates a dynamic badge count for the Relation Manager tab.
@@ -74,14 +74,14 @@ final class ReactionsRelationManager extends RelationManager
      *
      * @param  Model   $ownerRecord     The parent Article instance.
      * @param  string  $pageClass       The class name of the current Filament page.
-     * @return string|null              The string representation of the count, or null.
+     * @return string                   The string representation of the count, or null.
      */
-    public static function getBadge(Model $ownerRecord, string $pageClass): ?string
+    public static function getBadge(Model $ownerRecord, string $pageClass): string
     {
         /** @var \App\Models\Article $entityRecord */
         $entityRecord = $ownerRecord;
 
-        return Cache::rememberForever('community-insights:' . $entityRecord->getRouteKey(), function () use ($entityRecord): string {
+        return Cache::rememberForever('community-insights:'.$entityRecord->getRouteKey(), function () use ($entityRecord): string {
             return (string) $entityRecord->reactions()->count();
         });
     }
@@ -100,7 +100,6 @@ final class ReactionsRelationManager extends RelationManager
      *
      * @param  Model   $ownerRecord The parent Article instance.
      * @param  string  $pageClass   The current Filament page FQCN.
-     * @return bool
      */
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
     {
@@ -109,7 +108,10 @@ final class ReactionsRelationManager extends RelationManager
 
     public function isReadOnly(): bool
     {
-        return $this->getOwnerRecord()->trashed() ? true : false;
+        /** @var \App\Models\Article $article */
+        $article = $this->getOwnerRecord();
+
+        return $article->trashed();
     }
 
     /**
@@ -210,13 +212,13 @@ final class ReactionsRelationManager extends RelationManager
                     TextEntry::make('insight_category')
                         ->hintAction($this->getHintActions())
                         ->label('Categorisering:')
-                        ->formatStateUsing(fn(Reaction $reaction): string => $reaction->insight_category->getFullDisplayLabel())
+                        ->formatStateUsing(fn (Reaction $reaction): string => $reaction->insight_category->getFullDisplayLabel())
                         ->columnSpanFull(),
                     TextEntry::make('body')
-                        ->label('Reactie:')
+                        ->label('Reactie:'),
                 ]),
 
-            EditAction::make()
+            EditAction::make(),
         ];
     }
 
@@ -232,6 +234,7 @@ final class ReactionsRelationManager extends RelationManager
      * - Execution: Updates the model directly and returns a boolean status.
      *
      * @internal This action is integrated into the ViewAction infolist via hintAction()
+     *
      * @return Action The configured Filament action instance.
      */
     private function getHintActions(): Action
@@ -255,7 +258,7 @@ final class ReactionsRelationManager extends RelationManager
                     ->label('Insight categorie')
                     ->required()
                     ->native(false)
-                    ->options(InsightCategory::class)
+                    ->options(InsightCategory::class),
             ]);
     }
 }

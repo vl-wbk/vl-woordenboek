@@ -7,8 +7,6 @@ namespace App\Filament\Clusters\Volunteers\Resources\VolunteerApplications\Table
 use App\Enums\Volunteers\ApplicationState;
 use App\Filament\Clusters\Volunteers\Resources\VolunteerApplications\Actions\ViewAction;
 use Deldius\UserField\UserColumn;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;

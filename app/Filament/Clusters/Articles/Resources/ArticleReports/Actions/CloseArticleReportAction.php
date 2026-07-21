@@ -8,7 +8,6 @@ use App\Models\ArticleReport;
 use App\States\Reporting\Status;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
-use Filament\Support\Icons\Heroicon;
 use Schmeits\FilamentCharacterCounter\Forms\Components\Textarea;
 
 /**
@@ -21,25 +20,10 @@ use Schmeits\FilamentCharacterCounter\Forms\Components\Textarea;
  * It includes visual indicators, such as an icon and label, and displays success or failure notifications based on the outcome of the closure process.
  *
  * @property ArticleReport $record The database entity from the article report.
- *
- * @package App\Filament\Clusters\Articles\Resources\ArticleReportResource\Actions
  */
 final class CloseArticleReportAction extends Action
 {
     use CanCustomizeProcess;
-
-    /**
-     * Returns the default name for the action.
-     *
-     * The default name is used to identify the action within the Filament admin panel.
-     * In this case, the name is set to "close-report."
-     *
-     * @return string The default name of the action.
-     */
-    public static function getDefaultName(): string
-    {
-        return 'close-report';
-    }
 
     /**
      * Configures the action's behavior and appearance.
@@ -70,19 +54,36 @@ final class CloseArticleReportAction extends Action
                 ->label('Eindbesluit')
                 ->required()
                 ->placeholder('Beschrijf kort wat je hebt gedaan om de melding te verhelpen.')
-                ->rows(4)
+                ->rows(4),
         ]);
 
         $this->successNotificationTitle('Het ticket is succesvol afgesloten');
         $this->failureNotificationTitle('Helaas konden we het ticket niet afsluiten wegens een technische fout');
 
         $this->action(function (array $data): void {
-            if ($this->process(fn(): bool => $this->getRecord()->status()->transitionToClosed($data['result']))) {
+            /** @var ArticleReport $record */
+            $record = $this->getRecord();
+
+            if ($this->process(fn (): bool => $record->status()->transitionToClosed($data['result']))) {
                 $this->success();
+
                 return;
             }
 
             $this->failure();
         });
+    }
+
+    /**
+     * Returns the default name for the action.
+     *
+     * The default name is used to identify the action within the Filament admin panel.
+     * In this case, the name is set to "close-report."
+     *
+     * @return string The default name of the action.
+     */
+    public static function getDefaultName(): string
+    {
+        return 'close-report';
     }
 }

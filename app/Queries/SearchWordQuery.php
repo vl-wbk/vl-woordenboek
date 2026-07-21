@@ -69,7 +69,6 @@ final readonly class SearchWordQuery
             ->allowedSorts($this->getAllowedSorts())
             ->allowedFilters($this->getAllowedFilters())
             ->with(['author', 'regions', 'bookmarkers'])
-            ->published()
             ->where(fn (Builder $query) => $this->applyVisibilityFilters($query, $request))
             ->where(fn (Builder $query) => $this->applySearchStrategy($query, $request))
             ->orderBy('created_at', 'desc')
@@ -90,10 +89,11 @@ final readonly class SearchWordQuery
      */
     private function applyVisibilityFilters(Builder $query, Request $request): void
     {
-        $query->whereNotNull('published_at');
-
         if ($request->boolean('archief')) {
-            $query->orWhereNotNull('archived_at');
+            $query->whereNotNull('archived_at');
+        } else {
+            // Enkel gepubliceerde artikelen (oorspronkelijk gedrag van ->published())
+            $query->published();
         }
     }
 
@@ -199,9 +199,10 @@ final readonly class SearchWordQuery
      * expression is built because the MySQL FT engine silently ignores them, which would otherwise cause confusing
      * empty-result bugs.
      *
-     * @param Builder<Article> $query
-     * @param Request          $request
-     * @param bool             $includeDescription
+     * @param  Builder<Article> $query              The primary query builder instance for the Article model.
+     * @param  Request          $request            The current HTTP request containing the target search queries.
+     * @param  bool             $includeDescription Flag determining whether to extend the full-text matching to include the description field.
+     * @return void
      */
     private function applyFullTextSearch(Builder $query, Request $request, bool $includeDescription): void
     {
@@ -214,7 +215,7 @@ final readonly class SearchWordQuery
             return;
         }
 
-        if (str_word_count($term) > 1) {
+        if (count($tokens) > 1) {
             $this->applyPhraseWithFallback($query, $term, $tokens, $columns);
         } else {
             $escaped = $this->escapeFtToken($tokens[0]);
@@ -240,9 +241,12 @@ final readonly class SearchWordQuery
     private function applyPhraseWithFallback(Builder $query, string $term, array $tokens, string $columns): void
     {
         $phrase = '"' . $this->escapeFtToken($term) . '"';
+
+        /** @phpstan-ignore-next-line */
         $exists = Article::whereRaw("MATCH({$columns}) AGAINST(? IN BOOLEAN MODE)", [$phrase])->exists();
 
         if ($exists) {
+            /** @phpstan-ignore-next-line */
             $query->whereRaw("MATCH({$columns}) AGAINST(? IN BOOLEAN MODE)", [$phrase]);
             return;
         }
@@ -258,6 +262,7 @@ final readonly class SearchWordQuery
             return;
         }
 
+        /** @phpstan-ignore-next-line */
         $query->whereRaw("MATCH({$columns}) AGAINST(? IN BOOLEAN MODE)", [$andExpr]);
     }
 
@@ -276,11 +281,13 @@ final readonly class SearchWordQuery
     private function escapeFtToken(string $token): string
     {
         // Remove characters that have special meaning in Boolean Mode
-        return str_replace(
+        $token = str_replace(
             search: ['+', '-', '>', '<', '(', ')', '~', '*', '"', '\\'],
-            replace: '',
+            replace: ' ',
             subject: $token
         );
+
+        return trim(preg_replace('/\s+/', ' ', $token));
     }
 
     /**
@@ -290,8 +297,8 @@ final readonly class SearchWordQuery
      * no user-controlled input can ever influence the column string even if this method
      * is modified in the future.
      *
-     * @param  bool   $includeDescription
-     * @return string
+     * @param   bool   $includeDescription
+     * @return 'word, keywords'|'word, keywords, description'
      */
     private function buildMatchColumns(bool $includeDescription): string
     {
@@ -327,11 +334,15 @@ final readonly class SearchWordQuery
      */
     private function getSearchTokens(Request $request): array
     {
-        return $request->string('zoekterm')
-            ->trim()
-            ->lower()
-            ->explode(' ')
-            ->filter(fn (string $token) => mb_strlen($token) >= 1)
+        $term = $request->string('zoekterm')->trim()->lower()->toString();
+
+        // Split on whitespace AND hyphens (and other separators) so tokens
+        // line up with how MySQL's FT parser tokenized the indexed content.
+        $parts = preg_split('/[\s\-]+/u', $term, -1, PREG_SPLIT_NO_EMPTY);
+
+        /** @phpstan-ignore-next-line */
+        return collect($parts)
+            ->filter(fn (string $token) => mb_strlen($token) >= 1) /** @phpstan-ignore-line */
             ->values()
             ->all();
     }

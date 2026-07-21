@@ -5,16 +5,17 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Models\User;
+use App\Policies\AuditPolicy;
 use App\Policies\BanPolicy;
 use App\Policies\ExportPolicy;
 use App\Policies\PasskeyPolicy;
 use App\Policies\ThreadPolicy;
-use App\UserTypes;
 use Cmgmyr\Messenger\Models\Thread;
 use Cog\Laravel\Ban\Models\Ban;
 use Filament\Actions\Exports\Models\Export;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use OwenIt\Auditing\Models\Audit;
 use Spatie\LaravelPasskeys\Models\Passkey;
 
 /**
@@ -39,6 +40,7 @@ final class AuthorizationServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::policy(Ban::class, BanPolicy::class);
+        Gate::policy(Audit::class, AuditPolicy::class);
         Gate::policy(Export::class, ExportPolicy::class);
 		Gate::policy(Thread::class, ThreadPolicy::class);
         Gate::policy(Passkey::class, PasskeyPolicy::class);

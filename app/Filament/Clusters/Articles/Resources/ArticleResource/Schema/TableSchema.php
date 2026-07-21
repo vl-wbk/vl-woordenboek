@@ -13,14 +13,9 @@ use App\Filament\Resources\Articles\Actions\RestoreArticleAction;
 use App\Models\Article;
 use Filament\Actions\{ActionGroup,
     BulkActionGroup,
-    DeleteAction,
-    DeleteBulkAction,
     EditAction,
     ExportBulkAction,
     ForceDeleteAction,
-    ForceDeleteBulkAction,
-    RestoreAction,
-    RestoreBulkAction,
     ViewAction};
 use Deldius\UserField\UserColumn;
 use Filament\Tables\Enums\FiltersLayout;
@@ -36,7 +31,10 @@ final readonly class TableSchema
     public static function configure(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn (Builder $query) => $query->with('author'))
+            ->modifyQueryUsing(
+                fn (Builder $query) => $query->with(['author', 'partOfSpeech'])
+                    ->select(['articles.id', 'articles.author_id', 'articles.characteristics', 'articles.part_of_speech_id', 'articles.state', 'articles.word', 'articles.updated_at', 'articles.created_at'])
+            )
             ->deferLoading()
             ->striped(false)
             ->heading(heading: __('Woordenboek artikelen'))

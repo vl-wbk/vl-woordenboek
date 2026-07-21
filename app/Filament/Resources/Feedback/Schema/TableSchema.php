@@ -21,8 +21,6 @@ use Filament\Actions\ActionGroup;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Table;
 use Filament\Tables\Columns;
-use Filament\Tables;
-use Illuminate\Support\Facades\Auth;
 
 /**
  * Defines the complete table schema for the Feedback resource in Filament.

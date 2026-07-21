@@ -8,7 +8,12 @@
 @source '../../../../vendor/cmsmaxinc/filament-error-pages/resources/**/*.blade.php';
 @source '../../../../vendor/codewithdennis/filament-simple-alert/resources/**/*.blade.php';
 @source inline('animate-{spin,pulse,bounce}');
+@source 'h-full';
 
 html, body {
   scrollbar-gutter: auto !important;
+}
+
+.fi-sc-flex .fi-sc-section > .fi-section {
+    @apply h-full;
 }

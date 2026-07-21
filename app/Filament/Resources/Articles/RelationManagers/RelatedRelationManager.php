@@ -6,21 +6,17 @@ namespace App\Filament\Resources\Articles\RelationManagers;
 
 use App\Filament\Resources\Articles\ArticleResource;
 use App\Filament\Resources\Articles\Pages\ViewWord;
-use Filament\Actions\CreateAction;
+use BackedEnum;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
-use BackedEnum;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Relation Manager for the 'related' Article relationship.
  *
  * This class manages the display, creation, and modification of articles related to a parent Article model (often representing a 'word' or main entry).
  * It is specifically configured to only be active when viewing the parent record via the custom ViewWord page, preventing its appearance on standard View or Edit pages.
- *
- * @package App\Filament\Resources\Articles\RelationManagers
  */
 final class RelatedRelationManager extends RelationManager
 {
@@ -51,17 +47,6 @@ final class RelatedRelationManager extends RelationManager
     protected static ?string $relatedResource = ArticleResource::class;
 
     /**
-     * Determines whether the relation manager allows modifications (create, attach, detach, edit).
-     * Returns false to allow all standard table actions.
-     *
-     * @return bool
-     */
-    public function isReadOnly(): bool
-    {
-        return $this->getOwnerRecord()->trashed() ? true : false;
-    }
-
-    /**
      * Restricts the visibility of this relation manager to specific Filament pages.
      *
      * This manager is only enabled when the parent record is being viewed via the custom ViewWord page,
@@ -77,6 +62,15 @@ final class RelatedRelationManager extends RelationManager
     }
 
     /**
+     * Determines whether the relation manager allows modifications (create, attach, detach, edit).
+     * Returns false to allow all standard table actions.
+     */
+    public function isReadOnly(): bool
+    {
+        return $this->getOwnerRecord()->trashed() ? true : false;
+    }
+
+    /**
      * Defines the table structure, columns, filters, and actions for the related articles list.
      *
      * Future developers should add column definitions here (e.g., ID, Title, Status)
@@ -87,7 +81,6 @@ final class RelatedRelationManager extends RelationManager
      */
     public function table(Table $table): Table
     {
-        return $table
-            ->defaultSort('word');
+        return $table->defaultSort('word');
     }
 }

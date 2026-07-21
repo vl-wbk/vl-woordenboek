@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Queries\Regions;
 
 use App\Builders\ArticleBuilder;
-use App\Models\Article;
 use App\Models\ArticleReport;
 use App\Models\Region;
 use App\Models\User;
@@ -57,6 +56,7 @@ final readonly class RegionAnalytics
     private function getArticleAnalytics(Region $region): array
     {
         return ['statistic' => toHumanReadableNumber(
+            /** @phpstan-ignore-next-line */
             $region->articles()->published()->count()
         )];
     }

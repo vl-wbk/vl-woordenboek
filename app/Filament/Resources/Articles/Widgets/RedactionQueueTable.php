@@ -9,7 +9,6 @@ use App\Filament\Resources\Articles\ArticleResource;
 use App\Models\Article;
 use Deldius\UserField\UserColumn;
 use Filament\Actions\Action;
-use Filament\Actions\BulkActionGroup;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
@@ -18,7 +17,6 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Str;
 
 final class RedactionQueueTable extends TableWidget
 {
@@ -49,7 +47,7 @@ final class RedactionQueueTable extends TableWidget
                 ->searchable()
                 ->sortable()
                 ->description(fn (Article $article): string => "{$article->author->firstname} {$article->author->lastname}")
-                ->emptyStateHeading(config('app.name', 'Laravel')) // Custom empty state heading
+                ->emptyStateHeading(config()->string('app.name', 'Laravel')) // Custom empty state heading
                 ->emptyStateDescription(fn (Article $article): string => $article->contributor_name ?? 'Anonieme gebruiker')
                 ->label('Redacteur'),
 

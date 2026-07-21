@@ -1,10 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\States\ExampleSentence\SentenceState;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Spatie\ModelStates\HasStates;
 
@@ -25,12 +30,11 @@ use Spatie\ModelStates\HasStates;
  * @property string  $example           The actual content of the example sentence.
  * @property ?Carbon $created_at        The timestamp from when the record has been updated.
  * @property ?Carbon $updated_at        The timestamp from when the record has last been updated.
- *
- * @package App\Models
  */
 final class UserExample extends Model
 {
     use HasStates;
+    use SoftDeletes;
 
     /**
      * Mass assignment configuration
@@ -40,19 +44,11 @@ final class UserExample extends Model
      *
      * @var list<string>
      */
-    protected $guarded = ["id"];
+    protected $guarded = ['id'];
 
-    /**
-     * Parent article relationship
-     *
-     * Every example sentence is contextually tied to a specific dictionary article.
-     * This relationship is critival for grouping examples within the frontend dictionary views.
-     *
-     * @return BelongsTo<Article, covariant $this>
-     */
-    public function article(): BelongsTo
+    public function exampleable(): MorphTo
     {
-        return $this->belongsTo(Article::class);
+        return $this->morphTo();
     }
 
     /**
@@ -66,9 +62,10 @@ final class UserExample extends Model
      */
     public function author(): BelongsTo
     {
-        return $this->belongsTo(User::class)->withDefault(function ($user, $example) {
-            $user->name = $example->contributor_name ?? config("app.name", "Laravel");
-        });
+        return $this->belongsTo(User::class, 'user_id')
+            ->withDefault(function (User $user, UserExample $example) {
+                $user->name = $example->contributor_name ?? config()->string('app.name', 'Laravel');
+            });
     }
 
     /**
@@ -82,7 +79,7 @@ final class UserExample extends Model
     protected function casts(): array
     {
         return [
-            "status" => SentenceState::class,
+            'status' => SentenceState::class,
         ];
     }
 }

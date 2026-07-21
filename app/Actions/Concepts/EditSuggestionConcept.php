@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Concepts;
 
+use App\Data\SuggestionData;
 use App\Http\Requests\Articles\StoreConceptRequest;
 use App\Models\Concept;
 use Illuminate\Support\Facades\DB;
@@ -45,7 +46,38 @@ final readonly class EditSuggestionConcept
             return tap($concept, function ($instance) use ($suggestionData) {
                 $instance->save();
                 $instance->regions()->sync($suggestionData->regions);
+
+                self::storeExampleSentences($instance, $suggestionData);
             });
         });
+    }
+
+    private static function storeExampleSentences(Concept $concept, SuggestionData $suggestionData): void
+    {
+        $incoming = $suggestionData->exampleSentences->toCollection();
+
+        $existingIds = $incoming
+            ->pluck('id')
+            ->filter()
+            ->all();
+
+        // Delete rows that existed before but were removed in the form
+        $concept->userExamples()
+            ->whereNotIn('id', $existingIds)
+            ->forceDelete();
+
+        foreach ($incoming as $exampleSentenceData) {
+            $example = $concept->userExamples()->updateOrCreate(
+                ['id' => $exampleSentenceData->id],
+                [
+                    'example' => $exampleSentenceData->waarde,
+                    'source' => $exampleSentenceData->bron,
+                ]
+            );
+
+            if ($example->wasRecentlyCreated) {
+                $example->update(['user_id' => auth()->id()]);
+            }
+        }
     }
 }

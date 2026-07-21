@@ -83,7 +83,7 @@
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <x-tabler-info-square-rounded class="icon  me-1" /> {{ __('layout/application.footer.links-section.project-information') }}
+                            <x-tabler-info-square-rounded class="icon me-1" aria-hidden="true" /> {{ __('layout/application.footer.links-section.project-information') }}
                         </a>
 
                         <ul class="dropdown-menu border-0 shadow-sm">
@@ -122,7 +122,19 @@
                             </li>
                         @endif
                     @else
-                        <li class=nav-item"">
+                        <li class="nav-item">
+                            <a href="{{ route('notifications:index') }}" class="nav-link">
+                                @if (auth()->user()->unreadNotifications()->count() > 0)
+                                    <x-heroicon-s-bell-alert class="icon me-1"/>
+                                @else
+                                    <x-heroicon-s-bell class="icon me-1"/>
+                                @endif
+
+                                {{ auth()->user()->unreadNotifications()->where('type', '!=', \Filament\Notifications\DatabaseNotification::class)->count() }}
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
                             <a href="{{ route('profile:inbox') }}" class="nav-link">
                                 <x-heroicon-s-envelope class="icon me-1"/> {{ auth()->user()->unreadMessagesCount() }}
                             </a>
@@ -148,7 +160,7 @@
                                 </a>
 
                                 <a class="dropdown-item" href="{{ route('bookmarks:index') }}">
-                                    <x-heroicon-o-book-open class="text-muted icon me-1"/> {{ __('layout/application.navigation.user-menu.saved-words') }}
+                                    <x-heroicon-o-book-open class="text-muted icon me-1" aria-hidden="true"/> {{ __('layout/application.navigation.user-menu.saved-words') }}
                                 </a>
 
                                 <div class="dropdown-divider"></div>
@@ -170,11 +182,11 @@
 
     @yield('jumbotron')
 
-    <main class="{{ $paddingContent ?? 'mb-5' }} flex-shrink-0">
+    <main id="main-content" class="{{ $paddingContent ?? 'mb-5' }} flex-shrink-0">
         @yield('content')
     </main>
 
-    <footer class="footer mt-auto pt-4 pt-md-3 mt-5">
+    <footer aria-label="Hoofd footer" class="footer mt-auto pt-4 pt-md-3 mt-5">
         <div class="container-fluid pt-4 pb-2 py-md-4x text-body-secondary">
             <div class="row">
                 <div class="col-lg-3">
@@ -292,33 +304,32 @@
                 <ul class="list-unstyled">
                     <li class="mb-2">
                         <a href="https://github.com/vl-wbk/vl-woordenboek" target="_blank" rel="noopener" class="text-white">
-                            <x:tabler-brand-github class="icon me-2"/>Github
+                            <x:tabler-brand-github class="icon me-2" aria-label="GitHub logo"/>Github
                         </a>
                     </li>
 
                     <li class="mb-2">
                         <a href="https://discord.com/invite/bqKNs2SDz8" target="_blank" rel="noopener" class="text-white">
-                            <x:tabler-brand-discord class="icon me-2"/>Discord
+                            <x:tabler-brand-discord class="icon me-2" aria-label="Discord logo"/>Discord
                         </a>
                     </li>
 
                     <li class="mb-2">
                         <a href="https://www.facebook.com/vlaamswoordenboek" target="_blank" rel="noopener" class="text-white">
-                            <x:tabler-brand-facebook class="icon me-2"/>Facebook
+                            <x:tabler-brand-facebook class="icon me-2" aria-label="Facebook logo"/>Facebook
                         </a>
                     </li>
 
                     <li class="mb-2">
-                        <a href="https://www.forum.chimpy.be" target="_blank" rel="noopener" class="text-white">
-                            <x:tabler-messages class="icon me-2"/>{{ __('layout/application.footer.community-section.forum') }}
+                        <a href="https://www.forum.vlaamswoordenboek.be" target="_blank" rel="noopener" class="text-white">
+                            <x:tabler-messages class="icon me-2" aria-label="icoontje voor het forum"/>{{ __('layout/application.footer.community-section.forum') }}
                         </a>
                     </li>
                 </ul>
             </div>
         </div>
-    </div>
-</footer>
-    <div class="footer py-2" style="background-color: oklch(21.6% 0.006 56.043)">
+    </footer>
+    <section class="footer py-2" role="region" aria-label="copyright footer" style="background-color: oklch(21.6% 0.006 56.043)">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
@@ -328,19 +339,20 @@
 
                     <div class="float-end">
                         <a href="{{ route('terms-of-service') }}" class="text-white text-decoration-none">
-                            <x-tabler-gavel class="icon me-1"/> {{ __('layout/application.footer.terms') }}
+                            <x-tabler-gavel class="icon me-1" aria-hidden="true"/> {{ __('layout/application.footer.terms') }}
                         </a>
                         <a href="https://vl-wbk.github.io/documentatie-portaal/" class="text-white ms-3 text-decoration-none" target="_blank">
-                            <x-tabler-book-2 class="icon me-1"/> {{ __('layout/application.footer.documentation') }}
+                            <x-tabler-book-2 class="icon me-1" aria-hidden="true"/> {{ __('layout/application.footer.documentation') }}
                         </a>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-0649FN8Q9F"></script>
+
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}

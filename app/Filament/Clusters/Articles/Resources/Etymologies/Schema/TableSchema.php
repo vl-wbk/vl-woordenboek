@@ -19,7 +19,6 @@ use App\Filament\Clusters\Articles\Resources\Etymologies\EtymologyResource;
 use App\Models\Article;
 use App\Models\Etymology;
 use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables;
 use LibDNS\Records\Record;
 
 /**

@@ -7,6 +7,8 @@
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
 
+@import 'base/typography';
+
 /// Layout
 ///
 /// The Layout/ folder contains everything that takes part in laying out the site or application.
@@ -22,6 +24,31 @@
 
 
 /// SHAME CSS  - Break it up in partials
+
+.statistic-table-link {
+    color: #0A47A3;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.statistic-table-link:hover {
+    color: #002D6E; /* A darker blue for a clear visual change */
+    text-decoration-thickness: 2px; /* Subtle bolding of the underline */
+}
+
+/* Focus state (vital for keyboard/accessibility navigation) */
+.statistic-table-link:focus {
+    outline: 2px solid #0A47A3;
+    outline-offset: 3px;
+    border-radius: 2px;
+}
+
+/* Active state (the moment the link is being clicked) */
+.statistic-table-link:active {
+    color: #00173B; /* Even darker blue to simulate being pressed */
+}
 
 .nav-tabs-custom {
     gap: 1rem;
@@ -42,6 +69,7 @@
 .nav-tabs-custom .nav-link:hover {
     color: $primary;
 }
+
 
 .nav-tabs-custom .nav-link.active {
     color: $primary;
@@ -518,3 +546,137 @@ p {
 .btn-bluesky {
     @include button-variant(#00afe1, #00afe1, #fff);
 }
+
+// Analytics
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 12px;
+}
+
+.metric-card {
+    position: relative;
+    background: #fff !important;
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: 14px;
+    padding: 1.25rem 1.3rem 1rem;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: border-color .18s, transform .18s;
+}
+
+.metric-card:hover {
+    border-color: var(--color-border-secondary);
+    transform: translateY(-1px);
+}
+
+/* Coloured top accent bar */
+.card-accent {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 14px 14px 0 0;
+}
+.accent-views      { background: #378ADD; }
+.accent-articles   { background: #1D9E75; }
+.accent-edits      { background: #EF9F27; }
+.accent-volunteers { background: #7F77DD; }
+
+.metric-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.metric-label {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    margin: 0 0 10px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+.metric-value {
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin: 0;
+    line-height: 1;
+    letter-spacing: -.03em;
+    font-variant-numeric: tabular-nums;
+}
+
+.metric-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.icon-views      { background: #EBF3FD; color: #185FA5; }
+.icon-articles   { background: #E4F4E8; color: #0F6E56; }
+.icon-edits      { background: #FDF0DB; color: #854F0B; }
+.icon-volunteers { background: #EEEDFE; color: #534AB7; }
+
+.metric-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 12px;
+    border-top: 0.5px solid var(--color-border-tertiary);
+    margin-top: auto;
+    color: var(--color-text-secondary);
+}
+
+.footer-left {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.footer-text {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+}
+
+.prog-bar-track {
+    display: flex;
+    height: 22px;
+    border-radius: 10px;
+    overflow: hidden;
+    // gap: 2px;
+    margin-bottom: .25rem;
+}
+.prog-segment {
+    height: 100%;
+    transition: flex .3s ease, opacity .2s;
+}
+.prog-segment.hidden { flex: 0 !important; min-width: 0 !important; opacity: 0; }
+
+.legend-grid { display: flex; flex-wrap: wrap; gap: 8px 16px; }
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: 0.5px solid var(--color-border-tertiary);
+    background: var(--color-background-primary);
+    transition: opacity .18s, border-color .18s;
+    user-select: none;
+}
+.legend-item:hover { border-color: var(--color-border-secondary); background: var(--color-background-secondary); }
+.legend-item.hidden { opacity: .35; }
+.legend-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.legend-label { font-size: 12px; font-weight: 500; color: var(--color-text-primary); }
+.legend-pct { font-size: 11px; color: var(--color-text-secondary); font-variant-numeric: tabular-nums; }

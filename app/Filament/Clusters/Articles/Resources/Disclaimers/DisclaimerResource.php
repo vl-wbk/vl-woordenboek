@@ -17,8 +17,6 @@ use Filament\Resources\Pages\PageRegistration;
 use App\Filament\Clusters\Articles\ArticlesCluster;
 use App\Filament\Clusters\Articles\Resources\DisclaimerResource\Pages;
 use App\Models\Disclaimer;
-use App\Policies\DisclaimerPolicy;
-use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Cache;

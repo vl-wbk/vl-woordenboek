@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace App\Filament\Clusters\UserManagement\Resources\Bans;
 
 use App\Attributes\Todo;
-use App\Features\DocumentationButtons;
 use App\Filament\Clusters\UserManagement\Resources\Bans\Concerns\TableSchemeLayout;
 use App\Filament\Clusters\UserManagement\Resources\Bans\Concerns\TableActions;
 use App\Filament\Support\Concerns\HasActiveIcon;
-use Filament\Actions\Action;
 use Filament\Schemas\Schema;
 use Filament\Infolists\Components\TextEntry;
 use App\Filament\Clusters\UserManagement\Resources\Bans\Pages\ListBans;
@@ -19,9 +17,7 @@ use App\Filament\Clusters\UserManagement\Resources\BanResource\Concerns;
 use App\Filament\Clusters\UserManagement\Resources\BanResource\Pages;
 use Cog\Laravel\Ban\Models\Ban;
 use Filament\Resources\Resource;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use Laravel\Pennant\Feature;
 
 /**
  * Filament resource implementation for managing user account deactivations.

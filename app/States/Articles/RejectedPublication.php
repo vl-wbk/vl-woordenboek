@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\States;
+namespace App\States\Articles;
 
 use App\Enums\ArticleStates;
 use App\States\Articles\ArticleState;

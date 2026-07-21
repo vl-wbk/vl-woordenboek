@@ -68,7 +68,8 @@ final class SyncViewCount implements ShouldQueue
 
     /**
      * Get the middleware the job should pass through.
-     * * @return array<int, object>
+     *
+     * @return array<int, object>
      */
     public function middleware(): array
     {

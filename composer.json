@@ -6,7 +6,7 @@
     "keywords": ["Laravel", "framework"],
     "license": "MIT",
     "require": {
-        "php": "^8.3",
+        "php": "^8.4",
         "a909m/filament-statefusion": "^2.0",
         "archtechx/enums": "^1.1",
         "aaronfrancis/fast-paginate": "dev-main",
@@ -80,7 +80,8 @@
         "rector/rector": "^2.0",
         "roave/security-advisories": "dev-latest",
         "spatie/laravel-sql-commenter": "^2.1",
-        "tpetry/laravel-mysql-explain": "^2.1"
+        "tpetry/laravel-mysql-explain": "^2.1",
+        "webcrafts-studio/lens-for-laravel": "^2.1"
     },
     "autoload": {
         "files": [

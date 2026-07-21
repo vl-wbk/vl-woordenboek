@@ -18,3 +18,22 @@ if (! function_exists('toHumanReadablePercentage')) {
             : number_format($part / $total * 100, 1) . '%';
     }
 }
+
+if (! function_exists('toAuditString')) {
+    function toAuditString(mixed $value): string
+    {
+        if ($value instanceof \BackedEnum) {
+            return (string)$value->value;
+        }
+
+        if ($value instanceof \UnitEnum) {
+            return (string) $value->name;
+        }
+
+        if (is_array($value)) {
+            return json_encode($value);
+        }
+
+        return (string) ($value ?? '');
+    }
+}

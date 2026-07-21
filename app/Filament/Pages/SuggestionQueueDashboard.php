@@ -20,6 +20,9 @@ final class SuggestionQueueDashboard extends Dashboard
 
     protected static ?string $title = 'Suggestie wachtrij';
 
+    /**
+     * @return string[]
+     */
     public function getWidgets(): array
     {
         return [
@@ -28,9 +31,9 @@ final class SuggestionQueueDashboard extends Dashboard
         ];
     }
 
-    public static function getNavigationBadge(): ?string
+    public static function getNavigationBadge(): string
     {
-        return Article::where('state', ArticleStates::New)
+        return (string) Article::where('state', ArticleStates::New)
             ->orWhere('state', ArticleStates::ExternalData)
             ->count();
     }

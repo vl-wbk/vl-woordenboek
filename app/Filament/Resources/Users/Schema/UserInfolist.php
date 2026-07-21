@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Users\Schema;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Tabs;
-use Filament\Schemas\Components\Tabs\Tab;
 use App\Models\User;
 use Filament\Infolists\Components\TextEntry;
-use Illuminate\Support\Carbon;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Schema;
+use Carbon\Carbon;
 
 /**
  * InfolistSchema
@@ -24,8 +24,6 @@ use Illuminate\Support\Carbon;
  * Usage:
  * This schema is used to render user information in a consistent and visually appealing way in the admin panel.
  * It leverages Filament's `TextEntry` components to define the layout and behavior of each field.
- *
- * @package App\Filament\Resources\UserResource\Schema
  */
 final readonly class UserInfolist
 {
@@ -52,7 +50,7 @@ final readonly class UserInfolist
 
                         Tab::make(label: __('user-resource.infolist.tabs.deactivation'))
                             ->columns(12)
-                            ->visible(fn(User $user): bool => $user->isBanned())
+                            ->visible(fn (User $user): bool => $user->isBanned())
                             ->icon('heroicon-o-lock-closed')
                             ->schema(self::renderDeactivationInformation()),
                     ]),
@@ -149,7 +147,7 @@ final readonly class UserInfolist
                 ->icon('heroicon-o-user-circle')
                 ->iconColor('primary')
                 ->placeholder('-')
-                ->state(fn(User $user): ?string => $user->bans->first()->bannable->name),
+                ->state(fn (User $user): ?string => $user->getActiveBan()?->bannable?->name),
 
             TextEntry::make('banned_at')
                 ->label(label: __('user-resource.infolist.deactivation-information.entries.banned_at'))
@@ -162,14 +160,14 @@ final readonly class UserInfolist
                 ->columnSpan(4)
                 ->icon('heroicon-o-clock')
                 ->iconColor('primary')
-                ->state(fn(User $user): ?Carbon => $user->bans->first()->expired_at),
+                ->state(fn (User $user): ?Carbon => $user->getActiveBan()?->expired_at),
 
             TextEntry::make('bannable.reason')
                 ->label(label: __('user-resource.infolist.deactivation-information.entries.reason.label'))
                 ->columnSpanFull()
                 ->icon('heroicon-o-chat-bubble-left-right')
                 ->iconColor('primary')
-                ->state(fn(User $user): ?string => $user->bans->first()->reason)
+                ->state(fn (User $user): ?string => $user->getActiveBan()?->reason)
                 ->placeholder(placeholder: __('user-resqource.infolist.deactivation-information.entries.reason.placeholder')),
         ];
     }

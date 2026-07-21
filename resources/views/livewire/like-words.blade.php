@@ -29,14 +29,5 @@
                 <span id="count-nothelpful">{{ $downvotesCount }}</span> stemmen
             </div>
         </div>
-
-        <div class="vr d-none d-sm-block"></div>
-
-        {{-- Report/Improvement --}}
-        <div>
-            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reportModal">
-                <x-heroicon-s-exclamation-triangle class="icon me-1"/> Verbetering melden
-            </button>
-        </div>
     </div>
 </section>

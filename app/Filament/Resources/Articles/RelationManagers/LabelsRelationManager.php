@@ -4,24 +4,23 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Articles\RelationManagers;
 
-use BackedEnum;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Actions\DetachAction;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DetachBulkAction;
-use Filament\Actions\CreateAction;
-use Filament\Actions\AttachAction;
-use Filament\Support\Enums\Width;
-use App\Models\Label;
-use Illuminate\Support\Str;
 use App\Filament\Clusters\Articles\Resources\Labels\LabelResource;
 use App\Filament\Resources\Articles\Pages\ViewWord;
+use App\Models\Label;
+use BackedEnum;
+use Filament\Actions\AttachAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\CreateAction;
+use Filament\Actions\DetachAction;
+use Filament\Actions\DetachBulkAction;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Tables;
+use Filament\Schemas\Schema;
+use Filament\Support\Enums\Width;
+use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * Class LabelsRelationManager
@@ -35,8 +34,6 @@ use Illuminate\Database\Eloquent\Model;
  *
  * This relation manager is only accessible form the "ViewRecord" page to ensure labels are managed
  * Within the context of viewing an article.
- *
- * @package App\Filament\Resources\ArticleResource\RelatyionManagers
  */
 final class LabelsRelationManager extends RelationManager
 {
@@ -50,7 +47,20 @@ final class LabelsRelationManager extends RelationManager
      * Defines the icon to be displayed alongside the relation manager's tab or heading.
      * The 'heroicon-o-tag' icon visually represents the concept of tagging or labeling.
      */
-    protected static string|BackedEnum|null $icon = "heroicon-o-tag";
+    protected static string|BackedEnum|null $icon = 'heroicon-o-tag';
+
+    /**
+     * Controls whether the label relationship is visible on a specific page.
+     * It ensures that labels are only shown when viewing an article through the 'ViewWord' page.
+     *
+     * @param  Model   $ownerRecord  The related article model.
+     * @param  string  $pageClass    The class-string of the current Filament page of the dictionary article.
+     * @return bool                  Whether the user can view the relation manager or not.
+     */
+    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
+    {
+        return $pageClass === ViewWord::class;
+    }
 
     /**
      * Returns the form configuration for creating and editing labels.
@@ -71,19 +81,6 @@ final class LabelsRelationManager extends RelationManager
     public function isReadOnly(): bool
     {
         return $this->getOwnerRecord()->trashed() ? true : false;
-    }
-
-    /**
-     * Controls whether the label relationship is visible on a specific page.
-     * It ensures that labels are only shown when viewing an article through the 'ViewWord' page.
-     *
-     * @param  Model   $ownerRecord  The related article model.
-     * @param  string  $pageClass    The class-string of the current Filament page of the dictionary article.
-     * @return bool                  Whether the user can view the relation manager or not.
-     */
-    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
-    {
-        return $pageClass === ViewWord::class;
     }
 
     /**
@@ -112,8 +109,8 @@ final class LabelsRelationManager extends RelationManager
                     ->searchable(),
                 TextColumn::make('description')
                     ->label(label: __('filament/RelationManagers/LabelsRelationManager.table.columns.description'))
-                    ->placeholder(placeholder:__('filament/RelationManagers/LabelsRelationManager.table.columns.description-placeholder'))
-                    ->formatStateUsing(fn(Label $label): string => Str::limit($label->description, 60, preserveWords: true)),
+                    ->placeholder(placeholder: __('filament/RelationManagers/LabelsRelationManager.table.columns.description-placeholder'))
+                    ->formatStateUsing(fn (Label $label): string => Str::limit($label->description, 60, preserveWords: true)),
                 TextColumn::make('pivot.created_at')
                     ->label(label: __('filament/RelationManagers/LabelsRelationManager.table.columns.attached-at'))
                     ->date(),
@@ -142,7 +139,7 @@ final class LabelsRelationManager extends RelationManager
             ->modalIcon(icon: Heroicon::OutlinedPlus)
             ->modalIconColor('gray')
             ->createAnother(false)
-            ->modalDescription(description:__('filament/RelationManagers/LabelsRelationManager.actions.create.modal.description'))
+            ->modalDescription(description: __('filament/RelationManagers/LabelsRelationManager.actions.create.modal.description'))
             ->icon(icon: Heroicon::OutlinedPlus);
     }
 

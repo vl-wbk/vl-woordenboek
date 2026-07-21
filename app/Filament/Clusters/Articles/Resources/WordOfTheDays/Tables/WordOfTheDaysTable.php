@@ -16,10 +16,8 @@ use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Columns\Summarizers\Count;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
@@ -46,13 +44,13 @@ final readonly class WordOfTheDaysTable
             ->filters(filters: self::registerTableFilters())
             ->recordActions(actions: self::registerRecordActions())
             ->toolbarActions(actions: self::registerToolbarActions())
-            ->defaultSort('scheduled_for', 'desc');;
+            ->defaultSort('scheduled_for', 'desc');
     }
 
     /**
      * @return array<int, Group>
      */
-    private static function registerGroups(): array 
+    private static function registerGroups(): array
     {
         return [
             Group::make('scheduled_for')
@@ -60,14 +58,14 @@ final readonly class WordOfTheDaysTable
                 ->titlePrefixedWithLabel(false)
                 ->getTitleFromRecordUsing(fn ($record): string => $record->scheduled_for->format('F Y'))
                 ->date()
-                ->collapsible()
+                ->collapsible(),
         ];
     }
 
     /**
      * @return array<int, CreateAction>
      */
-    private static function registerEmptyStateActions(): array 
+    private static function registerEmptyStateActions(): array
     {
         $isVisible = WordOfTheDay::count() === 0;
 
@@ -75,14 +73,14 @@ final readonly class WordOfTheDaysTable
             CreateAction::make()
                 ->label('Woord inplannen')
                 ->visible($isVisible)
-                ->icon(Heroicon::OutlinedPlusCircle)
+                ->icon(Heroicon::OutlinedPlusCircle),
         ];
     }
 
     /**
      * @return array<int, Filter|TernaryFilter>
      */
-    private static function registerTableFilters(): array 
+    private static function registerTableFilters(): array
     {
         return [
             Filter::make('scheduled_for')
@@ -95,7 +93,7 @@ final readonly class WordOfTheDaysTable
                     ->when($data['tot'], fn ($q, $date) => $q->whereDate('scheduled_for', '<=', $date))
                 )
                 ->indicateUsing(fn (array $data) => self::formatDateRangeIndicator($data)),
-        
+
             TernaryFilter::make('toekomst')
                 ->label('Planning status')
                 ->native(false)
@@ -106,13 +104,12 @@ final readonly class WordOfTheDaysTable
                 ->queries(
                     true: fn (Builder $query) => $query->whereDate('scheduled_for', '>=', now()),
                     false: fn (Builder $query) => $query->whereDate('scheduled_for', '<', now()),
-                )
+                ),
         ];
     }
 
     /**
      * @param  array<string> $data
-     * @return string|null
      */
     private static function formatDateRangeIndicator(array $data): ?string
     {
@@ -129,7 +126,7 @@ final readonly class WordOfTheDaysTable
     /**
      * @return array<int, TextColumn>
      */
-    private static function registerTableColumnLayout(): array 
+    private static function registerTableColumnLayout(): array
     {
         return [
             TextColumn::make('scheduled_for')
@@ -149,7 +146,7 @@ final readonly class WordOfTheDaysTable
             TextColumn::make('status')
                 ->label('Status')
                 ->badge()
-                ->state(fn (WordOfTheDay $record): string => $record->scheduled_for->isPast() && !$record->scheduled_for->isToday() ? 'Verstreken' : 'Gepland')
+                ->state(fn (WordOfTheDay $record): string => $record->scheduled_for->isPast() && ! $record->scheduled_for->isToday() ? 'Verstreken' : 'Gepland')
                 ->color(fn (string $state): string => $state === 'Gepland' ? 'success' : 'gray')
                 ->icon(fn (string $state): Heroicon => $state === 'Gepland' ? Heroicon::Calendar : Heroicon::CheckCircle),
 
@@ -174,19 +171,19 @@ final readonly class WordOfTheDaysTable
     /**
      * @return array<int, ViewAction|ActionGroup>
      */
-    private static function registerRecordActions(): array 
+    private static function registerRecordActions(): array
     {
         return [
             ViewAction::make()
                 ->modalFooterActions([EditAction::make(), DeleteAction::make()])
                 ->modalIcon(Heroicon::OutlinedInformationCircle)
                 ->modalIconColor('primary')
-                ->modalHeading(fn ($record) => "Woord van de Dag: " . $record->scheduled_for->format('d-m-Y'))
+                ->modalHeading(fn ($record) => 'Woord van de Dag: '.$record->scheduled_for->format('d-m-Y'))
                 ->modalDescription('Hieronder vind je de details van de planning voor dit specifieke artikel.'),
-            
+
             ActionGroup::make([
                 EditAction::make(),
-                DeleteAction::make()
+                DeleteAction::make(),
             ])->tooltip('Opties'),
         ];
     }
@@ -194,7 +191,7 @@ final readonly class WordOfTheDaysTable
     /**
      * @return array<int, BulkActionGroup>
      */
-    private static function registerToolbarActions(): array 
+    private static function registerToolbarActions(): array
     {
         return [
             BulkActionGroup::make([

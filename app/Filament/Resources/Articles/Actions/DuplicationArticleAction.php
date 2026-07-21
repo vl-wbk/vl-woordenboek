@@ -32,7 +32,7 @@ final class DuplicationArticleAction extends Action
         $this->color('gray');
         $this->label('Dupliceren');
 
-        $this->hidden(fn (Article $article): bool => $article->trashed());
+        $this->authorize('duplicate');
 
         $this->requiresConfirmation();
         $this->modalIcon(Heroicon::OutlinedDocumentDuplicate);

@@ -12,7 +12,6 @@ declare(strict_types=1);
 	use Illuminate\Contracts\Support\Renderable;
 	use Illuminate\Http\RedirectResponse;
 	use Illuminate\Http\Request;
-	use Illuminate\Support\Facades\Session;
     use Spatie\LaravelData\Exceptions\InvalidDataClass;
     use Spatie\RouteAttributes\Attributes\Get;
 	use Spatie\RouteAttributes\Attributes\Middleware;

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Blog\Resources\Blogs\Actions;
 
-use App\Models\Article;
 use App\Models\Blog;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;

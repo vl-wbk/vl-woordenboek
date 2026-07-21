@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace App\Listeners;
 
-use App\Filament\Clusters\Articles\Resources\ArticleReports\ArticleReportResource;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 use Kirschbaum\Commentions\Events\UserWasMentionedEvent;
-use Kirschbaum\Commentions\Config;
 
 final class SendUserMentionedNotification implements ShouldQueue
 {

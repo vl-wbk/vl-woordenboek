@@ -10,8 +10,6 @@ use App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\Et
 use App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\ReportsRelationManager;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Schema\TableSchema;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets\ArticleRegistrationChart;
-use App\Filament\Resources\Articles\Pages;
-use App\Filament\Resources\Articles\Pages\RedactionDashboard;
 use App\Filament\Resources\Articles\RelationManagers\CommunityExamplesRelationManager;
 use App\Filament\Resources\Articles\RelationManagers\LabelsRelationManager;
 use App\Filament\Resources\Articles\RelationManagers\NotesRelationManager;
@@ -57,24 +55,24 @@ final class ArticleResource extends Resource
     /**
      * The navigation icon used in the admin panel menu.
      */
-    protected static string|BackedEnum|null $navigationIcon = "heroicon-o-language";
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-language';
 
     /**
      * The singular label for the model.
      */
-    protected static ?string $modelLabel = "Artikel";
+    protected static ?string $modelLabel = 'Artikel';
 
-    protected static string|UnitEnum|null $navigationGroup = "Gegevens";
+    protected static string|UnitEnum|null $navigationGroup = 'Gegevens';
 
     /**
      * The plural model label for the model.
      */
-    protected static ?string $pluralModelLabel = "Artikelen";
+    protected static ?string $pluralModelLabel = 'Artikelen';
 
     /**
      * The attribute of the database entity that should be used as its title/label when searching of displaying records.
      */
-    protected static ?string $recordTitleAttribute = "word";
+    protected static ?string $recordTitleAttribute = 'word';
 
     /**
      * The cluster used for grouping related resources.
@@ -157,7 +155,7 @@ final class ArticleResource extends Resource
      */
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->with(["author"]);
+        return parent::getEloquentQuery()->with(['author']);
     }
 
     /**
@@ -171,7 +169,7 @@ final class ArticleResource extends Resource
      */
     public static function getGlobalSearchResultTitle(Model $record): string
     {
-        return "#$record->id " . $record->word;
+        return "#$record->id ".$record->word;
     }
 
     /**
@@ -186,7 +184,7 @@ final class ArticleResource extends Resource
      */
     public static function getGloballySearchableAttributes(): array
     {
-        return ["word", "id", "keywords"];
+        return ['word', 'id', 'keywords'];
     }
 
     /**
@@ -210,14 +208,14 @@ final class ArticleResource extends Resource
      * Retrieves the navigation badge count for the articles.
      * This count is cached to reduce database queries and improve performance.
      *
-     * @return string|null THe navigation badge displaying the numbver or articles.
+     * @return string THe navigation badge displaying the numbver or articles.
      */
-    public static function getNavigationBadge(): ?string
+    public static function getNavigationBadge(): string
     {
         return Cache::flexible(
-            "lemma_count",
+            'lemma_count',
             [10, 60],
-            fn(): string => (string) self::$model::count(),
+            fn (): string => (string) self::$model::count(),
         );
     }
 
@@ -230,10 +228,10 @@ final class ArticleResource extends Resource
     public static function getPages(): array
     {
         return [
-            "index" => Pages\ListWords::route("/"),
-            "create" => Pages\CreateWord::route("/create"),
-            "view" => Pages\ViewWord::route("/{record}"),
-            "edit" => Pages\EditWord::route("/{record}/edit"),
+            'index' => Pages\ListWords::route('/'),
+            'create' => Pages\CreateWord::route('/create'),
+            'view' => Pages\ViewWord::route('/{record}'),
+            'edit' => Pages\EditWord::route('/{record}/edit'),
         ];
     }
 }

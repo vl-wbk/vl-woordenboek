@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Models\Article;
@@ -20,7 +22,7 @@ final class ArticleReportFactory extends Factory
      */
     public function definition(): array
     {
-        $state = $this->faker->randomElement(Status::cases());
+        $state = Status::random();
 
         return [
             'state' => $state->value,
@@ -28,27 +30,19 @@ final class ArticleReportFactory extends Factory
             'article_id' => Article::factory(),
             'assignee_id' => $this->getAssignee(),
             'description' => $this->faker->sentence,
-            'assigned_at' => function (array $attributes) use ($state) {
-                return $state->in([Status::Closed, Status::InProgress])
-                    ? now()
-                    : null;
-            },
-            'closed_at' => function (array $attributes) use ($state) {
-                return $state->in([Status::Closed, Status::InProgress])
-                    ? now()
-                    : null;
-            },
+            'assigned_at' => fn () => $state->in([Status::Closed, Status::InProgress]) ? now() : null,
+            'closed_at' => fn () => $state->in([Status::Closed, Status::InProgress]) ? now() : null,
         ];
     }
 
     private function getAssignee(): Lottery
     {
-         return Lottery::odds(1, 2)->winner(function () {
+        return Lottery::odds(1, 2)->winner(function () {
             return (User::query()->count())
                 ? User::query()->inRandomOrder()->first()
                 : User::factory();
-         })->loser(function () {
-             return null;
-         });
+        })->loser(function () {
+            return null;
+        });
     }
 }

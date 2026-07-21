@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models\Relations;
 
 use App\Models\User;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,8 +25,6 @@ use Illuminate\Support\Facades\Auth;
  *
  * Integration:
  * To utilize this trait, simply include it in your Eloquent model: `use BelongsToAuthor;`
- *
- * @package App\Models\Relations
  */
 trait BelongsToAuthor
 {
@@ -39,7 +38,8 @@ trait BelongsToAuthor
      */
     public function author(): BelongsTo
     {
-        return $this->belongsTo(User::class, "author_id")->withDefault(["name" => config("app.name", "Laravel")]);
+        return $this->belongsTo(User::class, 'author_id')
+            ->withDefault(['name' => config('app.name', 'Laravel')]);
     }
 
     /**
@@ -47,10 +47,18 @@ trait BelongsToAuthor
      *
      * This method fetches the currently logged-in user's instance from the authentication context and assigns them as the author of this model using the `setAuthor` method.
      * This is commonly used during the creation or modification of a model when the user performing the action is considered the author.
+     *
+     * @throws AuthenticationException
      */
-    public function setCurrentUserAsAuthor(): void
+    public function setCurrentUserAsAuthor(): self
     {
-        $this->setAuthor(Auth::user());
+        $authUser = Auth::user();
+
+        if ($authUser instanceof User) {
+            $this->setAuthor($authUser);
+        }
+
+        return $this;
     }
 
     /**
@@ -79,6 +87,6 @@ trait BelongsToAuthor
      */
     public function authoredBy(User $user): bool
     {
-        return $this->is($user);
+        return $this->author_id === $user->getKey();
     }
 }

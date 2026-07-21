@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Users\Schema;
 
+use App\Features\BetaProgramFeature;
+use App\Models\User;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use App\UserTypes;
 use Filament\Forms\Components;
 use Filament\Support\Icons\Heroicon;
+use Laravel\Pennant\Feature;
 
 /**
  * UserForm schema configuration class.
@@ -55,6 +58,7 @@ final readonly class UserForm
                     ->iconColor('primary')
                     ->compact()
                     ->columnSpanFull()
+                    ->columns(12)
 
                     ->schema([
                         Components\Select::make('user_type')
@@ -99,6 +103,19 @@ final readonly class UserForm
                             ->maxItemsMessage(message: __('user-resource.form.section.inputs.roles.max_items_message', ['max' => '3']))
                             ->helperText(text: __('user-resource.form.section.inputs.roles.helper_text'))
                             ->searchable(),
+
+                        Components\Toggle::make('is_beta_tester')
+                            ->label('beta toegang/tester')
+                            ->helperText('Geef de gebruiker toegang tot experimentele features in het Vlaams Woordenboek')
+                            ->offColor('danger')
+                            ->onColor('success')
+                            ->onIcon(Heroicon::Check)
+                            ->columnSpanFull()
+                            ->dehydrated(false)
+                            ->formatStateUsing(fn (?User $record) => $record ? Feature::for($record)->active(BetaProgramFeature::class) : false)
+                            ->afterStateUpdated(function ($state, $record): void {
+                                $state ? Feature::for($record)->activate(BetaProgramFeature::class) : Feature::for($record)->deactivate(BetaProgramFeature::class);
+                            }),
                     ]),
             ]);
     }

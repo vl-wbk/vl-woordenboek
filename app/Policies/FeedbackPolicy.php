@@ -92,16 +92,36 @@ final class FeedbackPolicy
         return Response::deny(message: 'U hebt geen machtiging om dit feedback bericht te verwijderen.');
     }
 
-    public function markAsClosed(User $user, Feedback $feedback): Response 
+    /**
+     * Validated if the feedback ticket can be transitioned to a closed state.
+     *
+     * Required the 'change-status:feedback' permission. The transition is only permitted if the
+     * current status is explicitly 'Unprocessed'.
+     *
+     * @param  User     $user     The authenticated user.
+     * @param  Feedback $feedback The target feedback instance.
+     * @return Response
+     */
+    public function markAsClosed(User $user, Feedback $feedback): Response
     {
         return ($user->can('change-status:feedback') && $feedback->status->is(enum: FeedbackStatus::Unprocessed))
             ? Response::allow()
             : Response::deny(message: 'U hebt geen machtiging om een feedback ticket te sluiten');
     }
 
-    public function markAsOpen(User $user, Feedback $feedback): Response 
+    /**
+     * Validates if the feedback ticket can be transitioned back to an open state.
+     *
+     * Requires the 'change-status:feedback' permission. The transition is only permitted
+     * if the current status is 'Processed'.
+     *
+     * @param  User     $user     The authenticated user.
+     * @param  Feedback $feedback The target feedback instance.
+     * @return Response
+     */
+    public function markAsOpen(User $user, Feedback $feedback): Response
     {
-        return ($user->can('change-status:feedback') && $feedback->status->is(enum: FeedbackStatus::Processed)) 
+        return ($user->can('change-status:feedback') && $feedback->status->is(enum: FeedbackStatus::Processed))
             ? Response::allow()
             : Response::deny(message: 'U hebt geen machtiging om een feedback ticket te heropenen');
     }

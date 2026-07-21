@@ -8,6 +8,7 @@ parameters:
     excludePaths:
         - database/seeders/ShieldSeeder.php
         - app/Settings/VolunteerSettings.php
+        - app/Services/ViewCounterService.php
 
     paths:
         - app

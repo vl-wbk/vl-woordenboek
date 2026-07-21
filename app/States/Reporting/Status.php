@@ -94,4 +94,10 @@ enum Status: int implements HasLabel, HasColor, HasIcon
             self::Closed => 'success',
         };
     }
+
+    public static function random(): self
+    {
+        $cases = self::cases();
+        return $cases[array_rand($cases)];
+    }
 }

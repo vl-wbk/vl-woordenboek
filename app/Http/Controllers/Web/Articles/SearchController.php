@@ -8,6 +8,7 @@ use App\Queries\SearchWordQuery;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use App\Enums\Articles\SearchPatterns;
+use App\Models\WordOfTheDay;
 use Spatie\RouteAttributes\Attributes\Get;
 
 /**
@@ -39,6 +40,7 @@ final readonly class SearchController
             'randomArticle' => SelectRandomArticle::fetch(),
             'results' => $searchWordQuery->execute($request),
             'termPresent' => $request->has('zoekterm'),
+            'wordOfTheDay' => WordOfTheDay::whereDate('scheduled_for', today())->first(),
             'randomArticles' => Article::published()
                 ->inRandomOrder()
                 ->orderBy('id', 'asc')

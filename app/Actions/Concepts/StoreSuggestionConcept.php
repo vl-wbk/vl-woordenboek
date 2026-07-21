@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Concepts;
 
+use App\Data\Article\ExampleSentenceData;
 use App\Data\SuggestionData;
 use App\Models\Concept;
 use Illuminate\Support\Facades\DB;
@@ -43,7 +44,21 @@ final readonly class StoreSuggestionConcept
 
             $concept->regions()->sync($suggestionData->regions);
 
+            self::storeExampleSentences($concept, $suggestionData);
+
             return $concept;
         });
+    }
+
+    private static function storeExampleSentences(Concept $concept, SuggestionData $suggestionData): void
+    {
+        $concept->userExamples()->createMany(
+            $suggestionData->exampleSentences->toCollection()
+                ->map(fn (ExampleSentenceData $exampleSentenceData) => [
+                    'user_id' => auth()->id(),
+                    'example' => $exampleSentenceData->waarde,
+                    'source' => $exampleSentenceData->bron
+                ])
+        )->all();
     }
 }

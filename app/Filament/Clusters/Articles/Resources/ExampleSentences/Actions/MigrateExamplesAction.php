@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Filament\Clusters\Articles\Resources\ExampleSentences\Actions;
 
 use App\Filament\Resources\Articles\RelationManagers\CommunityExamplesRelationManager;
-use App\Filament\Resources\Articles\Schema\ArticleForm;
 use App\Models\UserExample;
 use App\States\ExampleSentence\Approved;
 use Filament\Actions\Action;
@@ -25,11 +24,6 @@ final class MigrateExamplesAction extends Action
 {
     use CanCustomizeProcess;
 
-    public static function getDefaultName(): string
-    {
-        return 'migrate-usage-examples';
-    }
-
     protected function setup(): void
     {
         parent::setUp();
@@ -44,20 +38,15 @@ final class MigrateExamplesAction extends Action
             $article = $livewire->getOwnerRecord();
 
             DB::transaction(function () use ($data, $article) {
-                // 1. Create the new examples
-                collect($data['userExamples'])->each(fn (array $example) =>
-                    UserExample::query()->create(array_merge($example, [
-                        'article_id' => $article->id,
-                        'user_id' => auth()->id(),
-                        'status' => Approved::class,
-                    ]))
-                );
+                collect($data['userExamples'])->each(fn (array $example) => $article->userExamples()->create(array_merge($example, [
+                    'user_id' => auth()->id(),
+                    'status' => Approved::class,
+                ])));
 
-                // 2. Mark the article as migrated so the button disappears
                 $config = $article->migration_configuration ?? [];
                 $config['examples'] = true;
 
-                $article->update(['migration_configuration' => $config,]);
+                $article->update(['migration_configuration' => $config]);
             });
 
             Notification::make()
@@ -67,6 +56,11 @@ final class MigrateExamplesAction extends Action
         });
 
         $this->successRedirectUrl(fn () => request()->header('Referer'));
+    }
+
+    public static function getDefaultName(): string
+    {
+        return 'migrate-usage-examples';
     }
 
     private function configureButtons(): void
@@ -91,7 +85,7 @@ final class MigrateExamplesAction extends Action
 
     private function configureSchema(): array
     {
-         return [
+        return [
             Callout::make('Opgepast')
                 ->icon(Heroicon::OutlinedExclamationTriangle)
                 ->description('Als u de wijzigingen opslaat wees dan zeker dat je alle voorbeelden van het oude formaat in de nieuwe standaard hebt overgezet na het opslaan is het niet mogelijk om de oude voorbeelden te raadplegen of te migreren.')
@@ -112,17 +106,17 @@ final class MigrateExamplesAction extends Action
                 ->autofocus()
                 ->compact()
                 ->table([
-                    Repeater\TableColumn::make('Voorbeeldzin'),
-                    Repeater\TableColumn::make('Bron'),
-                ])
+                     Repeater\TableColumn::make('Voorbeeldzin'),
+                     Repeater\TableColumn::make('Bron'),
+                 ])
                 ->schema([
-                    Textarea::make('example')
+                     Textarea::make('example')
                         ->rows(1)
                         ->required(),
 
                      TextInput::make('source')
                         ->required(),
-                ]),
-         ];
+                 ]),
+        ];
     }
 }

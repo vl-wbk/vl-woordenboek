@@ -1,8 +1,6 @@
 <?php
 
 use App\Http\Controllers\Shared\Authentication\MyWelcomeController;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Spatie\WelcomeNotification\WelcomesNewUsers;
 

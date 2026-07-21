@@ -7,7 +7,6 @@ namespace App\Filament\Clusters\Volunteers;
 use App\Filament\Support\Concerns\HasActiveIcon;
 use BackedEnum;
 use Filament\Clusters\Cluster;
-use Filament\Support\Icons\Heroicon;
 
 final class VolunteersCluster extends Cluster
 {

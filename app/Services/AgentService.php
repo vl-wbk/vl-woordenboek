@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use Closure;
@@ -9,7 +11,7 @@ use Detection\MobileDetect;
 /**
  * @copyright Originally created by Jens Segers: https://github.com/jenssegers/agent
  */
-class AgentService extends MobileDetect
+final class AgentService extends MobileDetect
 {
     /**
      * List of additional operating systems.
@@ -63,8 +65,8 @@ class AgentService extends MobileDetect
      */
     public function platform(): ?string
     {
-        return $this->retrieveUsingCacheOrResolve('jetstream.platform', fn(): ?string => $this->findDetectionRulesAgainstUserAgent(
-            $this->mergeRules(MobileDetect::getOperatingSystems(), static::$additionalOperatingSystems),
+        return $this->retrieveUsingCacheOrResolve('jetstream.platform', fn (): ?string => $this->findDetectionRulesAgainstUserAgent(
+            $this->mergeRules(MobileDetect::getOperatingSystems(), self::$additionalOperatingSystems),
         ));
     }
 
@@ -75,8 +77,8 @@ class AgentService extends MobileDetect
      */
     public function browser(): ?string
     {
-        return $this->retrieveUsingCacheOrResolve('jetstream.browser', fn(): ?string => $this->findDetectionRulesAgainstUserAgent(
-            $this->mergeRules(static::$additionalBrowsers, MobileDetect::getBrowsers()),
+        return $this->retrieveUsingCacheOrResolve('jetstream.browser', fn (): ?string => $this->findDetectionRulesAgainstUserAgent(
+            $this->mergeRules(self::$additionalBrowsers, MobileDetect::getBrowsers()),
         ));
     }
 
@@ -125,8 +127,6 @@ class AgentService extends MobileDetect
     /**
      * Retrieve from the given key from the cache or resolve the value.
      *
-     * @param Closure $callback
-
      * @throws CacheException
      */
     protected function retrieveUsingCacheOrResolve(string $key, Closure $callback): mixed
@@ -159,7 +159,7 @@ class AgentService extends MobileDetect
                 } elseif (is_array($merged[$key])) {
                     $merged[$key][] = $value;
                 } else {
-                    $merged[$key] .= '|' . $value;
+                    $merged[$key] .= '|'.$value;
                 }
             }
         }

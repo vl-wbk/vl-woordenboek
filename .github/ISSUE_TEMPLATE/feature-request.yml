@@ -1,4 +1,4 @@
-name: "Idee voor een nieuwe toevoegen en of functionaliteit"
+name: "Idee voor een nieuwe toevoeging en of functionaliteit"
 description: "Heb je een idee voor een nieuwe functionaliteit in het VL woordenvoek. Laat het ons weten."
 labels: ["Discussion"]
 body:
@@ -19,6 +19,3 @@ body:
     attributes:
       label: Is deze feature ook waardevol voor het Vlaams woordenboek en waarom?
       description: We willen het Vlaams woordenboek zodanig opbouwen dat het ook bruikbaar is voor iedereen om de juiste redenen.
-
-
-

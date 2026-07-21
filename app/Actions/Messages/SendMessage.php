@@ -7,8 +7,7 @@
 	use App\Data\MessageObjectData;
 	use App\Models\User;
 	use Cmgmyr\Messenger\Models\Message;
-	use Cmgmyr\Messenger\Models\Participant;
-	use Cmgmyr\Messenger\Models\Thread;
+    use Cmgmyr\Messenger\Models\Thread;
 	use Illuminate\Support\Facades\DB;
     use Throwable;
 

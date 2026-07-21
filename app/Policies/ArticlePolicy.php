@@ -7,8 +7,8 @@ namespace App\Policies;
 use Illuminate\Auth\Access\Response;
 use App\Enums\ArticleStates;
 use App\Models\{Article, User};
-use App\States\Articles\ArticleState;
 use App\UserTypes;
+use App\States\Articles\ArticleState;
 use Filament\Support\Authorization\DenyResponse;
 
 /**
@@ -127,13 +127,47 @@ final class ArticlePolicy
      */
     public function sendForApproval(User $user, Article $article): Response
     {
-        if ($article->state->isNot(ArticleStates::Draft)) {
-            return Response::deny(message: "Alleen klad artikelen kunnen ingezonden worden voor nazicht en publicatie");
+        if ($article->state->notIn(enums: [ArticleStates::Draft, ArticleStates::RejectedPublication])) {
+            return Response::deny(); //! TODO implement custom deny message
         }
 
         return $user->can("send-for-approval:article") || $article->editor()->is($user)
             ? Response::allow()
             : Response::deny(message: "Je hebt geen permissie om dit artikel in te zenden voor nazicht en publicatie");
+    }
+
+    /**
+     * Determines whether the user can create a copy of an existing article.
+     *
+     * Duplication is permitted for articles in 'Kladversie', 'Publicatie', or 'Archief' states.
+     *
+     * This allows editors to:
+     * 1. Create safety backups of complex drafts.
+     * 2. Prepare new revisions of currently published entries without affecting the live site.
+     * 3. Repurpose archived data as a starting point for new lemmas.
+     *
+     * @param  User    $user     The user attempting to duplicate the article.
+     * @param  Article $article  The source article to be copied.
+     * @return Response
+     */
+    public function duplicate(User $user, Article $article): Response
+    {
+        $cloneableStates = [ArticleStates::Published, ArticleStates::Draft, ArticleStates::Archived];
+
+        if ($article->trashed()) {
+            return Response::deny(message: __('Je kan geen verwijderd artikel dupliceren.'));
+        }
+
+        if ($article->state->notIn(enums: $cloneableStates)) {
+            return Response::deny(message: __('Artikelen in de status :state kunnen niet worden gedepliceerd.', [
+                'state' => $article->state->getLabel()
+            ]));
+        }
+
+
+        return $user->can('create:article')
+            ? Response::allow()
+            : Response::deny('Je hebt geen rechten om nieuwe artikelen aan te maken.');
     }
 
     /**

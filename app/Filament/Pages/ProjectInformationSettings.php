@@ -9,7 +9,6 @@ use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use App\Filament\Clusters\Settings\SettingsCluster;
 use App\Settings\ProjectInformationSettings as SettingsProjectInformationSettings;
-use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;

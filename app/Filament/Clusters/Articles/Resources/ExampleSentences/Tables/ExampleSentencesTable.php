@@ -6,8 +6,8 @@ namespace App\Filament\Clusters\Articles\Resources\ExampleSentences\Tables;
 
 use A909M\FilamentStateFusion\Actions\StateFusionAction;
 use A909M\FilamentStateFusion\Actions\StateFusionBulkAction;
-use A909M\FilamentStateFusion\Tables\Filters\StateFusionSelectFilter;
 use App\Filament\Resources\Articles\ArticleResource;
+use App\Models\Article;
 use App\Models\UserExample;
 use App\Policies\UserExamplePolicy;
 use App\States\ExampleSentence\Rejected;
@@ -30,10 +30,7 @@ final readonly class ExampleSentencesTable
     public static function configure(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn (Builder $query) => $query->with([
-                'article:id,word',
-                'author:id,name'
-            ]))
+            ->modifyQueryUsing(fn (Builder $query): Builder => $query->with(['exampleable:id,word', 'author:id,name'])->whereMorphRelation('exampleable', Article::class, 'id', '!=', null))
             ->heading(heading: 'Overzicht van Voorbeeldzinnen')
             ->description(description: 'Een overzicht van alle Voorbeeldzinnen die zijn aangedragen door gebruikers van het Vlaams Woordenboek. In de onderstaande tabel vind je een overzicht van alle voorbeelden die nog beoordeeld moeten worden.')
             ->headerActions(actions: self::registerTableHeaderActions())
@@ -77,20 +74,19 @@ final readonly class ExampleSentencesTable
     private static function registerTableColumns(): array
     {
         return [
-            TextColumn::make('article.word')
+            TextColumn::make('exampleable.word')
                 ->label('artikel')
                 ->icon(Heroicon::OutlinedDocumentText)
                 ->iconColor('primary')
                 ->weight(FontWeight::Bold)
                 ->color('primary')
-                ->url(fn (UserExample $userExample): string => ArticleResource::getUrl('view', ['record' => $userExample->article]))
+                ->url(fn (UserExample $userExample): string => ArticleResource::getUrl('view', ['record' => $userExample->exampleable]))
                 ->searchable()
                 ->sortable(),
 
             TextColumn::make('author.name')
                 ->label('ingezonden door')
                 ->icon(Heroicon::OutlinedUserCircle)
-                ->searchable()
                 ->searchable()
                 ->sortable(),
 

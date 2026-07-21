@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Attributes\Todo;
 use App\Builders\UserBuilder;
 use App\Mail\AccountPrunedMailable;
+use App\Models\Concerns\ManagesReputation;
 use App\Models\Concerns\ManagesUserGroups;
 use App\Models\Relations\Contactable;
 use App\Models\Relations\UsesPreferences;
@@ -16,6 +17,7 @@ use App\Observers\UserObserver;
 use App\UserTypes;
 use Carbon\Carbon;
 use Cmgmyr\Messenger\Traits\Messagable;
+use Cog\Laravel\Ban\Models\Ban;
 use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
@@ -25,7 +27,6 @@ use Illuminate\Database\Eloquent\Attributes\UseEloquentBuilder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Prunable;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Cache;
@@ -42,7 +43,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Pennant\Concerns\HasFeatures;
 use Laravel\Sanctum\HasApiTokens;
-use Override;
 use Overtrue\LaravelVote\Traits\Voter;
 use Spatie\LaravelPasskeys\Models\Concerns\HasPasskeys;
 use Spatie\LaravelPasskeys\Models\Concerns\InteractsWithPasskeys;
@@ -105,6 +105,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
     use HasBookmarks;
     use InteractsWithPasskeys;
     use ManagesUserGroups;
+    use ManagesReputation;
 
     /**
      * Specifies which attributes can be mass assigned when creating or updating user records.
@@ -325,5 +326,11 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function getActiveBan(): ?Ban
+    {
+        // Assuming 'Ban' is your model class
+        return $this->bans()->latest()->first();
     }
 }

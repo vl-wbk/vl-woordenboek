@@ -22,8 +22,6 @@ use Throwable;
  * @see EtymologyStatus         - The enum defining the possible statuses for an etymology.
  * @see StatusData              - The Data Transfer Object used for preparing status update attributes.
  * @see EtymologyStateContract  - The interface that this class implements, defining the contract for etymology state transitions.
- *
- * @package App\States\Etymology
  */
 readonly class EtymologyState implements EtymologyStateContract
 {
@@ -55,7 +53,7 @@ readonly class EtymologyState implements EtymologyStateContract
     public function transitionToDraft(): bool
     {
         return DB::transaction(
-            callback: fn(): bool => $this->etymology->update(
+            callback: fn (): bool => $this->etymology->update(
                 attributes: StatusData::from(['status' => EtymologyStatus::Draft])->toArray(),
             ),
         );
@@ -76,7 +74,7 @@ readonly class EtymologyState implements EtymologyStateContract
     public function transitionToUnderReview(): bool
     {
         return DB::transaction(
-            callback: fn(): bool => $this->etymology->update(
+            callback: fn (): bool => $this->etymology->update(
                 attributes: StatusData::from(['status' => EtymologyStatus::UnderReview])->toArray(),
             ),
         );
@@ -98,7 +96,7 @@ readonly class EtymologyState implements EtymologyStateContract
     public function transitionToRejected(?string $reason = null): bool
     {
         return DB::transaction(
-            callback: fn(): bool => $this->etymology->update(
+            callback: fn (): bool => $this->etymology->update(
                 attributes: StatusData::from([
                     'status' => EtymologyStatus::Rejected,
                     'rejected_by' => Auth::user()->getAuthIdentifier(),
@@ -123,7 +121,7 @@ readonly class EtymologyState implements EtymologyStateContract
     public function transitionToPublished(): bool
     {
         return DB::transaction(
-            callback: fn(): bool => $this->etymology->update(
+            callback: fn (): bool => $this->etymology->update(
                 attributes: StatusData::from([
                     'status' => EtymologyStatus::Published,
                     'published_at' => now(),
@@ -149,7 +147,7 @@ readonly class EtymologyState implements EtymologyStateContract
     public function transitionToArchived(?string $reason = null): bool
     {
         return DB::transaction(
-            callback: fn(): bool => $this->etymology->update(
+            callback: fn (): bool => $this->etymology->update(
                 attributes: StatusData::from([
                     'status' => EtymologyStatus::Archived,
                     'archived_by' => Auth::user()->getAuthIdentifier(),

@@ -1,15 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire;
 
+use App\Models\Article;
 use Livewire\Component;
-use App\Models\UserExample;
 use Illuminate\Contracts\Support\Renderable;
 use Livewire\Attributes\Validate;
-use Livewire\WithPagination;
 
-class SubmitUserExample extends Component
+final class SubmitUserExample extends Component
 {
+    public Article $article;
+
     public int|string|null $articleId;
 
     public ?string $cssClasses = null;
@@ -27,15 +30,15 @@ class SubmitUserExample extends Component
 
     public function mount($articleId = null, ?string $cssClasses = null): void
     {
-        $this->articleId = $articleId;
+        $this->article = Article::findOrFail($articleId);
         $this->cssClasses = $cssClasses;
     }
 
     /**
      * Validates and persists the user example to the database.
      *
-     * This method triggers the standard Livewire validation. Upon success, it creates a 
-     * UserExample record, automatically attributing it to the logged-in user or 
+     * This method triggers the standard Livewire validation. Upon success, it creates a
+     * UserExample record, automatically attributing it to the logged-in user or
      * marking it as anonymous/guest-named.
      *
      * @return void
@@ -44,13 +47,11 @@ class SubmitUserExample extends Component
     {
         $this->validate();
 
-        UserExample::create([
-            'article_id' => $this->articleId,
-            'user_id' => auth()->id(),
+        $this->article->userExamples()->create([
+            'user_id'          => auth()->id(),
             'contributor_name' => auth()->check() ? auth()->user()->name : ($this->contributorName ?: 'Anoniem'),
-            'example' => $this->example,
-            'source' => $this->source,
-            'cssClasses' => $this->cssClasses,
+            'example'          => $this->example,
+            'source'           => $this->source,
         ]);
 
         $this->submitted = true;
