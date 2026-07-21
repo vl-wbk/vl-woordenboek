@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -39,8 +40,8 @@ final class UserSuggestionQueryBuilder
      *
      * Additionally, it includes a `where` clause to enable searching within the `word` and `description` fields of the articles, using a `like` operator with the value from the `zoekterm` (search term) request parameter.
      *
-     * @param Request $request The current HTTP request instance, used to access filter parameters and search terms.
-     * @return  Builder|Relation  An Eloquent query builder instance or a relation instance, configured for fetching user suggestions.
+     * @param  Request $request The current HTTP request instance, used to access filter parameters and search terms.
+     * @return Builder|Relation  An Eloquent query builder instance or a relation instance, configured for fetching user suggestions.
      *
      * @phpstan-ignore-next-line    This annotation is used to suppress a potential PhpStan warning regarding the return type, as it can be either a Builder or a Relation.
      */
@@ -51,10 +52,37 @@ final class UserSuggestionQueryBuilder
 
         return Article::where('author_id', $user->id)
             ->where('word', 'like', "%{$request->input('zoekterm')}%")
+            ->whereNotIn('state', $this->excludedStates())
+            ->when(request()->filled('status'), function (Builder $query) {
+                return $query->where('state', request()->integer('status'));
+            })
             ->with(['labels', 'editor'])
             ->orderBy('word')
-            ->where('state', $state)
             ->fastPaginate(5)
             ->appends(request()->query());
     }
+
+    public function getTotalCount(Request $request): int 
+    {
+        return Article::where('author_id', $request->user()->id)
+            ->whereNotIn('state', $this->excludedStates())
+            ->with(['labels', 'editor'])
+            ->orderBy('word')
+            ->count();
+    }
+
+    private function excludedStates(): array 
+    {
+        return [
+            ArticleStates::RejectedPublication,
+            ArticleStates::Published,
+            ArticleStates::ExternalData,
+        ];
+    }
+
+    public function getSearchableStates(): Collection
+    {
+        return collect(ArticleStates::cases())
+            ->reject(fn (ArticleStates $state): bool => in_array($state, $this->excludedStates(), strict: true));
+    } 
 }

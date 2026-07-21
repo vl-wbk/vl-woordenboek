@@ -1,4 +1,10 @@
 <x-public-profile :user="$user">
+    <x-slot name="action">
+        <a href="{{ route('concepts:create') }}" class="btn minimal-btn-primary">
+            <x-tabler-file-plus class="icon me-1"/> nieuw concept
+        </a>
+    </x-slot>
+
     <style>
         /* Shadcn-specifieke tweaks voor de blankslate */
         .border-dashed {
