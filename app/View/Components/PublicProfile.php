@@ -17,6 +17,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\Component;
 use OwenIt\Auditing\Models\Audit;
@@ -94,6 +95,9 @@ final class PublicProfile extends Component
 
     private function contactExists(): bool
     {
-        return auth()->user()->contacts->doesntContain($this->user) && auth()->user()->isNot($this->user);
+        /** @var User $authenticatedUser */
+        $authenticatedUser = Auth::user();
+
+        return $authenticatedUser->contacts->doesntContain($this->user) && $authenticatedUser->isNot($this->user);
     }
 }

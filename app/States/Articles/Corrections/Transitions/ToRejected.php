@@ -32,12 +32,13 @@ final class ToRejected extends Transition
     public function handle(): CorrectionProposal
     {
         $authUser = $this->getAuthenticatedUser();
+        $conclusion = $this->data['conclusion'] ?? '';
 
-       return DB::transaction(function () use ($authUser): CorrectionProposal {
+       return DB::transaction(function () use ($authUser, $conclusion): CorrectionProposal {
           $this->correctionProposal->state = new RejectedState($this->correctionProposal);
           $this->correctionProposal->save();
 
-          $this->correctionProposal->reject($authUser, $this->data['conclusion']);
+          $this->correctionProposal->reject($authUser, $conclusion);
 
           return $this->correctionProposal;
        });

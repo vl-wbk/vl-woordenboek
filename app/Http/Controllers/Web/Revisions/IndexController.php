@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Web\Revisions;
 use App\Models\Article;
 use App\UserTypes;
 use Carbon\CarbonPeriod;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -30,18 +31,15 @@ final readonly class IndexController
             'userTypes' => UserTypes::cases(),
         ]);
     }
-
-    private function getArticleAudits(Article $article)
+    private function getArticleAudits(Article $article): LengthAwarePaginator
     {
         return $article->audits()
             ->with(['user', 'auditable'])
             ->when(request('event'), fn ($q, $e) => $q->where('event', $e))
-            ->when(request('user'), fn ($q, $u) => $q->whereHas('user', fn ($q) => $q->where('name', 'like', "%$u%")
-            ))
+            ->when(request('user'), fn ($q, $u) => $q->whereHas('user', fn ($q) => $q->where('name', 'like', "%$u%")))
             ->when(request('from'), fn ($q, $d) => $q->whereDate('created_at', '>=', $d))
             ->when(request('to'), fn ($q, $d) => $q->whereDate('created_at', '<=', $d))
-            ->when(request('user_type'), fn ($q, $t) => $q->whereHas('user', fn ($q) => $q->where('user_type', (int) $t)
-            ))
+            ->when(request('user_type'), fn ($q, $t) => $q->whereHas('user', fn ($q) => $q->where('user_type', (int) $t)))
             ->latest()
             ->paginate(25);
     }
@@ -67,7 +65,7 @@ final readonly class IndexController
         return $article->audits()->with(['user', 'auditable'])->get();
     }
 
-    private function getTopContributors(Article $article)
+    private function getTopContributors(Article $article): Collection
     {
         return $this->getAllAudits($article)
             ->groupBy('user_id')
@@ -77,10 +75,11 @@ final readonly class IndexController
             ->values();
     }
 
-    private function getTopFields(Article $article)
+    private function getTopFields(Article $article): SupportCollection
     {
-        return collect(
-            $this->getAllAudits($article)->flatMap(fn ($a) => array_keys($a->getModified()))
-        )->countBy()->sortDesc()->take(5);
+        return collect($this->getAllAudits($article)->flatMap(fn ($a) => array_keys($a->getModified())))
+            ->countBy()
+            ->sortDesc()
+            ->take(5);
     }
 }

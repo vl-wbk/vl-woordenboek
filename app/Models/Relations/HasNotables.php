@@ -7,6 +7,7 @@ namespace App\Models\Relations;
 use App\Models\Note;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * A trait to provide a `hasMany` relationship to the `Note` model.
@@ -48,7 +49,8 @@ trait HasNotables
      */
     public function addNote(string $title, ?string $note = null, ?User $author = null): self
     {
-        $author ??= auth()->user();
+        /** @var User $author*/
+        $author ??= Auth::user();
 
         $this->notes()->create(attributes: ['title' => $title, 'author_id' => $author->id, 'body' => $note]);
 
