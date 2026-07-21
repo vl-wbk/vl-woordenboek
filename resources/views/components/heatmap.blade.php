@@ -1,6 +1,6 @@
 @php
     $startDate = now()->subYear()->startOfWeek(\Carbon\Carbon::MONDAY);
-    $endDate   = now();
+    $endDate   = now()->subYear()->addYear()->endOfWeek(); // = today, but makes intent explicit
     $period    = \Carbon\CarbonPeriod::create($startDate, $endDate);
 
     $days = [];

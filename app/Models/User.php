@@ -172,6 +172,11 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
     }
 
 
+    public function corrections(): HasMany
+    {
+        return $this->hasMany(CorrectionProposal::class, 'author_id');
+    }
+
     /**
      * @return HasMany<VolunteerApplications, covariant $this>
      */

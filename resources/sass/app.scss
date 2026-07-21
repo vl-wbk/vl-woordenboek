@@ -22,77 +22,138 @@
 
 @import 'components/search-improvements';
 
-/* heatmap */
+// ── Contribution Heatmap ─────────────────────────────────────────────────────
+
 .hm-root {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+  // Private design tokens — scoped to the component, not global
+  --_cell-gap:  2px;
+  --_outer-gap: 4px;   // month row + content-area gap
+  --_label-w:   28px;
+  --_radius:    2px;
+  --_month-fs:  11px;
+  --_label-fs:  10px;
+  --_muted:     #6e7681;
+
+  // Cell level colours — GitHub light palette
+  --_l0: #ebedf0;
+  --_l1: #9be9a8;
+  --_l2: #40c463;
+  --_l3: #30a14e;
+  --_l4: #216e39;
+
+  --_ring: #0969da;   // keyboard focus ring
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
+
+// ── Month-label row ──────────────────────────────────────────────────────────
+
 .hm-month-row {
-    display: flex;
-    margin-bottom: 4px;
+  display: flex;
+  margin-bottom: var(--_outer-gap);
 }
+
 .hm-month-spacer {
-    width: 28px;
-    flex-shrink: 0;
+  width: var(--_label-w);
+  flex-shrink: 0;
 }
+
 .hm-months {
-    flex: 1;
-    min-width: 0;
-    display: grid;
-    grid-template-columns: repeat(var(--col-weeks), 1fr);
-    font-size: 11px;
-    color: #6e7681;
-    user-select: none;
-}
-.hm-months span {
-    white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(var(--col-weeks), 1fr);
+  font-size: var(--_month-fs);
+  color: var(--_muted);
+  user-select: none;
+
+  span {
     overflow: hidden;
+    white-space: nowrap;
+    // No ellipsis — clipping cleanly is correct at this scale
+  }
 }
+
+// ── Content row (labels + grid) ──────────────────────────────────────────────
+
 .hm-content {
-    display: flex;
-    gap: 4px;
-    width: 100%;
+  display: flex;
+  gap: var(--_outer-gap);
+  width: 100%;
 }
+
+// ── Day-of-week labels ───────────────────────────────────────────────────────
+
 .hm-day-labels {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    width: 24px;
-    flex-shrink: 0;
-    font-size: 10px;
-    color: #6e7681;
-    user-select: none;
-}
-.hm-day-labels span {
+  display: flex;
+  flex-direction: column;
+  gap: var(--_cell-gap);    // match grid row gap so labels stay aligned
+  width: var(--_label-w);
+  flex-shrink: 0;
+  font-size: var(--_label-fs);
+  color: var(--_muted);
+  user-select: none;
+
+  span {
     display: flex;
     align-items: center;
-    /* height synced to cell size via JS */
+    // Heights synced to cell size by JS
+  }
 }
+
+// ── Contribution grid ────────────────────────────────────────────────────────
+
 .hm-grid {
-    flex: 1;
-    min-width: 0;
-    display: grid;
-    grid-template-rows: repeat(7, 1fr);
-    grid-template-columns: repeat(var(--col-weeks), 1fr);
-    grid-auto-flow: column;
-    gap: 2px;
-    /* Constrain height so cells stay square: height = col-width × 7 + gap × 6 */
-    /* Calculated by JS after render */
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  grid-template-rows: repeat(7, 1fr);
+  grid-template-columns: repeat(var(--col-weeks), 1fr);
+  grid-auto-flow: column;
+  gap: var(--_cell-gap);
+  // Height set by JS to keep cells square
 }
+
+// ── Day cells ────────────────────────────────────────────────────────────────
+
 .day-cell {
-    aspect-ratio: 1;
-    border-radius: 2px;
-    cursor: pointer;
-    transition: transform 0.1s ease, outline 0.1s ease;
-    outline: 2px solid transparent;
-    outline-offset: 1px;
+  aspect-ratio: 1;               // square fallback before JS fires
+  border-radius: var(--_radius);
+  cursor: pointer;
+  outline: 2px solid transparent;
+  outline-offset: 1px;
+  // outline-color (not the shorthand `outline`) is what's actually animatable
+  transition:
+    transform     0.1s ease,
+    outline-color 0.1s ease;
+
+  &:hover {
+    transform: scale(1.25);
+    z-index: 1;                  // float above neighbours when scaled
+  }
+
+  // Only show ring for keyboard navigation — no ring on click
+  &:focus-visible {
+    outline-color: var(--_ring);
+    transform: scale(1.2);
+  }
+
+  // Padding cells and legend swatches: purely decorative, no interaction
+  &[aria-hidden="true"] {
+    cursor: default;
+    pointer-events: none;
+  }
 }
-.level-0 { background-color: #ebedf0; }
-.level-1 { background-color: #9be9a8; }
-.level-2 { background-color: #40c463; }
-.level-3 { background-color: #30a14e; }
-.level-4 { background-color: #216e39; }
+
+// ── Level colours ────────────────────────────────────────────────────────────
+
+.level-0 { background-color: var(--_l0); }
+.level-1 { background-color: var(--_l1); }
+.level-2 { background-color: var(--_l2); }
+.level-3 { background-color: var(--_l3); }
+.level-4 { background-color: var(--_l4); }
 
 /* minimal tabs */
 /* Container adjustments */

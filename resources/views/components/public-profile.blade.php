@@ -221,6 +221,16 @@
                     <p class="text-muted small mb-2">{{ $user->bio ?? 'Gebruiker van het Vlaams Woordenboek' }}</p>
 
                     <div class="d-flex gap-2 text-uppercase fw-bold">
+                        @if ($user->user_type->in(enums: [\App\UserTypes::Developer, \App\UserTypes::Administrators]))
+                            <span class="badge rounded-pill border text-secondary bg-secondary bg-opacity-10 px-2 py-1">
+                                <x-tabler-users class="icon me-1"/> Kernlid
+                            </span>
+                        @elseif($user->user_type->in(enums: [\App\UserTypes::Editor, \App\UserTypes::EditorInChief]))
+                            <span class="badge rounded-pill border text-secondary bg-secondary bg-opacity-10 px-2 py-1">
+                                <x-tabler-users class="icon me-1"/> Redactie
+                            </span>
+                        @endif
+
                         @if ($user->hasVerifiedEmail())
                              <span class="badge rounded-pill border text-success bg-success bg-opacity-10 px-2 py-1">
                                 <x-tabler-rosette-discount-check class="icon-sm me-1"/> Geverifieerd
@@ -285,7 +295,7 @@
 
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <span class="stat-label">Reputatie</span>
-                    <span class="stat-value fw-semibold text-dark">{{  $user->reputation ?? '0' }}</span>
+                    <span class="stat-value fw-semibold text-dark">{{  $user->reputation }}</span>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <span class="stat-label">Inzendingen</span>
@@ -293,11 +303,11 @@
                 </div>
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <span class="stat-label">Publicaties</span>
-                    <span class="stat-value text-dark">{{ $user->definitions_count ?? '0' }}</span>
+                    <span class="stat-value text-dark">{{ $publications }}</span>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <span class="stat-label">Correcties</span>
-                    <span class="stat-value text-dark">{{ $user->edits_count ?? '0' }}</span>
+                    <span class="stat-value text-dark">{{ $correctionsCount }}</span>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <span class="stat-label">Lid sinds</span>
@@ -353,7 +363,7 @@
                             <x-tabler-world-map class="icon me-1 color-green"/> Publicaties
                         </a>
                     </li>
-                    
+
                     @if (auth()->user()->is($user))
                         <li class="nav-item">
                             <a class="nav-link {{ active('bookmarks:index') }}" href="{{ route('bookmarks:index') }}">
@@ -370,7 +380,7 @@
                             <a class="nav-link {{ active('concepts:index') }}" href="{{ route('concepts:index') }}">
                                 <x-tabler-sketching class="icon me-1 color-green"/> Concepten
                             </a>
-                        </li> 
+                        </li>
                     @endif
 
                     <!-- Right-aligned Create Button -->

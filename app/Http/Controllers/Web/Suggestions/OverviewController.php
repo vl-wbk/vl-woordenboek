@@ -37,22 +37,4 @@ final readonly class OverviewController
             'results' => $suggestionQuery->fetch($request, ArticleStates::New),
         ]);
     }
-
-    #[Get(uri: 'mijn-suggesties/in-behandeling', name: 'suggestions:processing', middleware: ['auth', 'verified', 'forbid-banned-user'])]
-    public function processing(Request $request, UserSuggestionQueryBuilder $suggestionQuery): Renderable
-    {
-        return view('suggestions.index', data: [
-            'user' => $request->user(),
-            'results' => $suggestionQuery->fetch($request, ArticleStates::Draft),
-        ]);
-    }
-
-    #[Get(uri: 'mijn-suggesties/gearchiveerd', name: 'suggestions:archived', middleware: ['auth', 'verified', 'forbid-banned-user'])]
-    public function archived(Request $request, UserSuggestionQueryBuilder $suggestionQuery): Renderable
-    {
-        return view('suggestions.index', data: [
-            'user' => $request->user(),
-            'results' => $suggestionQuery->fetch($request, ArticleStates::Archived),
-        ]);
-    }
 }
