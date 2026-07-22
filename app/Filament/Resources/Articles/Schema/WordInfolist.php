@@ -80,7 +80,7 @@ final readonly class WordInfolist
             ->columnSpanFull()
             ->visible(fn (Article $article): bool => $article->isRejectedSuggestion())
             ->icon(Heroicon::OutlinedArchiveBoxXMark, IconAnimation::Pulse)
-            ->title(fn (Article $article): string => __(':user heeft deze suggestie :date afgewezen', ['user' => $article->rejectedBy->name, 'date' => $article->updated_at->diffForHumans()]))
+            ->title(fn (Article $article): string => __(':user heeft deze suggestie :date afgewezen', ['user' => $article->rejectedBy->name ?? 'Onbekende/verwijderde gebruiker', 'date' => $article->updated_at->diffForHumans()]))
             ->description(fn (Article $article): string => $article->rejection_reason ?? 'Geen feedback opgegegevn voor de gebruiker.')
             ->border()
             ->color('danger');
