@@ -41,4 +41,11 @@ return [
             'decay_seconds' => 3600, // Throttled to a 1-hour window
         ],
     ],
+
+    'environments' => [
+        'staging' => [
+            'repository' => env('GITHUB_REPOSITORY'),
+            'issues' => env('GITHUB_REPOSITORY') . '/issues/new/choose'
+        ],
+    ]
 ];

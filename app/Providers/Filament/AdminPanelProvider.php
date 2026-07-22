@@ -124,11 +124,6 @@ final class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 FilamentErrorPagesPlugin::make(),
-                EnvironmentIndicatorPlugin::make()
-                    ->visible(!app()->isProduction())
-                    ->showBorder(false)
-                    ->color(Color::Red)
-                    ->showGitBranch(),
                 FilamentShieldPlugin::make()
                     ->globallySearchable(false)
                     ->navigationGroup("Toegangsbeheer")
