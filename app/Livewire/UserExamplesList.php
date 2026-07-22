@@ -31,7 +31,7 @@ class UserExamplesList extends Component
 }
 
     #[Computed]
-    public function article()
+    public function article(): Article
     {
         return Article::findOrFail($this->articleId);
     }

@@ -246,6 +246,7 @@ final class CommunityExamplesRelationManager extends RelationManager
 
             TextColumn::make('example')
                 ->label('Voorbeeldzin')
+                ->limit(90)
                 ->searchable(),
 
             TextColumn::make('created_at')

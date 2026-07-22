@@ -8,7 +8,7 @@
 
                         <div class="d-flex justify-content-between align-items-start mb-2">
                             <div>
-                                <h5 class="fw-bold mb-0 d-inline-block me-2">{{ $article->word }}</h5>
+                                <h5 class="fw-bold mb-0 color-green d-inline-block me-2">{{ $article->word }}</h5>
                             </div>
                             <a href="{{ route('bookmark:remove', $article) }}" class="text-danger text-decoration-none position-relative" style="z-index: 2;">
                                 <x-heroicon-o-bookmark-slash class="icon me-1"/> Vergeten
@@ -29,8 +29,8 @@
 
                             <div class="ms-auto">
                                 <span class="text-muted small me-2"><x-heroicon-o-eye class="icon me-1"/> {{ $article->views }}</span>
-                                <span class="text-muted small me-2"><x-heroicon-o-hand-thumb-up class="icon me-1"/> {{ $article->upvoters()->count() }}</span>
-                                <span class="text-muted small me-2"><x-heroicon-o-hand-thumb-down class="icon me-1"/> {{ $article->downvoters()->count() }}</span>
+                                <span class="text-muted small me-2"><x-heroicon-o-hand-thumb-up class="icon text-success me-1"/> {{ $article->upvoters()->count() }}</span>
+                                <span class="text-muted small me-2"><x-heroicon-o-hand-thumb-down class="icon text-danger me-1"/> {{ $article->downvoters()->count() }}</span>
                             </div>
                         </div>
                     </div>

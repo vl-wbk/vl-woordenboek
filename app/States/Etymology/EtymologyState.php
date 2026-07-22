@@ -7,6 +7,7 @@ namespace App\States\Etymology;
 use App\Data\Etymology\StatusData;
 use App\Enums\Articles\EtymologyStatus;
 use App\Models\Etymology;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Throwable;
@@ -95,11 +96,14 @@ readonly class EtymologyState implements EtymologyStateContract
      */
     public function transitionToRejected(?string $reason = null): bool
     {
+        /** @var User $authenticatedUser */
+        $authenticatedUser = Auth::user();
+
         return DB::transaction(
             callback: fn (): bool => $this->etymology->update(
                 attributes: StatusData::from([
                     'status' => EtymologyStatus::Rejected,
-                    'rejected_by' => Auth::user()->getAuthIdentifier(),
+                    'rejected_by' => $authenticatedUser->getAuthIdentifier(),
                     'rejected_at' => now(),
                     'rejection_reason' => $reason,
                 ])->toArray(),
@@ -120,12 +124,15 @@ readonly class EtymologyState implements EtymologyStateContract
      */
     public function transitionToPublished(): bool
     {
+        /** @var User $authenticatedUser */
+        $authenticatedUser = Auth::user();
+
         return DB::transaction(
             callback: fn (): bool => $this->etymology->update(
                 attributes: StatusData::from([
                     'status' => EtymologyStatus::Published,
                     'published_at' => now(),
-                    'published_by' => Auth::user()->getAuthIdentifier(),
+                    'published_by' => $authenticatedUser->getAuthIdentifier(),
                 ])->toArray(),
             ),
         );
@@ -146,11 +153,14 @@ readonly class EtymologyState implements EtymologyStateContract
      */
     public function transitionToArchived(?string $reason = null): bool
     {
+        /** @var User $authenticatedUser */
+        $authenticatedUser = Auth::user();
+
         return DB::transaction(
             callback: fn (): bool => $this->etymology->update(
                 attributes: StatusData::from([
                     'status' => EtymologyStatus::Archived,
-                    'archived_by' => Auth::user()->getAuthIdentifier(),
+                    'archived_by' => $authenticatedUser->getAuthIdentifier(),
                     'archived_at' => now(),
                     'archiving_reason' => $reason,
                 ])->toArray(),

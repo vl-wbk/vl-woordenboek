@@ -5,12 +5,22 @@ declare(strict_types=1);
 namespace App\View\Components;
 
 use App\Builders\ArticleBuilder;
+use App\Builders\UserBuilder;
 use App\Enums\ArticleStates;
+use App\Models\Article;
 use App\Models\User;
+use App\States\Articles\Corrections\ApprovedState;
+use Carbon\Carbon;
+use Carbon\CarbonInterface;
+use Illuminate\Contracts\Database\Eloquent\Builder as DatabaseEloquentBuilder;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\Component;
+use OwenIt\Auditing\Models\Audit;
 use stdClass;
 
 final class PublicProfile extends Component
@@ -26,62 +36,73 @@ final class PublicProfile extends Component
 
     public function render(): View
     {
+
+        $contributionData = Audit::query()
+            ->where('user_id', $this->user->id)
+            ->where('auditable_type', Article::class)
+            ->where('created_at', '>=', now()->subYear()->startOfWeek(\Carbon\Carbon::MONDAY))
+            ->where('created_at', '<=', now())
+            ->selectRaw('DATE(created_at) as date, COUNT(*) as count')
+            ->groupBy('date')
+            ->pluck('count', 'date')
+            ->toArray();
+
         return view('components.public-profile', data: [
             'user' => $this->user,
+            'suggestionCount' => $this->getCachedSuggestionCount(),
+            'correctionsCount' => $this->getCachedCorrectionsCount(),
+            'publications' => $this->getCachedPublicationCount(),
             'contactExist' => $this->contactExists(),
-            'suggestionCount' => $this->getSuggestionCount(),
-            'publicationCount' => $this->getPublicationCount(),
-            'kudosCount' => $this->getKudosCount(),
-            'viewsCount' => $this->getViewsCount(),
-            'conceptCount' => $this->getConceptCount(),
-            'totals' => $this->calculateTotals(),
+            'contributionData' => $contributionData
         ]);
     }
 
-    private function getConceptCount(): int
+    public function getCachedCorrectionsCount(): string
     {
-        return auth()->user()->concepts()->count();
+        $cacheKey = 'user_correction_count_' . $this->user->id;
+
+        $user = $this->user
+            ->newQuery()
+            ->withCount(['corrections' => function (DatabaseEloquentBuilder $query): void {
+                $query->whereState('state', ApprovedState::class);
+            }])->first();
+
+        return Cache::remember($cacheKey, $this->cacheTTL(), fn (): string => toHumanReadableNumber($user->corrections_count));
     }
 
-    private function getSuggestionCount(): int
+    private function getCachedPublicationCount(): string
     {
-        return $this->user->suggestions()->count();
+        $cacheKey = 'user_publication_count_' . $this->user->id;
+
+        $user = $this->user
+            ->newQuery()
+            ->where('id', $this->user->id)->withCount(['suggestions' => function (DatabaseEloquentBuilder $query): void {
+                $query->where('articles.state', ArticleStates::Published);
+            }])->first();
+
+
+        return Cache::remember($cacheKey, $this->cacheTTL(), fn (): string => toHumanReadableNumber($user->suggestions_count));
     }
 
-    private function getViewsCount(): int
+    private function getCachedSuggestionCount(): string
     {
-        return $this->user->suggestions->sum('views');
+        $cacheKey = 'user_suggestion_count_' . $this->user->id;
+
+        return Cache::remember($cacheKey, $this->cacheTTl(), function (): string {
+            return toHumanReadableNumber($this->user->suggestions()->count());
+        });
     }
 
-    private function getKudosCount(): int
+    private function cacheTtl(): CarbonInterface
     {
-        return User::withCount(['suggestions as total_upvotes' => function (ArticleBuilder $query) {
-            $query->join('votes', 'articles.id', '=', 'votes.votable_id')
-                ->where('votes.votable_type', \App\Models\Article::class);
-        }])->find($this->user->id)->total_upvotes;
-    }
-
-    private function getPublicationCount(): int
-    {
-        return $this->user->suggestions()->whereNotNull('published_at')->count();
-    }
-
-    private function calculateTotals(): stdClass
-    {
-        $authorId = $this->user->id ?? auth()->id();
-
-        return collect(ArticleStates::cases())
-            ->reduce(function ($query, $status) {
-                return $query->selectRaw(
-                    expression: 'COUNT(CASE WHEN state = ? THEN 1 END) AS '.mb_strtolower($status->name),
-                    bindings: [$status->value]
-                );
-            }, DB::table('articles')->where('author_id', $authorId)->selectRaw('COUNT(*) AS total'))
-            ->first();
+        return now()->addMinutes(5);
     }
 
     private function contactExists(): bool
     {
-        return auth()->user()->contacts->doesntContain($this->user) && auth()->user()->isNot($this->user);
+        /** @var User $authenticatedUser */
+        $authenticatedUser = Auth::user();
+
+        return $authenticatedUser->contacts->doesntContain($this->user) && $authenticatedUser->isNot($this->user);
     }
 }

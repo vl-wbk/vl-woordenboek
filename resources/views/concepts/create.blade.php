@@ -227,19 +227,23 @@
                     <p class="text-muted small mb-2">{{ $user->bio ?? 'Gebruiker van het Vlaams Woordenboek' }}</p>
 
                     <div class="d-flex gap-2 text-uppercase fw-bold" style="font-size: 0.80rem;">
-                         <span class="badge rounded-pill border text-primary bg-primary bg-opacity-10 px-3 py-1">
-                            <x-heroicon-o-user-group class="icon-sm me-1"/>{{ $user->user_type->getLabel() }}
-                        </span>
-
-                        @if (auth()->user()->created_at->lt(auth()->user()->created_at->addWeeks(2)))
-                            <span class="badge rounded-pill border text-dark bg-dark bg-opacity-10 px-3 py-1">
-                                <x-heroicon-o-clock class="icon-sm me-1"/>Recent geregistreerd
+                        @if ($user->user_type->in(enums: [\App\UserTypes::Developer, \App\UserTypes::Administrators]))
+                            <span class="badge rounded-pill border text-secondary bg-secondary bg-opacity-10 px-2 py-1">
+                                <x-tabler-users class="icon me-1"/> Kernlid
+                            </span>
+                        @elseif($user->user_type->in(enums: [\App\UserTypes::Editor, \App\UserTypes::EditorInChief]))
+                            <span class="badge rounded-pill border text-secondary bg-secondary bg-opacity-10 px-2 py-1">
+                                <x-tabler-users class="icon me-1"/> Redactie
                             </span>
                         @endif
 
-                        @if (auth()->user()->hasVerifiedEmail())
-                             <span class="badge rounded-pill border text-success bg-success bg-opacity-10 px-3 py-1">
-                                <x-heroicon-o-shield-check class="icon-sm me-1"/> Geverifieerd
+                        @if ($user->hasVerifiedEmail())
+                             <span class="badge rounded-pill border text-success bg-success bg-opacity-10 px-2 py-1">
+                                <x-tabler-rosette-discount-check class="icon-sm me-1"/> Geverifieerd
+                            </span>
+                        @else
+                            <span class="badge rounded-pill border-danger text-danger bg-danger bg-opacity-10 px-2 py-1">
+                                <x-tabler-rosette-discount-check-off class="icon-sm me-1"/> Niet geverifieerd
                             </span>
                         @endif
                     </div>
@@ -290,26 +294,19 @@
                 <div class="sidenav-label">Mijn suggesties</div>
 
                 <nav class="nav flex-column">
-                    <a href="{{ route('suggestions:index') }}" class="sidenav-link {{ active('suggestions:index') }} d-flex align-items-center">
+                    <a href="{{ route('suggestions:index', ['status' => \App\Enums\ArticleStates::New->value]) }}" class="sidenav-link {{ active('suggestions:index') }} d-flex align-items-center">
                         <x-heroicon-o-document-text class="icon color-green"/>
 
                         <span class="flex-grow-1">Openstaande</span>
                         {{-- <span class="badge rounded-pill bg-count-badge ms-auto">{{ $totals->new }}</span> --}}
                     </a>
-
-
-                    <a href="{{ route('suggestions:processing') }}" class="sidenav-link {{ active('suggestions:processing') }} d-flex align-items-center">
+                    <a href="{{ route('suggestions:index', ['status' => \App\Enums\ArticleStates::Approval]) }}" class="sidenav-link {{ active('suggestions:processing') }}">
                         <x-heroicon-o-pencil-square class="icon color-green"/>
-
                         <span class="flex-grow-1">In behandeling</span>
-                        {{-- <span class="badge rounded-pill bg-count-badge ms-auto">{{ $totals->approval + $totals->draft }}</span> --}}
                     </a>
-
-                    <a href="{{ route('suggestions:archived') }}" class="sidenav-link {{ active('suggestions:archived') }} d-flex align-items-center">
+                    <a href="{{ route('suggestions:index', ['status' => \App\Enums\ArticleStates::Archived->value]) }}" class="sidenav-link {{ active('suggestions:archived') }}">
                         <x-heroicon-o-archive-box class="icon color-green"/>
-
                         <span class="flex-grow-1">Gearchiveerd</span>
-                        {{-- <span class="badge rounded-pill bg-count-badge ms-auto">{{ $totals->archived }}</span> --}}
                     </a>
                 </nav>
             </div>
