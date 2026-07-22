@@ -5,18 +5,19 @@
             <form action="{{ route('article-report.create', $article) }}" method="POST">
                 @csrf {{-- foirm field protection --}}
 
-                <div class="modal-header modal-header-reporting border-bottom-0">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">{{ __('components/article-report.heading') }}</h1>
+                <div class="modal-header bg-secondary-subtle border-bottom-0">
+                    <div>
+                        <h1 class="modal-title color-green fs-5" id="exampleModalLabel">
+                            <x-tabler-message-report class="icon-heading me-1"/> {{ __('components/article-report.heading') }}
+                        </h1>
+
+                        <p class="text-secondary-emphasis small mt-1 mb-0">
+                            {{ __('components/article-report.subtitle') }} <br>
+                            {{ __('components/article-report.leading-paragraph') }}
+                        </p>
+                    </div>
                 </div>
                 <div class="modal-body">
-                    <div class="alert mb-0 border-0 fst-italic alert-info" role="alert">
-                        <x-tabler-speakerphone class="icon me-1"/>
-                        <strong>{{ __('components/article-report.subtitle') }}</strong> <br>
-                        {{ __('components/article-report.leading-paragraph') }}
-                    </div>
-
-                    <hr>
-
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">{{ __('components/article-report.form.word.label') }}</label>
                         <input class="form-control" disabled value="{{ $article->word }}" id="exampleInputEmail1">
@@ -31,7 +32,7 @@
                     <button type="button" class="btn btn-sm btn-white" data-bs-dismiss="modal">
                         <x-tabler-x class="icon icon-sm me-1"/> {{ __('components/article-report.form.buttons.reset') }}
                     </button>
-                    <button type="submit" class="btn btn-sm btn-danger">
+                    <button type="submit" class="btn btn-sm btn-primary">
                         <x-tabler-send class="icon icon-sm me-1"/> {{ __('components/article-report.form.buttons.submit') }}
                     </button>
                 </div>
