@@ -48,6 +48,8 @@ final class RejectSuggestionAction extends Action
             ];
         });
 
+        $this->successNotificationMessage('De suggestie is met success afgewezen.');
+
         $this->schema(schema: $this->formSchema());
 
         $this->action(function (array $data): void {
