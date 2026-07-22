@@ -7,14 +7,14 @@ return [
         ],
         'report' => [
             'label' => 'Wat wil je melden?',
-            'placeholder' => 'Beschrijf kort en duidelijk wat je wil melden. Heb je een extra voorbeeldzin? Die kun je hier ook droppen.'
+            'placeholder' => 'Beschrijf kort en duidelijk wat je wil melden. Ook aanvullingen zijn welkom.'
         ],
         'buttons' => [
             'reset' => 'annuleren',
             'submit' => 'melden'
         ]
     ],
-    'heading' => 'Een probleem melden',
+    'heading' => 'Redactie tippen',
     'leading-paragraph' => 'Ook aanvullingen en extra voorbeeldzinnen zijn welkom. Onze vrijwilligers gaan er zo snel mogelijk mee aan de slag.',
-    'subtitle' => 'Foutje gespot? Meld het hier!'
+    'subtitle' => 'Fout gezien? Suggestie voor verbetering? Meld het hier!'
 ];
