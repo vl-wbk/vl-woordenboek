@@ -8,6 +8,10 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    @if (! app()->isProduction())
+        <meta name="robots" content="noindex, nofollow">
+    @endif
+
     <title>{{ config('app.name', 'Laravel') }} | {{ ucfirst($title) ?? null }}</title>
 
     <!-- Fonts -->

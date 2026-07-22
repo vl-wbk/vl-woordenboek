@@ -42,7 +42,6 @@
         "overtrue/laravel-like": "^6.0",
         "overtrue/laravel-vote": "^4.0",
         "owen-it/laravel-auditing": "^14.0",
-        "pxlrbt/filament-environment-indicator": "^3.5",
         "schmeits/filament-character-counter": "^5.0",
         "secondnetwork/blade-tabler-icons": "^3.29",
         "sentry/sentry-laravel": "^4.14",
