@@ -109,11 +109,11 @@
                                             <label for="woordsoort" class="form-label fw-semibold">Woordsoort</label>
 
                                             <select name="woordsoort" class="form-select" id="woordsoort">
-                                                <option value="">-- selecteer een woordsoort -- </option>
+                                                <option value="">-- selecteer een woordsoort --</option>
 
-                                                @foreach ($partOfSpeeches as $partOfSpeech => $value)
-                                                    <option value="{{ $partOfSpeech }}" @selected(old('woordsoort') == $partOfSpeech)>
-                                                        {{ $value }}
+                                                @foreach ($partOfSpeeches as $id => $name)
+                                                    <option value="{{ $id }}" @selected((int) old('woordsoort', $word->part_of_speech_id) === $id)>
+                                                        {{ $name }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -122,11 +122,12 @@
                                         </div>
 
                                         <div class="col-8">
-                                            <label for="characteristics" class="form-label fw-semibold  ">Kenmerken</label>
+                                            <label for="characteristics" class="form-label fw-semibold">Kenmerken</label>
 
                                             <input
                                                 type="text"
                                                 name="kenmerken"
+                                                maxlenght="255"
                                                 class="form-control bg-white @error('kenmerken') is-invalid @enderror"
                                                 id="characteristics"
                                                 value="{{ old('kenmerken', $word->characteristics ?? '-') }}"

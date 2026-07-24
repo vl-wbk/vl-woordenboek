@@ -23,7 +23,7 @@ final class ArticleCorrectRequest extends FormRequest
         return [
             'beschrijving' => ['required'],
             'beweegredenen' => ['required'],
-            'woordsoort' => [],
+            'woordsoort' => ['nullable', 'integer', 'exists:part_of_speeches,id'],
             'kenmerken' => ['required'],
         ];
     }
