@@ -1,6 +1,6 @@
 <section class="mb-4">
     <h5 class="fw-semibold mb-3">
-        <span class="color-green fw-semibold me-1">//</span> Stemmen van de gebruikers
+        <span class="color-green fw-semibold me-1">//</span> Mening van de gebruikers
     </h5>
 
     <div class="d-flex flex-wrap gap-3 align-items-start mb-3">
