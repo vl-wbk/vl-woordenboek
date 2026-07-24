@@ -23,6 +23,8 @@ final class ArticleCorrectRequest extends FormRequest
         return [
             'beschrijving' => ['required'],
             'beweegredenen' => ['required'],
+            'woordsoort' => [],
+            'kenmerken' => ['required'],
         ];
     }
 }
