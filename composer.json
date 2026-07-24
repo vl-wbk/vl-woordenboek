@@ -1,9 +1,10 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
+    "name": "vl-wbk/platform",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["Laravel", "framework"],
+    "keywords": ["dictionary", "vl-wbk", "vlaams woordenboek", "laravel"],
+    "homepage": "https://github.com/vl-wbk/vl-woordenboek",
+    "description": "The dictionary platform build for the flemisch dictionary.",
     "license": "MIT",
     "require": {
         "php": "^8.4",
