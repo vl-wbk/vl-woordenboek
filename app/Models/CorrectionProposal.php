@@ -15,18 +15,20 @@ use Spatie\ModelStates\HasStates;
 use Throwable;
 
 /**
- * @property int             $id            The unique identifier from the correction purposal.
- * @property CorrectionState $state         The current state of the correction purposal in the system.
- * @property int             $article_id    The unique identifier from the article where the correction is related to.
- * @property int|null        $author_id     The unique identifier from the user who registered the proposal in the system.
- * @property int|null        $moderator_id  The unique identifier from the user who moderated the correction proposal.
- * @property string          $description   The suggested correction for the dictionary article.
- * @property string|null     $conclusion    The descriptive final conclusion for the correction
- * @property Carbon|null     $moderated_at  The timetamp that indicates when the proposal is moderated.
- * @property Carbon|null     $created_at    The timestamp indicating when the proposal is registered in the system.
- * @property Carbon|null     $updated_at    The timestamp that indicated when the proposal is modified for the last time.
+ * @property int             $id                The unique identifier from the correction purposal.
+ * @property CorrectionState $state             The current state of the correction purposal in the system.
+ * @property int             $article_id        The unique identifier from the article where the correction is related to.
+ * @property ?int            $part_of_speech_id The unique identifier from the part of speech that is connected to the article.
+ * @property string          $characteristics   The characteristics from the word in the dictionary.
+ * @property int|null        $author_id         The unique identifier from the user who registered the proposal in the system.
+ * @property int|null        $moderator_id      The unique identifier from the user who moderated the correction proposal.
+ * @property string          $description       The suggested correction for the dictionary article.
+ * @property string|null     $conclusion        The descriptive final conclusion for the correction
+ * @property Carbon|null     $moderated_at      The timetamp that indicates when the proposal is moderated.
+ * @property Carbon|null     $created_at        The timestamp indicating when the proposal is registered in the system.
+ * @property Carbon|null     $updated_at        The timestamp that indicated when the proposal is modified for the last time.
  */
-#[Fillable('description', 'reason', 'state')]
+#[Fillable('description', 'reason', 'state', 'part_of_speech_id', 'characteristics')]
 final class CorrectionProposal extends Model
 {
     use BelongsToAuthor;

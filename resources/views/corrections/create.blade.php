@@ -104,13 +104,52 @@
                                         <div class="fw-bold text-success fs-4 py-0">{{ $word->word }}</div>
                                     </div>
 
+                                    <div class="row mb-3">
+                                        <div class="col-4">
+                                            <label for="woordsoort" class="form-label fw-semibold">Woordsoort</label>
+
+                                            <select name="woordsoort" class="form-select" id="woordsoort">
+                                                <option value="">-- selecteer een woordsoort --</option>
+
+                                                @foreach ($partOfSpeeches as $id => $name)
+                                                    <option value="{{ $id }}" @selected((int) old('woordsoort', $word->part_of_speech_id) === $id)>
+                                                        {{ $name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+
+                                            <x-forms.validation-error field="woordsoort"/>
+                                        </div>
+
+                                        <div class="col-8">
+                                            <label for="characteristics" class="form-label fw-semibold">Kenmerken</label>
+
+                                            <input
+                                                type="text"
+                                                name="kenmerken"
+                                                maxlenght="255"
+                                                class="form-control bg-white @error('kenmerken') is-invalid @enderror"
+                                                id="characteristics"
+                                                value="{{ old('kenmerken', $word->characteristics ?? '-') }}"
+                                            >
+
+                                            <x-forms.validation-error field="kenmerken"/>
+                                        </div>
+                                    </div>
+
                                     <!-- Proposed Description -->
                                     <div class="mb-3">
                                         <div class="d-flex justify-content-between align-items-center mb-2">
                                             <label for="description" class="form-label fw-semibold mb-0">Aangepaste beschrijving</label>
                                             <span class="badge bg-primary-subtle border text-primary small fw-normal">Markdown ondersteund</span>
                                         </div>
-                                        <textarea class="form-control bg-white @error('beschrijving') is-invalid @enderror" id="description" name="beschrijving" rows="6" placeholder="Typ hier de gecorrigeerde definitie of betekenis...">{{ old('beschrijving', $word->description) }}</textarea>
+                                        <textarea
+                                            class="form-control bg-white @error('beschrijving') is-invalid @enderror"
+                                            id="description"
+                                            name="beschrijving"
+                                            rows="6"
+                                            placeholder="Typ hier de gecorrigeerde definitie of betekenis...">{{ old('beschrijving', $word->description) }}</textarea>
+
                                         @error('beschrijving')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
