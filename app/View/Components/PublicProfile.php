@@ -4,36 +4,50 @@ declare(strict_types=1);
 
 namespace App\View\Components;
 
-use App\Builders\ArticleBuilder;
-use App\Builders\UserBuilder;
 use App\Enums\ArticleStates;
-use App\Models\Article;
-use App\Models\User;
+use App\Models\{Article, User};
 use App\States\Articles\Corrections\ApprovedState;
-use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use Illuminate\Contracts\Database\Eloquent\Builder as DatabaseEloquentBuilder;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
-use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\{Cache, Auth};
 use Illuminate\View\Component;
 use OwenIt\Auditing\Models\Audit;
-use stdClass;
 
+/**
+ * Component responsible for preparing and rendering a user's public profile page.
+ * 
+ * This component gathers various user statistics—such as contribution activity over the past year, 
+ * total suggestions, approved corrections, and publication counts—while utilizing caching to optimize 
+ * performance. It also handles visibility checks for user interactions, like determining whether 
+ * a contact relationship can be established by the currently logged-in visitor.
+ * 
+ * @package App\View\Components
+ */
 final class PublicProfile extends Component
 {
     /**
+     * Configuration array for cache time-to-live settings.
+     * 
      * @var array{0: int, 1: int}
      */
     protected array $cacheTTL = [10, 60];
 
+    /**
+     * Initialize the component with the target user whose profile is being viewed.
+     *
+     * @param  User $user The profile owner.
+     * @return void
+     */
     public function __construct(
         public User $user,
     ) {}
 
+    /**
+     * Compile the contribution graph data and aggregate all user statistics  before passing them to the public profile view template.
+     *
+     * @return View
+     */
     public function render(): View
     {
 
@@ -57,6 +71,12 @@ final class PublicProfile extends Component
         ]);
     }
 
+    /**
+     * Fetch the total number of approved corrections made by the user from the cache,
+     * querying the database and formatting the result as a human-readable string if a cache miss occurs.
+     *
+     * @return string
+     */
     public function getCachedCorrectionsCount(): string
     {
         $cacheKey = 'user_correction_count_' . $this->user->id;
@@ -70,6 +90,12 @@ final class PublicProfile extends Component
         return Cache::remember($cacheKey, $this->cacheTTL(), fn (): string => toHumanReadableNumber($user->corrections_count));
     }
 
+    /**
+     * Fetch the total number of published articles/suggestions authored by the user from the cache,
+     * computing and formatting the value on a cache miss. 
+     *
+     * @return string
+     */
     private function getCachedPublicationCount(): string
     {
         $cacheKey = 'user_publication_count_' . $this->user->id;
@@ -84,6 +110,12 @@ final class PublicProfile extends Component
         return Cache::remember($cacheKey, $this->cacheTTL(), fn (): string => toHumanReadableNumber($user->suggestions_count));
     }
 
+    /**
+     * Retrieve the cached overall suggestion count for the user.
+     * Generatingand formatting the total count dynamically hen the cache expires. 
+     * 
+     * @return string
+     */
     private function getCachedSuggestionCount(): string
     {
         $cacheKey = 'user_suggestion_count_' . $this->user->id;
@@ -93,11 +125,24 @@ final class PublicProfile extends Component
         });
     }
 
+    /**
+     * Generate the default Carbon time interval used for the cache expliration times.
+     *
+     * @return CarbonInterface
+     */
     private function cacheTtl(): CarbonInterface
     {
         return now()->addMinutes(5);
     }
 
+    /**
+     * Verify hether a contact relationship option should be available for the authenticated visitor. 
+     * 
+     * Evaluates to true if the currently logged-in user is visiting someone else's profile 
+     * and is not yet connected as a contact.
+     *
+     * @return bool
+     */
     private function contactExists(): bool
     {
         /** @var User $authenticatedUser */
