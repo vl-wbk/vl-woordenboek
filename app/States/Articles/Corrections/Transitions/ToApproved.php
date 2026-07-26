@@ -37,9 +37,13 @@ final class ToApproved extends Transition
         return DB::transaction(function (): CorrectionProposal {
             // 1. Synchronize the corrected values into the parent article record
             $article = $this->correctionProposal->article;
-            
+
             if ($article) {
-                tap($article)->update(['description' => $this->correctionProposal->description]);
+                tap($article)->update([
+                    'characteristics' => $this->correctionProposal->characteristics,
+                    'part_of_speech_id' => $this->correctionProposal->part_of_speech_id,
+                    'description' => $this->correctionProposal->description
+                ]);
             }
 
             // 2. Persist proposal metadata fields

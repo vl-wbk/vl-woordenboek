@@ -5,16 +5,12 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Web\Articles;
 
 use App\Actions\Articles\StoreArticleCorrection;
-use App\Features\ArticleCorrectionsFeature;
-use App\Features\BetaProgramFeature;
 use App\Http\Requests\Articles\ArticleCorrectRequest;
 use App\Models\Article;
+use App\Models\PartOfSpeech;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Attributes\Controllers\Authorize;
-use Laravel\Pennant\Feature;
 use Spatie\LaravelData\Exceptions\InvalidDataClass;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Post;
@@ -24,10 +20,11 @@ final readonly class CorrectionController
 {
     #[Get(uri: '/woordenboek-artikel/{article}/correctie', name: 'correction:create', middleware: ['auth', 'forbid-banned-user'])]
     #[Authorize(ability: 'create', models: 'App\Models\CorrectionProposal')]
-    public function create(Request $request, Article $article): Renderable
+    public function create(Article $article): Renderable
     {
         return view('corrections.create', data: [
-            'word' => $article->load(['regions', 'labels', 'related.partOfSpeech'])
+            'word' => $article->load(['regions', 'labels', 'related.partOfSpeech']),
+            'partOfSpeeches' => PartOfSpeech::query()->where('suggestible', true)->pluck('name', 'id')
         ]);
     }
 
