@@ -85,4 +85,9 @@ class ArticleState implements ArticleStateContract
     {
         throw new LogicException('The method transitionToRejectedPublication() is not allowed on the current state.');
     }
+
+    public function transitionToRejectedSuggestion(array $feedback): bool
+    {
+        throw new LogicException('The method transitionToRejectedSuggestion() is not allowed on the current state.');
+    }
 }

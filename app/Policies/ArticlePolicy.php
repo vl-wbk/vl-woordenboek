@@ -48,6 +48,7 @@ final class ArticlePolicy
         "updatePublished",
         "geforceerdVerwijderen",
         "meerdereGeforceerdVerwijderen",
+        "reject"
     ];
 
     /**
@@ -75,6 +76,15 @@ final class ArticlePolicy
 
         //! No custom authorization message defined because we simply need to return a HTTP 404 code.
         return Response::denyAsNotFound();
+    }
+
+    public function rejectSuggestion(User $user, Article $article): Response
+    {
+        if ($user->can('reject:article') && $article->isAwaitingModeration()) {
+            return Response::allow();
+        }
+
+        return Response::deny(message: __('U hebt geen machtiging om de suggestie van de gebruiker af te wijzen.'));
     }
 
     public function viewSuggestion(User $user, Article $article): Response

@@ -59,39 +59,9 @@ final readonly class WordInfolist
         return $schema
             ->columns(12)
             ->components([
-                SimpleAlert::make('test')
-                    ->icon(Heroicon::OutlinedArchiveBox, IconAnimation::Pulse)
-                    ->title(fn (Article $article): HtmlString => self::archiveInformationAlert($article)['title'])
-                    ->description(fn (Article $article): HtmlString => self::archiveInformationAlert($article)['description'])
-                    ->visible(fn (Article $article): bool => $article->isArchived() && ! $article->trashed())
-                    ->actions([
-                        Action::make('Bekijk verwijsartikel')
-                            ->visible(fn (Article $article) => $article->redirect_article_id)
-                            ->color('gray')
-                            ->outlined()
-                            ->icon(Heroicon::OutlinedEye)
-                            ->url(fn (Article $article): string => ArticleResource::getUrl('view', ['record' => $article->redirect_article_id])),
-
-                        UnarchiveAction::make()->label('Ongedaan maken')->color('danger')->outlined()
-                    ])
-                    ->border()
-                    ->color('danger')
-                    ->columnSpanFull(),
-
-                SimpleAlert::make('delete-alert')
-                    ->title('Verwijderd artikel')
-                    ->description(fn (Article $article): string => __('je raadpleegd momenteel een door :user verwijderd artikel. Dat gemarkeerd is wegens :reason', [
-                        'user' => $article->deletedBy->name ?? config('app.name', 'Laravel'),
-                        'reason' => $article->deletion_reason ?? 'onbekend'
-                    ]))
-                    ->columnSpanFull()
-                    ->icon(Heroicon::OutlinedTrash, IconAnimation::Pulse)
-                    ->visible(fn (Article $article): bool => $article->trashed())
-                    ->color('danger')
-                    ->actions([
-                        RestoreArticleAction::make()->icon('heroicon-m-arrow-uturn-left'),
-                        ForceDeleteAction::make()->icon('heroicon-o-trash'),
-                    ]),
+                self::archivedAlert(),
+                self::deleteAlert(),
+                self::rejectedSuggestionAlert(),
 
                 Tabs::make('lemma-information')
                     ->columnSpan(12)
@@ -102,6 +72,58 @@ final readonly class WordInfolist
                         self::publicationInformationTab(),
                     ]),
             ]);
+    }
+
+    private static function rejectedSuggestionAlert(): SimpleAlert
+    {
+        return SimpleAlert::make('rejected-suggestion-alert')
+            ->columnSpanFull()
+            ->visible(fn (Article $article): bool => $article->isRejectedSuggestion())
+            ->icon(Heroicon::OutlinedArchiveBoxXMark, IconAnimation::Pulse)
+            ->title(fn (Article $article): string => __(':user heeft deze suggestie :date afgewezen', ['user' => $article->rejectedBy->name ?? 'Onbekende/verwijderde gebruiker', 'date' => $article->updated_at->diffForHumans()]))
+            ->description(fn (Article $article): string => $article->rejection_reason ?? 'Geen feedback opgegegevn voor de gebruiker.')
+            ->border()
+            ->color('danger');
+    }
+
+    private static function archivedAlert(): SimpleAlert
+    {
+        return SimpleAlert::make('test')
+            ->icon(Heroicon::OutlinedArchiveBox, IconAnimation::Pulse)
+            ->title(fn (Article $article): HtmlString => self::archiveInformationAlert($article)['title'])
+            ->description(fn (Article $article): HtmlString => self::archiveInformationAlert($article)['description'])
+            ->visible(fn (Article $article): bool => $article->isArchived() && ! $article->trashed())
+            ->actions([
+                Action::make('Bekijk verwijsartikel')
+                    ->visible(fn (Article $article) => $article->redirect_article_id)
+                    ->color('gray')
+                    ->outlined()
+                    ->icon(Heroicon::OutlinedEye)
+                    ->url(fn (Article $article): string => ArticleResource::getUrl('view', ['record' => $article->redirect_article_id])),
+
+                UnarchiveAction::make()->label('Ongedaan maken')->color('danger')->outlined()
+            ])
+            ->border()
+            ->color('danger')
+            ->columnSpanFull();
+    }
+
+    private static function deleteAlert(): SimpleAlert
+    {
+        return SimpleAlert::make('delete-alert')
+            ->title('Verwijderd artikel')
+            ->description(fn (Article $article): string => __('je raadpleegd momenteel een door :user verwijderd artikel. Dat gemarkeerd is wegens :reason', [
+                'user' => $article->deletedBy->name ?? config('app.name', 'Laravel'),
+                'reason' => $article->deletion_reason ?? 'onbekend'
+            ]))
+                ->columnSpanFull()
+                ->icon(Heroicon::OutlinedTrash, IconAnimation::Pulse)
+                ->visible(fn (Article $article): bool => $article->trashed())
+                ->color('danger')
+                ->actions([
+                    RestoreArticleAction::make()->icon('heroicon-m-arrow-uturn-left'),
+                    ForceDeleteAction::make()->icon('heroicon-o-trash'),
+                ]);
     }
 
     /**

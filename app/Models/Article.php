@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Services\ViewCounterService;
-use App\States\Articles;
 use App\Builders\ArticleBuilder;
 use App\Models\Relations\HasNotables;
-use App\Contracts\States\ArticleStateContract;
 use App\Enums\ArticleStates;
 use App\Enums\DataOrigin;
 use App\Enums\LanguageStatus;
+use App\Models\Concerns\Articles\ManagesArticleStates;
 use App\Models\Concerns\ManagesArticleAudits;
 use App\Models\Relations\Articles\HasCorrectionSupport;
 use App\Models\Relations\BelongsToAuthor;
@@ -102,6 +101,7 @@ final class Article extends Model implements AuditableContract, Commentable
     use HasComments;
     use Votable;
     use HasCorrectionSupport;
+    use ManagesArticleStates;
 
     /**
      * Relations that are always eager-loaded with this model.
@@ -140,28 +140,9 @@ final class Article extends Model implements AuditableContract, Commentable
         'migration_configuration' => '{"examples": true}',
     ];
 
-    /**
-     * Returns the appropriate Article State instance based on the current article status.
-     *
-     * This method uses a `match` expression to determine the current state of the dictionary article based on its state.
-     * It then returns an instance of the corresponding state class, which handles specific behaviors and transitions of that state.
-     * Each article state maps to a different state class; ensuring the current state logic is applied at any given point in the article lifecycle.
-     *
-     * Example states flow: New -> Draft -> Approval -> Published -> Archived
-     *
-     * @return ArticleStateContract - The corresponding state class for the current dictionary article
-     */
-    public function articleStatus(): ArticleStateContract
+    public function rejectedBy(): BelongsTo
     {
-        return match ($this->state) {
-            ArticleStates::ExternalData => new Articles\ExternalData($this),
-            ArticleStates::New => new Articles\Suggestion($this),
-            ArticleStates::Draft => new Articles\Draft($this),
-            ArticleStates::Approval => new Articles\Approval($this),
-            ArticleStates::Published => new Articles\Published($this),
-            ArticleStates::Archived => new Articles\Archived($this),
-            ArticleStates::RejectedPublication => new Articles\RejectedPublication($this)
-        };
+        return $this->belongsTo(User::class, 'rejected_by');
     }
 
     /**
