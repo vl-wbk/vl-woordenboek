@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\States\Articles;
 
+use App\Concerns\HandlesDatabaseTransactions;
 use App\Enums\ArticleStates;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Override;
 use Throwable;
 
 /**
@@ -21,6 +24,8 @@ use Throwable;
  */
 final class Suggestion extends ArticleState
 {
+    use HandlesDatabaseTransactions;
+
     /**
      * Transitions the article from the New state to a state that permits editing.
      *
@@ -40,6 +45,21 @@ final class Suggestion extends ArticleState
             $this->article->setCurrentUserAsEditor();
 
             return true;
+        });
+    }
+
+    /**
+     * @template TReturn
+     * @return TReturn
+     */
+    public function transitionToRejectedSuggestion(array $feedback): bool
+    {
+        return $this->executeInTransaction(function () use ($feedback): bool {
+            return $this->article->update(attributes: [
+                'state' => ArticleStates::RejectedSuggestion,
+                'rejected_by' => Auth::user()->getAuthIdentifier(),
+                'rejection_reason' => $feedback['rejection_reason'],
+            ]);
         });
     }
 }

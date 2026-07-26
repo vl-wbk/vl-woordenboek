@@ -379,132 +379,202 @@
 
 
             <div class="row g-3">
-                <div class="col-6">
-                    <div class="card bg-light card-body h-100">
-                        <h6 class="fw-bold">Woordsoort</h5>
-                        <p class="text-light-emphasis">{{ $article->partOfSpeech->name ?? '- niet opgegeven' }}</p>
-                    </div>
-                </div>
-
-                <div class="col-6">
-                    <div class="card bg-light card-body h-100">
-                        <h6 class="fw-bold">Kenmerken</h5>
-                        <p class="text-light-emphasis">
-                            {{ $article->characteristics ?? '-niet opgegeven ' }}
-                        </p>
-                    </div>
-                </div>
-
-
                 <div class="col-12">
-                    <div class="card bg-light card-body">
-                        <h6 class="fw-bold">Regio(s)</h5>
-                        <p class="text-light-emphasis">
-                            @foreach ($article->regions as $region)
-                                <span @if (!$loop->first) class="me-1" @endif>{{ $region->name }},</span>
-                            @endforeach
-                        </p>
-                    </div>
-                </div>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">
+                                <x-tabler-info-square-rounded class="icon me-1"/> Informatie
+                            </button>
+                        </li>
 
-                <div class="col-12">
-                    <div class="card bg-light card-body">
-                        <h6 class="fw-bold">Beschrijving</h5>
-
-                        <div class="text-light-emphasis">
-                            {!! str($article->description)->markdown()->sanitizeHtml() !!}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <div class="card bg-light card-body">
-                        <h6 class="fw-bold">Voorbeeldzinnen</h6>
-
-                        @if ($article->userExamples()->exists())
-                            <ul class="mb-0 list-unstyled space-y-4">
-                                @foreach ($article->userExamples as $example)
-                                    <li class="break-words @if (! $loop->last) pb-3 border-bottom mb-3 @endif">
-                                        {{-- Main Sentence --}}
-                                        <div class="text-gray-900">
-                                            <span class="badge rounded-pill bg-dark text-white">{{ $loop->iteration }}</span>
-                                            <span class="ms-2">{{ $example->example }}</span>
-                                        </div>
-
-                                        {{-- Source Media Object --}}
-                                        <div class="d-flex align-items-center text-muted small ms-4">
-                                            <cite class="italic ms-1">bron: {{ $example->source }}</cite>
-                                        </div>
-                                    </li>
-                                @endforeach
-                            </ul>
+                        @if ($article->isRejectedSuggestion())
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">
+                                    <x-tabler-message-report class="icon me-1"/> Reden voor afwijzing
+                                </button>
+                            </li>
                         @endif
+                    </ul>
+                </div>
+
+                <div class="tab-content" id="myTabContent">
+                    @if ($article->isRejectedSuggestion())
+                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <div class="card bg-light border card-body h-100">
+                                        <p class="text-light-emphasis">
+                                            {{ $article->rejection_reason }}
+                                        </p>
+
+                                        <hr class="my-2">
+
+                                            <ul class="list-inline mb-0 small text-light-emphasis">
+                                                <li class="list-inline-item me-4">
+                                                    <span class="text-dark" class="me-1">
+                                                        <x-heroicon-o-user-circle class="color-green icon me-1"/> Beoordeeld door:
+                                                    </span>
+
+                                                    <strong class="fw-bold me-1">
+                                                        {{ $article->rejectedBy->name ?? 'Onbekende gebruiker' }}
+                                                    </strong>
+                                                </li>
+
+                                                <li class="list-inline-item">
+                                                    <span class="text-dark" class="me-1">
+                                                        <x-heroicon-o-clock class="color-green icon me-1"/> Beoordeeld op:
+                                                    </span>
+
+                                                    <strong class="fw-bold me-1">
+                                                        {{ $article->updated_at->translatedFormat('d M, Y') }}
+                                                        <span class="fst-italic">({{ $article->updated_at->diffForHumans() }})</span>
+                                                    </strong>
+                                                </li>
+                                            </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                         <div class="row g-3">
+                            <div class="col-6">
+                                <div class="card bg-light card-body h-100">
+                                    <h6 class="fw-bold">Woordsoort</h5>
+                                    <p class="text-light-emphasis">{{ $article->partOfSpeech->name ?? '- niet opgegeven' }}</p>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="card bg-light card-body h-100">
+                                    <h6 class="fw-bold">Kenmerken</h5>
+                                    <p class="text-light-emphasis">
+                                        {{ $article->characteristics ?? '-niet opgegeven ' }}
+                                    </p>
+                                </div>
+                            </div>
+
+
+                            <div class="col-12">
+                                <div class="card bg-light card-body">
+                                    <h6 class="fw-bold">Regio(s)</h5>
+                                    <p class="text-light-emphasis">
+                                        @foreach ($article->regions as $region)
+                                            <span @if (!$loop->first) class="me-1" @endif>{{ $region->name }},</span>
+                                        @endforeach
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="card bg-light card-body">
+                                    <h6 class="fw-bold">Beschrijving</h6>
+
+                                    <div class="text-light-emphasis">
+                                        {!! str($article->description)->markdown()->sanitizeHtml() !!}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="card bg-light card-body">
+                                    <h6 class="fw-bold">Voorbeeldzinnen</h6>
+
+                                    @if ($article->userExamples()->exists())
+                                        <ul class="mb-0 list-unstyled space-y-4">
+                                            @foreach ($article->userExamples as $example)
+                                                <li class="@if (! $loop->last) pb-3 border-bottom mb-3 @endif">
+                                                    <div class="d-flex align-items-start">
+                                                        {{-- Badge --}}
+                                                        <span class="badge rounded-pill bg-dark text-white me-3 mt-1 flex-shrink-0">{{ $loop->iteration }}</span>
+
+                                                        {{-- Content Container with text-break to handle long strings --}}
+                                                        <div class="flex-grow-1 text-break">
+                                                            {{-- Main Sentence --}}
+                                                            <div class="text-gray-900">
+                                                                <span>{{ $example->example }}</span>
+                                                            </div>
+
+                                                            {{-- Source Media Object --}}
+                                                            <div class="d-flex align-items-center text-muted small mt-1">
+                                                                <cite class="italic">bron: {{ $example->source }}</cite>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @endif
+                                </div>
+                            </div>
+
+                            @if ($article->editor || $article->archiever || $article->publisher)
+                                <hr>
+
+                                <div class="row">
+                                    @if ($article->editor)
+                                        <div class="col-4">
+                                            <span class="text-uppercase text-muted fw-bold small mb-2 d-block" style="letter-spacing: 0.5px;">
+                                                Redactie door
+                                            </span>
+
+                                            <div class="card bg-white border rounded-4 p-3">
+                                                <div class="d-flex align-items-center">
+                                                    <img src="{{ $article->editor->getFilamentAvatarUrl() }}" class="rounded-circle bg-light d-flex align-items-center justify-content-center shadow-sm" style="width: 33px; height: 33px; flex-shrink: 0;"/>
+
+                                                    <div class="ms-3 flex-grow-1">
+                                                        <h6 class="mb-0 fw-bold text-dark">{{ $article->editor->name ?? config('app.name', 'Laravel') }}</h6>
+                                                        <div class="text-muted small">{{ $article->editor->user_type->getLabel() ?? 'Verwijderde gebruiker' }}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+
+                                    @if ($article->publisher)
+                                        <div class="col-4">
+                                            <span class="text-uppercase text-muted fw-bold small mb-2 d-block" style="letter-spacing: 0.5px;">
+                                                Eindredactie door
+                                            </span>
+
+                                            <div class="card bg-white border rounded-4 p-3">
+                                                <div class="d-flex align-items-center">
+                                                    <img src="{{ $article->publisher->getFilamentAvatarUrl() }}" class="rounded-circle bg-light d-flex align-items-center justify-content-center shadow-sm" style="width: 33px; height: 33px; flex-shrink: 0;"/>
+
+                                                    <div class="ms-3 flex-grow-1">
+                                                        <h6 class="mb-0 fw-bold text-dark">{{ $article->publisher->name ?? config('app.name', 'Laravel') }}</h6>
+                                                        <div class="text-muted small">{{ $article->publisher->user_type->getLabel() ?? 'Verwijderde gebruiker' }}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+
+                                    @if ($article->archiever)
+                                        <div class="col-4">
+                                            <span class="text-uppercase text-muted fw-bold small mb-2 d-block" style="letter-spacing: 0.5px;">
+                                                Gearchiveerd door
+                                            </span>
+
+                                            <div class="card bg-white border rounded-4 p-3">
+                                                <div class="d-flex align-items-center">
+                                                    <img src="{{ $article->archiever->getFilamentAvatarUrl() }}" class="rounded-circle bg-light d-flex align-items-center justify-content-center shadow-sm" style="width: 33px; height: 33px; flex-shrink: 0;"/>
+
+                                                    <div class="ms-3 flex-grow-1">
+                                                        <h6 class="mb-0 fw-bold text-dark">{{ $article->archiever->name ?? config('app.name', 'Laravel') }}</h6>
+                                                        <div class="text-muted small">{{ $article->archiever->user_type->getLabel() ?? 'Verwijderde gebruiker' }}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
-
-            @if ($article->editor || $article->archiever || $article->publisher)
-                <hr>
-
-                <div class="row">
-                    @if ($article->editor)
-                        <div class="col-4">
-                            <span class="text-uppercase text-muted fw-bold small mb-2 d-block" style="letter-spacing: 0.5px;">
-                                Redactie door
-                            </span>
-
-                            <div class="card bg-white border rounded-4 p-3">
-                                <div class="d-flex align-items-center">
-                                    <img src="{{ $article->editor->getFilamentAvatarUrl() }}" class="rounded-circle bg-light d-flex align-items-center justify-content-center shadow-sm" style="width: 33px; height: 33px; flex-shrink: 0;"/>
-
-                                    <div class="ms-3 flex-grow-1">
-                                        <h6 class="mb-0 fw-bold text-dark">{{ $article->editor->name ?? config('app.name', 'Laravel') }}</h6>
-                                        <div class="text-muted small">{{ $article->editor->user_type->getLabel() ?? 'Verwijderde gebruiker' }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-
-                    @if ($article->publisher)
-                        <div class="col-4">
-                            <span class="text-uppercase text-muted fw-bold small mb-2 d-block" style="letter-spacing: 0.5px;">
-                                Eindredactie door
-                            </span>
-
-                            <div class="card bg-white border rounded-4 p-3">
-                                <div class="d-flex align-items-center">
-                                    <img src="{{ $article->publisher->getFilamentAvatarUrl() }}" class="rounded-circle bg-light d-flex align-items-center justify-content-center shadow-sm" style="width: 33px; height: 33px; flex-shrink: 0;"/>
-
-                                    <div class="ms-3 flex-grow-1">
-                                        <h6 class="mb-0 fw-bold text-dark">{{ $article->publisher->name ?? config('app.name', 'Laravel') }}</h6>
-                                        <div class="text-muted small">{{ $article->publisher->user_type->getLabel() ?? 'Verwijderde gebruiker' }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-
-                    @if ($article->archiever)
-                        <div class="col-4">
-                            <span class="text-uppercase text-muted fw-bold small mb-2 d-block" style="letter-spacing: 0.5px;">
-                                Gearchiveerd door
-                            </span>
-
-                            <div class="card bg-white border rounded-4 p-3">
-                                <div class="d-flex align-items-center">
-                                    <img src="{{ $article->archiever->getFilamentAvatarUrl() }}" class="rounded-circle bg-light d-flex align-items-center justify-content-center shadow-sm" style="width: 33px; height: 33px; flex-shrink: 0;"/>
-
-                                    <div class="ms-3 flex-grow-1">
-                                        <h6 class="mb-0 fw-bold text-dark">{{ $article->archiever->name ?? config('app.name', 'Laravel') }}</h6>
-                                        <div class="text-muted small">{{ $article->archiever->user_type->getLabel() ?? 'Verwijderde gebruiker' }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                </div>
-            @endif
         </div>
     </div>
 </div>
