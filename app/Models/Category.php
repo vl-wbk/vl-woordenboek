@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Database\Factories\CategoryFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -28,21 +29,12 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  *
  * @package App\Models
  */
+#[Fillable('name', 'description')]
 final class Category extends Model
 {
     /** @use HasFactory<CategoryFactory> */
     use HasFactory;
     use HasUlids;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * These fields can be safely set via mass assignment (e.g., using `Category::create()` or `Category->fill()`).
-     * The 'name' and 'description' attributes are allowed to be filled directly.
-     *
-     * @var list<string>
-     */
-    protected $fillable = ['name', 'description'];
 
     /**
      * Get the posts that belong to this category.
