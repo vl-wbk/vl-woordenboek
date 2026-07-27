@@ -11,6 +11,7 @@ use App\Models\PartOfSpeech;
 use App\Models\Region;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Attributes\Controllers\Authorize;
 use Spatie\LaravelData\Exceptions\InvalidDataClass;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Post;
@@ -61,6 +62,7 @@ final class StoreArticleSuggestionController
      * @throws InvalidDataClass when the data transfer object couldn't be found in the application.
      */
     #[Post(uri: 'woordenboek-artikelen/insturen', name: 'definitions.store')]
+    #[Authorize('create-suggestion', 'App\Models\Article')]
     public function store(StoreSuggestionRequest $storeSuggestionRequest, StoreArticleSuggestion $storeArticleSuggestion): RedirectResponse
     {
         $this->throttleSubmission($storeSuggestionRequest, 'suggestion', function () use ($storeArticleSuggestion, $storeSuggestionRequest): void {

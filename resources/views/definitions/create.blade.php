@@ -65,6 +65,36 @@
     <div class="container-fluid py-5">
         <div class="row justify-content-center">
             <div class="col-11 col-xl-10">
+                <div class="alert alert-warning border-0 shadow-sm alert-dismissible fade show" role="alert">
+                    <h5 class="alert-heading">
+                        <x-heroicon-s-exclamation-triangle class="icon me-1"/>
+                        We passen tijdelijk ons suggestiebeleid aan
+                    </h5>
+
+                    <p>
+                        Om de kwaliteit van het Vlaams Woordenboek te blijven waarborgen en de
+                        werkdruk voor onze vrijwillige redactie beheersbaar te houden, voeren we
+                        een aantal wijzigingen door in ons suggestiebeleid.
+                        Voortaan kan iedere gebruiker maximaal <strong>20 open suggesties</strong>
+                        tegelijk hebben. Zodra een suggestie is beoordeeld, komt er automatisch
+                        opnieuw ruimte vrij om een nieuwe suggestie in te dienen.
+                    </p>
+
+                    <hr>
+
+                    <p class="mb-0">
+                        Door de instroom van nieuwe suggesties beter te spreiden, kunnen we niet
+                        alleen nieuwe bijdragen sneller en zorgvuldiger verwerken, maar creëren
+                        we ook meer ruimte om bestaande en oudere artikelen grondig te herzien
+                        en verder te verbeteren. Zo investeren we in de toekomst én de kwaliteit
+                        van het volledige woordenboek.
+                    </p>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Sluiten"></button>
+                </div>
+            </div>
+
+            <div class="col-11 col-xl-10">
 
                 {{-- Status Melding --}}
                 @if (flash()->message)
