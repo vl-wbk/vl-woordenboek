@@ -148,18 +148,42 @@
                                                 @if ($errors->has('quotum'))
                                                     {{ $errors->first('quotum') }}
 
+                                                    @if ($volgendeVrijgave)
+                                                        <br>
+                                                        <span class="text-muted">
+                                                            Je kan opnieuw indienen op {{ $volgendeVrijgave->translatedFormat('d F Y \o\m H:i') }}
+                                                            ({{ $volgendeVrijgave->diffForHumans() }}).
+                                                        </span>
+                                                    @endif
+
                                                 @elseif ($limietBereikt)
-                                                    Je hebt de limiet bereikt voor het indienen van suggesties. Probeer het later opnieuw
+                                                    Je hebt de limiet bereikt voor het indienen van suggesties.
+
+                                                    @if ($volgendeVrijgave)
+                                                        Je kan opnieuw een suggestie indienen op
+                                                        <strong>{{ $volgendeVrijgave->translatedFormat('d F Y \o\m H:i') }}</strong>
+                                                        ({{ $volgendeVrijgave->diffForHumans() }}).
+                                                    @else
+                                                        Probeer het later opnieuw.
+                                                    @endif
 
                                                     @guest
-                                                        of <a href="{{ route('login') }}" class="alert-link">meld je aan</a> voor een hoger quotum.
-                                                    @else
-                                                        .
+                                                        <hr>
+                                                        Of <a href="{{ route('login') }}" class="alert-link">meld je aan</a> voor een hoger quotum.
                                                     @endguest
 
                                                 @else
                                                     Je hebt nog <strong>{{ $resterend }}</strong> suggestie(s) over voor deze periode.
+
+                                                    @if ($volgendeVrijgave)
+                                                        <span class="text-muted">
+                                                            Je volledige quotum is weer beschikbaar op
+                                                            {{ $volgendeVrijgave->translatedFormat('d F Y \o\m H:i') }}.
+                                                        </span>
+                                                    @endif
+
                                                     @guest
+                                                        <hr>
                                                         <a href="{{ route('login') }}" class="alert-link">Meld je aan</a> voor een ruimer quotum.
                                                     @endguest
                                                 @endif

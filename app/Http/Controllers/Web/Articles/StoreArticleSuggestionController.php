@@ -44,6 +44,7 @@ final class StoreArticleSuggestionController
         return view('definitions.create', [
             'regions' => Region::query()->pluck('name', 'id'),
             'resterend' => $suggestionQuotaService->remaining(request()),
+            'volgendeVrijgave' => $suggestionQuotaService->nextReset(request()),
             'partOfSpeeches' => PartOfSpeech::query()->where('suggestible', true)->pluck('name', 'id'),
         ]);
     }

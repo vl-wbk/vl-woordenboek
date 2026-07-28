@@ -15,6 +15,29 @@ final class SuggestionQuotaService
         return $this->currentAmount($request) >= $this->maxAllowedAttempts($request);
     }
 
+    public function nextReset(Request $request): ?Carbon
+    {
+        $config = $this->configurationFor($request);
+        $since = Carbon::now()->subHours($config['window']);
+
+        $query = Article::query()
+            ->where('created_at', '>=', $since)
+            ->orderBy('created_at')
+            ->limit(1);
+
+        if ($request->user()) {
+            $query->where('author_id', $request->user()->id);
+        } else {
+            $query->whereNull('author_id')->where('ip_address', $request->ip());
+        }
+
+        $oudste = $query->first();
+
+        return $oudste
+            ? $oudste->created_at->addHours($config['window'])
+            : null;
+    }
+
     public function currentAmount(Request $request): int 
     {
         $config = $this->configurationFor($request); 
