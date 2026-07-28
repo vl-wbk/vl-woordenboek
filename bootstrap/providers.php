@@ -8,4 +8,5 @@ return [
     App\Providers\Filament\ConfigurationServiceProvider::class,
     App\Providers\FortifyServiceProvider::class,
     App\Providers\QueueServiceProvider::class,
+    App\Providers\RateLimiterServiceProvider::class,
 ];

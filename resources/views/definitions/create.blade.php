@@ -65,36 +65,10 @@
     <div class="container-fluid py-5">
         <div class="row justify-content-center">
             <div class="col-11 col-xl-10">
-                <div class="alert alert-warning border-0 shadow-sm alert-dismissible fade show" role="alert">
-                    <h5 class="alert-heading">
-                        <x-heroicon-s-exclamation-triangle class="icon me-1"/>
-                        We passen tijdelijk ons suggestiebeleid aan
-                    </h5>
-
-                    <p>
-                        Om de kwaliteit van het Vlaams Woordenboek te blijven waarborgen en de
-                        werkdruk voor onze vrijwillige redactie beheersbaar te houden, voeren we
-                        een aantal wijzigingen door in ons suggestiebeleid.
-                        Voortaan kan iedere gebruiker maximaal <strong>20 open suggesties</strong>
-                        tegelijk hebben. Zodra een suggestie is beoordeeld, komt er automatisch
-                        opnieuw ruimte vrij om een nieuwe suggestie in te dienen.
-                    </p>
-
-                    <hr>
-
-                    <p class="mb-0">
-                        Door de instroom van nieuwe suggesties beter te spreiden, kunnen we niet
-                        alleen nieuwe bijdragen sneller en zorgvuldiger verwerken, maar creëren
-                        we ook meer ruimte om bestaande en oudere artikelen grondig te herzien
-                        en verder te verbeteren. Zo investeren we in de toekomst én de kwaliteit
-                        van het volledige woordenboek.
-                    </p>
-
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Sluiten"></button>
-                </div>
-            </div>
-
-            <div class="col-11 col-xl-10">
+                @php
+                    $limietBereikt = $resterend <= 0;
+                    $bijnaLimiet = !$limietBereikt && $resterend <= 1;
+                @endphp
 
                 {{-- Status Melding --}}
                 @if (flash()->message)
@@ -113,180 +87,252 @@
                             <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     </div>
+                @elseif (! $limietBereikt)
+                    <div class="alert alert-info border-0 shadow-sm" role="alert">
+                        <strong class="mb-3 d-block">
+                            <span class="badge rounded-pill bg-info shadow-sm me-2">
+                                <x-heroicon-o-megaphone class="icon me-1"/> Nieuw
+                            </span> 
+                        
+                            limiet op het aantal suggesties
+                        </strong>
+
+                        <p class="mt-2 mb-2">
+                            Het Vlaams Woordenboek wordt volledig door vrijwilligers beheerd. Om de kwaliteit van 
+                            de redactie te bewaken en ook voldoende tijd vrij te maken voor het onderhouden van bestaande 
+                            woorden, geldt er sinds kort een limiet op het aantal suggesties dat je kunt indienen.
+
+                            @guest
+                                Als gast kan je maximaal <strong>{{ config('flemish-dictionary.rate-limiting.suggestions.anonymous.max') }} suggesties per 24 uur</strong> indienen. Of neem contact op met ons op als je wilt vrijwilligen bij de redactie.
+                            @else
+                                Met je account kan je maximaal <strong>{{ config('flemish-dictionary.rate-limiting.suggestions.authenticated.max', 5) }} suggesties per week</strong> indienen.
+                            @endguest
+                        </p>
+
+                        @guest
+                            <p>
+                                <a href="{{ route('login') }}" class="alert-link">Log in</a> 
+                                of <a href="{{ route('register') }}" class="alert-link">registreer je</a> 
+                                voor een hoger quotum ({{ config('flemish-dictionary.rate-limiting.suggestions.authenticated.max', 20) }} per week).
+                            </p>
+                        @endguest
+
+                        <hr>
+
+                        <p class="mb-0">
+                            <span class="d-block">Bedankt alvast voor je begrip en voor je bijdrage aan het woordenboek!</span>
+                        </p>
+                    </div>
                 @endif
 
                 <form action="{{ route('definitions.store') }}" id="createSuggestionForm" method="POST">
                     @csrf
 
-                    <div class="card border-0 shadow-lg rounded-4 overflow-hidden bg-white">
-                        <div class="row g-0">
+                    <fieldset @if ($limietBereikt) disabled @endif>
+                        <div class="card border-0 shadow-lg rounded-4 overflow-hidden bg-white">
+                            <div class="row g-0">
 
-                            {{-- Linkerkolom: De Invoer --}}
-                            <div class="col-lg-7 p-4 p-md-5 border-end">
-                                <div class="mb-5">
-                                    <h5 class="fw-bold mb-1 text-dark">
-                                        <span class="me-2 text-warning">●</span> Lemma Informatie
-                                    </h5>
-                                    <p class="text-muted small mb-0">Definieer de basis en grammatica van het trefwoord.</p>
-                                </div>
+                                {{-- Linkerkolom: De Invoer --}}
+                                <div class="col-lg-7 p-4 p-md-5 border-end">
+                                    @if ($limietBereikt || $bijnaLimiet || $errors->has('quotum'))
+                                        <div class="alert {{ $limietBereikt || $errors->has('quotum') ? 'alert-danger' : 'alert-warning' }} d-flex align-items-start gap-2" role="alert">
+                                            <span aria-hidden="true">
+                                                @if ($limietBereikt || $errors->has('quotum'))
+                                                    <x-heroicon-o-no-symbol class="icon"/>
+                                                @else
+                                                    <x-heroicon-o-exclamation-triangle class="icon"/>
+                                                @endif
+                                            </span>
 
-                                <div class="mb-5">
-                                    <label for="woord" class="form-label small text-uppercase fw-bold text-muted" style="letter-spacing: 1px;">
-                                        Het Trefwoord <span class="text-danger">*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="woord"
-                                        id="woord"
-                                        placeholder="bijv. Goesting"
-                                        value="{{ old('woord', request()->get('woord')) }}"
-                                        class="form-control form-control-lg mb-2 shadow-none  @error('woord') is-invalid @enderror"
-                                        style="font-size: 2rem; font-weight: 600;"
-                                    >
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <small class="text-muted fst-italic">Gebruik spelling volgens de algemene regels.</small>
-                                        @error('woord') <span class="text-danger small fw-bold">{{ $message ?? 'Verplicht veld' }}</span> @enderror
+                                            <div>
+                                                @if ($errors->has('quotum'))
+                                                    {{ $errors->first('quotum') }}
+
+                                                @elseif ($limietBereikt)
+                                                    Je hebt de limiet bereikt voor het indienen van suggesties. Probeer het later opnieuw
+
+                                                    @guest
+                                                        of <a href="{{ route('login') }}" class="alert-link">meld je aan</a> voor een hoger quotum.
+                                                    @else
+                                                        .
+                                                    @endguest
+
+                                                @else
+                                                    Je hebt nog <strong>{{ $resterend }}</strong> suggestie(s) over voor deze periode.
+                                                    @guest
+                                                        <a href="{{ route('login') }}" class="alert-link">Meld je aan</a> voor een ruimer quotum.
+                                                    @endguest
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <hr class="pb-2">
+                                    @endif
+
+                                    <div class="mb-5">
+                                        <h5 class="fw-bold mb-1 text-dark">
+                                            <span class="me-2 text-warning">●</span> Lemma Informatie
+                                        </h5>
+                                        <p class="text-muted small mb-0">Definieer de basis en grammatica van het trefwoord.</p>
                                     </div>
-                                </div>
 
-                                <div class="row g-4 mb-5">
-                                    <div class="col-md-6">
-                                        <label for="woordsoort" class="form-label small text-uppercase fw-bold text-muted">Woordsoort</label>
-                                        <select name="woordsoort" id="woordsoort" class="form-select ">
-                                            <option value="">-- selecteer --</option>
-                                            @foreach ($partOfSpeeches as $partOfSpeech => $value)
-                                                <option value="{{ $partOfSpeech }}" @selected(old('woordsoort') == $partOfSpeech)>{{ $value }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="kenmerken" class="form-label small text-uppercase fw-bold text-muted">Kenmerken</label>
-                                        <input type="text" name="kenmerken" id="kenmerken" value="{{ old('kenmerken', '-') }}" class="form-control mb-1" placeholder="bijv. de ~ (v.), -s aria-describedbt="characteristicsHelpBlock">
-
-                                        <span id="characteristicsHelpBlock" class="form-text text-muted">
-                                            <x-heroicon-o-information-circle class="icon me-1"/> bijv. de ~ (v.), -s
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div class="mb-5">
-                                    <label for="beschrijving" class="form-label small text-uppercase fw-bold text-muted">
-                                        Beschrijving <span class="text-danger">*</span>
-                                    </label>
-                                    <textarea
-                                        name="beschrijving"
-                                        id="beschrijving"
-                                        rows="5"
-                                        class="form-control p-3  @error('beschrijving') is-invalid @enderror"
-                                        placeholder="Wat is de kern van de betekenis?"
-                                    >{{ old('beschrijving') }}</textarea>
-                                    @error('beschrijving') <span class="text-danger small fw-bold mt-1 d-block">{{ $message ?? 'Verplicht veld' }}</span> @enderror
-                                </div>
-
-                                <div class="mb-2">
-                                    <div class="d-flex justify-content-between align-items-end mb-3">
-                                        <label class="form-label small text-uppercase fw-bold text-muted mb-0">
-                                            Voorbeeldzinnen <span class="text-danger">*</span>
+                                    <div class="mb-5">
+                                        <label for="woord" class="form-label small text-uppercase fw-bold text-muted" style="letter-spacing: 1px;">
+                                            Het Trefwoord <span class="text-danger">*</span>
                                         </label>
-                                        {{-- Toegevoegde trigger voor het reeds bestaande modal --}}
-                                        <button type="button" class="btn btn-sm btn-link text-decoration-none text-muted p-0 d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#sourceInformation">
-                                            <x-heroicon-o-information-circle class="icon icon-sm me-1"/> Citeerhulp
+                                        <input
+                                            type="text"
+                                            name="woord"
+                                            id="woord"
+                                            placeholder="bijv. Goesting"
+                                            value="{{ old('woord', request()->get('woord')) }}"
+                                            class="form-control form-control-lg mb-2 shadow-none  @error('woord') is-invalid @enderror"
+                                            style="font-size: 2rem; font-weight: 600;"
+                                        >
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-muted fst-italic">Gebruik spelling volgens de algemene regels.</small>
+                                            @error('woord') <span class="text-danger small fw-bold">{{ $message ?? 'Verplicht veld' }}</span> @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="row g-4 mb-5">
+                                        <div class="col-md-6">
+                                            <label for="woordsoort" class="form-label small text-uppercase fw-bold text-muted">Woordsoort</label>
+                                            <select name="woordsoort" id="woordsoort" class="form-select ">
+                                                <option value="">-- selecteer --</option>
+                                                @foreach ($partOfSpeeches as $partOfSpeech => $value)
+                                                    <option value="{{ $partOfSpeech }}" @selected(old('woordsoort') == $partOfSpeech)>{{ $value }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="kenmerken" class="form-label small text-uppercase fw-bold text-muted">Kenmerken</label>
+                                            <input type="text" name="kenmerken" id="kenmerken" value="{{ old('kenmerken', '-') }}" class="form-control mb-1" placeholder="bijv. de ~ (v.), -s aria-describedbt="characteristicsHelpBlock">
+
+                                            <span id="characteristicsHelpBlock" class="form-text text-muted">
+                                                <x-heroicon-o-information-circle class="icon me-1"/> bijv. de ~ (v.), -s
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-5">
+                                        <label for="beschrijving" class="form-label small text-uppercase fw-bold text-muted">
+                                            Beschrijving <span class="text-danger">*</span>
+                                        </label>
+                                        <textarea
+                                            name="beschrijving"
+                                            id="beschrijving"
+                                            rows="5"
+                                            class="form-control p-3  @error('beschrijving') is-invalid @enderror"
+                                            placeholder="Wat is de kern van de betekenis?"
+                                        >{{ old('beschrijving') }}</textarea>
+                                        @error('beschrijving') <span class="text-danger small fw-bold mt-1 d-block">{{ $message ?? 'Verplicht veld' }}</span> @enderror
+                                    </div>
+
+                                    <div class="mb-2">
+                                        <div class="d-flex justify-content-between align-items-end mb-3">
+                                            <label class="form-label small text-uppercase fw-bold text-muted mb-0">
+                                                Voorbeeldzinnen <span class="text-danger">*</span>
+                                            </label>
+                                            {{-- Toegevoegde trigger voor het reeds bestaande modal --}}
+                                            <button type="button" class="btn btn-sm btn-link text-decoration-none text-muted p-0 d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#sourceInformation">
+                                                <x-heroicon-o-information-circle class="icon icon-sm me-1"/> Citeerhulp
+                                            </button>
+                                        </div>
+
+                                        <div id="kv-container" class="d-flex flex-column gap-3">
+                                            @foreach(old('voorbeeldzin', [[]]) as $i => $pair)
+                                                <div class="row g-2 align-items-start kv-row">
+                                                    <div class="col-12 col-md-4">
+                                                        <input type="text"
+                                                            name="voorbeeldzin[{{ $i }}][bron]"
+                                                            value="{{ old("voorbeeldzin.$i.bron") }}"
+                                                            class="form-control  @error("voorbeeldzin.$i.bron") is-invalid @enderror"
+                                                            placeholder="Bron (bijv. VRT NWS)"
+                                                        />
+                                                        @error("voorbeeldzin.$i.bron")
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+
+                                                    <div class="col-12 col-md-7">
+                                                        <textarea type="text"
+                                                            name="voorbeeldzin[{{ $i }}][waarde]"
+                                                            class="form-control resizable @error("voorbeeldzin.$i.waarde") is-invalid @enderror"
+                                                            rows="2"
+                                                            placeholder="Typ hier de voorbeeldzin...">{{ old("voorbeeldzin.$i.waarde") }}</textarea>
+                                                        @error("voorbeeldzin.$i.waarde")
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+
+                                                    <div class="col-12 col-md-1 d-flex justify-content-end">
+                                                        <button type="button" class="btn btn-outline-danger remove-row w-100" title="Rij verwijderen">
+                                                            <x-heroicon-o-trash class="icon m-0"/>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+
+                                        <button type="button" class="btn btn-light border btn-sm mt-3 fw-bold text-secondary" id="add-pair">
+                                            <x-heroicon-o-plus-circle class="icon me-1"/> Extra voorbeeldzin toevoegen
                                         </button>
                                     </div>
-
-                                    <div id="kv-container" class="d-flex flex-column gap-3">
-                                        @foreach(old('voorbeeldzin', [[]]) as $i => $pair)
-                                            <div class="row g-2 align-items-start kv-row">
-                                                <div class="col-12 col-md-4">
-                                                    <input type="text"
-                                                        name="voorbeeldzin[{{ $i }}][bron]"
-                                                        value="{{ old("voorbeeldzin.$i.bron") }}"
-                                                        class="form-control  @error("voorbeeldzin.$i.bron") is-invalid @enderror"
-                                                        placeholder="Bron (bijv. VRT NWS)"
-                                                    />
-                                                    @error("voorbeeldzin.$i.bron")
-                                                        <div class="invalid-feedback">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
-
-                                                <div class="col-12 col-md-7">
-                                                    <textarea type="text"
-                                                        name="voorbeeldzin[{{ $i }}][waarde]"
-                                                        class="form-control resizable @error("voorbeeldzin.$i.waarde") is-invalid @enderror"
-                                                        rows="2"
-                                                        placeholder="Typ hier de voorbeeldzin...">{{ old("voorbeeldzin.$i.waarde") }}</textarea>
-                                                    @error("voorbeeldzin.$i.waarde")
-                                                        <div class="invalid-feedback">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
-
-                                                <div class="col-12 col-md-1 d-flex justify-content-end">
-                                                    <button type="button" class="btn btn-outline-danger remove-row w-100" title="Rij verwijderen">
-                                                        <x-heroicon-o-trash class="icon m-0"/>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-
-                                    <button type="button" class="btn btn-light border btn-sm mt-3 fw-bold text-secondary" id="add-pair">
-                                        <x-heroicon-o-plus-circle class="icon me-1"/> Extra voorbeeldzin toevoegen
-                                    </button>
-                                </div>
-                            </div>
-
-                            {{-- Rechterkolom: Meta & Regio --}}
-                            <div class="col-lg-5 p-4 p-md-5 d-flex flex-column" style="background-color: #fcfaf7;">
-                                <div class="mb-4">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <h5 class="fw-bold mb-1 text-dark">
-                                            <span class="me-2 text-warning">●</span> Classificatie
-                                        </h5>
-                                        <a href="{{ route('definitions.region-info') }}" target="_blank" class="btn btn-sm btn-link text-decoration-none text-muted p-0 fw-bold d-flex align-items-center">
-                                            <x-heroicon-o-map class="icon icon-sm me-1"/> Regio info
-                                        </a>
-                                    </div>
-                                    <p class="text-muted small">Duid aan waar dit woord specifiek gebruikt wordt.</p>
                                 </div>
 
-                                <div class="mb-5 flex-grow-1">
-                                    <label for="regio" class="form-label small text-uppercase fw-bold text-muted mb-2 d-block">
-                                        Geografische situering <span class="text-danger">*</span>
-                                    </label>
-
-                                    <select id="regio" class="form-select w-100 shadow-sm border @error('regio') border-danger @enderror rounded-3" name="regio[]" multiple size="10">
-                                        @foreach ($regions as $region => $value)
-                                            <option value="{{ $region }}" {{ in_array($region, old('regio', [])) ? 'selected' : '' }} class="py-2 px-3 mb-1 rounded-2">
-                                                {{ $value }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-
-                                    <div class="mt-3 small text-muted p-3 border-start border-3 border-warning bg-white shadow-sm rounded-end">
-                                        Houd <kbd class="bg-dark text-white border-0 px-2">Ctrl</kbd> of <kbd class="bg-dark text-white border-0 px-2">Cmd ⌘</kbd> ingedrukt om meerdere regio's te selecteren.
-                                    </div>
-                                    @error('regio') <div class="text-danger small mt-2 fw-bold">Selecteer minstens één regio.</div> @enderror
-                                </div>
-
-                                <div class="bg-dark text-white p-4 rounded-4 shadow mt-auto">
-                                    <h6 class="fw-bold mb-2 text-warning">Klaar voor de redactie?</h6>
-                                    <p class="small text-white-50 mb-4">Uw inzending wordt getoetst op lexicografische nauwkeurigheid door onze beheerders.</p>
-
-                                    @auth
-                                        <div class="form-check form-switch mb-4">
-                                            <input class="form-check-input" name="notificatie" type="checkbox" id="notificatie" value="1">
-                                            <label class="form-check-label small text-white-50" for="notificatie">Houd me op de hoogte via mail</label>
+                                {{-- Rechterkolom: Meta & Regio --}}
+                                <div class="col-lg-5 p-4 p-md-5 d-flex flex-column" style="background-color: #fcfaf7;">
+                                    <div class="mb-4">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h5 class="fw-bold mb-1 text-dark">
+                                                <span class="me-2 text-warning">●</span> Classificatie
+                                            </h5>
+                                            <a href="{{ route('definitions.region-info') }}" target="_blank" class="btn btn-sm btn-link text-decoration-none text-muted p-0 fw-bold d-flex align-items-center">
+                                                <x-heroicon-o-map class="icon icon-sm me-1"/> Regio info
+                                            </a>
                                         </div>
-                                    @endauth
+                                        <p class="text-muted small">Duid aan waar dit woord specifiek gebruikt wordt.</p>
+                                    </div>
 
-                                    <button type="submit" class="btn btn-warning w-100 py-3 rounded-3 fw-bold text-uppercase tracking-wider shadow-sm transition-all hover-scale">
-                                        Lemma Toevoegen
-                                    </button>
-                                    <button type="reset" class="btn btn-link btn-sm w-100 text-white-50 mt-2 text-decoration-none small">Formulier wissen</button>
+                                    <div class="mb-5 flex-grow-1">
+                                        <label for="regio" class="form-label small text-uppercase fw-bold text-muted mb-2 d-block">
+                                            Geografische situering <span class="text-danger">*</span>
+                                        </label>
+
+                                        <select id="regio" class="form-select w-100 shadow-sm border @error('regio') border-danger @enderror rounded-3" name="regio[]" multiple size="10">
+                                            @foreach ($regions as $region => $value)
+                                                <option value="{{ $region }}" {{ in_array($region, old('regio', [])) ? 'selected' : '' }} class="py-2 px-3 mb-1 rounded-2">
+                                                    {{ $value }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+
+                                        <div class="mt-3 small text-muted p-3 border-start border-3 border-warning bg-white shadow-sm rounded-end">
+                                            Houd <kbd class="bg-dark text-white border-0 px-2">Ctrl</kbd> of <kbd class="bg-dark text-white border-0 px-2">Cmd ⌘</kbd> ingedrukt om meerdere regio's te selecteren.
+                                        </div>
+                                        @error('regio') <div class="text-danger small mt-2 fw-bold">Selecteer minstens één regio.</div> @enderror
+                                    </div>
+
+                                    <div class="bg-dark text-white p-4 rounded-4 shadow mt-auto">
+                                        <h6 class="fw-bold mb-2 text-warning">Klaar voor de redactie?</h6>
+                                        <p class="small text-white-50 mb-4">Uw inzending wordt getoetst op lexicografische nauwkeurigheid door onze beheerders.</p>
+
+                                        @auth
+                                            <div class="form-check form-switch mb-4">
+                                                <input class="form-check-input" name="notificatie" type="checkbox" id="notificatie" value="1">
+                                                <label class="form-check-label small text-white-50" for="notificatie">Houd me op de hoogte via mail</label>
+                                            </div>
+                                        @endauth
+
+                                        <button type="submit" class="btn btn-warning w-100 py-3 rounded-3 fw-bold text-uppercase tracking-wider shadow-sm transition-all hover-scale">
+                                            Lemma Toevoegen
+                                        </button>
+                                        <button type="reset" class="btn btn-link btn-sm w-100 text-white-50 mt-2 text-decoration-none small">Formulier wissen</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </fieldset>
                 </form>
             </div>
         </div>

@@ -40,6 +40,25 @@ return [
             'member_limit' => 10,
             'decay_seconds' => 3600, // Throttled to a 1-hour window
         ],
+        
+        'suggestions' => [
+            'anonymous' => [
+                'max' => 5,
+                'window' => 24,
+            ],
+
+            'authenticated' => [
+                'max' => 70,
+                'window' => 24 * 7, // Weeky based quota
+            ],
+
+            // Burst protection (separate layer)
+            'burst' => [
+                'anonymous' => '5,1',
+                'logged_in' => '20,1',
+            ],
+
+        ],
     ],
 
     'environments' => [
