@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\Maintenance;
 
+use Carbon\Carbon;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
@@ -18,7 +19,10 @@ final class LivewireCleanupCommand extends Command
         $files = Storage::files('livewire-tmp');
 
         foreach ($files as $file) {
-            if (now()->subHours(24)->greaterThan(Storage::lastModified($file))) {
+            $timecoding = Storage::lastModified($file);
+            $fileLastModified = Carbon::parse($timecoding);
+
+            if (now()->subHours(24)->greaterThan(($fileLastModified))) {
                 Storage::delete($file);
             }
         }
