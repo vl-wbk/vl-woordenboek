@@ -36,7 +36,7 @@ use Illuminate\Support\Carbon;
  * @property ?Carbon          $created_at            Automated timestamp for application submission.
  * @property ?Carbon          $updated_at            Automated timestamp for last administrative action.
  */
-#[Guarded(columns: ["id", 'user_id'])]
+#[Guarded(columns: ['id', 'user_id'])]
 final class VolunteerApplications extends Model
 {
     /**

@@ -56,7 +56,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @package App\Models
  */
-#[Guarded(colums: 'id')]
+#[Guarded(columns: 'id')]
 #[ObservedBy(classes: EtymologyObserver::class)]
 final class Etymology extends Model
 {
