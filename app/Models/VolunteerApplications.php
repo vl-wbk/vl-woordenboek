@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\Volunteers\ApplicationState;
+use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
@@ -35,18 +36,9 @@ use Illuminate\Support\Carbon;
  * @property ?Carbon          $created_at            Automated timestamp for application submission.
  * @property ?Carbon          $updated_at            Automated timestamp for last administrative action.
  */
+#[Guarded(columns: ['id', 'user_id'])]
 final class VolunteerApplications extends Model
 {
-    /**
-     * Mass-assignment protecion.
-     *
-     * NOTE: 'user_id' is strictly guarded to prevent 'account spoofing' during public form submission.
-     * It must be manually assigned from the auth session in the controller/action of service layer.
-     *
-     * @var list<string>
-     */
-    protected $guarded = ["id", "user_id"];
-
     /**
      * Default attributes values.
      *

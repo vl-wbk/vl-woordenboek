@@ -28,6 +28,7 @@ use Spatie\Feed\FeedItem;
 use App\Services\ReadTimeCalculator;
 use App\States\Posts\PublicationStateContract;
 use BeyondCode\Comments\Traits\HasComments;
+use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -52,6 +53,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  *
  * @package App\Models
  */
+#[Guarded(columns: ['id'])]
 #[UseEloquentBuilder(builderClass: BlogBuilder::class)]
 class Blog extends Model implements Feedable
 {
@@ -60,15 +62,7 @@ class Blog extends Model implements Feedable
     use HasUlids;
     use HasComments;
     use BelongsToAuthor;
-
-    /**
-     * The attributes that are not mass assignable.
-     * This array specifies which attributes cannot be filled via mass assignment, ensuring that the 'id' field, being a primary key, is protected.
-     *
-     * @var list<string>
-     */
-    protected $guarded = ['id'];
-
+    
     /**
      * The model's default attribute values.
      * These values are automatically assigned to new model instances if not explicitly provided, ensuring a default status of `Draft` for new blog posts.

@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Database\Factories\RegionFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -29,6 +30,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  *
  * @package App\Models
  */
+#[Fillable(columns: ['id', 'name'])]
 final class Region extends Model
 {
     /**
@@ -38,15 +40,6 @@ final class Region extends Model
      * @use HasFactory<RegionFactory>
      */
     use HasFactory;
-
-    /**
-     * The attributes that can be mass-assigned.
-     * We only allow the region name to be filled directly.
-     * This keeps our data clean and secure by preventing unwanted attributes from sneaking in.
-     *
-     * @var list<string>
-     */
-    protected $fillable = ['id', 'name'];
 
     /**
      * Defines the many-to-many relationship between labels and dictionary articles.
