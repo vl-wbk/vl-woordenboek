@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -28,13 +29,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon $created_at           Timestamp indicating when the rule was first persisted.
  * @property \Illuminate\Support\Carbon $updated_at           Timestamp indicating the last time the rule configuration was modified.
  */
+#[Fillable(columns: ['pattern', 'category', 'explanation', 'neutral_alternative', 'is_regex', 'allowed_contexts'])]
 final class ModerationRule extends Model
 {
-    /**
-     * @var list<string>
-     */
-    protected $fillable = ['pattern', 'category', 'explanation', 'neutral_alternative', 'is_regex', 'allowed_contexts'];
-
     /**
      * @return array<string, string>
      */

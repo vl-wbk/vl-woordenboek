@@ -14,6 +14,7 @@ return [
     'any_of'                 => ':Attribute ist ungültig.',
     'array'                  => ':Attribute muss ein Array sein.',
     'ascii'                  => 'Die :attribute darf nur alphanumerische Single-Byte-Zeichen und -Symbole enthalten.',
+    'base64'                 => 'The :attribute field must be a valid Base64 string.',
     'before'                 => ':Attribute muss ein Datum vor :date sein.',
     'before_or_equal'        => ':Attribute muss ein Datum vor :date oder gleich :date sein.',
     'between'                => [

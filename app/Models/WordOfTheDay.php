@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Database\Factories\WordOfTheDayFactory;
+use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
 
@@ -34,18 +35,11 @@ use Spatie\Feed\FeedItem;
  * 
  * @package App\Models 
  */
+#[Guarded(columns: ['id'])]
 final class WordOfTheDay extends Model implements Feedable
 {
     /** @use HasFactory<WordOfTheDayFactory> */
     use HasFactory;
-
-    /**
-     * We use $guarded for the ID to prevent accidental overwrites during mass assignment, 
-     * while keeping other fields open for easy contribution through our editorial forms.
-     *
-     * @var list<string>
-     */
-    protected $guarded = ['id'];
 
     /**
      * Every 'Word of the Day' must point to a valid article. 

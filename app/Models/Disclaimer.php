@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Enums\DisclaimerTypes;
 use Carbon\Carbon;
 use Database\Factories\DisclaimerFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -31,18 +32,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @package App\Models
  */
+#[Fillable(columns: ['type', 'name', 'message', 'usage', 'description', 'internal_title', 'internal_message'])]
 class Disclaimer extends Model
 {
     /** @use HasFactory<DisclaimerFactory> */
     use HasFactory;
-
-    /**
-     * Specifies which attributes can be mass assigned when creating or updating user records.
-     * This provides a security layer against mass-assignment vulnerabilities by explicitly listing allowed fields.
-     *
-     * @var list<string>
-     */
-    protected $fillable = ['type', 'name', 'message', 'usage', 'description', 'internal_title', 'internal_message'];
 
     /**
      * Defines default values for new disclaimer registrations.

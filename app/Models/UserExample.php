@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\States\ExampleSentence\SentenceState;
+use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
@@ -31,20 +32,11 @@ use Spatie\ModelStates\HasStates;
  * @property ?Carbon $created_at        The timestamp from when the record has been updated.
  * @property ?Carbon $updated_at        The timestamp from when the record has last been updated.
  */
+#[Guarded(columns: ['id'])]
 final class UserExample extends Model
 {
     use HasStates;
     use SoftDeletes;
-
-    /**
-     * Mass assignment configuration
-     *
-     * We use a guarded approach to protect the primary key while allowing bulk updates
-     * for all other sentence attributes through the UI.
-     *
-     * @var list<string>
-     */
-    protected $guarded = ['id'];
 
     /**
      * @return MorphTo<Model, covariant $this>
