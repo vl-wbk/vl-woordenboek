@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Database\Factories\LabelFactory;
+use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -24,6 +25,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property Carbon $created_at Timestamp of when the label was created
  * @property Carbon $updated_at Timestamp of the last update.
  */
+#[Guarded(columns: ['id'])]
 final class Label extends Model
 {
     /**
@@ -33,14 +35,6 @@ final class Label extends Model
      * @use HasFactory<LabelFactory>
      */
     use HasFactory;
-
-    /**
-     * Specifies attributes that cannot be mass-assigned.
-     * Only the ID field is protected to prevent unintended modifications to the primary key while allowing bulk updates to all other attributes.
-     *
-     * @return list<string>
-     */
-    protected $guarded = ['id'];
 
     /**
      * Defines the many-to-many relationship between labels and dictionary articles.
