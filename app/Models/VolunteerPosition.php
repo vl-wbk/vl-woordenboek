@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\UserTypes;
-use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Permission\Traits\HasRoles;
@@ -28,10 +27,17 @@ use Spatie\Permission\Traits\HasRoles;
  *
  * @package App\Models
  */
-#[Guarded(columns: ['id'])]
 final class VolunteerPosition extends Model
 {
     use HasRoles;
+
+    /**
+     * Guarded attributes to prevent mass-assignment vulnerabilities.
+     * Only the ID is protected to allow flexibility in administrative seeding.
+     *
+     * @var list<string>
+     */
+    protected $guarded = ["id"];
 
     /**
      * Relationshp: one position to many applications.

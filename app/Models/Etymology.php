@@ -12,7 +12,6 @@ use App\Models\Relations\BelongsToAuthor;
 use App\Observers\EtymologyObserver;
 use App\States\Etymology\EtymologyStateContract;
 use App\States\Etymology as EtymologyState;
-use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\Scope;
@@ -56,13 +55,22 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @package App\Models
  */
-#[Guarded(columns: ['id'])]
-#[ObservedBy(classes: EtymologyObserver::class)]
+#[ObservedBy(EtymologyObserver::class)]
 final class Etymology extends Model
 {
     /** @use HasFactory<EtymologyFactory> */
     use HasFactory;
     use BelongsToAuthor;
+
+    /**
+     * The attributes that are not mass assignable.
+     *
+     * This property defines the columns that cannot be filled using mass assignment, protecting sensitive fields from unintended updates.
+     * The 'id' column is typically guarded as it's an auto-incrementing primary key.
+     *
+     * @var list<string>
+     */
+    protected $guarded = ['id'];
 
     /**
      * The model's default attribute values.

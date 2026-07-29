@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -19,9 +18,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @package App\Models
  */
-#[Guarded(columns: ['id'])]
 final class ReferenceWork extends Model
 {
+    /**
+     * The attributes that are not mass-assignable.
+     *
+     * @var list<string>
+     */
+    protected $guarded = ['id'];
+
     /**
      * Get the individual article entries associated with this reference work.
      * This defines a One-to-Many relationship where each ArticleReferenceWork serves as a specific entry or record within the larger Reference Work.

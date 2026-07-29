@@ -13,7 +13,6 @@ use App\States\Reporting\Status;
 use App\States\Reporting\ReportStateContract;
 use Carbon\Carbon;
 use Database\Factories\ArticleReportFactory;
-use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -43,12 +42,21 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @package App\Models
  */
-#[Guarded(columns: ['id'])]
 final class ArticleReport extends Model
 {
     /** @use HasFactory<ArticleReportFactory> */
     use HasFactory;
     use BelongsToAuthor;
+
+    /**
+     * Specifies the attributes that are protected from mass assignment.
+     *
+     * The `guarded` property ensures that critical attributes, such as the report's ID, cannot be overwritten during mass assignment.
+     * This helps maintain data integrity and prevents accidental modification of sensitive fields.
+     *
+     * @var array<string> The attributes that cannot be mass-assigned.
+     */
+    protected $guarded = ['id'];
 
     /**
      * Defines the default attributes for the model.
