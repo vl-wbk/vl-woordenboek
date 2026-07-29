@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Database\Factories\PartOfSpeechFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -28,24 +29,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @package App\Models
  */
+#[Fillable(columns: ['name', 'value', 'suggestible'])]
 final class PartOfSpeech extends Model
 {
     /** @use HasFactory<PartOfSpeechFactory> */
     use HasFactory;
-
-    /**
-     * Mass Assignment Configuration
-     *
-     * The model allows mass assignment for two fundamental attributes that define a part of speech.
-     * The 'name' field stores the Dutch terminology for the grammatical category, such as a 'verb' or 'noun'.
-     * The 'value' field contains its English equivalent or additional classification details that help in understanding the grammatical concept.
-     *
-     * These fields form the core of each part of speech entry and can be safely modified through mass assignment operations.
-     * The ID and timestamp fields remain protected, ensuring data integrity and proper record keeping.
-     *
-     * @var list<string>
-     */
-    protected $fillable = ['name', 'value', 'suggestible'];
 
     /**
      * Default eager loading configuration.

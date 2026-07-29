@@ -4,7 +4,4 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Preferences extends Model
-{
-    //
-}
+final class Preferences extends Model {}
