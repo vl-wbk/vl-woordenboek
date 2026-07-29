@@ -10,7 +10,6 @@ use App\Enums\FeedbackStatus;
 use App\Models\Relations\BelongsToAuthor;
 use App\Observers\FeedbackObserver;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -37,13 +36,22 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models
  */
-#[Guarded(columns: ['id', 'author_id'])]
-#[ObservedBy(classes: FeedbackObserver::class)]
+#[ObservedBy(FeedbackObserver::class)]
 class Feedback extends Model
 {
     /** @use HasFactory<FeedbackFactory> */
     use HasFactory;
     use BelongsToAuthor;
+
+    /**
+     * The attributes that aren't mass-assignable.
+     *
+     * These fields are protected from mass assignment to prevent accidental
+     * or malicious updates via `create()` or `update()` methods.
+     *
+     * @var list<string>
+     */
+    protected $guarded = ['id', 'author_id'];
 
     /**
      * The model's default attribute values.

@@ -8,7 +8,6 @@ use App\Enums\Notes\Visibility;
 use Database\Factories\NoteFactory;
 use App\Models\Relations\BelongsToAuthor;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,12 +31,20 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models
  */
-#[Guarded(columns: ['id'])]
 final class Note extends Model
 {
     /** @use HasFactory<NoteFactory> */
     use HasFactory;
     use BelongsToAuthor;
+
+    /**
+     * Specifies attributes that are protected from mass assignment.
+     * This property ensures that the note's unique identifier remains immutable throughout its lifecycle, maintaining referential integrity while allowing other attributes to be mass assigned for efficient creation and updates.
+     * The minimal protection approach reflects a balance between security and development convenience.
+     *
+     * @var list<string>
+     */
+    protected $guarded = ['id'];
 
     protected $attributes = [
         'visibility' => Visibility::Public,
