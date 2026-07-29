@@ -372,7 +372,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ active('suggestions:index') }}" href="{{ route('suggestions:index') }}">
-                                <x-tabler-vocabulary class="icon me-1 color-green"/> Suggesties
+                                <x-tabler-vocabulary class="icon me-1 color-green"/> Mijn bijdrages
                             </a>
                         </li>
 
