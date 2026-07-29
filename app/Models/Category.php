@@ -29,7 +29,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  *
  * @package App\Models
  */
-#[Fillable(columns: ['name', 'description'])]
+#[Fillable('name', 'description')]
 final class Category extends Model
 {
     /** @use HasFactory<CategoryFactory> */
