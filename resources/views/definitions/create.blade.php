@@ -177,7 +177,7 @@ Ter info: lokale en regionale woorden worden alleen opgenomen wanneer ze ook voo
 
                                             <div class="col-12">
                                                 <!-- Toggle Option Box -->
-                                                <div class="card bg-light border-secondary rounded-3 p-3">
+                                                <div class="card bg-white border-secondary rounded-3 p-3">
                                                     <div class="d-flex align-items-center justify-content-between">
                                                         <div class="d-flex align-items-center">
                                                             <div class=" me-3">
@@ -189,7 +189,7 @@ Ter info: lokale en regionale woorden worden alleen opgenomen wanneer ze ook voo
                                                             </div>
                                                         </div>
                                                         <div class="form-check form-switch m-0">
-                                                            <input class="form-check-input bg-white" type="checkbox" role="switch" id="toevoegenNaamSwitch" style="width: 2.5em; height: 1.25em; cursor: pointer;">
+                                                            <input class="form-check-input" type="checkbox" role="switch" id="toevoegenNaamSwitch" style="width: 2.5em; height: 1.25em; cursor: pointer;">
                                                         </div>
                                                     </div>
                                                 </div>
