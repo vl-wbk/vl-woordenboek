@@ -86,7 +86,7 @@ Ter info: lokale en regionale woorden worden alleen opgenomen wanneer ze ook voo
 
                 <div class="container-fluid px-0">
                     <div class="row">
-                        <div class="col-8">
+                        <form action="" class="col-8">
                             <div class="card bg-white rounded-3 shadow-sm p-4 border-0">
                                 <div class="card-body p-0">
                                     {{-- SEction 1: suggestion - base information --}}
@@ -226,7 +226,7 @@ Ter info: lokale en regionale woorden worden alleen opgenomen wanneer ze ook voo
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
 
                         {{-- Sidenav --}}
                         <div class="col-4">
