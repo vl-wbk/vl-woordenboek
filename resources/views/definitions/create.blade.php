@@ -21,7 +21,7 @@
                     {{-- Hoofdtitel --}}
                     <div class="mb-4">
                         <h1 class="display-4 display-md-2 fw-black mb-2 text-dark" style="letter-spacing: -1px;">
-                            Het <span class="text-warning">Woord</span> als Erfgoed
+                            Jouw <span class="text-warning">Woord</span> als bijdrage
                         </h1>
                         <div class="d-flex align-items-center">
                             <div class="bg-warning me-3" style="height: 2px; width: 40px;"></div>
@@ -33,9 +33,8 @@
                     <div class="row">
                         <div class="col-md-10 col-lg-8">
                             <p class="fs-5 text-secondary mb-5 lh-base" style="font-weight: 300;">
-                                Elke bezoeker kan nieuwe suggesties met definities indienen bij het Vlaams Woordenboek.
-                                Die worden beoordeeld en bewerkt door een redacteur voor ze online verschijnen.
-                                Met dit formulier kun je nieuwe typisch Vlaamse woorden, termen en uitdrukkingen voorstellen.
+                                Dien hier zelf een suggestie in voor een nieuw artikel voor het Vlaams Woordenboek. De redactie beoordeelt en bewerkt alle suggesties voor ze online verschijnen. Wil je weten wat er met jouw suggestie gebeurt? Maak dan een account aan, dan kun je alles van a tot z opvolgen. 
+Ter info: lokale en regionale woorden worden alleen opgenomen wanneer ze ook voorkomen in tv-series, literatuur of media. Toon dat aan met voorbeeldzinnen op websites van bijv. een blog, een krant zoals kw.be of een tv-zender zoals tvl.be.
                             </p>
 
                             {{-- Acties --}}
