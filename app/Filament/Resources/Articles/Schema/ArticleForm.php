@@ -224,8 +224,7 @@ final readonly class ArticleForm
                 ->placeholder('De beschrijving van het woord dat je wenst toe te voegen.')
                 ->helperText(str('Dit veld ondersteunt enkel [**Markdown**](https://www.markdownguide.org/cheat-sheet/)')->inlineMarkdown()->toHtmlString())
                 ->maxHeight('160px')
-                ->required()
-                ->autofocus(false),
+                ->required(),
 
             MarkdownEditor::make('example')
                 ->maxHeight('160px')
