@@ -33,8 +33,9 @@
                     <div class="row">
                         <div class="col-md-10 col-lg-8">
                             <p class="fs-5 text-secondary mb-5 lh-base" style="font-weight: 300;">
-                                Dien hier zelf een suggestie in voor een nieuw artikel voor het Vlaams Woordenboek. De redactie beoordeelt en bewerkt alle suggesties voor ze online verschijnen. Wil je weten wat er met jouw suggestie gebeurt? Maak dan een account aan, dan kun je alles van a tot z opvolgen. 
-Ter info: lokale en regionale woorden worden alleen opgenomen wanneer ze ook voorkomen in tv-series, literatuur of media. Toon dat aan met voorbeeldzinnen op websites van bijv. een blog, een krant zoals kw.be of een tv-zender zoals tvl.be.
+                                Dien hier zelf een suggestie in voor een nieuw artikel voor het Vlaams Woordenboek. De redactie beoordeelt en bewerkt alle suggesties voor ze online verschijnen.
+                                Wil je weten wat er met jouw suggestie gebeurt? Maak dan een account aan, dan kun je alles van a tot z opvolgen.  Ter info: lokale en regionale woorden worden alleen opgenomen wanneer ze ook voorkomen in tv-series,
+                                literatuur of media. Toon dat aan met voorbeeldzinnen op websites van bijv. een blog, een krant zoals kw.be of een tv-zender zoals tvl.be.
                             </p>
 
                             {{-- Acties --}}
@@ -67,7 +68,7 @@ Ter info: lokale en regionale woorden worden alleen opgenomen wanneer ze ook voo
 
                 {{-- Status Melding --}}
                 @if (flash()->message)
-                    <div class="alert alert-secondary border-0 shadow-sm rounded-3 border-start border-4 mb-5 p-4 {{ (flash()->class === 'text-success') ? 'border-success' : 'border-danger' }}" role="alert">
+                    <div class="alert alert-secondary bg-white border-0 shadow-sm rounded-3 border-start border-4 mb-3 p-4 {{ (flash()->class === 'text-success') ? 'border-success' : 'border-danger' }}" role="alert">
                         <div class="d-flex align-items-center">
                             <div>
                                 <h6 class="fw-bold mb-1 {{ (flash()->class === 'text-success') ? 'text-success' : 'text-danger' }}">
@@ -86,14 +87,16 @@ Ter info: lokale en regionale woorden worden alleen opgenomen wanneer ze ook voo
 
                 <div class="container-fluid px-0">
                     <div class="row">
-                        <form action="" class="col-8">
+                        <form action="{{ route('definitions.store') }}" method="POST" class="col-8">
+                            @csrf {{-- FORM field protection --}}
+
                             <div class="card bg-white rounded-3 shadow-sm p-4 border-0">
                                 <div class="card-body p-0">
                                     {{-- SEction 1: suggestion - base information --}}
                                     <section class="border-bottom pb-4">
                                         <div class="d-flex align-items-center mb-4">
-                                            <div class="rounded-circle border border-info bg-info bg-opacity-10 d-flex align-items-center justify-content-center me-3 flex-shrink-0" style="width: 32px; height: 32px;">
-                                                <span class="small text-info fw-bold">1</span>
+                                            <div class="rounded-3 border border-info shadow-sm bg-info bg-opacity-10 d-flex align-items-center justify-content-center me-3 flex-shrink-0" style="width: 32px; height: 32px;">
+                                                <x-heroicon-o-document-text class="icon text-info"/>
                                             </div>
                                             <div>
                                                 <h5 class="fw-bold mb-0">Wat is je suggestie?</h5>
@@ -104,27 +107,49 @@ Ter info: lokale en regionale woorden worden alleen opgenomen wanneer ze ook voo
                                         <div class="row g-3">
                                             <div class="col-12">
                                                 <label for="woord" class="form-label">Woord of uitdrukking <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control rounded-3" id="woord" placeholder="Vul het woord of de uitdrukking in">
-                                                <div class="form-text text-muted" style="font-size: 0.75rem;">Het woord waar je suggestie over gaat.</div>
+                                                <input type="text" class="form-control @error('woord') is-invalid @enderror rounded-3" id="woord" value="{{ old('woord') }}" name="woord" placeholder="Vul het woord of de uitdrukking in" autofocus>
+
+                                                @if ($errors->has('woord'))
+                                                    <x-forms.validation-error field="woord"/>
+                                                @else
+                                                    <div class="form-text text-muted" style="font-size: 0.75rem;">Het woord waar je suggestie over gaat.</div>
+                                                @endif
                                             </div>
 
                                             <div class="col-6">
-                                                <label for="woord" class="form-label">Woordsoort <span class="text-danger">*</span></label>
-                                                <select name="" id="" class="form-select rounded-3">
+                                                <label for="woordsoort" class="form-label">Woordsoort</label>
+                                                <select name="woordsoort" id="woordsoort" class="form-select rounded-3">
                                                     <option value="">-- woordsoort --</option>
+
+                                                    @foreach ($partOfSpeeches as $partOfSpeech => $value)
+                                                        <option value="{{ $partOfSpeech }}" @selected(old('woordsoort') == $partOfSpeech)>{{ $value }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
 
                                             <div class="col-6">
-                                                <label for="woord" class="form-label">Kenmerken <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control rounded-3" id="woord" placeholder="bijv. de ~ (v.), -s" value="-">
+                                                <label for="kenmerken" class="form-label">Kenmerken</label>
+                                                <input type="text" name="kenmerken" class="form-control rounded-3" id="kenmerken" placeholder="bijv. de ~ (v.), -s" value="{{ old('kenmerken', '-') }}">
                                                 <div class="form-text text-muted" style="font-size: 0.75rem;">Het woord waar je suggestie over gaat.</div>
                                             </div>
 
                                             <div class="col-12">
-                                                <label for="woord" class="form-label">Beschrijving <span class="text-danger">*</span></label>
-                                                <textarea class="form-control rounded-3" rows="4" id="woord" placeholder="Beschrijf je suggestie zo duidelijk mogelijk. Wat is de betekenis, het gebruik, ..."></textarea>
-                                                <div class="form-text text-muted" style="font-size: 0.75rem;">Geef zoveel mogelijk details zodat onze redacteurs je suggestie goed kunnen beoordelen.</div>
+                                                <label for="beschrijving" class="form-label">Beschrijving <span class="text-danger">*</span></label>
+
+                                                <textarea
+                                                    rows="4"
+                                                    id="beschrijving"
+                                                    class="form-control @error('beschrijving') is-invalid @enderror rounded-3"
+                                                    name="beschrijving"
+                                                    placeholder="Beschrijf je suggestie zo duidelijk mogelijk. Wat is de betekenis, het gebruik, ...">{{ old('beschrijving') }}</textarea>
+
+                                                @if ($errors->has('beschrijving'))
+                                                    <x-forms.validation-error field="beschrijving"/>
+                                                @else
+                                                    <div class="form-text text-muted" style="font-size: 0.75rem;">
+                                                        Geef zoveel mogelijk details zodat onze redacteurs je suggestie goed kunnen beoordelen.
+                                                    </div>
+                                                @endif
                                             </div>
                                         </div>
                                     </section>
@@ -134,68 +159,158 @@ Ter info: lokale en regionale woorden worden alleen opgenomen wanneer ze ook voo
                                             <div class="rounded-3 shadow-sm border border-info bg-info bg-opacity-10 d-flex align-items-center justify-content-center me-3 flex-shrink-0" style="width: 32px; height: 32px;">
                                                 <x-heroicon-o-map class="icon text-info"/>
                                             </div>
-                                            <div>
+                                            <div class="flex-grow-1">
                                                 <h5 class="fw-bold mb-0">Regionale informatie</h5>
                                                 <small class="text-muted">In welke regio of regionale context hebt je uw suggestie gehoord?</small>
                                             </div>
-                                        </div>
-
-                                        <div class="g-3">
-
-                                        </div>
-                                    </section>
-
-                                    <section class="border-bottom pb-3">
-                                        <div class="d-flex align-items-center mt-3 mb-4">
-                                            <div class="rounded-3 shadow-sm border border-info bg-info bg-opacity-10 d-flex align-items-center justify-content-center me-3 flex-shrink-0" style="width: 32px; height: 32px;">
-                                                <x-heroicon-o-map class="icon text-info"/>
-                                            </div>
-                                            <div>
-                                                <h5 class="fw-bold mb-0">Voorbeeldzinnen</h5>
-                                                <small class="text-muted">In welke regio of regionale context hebt je uw suggestie gehoord?</small>
-                                            </div>
-                                        </div>
-                                    </section>
-
-                                    <section>
-                                        <div class="d-flex align-items-center my-4">
-                                            <div class="rounded-3 shadow-sm border border-info bg-info bg-opacity-10 d-flex align-items-center justify-content-center me-3 flex-shrink-0" style="width: 32px; height: 32px;">
-                                                <x-heroicon-o-map class="icon text-info"/>
-                                            </div>
-                                            <div>
-                                                <h5 class="fw-bold mb-0">Over jouw</h5>
-                                                <small class="text-muted">Je kunt deze suggestie ook anoniem indienen.</small>
+                                            <div class="ms-3 flex-shrink-0">
+                                                <a href="{{ route('definitions.region-info') }}" target="_blank" class="btn btn-sm rounded-3  shadow-sm btn-outline-primary">
+                                                    <x-heroicon-o-information-circle class="icon me-1"/> Regio informatie
+                                                </a>
                                             </div>
                                         </div>
 
                                         <div class="row g-3">
-                                            <!-- Name and Email Inputs -->
-                                            <div class="col-md-12">
-                                                <label for="naam" class="form-label">Naam (of bijnaam)</label>
-                                                <input type="text" class="form-control rounded-3" id="naam" placeholder="Jouw naam of bijnaam">
+                                            <div class="col-12">
+                                                <select id="regio" class="form-select w-100 border @error('regio') border-danger @enderror rounded-3" name="regio[]" multiple size="6">
+                                                    @foreach ($regions as $region => $value)
+                                                        <option value="{{ $region }}" {{ in_array($region, old('regio', [])) ? 'selected' : '' }}>
+                                                            {{ $value }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+
+                                                @if ($errors->has('regio'))
+                                                    @error('regio')
+                                                        <div class="text-danger small mt-2 fw-bold">Selecteer minstens één regio.</div>
+                                                    @enderror
+                                                @else
+                                                    <div class="form-text text-muted" style="font-size: 0.75rem;">
+                                                        Houd <code>Ctrl</code> of <code>Cmd ⌘</code> ingedrukt om meerdere regio's te selecteren.
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                    <section class="border-bottom pb-3">
+                                        <div class="d-flex align-items-center my-4">
+                                            <div class="rounded-3 shadow-sm border border-info bg-info bg-opacity-10 d-flex align-items-center justify-content-center me-3 flex-shrink-0" style="width: 32px; height: 32px;">
+                                                <x-heroicon-o-chat-bubble-left-right class="icon text-info"/>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <h5 class="fw-bold mb-0">Voorbeeldzin(nen)</h5>
+                                                <small class="text-muted">In welke regio of regionale context hebt je uw suggestie gehoord?</small>
+                                            </div>
+                                            <div class="ms-3 flex-shrink-0">
+                                                <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#sourceInformation">
+                                                    <x-heroicon-o-information-circle class="icon me-1"/> Citeerhulp
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="row g-3">
+                                            <div id="kv-container" class="d-flex flex-column gap-3">
+                                                @foreach(old('voorbeeldzin', [[]]) as $i => $pair)
+                                                    <div class="row g-2 align-items-start kv-row">
+                                                        <div class="col-12 col-md-4">
+                                                            <input type="text"
+                                                                name="voorbeeldzin[{{ $i }}][bron]"
+                                                                value="{{ old("voorbeeldzin.$i.bron") }}"
+                                                                class="form-control rounded-3  @error("voorbeeldzin.$i.bron") is-invalid @enderror"
+                                                                placeholder="Bron (bijv. VRT NWS)"
+                                                            />
+                                                            @error("voorbeeldzin.$i.bron")
+                                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+
+                                                        <div class="col-12 col-md-7">
+                                                            <textarea type="text"
+                                                                name="voorbeeldzin[{{ $i }}][waarde]"
+                                                                class="form-control rounded-3 resizable @error("voorbeeldzin.$i.waarde") is-invalid @enderror"
+                                                                rows="2"
+                                                                placeholder="Typ hier de voorbeeldzin...">{{ old("voorbeeldzin.$i.waarde") }}</textarea>
+                                                            @error("voorbeeldzin.$i.waarde")
+                                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+
+                                                        <div class="col-12 col-md-1 d-flex justify-content-end">
+                                                            <button type="button" class="btn btn-outline-danger remove-row w-100" title="Rij verwijderen">
+                                                                <x-heroicon-o-trash class="icon m-0"/>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
                                             </div>
 
-                                            <div class="col-12">
-                                                <!-- Toggle Option Box -->
-                                                <div class="card bg-white border-secondary rounded-3 p-3">
-                                                    <div class="d-flex align-items-center justify-content-between">
-                                                        <div class="d-flex align-items-center">
-                                                            <div class=" me-3">
-                                                                <x-heroicon-o-user class="icon" />
+
+                                            <div>
+                                                <button type="button" class="btn btn-light border btn-sm rounded-3 mt-3 fw-bold text-secondary" id="add-pair">
+                                                    <x-heroicon-o-plus-circle class="icon me-1"/> Extra voorbeeldzin toevoegen
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </section>
+
+
+                                    @auth
+                                        <section>
+                                            <div class="d-flex align-items-center my-4">
+                                                <div class="rounded-3 shadow-sm border border-info bg-info bg-opacity-10 d-flex align-items-center justify-content-center me-3 flex-shrink-0" style="width: 32px; height: 32px;">
+                                                    <x-heroicon-o-bell-alert class="icon text-info"/>
+                                                </div>
+                                                <div>
+                                                    <h5 class="fw-bold mb-0">Over jouw</h5>
+                                                    <small class="text-muted">Je kunt deze suggestie ook anoniem indienen.</small>
+                                                </div>
+                                            </div>
+
+                                            <div class="row g-3">
+                                                <div class="col-12">
+                                                    <!-- Toggle Option Box -->
+                                                    <div class="card bg-light-subtle border-secondary rounded-3 p-3">
+                                                        <div class="d-flex align-items-center justify-content-between">
+                                                            <div class="d-flex align-items-center">
+                                                                <div class=" me-3">
+                                                                    <x-heroicon-o-bell-alert class="icon" />
+                                                                </div>
+                                                                <div>
+                                                                    <h6 class="fw-bold mb-1 small">Ik wil mijn naam toevoegen</h6>
+                                                                    <p class="text-muted mb-0" style="font-size: 0.75rem;">Laat je naam zien bij deze suggestie</p>
+                                                                </div>
                                                             </div>
-                                                            <div>
-                                                                <h6 class="fw-bold mb-1 small">Ik wil mijn naam toevoegen</h6>
-                                                                <p class="text-muted mb-0" style="font-size: 0.75rem;">Laat je naam zien bij deze suggestie</p>
+                                                            <div class="form-check form-switch m-0">
+                                                                <input class="form-check-input" type="checkbox" role="switch" id="toevoegenNaamSwitch" style="width: 2.5em; height: 1.25em; cursor: pointer;">
                                                             </div>
-                                                        </div>
-                                                        <div class="form-check form-switch m-0">
-                                                            <input class="form-check-input" type="checkbox" role="switch" id="toevoegenNaamSwitch" style="width: 2.5em; height: 1.25em; cursor: pointer;">
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </section>
+                                        </section>
+                                    @else
+                                        <section>
+                                            <div class="d-flex align-items-center my-4">
+                                                <div class="rounded-3 shadow-sm border border-info bg-info bg-opacity-10 d-flex align-items-center justify-content-center me-3 flex-shrink-0" style="width: 32px; height: 32px;">
+                                                    <x-heroicon-o-user-circle class="icon text-info"/>
+                                                </div>
+                                                <div>
+                                                    <h5 class="fw-bold mb-0">Over jouw</h5>
+                                                    <small class="text-muted">Je kunt deze suggestie ook anoniem indienen.</small>
+                                                </div>
+                                            </div>
+
+                                            <div class="row g-3">
+                                                <!-- Name and Email Inputs -->
+                                                <div class="col-md-12">
+                                                    <label for="naam" class="form-label">Naam (of bijnaam)</label>
+                                                    <input type="text" name="gebruikersnaam"value="{{ old('gebruikersnaam') }}" class="form-control rounded-3" id="naam" placeholder="Jouw naam of bijnaam">
+                                                    <small class="text-muted">Laat dit veld leeg als je een anonieme suggestie wilt uitvoeren</small>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    @endif
                                 </div>
                             </div>
 
@@ -205,7 +320,7 @@ Ter info: lokale en regionale woorden worden alleen opgenomen wanneer ze ook voo
                                 <div class="card-body p-0 d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-4">
                                     <!-- Left Side: Icon, Title, and Description -->
                                     <div class="d-flex align-items-start">
-                                        <div class="bg-danger bg-opacity-25 p-3 rounded-3 me-3 text-light d-flex align-items-center justify-content-center flex-shrink-0" style="width: 48px; height: 48px;">
+                                        <div class="bg-danger bg-opacity-25 shadow-sm p-3 rounded-3 me-3 text-light d-flex align-items-center justify-content-center flex-shrink-0" style="width: 48px; height: 48px;">
                                             <x-tabler-heart-handshake class="text-danger icon" />
                                         </div>
                                         <div>
@@ -216,10 +331,10 @@ Ter info: lokale en regionale woorden worden alleen opgenomen wanneer ze ook voo
 
                                     <!-- Right Side: Action Buttons -->
                                     <div class="d-flex align-items-center gap-2 flex-shrink-0">
-                                        <button type="button" class="btn btn-outline-danger px-4 py-2 rounded-3">
+                                        <button type="reset" class="btn btn-outline-danger px-4 py-2 rounded-3">
                                             Annuleren
                                         </button>
-                                        <button type="button" class="btn btn-success bg-opacity-20 px-4 py-2 rounded-3 d-flex align-items-center gap-2">
+                                        <button type="submit" class="btn btn-success bg-opacity-20 px-4 py-2 rounded-3 d-flex align-items-center gap-2">
                                             <span>Suggestie indienen</span>
                                             <x-heroicon-o-paper-airplane class="icon" />
                                         </button>
@@ -274,23 +389,23 @@ Ter info: lokale en regionale woorden worden alleen opgenomen wanneer ze ook voo
                                     <h5 class="fw-bold color-green mb-4">Tips voor een goede suggestie</h5>
 
                                     <ul class="list-unstyled mb-0">
-                                        <li class="d-flex align-items-center mb-3 small">
+                                        <li class="d-flex align-items-center mb-2 text-muted">
                                             <x-heroicon-o-check-circle class="text-success me-2 icon flex-shrink-0" />
                                             Wees zo specifiek mogelijk
                                         </li>
-                                        <li class="d-flex align-items-center mb-3 small">
+                                        <li class="d-flex align-items-center mb-2 text-muted">
                                             <x-heroicon-o-check-circle class="text-success me-2 icon flex-shrink-0" />
                                             Geef duidelijke voorbeelden.
                                         </li>
-                                        <li class="d-flex align-items-center mb-3 text-muted small">
+                                        <li class="d-flex align-items-center mb-2 text-muted">
                                             <x-heroicon-o-check-circle class="text-success me-2 icon flex-shrink-0" />
                                             Vermeld indien mogelijk de herkomst of regio.
                                         </li>
-                                        <li class="d-flex align-items-center mb-3 text-muted small">
+                                        <li class="d-flex align-items-center mb-2 text-muted">
                                             <x-heroicon-o-check-circle class="text-success me-2 icon flex-shrink-0" />
                                             Controleer of het woord nog niet bestaat in ons woordenboek.
                                         </li>
-                                        <li class="d-flex align-items-center text-muted small">
+                                        <li class="d-flex align-items-center text-muted">
                                             <x-heroicon-o-check-circle class="text-success me-2 icon flex-shrink-0" />
                                             Suggesties worden publiek zichtbaar na beoordeling.
                                         </li>
@@ -298,29 +413,23 @@ Ter info: lokale en regionale woorden worden alleen opgenomen wanneer ze ook voo
                                 </div>
                             </div>
 
-                            <div class="card bg-white border-0 shadow-sm rounded-3 p-4 mb-4">
-                                <div class="card-body p-0">
-                                    <h5 class="fw-bold color-green mb-2">Eerder ingediende suggesties</h5>
-                                    <p class="small mb-4">Bekijk de status van je eerder ingediende suggesties.</p>
-                                    
-                                    <a href="#" class="btn btn-outline-dark w-100 d-flex align-items-center justify-content-between rounded-3 border-secondary">
-                                        <span class="fw-medium">Mijn suggesties bekijken</span>
-                                        <x-heroicon-o-arrow-right class="icon-sm" />
-                                    </a>
-                                </div>
-                            </div>
+                            @auth
+                                <div class="card bg-white border-0 shadow-sm rounded-3 p-4">
+                                    <div class="card-body p-0">
+                                        <h5 class="fw-bold color-green mb-2">Eerder ingediende suggesties</h5>
+                                        <p class="small mb-4">Bekijk de status van je eerder ingediende suggesties.</p>
 
-                            <div class="card bg-white border-0 shadow-sm rounded-3 p-4">
-                                <div class="card-body p-0">
-                                    <h5 class="fw-bold color-green mb-2">Hulp nodig?</h5>
-                                    <p class="text-muted small mb-4">Heb je vragen over het indienen van een suggestie? Neem gerust contact met ons op.</p>
-                                    
-                                    <a href="#" class="btn btn-outline-dark w-100 d-flex align-items-center justify-content-between rounded-3 border-secondary">
-                                        <span class="fw-medium">Contact opnemen</span>
-                                        <x-heroicon-o-arrow-right class="icon-sm" />
-                                    </a>
+                                        <a href="#" class="btn btn-outline-dark w-100 d-flex align-items-center justify-content-between rounded-3 border-secondary">
+                                            <span class="fw-medium">
+                                                <x-heroicon-o-queue-list class="icon me-1"/>
+                                                Mijn bijdragen bekijken
+                                            </span>
+
+                                            <x-heroicon-o-arrow-right class="icon" />
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
+                            @endauth
                         </div>
                     </div>
                 </div>
