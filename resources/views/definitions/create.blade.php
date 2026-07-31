@@ -262,8 +262,8 @@
                                                     <x-heroicon-o-bell-alert class="icon text-info"/>
                                                 </div>
                                                 <div>
-                                                    <h5 class="fw-bold mb-0">Over jouw</h5>
-                                                    <small class="text-muted">Je kunt deze suggestie ook anoniem indienen.</small>
+                                                    <h5 class="fw-bold mb-0">Publicatie notificatie</h5>
+                                                    <small class="text-muted">Als je wil houden we je graag op de hoogte van een publicatie</small>
                                                 </div>
                                             </div>
 
@@ -277,12 +277,12 @@
                                                                     <x-heroicon-o-bell-alert class="icon" />
                                                                 </div>
                                                                 <div>
-                                                                    <h6 class="fw-bold mb-1 small">Ik wil mijn naam toevoegen</h6>
-                                                                    <p class="text-muted mb-0" style="font-size: 0.75rem;">Laat je naam zien bij deze suggestie</p>
+                                                                    {{-- <h6class="fw-boldmb-1small">Notificatie</h6> --}}
+                                                                    <p class="text-muted mb-0">Een mail notificatie ontvangen? Ja dat wil ik wel!</p>
                                                                 </div>
                                                             </div>
                                                             <div class="form-check form-switch m-0">
-                                                                <input class="form-check-input" type="checkbox" role="switch" id="toevoegenNaamSwitch" style="width: 2.5em; height: 1.25em; cursor: pointer;">
+                                                                <input class="form-check-input" value="1" name="notificatie" @checked(old('notificatie', '0')) type="checkbox" role="switch" id="toevoegenNaamSwitch" style="width: 2.5em; height: 1.25em; cursor: pointer;">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -419,7 +419,7 @@
                                         <h5 class="fw-bold color-green mb-2">Eerder ingediende suggesties</h5>
                                         <p class="small mb-4">Bekijk de status van je eerder ingediende suggesties.</p>
 
-                                        <a href="#" class="btn btn-outline-dark w-100 d-flex align-items-center justify-content-between rounded-3 border-secondary">
+                                        <a href="{{ route('suggestions:index') }}" class="btn btn-outline-dark w-100 d-flex align-items-center justify-content-between rounded-3 border-secondary">
                                             <span class="fw-medium">
                                                 <x-heroicon-o-queue-list class="icon me-1"/>
                                                 Mijn bijdragen bekijken
