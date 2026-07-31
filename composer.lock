@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "799c419160a6042fdfb7d814ec1ec697",
+    "content-hash": "e6109c8c0b3beb2be7232f00ea4eb6c6",
     "packages": [
         {
             "name": "a909m/filament-statefusion",
@@ -2423,7 +2423,7 @@
         },
         {
             "name": "filament/actions",
-            "version": "v5.7.5",
+            "version": "v5.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/actions.git",
@@ -2472,16 +2472,16 @@
         },
         {
             "name": "filament/filament",
-            "version": "v5.7.5",
+            "version": "v5.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/panels.git",
-                "reference": "81100c0692e684fc1950173dd60d7947f4d235f5"
+                "reference": "e5df3c688e6300f21b29f6ebff2c6ec361a23066"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/panels/zipball/81100c0692e684fc1950173dd60d7947f4d235f5",
-                "reference": "81100c0692e684fc1950173dd60d7947f4d235f5",
+                "url": "https://api.github.com/repos/filamentphp/panels/zipball/e5df3c688e6300f21b29f6ebff2c6ec361a23066",
+                "reference": "e5df3c688e6300f21b29f6ebff2c6ec361a23066",
                 "shasum": ""
             },
             "require": {
@@ -2525,20 +2525,20 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2026-07-31T03:39:19+00:00"
+            "time": "2026-07-29T13:13:44+00:00"
         },
         {
             "name": "filament/forms",
-            "version": "v5.7.5",
+            "version": "v5.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/forms.git",
-                "reference": "5b4e193bf6b4e86a51e20db3db33a734d0a28f11"
+                "reference": "915e5d1c64c09700f9a552de112a47ce36a03095"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/forms/zipball/5b4e193bf6b4e86a51e20db3db33a734d0a28f11",
-                "reference": "5b4e193bf6b4e86a51e20db3db33a734d0a28f11",
+                "url": "https://api.github.com/repos/filamentphp/forms/zipball/915e5d1c64c09700f9a552de112a47ce36a03095",
+                "reference": "915e5d1c64c09700f9a552de112a47ce36a03095",
                 "shasum": ""
             },
             "require": {
@@ -2575,11 +2575,11 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2026-07-31T03:39:08+00:00"
+            "time": "2026-07-29T13:13:25+00:00"
         },
         {
             "name": "filament/infolists",
-            "version": "v5.7.5",
+            "version": "v5.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/infolists.git",
@@ -2624,7 +2624,7 @@
         },
         {
             "name": "filament/notifications",
-            "version": "v5.7.5",
+            "version": "v5.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/notifications.git",
@@ -2671,7 +2671,7 @@
         },
         {
             "name": "filament/query-builder",
-            "version": "v5.7.5",
+            "version": "v5.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/query-builder.git",
@@ -2717,16 +2717,16 @@
         },
         {
             "name": "filament/schemas",
-            "version": "v5.7.5",
+            "version": "v5.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/schemas.git",
-                "reference": "53d4346cf0d7abbfc5f7157c761365766153a080"
+                "reference": "17e853672a9bc85e032eae54905f348334dbd066"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/schemas/zipball/53d4346cf0d7abbfc5f7157c761365766153a080",
-                "reference": "53d4346cf0d7abbfc5f7157c761365766153a080",
+                "url": "https://api.github.com/repos/filamentphp/schemas/zipball/17e853672a9bc85e032eae54905f348334dbd066",
+                "reference": "17e853672a9bc85e032eae54905f348334dbd066",
                 "shasum": ""
             },
             "require": {
@@ -2758,11 +2758,11 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2026-07-31T03:39:26+00:00"
+            "time": "2026-07-29T13:13:49+00:00"
         },
         {
             "name": "filament/spatie-laravel-settings-plugin",
-            "version": "v5.7.5",
+            "version": "v5.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/spatie-laravel-settings-plugin.git",
@@ -2806,7 +2806,7 @@
         },
         {
             "name": "filament/support",
-            "version": "v5.7.5",
+            "version": "v5.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/support.git",
@@ -2864,7 +2864,7 @@
         },
         {
             "name": "filament/tables",
-            "version": "v5.7.5",
+            "version": "v5.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/tables.git",
@@ -2910,7 +2910,7 @@
         },
         {
             "name": "filament/widgets",
-            "version": "v5.7.5",
+            "version": "v5.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/widgets.git",
