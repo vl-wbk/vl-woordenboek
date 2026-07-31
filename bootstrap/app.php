@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureSuggestioneQuotumNotExceeded;
 use Cog\Laravel\Ban\Http\Middleware\ForbidBannedUser;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -16,7 +17,10 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->appendToGroup('web', [AuthenticateSession::class]);
-        $middleware->alias(['forbid-banned-user' => ForbidBannedUser::class]);
+        $middleware->alias([
+            'forbid-banned-user' => ForbidBannedUser::class, 
+            'suggestion.quotum' => EnsureSuggestioneQuotumNotExceeded::class
+        ]);
 
         $middleware->web([
             \App\Http\Middleware\UserLastSeenAt::class

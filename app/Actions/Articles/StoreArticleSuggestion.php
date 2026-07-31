@@ -108,6 +108,7 @@ final readonly class StoreArticleSuggestion
 
         return array_merge($data, [
             'author_id' => auth()->id(),
+            'ip_address' => request()->user() ? null : request()->ip()
         ]);
     }
 

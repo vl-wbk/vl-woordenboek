@@ -19,6 +19,7 @@ use App\Models\Relations\BelongsToManyRegions;
 use App\Observers\ArticleObserver;
 use Carbon\Carbon;
 use Database\Factories\ArticleFactory;
+use Illuminate\Console\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\Scope;
@@ -82,6 +83,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @package App\Models
  */
 #[Guarded(columns: 'id')]
+#[Hidden(['ip_address'])]
 #[UseEloquentBuilder(builderClass: ArticleBuilder::class)]
 #[ObservedBy(ArticleObserver::class)]
 final class Article extends Model implements AuditableContract, Commentable
