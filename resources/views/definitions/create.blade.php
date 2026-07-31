@@ -141,7 +141,7 @@
                                                             </span>
                                                         @endauth
                                                     </h5>
-                                                    <small class="text-muted">Definieer de bases en grammatica van de suggestie</small>
+                                                    <small class="text-muted">Definieer de basis en grammatica van de suggestie</small>
                                                 </div>
                                             </div>
 
@@ -158,7 +158,7 @@
                                                 </div>
 
                                                 <div class="col-6">
-                                                    <label for="woordsoort" class="form-label">Woordsoort</label>
+                                                    <label for="woordsoort" class="form-label">woordsoort</label>
                                                     <select name="woordsoort" id="woordsoort" class="form-select rounded-3">
                                                         <option value="">-- woordsoort --</option>
 
@@ -171,7 +171,7 @@
                                                 <div class="col-6">
                                                     <label for="kenmerken" class="form-label">Kenmerken</label>
                                                     <input type="text" name="kenmerken" class="form-control rounded-3" id="kenmerken" placeholder="bijv. de ~ (v.), -s" value="{{ old('kenmerken', '-') }}">
-                                                    <div class="form-text text-muted" style="font-size: 0.75rem;">Het woord waar je suggestie over gaat.</div>
+                                                    <div class="form-text text-muted" style="font-size: 0.75rem;">Grammaticale info, bijv. de ~ (v.), -s"</div>
                                                 </div>
 
                                                 <div class="col-12">
@@ -182,7 +182,7 @@
                                                         id="beschrijving"
                                                         class="form-control @error('beschrijving') is-invalid @enderror rounded-3"
                                                         name="beschrijving"
-                                                        placeholder="Beschrijf je suggestie zo duidelijk mogelijk. Wat is de betekenis, het gebruik, ...">{{ old('beschrijving') }}</textarea>
+                                                        placeholder="Beschrijf je suggestie zo duidelijk mogelijk. Wat betekent het, wanneer en hoe wordt het gebruikt, ...">{{ old('beschrijving') }}</textarea>
 
                                                     @if ($errors->has('beschrijving'))
                                                         <x-forms.validation-error field="beschrijving"/>
@@ -202,11 +202,11 @@
                                                 </div>
                                                 <div class="flex-grow-1">
                                                     <h5 class="fw-bold mb-0">Regionale informatie</h5>
-                                                    <small class="text-muted">In welke regio of regionale context hebt je uw suggestie gehoord?</small>
+                                                    <small class="text-muted">In welke regio of regionale context hebt je je suggestie gehoord?</small>
                                                 </div>
                                                 <div class="ms-3 flex-shrink-0">
                                                     <a href="{{ route('definitions.region-info') }}" target="_blank" class="btn btn-sm rounded-3  shadow-sm btn-outline-primary">
-                                                        <x-heroicon-o-information-circle class="icon me-1"/> Regio informatie
+                                                        <x-heroicon-o-information-circle class="icon me-1"/> Regio-informatie
                                                     </a>
                                                 </div>
                                             </div>
@@ -241,7 +241,7 @@
                                                 </div>
                                                 <div class="flex-grow-1">
                                                     <h5 class="fw-bold mb-0">Voorbeeldzin(nen)</h5>
-                                                    <small class="text-muted">In welke regio of regionale context hebt je uw suggestie gehoord?</small>
+                                                    <small class="text-muted">Vermeld de bron, maar gebruik geen link. Voorbeelden: standaard.be, histories.be, tvl.be</small>
                                                 </div>
                                                 <div class="ms-3 flex-shrink-0">
                                                     <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#sourceInformation">
@@ -303,8 +303,8 @@
                                                         <x-heroicon-o-bell-alert class="icon text-info"/>
                                                     </div>
                                                     <div>
-                                                        <h5 class="fw-bold mb-0">Publicatie notificatie</h5>
-                                                        <small class="text-muted">Als je wil houden we je graag op de hoogte van een publicatie</small>
+                                                        <h5 class="fw-bold mb-0">Melding bij publicatie</h5>
+                                                        <small class="text-muted">Wil je een melding ontvangen wanneer je suggestie geubliceerd wordt?</small>
                                                     </div>
                                                 </div>
 
@@ -319,7 +319,7 @@
                                                                     </div>
                                                                     <div>
                                                                         {{-- <h6class="fw-boldmb-1small">Notificatie</h6> --}}
-                                                                        <p class="text-muted mb-0">Een mail notificatie ontvangen? Ja dat wil ik wel!</p>
+                                                                        <p class="text-muted mb-0">Gebruik de toggle op aan te geven of je een melding wilt ontvangen.</p>
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-check form-switch m-0">
@@ -337,7 +337,7 @@
                                                         <x-heroicon-o-user-circle class="icon text-info"/>
                                                     </div>
                                                     <div>
-                                                        <h5 class="fw-bold mb-0">Over jouw</h5>
+                                                        <h5 class="fw-bold mb-0">Over jou</h5>
                                                         <small class="text-muted">Je kunt deze suggestie ook anoniem indienen.</small>
                                                     </div>
                                                 </div>
@@ -448,7 +448,7 @@
                                             Controleer of het woord nog niet bestaat in ons woordenboek.
                                         </li>
                                         <li class="d-flex align-items-center text-muted">
-                                            <x-heroicon-o-check-circle class="text-success me-2 icon flex-shrink-0" />
+                                            <x-heroicon-o-information-circle class="text-info me-2 icon flex-shrink-0" />
                                             Suggesties worden publiek zichtbaar na beoordeling.
                                         </li>
                                     </ul>
