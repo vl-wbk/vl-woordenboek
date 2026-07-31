@@ -9,8 +9,11 @@ use App\Concerns\RateLimitSubmission;
 use App\Http\Requests\Articles\StoreSuggestionRequest;
 use App\Models\PartOfSpeech;
 use App\Models\Region;
+use App\Services\SuggestionQuotaService;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Attributes\Controllers\Authorize;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Spatie\LaravelData\Exceptions\InvalidDataClass;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Post;
@@ -27,8 +30,6 @@ use Throwable;
  */
 final class StoreArticleSuggestionController
 {
-    use RateLimitSubmission;
-
     /**
      * Displays the article submission form.
      *
@@ -38,10 +39,12 @@ final class StoreArticleSuggestionController
      * @return Renderable The form view for creating new dictionary entries.
      */
     #[Get(uri: 'woordenboek-artikelen/insturen', name: 'definitions.create')]
-    public function create(): Renderable
+    public function create(SuggestionQuotaService $suggestionQuotaService): Renderable
     {
         return view('definitions.create', [
             'regions' => Region::query()->pluck('name', 'id'),
+            'resterend' => $suggestionQuotaService->remaining(request()),
+            'volgendeVrijgave' => $suggestionQuotaService->nextReset(request()),
             'partOfSpeeches' => PartOfSpeech::query()->where('suggestible', true)->pluck('name', 'id'),
         ]);
     }
@@ -60,12 +63,10 @@ final class StoreArticleSuggestionController
      * @throws Throwable        when the suggestion couldn't be stored successfully in the database
      * @throws InvalidDataClass when the data transfer object couldn't be found in the application.
      */
-    #[Post(uri: 'woordenboek-artikelen/insturen', name: 'definitions.store')]
+    #[Post(uri: 'woordenboek-artikelen/insturen', name: 'definitions.store', middleware: ['throttle:suggestions', 'suggestion.quotum'])]
     public function store(StoreSuggestionRequest $storeSuggestionRequest, StoreArticleSuggestion $storeArticleSuggestion): RedirectResponse
     {
-        $this->throttleSubmission($storeSuggestionRequest, 'suggestion', function () use ($storeArticleSuggestion, $storeSuggestionRequest): void {
-            $storeArticleSuggestion->execute(suggestionData: $storeSuggestionRequest->getData());
-        });
+        $storeArticleSuggestion->execute(suggestionData: $storeSuggestionRequest->getData());
 
         return redirect()->route('definitions.create');
     }

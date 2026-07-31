@@ -6,8 +6,10 @@ namespace App\Http\Requests\Articles;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use App\Data\SuggestionData;
+use App\Services\SuggestionQuotaService;
 use Illuminate\Foundation\Http\FormRequest;
 use Spatie\LaravelData\WithData;
+use Illuminate\Validation\Validator;
 
 /**
  * StoreSuggestionRequest
@@ -53,6 +55,29 @@ final class StoreSuggestionRequest extends FormRequest
             'voorbeeldzin.*.waarde'     => ['required', 'string', 'max:255'],
         ];
     }
+
+    public function withValidator(Validator $validator): void 
+    {
+        $validator->after(function (Validator $validator): void {
+            $quota = app(SuggestionQuotaService::class);
+
+            if ($quota->isLimitReached($this)) {
+                $validator->errors()->add('quotum', $this->getQuotaErrorResponse($quota));
+            }
+        });
+    }
+
+    public function getQuotaErrorResponse(SuggestionQuotaService $quota): string
+    {
+        if ($this->user()) {
+            return 'Je hebt de limiet bereikt voor het indienen van suggesties '
+                . '(' . $quota->maxAllowedAttempts($this) . ' per week). '
+                . 'Probeer het later opnieuw.';
+        }
+
+        return 'Je hebt de limiet bereikt voor het indienen van suggesties als gast. '
+            . 'Probeer het later opnieuw of meld je aan bij de redactie voor een hogere limiet.';
+    } 
 
     public function messages(): array
     {
