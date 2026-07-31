@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Concept;
 use App\Models\User;
+use App\Services\SuggestionQuotaService;
 use Illuminate\Auth\Access\Response;
 
 /**
@@ -71,6 +72,8 @@ final readonly class ConceptPolicy
      */
     public function submitConcept(User $user, Concept $concept): Response
     {
-        return $concept->authoredBy($user) ? Response::allow() : Response::denyAsNotFound();
+        return (! app(SuggestionQuotaService::class)->isLimitReached(request()) && $concept->authoredBy($user))
+            ? Response::allow()
+            : Response::denyAsNotFound();
     }
 }
