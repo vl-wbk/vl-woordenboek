@@ -481,68 +481,69 @@
 
     {{-- Modal: Citeerhulp --}}
     <div class="modal fade" id="sourceInformation" tabindex="-1" aria-labelledby="sourceInformationLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content rounded-3 border-0 shadow-lg">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content rounded-3 border-0 shadow-lg">
 
-                <div class="modal-header bg-dark text-white border-0 p-4">
-                    <div class="d-flex align-items-center">
-                        <div class="bg-warning p-2 me-3 rounded-2 shadow-sm d-flex align-items-center justify-content-center">
-                            <x-heroicon-s-book-open class="icon text-dark" style="width: 1.5rem; height: 1.5rem;"/>
-                        </div>
-                        <div>
-                            <h1 class="modal-title fs-5 fw-bold mb-0" id="sourceInformationLabel">
-                                Bronvermelding bij <span class="text-warning">voorbeeldzinnen</span>
-                            </h1>
-                            <small class="text-white-50 text-uppercase tracking-widest fw-bold" style="font-size: 0.65rem;">Lexicografische Standaard</small>
-                        </div>
+            <div class="modal-header bg-dark text-white border-0 p-4">
+                <div class="d-flex align-items-center">
+                    <div class="bg-warning p-2 me-3 rounded-2 shadow-sm d-flex align-items-center justify-content-center">
+                        <x-heroicon-s-book-open class="icon text-dark" style="width: 1.5rem; height: 1.5rem;"/>
                     </div>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-
-                <div class="modal-body p-4 p-md-5" style="background-color: #fcfaf7;">
-                    <p class="lead fw-bold text-dark mb-3 fs-6">
-                        Voorbeeldzinnen zijn essentieel om de nuance en context van een woord te illustreren.
-                    </p>
-                    <p class="text-secondary lh-base mb-4 small">
-                        Onze voorkeur gaat uit naar citaten uit (online) bronnen, zoals blogs, kranten, tijdschriftartikels of sociale media.
-                        <span class="text-dark fw-bold fst-italic">Alleen als het echt niet anders kan</span> (bijv. bij zeldzame dialecten), kun je een zelfverzonnen zin opgeven.
-                    </p>
-
-                    <div class="d-flex flex-column gap-4">
-                        {{-- 01. Artikels --}}
-                        <div>
-                            <div class="d-flex align-items-center mb-2">
-                                <span class="badge bg-dark rounded-1 me-2">01</span>
-                                <h6 class="fw-bold mb-0 text-dark">Uit een artikel</h6>
-                            </div>
-                            <p class="small text-muted mb-2 fst-italic">Structuur: (bron: auteur – titel – bron – datum publicatie – ‘geraadpleegd op’ datum)</p>
-
-                            <div class="bg-white p-3 border-start border-3 border-warning shadow-sm mb-2 rounded-end">
-                                <p class="small mb-1 text-secondary fst-italic">"U voelt meteen stront aan de knikker in ‘Malditos’"</p>
-                                <span class="text-dark fw-bold" style="font-size: 0.8rem;">(Bron: titel in De Morgen 5.05.2025, geraadpleegd op 14.05.2025)</span>
-                            </div>
-                        </div>
-
-                        {{-- 02. Website --}}
-                        <div>
-                            <div class="d-flex align-items-center mb-2">
-                                <span class="badge bg-dark rounded-1 me-2">02</span>
-                                <h6 class="fw-bold mb-0 text-dark">Uit een website</h6>
-                            </div>
-                            <div class="bg-white p-3 border-start border-3 border-warning shadow-sm rounded-end">
-                                <p class="small mb-1 text-secondary fst-italic">"Goesting in Antwerpen? Wij gidsen je op een plezante manier."</p>
-                                <span class="text-dark fw-bold" style="font-size: 0.8rem;">(Bron: Goesting in A, geraadpleegd op 14.05.2025)</span>
-                            </div>
-                        </div>
+                    <div>
+                        <h1 class="modal-title fs-5 fw-bold mb-0" id="sourceInformationLabel">
+                            {{ __('modals.source_information.title') }} <span class="text-warning">{{ __('modals.source_information.highlight_title') }}</span>
+                        </h1>
+                        <small class="text-white-50 text-uppercase tracking-widest fw-bold" style="font-size: 0.65rem;">{{ __('modals.source_information.subtitle') }}</small>
                     </div>
                 </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="{{ __('modals.source_information.buttons.close') }}"></button>
+            </div>
 
-                <div class="modal-footer border-0 p-4" style="background-color: #fcfaf7;">
-                    <button type="button" class="btn btn-dark px-4 py-2 fw-bold small text-uppercase tracking-widest rounded-2" data-bs-dismiss="modal">Begrepen</button>
+            <div class="modal-body p-4 p-md-5" style="background-color: #fcfaf7;">
+                <p class="lead fw-bold text-dark mb-3 fs-6">
+                    {{ __('modals.source_information.lead') }}
+                </p>
+                <p class="text-secondary lh-base mb-4 small">
+                    {{ __('modals.source_information.description') }}
+                    <span class="text-dark fw-bold fst-italic">{{ __('modals.source_information.fallback_warning') }}</span>
+                    {{ __('modals.source_information.fallback_description') }}
+                </p>
+
+                <div class="d-flex flex-column gap-4">
+                    {{-- 01. Artikels --}}
+                    <div>
+                        <div class="d-flex align-items-center mb-2">
+                            <span class="badge bg-dark rounded-1 me-2">01</span>
+                            <h6 class="fw-bold mb-0 text-dark">{{ __('modals.source_information.articles.title') }}</h6>
+                        </div>
+                        <p class="small text-muted mb-2 fst-italic">{{ __('modals.source_information.articles.structure') }}</p>
+
+                        <div class="bg-white p-3 border-start border-3 border-warning shadow-sm mb-2 rounded-end">
+                            <p class="small mb-1 text-secondary fst-italic">{{ __('modals.source_information.articles.quote') }}</p>
+                            <span class="text-dark fw-bold" style="font-size: 0.8rem;">{{ __('modals.source_information.articles.citation') }}</span>
+                        </div>
+                    </div>
+
+                    {{-- 02. Website --}}
+                    <div>
+                        <div class="d-flex align-items-center mb-2">
+                            <span class="badge bg-dark rounded-1 me-2">02</span>
+                            <h6 class="fw-bold mb-0 text-dark">{{ __('modals.source_information.website.title') }}</h6>
+                        </div>
+                        <div class="bg-white p-3 border-start border-3 border-warning shadow-sm rounded-end">
+                            <p class="small mb-1 text-secondary fst-italic">{{ __('modals.source_information.website.quote') }}</p>
+                            <span class="text-dark fw-bold" style="font-size: 0.8rem;">{{ __('modals.source_information.website.citation') }}</span>
+                        </div>
+                    </div>
                 </div>
+            </div>
+
+            <div class="modal-footer border-0 p-4" style="background-color: #fcfaf7;">
+                <button type="button" class="btn btn-dark px-4 py-2 fw-bold small text-uppercase tracking-widest rounded-2" data-bs-dismiss="modal">{{ __('modals.source_information.buttons.understood') }}</button>
             </div>
         </div>
     </div>
+</div>
 @endsection
 
 @section('scripts')
