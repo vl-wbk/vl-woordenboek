@@ -304,7 +304,7 @@
                                                     </div>
                                                     <div>
                                                         <h5 class="fw-bold mb-0">Melding bij publicatie</h5>
-                                                        <small class="text-muted">Wil je een melding ontvangen wanneer je suggestie geubliceerd wordt?</small>
+                                                        <small class="text-muted">Wil je een melding ontvangen wanneer je suggestie gepubliceerd wordt?</small>
                                                     </div>
                                                 </div>
 
@@ -319,7 +319,7 @@
                                                                     </div>
                                                                     <div>
                                                                         {{-- <h6class="fw-boldmb-1small">Notificatie</h6> --}}
-                                                                        <p class="text-muted mb-0">Gebruik de toggle op aan te geven of je een melding wilt ontvangen.</p>
+                                                                        <p class="text-muted mb-0">Gebruik de toggle om aan te geven of je een melding wilt ontvangen.</p>
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-check form-switch m-0">
