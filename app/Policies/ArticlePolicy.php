@@ -168,14 +168,8 @@ final class ArticlePolicy
             return Response::deny(message: __('Je kan geen verwijderd artikel dupliceren.'));
         }
 
-        if ($article->state->notIn(enums: $cloneableStates)) {
-            return Response::deny(message: __('Artikelen in de status :state kunnen niet worden gedepliceerd.', [
-                'state' => $article->state->getLabel()
-            ]));
-        }
 
-
-        return $user->can('create:article')
+        return $user->can('create:article') && $article->state->in(enums: $cloneableStates)
             ? Response::allow()
             : Response::deny('Je hebt geen rechten om nieuwe artikelen aan te maken.');
     }
