@@ -9,8 +9,8 @@
     "require": {
         "php": "^8.4",
         "a909m/filament-statefusion": "^2.0",
-        "archtechx/enums": "^1.1",
         "aaronfrancis/fast-paginate": "dev-main",
+        "archtechx/enums": "^1.1",
         "beyondcode/laravel-comments": "dev-l13-compatibility",
         "bezhansalleh/filament-shield": "^4.0",
         "charrafimed/global-search-modal": "^5.0",
@@ -51,6 +51,7 @@
         "spatie/laravel-discord-alerts": "^1.8",
         "spatie/laravel-feed": "^4.4",
         "spatie/laravel-flash": "^1.10",
+        "spatie/laravel-honeypot": "^4.7",
         "spatie/laravel-model-status": "^1.18",
         "spatie/laravel-passkeys": "^1.6",
         "spatie/laravel-query-builder": "^6.3",

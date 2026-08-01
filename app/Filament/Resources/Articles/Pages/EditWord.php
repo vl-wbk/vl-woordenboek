@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Articles\Pages;
 use App\Models\User;
 use App\Models\Article;
 use App\Enums\ArticleStates;
+use App\Filament\Resources\Articles\Actions\DuplicationArticleAction;
 use App\Filament\Resources\Articles\Actions\PreviewArticleAction;
 use App\Filament\Resources\Articles\ArticleResource;
 use App\Filament\Resources\Articles\Actions\SoftDeleteArticleAction;
@@ -64,6 +65,8 @@ final class EditWord extends EditRecord
                 ->slideOver()
                 ->mentionables(User::permission(['update:article', 'update-published:article'])->get())
                 ->perPage(5),
+
+            DuplicationArticleAction::make(),
 
             Actions\ActionGroup::make([
                 PublishArticleAction::make(),

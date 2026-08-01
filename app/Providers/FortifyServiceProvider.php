@@ -12,9 +12,11 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
+use Spatie\Honeypot\ProtectAgainstSpam;
 
 /**
  * The FortifyServiceProvider class registers and configures Laravel Fortify's authentication features.
