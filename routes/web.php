@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Shared\Authentication\MyWelcomeController;
 use Illuminate\Support\Facades\Route;
+use Laravel\Fortify\Http\Controllers\RegisteredUserController;
+use Spatie\Honeypot\ProtectAgainstSpam;
 use Spatie\WelcomeNotification\WelcomesNewUsers;
 
 /**
@@ -20,3 +22,12 @@ Route::get('google-authenticatie/callback', [\App\Http\Controllers\Shared\Authen
 
 Route::feeds();
 Route::passkeys();
+
+// Custom routes
+Route::post('/register', [RegisteredUserController::class, 'store'])
+    ->middleware(['web', 'guest', ProtectAgainstSpam::class])
+    ->name('register.store');
+
+Route::get('/register', [RegisteredUserController::class, 'create'])
+    ->middleware(['web', 'guest'])
+    ->name('register');
