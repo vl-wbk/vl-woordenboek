@@ -13,7 +13,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Route;
 use Override;
+use Spatie\Honeypot\ProtectAgainstSpam;
 
 /**
  * AppServiceProvider
