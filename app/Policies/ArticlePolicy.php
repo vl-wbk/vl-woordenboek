@@ -33,6 +33,7 @@ final class ArticlePolicy
         "update",
         "sendForApproval",
         "publish",
+        "duplicate",
         "unpublish",
         "detachEditor",
         "attachDisclaimer",
@@ -168,8 +169,7 @@ final class ArticlePolicy
             return Response::deny(message: __('Je kan geen verwijderd artikel dupliceren.'));
         }
 
-
-        return $user->can('create:article') && $article->state->in(enums: $cloneableStates)
+        return $user->can('duplicate:article') && $article->state->in(enums: $cloneableStates)
             ? Response::allow()
             : Response::deny('Je hebt geen rechten om nieuwe artikelen aan te maken.');
     }
