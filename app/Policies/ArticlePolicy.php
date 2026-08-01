@@ -162,7 +162,7 @@ final class ArticlePolicy
      */
     public function duplicate(User $user, Article $article): Response
     {
-        $cloneableStates = [ArticleStates::Published, ArticleStates::New, ArticleStates::Draft, ArticleStates::Archived];
+        $cloneableStates = [ArticleStates::Published, ArticleStates::New, ArticleStates::Draft, ArticleStates::Approval, ArticleStates::Archived];
 
         if ($article->trashed()) {
             return Response::deny(message: __('Je kan geen verwijderd artikel dupliceren.'));
