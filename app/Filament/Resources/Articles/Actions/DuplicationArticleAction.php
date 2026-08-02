@@ -74,7 +74,7 @@ final class DuplicationArticleAction extends Action
                 }
 
                 foreach ($article->userExamples as $sentence) {
-                    $newArticle->userExamples()->save($sentence);git kel
+                    $newArticle->userExamples()->save($sentence);
                 }
 
                 $this->newArticleInstance = $newArticle; // Store the article
