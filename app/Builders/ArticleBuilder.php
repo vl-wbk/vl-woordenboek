@@ -7,7 +7,9 @@ namespace App\Builders;
 use App\Models\Article;
 use Throwable;
 use App\Enums\ArticleStates;
+use App\Models\User;
 use App\Notifications\SendoutPublicationNotification;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -57,6 +59,16 @@ final class ArticleBuilder extends Builder
     public function archived(): Builder
     {
         return $this->orWhereNotNull("archived_at");
+    }
+
+    #[Scope]
+    public function forEditor(User|int $editor): Builder
+    {
+        $editorId = $editor instanceof User
+            ? $editor->id
+            : $editor;
+
+        return $this->where('editor_id', $editorId);
     }
 
     public function isEditable(): bool

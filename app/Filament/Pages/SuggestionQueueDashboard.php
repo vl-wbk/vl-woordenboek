@@ -9,6 +9,9 @@ use App\Filament\Resources\Articles\Widgets\SuggestionQueueTable;
 use App\Models\Article;
 use BackedEnum;
 use Filament\Pages\Dashboard;
+use Filament\Resources\Concerns\HasTabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Override;
 
 final class SuggestionQueueDashboard extends Dashboard
 {
@@ -16,9 +19,11 @@ final class SuggestionQueueDashboard extends Dashboard
 
     protected static ?string $cluster = ArticlesCluster::class;
 
+    protected static ?int $navigationSort = -5;
+
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-clipboard-document-list';
 
-    protected static ?string $title = 'Suggestie wachtrij';
+    protected static ?string $title = 'Het redactiekot';
 
     /**
      * @return string[]
@@ -29,12 +34,5 @@ final class SuggestionQueueDashboard extends Dashboard
             SuggestionQueueKpiStats::class,
             SuggestionQueueTable::class,
         ];
-    }
-
-    public static function getNavigationBadge(): string
-    {
-        return (string) Article::where('state', ArticleStates::New)
-            ->orWhere('state', ArticleStates::ExternalData)
-            ->count();
     }
 }
