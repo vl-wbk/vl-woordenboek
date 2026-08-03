@@ -39,7 +39,7 @@ return [
         'user-menu' => [
             'lgout' => 'Uitloggen',
             'saved-words' => 'Bewaarde woorden',
-            'my-suggestions' => 'Mijn suggesties',
+            'my-suggestions' => 'Mijn bijdrages',
             'settings' => 'Instellingen',
             'public-profile' => 'Openbaar profiel',
             'management-console' => 'Beheersconsole'
