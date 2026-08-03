@@ -371,6 +371,11 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link {{ active('word-lists:*') }}" href="{{ route('word-lists:index') }}">
+                                <x-tabler-list-details class="icon me-1 color-green"/> Mijn themalijsten
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link {{ active('suggestions:index') }}" href="{{ route('suggestions:index') }}">
                                 <x-tabler-vocabulary class="icon me-1 color-green"/> Mijn bijdrages
                             </a>

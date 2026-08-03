@@ -244,6 +244,12 @@ final class Article extends Model implements AuditableContract, Commentable
         return  $this->morphMany(UserExample::class, 'exampleable');
     }
 
+    public function wordLists(): BelongsToMany
+    {
+        return $this->belongsToMany(WordList::class, 'word_list_word')
+            ->withTimestamps();
+    }
+
     /**
      * Defines a one-to-many relationship with the `Etymology` model.
      *

@@ -224,6 +224,11 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
         return $this->hasMany(Etymology::class, 'author_id');
     }
 
+    public function wordLists(): HasMany
+    {
+        return $this->hasMany(WordList::class);
+    }
+
     /**
      * @return HasMany<Concept, covariant $this>
      */
