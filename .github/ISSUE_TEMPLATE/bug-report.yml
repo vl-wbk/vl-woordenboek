@@ -24,8 +24,8 @@ body:
         - --niet opegegeven--
         - Productie (www.vlaamswoordenboek.be)
         - Staging (www.staging.vlaamswoordenboek.be)
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     id: what-happend
     attributes:
