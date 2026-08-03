@@ -74,7 +74,7 @@
                             @endcan
 
                             @can ('delete', $list)
-                                <a href="{{ route('word-lists:delete', $list) }}" class="btn btn-sm btn-link text-danger" onclick="confirm('Weet je zeker dat je deze woordenlijst wilt verwijderen?')">
+                                <a href="{{ route('word-lists:delete', $list) }}" class="btn btn-sm btn-link text-danger" onclick="return confirm('Weet je zeker dat je deze woordenlijst wilt verwijderen?')">
                                     <x-tabler-trash class="icon"/>
                                 </a>
                             @endcan

@@ -500,6 +500,8 @@
                                   </div>
                                 @endif
 
+                                <x-thema-list-component :word="$word" />
+
                                 @if (auth()->user() && $word->related->count() > 0 && $word->published())
                                     <hr>
 
@@ -558,6 +560,7 @@
     </div>
 
     <script>
+
     const sizeMap = { sm: 'font-size-sm', md: 'font-size-md', lg: 'font-size-lg', xl: 'font-size-xl' };
 
     function setFontSize(size) {
