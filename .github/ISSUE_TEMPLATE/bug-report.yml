@@ -21,7 +21,7 @@ body:
       description: U kunt er hier een selecteren.
       multiple: false
       options:
-        - --niet opegegeven--
+        - --niet opgegeven--
         - Productie (www.vlaamswoordenboek.be)
         - Staging (www.staging.vlaamswoordenboek.be)
     validations:
