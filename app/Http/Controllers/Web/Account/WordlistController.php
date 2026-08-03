@@ -103,4 +103,14 @@ final class WordlistController
 
         return back()->with('success', 'Themalijsten bijgewerkt.');
     }
+
+
+    #[Get(uri: '/woordlijsten/{wordlist}/loskoppelen/{article}', name: 'word-lists:detach', middleware: ['can:managelist,wordlist'])]
+    public function __invoke(WordList $wordlist, Article $article): RedirectResponse
+    {
+
+        $wordlist->words()->detach($article->id);
+
+        return back();
+    }
 }

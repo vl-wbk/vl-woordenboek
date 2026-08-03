@@ -82,13 +82,15 @@
                         <x-tabler-eye class="icon me-1"/> Bekijk
                     </a>
 
-                    <a href=""
-                        class="btn btn-outline-shadcn btn-sm shadow-sm text-danger d-flex align-items-center"
-                        title="Verwijder uit lijst"
-                        aria-label="Verwijder {{ $word->word }} uit lijst"
-                    >
-                        <x-tabler-unlink class="icon" style="color: #dc3545;"/>
-                    </a>
+                    @can('managelist', $wordList)
+                        <a href="{{ route('word-lists:detach', ['article' => $word, 'wordlist' => $wordList]) }}"
+                            class="btn btn-outline-shadcn btn-sm shadow-sm text-danger d-flex align-items-center"
+                            title="Verwijder uit lijst"
+                            aria-label="Verwijder {{ $word->word }} uit lijst"
+                        >
+                            <x-tabler-unlink class="icon" style="color: #dc3545;"/>
+                        </a>
+                    @endcan
                 </div>
             </div>
         @empty {{-- Empty state view --}}

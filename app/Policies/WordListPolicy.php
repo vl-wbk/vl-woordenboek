@@ -29,4 +29,11 @@ final class WordListPolicy
             ? Response::allow()
             : Response::denyAsNotFound();
     }
+
+    public function managelist(User $user, WordList $wordlist): Response
+    {
+        return ($wordlist->user()->is($user))
+            ? Response::allow()
+            : Response::denyAsNotFound();
+    }
 }
