@@ -12,6 +12,19 @@ body:
         - Onduidelijkheid
     validations:
       required: true
+  - type: dropdown
+    id: "environment"
+    attributes:
+      label: In welke omgeving was je het Vlaams Woordenboek aan het gebruiken toen de taalfout vond?
+      description: U kunt er hier een selecteren.
+      multiple: false
+      options:
+        - --niet opegegeven--
+        - Productie (www.vlaamswoordenboek.be)
+        - Staging (www.staging.vlaamswoordenboek.be)
+      validations:
+        required: true
+
   - type: textarea
     id: problem-description
     attributes:
