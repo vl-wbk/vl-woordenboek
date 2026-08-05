@@ -148,7 +148,7 @@
                                             <div class="row g-3">
                                                 <div class="col-12">
                                                     <label for="woord" class="form-label">Woord of uitdrukking <span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control @error('woord') is-invalid @enderror rounded-3" id="woord" value="{{ old('woord') }}" name="woord" placeholder="Vul het woord of de uitdrukking in" autofocus>
+                                                    <input type="text" class="form-control @error('woord') is-invalid @enderror rounded-3" id="woord" value="{{ old('woord', request()->input('woord')) }}" name="woord" placeholder="Vul het woord of de uitdrukking in" autofocus>
 
                                                     @if ($errors->has('woord'))
                                                         <x-forms.validation-error field="woord"/>
