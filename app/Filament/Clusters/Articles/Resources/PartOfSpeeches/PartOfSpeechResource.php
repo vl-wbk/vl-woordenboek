@@ -101,7 +101,7 @@ final class PartOfSpeechResource extends Resource
     public static function getPages(): array
     {
         return [
-            'shiw' => Pages\ViewPartOfSpeeches::route('/{record}'),
+            // 'shiw' => Pages\ViewPartOfSpeeches::route('/{record}'),
             'index' => Pages\ListPartOfSpeeches::route('/'),
         ];
     }
