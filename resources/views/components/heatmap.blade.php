@@ -16,6 +16,7 @@
 
     $monthPositions = [];
     $lastMonth      = null;
+
     for ($w = 0; $w < $colWeeks; $w++) {
         for ($d = 0; $d < 7; $d++) {
             $idx = $w * 7 + $d - $paddingDays;

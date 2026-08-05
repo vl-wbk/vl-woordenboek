@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Clusters\Articles\Resources\PartOfSpeeches;
 
 use App\Filament\Clusters\Articles\ArticlesCluster;
-use App\Filament\Clusters\Articles\Resources\PartOfSpeeches\Pages\ListPartOfSpeeches;
+use App\Filament\Clusters\Articles\Resources\PartOfSpeeches\Pages;
 use App\Filament\Clusters\Articles\Resources\PartOfSpeeches\Schemas\PartOfSpeechForm;
 use App\Filament\Clusters\Articles\Resources\PartOfSpeeches\Tables\PartOfSpeechesTable;
 use App\Models\PartOfSpeech;
@@ -16,12 +16,12 @@ use Filament\Tables\Table;
 use UnitEnum;
 
 /**
- * Class PartOfSpeechResource 
- * 
+ * Class PartOfSpeechResource
+ *
  * This class acts as the central management hub for the "PartOfSpeech" model within the Filament admin panel.
- * It integrates the resource into the "Articles" cluster and organizes it under the "Ondersteuning" navigation group. 
+ * It integrates the resource into the "Articles" cluster and organizes it under the "Ondersteuning" navigation group.
  * By delegating UI logic to specialized Table and Schema classes, it maintains a clean separation of concerns for linguistic category management.
- * 
+ *
  * @package App\Filament\Clusters\Articles\Resources\PartOfSpeeches
  */
 final class PartOfSpeechResource extends Resource
@@ -69,7 +69,7 @@ final class PartOfSpeechResource extends Resource
     protected static string|null|UnitEnum $navigationGroup = 'Ondersteuning';
 
     /**
-     * Define the data entry and edit form. 
+     * Define the data entry and edit form.
      * Delegates the form component definitions to the PartOfSpeechForm factory class to keep the resource definition lightweight.
      *
      * @param  Schema $schema  The incoming form schema instance.
@@ -83,7 +83,7 @@ final class PartOfSpeechResource extends Resource
     /**
      * Define the data listing table.
      * Delegates the column and action definitions to the PartOfSpeechesTable factory class, ensuring that the list view logic is encapsulated and reusable.
-     * 
+     *
      * @param  Table $table  The incoming form schema instance.
      * @return Table         The configured form schema for editing parts of speech.
      */
@@ -93,15 +93,16 @@ final class PartOfSpeechResource extends Resource
     }
 
     /**
-     * Map the resource to specific pages. 
-     * Defines the URL strucutre and the correspondinbg Filament Page components used fo listing, creating, and editing records. 
+     * Map the resource to specific pages.
+     * Defines the URL strucutre and the correspondinbg Filament Page components used fo listing, creating, and editing records.
      *
      * @return array<string, \Filament\Resources\Pages\PageRegistration> An associative array of routes.
      */
     public static function getPages(): array
     {
         return [
-            'index' => ListPartOfSpeeches::route('/'),
+            'shiw' => Pages\ViewPartOfSpeeches::route('/{record}'),
+            'index' => Pages\ListPartOfSpeeches::route('/'),
         ];
     }
 }

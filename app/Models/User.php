@@ -301,7 +301,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
      */
     public function prunable(): UserBuilder
     {
-        return static::where('last_seen_at', '<', now()->subMonths(6))
+        return static::where('last_seen_at', '<', now()->subMonths(24))
             ->whereNotNull('inactivity_warning_sent_at');
     }
 
