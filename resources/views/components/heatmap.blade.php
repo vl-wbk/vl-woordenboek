@@ -45,8 +45,8 @@
             <div class="d-flex gap-1">
                 @foreach ([0, 1, 2, 3, 4] as $lvl)
                     <div class="day-cell level-{{ $lvl }}"
-                         style="width: 12px; height: 12px; cursor: default; flex-shrink: 0;"
-                         aria-hidden="true"></div>
+                        style="width: 11px; height: 11px; cursor: default; flex-shrink: 0;"
+                        aria-hidden="true"></div>
                 @endforeach
             </div>
             Meer

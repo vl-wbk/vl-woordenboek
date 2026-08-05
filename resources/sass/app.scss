@@ -23,6 +23,25 @@
 @import 'components/search-improvements';
 
 // ── Contribution Heatmap ─────────────────────────────────────────────────────
+:root {
+    --lexi-black: #111111;
+    --lexi-gray: #6c757d;
+    --lexi-light: #f8f9fa;
+    --lexi-border: #dee2e6;
+    --lexi-favorite: #ff4757;
+    --lexi-label-bg: #eef2ff;
+    --lexi-label-text: $brand-indigo;
+    --lexi-region-bg: #f0fdf4;
+    --lexi-region-text: #15803d;
+
+    --_l0: #ebedf0;
+    --_l1: #9be9a8;
+    --_l2: #40c463;
+    --_l3: #30a14e;
+    --_l4: #216e39;
+
+    --_ring: #0969da;
+}
 
 .hm-root {
   // Private design tokens — scoped to the component, not global
@@ -34,14 +53,7 @@
   --_label-fs:  10px;
   --_muted:     #6e7681;
 
-  // Cell level colours — GitHub light palette
-  --_l0: #ebedf0;
-  --_l1: #9be9a8;
-  --_l2: #40c463;
-  --_l3: #30a14e;
-  --_l4: #216e39;
-
-  --_ring: #0969da;   // keyboard focus ring
+  // Cell level colours — GitHub light palette   // keyboard focus ring
 
   display: flex;
   flex-direction: column;
@@ -119,28 +131,27 @@
 // ── Day cells ────────────────────────────────────────────────────────────────
 
 .day-cell {
-  aspect-ratio: 1;               // square fallback before JS fires
+  aspect-ratio: 1;
   border-radius: var(--_radius);
   cursor: pointer;
   outline: 2px solid transparent;
   outline-offset: 1px;
-  // outline-color (not the shorthand `outline`) is what's actually animatable
   transition:
     transform     0.1s ease,
     outline-color 0.1s ease;
 
+  // Add level colors here
+
   &:hover {
     transform: scale(1.25);
-    z-index: 1;                  // float above neighbours when scaled
+    z-index: 1;
   }
 
-  // Only show ring for keyboard navigation — no ring on click
   &:focus-visible {
     outline-color: var(--_ring);
     transform: scale(1.2);
   }
 
-  // Padding cells and legend swatches: purely decorative, no interaction
   &[aria-hidden="true"] {
     cursor: default;
     pointer-events: none;
@@ -648,18 +659,6 @@
 
 .text-brand-green {
     color: $brand-green;
-}
-
-:root {
-    --lexi-black: #111111;
-    --lexi-gray: #6c757d;
-    --lexi-light: #f8f9fa;
-    --lexi-border: #dee2e6;
-    --lexi-favorite: #ff4757;
-    --lexi-label-bg: #eef2ff;
-    --lexi-label-text: $brand-indigo;
-    --lexi-region-bg: #f0fdf4;
-    --lexi-region-text: #15803d;
 }
 
 
