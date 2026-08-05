@@ -294,7 +294,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
      * Get the prunable model query.
      *
      * Defines the criteria for users that should be removed from the database:
-     * 1. The user has not been seen for more than 6 months.
+     * 1. The user has not been seen for more than 24 months.
      * 2. An inactivity warning email has already been sent.
      *
      * @return UserBuilder
