@@ -7,6 +7,7 @@ namespace App\Filament\Clusters\Articles\Resources\PartOfSpeeches;
 use App\Filament\Clusters\Articles\ArticlesCluster;
 use App\Filament\Clusters\Articles\Resources\PartOfSpeeches\Pages;
 use App\Filament\Clusters\Articles\Resources\PartOfSpeeches\Schemas\PartOfSpeechForm;
+use App\Filament\Clusters\Articles\Resources\PartOfSpeeches\Schemas\PartOfSpeechInfolist;
 use App\Filament\Clusters\Articles\Resources\PartOfSpeeches\Tables\PartOfSpeechesTable;
 use App\Models\PartOfSpeech;
 use BackedEnum;
@@ -92,6 +93,11 @@ final class PartOfSpeechResource extends Resource
         return PartOfSpeechesTable::configure($table);
     }
 
+    public static function infolist(Schema $schema): Schema
+    {
+        return PartOfSpeechInfolist::configure($schema);
+    }
+
     /**
      * Map the resource to specific pages.
      * Defines the URL strucutre and the correspondinbg Filament Page components used fo listing, creating, and editing records.
@@ -101,8 +107,8 @@ final class PartOfSpeechResource extends Resource
     public static function getPages(): array
     {
         return [
-            // 'shiw' => Pages\ViewPartOfSpeeches::route('/{record}'),
             'index' => Pages\ListPartOfSpeeches::route('/'),
+            'view' => Pages\ViewPartOfSpeeches::route('/{record}'),
         ];
     }
 }
