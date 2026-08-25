@@ -18,8 +18,12 @@ use App\Filament\Resources\Articles\ArticleResource;
 use App\Models\Article;
 use Filament\Actions\Action;
 use Filament\Actions\ForceDeleteAction;
+use Filament\Actions\ViewAction;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Schemas\Components\Actions;
+use Filament\Support\Enums\FontWeight;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 
@@ -69,6 +73,7 @@ final readonly class WordInfolist
                         self::lemmaInformationTab(),
                         self::sourcesInformationTab(),
                         self::editInformationTab(),
+                        self::duplicateInformationTab(),
                         self::publicationInformationTab(),
                     ]),
             ]);
@@ -192,6 +197,55 @@ final readonly class WordInfolist
                     ])
                     ->hiddenLabel()
                     ->columnSpan(12),
+            ]);
+    }
+
+    /**
+     * Get the query builder for potential duplicates of a word.
+     */
+    private static function getDuplicatesQuery(Article $record): Builder
+    {
+        return Article::query()
+            ->where('word', $record->word)
+            ->whereKeyNot($record->getKey());
+    }
+
+    private static function duplicateInformationTab(): Tab
+    {
+        return Tab::make('Potentiële duplicaten')
+            ->icon(Heroicon::OutlinedDocumentDuplicate)
+            ->badge(fn (Article $record): int => self::getDuplicatesQuery($record)->count())
+            ->columns(12)
+            ->schema([
+                RepeatableEntry::make('duplicates')
+                    ->hiddenLabel()
+                    ->columnSpanFull()
+                    ->state(fn (Article $record): array => self::getDuplicatesQuery($record)->get()->toArray())
+                    ->table([
+                        TableColumn::make('#'),
+                        TableColumn::make('Ingezonden door'),
+                        TableColumn::make('Status'),
+                        TableColumn::make('Woord'),
+                        TableColumn::make('Laatst gewijzigd'),
+                        TableColumn::make('Toegevoegd op')
+                    ])
+                    ->schema([
+                        TextEntry::make('id')
+                            ->weight(FontWeight::Bold)
+                            ->color('primary')
+                            ->url(fn (Article $article): string => ArticleResource::getUrl('view', ['record' => $article])),
+
+                        TextEntry::make('author.name'),
+
+                        TextEntry::make('state')
+                            ->state(fn (Article $record): string => $record->state->getLabel())
+                            ->color(fn (Article $record): string => $record->state->getColor())
+                            ->badge(),
+
+                        TextEntry::make('word'),
+                        TextEntry::make('updated_at')->since(),
+                        TextEntry::make('created_at')->date(),
+                    ])
             ]);
     }
 
