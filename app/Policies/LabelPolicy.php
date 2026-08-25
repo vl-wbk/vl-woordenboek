@@ -112,7 +112,7 @@ final class LabelPolicy
      */
     public function create(User $user): Response
     {
-        return$user->can('create:label')
+        return $user->can('create:label')
             ? Response::allow()
             : Response::deny(message: 'U heeft geen toestemming om labels aan te maken.');
     }
