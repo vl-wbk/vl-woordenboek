@@ -129,12 +129,6 @@ final readonly class TableSchema
 
         return [
             BulkActionGroup::make([
-                ExportBulkAction::make()->exporter(ArticleExporter::class)
-                    ->modalWidth(Width::Large)
-                    ->modalDescription(description: __('Gegevens nodig in een ander programma? Geen probleem! Selecteer de kolommen die je nodig hebt en je kunt vervolgens de gegevens downloaden in een .xlsx of .csv bestanden downloaden'))
-                    ->icon(Heroicon::OutlinedArrowDownTray)
-                    ->slideOver(),
-
                 BulkArchiveAction::make(),
 
                 // BulkActionGroup::make([

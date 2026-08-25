@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Articles\Pages;
 
 use App\Features\DocumentationButtons;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets\ArticleRegistrationChart;
+use App\Filament\Exports\ArticleExporter;
 use App\Filament\Resources\Articles\ArticleResource;
 use App\Models\Etymology;
 use App\Models\Label;
@@ -15,7 +16,10 @@ use CodeWithDennis\FactoryAction\FactoryAction;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\CreateAction;
+use Filament\Actions\ExportAction;
+use Filament\Actions\Exports\Models\Export;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
 use Laravel\Pennant\Feature;
 
@@ -77,6 +81,16 @@ final class ListWords extends ListRecords
                 CreateAction::make()
                     ->color('gray')
                     ->icon('heroicon-o-document-plus'),
+
+                ExportAction::make()
+                    ->visible(auth()->user()->can('create', Export::class))
+                    ->exporter(ArticleExporter::class)
+                    ->modalWidth(Width::Large)
+                    ->modalDescription(description: __('Gegevens nodig in een ander programma? Geen probleem! Selecteer de kolommen die je nodig hebt en je kunt vervolgens de gegevens downloaden in een .xlsx of .csv bestanden downloaden'))
+                    ->icon(Heroicon::OutlinedArrowDownTray)
+                    ->chunkSize(250)
+                    ->slideOver(),
+
                 FactoryAction::make()
                     ->color('gray')
                     ->hiddenLabel()

@@ -50,7 +50,7 @@ final readonly class ExportPolicy
      */
     public function create(User $user): Response
     {
-        return $user->can('export_article')
+        return $user->can('export:article')
 			? Response::allow()
 			: Response::deny(message: 'Om hebt geen toestemming om een lijst van artikelen uit het systeem te exporteren.');
     }
