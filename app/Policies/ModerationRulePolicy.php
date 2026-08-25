@@ -27,7 +27,7 @@ final class ModerationRulePolicy
     {
         return $user->can('create:moderation-rule')
             ? Response::allow()
-            : Response::deny();
+            : Response::deny(message: 'Je hebt geen machtiging om een gebruiker te deactiveren.');
     }
 
     /**
@@ -42,7 +42,7 @@ final class ModerationRulePolicy
     {
         return $user->can('update:moderation-rule')
             ? Response::allow()
-            : Response::deny();
+            : Response::deny(message: 'Je hebt geen machtiging om een deactivatie van een gebruiker aan te passen.');
     }
 
     /**
@@ -55,7 +55,7 @@ final class ModerationRulePolicy
     {
         return $user->can('delete:moderation-rule')
             ? Response::allow()
-            : Response::deny();
+            : Response::deny(message: 'Je hebt geen machtiging om de deactivatie van een gebruiker ongedaan te maken.');
     }
 
     /**
@@ -71,6 +71,6 @@ final class ModerationRulePolicy
     {
         return $user->can('delete-any:moderation-rule')
             ? Response::allow()
-            : Response::deny();
+            : Response::deny(message: 'Je hebt geen machtiging om deactivaties ongedaan te maken.');
     }
 }

@@ -38,7 +38,9 @@ final readonly class ConceptPolicy
      */
     public function update(User $user, Concept $concept): Response
     {
-        return $concept->authoredBy($user) ? Response::allow() : Response::denyAsNotFound();
+        return $concept->authoredBy($user)
+            ? Response::allow()
+            : Response::denyAsNotFound();
     }
 
     /**
@@ -56,7 +58,9 @@ final readonly class ConceptPolicy
      */
     public function delete(User $user, Concept $concept): Response
     {
-        return $concept->authoredBy($user) ? Response::allow() : Response::denyAsNotFound();
+        return $concept->authoredBy($user)
+            ? Response::allow()
+            : Response::denyAsNotFound();
     }
 
     /**

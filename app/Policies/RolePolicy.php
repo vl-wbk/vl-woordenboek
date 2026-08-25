@@ -49,11 +49,9 @@ final class RolePolicy
      */
     public function viewAny(AuthUser $authUser): Response
     {
-        if ($authUser->can("view-any:role")) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: "U hebt geen toestemming om de lijst met permissiegroepen te bekijken.");
+        return $authUser->can("view-any:role")
+            ? Response::allow()
+            : Response::deny(message: "U hebt geen toestemming om de lijst met permissiegroepen te bekijken.");
     }
 
     /**
@@ -72,11 +70,9 @@ final class RolePolicy
      */
     public function view(AuthUser $authUser, Role $role): Response
     {
-        if ($authUser->can("view:role")) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: "U hebt geen toestemming om de gegevens van de permissiegroep te bekijken.");
+        return $authUser->can("view:role")
+            ? Response::allow()
+            : Response::deny(message: "U hebt geen toestemming om de gegevens van de permissiegroep te bekijken.");
     }
 
     /**
@@ -93,11 +89,9 @@ final class RolePolicy
      */
     public function create(AuthUser $authUser): Response
     {
-        if ($authUser->can("create:role")) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: "U hebt geen toestemming om een nieuwe permissiegroep aan te maken.");
+        return $authUser->can("create:role")
+            ? Response::allow()
+            : Response::deny(message: "U hebt geen toestemming om een nieuwe permissiegroep aan te maken.");
     }
 
     /**
@@ -116,11 +110,9 @@ final class RolePolicy
      */
     public function update(AuthUser $authUser, Role $role): Response
     {
-        if ($authUser->can("update:role")) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: "U hebt geen toestemming om de gegevens van de permisiegroep te wijzigen.");
+        return $authUser->can("update:role")
+            ? Response::allow()
+            : Response::deny(message: "U hebt geen toestemming om de gegevens van de permisiegroep te wijzigen.");
     }
 
     /**
@@ -139,10 +131,8 @@ final class RolePolicy
      */
     public function delete(AuthUser $authUser, Role $role): Response
     {
-        if ($authUser->can("delete:role")) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: "U hebt geen toestemming om een permissiegroep te verwijderen.");
+        return $authUser->can("delete:role")
+            ? Response::allow()
+            : Response::deny(message: "U hebt geen toestemming om een permissiegroep te verwijderen.");
     }
 }
