@@ -10,6 +10,7 @@ use App\Filament\Resources\Articles\Schema\ArticleForm;
 use App\Models\Article;
 use App\Models\ArticleReport;
 use App\Models\ReferenceWork;
+use App\Policies\ArticlePolicy;
 use Filament\Actions\Action;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Radio;
@@ -27,6 +28,8 @@ use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Components\Wizard;
 use Filament\Schemas\Components\Wizard\Step;
 use Filament\Schemas\Schema;
+use Filament\Support\Enums\FontWeight;
+use Filament\Support\Enums\IconSize;
 use Filament\Support\Icons\Heroicon;
 
 final readonly class ReportForm
@@ -83,6 +86,27 @@ final readonly class ReportForm
                     ->columns(12)
                     ->icon(icon: Heroicon::InformationCircle)
                     ->schema(components: self::reportInformationTab()),
+
+                Tab::make('Artikel informatie')
+                    ->columns(12)
+                    ->icon(Heroicon::OutlinedDocumentText)
+                    ->schema([
+                           TextEntry::make('id')
+                                ->label('Artikel ID')
+                                ->icon(Heroicon::OutlinedHashtag)
+                                ->color('primary')
+                                ->iconColor('primary')
+                                ->weight(FontWeight::Bold)
+                                ->columnSpan(3)
+                                ->url(
+                                    url: fn (ArticleReport $report): string => route('word-information.show', $report->article),
+                                    shouldOpenInNewTab: true
+                                ),
+
+                            TextEntry::make('article.word')
+                                ->columnSpan(9)
+                                ->label('Artikel')
+                    ])
             ]);
     }
 
@@ -168,7 +192,7 @@ final readonly class ReportForm
                         TextInput::make('word')
                             ->label('Woord')
                             ->hintAction(ArticleForm::guidelineAction('https://vl-wbk.github.io/documentatie/richtlijnen/woord'))
-                            ->columnSpan(8)
+                            ->columnSpan(6)
                             ->required()
                             ->maxLength(255)
                             ->autofocus(false),

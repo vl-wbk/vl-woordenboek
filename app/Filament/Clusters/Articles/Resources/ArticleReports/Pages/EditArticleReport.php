@@ -6,9 +6,11 @@ namespace App\Filament\Clusters\Articles\Resources\ArticleReports\Pages;
 
 use App\Filament\Clusters\Articles\Resources\ArticleReports\Actions\CloseArticleReportAction;
 use App\Filament\Clusters\Articles\Resources\ArticleReports\ArticleReportResource;
+use App\Filament\Resources\Articles\Actions\PreviewArticleAction;
 use App\Filament\Resources\Users\UserResource;
 use App\Models\ArticleReport;
 use App\Models\User;
+use App\Policies\ArticlePolicy;
 use App\States\Reporting\Status;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
@@ -108,13 +110,15 @@ final class EditArticleReport extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Action::make('reporter-information')
-                ->hidden(fn (ArticleReport $articleReport): bool => $articleReport->author()->doesntExist())
-                ->authorize('viewAny', User::class)
-                ->label('bekijk melder')
-                ->icon('tabler-user-search')
-                ->color('gray')
-                ->url(fn (ArticleReport $articleReport): string => UserResource::getUrl('view', ['record' => $articleReport->author])),
+            ActionGroup::make(actions: [
+                Action::make('reporter-information')
+                    ->hidden(fn (ArticleReport $articleReport): bool => $articleReport->author()->doesntExist())
+                    ->authorize('viewAny', User::class)
+                    ->label('bekijk melder')
+                    ->icon('tabler-user-search')
+                    ->color('gray')
+                    ->url(fn (ArticleReport $articleReport): string => UserResource::getUrl('view', ['record' => $articleReport->author])),
+            ])->buttonGroup(),
 
             ActionGroup::make(actions: [
                 CloseArticleReportAction::make(),
