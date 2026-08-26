@@ -50,7 +50,7 @@ final class ArticleExporter extends Exporter
             self::createExportColumn(name: 'partOfSpeech.name', label: 'Woordsoort'),
             self::createExportColumn(name: 'regions.name', label: 'Regio'),
             self::createExportColumn(name: 'status', label: 'Status')
-                ->state(static fn(Article $article): string => optional($article->status)->getLabel() ?? '-'),
+                ->state(static fn(Article $article): string => $article->status ? $article->status->getLabel() : '-'),
 
             self::createExportColumn(name: 'author.name', label: 'Auteur', enableByDefault: false),
             self::createExportColumn(name: 'editor.name', label: 'Redacteur', enableByDefault: false),
