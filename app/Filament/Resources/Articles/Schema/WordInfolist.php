@@ -215,6 +215,7 @@ final readonly class WordInfolist
         return Tab::make('Potentiële duplicaten')
             ->icon(Heroicon::OutlinedDocumentDuplicate)
             ->badge(fn (Article $record): int => self::getDuplicatesQuery($record)->count())
+            ->visible(fn (Article $article): bool => self::getDuplicatesQuery($article)->count() >= 1)
             ->columns(12)
             ->schema([
                 RepeatableEntry::make('duplicates')
