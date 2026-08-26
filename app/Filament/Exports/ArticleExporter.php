@@ -45,7 +45,7 @@ final class ArticleExporter extends Exporter
                 ->state(static fn(Article $article): string => $article->origin->getLabel()),
 
             self::createExportColumn(name: 'state', label: 'Status in het woordenboek', enableByDefault: false)
-                ->state(static fn(Article $article): string => $article->state->getLabel()),
+                ->state(static fn(Article $article): string => optional($article->state)->getLabel() ?? 'onbekend'),
 
             self::createExportColumn(name: 'partOfSpeech.name', label: 'Woordsoort'),
             self::createExportColumn(name: 'regions.name', label: 'Regio'),
