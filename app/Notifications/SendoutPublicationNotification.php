@@ -86,6 +86,9 @@ final class SendoutPublicationNotification extends Notification implements Shoul
         return url('woordenboek-artikel/' . $this->article->id);
     }
 
+    /**
+     * @return array{action_label: string, body: string, title: string, type: string, url: string}
+     */
     public function toArray(User $notifiable): array
     {
         return [

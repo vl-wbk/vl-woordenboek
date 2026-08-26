@@ -10,11 +10,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 #[Fillable(['user_id', 'name', 'description'])]
 final class WordList extends Model
 {
+    /**
+     * @return BelongsTo<User, covariant $this>
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * @return BelongsToMany<Article, covariant $this>
+     */
     public function words(): BelongsToMany
     {
         return $this->belongsToMany(Article::class, 'word_list_word')

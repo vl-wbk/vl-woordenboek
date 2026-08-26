@@ -50,7 +50,7 @@ final class UserSuggestionQueryBuilder
         /** @var User $user */
         $user = $request->user();
 
-        return Article::where('author_id', $user->id)
+        return Article::whereBelongsTo($user, 'author')
             ->where('word', 'like', "%{$request->input('zoekterm')}%")
             ->whereNotIn('state', $this->excludedStates())
             ->when(request()->filled('status'), function (Builder $query) {
@@ -62,16 +62,23 @@ final class UserSuggestionQueryBuilder
             ->appends(request()->query());
     }
 
-    public function getTotalCount(Request $request): int 
+    public function getTotalCount(Request $request): int
     {
-        return Article::where('author_id', $request->user()->id)
+        /** @var User $author */
+        $author = $request->user();
+
+        return Article::whereBelongsTo($author, 'author')
             ->whereNotIn('state', $this->excludedStates())
             ->with(['labels', 'editor'])
             ->orderBy('word')
             ->count();
     }
 
-    private function excludedStates(): array 
+    /**
+     *
+     * @return ArticleStates[]
+     */
+    private function excludedStates(): array
     {
         return [
             ArticleStates::RejectedPublication,
@@ -84,5 +91,5 @@ final class UserSuggestionQueryBuilder
     {
         return collect(ArticleStates::cases())
             ->reject(fn (ArticleStates $state): bool => in_array($state, $this->excludedStates(), strict: true));
-    } 
+    }
 }

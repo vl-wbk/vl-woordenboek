@@ -64,6 +64,8 @@ final class SuggestionQuotaService
         return max(0, $this->maxAllowedAttempts($request) - $this->currentAmount($request));
     }
 
+
+    /** @return array */
     private function configurationFor(Request $request): array
     {
         return $request->user()

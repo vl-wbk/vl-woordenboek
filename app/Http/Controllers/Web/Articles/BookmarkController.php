@@ -85,8 +85,11 @@ final readonly class BookmarkController
     #[Get(uri: 'unbookmark/{article}', name: 'bookmark:remove')]
     public function delete(Request $request, Article $article): RedirectResponse
     {
-        if ($request->user()->bookmarks->contains($article)) {
-            $request->user()->bookmarks()->detach($article);
+        /** @var User $user */
+        $user = $request->user();
+
+        if ($user->bookmarks->contains($article)) {
+            $user->bookmarks()->detach($article);
         }
 
         return back();

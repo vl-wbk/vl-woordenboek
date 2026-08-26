@@ -5,7 +5,8 @@ declare(strict_types=1);
 	namespace App\Http\Controllers\Web\Messages;
 
 	use App\Actions\Contacts\AttachContact;
-	use App\Http\Requests\Account\StoreContactRequest;
+	use App\Concerns\InteractsWithAuthenticatedUser;
+    use App\Http\Requests\Account\StoreContactRequest;
 	use App\Models\User;
 	use Illuminate\Contracts\Support\Renderable;
 	use Illuminate\Database\Eloquent\Builder;
@@ -20,10 +21,12 @@ declare(strict_types=1);
 	#[Middleware(middleware: ['auth', 'verified', 'forbid-banned-user'])]
 	final readonly class ContactsController
 	{
+		use InteractsWithAuthenticatedUser;
+
 		#[Get(uri: '/contacten', name: 'contacts:index')]
 		public function index(Request $request): Renderable
 		{
-			$contactsQuery = auth()->user()->contacts();
+			$contactsQuery = $this->authenticatedUser()->contacts();
 			$contactsQuery->when($request->filled('zoekterm'), function (Builder $builder) use ($request): void {
 				$builder->whereHas('contacts', function (Builder $builder) use ($request): void {
 					$builder->where('name', 'LIKE', "%{$request->get('zoekerm')}%");
@@ -59,7 +62,7 @@ declare(strict_types=1);
 		#[Get(uri: '/contact/{contact}/verwijder', name: 'contacts:delete')]
 		public function destroy(User $contact): RedirectResponse
 		{
-			if (auth()->user()->removeContact($contact)) {
+			if ($this->authenticatedUser()->removeContact($contact)) {
 				Session::flash('success_message', "$contact->name is verwijderd als contactpersoon");
 			}
 
