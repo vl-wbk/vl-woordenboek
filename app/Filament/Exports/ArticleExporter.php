@@ -42,7 +42,7 @@ final class ArticleExporter extends Exporter
             self::createExportColumn(name: 'example', label: 'Voorbeeld gebruik'),
 
             self::createExportColumn(name: 'origin', label: 'Herkomst van het artikel', enableByDefault: false)
-                ->state(static fn(Article $article): string => $article->origin->getLabel()),
+                ->state(static fn(Article $article): string => optional($article->origin)->getLabel() ?? '-'),
 
             self::createExportColumn(name: 'state', label: 'Status in het woordenboek', enableByDefault: false)
                 ->state(static fn(Article $article): string => optional($article->state)->getLabel() ?? 'onbekend'),
@@ -50,7 +50,7 @@ final class ArticleExporter extends Exporter
             self::createExportColumn(name: 'partOfSpeech.name', label: 'Woordsoort'),
             self::createExportColumn(name: 'regions.name', label: 'Regio'),
             self::createExportColumn(name: 'status', label: 'Status')
-                ->state(static fn(Article $article): string => $article->status->getLabel()),
+                ->state(static fn(Article $article): string => optional($article->status)->getLabel() ?? '-'),
 
             self::createExportColumn(name: 'author.name', label: 'Auteur', enableByDefault: false),
             self::createExportColumn(name: 'editor.name', label: 'Redacteur', enableByDefault: false),
