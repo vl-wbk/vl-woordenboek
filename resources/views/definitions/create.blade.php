@@ -86,7 +86,7 @@
 
                 <div class="container-fluid px-0">
                     <div class="row">
-                        <form action="{{ route('definitions.store') }}" method="POST" class="col-8">
+                        <form action="{{ route('definitions.store') }}" onkeydown="return event.key !== 'Enter';" method="POST" class="col-8">
                             @csrf {{-- FORM field protection --}}
 
                             <fieldset @if ($resterend == 0) disabled @endif>
