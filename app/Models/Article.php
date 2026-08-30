@@ -76,6 +76,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property-read Disclaimer $disclaimer
  *
  * @method isPublished()
+ * @method static ArticleBuilder<\App\Models\Article> published()
  * @method static ArticleBuilder<\App\Models\Article> query()
  *
  * @mixin ArticleBuilder<self>
