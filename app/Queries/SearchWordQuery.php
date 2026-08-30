@@ -71,6 +71,7 @@ final readonly class SearchWordQuery
             ->with(['author', 'regions', 'bookmarkers'])
             ->where(fn (Builder $query) => $this->applyVisibilityFilters($query, $request))
             ->where(fn (Builder $query) => $this->applySearchStrategy($query, $request))
+            ->orderByRaw('CASE WHEN LOWER(word) = ? THEN 0 ELSE 1 END', [$this->normalizeTerm($request)]) // +
             ->orderBy('created_at', 'desc')
             ->fastPaginate(self::RESULTS_PER_PAGE)
             ->appends($request->query());
@@ -93,6 +94,7 @@ final readonly class SearchWordQuery
             $query->whereNotNull('archived_at');
         } else {
             // Enkel gepubliceerde artikelen (oorspronkelijk gedrag van ->published())
+            /** @phpstan-ignore-next-line */
             $query->published();
         }
     }
@@ -287,7 +289,7 @@ final readonly class SearchWordQuery
             subject: $token
         );
 
-        return trim(preg_replace('/\s+/', ' ', $token));
+        return trim(preg_replace('/\s+/', ' ', $token) ?? '');
     }
 
     /**

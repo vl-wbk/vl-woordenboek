@@ -42,7 +42,7 @@ final class ArticleBuilder extends Builder
      *
      * @return Builder<Article>
      */
-    public function published(): Builder
+    public function published(): static
     {
         return $this->whereNotNull("published_at")->where("published_at", "<=", now());
     }
