@@ -7,24 +7,25 @@ namespace App\Filament\Clusters\Articles\Resources\ArticleResource\Schema;
 use App\Enums\ArticleStates;
 use App\Enums\LanguageStatus;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Actions\BulkArchiveAction;
-use App\Filament\Exports\ArticleExporter;
 use App\Filament\Resources\Articles\Actions\SoftDeleteArticleAction;
 use App\Filament\Resources\Articles\Actions\RestoreArticleAction;
+use App\Filament\Resources\Articles\ArticleResource;
 use App\Models\Article;
-use Filament\Actions\{ActionGroup,
+use Filament\Actions\{Action, ActionGroup,
     BulkActionGroup,
     EditAction,
-    ExportBulkAction,
     ForceDeleteAction,
     ViewAction};
 use Deldius\UserField\UserColumn;
+use Filament\Forms\Components\TextInput;
 use Filament\Tables\Enums\FiltersLayout;
-use Filament\Support\Enums\{FontWeight, Width};
+use Filament\Support\Enums\{Alignment, FontWeight, Width};
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\{Filter, SelectFilter, TrashedFilter};
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\RedirectResponse;
 
 final readonly class TableSchema
 {
@@ -35,6 +36,7 @@ final readonly class TableSchema
                 fn (Builder $query) => $query->with(['author', 'partOfSpeech'])
                     ->select(['articles.id', 'articles.author_id', 'articles.characteristics', 'articles.part_of_speech_id', 'articles.state', 'articles.word', 'articles.updated_at', 'articles.created_at'])
             )
+            ->headerActions(self::configureHeaderActions())
             ->deferLoading()
             ->striped(false)
             ->heading(heading: __('Woordenboek artikelen'))
@@ -118,6 +120,41 @@ final readonly class TableSchema
                 ->sortable()
                 ->date()
                 ->toggleable(),
+        ];
+    }
+
+    /**
+     * @return Action[]
+     */
+    private static function configureHeaderActions(): array
+    {
+        return [
+            Action::make('quick-find')
+                ->label('Ga naar')
+                ->color('gray')
+                ->icon(Heroicon::OutlinedMagnifyingGlassCircle)
+                ->modalIcon(Heroicon::OutlinedMagnifyingGlassCircle)
+                ->modalIconColor('primary')
+                ->modalAlignment(Alignment::Center)
+                ->modalFooterActionsAlignment(Alignment::Center)
+                ->modalCancelAction(false)
+                ->modalWidth(Width::Small)
+                ->modalHeading('Ga naar artikel')
+                ->schema([
+                    TextInput::make('id')
+                        ->label('Artikel ID')
+                        ->numeric()
+                        ->required()
+                        ->exists()
+                        ->validationMessages([
+                            'numeric' => 'De referentie ID kan alleen een numerieke waarde bevatten.',
+                            'exists' => 'Er is geen artikel met de opgegeven referentie ID gevonden.'
+                        ])
+                ])->action(function (array $data): RedirectResponse {
+                    $article = Article::findOrFail($data['id']);
+
+                    return redirect(ArticleResource::getUrl('view', ['record' => $article]));
+                })
         ];
     }
 
