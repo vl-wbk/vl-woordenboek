@@ -119,7 +119,7 @@ final class EtymologyPolicy
     {
         return $user->can('delete-any:etymology')
             ? Response::allow()
-            : Response::deny('U heeft geen toestemming om meerdere etymologieen te verwijderen.');
+            : Response::deny(message: 'U heeft geen toestemming om meerdere etymologieen te verwijderen.');
     }
 
     /**
@@ -136,7 +136,7 @@ final class EtymologyPolicy
     {
         return ($etymology->status->isNot(enum: EtymologyStatus::Archived) && $user->can('archive:etymology'))
             ? Response::allow()
-            : Response::deny();
+            : Response::deny(message: 'U hebt geen machtiging om deze record te archiveren.');
     }
 
     /**
@@ -153,7 +153,7 @@ final class EtymologyPolicy
     {
         return ($etymology->status->in(enums: [EtymologyStatus::UnderReview]) && $user->can('reject:etymology'))
             ? Response::allow()
-            : Response::deny();
+            : Response::deny(message: 'U hebt geen machtiging om deze record af te wijzen.');
     }
 
     /**
@@ -170,7 +170,7 @@ final class EtymologyPolicy
     {
         return ($etymology->status->in(enums: [EtymologyStatus::UnderReview, EtymologyStatus::Archived]) && $user->can('publish:etymology'))
             ? Response::allow()
-            : Response::deny();
+            : Response::deny(message: 'U hebt geen machtiging om deze gegevens te publiceren.');
     }
 
     /**
@@ -189,7 +189,7 @@ final class EtymologyPolicy
 
         return ($etymology->status->in(enums: $allowedStates) && $user->can('update:etymology'))
             ? Response::allow()
-            : Response::deny();
+            : Response::deny(message: 'U hebt geen machtiging om deze gegevens te bewerken.');
     }
 
     /**
@@ -206,6 +206,6 @@ final class EtymologyPolicy
     {
         return ($etymology->status->is(enum: EtymologyStatus::Draft) && $user->can('under-review:etymology'))
             ? Response::allow()
-            : Response::deny();
+            : Response::deny(message: 'U hebt geen machtiging om deze gegevens te beoordelen.');
     }
 }

@@ -104,6 +104,7 @@ final readonly class PartOfSpeechPolicy
             return Response::deny(message: __('U hebt geen machtiging om de woordsoort te verwijderen'));
         }
 
+        //! Todo: investigate possible issue with this policy. It never returns true.
         if ($partOfSpeech->articles()->exists()) {
             return Response::deny(message: __('De woordsoort kan niet verwijderd worden omdat er artikelen aan zijn gekoppeld.'));
         }

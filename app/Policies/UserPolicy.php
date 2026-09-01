@@ -37,11 +37,9 @@ final class UserPolicy
      */
     public function viewAny(User $user): Response
     {
-        if ($user->can('view-any:user')) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: __('Je hebt onvoldoende rechten om de gebruikerslijst te bekijken.'));
+        return $user->can('view-any:user')
+            ? Response::allow()
+            : Response::deny(message: __('Je hebt onvoldoende rechten om de gebruikerslijst te bekijken.'));
     }
 
     /**
@@ -55,11 +53,9 @@ final class UserPolicy
      */
     public function create(User $user): Response
     {
-        if ($user->can('create:user')) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: __('Je hebt geen toestemming om nieuwe account aan te maken.'));
+        return $user->can('create:user')
+            ? Response::allow()
+            : Response::deny(message: __('Je hebt geen toestemming om nieuwe account aan te maken.'));
     }
 
     /**
@@ -76,11 +72,9 @@ final class UserPolicy
      */
     public function deactivate(User $user, User $model): Response
     {
-        if ($user->can('deactivate:user') && $user->isNot($model) && $model->isNotBanned()) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: __('Je hebt geen toestemming om accounts te deactiveren.'));
+        return ($user->can('deactivate:user') && $user->isNot($model) && $model->isNotBanned())
+            ? Response::allow()
+            : Response::deny(message: __('Je hebt geen toestemming om accounts te deactiveren.'));
     }
 
     /**
@@ -97,11 +91,9 @@ final class UserPolicy
      */
     public function reactivate(User $user, User $model): Response
     {
-        if ($user->can('reactivate:user') && $user->isNot($model) && $model->isBanned()) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: __('Je hebt geen toestemming om accounts te reactiveren.'));
+        return ($user->can('reactivate:user') && $user->isNot($model) && $model->isBanned())
+            ? Response::allow()
+            : Response::deny(message: __('Je hebt geen toestemming om accounts te reactiveren.'));
     }
 
     /**
@@ -120,10 +112,8 @@ final class UserPolicy
      */
     public function updateDeactivation(User $user, User $model): Response
     {
-        if ($user->can('deactivate-update:user') && $user->isNot($model) && $model->isBanned()) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: __('Je hebt geen toestemming om deactiveringen te wijzigen.'));
+        return ($user->can('deactivate-update:user') && $user->isNot($model) && $model->isBanned())
+            ? Response::allow()
+            :  Response::deny(message: __('Je hebt geen toestemming om deactiveringen te wijzigen.'));
     }
 }
