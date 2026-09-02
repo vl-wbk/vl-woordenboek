@@ -14,587 +14,738 @@
     <meta property="og:section" content="Linguïstiek"/>
 
     @if ($word->isArchived())
-        <meta name="robots" content="noindex, follow" />
+        <meta name="robots" content="noindex, follow"/>
     @endif
 @endsection
 
 @section ('content')
     <x-definitions.admin-management-nav :word=$word :articleResource=$articleResource/>
 
-    <style>
-        #article-content { font-size: 1rem; transition: font-size .2s ease; }
-        #article-content h5 { font-size: 1em; }
-        #article-content p, #article-content li, #article-content blockquote p { font-size: 1em; }
-        /* Bootstrap 5 Default Equivalents */
-        .font-size-sm { font-size: 0.875rem !important; } /* 14px */
-        .font-size-md { font-size: 1rem     !important; } /* 16px (Base) */
-        .font-size-lg { font-size: 1.25rem  !important; } /* 20px */
-        .font-size-xl { font-size: 1.5rem   !important; } /* 24px */
-        .markdown-text p:not(:last-child) { margin-bottom: .70rem; }
-        .toolbar-btn.active { background-color: #0d6efd !important; color: #fff !important; border-color: #0d6efd !important; }
-    </style>
-
-    <div class="container-fluid py-5">
+    <div class="container-fluid py-2">
         <div class="row justify-content-center">
-            <div class="col-10">
-                @if ($word->disclaimer)
-                    <div class="col-12">
-                        <div class="alert alert-secondary alert-dismissible fade show shadow-sm small mb-4" role="alert" id="disclaimer-alert">
-                            <h5><x-heroicon-s-megaphone class="icon me-1"/><strong>Disclaimer</strong> </h5>
-                            {{ $word->disclaimer->message }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    </div>
-                @endif
+            <div class="col-11 col-xl-10">
+                {{-- Dictionary header --}}
+                <header id="word-header" class="border-bottom mt-4 pb-2 mb-3">
 
-                <div class="card shadow-sm border-0">
-                    <!-- Card Header: breadcrumb + toolbar + meta badges -->
-                    <div class="card-header bg-white border-bottom px-4 py-3" id="card-header">
-                        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb small mb-3">
+                            <li class="breadcrumb-item">
+                                <a href="#" class="text-decoration-none text-muted">
+                                    <x-heroicon-o-home class="icon me-1"/>
+                                    {{ config('app.name', 'Laravel') }}
+                                </a>
+                            </li>
 
-                            <!-- Breadcrumb -->
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb mb-0">
-                                    <li class="breadcrumb-item">
-                                        <a href="#" class="text-decoration-none">
-                                            <x-heroicon-o-home class="icon me-1"/>{{ config('app.name', 'Laravel') }}
-                                        </a>
-                                    </li>
-                                    <li class="breadcrumb-item">
-                                        <a href="{{ route('search.results') }}" class="text-decoration-none">
-                                            <x-heroicon-o-magnifying-glass class="icon me-1"/> Zoeken
-                                        </a>
-                                    </li>
+                            <li class="breadcrumb-item">
+                                <a href="{{ route('search.results') }}" class="text-decoration-none text-muted">
+                                    <x-heroicon-o-magnifying-glass class="icon me-1"/>
+                                    Zoeken
+                                </a>
+                            </li>
 
-                                    <li class="breadcrumb-item active fw-semibold">{{ $word->word }}</li>
-                                </ol>
-                            </nav>
+                            <li class="breadcrumb-item active fw-semibold"
+                                aria-current="page">
+                                {{ $word->word }}
+                            </li>
+                        </ol>
+                    </nav>
 
-                            <!-- Right side: font toolbar + status badges -->
-                            <div class="d-flex align-items-center gap-3 flex-wrap">
-                                <div class="d-flex align-items-center gap-3">
-                                     @auth
-                                        @if ($word->bookmarkers->contains(auth()->user()))
-                                            <a href="{{ route('bookmark:remove', $word) }}" class="btn btn-outline-danger btn-sm" id="bookmark-btn-remove">
-                                                <x-heroicon-o-bookmark-slash class="me-1" style="width:1.1rem"/> Vergeet dit woord
-                                            </a>
-                                        @else
-                                            <a href="{{ route('bookmark:create', $word) }}" class="btn btn-outline-success btn-sm" id="bookmark-btn-add">
-                                                <x-heroicon-o-bookmark class="me-1" style="width:1.1rem"/> Bewaar
-                                            </a>
-                                        @endif
+                    <div class="d-flex flex-wrap align-items-end justify-content-between gap-2">
 
-                                        <div class="vr"></div>
-                                    @endauth
-                                </div>
+                        <div>
+                            <div class="d-flex flex-wrap align-items-baseline gap-2">
+                                <h1 class="display-5 color-green fw-bold lh-1 mb-0">
+                                    {{ $word->word }}
+                                </h1>
 
-                                <!-- Font size toolbar -->
-                                <div class="d-flex align-items-center gap-1" id="font-size-toolbar">
-
-                                    <span class="text-muted small me-1"><x-heroicon-o-language class="icon"/></span>
-
-                                    <div class="btn-group btn-group-sm" role="group" aria-label="Font size" id="font-size-buttons">
-                                        <button type="button" data-size="sm" class="btn btn-outline-secondary toolbar-btn" onclick="setFontSize('sm')" title="Small">A<sub>s</sub></button>
-                                        <button type="button" data-size="md" class="btn btn-outline-secondary toolbar-btn" onclick="setFontSize('md')" title="Medium">A</button>
-                                        <button type="button" data-size="lg" class="btn btn-outline-secondary toolbar-btn" onclick="setFontSize('lg')" title="Large">A<sup>+</sup></button>
-                                        <button type="button" data-size="xl" class="btn btn-outline-secondary toolbar-btn" onclick="setFontSize('xl')" title="Extra large" style="font-size:1rem;font-weight:600;">A</button>
-                                    </div>
-                                </div>
-
-                                <div class="vr"></div>
-
-                                <!-- Status badges -->
-                                <div class="d-flex align-items-center gap-2 flex-wrap" id="status-badges">
-                                    <span class="badge text-bg-dark text-white">
-                                        {{ toHumanReadableNumber($word->views) }} | Weergaves
+                                @if ($word->characteristics)
+                                    <span class="fst-italic text-muted">
+                                        {{ $word->characteristics }}
                                     </span>
-
-                                    <span class="badge text-bg-secondary text-white" style="font-size: 0.75rem; opacity: 0.8; font-family: monospace;">
-                                        #{{ $word->id }}
-                                    </span>
-                                </div>
+                                @endif
                             </div>
 
-                        </div>
-                    </div>
-
-                <div class="card-body bg-white p-4" id="article-content">
-                    <!-- ── HEADER: Word + actions (full width) ── -->
-                    <div class="d-flex flex-wrap align-items-start justify-content-between gap-3 mb-1" id="word-header">
-                        <div>
-                            <h1 class="display-5 color-green fw-bold mb-0">{{ $word->word }}</h1>
                             @if ($word->partOfSpeech)
-                                <span class="fw-bold">{{ $word->partOfSpeech->name }}</span>
-                                <span class="vertical-divider mx-1">|</span>
+                                <div class="small text-muted mt-1">
+                                    {{ $word->partOfSpeech->name }}
+                                </div>
                             @endif
+                        </div>
 
-                            <span class="text-muted fst-italic">{{ $word->characteristics }}</span>
+                        <div class="d-flex align-items-center flex-wrap gap-1">
+
+                            <span class="badge rounded-pill text-dark shadow-sm bg-white border text-secondary fw-normal me-1">
+                                <x-heroicon-o-eye class="icon me-1"/>
+                                {{ toHumanReadableNumber($word->views) }}
+                            </span>
+
+                            <span class="badge rounded-pill text-bg-dark text-light shadow-sm border text-secondary fw-normal font-monospace">
+                                <x-heroicon-o-hashtag class="icon me-1"/>{{ $word->id }}
+                            </span>
                         </div>
                     </div>
 
-                    <hr>
+                    <div id="word-metadata" class="d-flex flex-wrap align-items-center gap-2 mt-3">
 
-                    <!-- Status + Regions (full width) -->
-                    <div class="d-flex flex-wrap gap-3 mb-4 align-items-start" id="word-metadata">
-                        <div>
-                            <div class="text-muted small mb-1"><i class="bi bi-toggles me-1"></i>Status</div>
-                                <div class="d-flex gap-1 flex-wrap" id="status-section">
-                                    <span class="badge text-bg-success">{{ $word->status->getLabel() }}</span>
-                                </div>
-                            </div>
+                        <span class="badge rounded-pill text-bg-success">
+                            <x-heroicon-o-language class="icon icon-sm me-1"/>{{ $word->status->getLabel() }}
+                        </span>
 
-                            <div class="vr d-none d-sm-block"></div>
+                        <span class="vr"></span>
 
-                            <div>
-                                <div class="text-muted small mb-1"><i class="bi bi-geo-alt me-1"></i>Regio's</div>
-                                    <div class="d-flex gap-1 flex-wrap" id="regions-section">
-                                        @forelse($word->regions as $region)
-                                            <a href="{{ route('region:show', $region) }}" class="badge rounded-pill text-bg-primary">
-                                                {{ $region->name }}
-                                            </a>
-                                        @empty
-                                            <span class="badge rounded-pill text-bg-primary">
-                                                Gans Vlaanderen
-                                            </span>
-                                        @endforelse
+                        <span class="small text-muted">
+                            <x-heroicon-o-map-pin class="icon me-1"/>
+                            Regio(s):
+                        </span>
+
+                        <div class="d-flex flex-wrap gap-1">
+                            @forelse($word->regions as $region)
+                                <a href="{{ route('region:show', $region) }}" class="badge rounded-pill bg-white border text-dark text-decoration-none">
+                                    {{ $region->name }}
+                                </a>
+                            @empty
+                                <span class="badge rounded-pill text-bg-light border text-dark">
+                                    Gans Vlaanderen
+                                </span>
+                            @endforelse
+                        </div>
+                    </div>
+                </header>
+
+                <div class="row g-3">
+                    @if ($word->isArchived() || $word->disclaimer)
+                        <div class="col-12">
+                             @if ($word->isArchived())
+                                <div id="archived-alert" class="alert alert-danger border-0 shadow-sm rounded-3 py-2 px-3 mb-2" role="alert">
+                                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                                        <div class="d-flex align-items-start gap-2">
+                                            <x-heroicon-s-archive-box class="flex-shrink-0 text-danger" style="width: 1.25rem; height: 1.25rem;" />
+
+                                            <div class="lh-sm">
+                                                <strong class="text-uppercase fw-bold">Gearchiveerd artikel:</strong>
+                                                <span class="text-secondary-emphasis">Dit artikel werd gearchiveerd om de volgende reden:</span>
+                                                <span>{{ $word->archiving_reason }}</span>
+                                            </div>
+                                        </div>
+
+                                        @if ($word->redirect_article_id)
+                                            <div class="flex-shrink-0 align-self-end align-self-md-center">
+                                                <a id="redirect-btn"
+                                                href="{{ route('word-information.show', $word->redirect_article_id) }}"
+                                                class="btn btn-sm btn-danger d-inline-flex align-items-center gap-1.5 shadow-sm">
+                                                    <x-heroicon-s-eye class="flex-shrink-0" style="width: 1rem; height: 1rem;" />
+                                                    <span class="text-nowrap">Bekijk actueel verwijsartikel</span>
+                                                </a>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
-                            </div>
+                            @elseif ($word->disclaimer)
+                                <div class="alert alert-secondary fade show  shadow-sm border-0 small mb-1 py-2" role="alert" id="disclaimer-alert">
+                                    <div class="d-flex align-items-start gap-2">
+                                        <x-heroicon-s-megaphone class="icon flex-shrink-0"/>
+                                        <div>
+                                            <strong>DISCLAIMER: </strong>
+                                            <span class="ms-1">{{ $word->disclaimer->message }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                    @endif
 
-                            <hr />
+                    {{-- Main entry --}}
+                    <div class="col-lg-9">
+                        <article id="article-content">
+                            <ul class="nav nav-tabs" id="articleTabs" role="tablist">
 
-                            @if ($word->isArchived())
-                                <div class="alert alert-danger alert-dismissible fade show border-0" id="archived-alert">
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active d-flex align-items-center gap-1 py-2 fw-semibold"id="tab-beschrijving"
+                                            data-bs-toggle="tab"
+                                            data-bs-target="#pane-beschrijving"
+                                            type="button"
+                                            role="tab"
+                                            aria-controls="pane-beschrijving"
+                                            aria-selected="true">
 
-                                    <h5 class="alert-heading fw-semibold">
-                                        <x-heroicon-s-archive-box class="icon me-1"/> Gearchiveerd artikel
-                                    </h5>
+                                        <x-heroicon-o-document-text class="icon"/>
+                                        Betekenis
+                                    </button>
+                                </li>
 
-                                    <small>Dit artikel werd gearchiveerd om de volgende reden: {{ $word->archiving_reason }}</small>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link d-flex align-items-center gap-1 py-2"
+                                            id="tab-voorbeelden"
+                                            data-bs-toggle="tab"
+                                            data-bs-target="#pane-voorbeelden"
+                                            type="button"
+                                            role="tab"
+                                            aria-controls="pane-voorbeelden"
+                                            aria-selected="false">
 
-                                    @if ($word->redirect_article_id)
-                                        <hr>
+                                        <x-heroicon-o-light-bulb class="icon"/>
+                                        Voorbeelden
 
-                                        <a href="{{ route('word-information.show', $word->redirect_article_id) }}" class="btn btn-sm btn-outline-danger" id="redirect-btn">
-                                            <x-heroicon-s-eye class="icon me-1"/> Bekijk actueel verwijsartikel
+                                        @if ($exampleCount > 0)
+                                            <span class="badge text-bg-secondary fw-normal">
+                                                {{ $exampleCount }}
+                                            </span>
+                                        @endif
+                                    </button>
+                                </li>
+
+                                @if ($word->related->count() > 0)
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link d-flex align-items-center gap-1 py-2"
+                                                id="tab-gerelateerd"
+                                                data-bs-toggle="tab"
+                                                data-bs-target="#pane-gerelateerd"
+                                                type="button"
+                                                role="tab"
+                                                aria-controls="pane-gerelateerd"
+                                                aria-selected="false">
+
+                                            <x-heroicon-o-link class="icon"/>
+                                            Gerelateerde woorden
+
+                                            <span class="badge text-bg-secondary fw-normal">
+                                                {{ $word->related->count() }}
+                                            </span>
+                                        </button>
+                                    </li>
+                                @endif
+
+                                @if($word->sources && $word->sources->count() > 0)
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link d-flex align-items-center gap-1 py-2"
+                                                id="tab-bronnen"
+                                                data-bs-toggle="tab"
+                                                data-bs-target="#pane-bronnen"
+                                                type="button"
+                                                role="tab"
+                                                aria-controls="pane-bronnen"
+                                                aria-selected="false">
+
+                                            <x-heroicon-o-book-open class="icon"/>
+                                            Bronnen
+                                        </button>
+                                    </li>
+                                @endif
+
+                            </ul>
+
+                            <div class="tab-content border border-top-0 bg-white" style="border-bottom-left-radius: .375rem !important; border-bottom-right-radius: .375rem !important;"
+                                 id="articleTabsContent">
+
+                                {{-- Definition --}}
+                                <div class="tab-pane fade show active"
+                                     id="pane-beschrijving"
+                                     role="tabpanel"
+                                     aria-labelledby="tab-beschrijving">
+
+                                    @if (flash()->message)
+                                        <div class="alert {{ flash()->class }} border-0 rounded-0 small mb-0 py-2"
+                                             role="alert"
+                                             id="flash-alert">
+                                            {{ flash()->message }}
+                                        </div>
+                                    @endif
+
+                                    @if (session()->has('status'))
+                                        <div class="alert alert-success border-0 rounded-0 small mb-0 py-2"
+                                             role="alert">
+                                            <strong>Succes:</strong>
+                                            {{ session()->get('status') }}
+                                        </div>
+                                    @endif
+
+                                    <div class="p-3"
+                                         id="description-content">
+
+                                        <div class="row g-3 align-items-start">
+                                            @if ($word->image_url)
+                                                <div class="col-sm-auto">
+                                                    <figure class="mb-0">
+                                                        <a href="{{ $word->image_url }}" target="_blank" rel="noopener">
+                                                            <img
+                                                                loading="lazy"
+                                                                src="{{ $word->image_url }}"
+                                                                alt="{{ $word->image_alt ?? $word->word }}"
+                                                                class="rounded border object-fit-cover"
+                                                                style="width:150px;height:150px;"
+                                                                id="word-image"
+                                                            />
+                                                        </a>
+
+                                                        @if ($word->image_alt)
+                                                            <figcaption class="small text-muted mt-1">
+                                                                {{ $word->image_alt }}
+                                                            </figcaption>
+                                                        @endif
+                                                    </figure>
+                                                </div>
+                                            @endif
+
+                                            <div class="{{ $word->image_url ? 'col' : 'col-12' }}"
+                                                 id="description-text">
+
+
+
+                                                <div class="markdown-text fs-6 lh-lg">
+                                                    {!! str($word->description)->markdown()->sanitizeHtml() !!}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="border-top mt-3 pt-2">
+                                             <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+
+                                <div class="small text-muted">
+
+                                    <x-heroicon-o-clock class="icon me-1"/>
+
+                                    Laatste wijziging:
+                                    {{ optional($word->updated_at)->diffForHumans() }}
+
+                                    @if($word->editor)
+                                        door
+                                        <a href="{{ route('account:public', $word->editor) }}"
+                                           class="text-muted text-decoration-none fw-semibold">
+                                            {{ $word->editor->name }}
                                         </a>
                                     @endif
                                 </div>
-                            @endif
 
-                            <!-- ══════════════════════════════════════════ 2-COLUMN LAYOUT  (col-8 main / col-4 sidebar) ══════════════════════════════════════════ -->
-                            <div class="row g-4">
-                                <!-- ── MAIN COLUMN (2/3) ── -->
-                                <div class="col-lg-8">
+                                @if ($word->audits->count() > 0)
+                                    <div class="d-flex gap-2"
+                                         id="audit-links">
 
-                                    <!-- Quick Navigation Bar -->
-                                    <nav class="mb-4" id="quick-nav">
-                                        <div class="d-flex flex-wrap gap-3 pb-3 border-bottom" style="border-color: #e9ecef !important;">
-                                            <a href="#description" class="d-flex align-items-center gap-2 text-decoration-none text-dark fw-500 transition-all" style="font-size: 0.95rem; color: #495057;">
-                                                <x-heroicon-o-document-text class="icon" style="width: 18px; height: 18px; color: #0d6efd;"/>
-                                                <span>Beschrijving</span>
-                                            </a>
-                                            <a href="#examples" class="d-flex align-items-center gap-2 text-decoration-none text-dark fw-500 transition-all" style="font-size: 0.95rem; color: #495057;">
-                                                <x-heroicon-o-light-bulb class="icon" style="width: 18px; height: 18px; color: #0d6efd;"/>
-                                                <span>Voorbeelden</span>
-                                            </a>
+                                        <a href="{{ route('article:revisions', $word) }}"
+                                           class="small text-muted text-decoration-none d-flex align-items-center gap-1"
+                                           id="revision-history-link">
 
-                                            @if ($word->related->count() > 0)
-                                                <a href="#related-articles" class="d-flex align-items-center gap-2 text-decoration-none text-dark fw-500 transition-all" style="font-size: 0.95rem; color: #495057;">
-                                                    <x-heroicon-o-link class="icon" style="width: 18px; height: 18px; color: #0d6efd;"/>
-                                                    <span>Gerelateerde artikelen</span>
-                                                </a>
+                                            <x-heroicon-o-clock class="icon"/>
+                                            Bewerkingsgeschiedenis
+
+                                            @if(isset($revisionCount) && $revisionCount > 0)
+                                                <span class="badge bg-secondary-subtle text-secondary-emphasis fw-normal">
+                                                    {{ $revisionCount }}
+                                                </span>
                                             @endif
+                                        </a>
 
-                                            @if($word->sources && $word->sources->count() > 0)
-                                                <a href="#sources" class="d-flex align-items-center gap-2 text-decoration-none text-dark fw-500 transition-all" style="font-size: 0.95rem; color: #495057;">
-                                                    <x-heroicon-o-book-open class="icon" style="width: 18px; height: 18px; color: #0d6efd;"/>
-                                                    <span>Bronnen</span>
-                                                </a>
-                                            @endif
+                                        <span class="text-muted">·</span>
+
+                                        <a href="{{ route('article:revisions', $word) }}?event=updated"
+                                           class="small text-muted text-decoration-none d-flex align-items-center gap-1"
+                                           id="contributors-link">
+
+                                            <x-heroicon-o-users class="icon"/>
+                                            Bijdragers
+                                        </a>
+                                    </div>
+                                @endif
+
+                            </div>
                                         </div>
-                                    </nav>
 
-                                    <!-- Description -->
-                                    <section class="mb-4 pb-4 border-bottom" id="description">
-                                        @if (flash()->message)
-                                            <div class="alert {{ flash()->class }} border-0" role="alert" id="flash-alert">
-                                                {{ flash()->message }}
-                                            </div>
-                                        @endif
+                                    </div>
+                                </div>
 
-                                        @if (session()->has('status'))
-                                            <div class="alert alert-success alert-dismissible border-0" role="alert">
-                                                <span class="fw-bold">Succes:</span> {{ session()->get('status') }}
-                                            </div>
-                                        @endif
+                                {{-- Examples --}}
+                                <div class="tab-pane fade"
+                                     id="pane-voorbeelden"
+                                     role="tabpanel"
+                                     aria-labelledby="tab-voorbeelden">
 
-                                        <h5 class="fw-semibold mb-3">
-                                            <span class="color-green fw-semibold me-1">//</span> Beschrijving
-                                        </h5>
+                                    <div class="p-3">
 
-                                        <div class="d-flex flex-column flex-sm-row gap-3" id="description-content">
-                                             @if ($word->image_url)
-                                                <img
-                                                    loading="lazy"
-                                                    src="{{ $word->image_url }}"
-                                                    alt="{{ $word->image_alt ?? $word->word }}"
-                                                    class="rounded border-0 shadow-sm"
-                                                    style="height: 200px; width: 200px; object-fit: cover;"
-                                                    id="word-image"
-                                                />
-                                            @endif
 
-                                            <div class="markdown-text" id="description-text">
-                                                {!! str($word->description)->markdown()->sanitizeHtml() !!}
-                                            </div>
-                                        </div>
-                                    </section>
-
-                                    <!-- Example -->
-                                    <section class="mb-4 pb-4 border-bottom" id="examples">
-                                        <h5 class="fw-semibold mb-3">
-                                            <span class="color-green fw-semibold me-1">//</span> Voorbeeld(en)
-                                        </h5>
 
                                         @if (! $word->migration_configuration['examples'])
-                                            <ul class="nav nav-tabs" id="exampleTabs" role="tablist">
+
+                                            <ul class="nav nav-pills mb-3"
+                                                id="examplePills"
+                                                role="tablist">
+
                                                 <li class="nav-item" role="presentation">
-                                                    <button class="nav-link active" id="tab-redactie" data-bs-toggle="tab" data-bs-target="#pane-redactie" type="button" role="tab" aria-controls="pane-redactie" aria-selected="true">
-                                                        <x-heroicon-s-pencil-square class="icon me-1"/> Redactie
+                                                    <button class="nav-link active py-1 px-2 small"
+                                                            id="pill-redactie-tab"
+                                                            data-bs-toggle="pill"
+                                                            data-bs-target="#pill-redactie"
+                                                            type="button"
+                                                            role="tab"
+                                                            aria-selected="true">
+                                                        <x-heroicon-s-pencil-square class="icon me-1"/>
+                                                        Redactie
                                                     </button>
                                                 </li>
 
                                                 <li class="nav-item" role="presentation">
-                                                    <button class="nav-link" id="tab-community" data-bs-toggle="tab" data-bs-target="#pane-community" type="button" role="tab" aria-controls="pane-community" aria-selected="false">
-                                                        <x-heroicon-s-users class="icon me-1"/> Community
+                                                    <button class="nav-link py-1 px-2 small"
+                                                            id="pill-community-tab"
+                                                            data-bs-toggle="pill"
+                                                            data-bs-target="#pill-community"
+                                                            type="button"
+                                                            role="tab"
+                                                            aria-selected="false">
+                                                        <x-heroicon-s-users class="icon me-1"/>
+                                                        Community
 
                                                         @if ($exampleCount > 0)
-                                                            <span class="text-muted fst-italic small">
-                                                                ({{ $exampleCount }})
+                                                            <span class="badge text-bg-secondary fw-normal ms-1">
+                                                                {{ $exampleCount }}
                                                             </span>
                                                         @endif
                                                     </button>
                                                 </li>
                                             </ul>
 
-                                            <div class="tab-content border border-top-0 rounded-bottom" id="exampleTabsContent">
-                                                {{-- Redactie tab --}}
-                                                <div class="tab-pane markdown-text bg-light-subtle fade show active p-3" id="pane-redactie" role="tabpanel" aria-labelledby="tab-redactie">
-                                                    {!! str($word->example)->markdown()->sanitizeHtml() !!}
+                                            <div class="tab-content"
+                                                 id="examplePillContent">
+
+                                                <div class="tab-pane fade show active"
+                                                     id="pill-redactie"
+                                                     role="tabpanel"
+                                                     aria-labelledby="pill-redactie-tab">
+
+                                                    <div class="py-1">
+                                                        <div class="markdown-text">
+                                                            {!! str($word->example)->markdown()->sanitizeHtml() !!}
+                                                        </div>
+                                                    </div>
                                                 </div>
 
+                                                <div class="tab-pane fade"
+                                                     id="pill-community"
+                                                     role="tabpanel"
+                                                     aria-labelledby="pill-community-tab">
 
-                                                {{-- Community tab --}}
-                                                <div class="tab-pane bg-light-subtle fade p-3" id="pane-community" role="tabpanel" aria-labelledby="tab-community">
-                                                    <livewire:user-examples-list :articleId="$word->id" />
+                                                    <livewire:user-examples-list :articleId="$word->id"/>
 
                                                     <hr class="my-3"/>
 
-                                                    <livewire:submit-user-example cssClasses='mt-3' :articleId="$word->id" />
+                                                    <livewire:submit-user-example
+                                                        cssClasses="mt-2"
+                                                        :articleId="$word->id"/>
                                                 </div>
+
                                             </div>
-                                        @elseif($word->migration_configuration['examples'])
-                                            <livewire:user-examples-list :articleId="$word->id" />
+
+                                        @else
+
+                                            <livewire:user-examples-list :articleId="$word->id"/>
 
                                             <hr class="my-3"/>
 
-                                            <div class="card border-0 shadow-sm">
-                                                <div class="card-body bg-lighte">
-                                                    <livewire:submit-user-example :articleId="$word->id" />
-                                                </div>
-                                            </div>
-                                        @endif
-                                    </section>
-
-                                    @if ($word->related->count() > 0)
-                                        <section class="mb-4 pb-4 border-bottom" id="related-articles">
-                                            <h5 class="fw-semibold mb-3">
-                                                <span class="color-green fw-semibold me-1">//</span> Gerelateerde artikelen
-                                            </h5>
-
-                                            <div class="d-flex flex-row flex-wrap gap-4" id="related-articles-list">
-                                                @foreach ($word->related as $related)
-                                                    <a href="{{ route('word-information.show', $related) }}" class="d-flex gap-2 align-items-center text-decoration-none text-dark">
-                                                        <div class="rounded bg-primary bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0" style="width:36px;height:36px;">
-                                                            <x-heroicon-s-book-open class="icon text-info"/>
-                                                        </div>
-                                                        <div>
-                                                            <div class="small fw-medium lh-sm">{{ $related->word }}</div>
-                                                            <div class="text-muted" style="font-size:.72rem;">{{ $word->partOfSpeech->name ?? '-' }}</div>
-                                                        </div>
-                                                    </a>
-                                                @endforeach
-                                            </div>
-                                        </section>
-                                    @endif
-
-                                    @if($word->sources && $word->sources->count() > 0)
-                                        <section class="mb-4 pb-4 border-bottom" id="sources">
-                                            <h5 class="fw-semibold mb-3">
-                                                <span class="color-green fw-semibold me-1">//</span> Geraadpleegde bronnen
-                                            </h5>
-
-                                            <div class="d-flex flex-column gap-2" id="source-list">
-                                                @foreach($word->sources as $source)
-                                                    @if ($source->referenceWork)
-                                                        <a href="{{ $source->referenceWork->external_url ?? "#" }}" class="text-decoration-none text-reset">
-                                                            <div class="border bg-light bg-light-subtle shadow-sm rounded p-3 d-flex gap-3 align-items-start h-100 transition-hover">
-                                                                <x-heroicon-s-book-open class="icon color-green flex-shrink-0 mt-1"/>
-
-                                                                <div class="flex-grow-1">
-                                                                    <div class="fw-medium small text-dark">{{ optional($source->referenceWork)->name }}</div>
-
-                                                                    @if($source->notation)
-                                                                        <div class="text-muted small">{{ $source->notation }}</div>
-                                                                    @endif
-                                                                </div>
-                                                            </div>
-                                                        </a>
-                                                    @endif
-                                                @endforeach
+                                            <div class="bg-light p-2">
+                                                <livewire:submit-user-example :articleId="$word->id"/>
                                             </div>
 
-                                        </section>
-                                    @endif
-
-                                    <!-- Community Voting -->
-                                    <div id="voting-section">
-                                        <livewire:voting-component :article="$word"/>
-                                    </div>
-
-                                    <div id="report-section">
-                                        <livewire:report-article-modal :article=$word />
-                                    </div>
-
-                                    {{-- Wikipedia-stijl artikel footer --}}
-                                    <div class="border-top mt-4 pt-3 d-flex align-items-center justify-content-between flex-wrap gap-2" id="article-footer">
-                                        <span class="small text-muted">
-                                            <x-heroicon-o-clock class="icon me-1" style="width:13px;"/>
-                                            Laatste wijziging: {{ optional($word->updated_at)->diffForHumans() }}
-                                            @if($word->editor)
-                                                door <a href="{{ route('account:public', $word->editor) }}" class="text-muted text-decoration-none fw-medium">{{ $word->editor->name }}</a>
-                                            @endif
-                                            <span class="text-muted mx-1" style="opacity: 0.6;">|</span>
-                                            <span style="font-size: 0.8rem; opacity: 0.5; font-family: monospace;">ID: {{ $word->id }}</span>
-                                        </span>
-
-                                        @if ($word->audits->count() > 0)
-                                            <div class="d-flex gap-3" id="audit-links">
-                                                <a href="{{ route('article:revisions', $word) }}" class="small text-muted text-decoration-none d-flex align-items-center gap-1" id="revision-history-link">
-                                                    <x-heroicon-o-clock class="icon" style="width:13px;"/>
-                                                    Bewerkingsgeschiedenis
-
-                                                    @if(isset($revisionCount) && $revisionCount > 0)
-                                                        <span class="badge bg-secondary-subtle text-secondary-emphasis fw-normal ms-1" style="font-size: .7rem;">
-                                                            {{ $revisionCount }}
-                                                        </span>
-                                                    @endif
-                                                </a>
-
-                                                <span class="text-muted">·</span>
-
-                                                <a href="{{ route('article:revisions', $word) }}?event=updated" class="small text-muted text-decoration-none d-flex align-items-center gap-1" id="contributors-link">
-                                                    <x-heroicon-o-users class="icon" style="width:13px;"/>
-                                                    Bijdragers
-                                                </a>
-                                            </div>
                                         @endif
                                     </div>
-                                </div><!-- /col-lg-8 -->
-
-                                <!-- ── SIDEBAR COLUMN (1/3) ── -->
-                                <div class="col-lg-4">
-
-                                <!-- Article Details -->
-                                <div class="card border mb-3" id="article-details">
-                                    <div class="card-header bg-light py-2 px-3">
-                                        <span class="fw-semibold color-green">Gegevens artikel</span>
-                                    </div>
-
-                                    <ul class="list-group list-group-flush" id="article-details-list">
-                                        <li class="list-group-item d-flex justify-content-between px-3" id="submitted-by-item">
-                                            <span class="text-muted"><x-heroicon-o-user-circle class="icon color-green me-2"/> Ingezonden door</span>
-                                            <span class="fw-medium text-end">
-                                                 @if ($word->author()->exists())
-                                                    <a href="{{ route('account:public', $word->author) }}" class="text-muted">{{ $word->author->name ?? $word->contributor_name }}</a>
-                                                @else
-                                                    <span class="fw-bold text-dark">{{ $word->contributor_name ?? 'Anonieme gebruiker' }}</span>
-                                                @endif
-                                            </span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between px-3" id="edited-by-item">
-                                            <span class="text-muted"><x-heroicon-o-user-circle class="icon color-green me-2"/> Redactie door</span>
-                                            <span class="fw-medium text-end">
-                                                 @if ($word->editor()->exists())
-                                                    <a href="{{ route('account:public', $word->editor) }}" class="text-muted">{{ $word->editor->name }}</a>
-                                                @else
-                                                    <span class="fw-bold text-dark">{{ config('app.name') }}</span>
-                                                @endif
-                                            </span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between px-3" id="published-by-item">
-                                            <span class="text-muted"><x-heroicon-o-user-circle class="icon color-green me-2"/> Publicatie door</span>
-                                            <span class="fw-medium text-end">
-                                                 @if ($word->publisher()->exists())
-                                                    <a href="{{ route('account:public', $word->publisher) }}" class="text-muted">{{ $word->publisher->name }}</a>
-                                                @else
-                                                    <span class="fw-bold text-dark">{{ config('app.name') }}</span>
-                                                @endif
-                                            </span>
-                                        </li>
-
-                                        <li class="list-group-item d-flex justify-content-between px-3" id="published-date-item">
-                                            <span class="text-muted"><x-heroicon-s-calendar-days class="icon color-green me-2"/> Publicatiedatum</span>
-                                            <span class="fw-medium text-end">{{ optional($word->published_at)->translatedFormat('d F Y') ?? '-' }}</span>
-                                        </li>
-                                    </ul>
                                 </div>
 
-                                @if ($word->labels->count() > 0)
-                                    <!-- Labels -->
-                                    <div class="card bg-white border mb-3" id="article-labels">
-                                        <div class="card-header bg-light py-2 px-3">
-                                            <span class="fw-semibold color-green">Label(s)</span>
-                                        </div>
-                                        <div class="card-body px-3 py-2" id="labels-list">
-                                            <div class="d-flex flex-wrap gap-2">
-                                                @foreach ($word->labels as $label)
-                                                    @if (! $label->private)
-                                                        <a href="{{ route('label:show', $label) }}" class="badge shadow-sm text-bg-light border text-dark text-decoration-none">
-                                                            {{ $label->name }}
+                                {{-- Related --}}
+                                @if ($word->related->count() > 0)
+                                    <div class="tab-pane fade"
+                                         id="pane-gerelateerd"
+                                         role="tabpanel"
+                                         aria-labelledby="tab-gerelateerd">
+
+                                        <div class="p-3">
+
+
+
+                                            <div class="row g-3"
+                                                 id="related-articles-list">
+
+                                                @foreach ($word->related as $related)
+                                                    <div class="col-sm-4">
+                                                        <a href="{{ route('word-information.show', $related) }}"
+                                                           class="d-flex align-items-center gap-2 border-bottom py-2 text-decoration-none text-dark">
+
+                                                            <x-heroicon-s-book-open class="icon color-green flex-shrink-0"/>
+
+                                                            <div class="min-w-0">
+                                                                <div class="fw-semibold color-green">
+                                                                    {{ $related->word }}
+                                                                </div>
+
+                                                                <div class="small text-muted fst-italic">
+                                                                    {{ $related->partOfSpeech->name ?? '-' }}
+                                                                </div>
+                                                            </div>
+
+                                                            <x-heroicon-o-chevron-right class="icon ms-auto text-muted flex-shrink-0"/>
                                                         </a>
+                                                    </div>
+                                                @endforeach
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+
+                                {{-- Sources --}}
+                                @if($word->sources && $word->sources->count() > 0)
+                                    <div class="tab-pane fade"
+                                         id="pane-bronnen"
+                                         role="tabpanel"
+                                         aria-labelledby="tab-bronnen">
+
+                                        <div class="p-3">
+                                            <div class="d-flex flex-column"
+                                                 id="source-list">
+
+                                                @foreach($word->sources as $source)
+                                                    @if ($source->referenceWork)
+
+                                                        <a href="{{ $source->referenceWork->external_url ?? '#' }}"
+                                                           class="text-decoration-none text-reset">
+
+                                                            <div class="d-flex gap-2 align-items-start @if (! $loop->last) border-bottom @endif py-2">
+
+                                                                <x-heroicon-s-book-open
+                                                                    class="icon color-green flex-shrink-0"/>
+
+                                                                <div class="flex-grow-1">
+                                                                    <div class="fw-semibold small">
+                                                                        {{ optional($source->referenceWork)->name }}
+                                                                    </div>
+
+                                                                    @if($source->notation)
+                                                                        <div class="text-muted small">
+                                                                            {{ $source->notation }}
+                                                                        </div>
+                                                                    @endif
+                                                                </div>
+
+                                                                @if ($source->referenceWork->external_url)
+                                                                    <x-heroicon-o-arrow-top-right-on-square
+                                                                        class="icon text-muted flex-shrink-0"/>
+                                                                @endif
+
+                                                            </div>
+                                                        </a>
+
                                                     @endif
                                                 @endforeach
+
                                             </div>
                                         </div>
                                     </div>
                                 @endif
 
-                                {{-- Regional distribution map --}}
-                                @if ($word->region_chart)
-                                  <div class="card border mb-3" id="dialect-map">
-                                    <div class="card-header bg-light py-2 px-3">
-                                        <span class="fw-semibold color-green">
-                                            Regionale verspreiding
-                                        </span>
-                                    </div>
-                                    <div class="card-body p-2">
-                                        {{-- Use a separate link for the image viewer --}}
-                                        <a href="{{ asset('storage/' . $word->region_chart) }}" target="_blank" rel="noopener">
-                                            <img
-                                                src="{{ asset('storage/' . $word->region_chart) }}"
-                                                alt="Regionale verspreiding van {{ $word->word }}"
-                                                class="img-fluid rounded"
-                                                loading="lazy"
-                                            />
-                                        </a>
+                            </div>
 
-                                        @if ($word->region_chart_source)
-                                          <p class="text-muted small mt-2 mb-0">
-                                              Bron: {{ $word->region_chart_source }}
-                                          </p>
-                                        @endif
-                                    </div>
-                                  </div>
-                                @endif
+                        </article>
 
-                                <x-thema-list-component :word="$word" />
+                        @auth
+                            <section id="voting-section" class="border-top mt-3 pt-3">
+                                <livewire:voting-component :article="$word"/>
+                            </section>
 
-                                @if (auth()->user() && $word->related->count() > 0 && $word->published())
-                                    <hr>
+                            <livewire:report-article-modal :article=$word />
+                        @endauth
+                    </div>
 
-                                    <section id="compare">
-                                        <form action="{{ route('article:compare', ['word' => $word]) }}" method="GET" id="compare-form">
-                                            <label for="second_word" class="form-label fw-bold">
-                                                Vergelijk dit woord met een gerelateerd woord
-                                            </label>
+                    {{-- Sidebar --}}
+                    <aside class="col-lg-3">
 
-                                            <div class="input-group">
-                                                <select class="form-select" id="second_word" name="second_word" onchange="this.form.submit()">
-                                                    <option value="" selected disabled>Selecteer een woord</option>
+                        {{-- Article details --}}
+                        <section id="article-details"
+                                 class="border-bottom">
 
-                                                    @foreach ($word->related as $related)
-                                                        <option value="{{  $related->id }}">{{ $related->word }}</option>
-                                                    @endforeach
-                                                </select>
+                            <div class="d-flex align-items-center color-green gap-2 py-2">
+                                <x-heroicon-o-information-circle class="icon me-A"/>
+                                <h2 class="h6 fw-bold mb-0">
+                                    Gegevens artikel
+                                </h2>
+                            </div>
 
-                                                <button type="submit" class="btn btn-dark" id="compare-btn">
-                                                    Vergelijk
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </section>
-                                @endif
+                            <dl class="mb-0 small">
 
-                                <hr>
+                                <div class="d-flex justify-content-between align-items-start gap-3 py-2"
+                                     id="submitted-by-item">
 
-                                <ul class="list-unstyled mb-0">
-                                    @if (auth()->check() && auth()->user()->can('create', \App\Models\CorrectionProposal::class))
-                                        <li class="mb-1">
-                                            <a href="{{ route('correction:create', $word) }}" class="text-secondary fw-semibold text-decoration-none" id="correct-btn">
-                                                <x-heroicon-s-pencil-square class="icon me-1"/>
+                                    <dt class="fw-normal text-muted mb-0">
+                                        Ingezonden door
+                                    </dt>
 
-                                                @if (auth()->user()->canPerform('artikel beschrijvingen bewerken'))
-                                                    <span>Artikel beschrijving corrigeren</span>
-                                                @else
-                                                    <span>Correctie beschrijving voorstellen</span>
-                                                @endif
+                                    <dd class="fw-medium text-end mb-0">
+                                        @if ($word->author()->exists())
+                                            <a href="{{ route('account:public', $word->author) }}"
+                                               class="text-decoration-none color-green">
+                                                {{ $word->author->name ?? $word->contributor_name }}
                                             </a>
-                                        </li>
+                                        @else
+                                            {{ $word->contributor_name ?? 'Anonieme gebruiker' }}
+                                        @endif
+                                    </dd>
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-start gap-3 border-top py-2"
+                                     id="edited-by-item">
+
+                                    <dt class="fw-normal text-muted mb-0">
+                                        Redactie door
+                                    </dt>
+
+                                    <dd class="fw-medium text-end mb-0">
+                                        @if ($word->editor()->exists())
+                                            <a href="{{ route('account:public', $word->editor) }}"
+                                               class="text-decoration-none color-green">
+                                                {{ $word->editor->name }}
+                                            </a>
+                                        @else
+                                            {{ config('app.name') }}
+                                        @endif
+                                    </dd>
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-start gap-3 border-top py-2"
+                                     id="published-by-item">
+
+                                    <dt class="fw-normal text-muted mb-0">
+                                        Publicatie door
+                                    </dt>
+
+                                    <dd class="fw-medium text-end mb-0">
+                                        @if ($word->publisher()->exists())
+                                            <a href="{{ route('account:public', $word->publisher) }}"
+                                               class="text-decoration-none color-green">
+                                                {{ $word->publisher->name }}
+                                            </a>
+                                        @else
+                                            {{ config('app.name') }}
+                                        @endif
+                                    </dd>
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-start gap-3 border-top py-2"
+                                     id="published-date-item">
+
+                                    <dt class="fw-normal text-muted mb-0">
+                                        Publicatiedatum
+                                    </dt>
+
+                                    <dd class="fw-medium text-end mb-0">
+                                        {{ optional($word->published_at)->translatedFormat('d F Y') ?? '-' }}
+                                    </dd>
+                                </div>
+
+                            </dl>
+                        </section>
+
+                        {{-- Labels --}}
+                        @if ($word->labels->count() > 0)
+                            <section id="article-labels" class="border-bottom">
+
+                                <div class="d-flex align-items-center color-green gap-2 py-3">
+                                    <x-heroicon-o-tag class="icon color-green"/>
+                                    <h2 class="h6 fw-bold mb-0">Labels</h2>
+                                </div>
+
+                                <div class="pb-2"
+                                     id="labels-list">
+
+                                    <div class="d-flex flex-wrap gap-1">
+                                        @foreach ($word->labels as $label)
+                                            @if (! $label->private)
+                                                <a href="{{ route('label:show', $label) }}"
+                                                   class="badge rounded-pill text-dark border bg-white text-decoration-none">
+                                                    {{ $label->name }}
+                                                </a>
+                                            @endif
+                                        @endforeach
+                                    </div>
+
+                                </div>
+                            </section>
+                        @endif
+
+                        {{-- Regional map --}}
+                        @if ($word->region_chart)
+                            <section id="dialect-map"
+                                     class="border-bottom">
+
+                                <div class="d-flex align-items-center gap-2 py-3">
+                                    <x-heroicon-o-map class="icon color-green"/>
+                                    <h2 class="h6 fw-semibold mb-0">
+                                        Regionale verspreiding
+                                    </h2>
+                                </div>
+
+                                <div class="pb-2">
+
+                                    <a href="{{ asset('storage/' . $word->region_chart) }}"
+                                       target="_blank"
+                                       rel="noopener">
+
+                                        <img
+                                            src="{{ asset('storage/' . $word->region_chart) }}"
+                                            alt="Regionale verspreiding van {{ $word->word }}"
+                                            class="img-fluid rounded border"
+                                            loading="lazy"
+                                        />
+                                    </a>
+
+                                    @if ($word->region_chart_source)
+                                        <p class="text-muted small mt-1 mb-0">
+                                            Bron: {{ $word->region_chart_source }}
+                                        </p>
                                     @endif
 
-                                    <li>
-                                        <a href="#" title="Tip de redactie" class="fw-semibold text-danger text-decoration-none" data-bs-toggle="modal" data-bs-target="#reportModal" id="report-btn">
-                                            <x-tabler-message-report class="icon"/>
-                                            <span class="ms-1">Tip de redactie</span>
+                                </div>
+                            </section>
+                        @endif
+
+                        <div class="mt-3">
+                            <x-thema-list-component :word="$word" />
+                        </div>
+
+                        {{-- Editorial actions --}}
+                        <section class="@if (auth()->check()) border-top mt-3 pt-3 @endif">
+                            <ul class="list-unstyled mb-0">
+                                @can('create', \App\Models\CorrectionProposal::class)
+                                    <li class="mb-1">
+                                        <a href="{{ route('correction:create', $word) }}" class="text-secondary fw-semibold text-decoration-none small" id="correct-btn">
+                                            <x-heroicon-s-pencil-square class="icon me-1"/>
+
+                                            @if (auth()->user()->canPerform('artikel beschrijvingen bewerken'))
+                                                Artikelbeschrijving corrigeren
+                                            @else
+                                                Correctie beschrijving voorstellen
+                                            @endif
                                         </a>
                                     </li>
-                                </ul>
-                        </div><!-- /col-lg-4 -->
-                    </div>
+                                @endcan
+
+                                @auth
+                                    <li class="mb-2">
+                                         @if ($word->bookmarkers->contains(auth()->user()))
+                                            <a href="{{ route('bookmark:remove', $word) }}" class="text-danger fw-semibold text-decoration-none small" id="bookmark-btn-remove">
+                                                <x-heroicon-o-bookmark-slash class="icon me-1"/> Vergeet dit woord
+                                            </a>
+                                        @else
+                                            <a href="{{ route('bookmark:create', $word) }}" class="text-success fw-semibold text-decoration-none small" id="bookmark-btn-add">
+                                                <x-heroicon-o-bookmark class="icon me-1"/> Bewaar dit woord
+                                            </a>
+                                        @endif
+                                    </li>
+                                @endauth
+
+                                <li class="@auth border-top pt-2 mt-2 pb-2 @endauth">
+                                    <a href="#" class="fw-semibold text-danger text-decoration-none small" data-bs-toggle="modal" data-bs-target="#reportModal" id="report-btn">
+                                        <x-tabler-message-report class="icon me-1"/> Tip de redactie
+                                    </a>
+                                </li>
+                            </ul>
+                        </section>
+                    </aside>
                 </div>
             </div>
         </div>
     </div>
-
-    <script>
-
-    const sizeMap = { sm: 'font-size-sm', md: 'font-size-md', lg: 'font-size-lg', xl: 'font-size-xl' };
-
-    function setFontSize(size) {
-        const content = document.getElementById('article-content');
-        if (!content) return;
-
-        // 1. Update Content Class
-        content.classList.remove('font-size-sm','font-size-md','font-size-lg','font-size-xl');
-        content.classList.add(sizeMap[size]);
-
-        // 2. Persist to LocalStorage
-        localStorage.setItem('preferred-font-size', size);
-
-        // 3. Update Button Active States
-        document.querySelectorAll('.toolbar-btn').forEach(btn => {
-            // Remove active from all
-            btn.classList.remove('active');
-            // Add active if it matches the current size
-            if (btn.getAttribute('data-size') === size) {
-                btn.classList.add('active');
-            }
-        });
-    }
-
-    // Initialize on page load
-    document.addEventListener('DOMContentLoaded', () => {
-        const savedSize = localStorage.getItem('preferred-font-size') || 'md';
-        setFontSize(savedSize);
-    });
-
-    // If using Livewire 3 wire:navigate, use this instead of DOMContentLoaded:
-    document.addEventListener('livewire:navigated', () => {
-        const savedSize = localStorage.getItem('preferred-font-size') || 'md';
-        setFontSize(savedSize);
-    });
-</script>
 @endsection

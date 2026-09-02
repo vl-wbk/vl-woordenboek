@@ -1,7 +1,7 @@
 <div>
     @auth
-<aside {{ $attributes->merge(['class' => 'card border-0 shadow-sm word-list-widget']) }} style="border-radius: var(--radius);">
-    <div class="card-body rounded-3 bg-light p-3">
+<aside {{ $attributes->merge(['class' => 'card bg-white rounded-2 shadow-sm word-list-widget']) }} style="border-radius: var(--radius);">
+    <div class="card-body rounded-2 p-3">
         <h6 class="d-flex align-items-center gap-2 mb-3 color-green fw-semibold">
             <x-tabler-playlist-add class="icon"/>
             Opslaan in themalijst
