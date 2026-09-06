@@ -12,56 +12,69 @@ use InvalidArgumentException;
 final class VoteService
 {
     public function vote(
-        User $user,
-        Article $article,
-        int $value,
-    ): Vote {
-        if (! in_array($value, [1, -1], true)) {
-            throw new InvalidArgumentException(
-                'Vote must be 1 or -1.'
-            );
-        }
-
-        if ($article->user_id === $user->id) {
-            throw new InvalidArgumentException(
-                'You cannot vote on your own article.'
-            );
-        }
-
-        $vote = DB::transaction(function () use (
-            $user,
-            $article,
-            $value,
-        ) {
-            return Vote::updateOrCreate(
-                [
-                    'user_id' => $user->id,
-                    'article_id' => $article->id,
-                ],
-                [
-                    'value' => $value,
-                ],
-            );
-        });
-
-        RecalculateArticleQuality::dispatch(
-            $article->id
-        )->afterCommit();
-
-        return $vote;
+    User $user,
+    Article $article,
+    int $value,
+): Vote {
+    if (! in_array($value, [1, -1], true)) {
+        throw new InvalidArgumentException(
+            'Vote must be 1 or -1.'
+        );
     }
 
+    return DB::transaction(function () use (
+        $user,
+        $article,
+        $value,
+    ) {
+        $vote = Vote::query()
+            ->where('user_id', $user->id)
+            ->where('article_id', $article->id)
+            ->first();
+
+        $changed = $vote === null || $vote->value !== $value;
+
+        if ($vote === null) {
+            $vote = Vote::create([
+                'user_id' => $user->id,
+                'article_id' => $article->id,
+                'value' => $value,
+            ]);
+        } elseif ($changed) {
+            $vote->update([
+                'value' => $value,
+            ]);
+        }
+
+        if ($changed) {
+            $article->increment('votes_version');
+
+            RecalculateArticleQuality::dispatch($article->id)
+                ->afterCommit();
+        }
+
+        return $vote;
+    });
+}
+
     public function remove(
-        User $user,
-        Article $article,
-    ): void {
-        Vote::query()
+    User $user,
+    Article $article,
+): void {
+    DB::transaction(function () use ($user, $article) {
+        $deleted = Vote::query()
             ->where('user_id', $user->id)
             ->where('article_id', $article->id)
             ->delete();
 
-        RecalculateArticleQuality::dispatch(
-            $article->id
-        )->afterCommit();
-    }
+        if ($deleted === 0) {
+            return;
+        }
+
+        $article->increment('votes_version');
+
+        RecalculateArticleQuality::dispatch($article->id)
+            ->afterCommit();
+    });
+}
 }

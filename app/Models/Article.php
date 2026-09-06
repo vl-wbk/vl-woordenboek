@@ -446,6 +446,17 @@ public function hasDownVoted(?User $user = null): bool
         ->exists();
 }
 
+public function reviews(): HasMany
+{
+    return $this->hasMany(ArticleReview::class);
+}
+
+public function latestReview(): HasOne
+{
+    return $this->hasOne(ArticleReview::class)
+        ->latestOfMany();
+}
+
     /**
      * Configures attribute casting for proper type handling.
      * Ensures that state and status fields are properly cast to their respective enum types when retrieved from the database.
@@ -458,6 +469,7 @@ public function hasDownVoted(?User $user = null): bool
             'notify_author' => 'boolean',
             'wtod' => 'boolean',
             'feedback' => 'array',
+            'votes_version' => 'integer',
             'migration_configuration' => 'json',
             'origin' => DataOrigin::class,
             'state' => ArticleStates::class,
