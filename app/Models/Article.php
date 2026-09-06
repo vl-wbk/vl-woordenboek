@@ -31,13 +31,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kirschbaum\Commentions\Contracts\Commentable;
 use Kirschbaum\Commentions\HasComments;
 use Overtrue\LaravelLike\Traits\Likeable;
-use Overtrue\LaravelVote\Traits\Votable;
-use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
@@ -102,7 +101,6 @@ final class Article extends Model implements AuditableContract, Commentable
     use SoftDeletes;
     use HasNotables;
     use HasComments;
-    use Votable;
     use HasCorrectionSupport;
     use ManagesArticleStates;
 
@@ -339,6 +337,16 @@ final class Article extends Model implements AuditableContract, Commentable
         $builder->where('published_at', '>', now()->parse($date));
     }
 
+    public function votes(): HasMany
+    {
+        return $this->hasMany(Vote::class);
+    }
+
+    public function quality(): HasOne
+    {
+        return $this->hasOne(ArticleQuality::class);
+    }
+
     public function recordView(): void
     {
         app(ViewCounterService::class)->incrementAndSync($this);
@@ -382,6 +390,61 @@ final class Article extends Model implements AuditableContract, Commentable
                 ->limit(300);
         });
     }
+
+    public function upVotesCount(): int
+{
+    return $this->votes()
+        ->where('value', 1)
+        ->count();
+}
+
+public function downVotesCount(): int
+{
+    return $this->votes()
+        ->where('value', -1)
+        ->count();
+}
+
+public function hasVoted(?User $user = null): bool
+{
+    $user ??= auth()->user();
+
+    if (! $user) {
+        return false;
+    }
+
+    return $this->votes()
+        ->where('user_id', $user->id)
+        ->exists();
+}
+
+public function hasUpVoted(?User $user = null): bool
+{
+    $user ??= auth()->user();
+
+    if (! $user) {
+        return false;
+    }
+
+    return $this->votes()
+        ->where('user_id', $user->id)
+        ->where('value', 1)
+        ->exists();
+}
+
+public function hasDownVoted(?User $user = null): bool
+{
+    $user ??= auth()->user();
+
+    if (! $user) {
+        return false;
+    }
+
+    return $this->votes()
+        ->where('user_id', $user->id)
+        ->where('value', -1)
+        ->exists();
+}
 
     /**
      * Configures attribute casting for proper type handling.

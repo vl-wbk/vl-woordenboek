@@ -20,7 +20,7 @@ final class QueueServiceProvider extends ServiceProvider
     {
         Queue::failing(function (JobFailed $event): void {
             /** @phpstan-ignore-next-line */
-            report($event);
+            report($event->exception);
         });
 
         if ($this->app->runningInConsole()) {

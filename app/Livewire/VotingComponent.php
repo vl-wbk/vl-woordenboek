@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Livewire;
 
+use App\Domain\Voting\VoteService;
 use App\Models\Article;
 use App\Models\User;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\Attributes\Validate;
 
 /**
  * VotingComponent manages the upvote and downvote functionality for dictionary entries.
@@ -35,38 +37,27 @@ class VotingComponent extends Component
         $this->article = $article;
     }
 
-    /**
-     * Register an upvote for the article.
-     * * @return mixed
-     */
-    public function upvote(): void
+    public function vote(#[Validate(['required', 'integer', 'in:1,-1'])] int $value, VoteService $voteService): void
     {
-        if (Auth::guest()) {
-            $this->redirect(route('login'));
-            return;
-        }
+        $voteService->vote(
+            Auth::user(),
+            $this->article,
+            $value,
+        );
 
-        /** @var User $authenticatedUser */
-        $authenticatedUser = Auth::user();
-
-        $authenticatedUser->upvote($this->article);
         $this->article->refresh();
     }
 
     /**
-     * Register a downvote for the article.
+     * Remove the user vote for the article.
      */
-    public function downvote(): void
+    public function removeVote(VoteService $voteService): void
     {
-        if (Auth::guest()) {
-            $this->redirect(route('login'));
-            return;
-        }
+        $voteService->remove(
+            Auth::user(),
+            $this->article,
+        );
 
-        /** @var User $authenticatedUser */
-        $authenticatedUser = Auth::user();
-
-        $authenticatedUser->downvote($this->article);
         $this->article->refresh();
     }
 
@@ -77,11 +68,6 @@ class VotingComponent extends Component
      */
     public function render(): Renderable
     {
-        return view('livewire.like-words', [
-            'upvotesCount' => $this->article->upvoters()->count(),
-            'downvotesCount' => $this->article->downvoters()->count(),
-            'hasUpvoted' => Auth::check() ? Auth::user()->hasUpvoted($this->article) : false,
-            'hasDownvoted' => Auth::check() ? Auth::user()->hasDownvoted($this->article) : false,
-        ]);
+        return view('livewire.like-words');
     }
 }
