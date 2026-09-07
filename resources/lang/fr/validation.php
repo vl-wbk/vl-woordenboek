@@ -44,7 +44,7 @@ return [
     'doesnt_end_with'        => 'Le champ :attribute ne doit pas finir avec une des valeurs suivantes : :values.',
     'doesnt_start_with'      => 'Le champ :attribute ne doit pas commencer avec une des valeurs suivantes : :values.',
     'email'                  => 'Le champ :attribute doit être une adresse e-mail valide.',
-    'encoding'               => 'The :attribute field must be encoded in :encoding.',
+    'encoding'               => 'Le champ :attribute doit être encodé en :encoding.',
     'ends_with'              => 'Le champ :attribute doit se terminer par une des valeurs suivantes : :values',
     'enum'                   => 'Le champ :attribute sélectionné est invalide.',
     'exists'                 => 'Le champ :attribute sélectionné est invalide.',
@@ -157,5 +157,5 @@ return [
     'uploaded'               => 'Le fichier du champ :attribute n\'a pu être téléversé.',
     'uppercase'              => 'Le champ :attribute doit être en majuscules.',
     'url'                    => 'Le format de l\'URL de :attribute n\'est pas valide.',
-    'uuid'                   => 'Le champ :attribute doit être un UUID valide',
+    'uuid'                   => 'Le champ :attribute doit être un UUID valide.',
 ];
