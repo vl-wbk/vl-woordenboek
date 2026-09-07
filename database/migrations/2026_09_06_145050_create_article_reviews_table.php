@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class, 'reviewed_by')->constrained('users')->restrictOnDelete();
 
             // The exact community-vote state that was reviewed
-            $$table->unsignedBigInteger('votes_version');
+            $table->unsignedBigInteger('votes_version');
 
             // Optional snapshot of the quality state at review time.
             // This makes historical reporting possible even if
