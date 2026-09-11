@@ -41,11 +41,9 @@ final class DisclaimerPolicy
      */
     public function viewAny(User $user): Response
     {
-        if ($user->can('view-any:disclaimer')) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: __('disclaimer-resource.policy.deny-messages.viewAny'));
+        return $user->can('view-any:disclaimer')
+            ? Response::allow()
+            : Response::deny(message: __('disclaimer-resource.policy.deny-messages.viewAny'));
     }
 
     /**
@@ -58,11 +56,9 @@ final class DisclaimerPolicy
      */
     public function view(User $user, Disclaimer $disclaimer): Response
     {
-        if ($user->can('view:disclaimer')) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: __('disclaimer-resource.policy.deny-messages.view'));
+        return $user->can('view:disclaimer')
+            ? Response::allow()
+            : Response::deny(message: __('disclaimer-resource.policy.deny-messages.view'));
     }
 
     /**
@@ -74,11 +70,9 @@ final class DisclaimerPolicy
      */
     public function create(User $user): Response
     {
-        if ($user->can('create:disclaimer')) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: __('disclaimer-resource.policy.deny-messages.create'));
+        return $user->can('create:disclaimer')
+            ? Response::allow()
+            : Response::deny(message: __('disclaimer-resource.policy.deny-messages.create'));
     }
 
     /**
@@ -90,11 +84,9 @@ final class DisclaimerPolicy
      */
     public function update(User $user): Response
     {
-        if ($user->can('update:disclaimer')) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: __('disclaimer-resource.policy.deny-messages.update'));
+        return $user->can('update:disclaimer')
+            ? Response::allow()
+            : Response::deny(message: __('disclaimer-resource.policy.deny-messages.update'));
     }
 
     /**
@@ -106,11 +98,9 @@ final class DisclaimerPolicy
      */
     public function delete(User $user): Response
     {
-        if ($user->can('delete:disclaimer')) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: __('disclaimer-resource.policy.deny-messages.delete'));
+        return $user->can('delete:disclaimer')
+            ? Response::allow()
+            : Response::deny(message: __('disclaimer-resource.policy.deny-messages.delete'));
     }
 
     /**
@@ -122,10 +112,8 @@ final class DisclaimerPolicy
      */
     public function deleteAny(User $user): Response
     {
-        if ($user->can('delete-any:disclaimer')) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: __('disclaimer-resource.policy.deny-messages.deleteAny'));
+        return $user->can('delete-any:disclaimer')
+            ? Response::allow()
+            : Response::deny(message: __('disclaimer-resource.policy.deny-messages.deleteAny'));
     }
 }

@@ -43,11 +43,9 @@ final class LabelPolicy
      */
     public function viewAny(User $user): Response
     {
-        if ($user->can('view-any:label')) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: 'U heeft geen toestemmin om de lijst met labels te bekijken.');
+        return $user->can('view-any:label')
+            ? Response::allow()
+            : Response::deny(message: 'U heeft geen toestemmin om de lijst met labels te bekijken.');
     }
 
     /**
@@ -62,11 +60,9 @@ final class LabelPolicy
      */
     public function view(User $user, Label $label): Response
     {
-        if ($user->can('view:label')) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: 'U heeft geen toestemming om de details van dit label te bekijken.');
+        return $user->can('view:label')
+            ? Response::allow()
+            : Response::deny(message: 'U heeft geen toestemming om de details van dit label te bekijken.');
     }
 
     /**
@@ -82,11 +78,9 @@ final class LabelPolicy
      */
     public function update(User $user, Label $label): Response
     {
-        if ($user->can('update:label')) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: 'U heeft geen toestemming om labels te wijzigen.');
+        return $user->can('update:label')
+            ? Response::allow()
+            : Response::deny(message: 'U heeft geen toestemming om labels te wijzigen.');
     }
 
     /**
@@ -101,11 +95,9 @@ final class LabelPolicy
      */
     public function delete(User $user): Response
     {
-        if ($user->can('delete:label')) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: 'U heeft geen toestemming om dit label uit het systeem te verwijderen.');
+        return $user->can('delete:label')
+            ? Response::allow()
+            : Response::deny(message: 'U heeft geen toestemming om dit label uit het systeem te verwijderen.');
     }
 
     /**
@@ -120,11 +112,9 @@ final class LabelPolicy
      */
     public function create(User $user): Response
     {
-        if ($user->can('create:label')) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: 'U heeft geen toestemming om labels aan te maken.');
+        return $user->can('create:label')
+            ? Response::allow()
+            : Response::deny(message: 'U heeft geen toestemming om labels aan te maken.');
     }
 
     /**
@@ -139,11 +129,9 @@ final class LabelPolicy
      */
     public function attach(User $user): Response
     {
-        if ($user->can('attach:label')) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: 'U heeft geen toestemming om labels aan artikelen te koppelen.');
+        return $user->can('attach:label')
+            ? Response::allow()
+            : Response::deny(message: 'U heeft geen toestemming om labels aan artikelen te koppelen.');
     }
 
     /**
@@ -158,11 +146,9 @@ final class LabelPolicy
      */
     public function detach(User $user, Label $label): Response
     {
-        if ($user->can('detach:label')) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: 'U heeft geen toestemming om dit label van het artikel los te koppelen.');
+        return $user->can('detach:label')
+            ? Response::allow()
+            : Response::deny(message: 'U heeft geen toestemming om dit label van het artikel los te koppelen.');
     }
 
     /**
@@ -176,10 +162,8 @@ final class LabelPolicy
      */
     public function deleteAny(User $user): Response
     {
-        if ($user->can('delete-any:label')) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: 'U heeft geen toestemming om meerdere labels tegelijk te verwijderen.');
+        return $user->can('delete-any:label')
+            ? Response::allow()
+            : Response::deny(message: 'U heeft geen toestemming om meerdere labels tegelijk te verwijderen.');
     }
 }

@@ -92,7 +92,10 @@ final readonly class CorrectionProposalPolicy
      */
     public function update(User $user, CorrectionProposal $correctionProposal): Response
     {
-        $hasCorrectUserType = $user->user_type->in(enums: [UserTypes::Administrators, UserTypes::Editor, UserTypes::EditorInChief, UserTypes::Developer]);
+        $hasCorrectUserType = $user->user_type->in(enums: [
+            UserTypes::Administrators, UserTypes::Editor, UserTypes::EditorInChief, UserTypes::Developer
+        ]);
+
         $isEditable = in_array($correctionProposal->state, [PendingState::class]);
 
         return ($hasCorrectUserType && $isEditable)
@@ -109,11 +112,11 @@ final readonly class CorrectionProposalPolicy
      * @param  User $user The authenticated user attempting to approve the change.
      * @return bool       True if authorized to accept and merge modifications. False otherwise.
      */
-    public function approve(User $user): bool
+    public function approve(User $user): Response
     {
-        return $user->user_type->in(enums: [
-            UserTypes::EditorInChief, UserTypes::Developer, UserTypes::Administrators,
-        ]);
+        return $user->user_type->in(enums: [UserTypes::EditorInChief, UserTypes::Developer, UserTypes::Administrators])
+            ? Response::allow()
+            : Response::deny(message: 'U hebt geen machtiging om correctie voorstellen goed te keuren');
     }
 
     /**
@@ -125,10 +128,10 @@ final readonly class CorrectionProposalPolicy
      * @param  User $user The authenticated user attempting to reject the change.
      * @return bool       True if authorized to deny and close modifications, false otherwise.
      */
-    public function reject(User $user): bool
+    public function reject(User $user): Response
     {
-        return $user->user_type->in(enums: [
-            UserTypes::EditorInChief, UserTypes::Developer, UserTypes::Administrators,
-        ]);
+        return $user->user_type->in(enums: [UserTypes::EditorInChief, UserTypes::Developer, UserTypes::Administrators])
+            ? Response::allow()
+            : Response::deny(message: 'U hebt geen machtiging om correctie voorstellen af te wijzen');
     }
 }

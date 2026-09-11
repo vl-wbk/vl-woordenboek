@@ -42,11 +42,9 @@ final class BanPolicy
      */
     public function viewAny(User $user): Response
     {
-        if ($user->can('view-any:ban')) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: 'U hebt geen toestemming om de lijst met deactivaties te bekijken.');
+        return $user->can('view-any:ban')
+            ? Response::allow()
+            : Response::deny(message: 'U hebt geen toestemming om de lijst met deactivaties te bekijken.');
     }
 
     /**
@@ -57,11 +55,9 @@ final class BanPolicy
      */
     public function view(User $user, Ban $ban): Response
     {
-        if ($user->can('view:ban')) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: 'U hebt geen toestemming om de specifieke gegevens van een deactivatie te bekijken.');
+        return $user->can('view:ban')
+            ? Response::allow()
+            : Response::deny(message: 'U hebt geen toestemming om de specifieke gegevens van een deactivatie te bekijken.');
     }
 
     /**
@@ -72,11 +68,9 @@ final class BanPolicy
      */
     public function update(User $user, Ban $ban): Response
     {
-        if ($user->can('update:ban')) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: 'U hebt geen toestemming om de gegevens van een deactivatie aan te passen.');
+        return $user->can('update:ban')
+            ? Response::allow()
+            : Response::deny(message: 'U hebt geen toestemming om de gegevens van een deactivatie aan te passen.');
     }
 
     /**
@@ -87,10 +81,8 @@ final class BanPolicy
      */
     public function delete(User $user, Ban $ban): Response
     {
-        if ($user->can('delete:ban')) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: 'U hebt geen toestemming om een deactivatie ongedaan te maken.');
+        return $user->can('delete:ban')
+            ? Response::allow()
+            : Response::deny(message: 'U hebt geen toestemming om een deactivatie ongedaan te maken.');
     }
 }

@@ -46,11 +46,9 @@ final class FeedbackPolicy
      */
     public function viewAny(User $user): Response
     {
-        if ($user->can('view-any:feedback')) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: 'U hebt geen machtiging om het feedback overzicht te bekijken.');
+        return $user->can('view-any:feedback')
+            ? Response::allow()
+            : Response::deny(message: 'U hebt geen machtiging om het feedback overzicht te bekijken.');
     }
 
     /**
@@ -66,11 +64,9 @@ final class FeedbackPolicy
      */
     public function view(User $user, Feedback $feedback): Response
     {
-        if ($user->can('view:feedback')) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: 'U hebt geen machtiging om dit feedback bericht te bekijken.');
+        return $user->can('view:feedback')
+            ? Response::allow()
+            : Response::deny(message: 'U hebt geen machtiging om dit feedback bericht te bekijken.');
     }
 
     /**
@@ -85,11 +81,9 @@ final class FeedbackPolicy
      */
     public function delete(User $user): Response
     {
-        if ($user->can('delete:feedback')) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: 'U hebt geen machtiging om dit feedback bericht te verwijderen.');
+        return $user->can('delete:feedback')
+            ? Response::allow()
+            : Response::deny(message: 'U hebt geen machtiging om dit feedback bericht te verwijderen.');
     }
 
     /**
@@ -138,10 +132,8 @@ final class FeedbackPolicy
      */
     public function deleteAny(User $user): Response
     {
-        if ($user->can('delete-any:feedback')) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: 'U hebt geen machtiging om feedback te verwijderen.');
+        return $user->can('delete-any:feedback')
+            ? Response::allow()
+            : Response::deny(message: 'U hebt geen machtiging om feedback te verwijderen.');
     }
 }

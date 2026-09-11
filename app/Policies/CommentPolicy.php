@@ -46,11 +46,8 @@ final readonly class CommentPolicy
     public function delete(User $user, Comment $comment): Response
     {
         // Check if the user is the owner of the comment OR if they have an administrator/developer role.
-        if ($comment->commentator->is($user) || $user->user_type->in(enums: [UserTypes::Developer, UserTypes::Administrators])) {
-            return Response::allow(); // Allow the delete action if either condition is met.
-        }
-
-        //! Deny the delete action and return a "Not found" response for security.
-        return Response::denyAsNotFound();
+        return ($comment->commentator->is($user) || $user->user_type->in(enums: [UserTypes::Developer, UserTypes::Administrators]))
+            ? Response::allow() // Allow the delete action if either condition is met.
+            : Response::denyAsNotFound(); //! Deny the delete action and return a "Not found" response for security.
     }
 }
