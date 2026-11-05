@@ -18,7 +18,7 @@ use Spatie\QueryBuilder\QueryBuilder;
  *
  * Supports four search strategy strategirs depending on the 'zoekpatroon' request parameter:
  *
- * - Full-text (default):   phrase match with token fallback via MySQL MATCH/AGAINST
+ * - Full-text (default):   all-words match (any order) via MySQL MATCH/AGAINST, exact phrase ranked first
  * - Exact:                 strict lowercase equality on word/keywords/description
  * - Starts-with:           LIKE prefix pattern (e.g. 'term%')
  * - Ends-with:             LIKE suffix pattern (e.g. '%term')
@@ -53,6 +53,20 @@ final readonly class SearchWordQuery
     ];
 
     /**
+     * Maximum number of words used in a multi-word full-text expression.
+     *
+     * @var int
+     */
+    private const int MAX_TOKENS = 8;
+
+    /**
+     * Maximum word distance for the "words close together" ranking tier.
+     *
+     * @var int
+     */
+    private const int PROXIMITY_DISTANCE = 3;
+
+    /**
      * Execute the article search query and return a paginated result set.
      *
      * Applies allowed sorts and filters via Spatie QueryBuilder, eager-loads the author,
@@ -65,13 +79,18 @@ final readonly class SearchWordQuery
      */
     public function execute(Request $request): LengthAwarePaginator
     {
-        return QueryBuilder::for(Article::class)
+        $query = QueryBuilder::for(Article::class)
             ->allowedSorts($this->getAllowedSorts())
             ->allowedFilters($this->getAllowedFilters())
             ->with(['author', 'regions', 'bookmarkers'])
             ->where(fn (Builder $query) => $this->applyVisibilityFilters($query, $request))
             ->where(fn (Builder $query) => $this->applySearchStrategy($query, $request))
-            ->orderByRaw('CASE WHEN LOWER(word) = ? THEN 0 ELSE 1 END', [$this->normalizeTerm($request)]) // +
+            ->orderByRaw('CASE WHEN LOWER(word) = ? THEN 0 ELSE 1 END', [$this->normalizeTerm($request)]); // +
+
+        // Rank exact-phrase hits above looser all-words matches (full-text searches only).
+        $this->applyPhraseRanking($query, $request);
+
+        return $query
             ->orderBy('created_at', 'desc')
             ->fastPaginate(self::RESULTS_PER_PAGE)
             ->appends($request->query());
@@ -192,14 +211,12 @@ final readonly class SearchWordQuery
     }
 
     /**
-     * Apply MySQL full-text search using a phrase-or-token strategy.
+     * Apply MySQL full-text search: every word must be present, in any order.
      *
-     * For multi-word terms an exact phrase match is attempted first, falling back to an AND-token search
-     * if no results are found. This correctly handles idioms and expressions like 'het regent als een hond'
-     * while still returning useful results when no exatc phrase exists in the index. For single-word terms a
-     * prefix wildcard search ('+token*') is used directly. Tokens shorter then 1 characters are discarded before the
-     * expression is built because the MySQL FT engine silently ignores them, which would otherwise cause confusing
-     * empty-result bugs.
+     * Works for single- and multi-word terms alike. An exact phrase match always satisfies this
+     * expression too, so no phrase-first pre-check is needed: whether an article matches depends
+     * only on the article itself, never on what other articles exist. Exact phrase hits are ranked
+     * first by applyPhraseRanking() instead of excluding the other matches.
      *
      * @param  Builder<Article> $query              The primary query builder instance for the Article model.
      * @param  Request          $request            The current HTTP request containing the target search queries.
@@ -208,70 +225,102 @@ final readonly class SearchWordQuery
      */
     private function applyFullTextSearch(Builder $query, Request $request, bool $includeDescription): void
     {
-        $term    = $this->normalizeTerm($request);
-        $tokens  = $this->getSearchTokens($request);
-        $columns = $this->buildMatchColumns($includeDescription);
+        $expression = $this->buildTokenExpression($this->getSearchTokens($request));
 
-        if ($term === '' || empty($tokens)) {
+        if ($expression === '') {
             $query->whereRaw('0 = 1');
             return;
         }
 
-        if (count($tokens) > 1) {
-            $this->applyPhraseWithFallback($query, $term, $tokens, $columns);
-        } else {
-            $escaped = $this->escapeFtToken($tokens[0]);
-            $query->whereRaw("MATCH({$columns}) AGAINST(? IN BOOLEAN MODE)", ["+{$escaped}*"]);
-        }
+        $columns = $this->buildMatchColumns($includeDescription);
+
+        /** @phpstan-ignore-next-line */
+        $query->whereRaw("MATCH({$columns}) AGAINST(? IN BOOLEAN MODE)", [$expression]);
     }
 
     /**
-     * Attempt a full-text phrase match and fall back to an AND-token search if it yields no results.
+     * Build the boolean-mode expression: '+token1 +token2 +tokenN*'.
      *
-     * The pre-flight existence check is a lightweight FT index index scan that fetches no row data.
-     * keeping overhead minimal even on large tables. When the phrase attempt fails, each token is passed
-     * through escapeFtToken() to neutralise boolean operators, empty results from escaping are discarded,
-     * and the remaining tokens are assembled into a required prefix-wildcard expression ('*token_1* +token2*').
-     * When every token is stripped to empty after escaping, zero rows are returned rather than r
-     * unning a malformed expression.
+     * Only the last token is prefix-expanded, so earlier words must match whole tokens. This keeps
+     * noise down while still supporting a partially typed final word. Tokens are split again after
+     * escaping, because escapeFtToken() can turn 'a+b' into 'a b'. At most {@see self::MAX_TOKENS}
+     * tokens are used.
      *
-     * @param Builder<Article>  $query
-     * @param string            $term    Normalized full search term
-     * @param array<int,string> $tokens  Filtered tokens (>= 3 chars)
-     * @param string            $columns Whitelisted MATCH() column list
+     * @param  array<int, string> $tokens
+     * @return string Empty string when no usable token remains.
      */
-    private function applyPhraseWithFallback(Builder $query, string $term, array $tokens, string $columns): void
+    private function buildTokenExpression(array $tokens): string
     {
-        $phrase = '"' . $this->escapeFtToken($term) . '"';
+        $clean = collect($tokens)
+            ->take(self::MAX_TOKENS)
+            ->flatMap(fn (string $token): array => explode(' ', $this->escapeFtToken($token)))
+            ->filter()
+            ->values();
 
-        /** @phpstan-ignore-next-line */
-        $exists = Article::whereRaw("MATCH({$columns}) AGAINST(? IN BOOLEAN MODE)", [$phrase])->exists();
+        $last = $clean->count() - 1;
 
-        if ($exists) {
-            /** @phpstan-ignore-next-line */
-            $query->whereRaw("MATCH({$columns}) AGAINST(? IN BOOLEAN MODE)", [$phrase]);
-            return;
-        }
-
-        $andExpr = collect($tokens)
-            ->map(fn (string $token): string => $this->escapeFtToken($token))
-            ->filter() // <--- CRITICAL: Removes tokens that are now empty
-            ->map(fn (string $token): string => "+{$token}*")
+        return $clean
+            ->map(fn (string $token, int $i): string => $i === $last ? "+{$token}*" : "+{$token}")
             ->implode(' ');
+    }
 
-        if (empty($andExpr)) {
-            $query->whereRaw('0 = 1');
+    /**
+     * Rank multi-word full-text matches: exact phrase first, then words close together, then the rest.
+     *
+     * Ranking only; the filter itself is applyFullTextSearch(). Does nothing for single-word terms
+     * or for the exact / starts-with / ends-with patterns. Because Spatie applies an explicit
+     * '?sort=' before this runs, the ranking only acts as a tiebreaker after a requested sort.
+     *
+     * @param  Builder<Article> $query
+     * @param  Request          $request
+     * @return void
+     */
+    private function applyPhraseRanking(Builder $query, Request $request): void
+    {
+        $term = $this->normalizeTerm($request);
+
+        if ($term === '' || ! $this->usesFullTextSearch($request)) {
             return;
         }
 
-        /** @phpstan-ignore-next-line */
-        $query->whereRaw("MATCH({$columns}) AGAINST(? IN BOOLEAN MODE)", [$andExpr]);
+        $words = array_slice(
+            array_values(array_filter(explode(' ', $this->escapeFtToken($term)))),
+            0,
+            self::MAX_TOKENS,
+        );
+
+        if (count($words) < 2) {
+            return;
+        }
+
+        $columns = $this->buildMatchColumns($request->boolean('uitgebreid'));
+        $phrase  = '"' . implode(' ', $words) . '"';
+        $near    = $phrase . '@' . self::PROXIMITY_DISTANCE;
+
+        $query
+            ->orderByRaw("MATCH({$columns}) AGAINST(? IN BOOLEAN MODE) > 0 DESC", [$phrase])
+            ->orderByRaw("MATCH({$columns}) AGAINST(? IN BOOLEAN MODE) > 0 DESC", [$near]);
+    }
+
+    /**
+     * Whether the request resolves to the full-text strategy (the default in applySearchStrategy()).
+     *
+     * @param  Request $request
+     * @return bool
+     */
+    private function usesFullTextSearch(Request $request): bool
+    {
+        return ! in_array($request->input('zoekpatroon'), [
+            SearchPatterns::Exact->value,
+            SearchPatterns::StartsWith->value,
+            SearchPatterns::EndsWith->value,
+        ], true);
     }
 
     /**
      * Strip MySQL full-text boolean mode operator characters from a token or phrase.
      *
-     * Removes the characters `+ - > < ( ) ~ * " \` to prevent user input from injecting
+     * Removes the characters `+ - > < ( ) ~ * " \ @` to prevent user input from injecting
      * FT operators that would corrupt the boolean mode expression. This is distinct from
      * SQL injection prevention, which is handled entirely by PDO parameter binding and
      * operates independently of this method.
@@ -284,7 +333,7 @@ final readonly class SearchWordQuery
     {
         // Remove characters that have special meaning in Boolean Mode
         $token = str_replace(
-            search: ['+', '-', '>', '<', '(', ')', '~', '*', '"', '\\'],
+            search: ['+', '-', '>', '<', '(', ')', '~', '*', '"', '\\', '@'],
             replace: ' ',
             subject: $token
         );
