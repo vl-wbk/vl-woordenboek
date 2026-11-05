@@ -275,7 +275,7 @@ final readonly class SearchWordQuery
      * @param  Request          $request
      * @return void
      */
-    private function applyPhraseRanking(Builder $query, Request $request): void
+    private function applyPhraseRanking($query, Request $request): void
     {
         $term = $this->normalizeTerm($request);
 
