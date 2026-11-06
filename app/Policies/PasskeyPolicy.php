@@ -29,6 +29,8 @@ final readonly class PasskeyPolicy
      */
     public function delete(User $user): Response
     {
-        return $user->isDeveloper() ? Response::allow() : Response::deny();
+        return $user->isDeveloper()
+            ? Response::allow()
+            : Response::denyAsNotFound();
     }
 }

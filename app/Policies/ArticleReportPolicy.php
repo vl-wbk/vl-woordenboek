@@ -50,11 +50,9 @@ final class ArticleReportPolicy
      */
     public function viewAny(User $user): Response
     {
-        if ($user->can('view-any:article-report')) {
-            return Response::allow();
-        }
-
-        return Response::deny();
+        return $user->can('view-any:article-report')
+            ? Response::allow()
+            : Response::deny(message: 'U hebt geen machtiging om meldingen te bekijken.');
     }
 
     /**
@@ -69,11 +67,9 @@ final class ArticleReportPolicy
      */
     public function view(User $user, ArticleReport $articleReport): Response
     {
-        if ($user->can('view:article-report')) {
-            return Response::allow();
-        }
-
-        return Response::deny();
+        return $user->can('view:article-report')
+            ? Response::allow()
+            : Response::deny(message: 'U hebt geen machteging om een specifieke melding te bekijken.');
     }
 
     /**
@@ -82,6 +78,8 @@ final class ArticleReportPolicy
      * This action is permitted only if the article report has an assignee and the assignee is the currently authenticated user.
      * This ensures that only the assigned user can close the report, maintaining accountability.
      *
+     * @todo Simplify this method to improve readability
+     *
      * @param  User $user                    The user attempting to mark the report as "Closed."
      * @param  ArticleReport $articleReport  The article report being updated.
      * @return Response                      Returns `true` if the report can be marked as "Closed," otherwise `false`.
@@ -89,7 +87,7 @@ final class ArticleReportPolicy
     public function markAsClosed(User $user, ArticleReport $articleReport): Response
     {
         if ($user->cannot('mark-as-closed:article-report')) {
-            return Response::deny();
+            return Response::deny(message: 'Je kunt geen melding markeren als behandeld als deze al reeds behandeld is.');
         }
 
         if ($articleReport->assignee()->exists() && $articleReport->assignee()->is($user) && $articleReport->state->in(enums: [Status::InProgress])) {
@@ -100,7 +98,7 @@ final class ArticleReportPolicy
             return Response::allow();
         }
 
-        return Response::deny();
+        return Response::deny(message: 'U hebt geen machtiging om een melding te markeren als gesloten.');
     }
 
     /**
@@ -114,13 +112,15 @@ final class ArticleReportPolicy
      */
     public function delete(User $user): Response
     {
-        if ($user->can('delete:article-report')) {
-            return Response::allow();
-        }
-
-        return Response::deny();
+        return $user->can('delete:article-report')
+            ? Response::allow()
+            : Response::deny(message: 'U hebt geen machtiging om een melding te verwijderen.');
     }
 
+    /**
+     * @todo Write docblock
+     * @todo Simplify this method to improve readability for this function.
+     */
     public function update(User $user, ArticleReport $articleReport): Response
     {
         if ($articleReport->state->is(Status::Closed)) {
@@ -149,10 +149,8 @@ final class ArticleReportPolicy
      */
     public function deleteAny(User $user): Response
     {
-        if ($user->can('delete-any:article-report')) {
-            return Response::allow();
-        }
-
-        return Response::deny();
+        return $user->can('delete-any:article-report')
+            ? Response::allow()
+            : Response::deny(message: 'U bent niet gemachtiging om meerdere meldingen te verwijderen.');
     }
 }

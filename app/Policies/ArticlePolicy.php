@@ -79,22 +79,24 @@ final class ArticlePolicy
         return Response::denyAsNotFound();
     }
 
+    /**
+     * @todo Docblock?
+     */
     public function rejectSuggestion(User $user, Article $article): Response
     {
-        if ($user->can('reject:article') && $article->isAwaitingModeration()) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: __('U hebt geen machtiging om de suggestie van de gebruiker af te wijzen.'));
+        return ($user->can('reject:article') && $article->isAwaitingModeration())
+            ? Response::allow()
+            : Response::deny(message: __('U hebt geen machtiging om de suggestie van de gebruiker af te wijzen.'));
     }
 
+    /**
+     * @todo Docblock?
+     */
     public function viewSuggestion(User $user, Article $article): Response
     {
-        if ($article->author->is($user)) {
-            return Response::allow();
-        }
-
-        return Response::denyAsNotFound();
+        return $article->author->is($user)
+            ? Response::allow()
+            : Response::denyAsNotFound();
     }
 
     /**
@@ -110,20 +112,20 @@ final class ArticlePolicy
     public function update(User $user, Article $article): Response
     {
         if ($article->trashed()) {
-            return Response::deny("Kan geen verwijderd artikel bewerken");
+            return Response::deny(message: "Kan geen verwijderd artikel bewerken");
         }
 
         if ($article->isPublished()) {
             return $user->can("update-published:article")
                 ? Response::allow()
-                : Response::deny("Geen toestemming voor gepubliceerde artikelen.");
+                : Response::deny(message: "Geen toestemming voor gepubliceerde artikelen.");
         }
 
         if ($article->isEditable() && $user->can("update:article")) {
             return Response::allow();
         }
 
-        return Response::deny("Bewerken is momenteel niet toegestaan.");
+        return Response::deny(message: "Bewerken is momenteel niet toegestaan.");
     }
 
     /**
@@ -139,10 +141,10 @@ final class ArticlePolicy
     public function sendForApproval(User $user, Article $article): Response
     {
         if ($article->state->notIn(enums: [ArticleStates::Draft, ArticleStates::RejectedPublication])) {
-            return Response::deny(); //! TODO implement custom deny message
+            return Response::deny(message: 'Het artikel voldoet niet aan de benodigde criteria om het in te zenden ter controle');
         }
 
-        return $user->can("send-for-approval:article") || $article->editor()->is($user)
+        return ($user->can("send-for-approval:article") || $article->editor()->is($user))
             ? Response::allow()
             : Response::deny(message: "Je hebt geen permissie om dit artikel in te zenden voor nazicht en publicatie");
     }
@@ -192,18 +194,18 @@ final class ArticlePolicy
     public function publish(User $user, Article $article): Response
     {
         if ($article->state->isNot(enum: ArticleStates::Approval)) {
-            return Response::deny();
+            return Response::deny(message: 'Het artikel is niet ingediend ter controler.');
         }
 
         if ($user->cannot("publish:article")) {
-            return Response::deny();
+            return Response::deny(message: 'U hebt geen machtiging om het artikel te publiceren.');
         }
 
         if ($article->editor()->exists() && $article->editor()->isNot($user)) {
             return Response::allow();
         }
 
-        return Response::deny();
+        return Response::deny(message: 'U hebt geen machtiging om het artikel te publiceren.');
     }
 
     /**
@@ -218,11 +220,9 @@ final class ArticlePolicy
      */
     public function unpublish(User $user, Article $article): Response
     {
-        if ($article->isPublished() && $user->can("unpublish:article")) {
-            return Response::allow();
-        }
-
-        return Response::deny();
+        return ($article->isPublished() && $user->can("unpublish:article"))
+            ? Response::allow()
+            : Response::deny(message: 'U hebt geen machtiging om een artikel offline te halen.');
     }
 
     /**
@@ -245,9 +245,7 @@ final class ArticlePolicy
     public function detachEditor(User $user, Article $article): Response
     {
         if ($article->state->isNot(enum: ArticleStates::Draft)) {
-            return Response::deny(
-                message: "Het is niet mogelijk oim de redacteur los te koppelen van het artikelen buiten de klad versie status.",
-            );
+            return Response::deny( message: "Het is niet mogelijk oim de redacteur los te koppelen van het artikelen buiten de klad versie status.");
         }
 
         if ($article->editor()->is($user)) {
@@ -258,7 +256,7 @@ final class ArticlePolicy
             return Response::allow();
         }
 
-        return Response::deny();
+        return Response::deny(message: 'U hebt geen machtiging om een redacteur los te koppelen van een artikel.');
     }
 
     /**
@@ -273,11 +271,9 @@ final class ArticlePolicy
      */
     public function attachDisclaimer(User $user, Article $article): Response
     {
-        if ($user->can("attach-disclaimer:article") && $article->disclaimer()->doesntExist()) {
-            return Response::allow();
-        }
-
-        return Response::deny();
+        return ($user->can("attach-disclaimer:article") && $article->disclaimer()->doesntExist())
+            ? Response::allow()
+            : Response::deny(message: 'U hebt geen machtiging om een disclaimer te koppelen aan een artikel.');
     }
 
     /**
@@ -292,11 +288,9 @@ final class ArticlePolicy
      */
     public function detachDisclaimer(User $user, Article $article): Response
     {
-        if ($user->can("detach-disclaimer:article") && $article->disclaimer()->exists()) {
-            return Response::allow();
-        }
-
-        return Response::deny();
+        return ($user->can("detach-disclaimer:article") && $article->disclaimer()->exists())
+            ? Response::allow()
+            : Response::deny(message: 'U hebt geen machtiging om een disclaimer los te koppelen van een artikel.');
     }
 
     /**
@@ -315,11 +309,9 @@ final class ArticlePolicy
             return Response::deny(message: "U kunt geen verwijderde artikelen archiveren in het systeem.");
         }
 
-        if ($article->state->in(enums: [ArticleStates::Published, ArticleStates::Approval]) && $user->can("archive:article")) {
-            return Response::allow();
-        }
-
-        return Response::deny();
+        return ($article->state->in(enums: [ArticleStates::Published, ArticleStates::Approval]) && $user->can("archive:article"))
+            ? Response::allow()
+            : Response::deny(message: 'U hebt geen machtiging om een artikel te archiveren.');
     }
 
     /**
@@ -334,11 +326,9 @@ final class ArticlePolicy
      */
     public function unarchive(User $user, Article $article): Response
     {
-        if ($article->state->is(ArticleStates::Archived) && $user->can("unarchive:article")) {
-            return Response::allow();
-        }
-
-        return Response::deny();
+        return ($article->state->is(ArticleStates::Archived) && $user->can("unarchive:article"))
+            ? Response::allow()
+            : Response::deny(message: 'U hebt geen machtiging om een artikel uit het archief te halen.');
     }
 
     /**
@@ -389,11 +379,9 @@ final class ArticlePolicy
      */
     public function restore(User $user): Response
     {
-        if ($user->can("restore:article")) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: "Je hebt geen permissie om verwijderde artikelen te herstellen.");
+        return $user->can("restore:article")
+            ? Response::allow()
+            : Response::deny(message: "Je hebt geen permissie om verwijderde artikelen te herstellen.");
     }
 
     /**
@@ -407,11 +395,9 @@ final class ArticlePolicy
      */
     public function restoreAny(User $user): Response
     {
-        if ($user->can("restore-any:article")) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: "Je hebt geen permissie om verwijderde artikelen te herstellen.");
+        return $user->can("restore-any:article")
+            ? Response::allow()
+            : Response::deny(message: "Je hebt geen permissie om verwijderde artikelen te herstellen.");
     }
 
     /**
@@ -426,11 +412,9 @@ final class ArticlePolicy
      */
     public function deleteAny(User $user): Response
     {
-        if ($user->can("delete-any:article")) {
-            return Response::allow();
-        }
-
-        return Response::deny(message: "Je hebt geen permissie om meerdere artikelen te verwijderen.");
+        return $user->can("delete-any:article")
+            ? Response::allow()
+            : Response::deny(message: "Je hebt geen permissie om meerdere artikelen te verwijderen.");
     }
 
     /**

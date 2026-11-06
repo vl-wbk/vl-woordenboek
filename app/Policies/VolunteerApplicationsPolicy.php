@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
+use App\Attributes\Todo;
 use App\Enums\Volunteers\ApplicationState;
 use App\Models\User;
 use App\Models\VolunteerApplications;
 use Illuminate\Auth\Access\Response;
 
+#[Todo(message: 'provide docblocks for this policy method.')]
 final class VolunteerApplicationsPolicy
 {
     public const Approve = 'approve';

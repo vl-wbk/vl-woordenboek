@@ -129,11 +129,9 @@ final class BlogPolicy
      */
     public function publish(User $user, Blog $blog): Response
     {
-        if ($blog->status->isPublished()) {
-            return Response::denyAsNotFound();
-        }
-
-        return Response::allow();
+        return $blog->status->isPublished()
+            ? Response::denyAsNotFound()
+            : Response::allow();
     }
 
     /**
@@ -149,11 +147,9 @@ final class BlogPolicy
      */
     public function undoPublication(User $user, Blog $blog): Response
     {
-        if ($user->can('undo-publication:blog') && $blog->status->isPublished()) {
-            return Response::allow();
-        }
-
-        return Response::denyAsNotFound(message: 'U hebt geen toestemming om een publicatie ongedaan te maken');
+        return ($user->can('undo-publication:blog') && $blog->status->isPublished())
+            ? Response::allow()
+            : Response::denyAsNotFound();
     }
 
     /**
@@ -192,19 +188,15 @@ final class BlogPolicy
 
     public function activateComments(User $user, Blog $blog): Response
     {
-        if (($blog->hasCommentsDisabled() && $blog->isPublished()) && $user->can('enable-comments:blog')) {
-            return Response::allow();
-        }
-
-        return Response::deny();
+        return (($blog->hasCommentsDisabled() && $blog->isPublished()) && $user->can('enable-comments:blog'))
+            ? Response::allow()
+            : Response::deny(message: 'U hebt geen machtiging om reacties onder een nieuwsbericht in te schakelen');
     }
 
     public function deactivateComments(User $user, Blog $blog): Response
     {
-        if (($blog->hasCommentsEnabled() && $blog->isPublished()) && $user->can('disable-comments:blog')) {
-            return Response::allow();
-        }
-
-        return Response::deny();
+        return (($blog->hasCommentsEnabled() && $blog->isPublished()) && $user->can('disable-comments:blog'))
+            ? Response::allow()
+            : Response::deny(message: 'U hebt geen machtiging om reacties onder een nieuwsbericht uit te schakelen.');
     }
 }
