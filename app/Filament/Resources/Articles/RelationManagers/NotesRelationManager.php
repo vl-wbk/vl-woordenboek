@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Articles\RelationManagers;
 
 use App\Attributes\Todo;
+use App\Concerns\InteractsWithAuthenticatedUser;
 use App\Enums\Notes\Visibility;
 use App\Filament\Resources\Articles\Pages\ViewWord;
 use App\Models\Note;
@@ -41,6 +42,8 @@ use Illuminate\Support\Facades\Auth;
  */
 final class NotesRelationManager extends RelationManager
 {
+    use InteractsWithAuthenticatedUser;
+
     /**
      * Defines the relationship name that corresponds to the notes() method in the Article model.
      * This connection is essential for maintaining the link between articles and their notes.
@@ -89,7 +92,7 @@ final class NotesRelationManager extends RelationManager
                     ->label('Zichtbaarheid')
                     ->columnSpan(4)
                     ->native(false)
-                    ->hidden(fn (): bool => auth()->user()->user_type->is(UserTypes::Editor))
+                    ->hidden(fn (): bool => $this->authenticatedUser()->user_type->is(UserTypes::Editor))
                     ->options(Visibility::class)
                     ->default(Visibility::EditorInChief),
 
@@ -189,8 +192,7 @@ final class NotesRelationManager extends RelationManager
      */
     public function applyCustomQueryScopes(Builder $builder): Builder
     {
-        /** @var User $authUser */
-        $authUser = auth()->user();
+        $authUser = $this->authenticatedUser();
 
         return $builder
             ->when($authUser->user_type->is(UserTypes::Editor), fn (Builder $query) => $query->whereIn('visibility', [Visibility::Public, Visibility::Editors]))
@@ -211,7 +213,7 @@ final class NotesRelationManager extends RelationManager
     {
         return [
             Tables\Filters\SelectFilter::make('visibility')
-                ->hidden(fn (): bool => auth()->user()->user_type->is(UserTypes::Editor))
+                ->hidden(fn (): bool => $this->authenticatedUser()->user_type->is(UserTypes::Editor))
                 ->options(Visibility::class),
         ];
     }
@@ -295,7 +297,7 @@ final class NotesRelationManager extends RelationManager
 
             TextColumn::make('visibility')
                 ->label('Zichtbaarheid')
-                ->hidden(fn (): bool => auth()->user()->user_type->is(UserTypes::Editor))
+                ->hidden(fn (): bool => $this->authenticatedUser()->user_type->is(UserTypes::Editor))
                 ->badge(),
 
             TextColumn::make('title')
