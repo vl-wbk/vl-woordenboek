@@ -44,7 +44,7 @@ final class RegionTableSeeder extends Seeder
     {
         $datafile = database_path('data/regions.json');
 
-        /** @var array<int, object{id: int, name: string}> $regions */
+        /** @var list<array{id: int, name: string}> $regions */
         $regions = json_decode(File::get($datafile), false, 512, JSON_THROW_ON_ERROR);
 
         foreach ($regions as $value) {

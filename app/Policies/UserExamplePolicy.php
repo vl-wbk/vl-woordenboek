@@ -7,6 +7,7 @@ namespace App\Policies;
 use App\Models\{User, UserExample};
 use App\UserTypes;
 use Illuminate\Auth\Access\Response;
+use Laravel\Pennant\Feature;
 
 /**
  * Class UserExamplePolicy
@@ -51,6 +52,15 @@ final readonly class UserExamplePolicy
         return $user->user_type->in(enums: [UserTypes::Developer, UserTypes::Administrators, UserTypes::EditorInChief])
             ? Response::allow()
             : Response::deny(message: "U heeft geen toestemming om gebruikersvoorbeelden te verwijderen.");
+    }
+
+    public function create(User $user): Response
+    {
+        if (Feature::for($user)->active('article-reports')) {
+            // Allowed
+        }
+
+        // Denies
     }
 
     /**

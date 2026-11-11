@@ -6,7 +6,7 @@ namespace App\Filament\Resources\Users\Schema;
 
 use Deldius\UserField\UserColumn;
 use Filament\Actions\{EditAction, ViewAction, ActionGroup};
-use App\Filament\Resources\Users\Actions\{BanAction, UnbanAction};
+use App\Filament\Resources\Users\Actions\{BanAction, RestrictFeatureAction, RestrictFeatureBulkAction, UnbanAction};
 use Filament\Actions\{DeleteAction, BulkActionGroup, DeleteBulkAction};
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
@@ -49,6 +49,7 @@ final readonly class UserTable
     {
         return [
             BulkActionGroup::make([
+                RestrictFeatureBulkAction::make(),
                 DeleteBulkAction::make(),
             ]),
         ];
@@ -66,6 +67,7 @@ final readonly class UserTable
                 EditAction::make(),
 
                 // Custom actions for activating/deactivating user accounts in the application platform.
+                RestrictFeatureAction::make(),
                 BanAction::make()->visible(fn(User $user): bool => Gate::allows('deactivate', $user)),
                 UnbanAction::make()->authorize(fn(User $user): bool => Gate::allows('reactivate', $user)),
 

@@ -56,7 +56,6 @@ final readonly class RegionAnalytics
     private function getArticleAnalytics(Region $region): array
     {
         return ['statistic' => toHumanReadableNumber(
-            /** @phpstan-ignore-next-line */
             $region->articles()->published()->count()
         )];
     }
@@ -86,8 +85,6 @@ final readonly class RegionAnalytics
     {
         $totalUniqueAuthors = User::whereHas('suggestions', function ($suggestionQuery) use ($region): void {
             $suggestionQuery->whereNotNull('published_at');
-
-            /** @phpstan-ignore-next-line */
             $suggestionQuery->whereHas('regions', function ($regionQuery) use ($region): void {
                 $regionQuery->where('regions.id', $region->id);
             });
@@ -105,10 +102,8 @@ final readonly class RegionAnalytics
      */
     private function getReportAnalytics(Region $region): array
     {
-        /** @phpstan-ignore-next-line */
         $totalAttachedReports = ArticleReport::whereHas('article', function (ArticleBuilder $articleQuery) use ($region): void {
             $articleQuery->whereNotNull('published_at');
-
             $articleQuery->whereHas('regions', function (Builder $regionQuery) use ($region): void {
                 $regionQuery->where('regions.id', $region->id);
             });

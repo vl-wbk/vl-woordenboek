@@ -42,6 +42,7 @@ enum ArticleStates: int implements HasLabel, HasIcon, HasColor, HasDescription
     case ExternalData = 5;          // The article contains information imported from an external source or database integration.
     case RejectedPublication = 6;   // The article was submitted for review but was denied and is not scheduled for publication.
     case RejectedSuggestion = 7;
+    case CommunityPublication = 8; 
 
     /**
      * Returns the human-readable Dutch label for each state.
@@ -60,6 +61,7 @@ enum ArticleStates: int implements HasLabel, HasIcon, HasColor, HasDescription
             self::ExternalData => 'Externe data',
             self::RejectedPublication => 'Afgewezen publicatie',
             self::RejectedSuggestion => 'Afgewezen suggestie',
+            self::CommunityPublication => 'Community publicatie',
         };
     }
 
@@ -72,7 +74,8 @@ enum ArticleStates: int implements HasLabel, HasIcon, HasColor, HasDescription
             self::Published => __('Artikelen die reeds zijn gepubliceerd in het Vlaams Woordenboek'),
             self::Archived => __('Artikelen die niet meer relevant zijn en daarom gearchiveerd zijn'),
             self::RejectedPublication => __('Artikelen die zijn afgewezen wegens het niet voldoen aan de redactionele richtlijnen.'),
-            self::RejectedSuggestion => __('Suggesties voor artikelen die zijn afgewezen door het redactie team.')
+            self::RejectedSuggestion => __('Suggesties voor artikelen die zijn afgewezen door het redactie team.'), 
+            self::CommunityPublication => __('Woordenboek artikelen die zonder redactionele controle door de community zijn gepubliceerd'),
         };
     }
 
@@ -88,7 +91,7 @@ enum ArticleStates: int implements HasLabel, HasIcon, HasColor, HasDescription
             self::New, self::ExternalData => 'gray',
             self::Draft => 'warning',
             self::Approval => 'primary',
-            self::Published => 'success',
+            self::Published, self::CommunityPublication => 'success',
             self::Archived , self::RejectedPublication, self::RejectedSuggestion => 'danger',
         };
     }

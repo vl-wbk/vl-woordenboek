@@ -92,8 +92,6 @@ final readonly class LabelAnalytics
         // Count unique users who have published articles (suggestions) associated with this label
         $totalUniqueAuthors = User::whereHas('suggestions', function ($suggestionQuery) use ($label): void {
             $suggestionQuery->whereNotNull('published_at');
-
-            /** @phpstan-ignore-next-line */
             $suggestionQuery->whereHas('labels', function ($labelQuery) use ($label): void {
                 $labelQuery->where('labels.id', $label->id);
             });
@@ -115,7 +113,6 @@ final readonly class LabelAnalytics
     {
         /** Count article reports where the associated article is published and linked to this label */
         $totalAttachedReports = ArticleReport::whereHas('article', function (Builder $articleQuery) use ($label): void {
-            // @phpstan-ignore-next-line
             $articleQuery->published();
 
             $articleQuery->whereHas('labels', function ($labelQuery) use ($label): void {
