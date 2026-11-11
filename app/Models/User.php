@@ -186,6 +186,19 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
         return $this->hasMany(VolunteerApplications::class);
     }
 
+    public function isBannedFrom(string $feature): bool
+    {
+        return $this->featureBans()
+            ->where('feature', $feature)
+            ->where(fn ($q) => $q->whereNull('expires_at')->orWhere('expires_at', '>', now()))
+            ->exists();
+    }
+
+    public function featureBans()
+    {
+        return $this->hasMany(FeatureBan::class);
+    }
+    
     /**
      * Returns all article reports submitted by this user.
      *

@@ -75,6 +75,11 @@ final class ArticleReportPolicy
 
         return Response::deny();
     }
+    
+    public function create(User $user): Response
+    {
+        
+    }
 
     /**
      * Determines whether the user can mark an article report as "Closed."

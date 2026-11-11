@@ -69,9 +69,10 @@ return [
      */
     'features' => [
         'bannable' => [
-            'new-reports' => 'Reports',
-            'chat'        => 'Chat',
-            'uploads'     => 'File uploads',
+            'community-examples' => 'Voorbeeldzinnen',          // TODO: Implementation
+            'community-articles' => 'Community artikelen',      // TODO: Implementation
+            'corrections' => 'Correcties',                      // TODO: Implementation
+            'article-reports' => 'Artikel rapporteringen',      // TODO: Implementation
         ],
     ],
 
