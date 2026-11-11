@@ -61,6 +61,20 @@ return [
         ],
     ],
 
+    /**
+     * features that can be banned per suer from Filament. 
+     * key => label shown in the admin panel.
+     * Every key is registered in Pennant by App\Providers\FeatureServiceProvider.
+     * Use the same key in middleware, Blade (@feature) and Feature::active().
+     */
+    'features' => [
+        'bannable' => [
+            'new-reports' => 'Reports',
+            'chat'        => 'Chat',
+            'uploads'     => 'File uploads',
+        ],
+    ],
+
     'environments' => [
         'staging' => [
             'repository' => env('GITHUB_REPOSITORY'),
