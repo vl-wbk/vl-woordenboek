@@ -8,6 +8,7 @@ use App\Models\ArticleReport;
 use App\Models\User;
 use App\States\Reporting\Status;
 use Illuminate\Auth\Access\Response;
+use Laravel\Pennant\Feature;
 
 /**
  * The ArticleReportPolicy class defines the authorization rules for managing article reports.
@@ -74,11 +75,6 @@ final class ArticleReportPolicy
         }
 
         return Response::deny();
-    }
-    
-    public function create(User $user): Response
-    {
-        
     }
 
     /**
