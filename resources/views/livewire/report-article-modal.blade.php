@@ -1,5 +1,5 @@
 {{-- report modal --}}
-<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel"  data-bs-keyboard="false" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <form action="{{ route('article-report.create', $article) }}" method="POST">
@@ -7,7 +7,7 @@
 
                 <div class="modal-header bg-secondary-subtle border-bottom-0">
                     <div>
-                        <h1 class="modal-title color-green fs-5" id="exampleModalLabel">
+                        <h1 class="modal-title color-green fs-5" id="reportModalLabel">
                             <x-tabler-message-report class="icon-heading me-1"/> {{ __('components/article-report.heading') }}
                         </h1>
 

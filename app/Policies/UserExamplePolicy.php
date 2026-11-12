@@ -56,11 +56,15 @@ final readonly class UserExamplePolicy
 
     public function create(User $user): Response
     {
-        if (Feature::for($user)->active('article-reports')) {
-            // Allowed
+        if (Feature::for($user)->inactive('community-examples')) {
+            return Response::deny(message: __('U hebt (tijdelijk) geen machtiging om gebruikersvoorbeelden toe te voegen.'));
         }
 
-        // Denies
+        if (! $user->hasVerifiedEmail()) {
+            return Response::deny('Verifieer je email adres om community voorbeeldzinnen toe te voegen');
+        }
+
+        return Response::allow();
     }
 
     /**

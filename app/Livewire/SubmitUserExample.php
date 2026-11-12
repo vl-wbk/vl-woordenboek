@@ -66,7 +66,7 @@ final class SubmitUserExample extends Component
     public function render(): Renderable
     {
         return view('livewire.submit-user-example', data: [
-            //
+            'canSubmit' => Gate::inspect('create', UserExample::class),
         ]);
     }
 }

@@ -438,7 +438,7 @@
 
                                             <hr class="my-3"/>
 
-                                            <div class="bg-light p-2">
+                                            <div class="p-2">
                                                 <livewire:submit-user-example :articleId="$word->id"/>
                                             </div>
 

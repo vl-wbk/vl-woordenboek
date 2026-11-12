@@ -69,7 +69,7 @@ return [
      */
     'features' => [
         'bannable' => [
-            'community-examples' => 'Voorbeeldzinnen',          // TODO: Implementation
+            'community-examples' => 'Voorbeeldzinnen',
             'community-articles' => 'Community artikelen',      // TODO: Implementation
             'corrections' => 'Correcties',                      // TODO: Implementation
             'article-reports' => 'Artikel rapporteringen',      // TODO: Implementation
