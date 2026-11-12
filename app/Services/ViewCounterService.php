@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Jobs\SyncViewCount;
+use Exception;
 use Illuminate\Support\Facades\Redis;
 
 final readonly class ViewCounterService
@@ -15,14 +16,16 @@ final readonly class ViewCounterService
         $cacheKey = "{$modelName}:views:{$model->id}";
         $lockKey = "{$modelName}:sync:lock:{$model->id}";
 
-        Redis::incr($cacheKey);
+        try  {
+            Redis::incr($cacheKey);
 
-        if (! Redis::get($lockKey)) {
-            Redis::setex($lockKey, $delayInSeconds, true);
+            if (! Redis::get($lockKey)) {
+                Redis::setex($lockKey, $delayInSeconds, true);
 
-            SyncViewCount::dispatch(get_class($model), $model->id, $cacheKey, $lockKey)
-                ->delay(now()->addSeconds($delayInSeconds))
-                ->onQueue('metrics');
-        }
+                SyncViewCount::dispatch(get_class($model), $model->id, $cacheKey, $lockKey)
+                    ->delay(now()->addSeconds($delayInSeconds))
+                    ->onQueue('metrics');
+            }
+        } catch (Exception $exception) {}
     }
 }
