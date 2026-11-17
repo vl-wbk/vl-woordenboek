@@ -84,7 +84,6 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @package App\Models
  */
 #[Guarded(columns: 'id')]
-#[Hidden(['ip_address'])]
 #[UseEloquentBuilder(builderClass: ArticleBuilder::class)]
 #[ObservedBy(ArticleObserver::class)]
 final class Article extends Model implements AuditableContract, Commentable
@@ -143,6 +142,9 @@ final class Article extends Model implements AuditableContract, Commentable
         'migration_configuration' => '{"examples": true}',
     ];
 
+    /**
+     * @return BelongsTo<User, covariant $this>
+     */
     public function rejectedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'rejected_by');

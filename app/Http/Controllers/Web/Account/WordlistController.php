@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Web\Account;
 
 use App\Actions\Account\CreateWordlist;
 use App\Concerns\HandlesDatabaseTransactions;
+use App\Exceptions\DatabaseTransactionException;
 use App\Http\Requests\CreateWordlistRequest;
 use App\Models\Article;
 use App\Models\WordList;
@@ -13,6 +14,8 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\{Request, RedirectResponse};
 use Spatie\RouteAttributes\Attributes\{Get, Post, Middleware, Patch};
+use Spatie\LaravelData\Exceptions\InvalidDataClass;
+use Throwable;
 
 #[Middleware(middleware: ['auth', 'verified', 'forbid-banned-user'])]
 final class WordlistController
@@ -49,6 +52,13 @@ final class WordlistController
         ]);
     }
 
+    /**
+     * @todo Refactor the storage method into a seperate action class, so we can handle all the thrown exceptions in a clean way
+     *
+     * @throws InvalidDataClass When the data is malformed or not compatible with the data class.
+     * @throws Throwable
+     * @throws DatabaseTransactionException
+     */
     #[Post(uri: '/nieuwe-woordenlijst', name: 'word-lists:store')]
     public function store(CreateWordlistRequest $createWordlistRequest, CreateWordlist $createWordlist): RedirectResponse
     {
@@ -67,6 +77,9 @@ final class WordlistController
         ]);
     }
 
+    /**
+     * @throws Throwable When database transaction couldn't complete successfully.
+     */
     #[Patch(uri: '/woordenlijst/{wordlist}/aanpassen', name: 'word-lists:update', middleware: ['can:update,wordlist'])]
     public function update(CreateWordlistRequest $createWordlistRequest, WordList $wordlist): RedirectResponse
     {
@@ -75,6 +88,9 @@ final class WordlistController
         return to_route('word-lists:show', $wordlist);
     }
 
+    /**
+     * @throws Throwable When database transaction couldn't complete successfully.
+     */
     #[Get(uri: '/woordenlijst/{wordlist}/verwijderen', name: 'word-lists:delete', middleware: ['can:delete,wordlist'])]
     public function delete(WordList $wordlist): RedirectResponse
     {

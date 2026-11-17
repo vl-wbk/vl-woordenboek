@@ -6,6 +6,7 @@ namespace App\States\Articles;
 
 use App\Concerns\HandlesDatabaseTransactions;
 use App\Enums\ArticleStates;
+use App\Exceptions\DatabaseTransactionException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Override;
@@ -51,6 +52,9 @@ final class Suggestion extends ArticleState
     /**
      * @template TReturn
      * @return TReturn
+     *
+     * @throws DatabaseTransactionException
+     * @throws Throwable
      */
     public function transitionToRejectedSuggestion(array $feedback): bool
     {

@@ -234,7 +234,6 @@ final readonly class SearchWordQuery
 
         $columns = $this->buildMatchColumns($includeDescription);
 
-        /** @phpstan-ignore-next-line */
         $query->whereRaw("MATCH({$columns}) AGAINST(? IN BOOLEAN MODE)", [$expression]);
     }
 

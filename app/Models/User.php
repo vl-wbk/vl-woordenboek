@@ -11,7 +11,6 @@ use App\Models\Concerns\ManagesReputation;
 use App\Models\Concerns\ManagesUserGroups;
 use App\Models\Relations\Contactable;
 use App\Models\Relations\UsesPreferences;
-use App\Notifications\AccountDeletedNotification;
 use App\Notifications\RegistrationWelcomeNotification;
 use App\Observers\UserObserver;
 use App\UserTypes;
@@ -171,7 +170,9 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
         return $this->hasMany(Article::class, 'author_id');
     }
 
-
+    /**
+     * @return HasMany<CorrectionProposal, covariant $this>
+     */
     public function corrections(): HasMany
     {
         return $this->hasMany(CorrectionProposal::class, 'author_id');
@@ -185,6 +186,19 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
         return $this->hasMany(VolunteerApplications::class);
     }
 
+    public function isBannedFrom(string $feature): bool
+    {
+        return $this->featureBans()
+            ->where('feature', $feature)
+            ->where(fn ($q) => $q->whereNull('expires_at')->orWhere('expires_at', '>', now()))
+            ->exists();
+    }
+
+    public function featureBans()
+    {
+        return $this->hasMany(FeatureBan::class);
+    }
+    
     /**
      * Returns all article reports submitted by this user.
      *

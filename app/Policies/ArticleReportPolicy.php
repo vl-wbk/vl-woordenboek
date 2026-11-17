@@ -8,6 +8,7 @@ use App\Models\ArticleReport;
 use App\Models\User;
 use App\States\Reporting\Status;
 use Illuminate\Auth\Access\Response;
+use Laravel\Pennant\Feature;
 
 /**
  * The ArticleReportPolicy class defines the authorization rules for managing article reports.

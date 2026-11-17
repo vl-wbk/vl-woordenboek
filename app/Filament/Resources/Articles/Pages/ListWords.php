@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Articles\Pages;
 
+use App\Enums\ArticleStates;
 use App\Features\DocumentationButtons;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets\ArticleRegistrationChart;
 use App\Filament\Exports\ArticleExporter;
 use App\Filament\Resources\Articles\ArticleResource;
+use App\Models\Article;
 use App\Models\Etymology;
 use App\Models\Label;
 use App\Models\Note;
@@ -19,8 +21,11 @@ use Filament\Actions\CreateAction;
 use Filament\Actions\ExportAction;
 use Filament\Actions\Exports\Models\Export;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Laravel\Pennant\Feature;
 
 /**
@@ -63,6 +68,54 @@ final class ListWords extends ListRecords
     protected function getHeaderWidgets(): array
     {
         return [ArticleRegistrationChart::class];
+    }
+
+    public function getTabs(): array 
+    {
+        $tabs = [
+            'all' => Tab::make('all')
+                ->label('Alle artikelen')
+                ->icon(Heroicon::OutlinedBookOpen)
+                ->badge(function (): string {
+                    $number = Article::count();
+                    return toHumanReadableNumber($number);
+                }),
+
+            'editorial' => Tab::make('editorial-articles')
+                ->label('Redactionele artikelen')
+                ->icon(Heroicon::OutlinedShieldCheck)
+                ->modifyQueryUsing(fn (Builder $query): Builder => $query->whereNot('state', ArticleStates::CommunityPublication))
+                ->badge(function (): string {
+                    $number = Article::query()->whereNot('state', ArticleStates::CommunityPublication)->count();
+                    return toHumanReadableNumber($number);
+                }),
+
+            'community' => Tab::make('community-articles')
+                ->label('Community artikelen')
+                ->icon(Heroicon::OutlinedUsers)
+                ->modifyQueryUsing(fn (Builder $query): Builder => $query->where('state', ArticleStates::CommunityPublication))
+                ->badge(function (): string {
+                    $number = Article::query()->where('state', ArticleStates::CommunityPublication)->count();
+                    return toHumanReadableNumber($number);
+                }),
+        ];
+
+        return array_merge(parent::getTabs(), $tabs);
+    }
+
+    public function table(Table $table): Table
+    {
+        return parent::table($table)
+            ->heading(fn (): string => match ($this->activeTab) {
+                'editorial' => 'Redactionele artikelen',
+                'community' => 'Community artikelen',
+                default     => 'Alle artikelen',
+            })
+            ->description(fn (): ?string => match ($this->activeTab) {
+                'editorial' => 'Artikelen gepubliceerd door de redactie.',
+                'community' => 'Artikelen aangeleverd door de community zonder redactionele controle.',
+                default     => 'Een overzicht van alle beschikbare artikelen in het Vlaams Woordenboek',
+            });
     }
 
     protected function getHeaderActions(): array
