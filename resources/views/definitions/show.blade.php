@@ -734,13 +734,13 @@
                                             </a>
                                         @endif
                                     </li>
-                                @endauth
 
-                                <li class="@auth border-top pt-2 mt-2 pb-2 @endauth">
-                                    <a href="#" class="fw-semibold text-danger text-decoration-none small" data-bs-toggle="modal" data-bs-target="#reportModal" id="report-btn">
-                                        <x-tabler-message-report class="icon me-1"/> Tip de redactie
-                                    </a>
-                                </li>
+                                    <li class="@auth border-top pt-2 mt-2 pb-2 @endauth">
+                                        <a href="#" class="fw-semibold text-danger text-decoration-none small" data-bs-toggle="modal" data-bs-target="#reportModal" id="report-btn">
+                                            <x-tabler-message-report class="icon me-1"/> Tip de redactie
+                                        </a>
+                                    </li>
+                                @endauth
                             </ul>
                         </section>
                     </aside>
