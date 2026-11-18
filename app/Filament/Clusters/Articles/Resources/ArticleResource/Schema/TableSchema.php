@@ -37,7 +37,7 @@ final readonly class TableSchema
                     ->select(['articles.id', 'articles.author_id', 'articles.characteristics', 'articles.part_of_speech_id', 'articles.state', 'articles.word', 'articles.updated_at', 'articles.created_at'])
             )
             ->headerActions(self::configureHeaderActions())
-            ->deferLoading()
+            ->lazyLoaded()
             ->striped(false)
             ->heading(heading: __('Woordenboek artikelen'))
             ->description(description: __('Een overzicht van alle artikelen die geregistreerd staan In het Vlaams Woordenboek gebruik de filters om de woorden te verkrijgen per status.'))

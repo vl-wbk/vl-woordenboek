@@ -38,7 +38,7 @@ final readonly class TableSchema
      *
      * This is the primary entry point for configuring the table.
      * It sets up the table's overall layout, messaging, and delegates to helper methods for defining columns and actions.
-     * The `deferLoading` method is used to improve initial page load performance by fetching data only when the user interacts with the table.
+     * The `lazyLoaded` method is used to improve initial page load performance by fetching data only when the user interacts with the table.
      *
      * @param  Table $table The table instance to configure.
      * @return Table         The fully configured table instance.
@@ -56,7 +56,7 @@ final readonly class TableSchema
             ->recordActions(actions: self::configureTableRowActions())
             ->filters(filters: self::configureTableFilters())
             ->toolbarActions(self::configureTableBulkActions())
-            ->deferLoading();
+            ->lazyLoaded();
     }
 
     /**

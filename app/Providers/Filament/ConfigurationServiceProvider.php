@@ -19,7 +19,7 @@ final class ConfigurationServiceProvider extends ServiceProvider
         Table::configureUsing(function (Table $table): void {
             $table
                 ->striped()
-                ->deferLoading()
+                ->lazyLoaded()
                 ->persistFiltersInSession()
                 ->persistSortInSession()
                 ->persistSearchInSession();
