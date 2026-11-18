@@ -57,10 +57,10 @@ final readonly class UserExamplePolicy
     public function create(User $user): Response
     {
         if (Feature::for($user)->active('article-reports')) {
-            // Allowed
+            return Response::allow();
         }
 
-        // Denies
+        return Response::deny();
     }
 
     /**
