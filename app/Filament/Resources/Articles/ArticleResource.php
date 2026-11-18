@@ -16,6 +16,7 @@ use App\Filament\Resources\Articles\RelationManagers\LabelsRelationManager;
 use App\Filament\Resources\Articles\RelationManagers\NotesRelationManager;
 use App\Filament\Resources\Articles\RelationManagers\ReactionsRelationManager;
 use App\Filament\Resources\Articles\RelationManagers\RelatedRelationManager;
+use App\Filament\Resources\Articles\RelationManagers\VotesRelationManager;
 use App\Filament\Resources\Articles\Schema\ArticleForm;
 use App\Filament\Resources\Articles\Schema\WordInfolist;
 use App\Filament\Support\Concerns\HasActiveIcon;
@@ -109,6 +110,7 @@ final class ArticleResource extends Resource
             RelatedRelationManager::class,
             ReactionsRelationManager::class,
             CommunityExamplesRelationManager::class,
+            VotesRelationManager::class,
         ];
     }
 
