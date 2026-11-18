@@ -40,7 +40,7 @@ return [
             'member_limit' => 10,
             'decay_seconds' => 3600, // Throttled to a 1-hour window
         ],
-        
+
         'suggestions' => [
             'anonymous' => [
                 'max' => 5,
@@ -62,7 +62,7 @@ return [
     ],
 
     /**
-     * features that can be banned per suer from Filament. 
+     * features that can be banned per suer from Filament.
      * key => label shown in the admin panel.
      * Every key is registered in Pennant by App\Providers\FeatureServiceProvider.
      * Use the same key in middleware, Blade (@feature) and Feature::active().
@@ -81,5 +81,31 @@ return [
             'repository' => env('GITHUB_REPOSITORY'),
             'issues' => env('GITHUB_REPOSITORY') . '/issues/new/choose'
         ],
-    ]
+    ],
+
+
+    /**
+     * --------------------------------------------------------------------------
+     * Buy Me a Coffee
+     * --------------------------------------------------------------------------
+     *
+     * Settings for the "Steun het Vlaams Woordenboek" button that is shown in
+     * the voting card (resources/views/livewire/like-words.blade.php).
+     *
+     * enabled
+     *   Master switch. When false, the button is hidden everywhere,
+     *   regardless of the hyperlink.
+     *
+     * hyperlink
+     *   The full URL of your Buy Me a Coffee page, for example
+     *   "https://www.buymeacoffee.com/your-username". The button is only
+     *   rendered when this value is non-empty, so leave it empty (or null)
+     *   until you have a real page. Note that the placeholder "#" counts as
+     *   non-empty and would show a button that goes nowhere.
+     *
+     */
+    'buy-me-a-coffee' => [
+        'enabled' => env('BUY_ME_A_COFFEE_ENABLED', false),
+        'hyperlink' => env('BUY_ME_A_COFFEE_URL'),
+    ],
 ];

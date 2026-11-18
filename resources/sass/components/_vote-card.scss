@@ -1,0 +1,356 @@
+// _vote-card.scss
+
+// --- Variabelen -------------------------------------------------------------
+$vc-text:       #1f2933;
+$vc-text-soft:  #52606d;
+$vc-text-faint: #7b8794;
+$vc-surface:    #f5f7fa;
+$vc-track:      #e4e7eb;
+
+$vc-green:      #198754;
+$vc-green-bg:   #e3f6ec;
+$vc-green-text: #0b5a36;
+
+$vc-red:        #dc3545;
+$vc-red-bg:     #fdeaec;
+$vc-red-text:   #8f1d2a;
+
+$vc-amber:      #d97706;
+$vc-amber-bg:   #fef3c7;
+$vc-amber-text: #92400e;
+
+$vc-support-bg:       #fff3bf;
+$vc-support-bg-hover: #ffe680;
+$vc-support-text:     #5c4300;
+
+$vc-shadow-sm: 0 1px 2px rgba(16, 24, 40, .06);
+$vc-shadow:    0 1px 2px rgba(16, 24, 40, .06), 0 4px 12px rgba(16, 24, 40, .06);
+
+// --- Mixins -----------------------------------------------------------------
+@mixin vc-tone($bg, $fg) {
+    background: $bg;
+    color: $fg;
+}
+
+// --- Globaal ----------------------------------------------------------------
+[x-cloak] {
+    display: none !important;
+}
+
+// --- Component --------------------------------------------------------------
+.vote-card {
+    background: #fff;
+    border-radius: .75rem;
+    color: $vc-text;
+    box-shadow: $vc-shadow;
+
+    &__body {
+        padding: 1rem 1.25rem;
+    }
+
+    &__header {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: .5rem;
+    }
+
+    &__title {
+        font-size: 1rem;
+        font-weight: 600;
+        margin: 0;
+    }
+}
+
+.vote-flash {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    margin-top: .75rem;
+    padding: .375rem .625rem;
+    border-radius: .5rem;
+    @include vc-tone($vc-green-bg, $vc-green-text);
+    font-size: .8125rem;
+    line-height: 1.4;
+
+    .icon {
+        flex-shrink: 0;
+        width: 1rem;
+        height: 1rem;
+    }
+
+    span {
+        flex: 1;
+    }
+
+    &__close {
+        display: inline-flex;
+        padding: .125rem;
+        border: 0;
+        border-radius: .25rem;
+        background: none;
+        color: inherit;
+        opacity: .6;
+        transition: opacity .15s, background-color .15s;
+
+        &:hover {
+            opacity: 1;
+            background: rgba($vc-green, .12);
+        }
+
+        &:focus-visible {
+            outline: 1px solid currentColor;
+        }
+    }
+}
+
+.vote-dev-warning {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: .375rem;
+    padding: .375rem .75rem;
+    border-radius: .5rem;
+    @include vc-tone($vc-red-bg, $vc-red-text);
+    font-size: .8125rem;
+    line-height: 1.5;
+
+    code {
+        padding: .0625rem .25rem;
+        border-radius: .25rem;
+        background: rgba(#fff, .6);
+        color: inherit;
+        font-size: .75rem;
+        font-weight: 600;
+    }
+
+    &--info {
+        @include vc-tone($vc-surface, $vc-text-soft);
+    }
+}
+
+// Score ----------------------------------------------------------------------
+.vote-score {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .25rem .5rem;
+
+    &__value {
+        font-size: 1.25rem;
+        font-weight: 700;
+        letter-spacing: -.02em;
+    }
+
+    &__label {
+        font-size: .8125rem;
+        color: $vc-text-faint;
+    }
+
+    &__badge {
+        padding: .125rem .5rem;
+        border-radius: 50rem;
+        @include vc-tone($vc-track, $vc-text-soft);
+        font-size: .75rem;
+        font-weight: 600;
+        line-height: 1.5;
+        white-space: nowrap;
+    }
+
+    &--positive {
+        .vote-score__value { color: $vc-green; }
+        .vote-score__badge { @include vc-tone($vc-green-bg, $vc-green-text); }
+    }
+
+    &--mixed {
+        .vote-score__value { color: $vc-amber; }
+        .vote-score__badge { @include vc-tone($vc-amber-bg, $vc-amber-text); }
+    }
+
+    &--negative {
+        .vote-score__value { color: $vc-red; }
+        .vote-score__badge { @include vc-tone($vc-red-bg, $vc-red-text); }
+    }
+}
+
+// Balk -----------------------------------------------------------------------
+.vote-bar {
+    height: .25rem;
+    margin: .5rem 0 .75rem;
+    border-radius: 50rem;
+    background: $vc-red-bg;
+    overflow: hidden;
+
+    &--empty {
+        background: $vc-track;
+    }
+
+    &__fill {
+        height: 100%;
+        border-radius: 50rem;
+        background: $vc-green;
+        transition: width .6s ease;
+
+        &.vote-score--mixed {
+            background: $vc-amber;
+        }
+    }
+}
+
+// Rij met knoppen en secundaire acties ---------------------------------------
+.vote-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .5rem;
+}
+
+.vote-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .375rem;
+    padding: .375rem .875rem;
+    border: 0;
+    border-radius: .5rem;
+    @include vc-tone($vc-surface, $vc-text-soft);
+    font-size: .875rem;
+    font-weight: 600;
+    transition: background-color .15s, color .15s, box-shadow .15s;
+
+    .icon {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    &__count {
+        font-weight: 500;
+        opacity: .75;
+    }
+
+    &--up {
+        &:hover:not(:disabled) { @include vc-tone($vc-green-bg, $vc-green-text); }
+        &.is-active {
+            @include vc-tone($vc-green-bg, $vc-green-text);
+            box-shadow: inset 0 0 0 1px $vc-green;
+        }
+    }
+
+    &--down {
+        &:hover:not(:disabled) { @include vc-tone($vc-red-bg, $vc-red-text); }
+        &.is-active {
+            @include vc-tone($vc-red-bg, $vc-red-text);
+            box-shadow: inset 0 0 0 1px $vc-red;
+        }
+    }
+
+    &:disabled {
+        opacity: .55;
+        cursor: not-allowed;
+    }
+
+    &:focus-visible {
+        outline: 1px solid $vc-text;
+        outline-offset: 2px;
+    }
+}
+
+.vote-hint {
+    font-size: .8125rem;
+    color: $vc-text-soft;
+
+    a {
+        color: $vc-text;
+        font-weight: 600;
+    }
+}
+
+.vote-support {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    padding: .375rem .75rem;
+    border-radius: .5rem;
+    @include vc-tone($vc-support-bg, $vc-support-text);
+    font-size: .8125rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color .15s;
+
+    &:hover {
+        @include vc-tone($vc-support-bg-hover, $vc-support-text);
+    }
+}
+
+// Feedback -------------------------------------------------------------------
+.vote-feedback {
+    margin-top: .75rem;
+    padding: .875rem;
+    background: $vc-surface;
+    border-radius: .5rem;
+
+    &__label {
+        display: block;
+        font-size: .8125rem;
+        font-weight: 600;
+        margin-bottom: .375rem;
+    }
+
+    &__input {
+        width: 100%;
+        padding: .5rem .75rem;
+        border: 1px solid transparent;
+        border-radius: .375rem;
+        background: #fff;
+        font-size: .875rem;
+        box-shadow: $vc-shadow-sm;
+        resize: vertical;
+
+        &:focus {
+            outline: 0;
+            border-color: $vc-red;
+            box-shadow: 0 0 0 3px rgba($vc-red, .15);
+        }
+    }
+
+    &__error {
+        margin-top: .375rem;
+        font-size: .8125rem;
+        color: $vc-red;
+    }
+
+    &__actions {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: .75rem;
+        margin-top: .625rem;
+    }
+}
+
+.vote-submit {
+    padding: .375rem .875rem;
+    border: 0;
+    border-radius: .375rem;
+    background: $vc-text;
+    color: #fff;
+    font-size: .8125rem;
+    font-weight: 600;
+
+    &:hover {
+        background: #000;
+    }
+}
+
+.vote-link {
+    border: 0;
+    background: none;
+    padding: 0;
+    font-size: .8125rem;
+    color: $vc-text-soft;
+
+    &:hover {
+        color: $vc-text;
+        text-decoration: underline;
+    }
+}
