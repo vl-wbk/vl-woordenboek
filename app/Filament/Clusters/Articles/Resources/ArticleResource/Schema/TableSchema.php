@@ -34,6 +34,7 @@ final readonly class TableSchema
         return $table
             ->modifyQueryUsing(
                 fn (Builder $query) => $query->with(['author', 'partOfSpeech'])
+                    ->withCount(['upvoters', 'downvoters'])
                     ->select(['articles.id', 'articles.author_id', 'articles.characteristics', 'articles.part_of_speech_id', 'articles.state', 'articles.word', 'articles.updated_at', 'articles.created_at'])
             )
             ->headerActions(self::configureHeaderActions())
@@ -91,6 +92,31 @@ final readonly class TableSchema
                 ->color('primary')
                 ->label(label: __('Lemma'))
                 ->sortable(),
+
+            TextColumn::make('score')
+                ->label('Kwaliteitsscore')
+                ->state(fn (Article $record) => $record->score_percentage === null
+                      ? 'Geen stemmen'
+                     : $record->score_percentage . '% | ' . $record->upvotes_total . 'x nuttig · ' . $record->downvotes_total . 'x onnuttig'
+                )
+                ->badge()
+                ->color(fn (Article $record) => match (true) {
+                    $record->score_percentage === null => 'gray',
+                        $record->score_percentage >= 70 => 'success',
+                        $record->score_percentage >= 40 => 'warning',
+                        default => 'danger',
+                })
+                ->icon(fn (Article $record) => match (true) {
+                    $record->score_percentage === null => 'heroicon-m-minus-circle',
+                    $record->score_percentage >= 70 => 'heroicon-m-face-smile',
+                    $record->score_percentage >= 40 => 'heroicon-m-face-frown',
+                    default => 'heroicon-m-x-circle',
+                })
+                ->sortable(query: fn (Builder $query, string $direction) => $query
+                ->withCount(['upvoters', 'downvoters'])
+                ->orderByRaw('(upvoters_count + downvoters_count) = 0')
+                ->orderByRaw('(upvoters_count / NULLIF(upvoters_count + downvoters_count, 0)) ' . $direction))
+                ->toggleable(isToggledHiddenByDefault: true),
 
             TextColumn::make('state')
                 ->label('status')
@@ -201,9 +227,24 @@ final readonly class TableSchema
                 ->native(false)
                 ->visible(fn(): bool => auth()->user()->canAny('restore', Article::class)),
 
+            SelectFilter::make('score')
+                ->label('Score')
+                ->native(false)
+                ->options([
+                    'positive' => 'Positief (70% of meer)',
+                    'mixed'    => 'Wisselend (40–69%)',
+                    'negative' => 'Negatief (onder 40%)',
+                    'none'     => 'Geen stemmen',
+                ])
+                ->query(fn (Builder $query, array $data) => filled($data['value'] ?? null)
+                    ? $query->withScoreCategory($data['value'])
+                    : $query),
+
             Filter::make(name: __('assigned'))
                 ->label(label: __('Toegewezen aan mij'))
                 ->query(fn(Builder $query): Builder => $query->where('editor_id', auth()->id())),
+
+
         ];
     }
 }

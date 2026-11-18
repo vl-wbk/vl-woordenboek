@@ -185,6 +185,25 @@ final class Article extends Model implements AuditableContract, Commentable
             ->withTimestamps();
     }
 
+    public function getScorePercentageAttribute(): ?int
+    {
+        $up = $this->upvoters_count ?? $this->upvoters()->count();
+        $down = $this->downvoters_count ?? $this->downvoters()->count();
+        $total = $up + $down;
+
+        return $total > 0 ? (int) round($up / $total * 100) : null;
+    }
+
+    public function getUpvotesTotalAttribute(): int
+    {
+        return $this->upvoters_count ?? $this->upvoters()->count();
+    }
+
+    public function getDownvotesTotalAttribute(): int
+    {
+        return $this->downvoters_count ?? $this->downvoters()->count();
+    }
+
     /**
      * @return BelongsTo<User, covariant $this>
      */

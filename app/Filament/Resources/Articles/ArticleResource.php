@@ -10,6 +10,7 @@ use App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\Et
 use App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\ReportsRelationManager;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Schema\TableSchema;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets\ArticleRegistrationChart;
+use App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets\ArticleScoreChart;
 use App\Filament\Resources\Articles\RelationManagers\CommunityExamplesRelationManager;
 use App\Filament\Resources\Articles\RelationManagers\LabelsRelationManager;
 use App\Filament\Resources\Articles\RelationManagers\NotesRelationManager;
@@ -121,7 +122,10 @@ final class ArticleResource extends Resource
      */
     public static function getWidgets(): array
     {
-        return [ArticleRegistrationChart::class];
+        return [
+            ArticleRegistrationChart::class,
+            ArticleScoreChart::class
+        ];
     }
 
     /**

@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use JetBrains\PhpStorm\Deprecated;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
  * ArticleBuilder provides custom query and state management feature for articles.
@@ -174,5 +175,52 @@ final class ArticleBuilder extends Builder
     public function isPublished(): bool
     {
         return !$this->isHidden() && $this->model->published_at->isPast();
+    }
+
+    /**
+     * Scope the query by vote score category.
+     *
+     * @param string $category The score category ('none', 'positive', 'mixed', 'negative')
+     * @return self
+     */
+    public function withScoreCategory(string $category): self
+    {
+        // Correlated COUNT(*) per relation, keeping its own constraints
+        // (e.g. wherePivot('type', 'up')), the same way withCount() does.
+        $countFor = function (string $relation) {
+            $rel = Relation::noConstraints(fn () => $this->getModel()->{$relation}());
+
+            return $rel->getRelationExistenceCountQuery($rel->getRelated()->newQuery(), $this)
+                ->mergeConstraintsFrom($rel->getQuery());
+        };
+
+        $counts = [
+            'up'   => $countFor('upvoters'),
+            'down' => $countFor('downvoters'),
+        ];
+
+        // Original ROUND(up / total * 100) ranges, as integer math:
+        //   >= 70  <=>  pct >= 69.5  <=>  200 * up >= 139 * total
+        //   <  40  <=>  pct <  39.5  <=>  200 * up <  79 * total
+        $rule = match ($category) {
+            'none'     => '{total} = 0',
+            'positive' => '{total} > 0 AND 200 * {up} >= 139 * {total}',
+            'mixed'    => '{total} > 0 AND 200 * {up} >= 79 * {total} AND 200 * {up} < 139 * {total}',
+            'negative' => '{total} > 0 AND 200 * {up} < 79 * {total}',
+            default    => throw new \InvalidArgumentException("Unknown score category: {$category}"),
+        };
+
+        // Expand {total}, then swap each {up}/{down} for its subquery,
+        // collecting bindings in the order the placeholders appear.
+        $bindings = [];
+
+        $sql = preg_replace_callback('/\{(up|down)\}/', function (array $match) use ($counts, &$bindings): string {
+            $query = $counts[$match[1]];
+            array_push($bindings, ...$query->getBindings());
+
+            return '(' . $query->toSql() . ')';
+        },str_replace('{total}', '({up} + {down})', $rule));
+
+        return $this->whereRaw($sql, $bindings);
     }
 }
