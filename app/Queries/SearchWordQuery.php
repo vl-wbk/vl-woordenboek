@@ -256,6 +256,17 @@ final readonly class SearchWordQuery
             ->filter()
             ->values();
 
+        // Words shorter than the FT minimum are not in the index, so as a required
+        // term ('+en*') they block every match. Drop them, but only when at least
+        // one searchable word remains, so a lone short term ('ei') still works.
+        $searchable = $clean
+            ->filter(fn (string $token): bool => mb_strlen($token) >= self::MIN_TOKEN_LENGTH)
+            ->values();
+
+        if ($searchable->isNotEmpty()) {
+            $clean = $searchable;
+        }
+
         $last = $clean->count() - 1;
 
         return $clean
