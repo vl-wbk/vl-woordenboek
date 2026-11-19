@@ -38,6 +38,12 @@ final readonly class SearchWordQuery
     private const int RESULTS_PER_PAGE = 6;
 
     /**
+     * Minimum token length that the MySQL FT index actually contains.
+     * Keep in sync with innodb_ft_min_token_size (default 3).
+     */
+    private const int MIN_TOKEN_LENGTH = 3;
+
+    /**
      * Whitelisted MATCH() column lists keyed by search scope.
      *
      * Each value must exactly match a FULLTEXT index defined on the 'articles' table,
