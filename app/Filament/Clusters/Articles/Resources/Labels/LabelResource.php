@@ -179,7 +179,7 @@ final class LabelResource extends Resource
     {
         return $table
             ->striped()
-            ->deferLoading()
+            ->lazyLoaded()
             ->heading('Label overzicht')
             ->description('Overzicht van alle labels die gekoppeld kunnen worden aan artikelen in het Vlaams Woordenboek')
             ->emptyStateIcon(self::$navigationIcon)

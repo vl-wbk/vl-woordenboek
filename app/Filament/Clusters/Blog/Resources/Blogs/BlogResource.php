@@ -112,7 +112,7 @@ final class BlogResource extends Resource
     {
         return $table
             ->striped()
-            ->deferLoading()
+            ->lazyLoaded()
             ->modelLabel('Artikel')
             ->pluralModelLabel('Artikelen')
             ->heading('Overzicht artikelen')
