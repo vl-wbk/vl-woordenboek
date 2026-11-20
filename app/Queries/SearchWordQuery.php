@@ -38,6 +38,12 @@ final readonly class SearchWordQuery
     private const int RESULTS_PER_PAGE = 6;
 
     /**
+     * Minimum token length that the MySQL FT index actually contains.
+     * Keep in sync with innodb_ft_min_token_size (default 3).
+     */
+    private const int MIN_TOKEN_LENGTH = 3;
+
+    /**
      * Whitelisted MATCH() column lists keyed by search scope.
      *
      * Each value must exactly match a FULLTEXT index defined on the 'articles' table,
@@ -255,6 +261,17 @@ final readonly class SearchWordQuery
             ->flatMap(fn (string $token): array => explode(' ', $this->escapeFtToken($token)))
             ->filter()
             ->values();
+
+        // Words shorter than the FT minimum are not in the index, so as a required
+        // term ('+en*') they block every match. Drop them, but only when at least
+        // one searchable word remains, so a lone short term ('ei') still works.
+        $searchable = $clean
+            ->filter(fn (string $token): bool => mb_strlen($token) >= self::MIN_TOKEN_LENGTH)
+            ->values();
+
+        if ($searchable->isNotEmpty()) {
+            $clean = $searchable;
+        }
 
         $last = $clean->count() - 1;
 
