@@ -6,32 +6,37 @@ namespace App\Queries;
 
 use App\Enums\Articles\SearchPatterns;
 use App\Models\Article;
+use App\Models\Region;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Handles full-text and pattern-based article search queries
  *
- * Supports four search strategy strategirs depending on the 'zoekpatroon' request parameter:
+ * Supports four search strategies depending on the 'zoekpatroon' request parameter:
  *
  * - Full-text (default):   all-words match (any order) via MySQL MATCH/AGAINST, exact phrase ranked first
  * - Exact:                 strict lowercase equality on word/keywords/description
  * - Starts-with:           LIKE prefix pattern (e.g. 'term%')
  * - Ends-with:             LIKE suffix pattern (e.g. '%term')
  *
- * Results are always scoped to published articles. optionally extended with archived articles
- * when 'archief=true' is passed. Pagination is fixed at {@see self::RESULTS_PER_PAGE} items per page.
+ * Results are scoped to published articles, or to archived articles when 'archief=true'
+ * is passed. Results can be narrowed to one or more regions with '?filter[regio]=1,2'.
+ * Pagination is fixed at {@see self::RESULTS_PER_PAGE} items per page.
  *
  * @package App\Queries
  */
 final readonly class SearchWordQuery
 {
     /**
-     * Number of articles return per page.
+     * Number of articles returned per page.
      *
      * @var int
      */
@@ -48,7 +53,7 @@ final readonly class SearchWordQuery
      *
      * Each value must exactly match a FULLTEXT index defined on the 'articles' table,
      * as MySQL will throw an error if MATCH() references columns that don't form a valid index.
-     * The 'standard' scope searches word and keywords: the 'extended' scope additionally includes
+     * The 'standard' scope searches word and keywords; the 'extended' scope additionally includes
      * description and is activated when 'uitgebreid=true' is passed in the request.
      *
      * @var array<string, string>
@@ -76,24 +81,20 @@ final readonly class SearchWordQuery
      * Execute the article search query and return a paginated result set.
      *
      * Applies allowed sorts and filters via Spatie QueryBuilder, eager-loads the author,
-     * regions, and bookmarkers relations, then delegates visibility ans dearch logic to
+     * regions, and bookmarkers relations, then delegates visibility and search logic to
      * applyVisibilityFilters() and applySearchStrategy() respectively. The current query string
-     * is appended to the paginator so that page links preserved all active filters and search parameters.
+     * is appended to the paginator so that page links preserve all active filters and search parameters.
      *
-     * @param  Request $request The incoming      HTTP request carrying the given parameters?
-     * @return LengthAwarePaginator<int, Article> A paginated slice of matching Article models with the needed relations eager-loaded
+     * @param  Request $request The incoming HTTP request carrying the search parameters.
+     * @return LengthAwarePaginator<int, Article> A paginated slice of matching Article models with the needed relations eager-loaded.
      */
     public function execute(Request $request): LengthAwarePaginator
     {
-        $query = QueryBuilder::for(Article::class)
+        $query = $this->baseQuery($request)
             ->allowedSorts($this->getAllowedSorts())
-            ->allowedFilters($this->getAllowedFilters())
-            ->with(['author', 'regions', 'bookmarkers'])
-            ->where(fn (Builder $query) => $this->applyVisibilityFilters($query, $request))
-            ->where(fn (Builder $query) => $this->applySearchStrategy($query, $request))
-            ->orderByRaw('CASE WHEN LOWER(word) = ? THEN 0 ELSE 1 END', [$this->normalizeTerm($request)]); // +
+            ->with(['author', 'regions', 'bookmarkers']);
 
-        // Rank exact-phrase hits above looser all-words matches (full-text searches only).
+        $this->applyExactWordRanking($query, $request);
         $this->applyPhraseRanking($query, $request);
 
         return $query
@@ -103,14 +104,79 @@ final readonly class SearchWordQuery
     }
 
     /**
-     * Restrict results to published articles, optionally including archived ones.
+     * Filters, visibility and search, without sorting, eager loading or pagination.
+     */
+    private function baseQuery(Request $request): QueryBuilder
+    {
+        $query = QueryBuilder::for(Article::class, $request)
+            ->allowedFilters($this->getAllowedFilters())
+            ->where(fn (Builder $query) => $this->applyVisibilityFilters($query, $request))
+            ->where(fn (Builder $query) => $this->applySearchStrategy($query, $request));
+
+        $regionIds = $this->selectedRegionIds($request);
+
+        if ($regionIds !== []) {
+            $query->whereHas('regions', fn (Builder $q) => $q->whereKey($regionIds));
+        }
+
+        return $query;
+    }
+
+    public function availableRegions(Request $request): Collection
+    {
+        // Counts follow the search only: date filters, region filter and pagination are ignored,
+        // so the numbers stay stable while the user clicks through regions.
+        $facetRequest = $request->duplicate(
+            query: Arr::except($request->query(), ['filter', 'page', 'regio']),
+        );
+
+        $articleIds = $this->baseQuery($facetRequest)
+            ->select('articles.id')
+            ->toBase();
+
+        // region_id => number of matching articles
+        $counts = DB::table('article_region')
+            ->select('region_id', DB::raw('COUNT(DISTINCT article_id) AS total'))
+            ->whereIn('article_id', $articleIds)
+            ->groupBy('region_id')
+            ->pluck('total', 'region_id');
+
+        // A selected region always stays in the list, even with 0 results.
+        $regionIds = $counts->keys()
+            ->merge($this->selectedRegionIds($request))
+            ->unique()
+            ->values();
+
+        return Region::query()
+            ->whereIn('id', $regionIds)
+            ->orderBy('name')
+            ->get(['id', 'name'])
+            ->each(fn (Region $region) => $region->results_count = (int) ($counts[$region->id] ?? 0));
+    }
+
+    /**
+     * @return array<int, int>
+     */
+    private function selectedRegionIds(Request $request): array
+    {
+        return collect(explode(',', (string) $request->query('regio', '')))
+            ->map(fn (string $id): int => (int) $id)
+            ->filter(fn (int $id): bool => $id > 0)
+            ->unique()
+            ->sort()
+            ->values()
+            ->all();
+    }
+
+    /**
+     * Restrict results to published articles, or to archived articles when requested.
      *
-     * Only rows with a non-null 'published_at' are returned by default. when 'archief=true'
-     * is present in the request, rows- with a non-null 'archived_at' are unioned in via OR
-     * so that archived articles appear alongside published ones.
+     * By default only published articles are returned (the original ->published() behaviour).
+     * When 'archief=true' is present in the request, only rows with a non-null 'archived_at'
+     * are returned instead.
      *
      * @param  Builder<Article> $query   The base query to apply visibility constraints to.
-     * @param  Request          $request The incoming request, checked for the 'archief' boolean flag?
+     * @param  Request          $request The incoming request, checked for the 'archief' boolean flag.
      * @return void
      */
     private function applyVisibilityFilters(Builder $query, Request $request): void
@@ -118,35 +184,32 @@ final readonly class SearchWordQuery
         if ($request->boolean('archief')) {
             $query->whereNotNull('archived_at');
         } else {
-            // Enkel gepubliceerde artikelen (oorspronkelijk gedrag van ->published())
             /** @phpstan-ignore-next-line */
             $query->published();
         }
     }
 
     /**
-     * Route the request to the appropriate search strategy vased on 'zoekpatroon'.
+     * Route the request to the appropriate search strategy based on 'zoekpatroon'.
      *
      * Delegates to exact, starts-with, ends-with, or full-text search depending on the pattern value.
      * When the pattern is absent or unrecognised, full-text search is used as the default. Returns early
-     * without adding any WHERE clause when normalised term is empty, which has the effect of returning all
-     * otherwuse visible articles.
+     * without adding any WHERE clause when the normalised term is empty, which has the effect of returning
+     * all otherwise visible articles.
      *
      * @param  Builder<Article> $query   The query to apply the chosen strategy to.
-     * @param  Request          $request The incoming request carrying zoekterm and zoekpatroon
+     * @param  Request          $request The incoming request carrying zoekterm and zoekpatroon.
      * @return void
      */
     private function applySearchStrategy(Builder $query, Request $request): void
     {
-        $patternType        = $request->input('zoekpatroon');
-        $includeDescription = $request->boolean('uitgebreid');
-        $term = $this->normalizeTerm($request);
-
-        if ($term === '') {
+        if ($this->normalizeTerm($request) === '') {
             return;
         }
 
-        match ($patternType) {
+        $includeDescription = $request->boolean('uitgebreid');
+
+        match ($request->input('zoekpatroon')) {
             SearchPatterns::Exact->value      => $this->applyExactSearch($query, $request, $includeDescription),
             SearchPatterns::StartsWith->value => $this->applyBoundarySearch($query, $request, $includeDescription, leading: true),
             SearchPatterns::EndsWith->value   => $this->applyBoundarySearch($query, $request, $includeDescription, leading: false),
@@ -157,10 +220,9 @@ final readonly class SearchWordQuery
     /**
      * Apply a strict equality search across word, keywords, and optionally description.
      *
-     * Compares trhe normalized term against lowercased column values so the match is case-insensitive
-     * regardless of the column collation. Returns zero rows when the term is empty to avoid unintentionally
-     * matching all articles. SQL injection prevention is handled entirely by PDO parameter binding,
-     * independently of any escaping done elsewhere in this class.
+     * Compares the normalised term against lowercased column values so the match is case-insensitive
+     * regardless of the column collation. SQL injection prevention is handled entirely by PDO
+     * parameter binding.
      *
      * @param  Builder<Article> $query              The query to apply equality constraints to.
      * @param  Request          $request            The incoming request from which the search term is read.
@@ -179,7 +241,7 @@ final readonly class SearchWordQuery
         $query->where(fn (Builder $q) => $q
             ->whereRaw('LOWER(word) = ?', [$term])
             ->orWhereRaw('LOWER(keywords) = ?', [$term])
-            ->when($includeDescription, fn ($q) => $q->orWhereRaw('LOWER(description) = ?', [$term]))
+            ->when($includeDescription, fn (Builder $q) => $q->orWhereRaw('LOWER(description) = ?', [$term]))
         );
     }
 
@@ -187,20 +249,20 @@ final readonly class SearchWordQuery
      * Apply a LIKE-based boundary search across word, keywords, and optionally description.
      *
      * Full-text boolean mode only supports suffix wildcards ('token*'), making a true ends-with search
-     * inpossible via MATCH/AGAINST. LIKE is therefore used for both directions. The word and keywords
-     * are short enough that a column index keeps LIKE performant even without a leading wildcard. Pass 'leading: true'
-     * for a starts-with pattern ('term%') or 'leading: false' for an ends-with pattern ('%term').
+     * impossible via MATCH/AGAINST. LIKE is therefore used for both directions. LIKE wildcards inside
+     * the user's term ('%' and '_') are escaped so they are matched literally.
+     * Pass 'leading: true' for a starts-with pattern ('term%') or 'leading: false' for an
+     * ends-with pattern ('%term').
      *
-     * @param  Builder<Article> $query
-     * @param  Request          $request
-     * @param  bool             $includeDescription When
-     * @param  bool             $leading                true = starts-with, false = ends-with
+     * @param  Builder<Article> $query              The query to apply the LIKE constraints to.
+     * @param  Request          $request            The incoming request from which the search term is read.
+     * @param  bool             $includeDescription When true, the description column is included as an additional OR condition.
+     * @param  bool             $leading            True = starts-with, false = ends-with.
      * @return void
      */
     private function applyBoundarySearch(Builder $query, Request $request, bool $includeDescription, bool $leading): void
     {
-        // Gebruik de volledige genormaliseerde term
-        $term = $this->normalizeTerm($request);
+        $term = $this->escapeLike($this->normalizeTerm($request));
 
         if ($term === '') {
             $query->whereRaw('0 = 1');
@@ -212,7 +274,7 @@ final readonly class SearchWordQuery
         $query->where(fn (Builder $q) => $q
             ->where('word', 'LIKE', $pattern)
             ->orWhere('keywords', 'LIKE', $pattern)
-            ->when($includeDescription, fn ($q) => $q->orWhere('description', 'LIKE', $pattern))
+            ->when($includeDescription, fn (Builder $q) => $q->orWhere('description', 'LIKE', $pattern))
         );
     }
 
@@ -224,9 +286,9 @@ final readonly class SearchWordQuery
      * only on the article itself, never on what other articles exist. Exact phrase hits are ranked
      * first by applyPhraseRanking() instead of excluding the other matches.
      *
-     * @param  Builder<Article> $query              The primary query builder instance for the Article model.
-     * @param  Request          $request            The current HTTP request containing the target search queries.
-     * @param  bool             $includeDescription Flag determining whether to extend the full-text matching to include the description field.
+     * @param  Builder<Article> $query              The query to apply the full-text constraint to.
+     * @param  Request          $request            The current HTTP request containing the search term.
+     * @param  bool             $includeDescription Whether to extend the full-text matching to include the description field.
      * @return void
      */
     private function applyFullTextSearch(Builder $query, Request $request, bool $includeDescription): void
@@ -257,9 +319,9 @@ final readonly class SearchWordQuery
     private function buildTokenExpression(array $tokens): string
     {
         $clean = collect($tokens)
-            ->take(self::MAX_TOKENS)
             ->flatMap(fn (string $token): array => explode(' ', $this->escapeFtToken($token)))
             ->filter()
+            ->take(self::MAX_TOKENS)
             ->values();
 
         // Words shorter than the FT minimum are not in the index, so as a required
@@ -278,6 +340,26 @@ final readonly class SearchWordQuery
         return $clean
             ->map(fn (string $token, int $i): string => $i === $last ? "+{$token}*" : "+{$token}")
             ->implode(' ');
+    }
+
+    /**
+     * Rank an article whose 'word' equals the search term exactly above all other matches.
+     *
+     * Only applies when a term is present, so an empty search does not add a pointless ORDER BY.
+     *
+     * @param  Builder<Article> $query
+     * @param  Request          $request
+     * @return void
+     */
+    private function applyExactWordRanking($query, Request $request): void
+    {
+        $term = $this->normalizeTerm($request);
+
+        if ($term === '') {
+            return;
+        }
+
+        $query->orderByRaw('CASE WHEN LOWER(word) = ? THEN 0 ELSE 1 END', [$term]);
     }
 
     /**
@@ -338,16 +420,13 @@ final readonly class SearchWordQuery
      *
      * Removes the characters `+ - > < ( ) ~ * " \ @` to prevent user input from injecting
      * FT operators that would corrupt the boolean mode expression. This is distinct from
-     * SQL injection prevention, which is handled entirely by PDO parameter binding and
-     * operates independently of this method.
+     * SQL injection prevention, which is handled entirely by PDO parameter binding.
      *
      * @param  string $token
      * @return string
      */
-
     private function escapeFtToken(string $token): string
     {
-        // Remove characters that have special meaning in Boolean Mode
         $token = str_replace(
             search: ['+', '-', '>', '<', '(', ')', '~', '*', '"', '\\', '@'],
             replace: ' ',
@@ -358,14 +437,24 @@ final readonly class SearchWordQuery
     }
 
     /**
+     * Escape the LIKE wildcards '%' and '_' (and the escape character itself) in a term.
+     *
+     * @param  string $value
+     * @return string
+     */
+    private function escapeLike(string $value): string
+    {
+        return str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], $value);
+    }
+
+    /**
      * Return the whitelisted MATCH() column string for the requested search scope.
      *
      * Column lists are drawn exclusively from {@see FULLTEXT_COLUMN_SETS}, ensuring that
-     * no user-controlled input can ever influence the column string even if this method
-     * is modified in the future.
+     * no user-controlled input can ever influence the column string.
      *
-     * @param   bool   $includeDescription
-     * @return 'word, keywords'|'word, keywords, description'
+     * @param  bool $includeDescription
+     * @return string
      */
     private function buildMatchColumns(bool $includeDescription): string
     {
@@ -390,11 +479,10 @@ final readonly class SearchWordQuery
     }
 
     /**
-     * Split `zoekterm` into individual tokens, discarding those shorter than 1 character.
+     * Split `zoekterm` into individual lowercase tokens.
      *
-     * The minimum length aligns with MySQL's default `ft_min_word_len` setting. Filtering
-     * short tokens out early prevents confusing empty-result bugs that would otherwise occur
-     * when the FT engine silently ignores them during expression evaluation.
+     * Splits on whitespace and hyphens so tokens line up with how MySQL's FT parser
+     * tokenized the indexed content. Empty parts are discarded.
      *
      * @param  Request $request
      * @return array<int, string>
@@ -403,15 +491,9 @@ final readonly class SearchWordQuery
     {
         $term = $request->string('zoekterm')->trim()->lower()->toString();
 
-        // Split on whitespace AND hyphens (and other separators) so tokens
-        // line up with how MySQL's FT parser tokenized the indexed content.
         $parts = preg_split('/[\s\-]+/u', $term, -1, PREG_SPLIT_NO_EMPTY);
 
-        /** @phpstan-ignore-next-line */
-        return collect($parts)
-            ->filter(fn (string $token) => mb_strlen($token) >= 1) /** @phpstan-ignore-line */
-            ->values()
-            ->all();
+        return $parts === false ? [] : array_values($parts);
     }
 
     /**
@@ -432,10 +514,11 @@ final readonly class SearchWordQuery
     }
 
     /**
-     * Define the allowed filter scopes exposed to the query string.
+     * Define the allowed filters exposed to the query string.
      *
-     * Currently exposes the `published_after` scope, which limits results to articles
-     * published after a given date.
+     * - `published_after`: limits results to articles published after a given date.
+     * - `regio`:           limits results to articles linked to at least one of the given
+     *                      region ids, e.g. `?filter[regio]=1,2` (OR semantics).
      *
      * @return array<int, AllowedFilter>
      */
