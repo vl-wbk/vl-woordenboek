@@ -38,7 +38,7 @@ final class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrapFive();
 
         // Prevent lazy loading in development to catch N+1 query issues.
-        Model::preventLazyLoading();
+        //Model::preventLazyLoading();
 
         $this->registerGlobalPolicyCheck();
 

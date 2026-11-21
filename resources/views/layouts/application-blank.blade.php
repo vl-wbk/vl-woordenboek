@@ -209,6 +209,9 @@
         </div>
     </div>
 </nav>
+    <div class="alert alert-info py-2 border-0 rounded-0 shadow-sm">
+        <strong class="fw-bolder"><x-heroicon-o-information-circle class="icon me-1"/> Gebruikersbevraging!</strong> Om de redactie gerichter aan te pakken, willen we graag weten wat jou naar het Vlaams Woordenboek brengt. Heb je een minuutje? Vul dan onze hyperkorte, <a class="alert-link fw-bold" href="https://docs.google.com/forms/d/e/1FAIpQLSexCeR61hgRlSYjwuyY-TuOQjbuQGgQIGkYz-B9OIXUdIUssA/viewform">anonieme vragenlijst in</a>.
+    </div>
 
     @yield('jumbotron')
 

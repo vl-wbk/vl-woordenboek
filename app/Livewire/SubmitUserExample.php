@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Livewire;
 
 use App\Models\Article;
+use App\Models\UserExample;
 use Livewire\Component;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Validate;
 
 final class SubmitUserExample extends Component
@@ -45,6 +47,10 @@ final class SubmitUserExample extends Component
      */
     public function submit(): void
     {
+        // Re-check on every action: state can change between mount and submit. 
+        // and Livewire actions can be called directly from the client. 
+        Gate::authorize('create', UserExample::class);
+
         $this->validate();
 
         $this->article->userExamples()->create([
@@ -59,6 +65,8 @@ final class SubmitUserExample extends Component
 
     public function render(): Renderable
     {
-        return view('livewire.submit-user-example');
+        return view('livewire.submit-user-example', data: [
+            //
+        ]);
     }
 }

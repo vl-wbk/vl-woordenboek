@@ -73,7 +73,7 @@ final readonly class DictionaryArticleController
                     ->loadCount([
                         'reports' => fn (Builder $query) => $query->where('state', Status::Open)->orWhere('state', Status::InProgress),
                         'notes',
-                        'audits'
+                        'audits',
                     ]),
                 'revisionCount' => $word->audits()->where('event', 'updated')->count(),
                 'exampleCount' => $word->userExamples()->whereState('status', Approved::class)->count(),

@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
+use Throwable;
 
 #[Signature('vl-wbk:apply-reputation-decay')]
 #[Description('Apply reputation decay to inactive users')]
@@ -53,6 +54,8 @@ final class ApplyReputationDecay extends Command
      * Chunking is used over a full collection load to keep memory flat regardless
      * of how many users qualify. Each chunk is wrapped in its own transaction so a
      * failure mid-chunk only rolls back that chunk, not the entire job.
+     *
+     * @throws Throwable When the transaction couldn't be completed.
      */
     public function handle(): void
     {

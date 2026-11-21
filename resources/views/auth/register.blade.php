@@ -29,7 +29,7 @@
                             <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Gebruikersnaam') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('gebruikersnaam') is-invalid @enderror" name="name" value="{{ old('gebruikersnaam') }}" autofocus>
+                                <input id="name" type="text" class="form-control @error('gebruikersnaam') is-invalid @enderror" name="gebruikersnaam" value="{{ old('gebruikersnaam') }}" autofocus>
                                 <x-forms.validation-error field="gebruikersnaam"/>
                             </div>
                         </div>

@@ -18,6 +18,7 @@ use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
 use App\Filament\Resources\Articles\Actions\RestoreArticleAction;
 use Filament\Actions\ForceDeleteAction;
+use Illuminate\Support\Facades\Auth;
 use Kirschbaum\Commentions\Filament\Actions\CommentsAction;
 
 /**
@@ -105,7 +106,7 @@ final class EditWord extends EditRecord
         // Bugfix for #413 - This adds an editor when no editor is associated with the article.
         // Presuming that the user who performed the edit wants to be assigned as editor for that article.
         elseif ($this->record->editor()->doesntExist()) {
-            $data['editor_id'] = auth()->user()->getAuthIdentifier();
+            $data['editor_id'] = Auth::id();
         }
 
         return $data;

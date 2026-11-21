@@ -12,6 +12,7 @@ use Filament\Actions\Action;
 use App\Settings\VolunteerSettings;
 use App\Enums\VolunteerPositions;
 use App\Filament\Clusters\Volunteers\VolunteersCluster;
+use App\Models\User;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
@@ -21,6 +22,7 @@ use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Support\Enums\IconSize;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Facades\Auth;
 use Schmeits\FilamentCharacterCounter\Forms\Components\Textarea;
 use UnitEnum;
 
@@ -234,6 +236,9 @@ final class VolunteerCallOutSettings extends SettingsPage
 
     public static function canAccess(): bool
     {
-        return auth()->user()->can('vrijwilligers-pagina-wijzigen');
+        /** @var User $user */
+        $user = Auth::user(); 
+
+        return $user->can('vrijwilligers-pagina-wijzigen');
     }
 }

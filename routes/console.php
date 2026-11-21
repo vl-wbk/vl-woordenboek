@@ -1,5 +1,6 @@
 <?php
 
+use App\Console\Commands\ExpireFeatureBans;
 use App\Console\Commands\Maintenance\LivewireCleanupCommand;
 use App\Console\Commands\PublishWordOfTheDayOnDiscord;
 use App\Console\Commands\Reminders\InactivityWarningCommand;
@@ -11,6 +12,7 @@ Schedule::command(PublishWordOfTheDayOnDiscord::class)->daily()->at('00:01');
 
 // 3th party cron commands
 Schedule::command('ban:delete-expired')->everyMinute();
+Schedule::command(ExpireFeatureBans::class)->everyMinute();
 Schedule::command(LivewireCleanupCommand::class)->daily();
 Schedule::command(ApplyReputationDecay::class)->daily();
 Schedule::command('notify:article-prune-reminder')->dailyAt('00:40');

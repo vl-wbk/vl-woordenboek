@@ -17,7 +17,9 @@ use Filament\Actions\ActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Support\Exceptions\Halt;
 use Filament\Support\Icons\Heroicon;
+use Throwable;
 
 /**
  * Represents the page for viewing a single article report in the admin panel.
@@ -87,6 +89,9 @@ final class EditArticleReport extends EditRecord
      * cluttering the user interface during automated state updates.
      *
      * @return void
+     *
+     * @throws Halt
+     * @throws Throwable
      */
     public function saveQuietly(): void
     {

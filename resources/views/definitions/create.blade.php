@@ -328,6 +328,28 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
+                                                    @can('markAsCommunityArticle', \App\Models\Article::class)
+                                                        <div class="col-12">
+                                                            <!-- Toggle Option Box -->
+                                                            <div class="card bg-light-subtle border-secondary rounded-3 p-3">
+                                                                <div class="d-flex align-items-center justify-content-between">
+                                                                    <div class="d-flex align-items-center">
+                                                                        <div class=" me-3">
+                                                                            <x-heroicon-o-bell-alert class="icon" />
+                                                                        </div>
+                                                                        <div>
+                                                                            {{-- <h6class="fw-boldmb-1small">Notificatie</h6> --}}
+                                                                            <p class="text-muted mb-0">Ik wil graag een melding ontvangen wanneer mijn suggestie gepubliceerd wordt:</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-check form-switch m-0">
+                                                                        <input class="form-check-input" value="1" name="notificatie" @checked(old('notificatie', '0')) type="checkbox" role="switch" id="toevoegenNaamSwitch" style="width: 2.5em; height: 1.25em; cursor: pointer;">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endif
                                                 </div>
                                             </section>
                                         @else
