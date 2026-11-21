@@ -22,13 +22,26 @@
 
                 <!-- Regions -->
                 @if($result->regions->isNotEmpty())
-                    <div class="d-flex flex-wrap gap-2 mb-2">
-                        @foreach($result->regions as $region)
+                    @php
+                        $regionList = $result->regions->sortBy('name')->values();
+                        $visible    = $regionList->take(5);
+                        $remaining  = $regionList->slice(5);
+                    @endphp
+
+                    <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                        @foreach($visible as $region)
                             <span class="d-inline-flex align-items-center text-primary small fw-semibold">
                                 <x-heroicon-o-map-pin style="width: 14px; height: 14px;" class="me-1"/>
                                 {{ $region->name }}
                             </span>
                         @endforeach
+
+                        @if($remaining->isNotEmpty())
+                            <span class="region-more"
+                                title="{{ $remaining->pluck('name')->implode(', ') }}">
+                                +{{ $remaining->count() }}
+                            </span>
+                        @endif
                     </div>
                 @endif
 
