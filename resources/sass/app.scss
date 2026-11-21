@@ -21,6 +21,7 @@
 @import 'layout/footer';
 
 @import 'components/search-improvements';
+@import 'components/vote-card';
 
 // ── Contribution Heatmap ─────────────────────────────────────────────────────
 :root {
@@ -41,6 +42,10 @@
     --_l4: #216e39;
 
     --_ring: #0969da;
+}
+
+.btn-bmac {
+    @include button-variant(#FFDD00, #e6c700);
 }
 
 .hm-root {
@@ -70,6 +75,12 @@
 .hm-month-spacer {
   width: var(--_label-w);
   flex-shrink: 0;
+}
+
+.special-elite-regular {
+  font-family: "Special Elite", system-ui;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .hm-months {

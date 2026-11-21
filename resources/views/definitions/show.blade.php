@@ -541,11 +541,11 @@
 
                         </article>
 
-                        @auth
-                            <section id="voting-section" class="border-top mt-3 pt-3">
-                                <livewire:voting-component :article="$word"/>
-                            </section>
+                        <section id="voting-section" class="border-top mt-3 pt-3">
+                            <livewire:voting-component :article="$word"/>
+                        </section>
 
+                        @auth
                             <livewire:report-article-modal :article=$word />
                         @endauth
                     </div>

@@ -10,11 +10,13 @@ use App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\Et
 use App\Filament\Clusters\Articles\Resources\ArticleResource\RelationManagers\ReportsRelationManager;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Schema\TableSchema;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets\ArticleRegistrationChart;
+use App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets\ArticleScoreChart;
 use App\Filament\Resources\Articles\RelationManagers\CommunityExamplesRelationManager;
 use App\Filament\Resources\Articles\RelationManagers\LabelsRelationManager;
 use App\Filament\Resources\Articles\RelationManagers\NotesRelationManager;
 use App\Filament\Resources\Articles\RelationManagers\ReactionsRelationManager;
 use App\Filament\Resources\Articles\RelationManagers\RelatedRelationManager;
+use App\Filament\Resources\Articles\RelationManagers\VotesRelationManager;
 use App\Filament\Resources\Articles\Schema\ArticleForm;
 use App\Filament\Resources\Articles\Schema\WordInfolist;
 use App\Filament\Support\Concerns\HasActiveIcon;
@@ -108,6 +110,7 @@ final class ArticleResource extends Resource
             RelatedRelationManager::class,
             ReactionsRelationManager::class,
             CommunityExamplesRelationManager::class,
+            VotesRelationManager::class,
         ];
     }
 
@@ -121,7 +124,10 @@ final class ArticleResource extends Resource
      */
     public static function getWidgets(): array
     {
-        return [ArticleRegistrationChart::class];
+        return [
+            ArticleRegistrationChart::class,
+            ArticleScoreChart::class
+        ];
     }
 
     /**

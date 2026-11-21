@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Articles\Pages;
 use App\Enums\ArticleStates;
 use App\Features\DocumentationButtons;
 use App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets\ArticleRegistrationChart;
+use App\Filament\Clusters\Articles\Resources\ArticleResource\Widgets\ArticleScoreChart;
 use App\Filament\Exports\ArticleExporter;
 use App\Filament\Resources\Articles\ArticleResource;
 use App\Models\Article;
@@ -67,10 +68,10 @@ final class ListWords extends ListRecords
      */
     protected function getHeaderWidgets(): array
     {
-        return [ArticleRegistrationChart::class];
+        return [ArticleRegistrationChart::class, ArticleScoreChart::class];
     }
 
-    public function getTabs(): array 
+    public function getTabs(): array
     {
         $tabs = [
             'all' => Tab::make('all')
