@@ -18,6 +18,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
 
     <link rel="icon" type="image/png" href="{{ asset('favicon/favicon-96x96.png') }}" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon/favicon.svg') }}" />
@@ -43,7 +44,7 @@
         <!-- Brand -->
         <a class="navbar-brand" href="{{ url('/') }}">
             <img src="{{ asset('img/app-logo.png') }}" class="rounded me-2" alt="{{ config('app.name', 'Laravel') }}" width="25" height="25">
-            <span class="d-none d-sm-inline">{{ config('app.name', 'Laravel') }}</span>
+            <span class="d-none d-sm-inline special-elite-regular">{{ config('app.name', 'Laravel') }}</span>
         </a>
 
         <!-- Toggler Button -->

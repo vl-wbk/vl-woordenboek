@@ -73,6 +73,7 @@ return [
             'community-articles' => 'Community artikelen',      // TODO: Implementation
             'corrections' => 'Correcties',                      // TODO: Implementation
             'article-reports' => 'Artikel rapporteringen',      // TODO: Implementation
+            'voting-feedback' => 'Stemmingsfeedback',
         ],
     ],
 

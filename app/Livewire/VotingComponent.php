@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use LogicException;
@@ -112,24 +113,26 @@ class VotingComponent extends Component
             return;
         }
 
-       $this->validate(
+        // Throws an AuthorizationException (403) when the policy denies.
+        Gate::authorize('submitFeedback', $this->article);
+
+        $this->validate(
             rules: ['downvoteReason' => ['required', 'string', 'max:1000']],
             messages: [
                 'downvoteReason.required' => 'Laat even weten wat er beter kon, zodat we het artikel kunnen verbeteren.',
-                'downvoteReason.string' => 'Je toelichting moet uit gewone tekst bestaan.',
-                'downvoteReason.max' => 'Je toelichting is te lang. Hou het onder :max tekens (je zit er nu boven).',
+                'downvoteReason.string'   => 'Je toelichting moet uit gewone tekst bestaan.',
+                'downvoteReason.max'      => 'Je toelichting is te lang. Hou het onder :max tekens (je zit er nu boven).',
             ],
         );
 
         /** @var User $authenticatedUser */
         $authenticatedUser = Auth::user();
 
-        if ($authenticatedUser->hasDownvoted($this->article)) {
-            $authenticatedUser->votes()
-                ->where('votable_type', get_class($this->article))
-                ->where('votable_id', $this->article->id)
-                ->update(['feedback' => $this->downvoteReason]);
-        }
+        // The policy already guarantees an existing downvote, so the extra hasDownvoted() check is gone.
+        $authenticatedUser->votes()
+            ->where('votable_type', $this->article::class)
+            ->where('votable_id', $this->article->id)
+            ->update(['feedback' => $this->downvoteReason]);
 
         $this->showFeedbackForm = false;
         $this->downvoteReason = '';
@@ -181,6 +184,7 @@ class VotingComponent extends Component
             'buyMeACoffeeEnabled' => $supportButtonIssue === null,
             'supportLink' => $this->fetchSupportLink(),
             'supportButtonIssue' => $supportButtonIssue,
+            'canGiveFeedback' => Auth::check() && Auth::user()->can('submitFeedback', $this->article),
             'upvotesCount' => $this->article->upvoters()->count(),
             'downvotesCount' => $this->article->downvoters()->count(),
             'hasUpvoted' => Auth::check() ? Auth::user()->hasUpvoted($this->article) : false,

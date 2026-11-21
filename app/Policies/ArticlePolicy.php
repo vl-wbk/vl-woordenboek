@@ -10,6 +10,7 @@ use App\Models\{Article, User};
 use App\UserTypes;
 use App\States\Articles\ArticleState;
 use Filament\Support\Authorization\DenyResponse;
+use Laravel\Pennant\Feature;
 
 /**
  * ArticlePolicy enforces authorization rules for dictionary article management.
@@ -51,6 +52,13 @@ final class ArticlePolicy
         "meerdereGeforceerdVerwijderen",
         "reject"
     ];
+
+    public function submitFeedback(User $user, Article $article): Response
+    {
+        return $user->hasDownvoted($article) && Feature::for($user)->active('voting-feedback')
+            ? Response::allow()
+            : Response::deny();
+    }
 
     /**
      * Determines whether the user can view in the frontend of the application.

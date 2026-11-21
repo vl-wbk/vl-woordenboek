@@ -117,45 +117,47 @@
 
                 {{-- Feedback --}}
                 @auth
-                    <div x-show="showFeedback" x-cloak x-transition class="vote-feedback">
-                        <label for="downvote-reason" class="vote-feedback__label">Wat kon er beter aan dit artikel?</label>
-                        <textarea
-                            id="downvote-reason"
-                            wire:model.defer="downvoteReason"
-                            class="vote-feedback__input"
-                            rows="2"
-                            placeholder="Geef hier je toelichting…"
-                        ></textarea>
+                    @if ($showFeedbackForm && $canGiveFeedback)
+                        <div x-show="showFeedback" x-cloak x-transition class="vote-feedback">
+                            <label for="downvote-reason" class="vote-feedback__label">Wat kon er beter aan dit artikel?</label>
+                            <textarea
+                                id="downvote-reason"
+                                wire:model.defer="downvoteReason"
+                                class="vote-feedback__input"
+                                rows="2"
+                                placeholder="Geef hier je toelichting…"
+                            ></textarea>
 
-                        @error('downvoteReason')
-                            <div class="vote-feedback__error">{{ $message }}</div>
-                        @enderror
+                            @error('downvoteReason')
+                                <div class="vote-feedback__error">{{ $message }}</div>
+                            @enderror
 
-                        <div class="vote-feedback__actions">
-                            <button type="button" class="vote-link" @click="showFeedback = false">Ik heb niets te melden</button>
-                            <button type="button" wire:click="submitFeedback" class="vote-submit">
-                                <x-heroicon-o-paper-airplane class="icon me-1" style="rotate: -45deg;"/> Verstuur feedback
-                            </button>
+                            <div class="vote-feedback__actions">
+                                <button type="button" class="vote-link" @click="showFeedback = false">Ik heb niets te melden</button>
+                                <button type="button" wire:click="submitFeedback" class="vote-submit">
+                                    <x-heroicon-o-paper-airplane class="icon me-1" style="rotate: -45deg;"/> Verstuur feedback
+                                </button>
+                            </div>
                         </div>
-                    </div>
 
-                    @session('message')
-                        <div
-                            x-data="{ show: true }"
-                            x-init="setTimeout(() => show = false, 5000)"
-                            x-show="show"
-                            x-transition.opacity.duration.300ms
-                            class="vote-flash"
-                            role="status"
-                            aria-live="polite"
-                        >
-                            <x-heroicon-s-check-circle class="icon" aria-hidden="true"/>
-                            <span>{{ $value }}</span>
-                            <button type="button" class="vote-flash__close" aria-label="Sluiten" @click="show = false">
-                                <x-heroicon-s-x-mark class="icon" aria-hidden="true"/>
-                            </button>
-                        </div>
-                    @endsession
+                        @session('message')
+                            <div
+                                x-data="{ show: true }"
+                                x-init="setTimeout(() => show = false, 5000)"
+                                x-show="show"
+                                x-transition.opacity.duration.300ms
+                                class="vote-flash"
+                                role="status"
+                                aria-live="polite"
+                            >
+                                <x-heroicon-s-check-circle class="icon" aria-hidden="true"/>
+                                <span>{{ $value }}</span>
+                                <button type="button" class="vote-flash__close" aria-label="Sluiten" @click="show = false">
+                                    <x-heroicon-s-x-mark class="icon" aria-hidden="true"/>
+                                </button>
+                            </div>
+                        @endsession
+                    @endif
                 @endauth
             </div>
         </section>
