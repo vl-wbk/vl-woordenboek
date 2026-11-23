@@ -64,12 +64,6 @@
                                     </span>
                                 @endif
                             </div>
-
-                            @if ($word->partOfSpeech)
-                                <div class="small text-muted mt-1">
-                                    {{ $word->partOfSpeech->name }}
-                                </div>
-                            @endif
                         </div>
 
                         <div class="d-flex align-items-center flex-wrap gap-1">
@@ -88,7 +82,7 @@
                     <div id="word-metadata" class="d-flex flex-wrap align-items-center gap-2 mt-3">
 
                         <span class="badge rounded-pill text-bg-success">
-                            <x-heroicon-o-language class="icon icon-sm me-1"/>{{ $word->status->getLabel() }}
+                            <x-heroicon-o-language class="icon icon-sm me-1"/>{{ __('Redactie artikel') }}
                         </span>
 
                         <span class="vr"></span>
@@ -290,31 +284,60 @@
                                                  id="description-text">
 
 
+                                                  @auth
+                                                    @unless ($word->syllables)
+                                                        <section class="suggest-syllables">
+
+
+                                                            <livewire:suggest-syllables :article="$word" />
+                                                            <hr style="border-style: dashed;">
+                                                        </section>
+                                                    @endunless
+
+                                                @endauth
 
                                                 <div class="markdown-text fs-6 lh-lg">
                                                     {!! str($word->description)->markdown()->sanitizeHtml() !!}
                                                 </div>
-                                            </div>
+
+                                                </div>
                                         </div>
 
                                         <div class="border-top mt-3 pt-2">
                                              <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
 
-                                <div class="small text-muted">
 
-                                    <x-heroicon-o-clock class="icon me-1"/>
+                                            <ul class="list-inline mb-0 text-muted small gap-1">
+                                                @php
+                                                    $author = $word->author?->exists ? $word->author : null;
 
-                                    Laatste wijziging:
-                                    {{ optional($word->updated_at)->diffForHumans() }}
+                                                    $authorName = filled($author?->name)
+                                                        ? $author->name
+                                                        : ($word->contributor_name ?: 'Anonieme gebruiker');
+                                                @endphp
 
-                                    @if($word->editor)
-                                        door
-                                        <a href="{{ route('account:public', $word->editor) }}"
-                                           class="text-muted text-decoration-none fw-semibold">
-                                            {{ $word->editor->name }}
-                                        </a>
-                                    @endif
-                                </div>
+                                                <li class="list-inline-item">
+                                                    <strong>Inzender:</strong>
+
+                                                    @if ($author && filled($author->getRouteKey()))
+                                                        <a href="{{ route('account:public', $author) }}"
+                                                        class="fw-bold color-green">
+                                                            {{ $authorName }}
+                                                        </a>
+                                                    @else
+                                                        <span class="fw-bold">{{ $authorName }}</span>
+                                                    @endif
+                                                </li>
+
+                                                @if ($word->isPublished())
+                                                    <li class="list-inline-item">|</li>
+                                                    <li class="list-inline-item"><strong>Publicatiedatum:</strong> {{ $word->published_at->translatedFormat('d F Y') }}</li>
+                                                @endif
+                                            </ul>
+
+
+
+
 
                                 @if ($word->audits->count() > 0)
                                     <div class="d-flex gap-2"
@@ -570,17 +593,18 @@
                                      id="submitted-by-item">
 
                                     <dt class="fw-normal text-muted mb-0">
-                                        Ingezonden door
+                                        Woordsoort
                                     </dt>
 
-                                    <dd class="fw-medium text-end mb-0">
-                                        @if ($word->author()->exists())
-                                            <a href="{{ route('account:public', $word->author) }}"
-                                               class="text-decoration-none color-green">
-                                                {{ $word->author->name ?? $word->contributor_name }}
-                                            </a>
+                                    <dd class="fw-bold text-end mb-0">
+                                        @if ($word->partOfSpeech)
+                                            <span class="text-muted mt-1">
+                                                {{ $word->partOfSpeech->name }}
+                                            </span>
                                         @else
-                                            {{ $word->contributor_name ?? 'Anonieme gebruiker' }}
+                                            <span class="text-muted mt-1">
+                                                - geen opgegeven
+                                            </span>
                                         @endif
                                     </dd>
                                 </div>
@@ -589,52 +613,31 @@
                                      id="edited-by-item">
 
                                     <dt class="fw-normal text-muted mb-0">
-                                        Redactie door
+                                        Lettergrepen
                                     </dt>
 
                                     <dd class="fw-medium text-end mb-0">
-                                        @if ($word->editor()->exists())
-                                            <a href="{{ route('account:public', $word->editor) }}"
-                                               class="text-decoration-none color-green">
-                                                {{ $word->editor->name }}
-                                            </a>
+                                        @if ($word->syllablesHtml())
+                                            {{ $word->syllablesHtml() }}
                                         @else
-                                            {{ config('app.name') }}
+                                            <span class="text-muted">- niet opgegeven</span>
                                         @endif
                                     </dd>
                                 </div>
 
                                 <div class="d-flex justify-content-between align-items-start gap-3 border-top py-2"
-                                     id="published-by-item">
+                                     id="edited-by-item">
 
                                     <dt class="fw-normal text-muted mb-0">
-                                        Publicatie door
+                                        Taalregister
                                     </dt>
 
                                     <dd class="fw-medium text-end mb-0">
-                                        @if ($word->publisher()->exists())
-                                            <a href="{{ route('account:public', $word->publisher) }}"
-                                               class="text-decoration-none color-green">
-                                                {{ $word->publisher->name }}
-                                            </a>
-                                        @else
-                                            {{ config('app.name') }}
-                                        @endif
+                                        <span class="badge rounded-pill text-bg-success">
+                                            <x-heroicon-o-language class="icon icon-sm me-1"/>{{ $word->status->getLabel() }}
+                                        </span>
                                     </dd>
                                 </div>
-
-                                <div class="d-flex justify-content-between align-items-start gap-3 border-top py-2"
-                                     id="published-date-item">
-
-                                    <dt class="fw-normal text-muted mb-0">
-                                        Publicatiedatum
-                                    </dt>
-
-                                    <dd class="fw-medium text-end mb-0">
-                                        {{ optional($word->published_at)->translatedFormat('d F Y') ?? '-' }}
-                                    </dd>
-                                </div>
-
                             </dl>
                         </section>
 

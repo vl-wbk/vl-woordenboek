@@ -79,8 +79,10 @@
                     <div class="col-12">
                         <div class="row g-4">
                             <div class="col-12">
+                                @if ($results->total() > 0)
                                 @include('components.definitions._region-bar', ['regions' => $regions])
                                 <hr style="border-style: dashed;">
+                                @endif
 
                                 @include('components.definitions.results', ['results' => $results])
                                 @include('components.definitions.pagination', ['results' => $results])

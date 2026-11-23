@@ -17,6 +17,7 @@ use App\Models\Relations\BelongsToAuthor;
 use App\Models\Relations\BelongsToEditor;
 use App\Models\Relations\BelongsToManyRegions;
 use App\Observers\ArticleObserver;
+use App\Services\Syllabification;
 use Carbon\Carbon;
 use Database\Factories\ArticleFactory;
 use Illuminate\Console\Attributes\Hidden;
@@ -33,6 +34,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\HtmlString;
 use Kirschbaum\Commentions\Contracts\Commentable;
 use Kirschbaum\Commentions\HasComments;
 use Overtrue\LaravelLike\Traits\Likeable;
@@ -404,6 +406,13 @@ final class Article extends Model implements AuditableContract, Commentable
         });
     }
 
+    public function syllablesHtml(): string|HtmlString|null
+    {
+        return $this->syllables
+            ? new HtmlString(Syllabification::html($this->syllables, $this->stress_index))
+            : null;
+    }
+
     /**
      * Configures attribute casting for proper type handling.
      * Ensures that state and status fields are properly cast to their respective enum types when retrieved from the database.
@@ -416,6 +425,7 @@ final class Article extends Model implements AuditableContract, Commentable
             'notify_author' => 'boolean',
             'wtod' => 'boolean',
             'feedback' => 'array',
+            'syllables' => 'array',
             'migration_configuration' => 'json',
             'origin' => DataOrigin::class,
             'state' => ArticleStates::class,
