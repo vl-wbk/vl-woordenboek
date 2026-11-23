@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Attributes\Todo;
 use App\Builders\UserBuilder;
+use App\Data\Article\ArticleAttribution;
 use App\Mail\AccountPrunedMailable;
 use App\Models\Concerns\ManagesReputation;
 use App\Models\Concerns\ManagesUserGroups;
@@ -198,7 +199,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, BannableI
     {
         return $this->hasMany(FeatureBan::class);
     }
-    
+
     /**
      * Returns all article reports submitted by this user.
      *
