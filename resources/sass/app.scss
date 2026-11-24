@@ -939,12 +939,90 @@ html {
 
 // Footer
 
+// Basis- en merkvariabelen
+$footer-bg: #212529; // rgba(33, 37, 41, 1)
+$footer-bottom-bg: #181b1e; // Duidelijker onderscheid met $footer-bg (ipv oklch 21.6%)
+
+// Hoog-contrast varianten voor gebruik op donkere achtergronden ($footer-bg)
+$brand-yellow: #ffe615;                           // 12.56:1 — al optimaal
+$brand-rss: #ff7b39;                              // Opgehelderd van #f26522 -> 5.95:1 contrast
+$brand-blue: oklch(74% 0.155 254.624);            // 7.55:1 contrast
+$brand-indigo-on-dark: #818cf8;                   // Indigo-400 i.p.v. #4338ca -> 5.42:1 contrast
+$btn-dark-gray: #3d4246;                          // Duidelijker zichtbare rand/knop op #212529
+// High-contrast social brand colors for #212529 background
+$brand-github: #f0f6fc;   // Clean off-white (14.4:1 contrast)
+$brand-discord: #7289da;  // Brightened blurple (5.2:1 contrast) — or use your $brand-indigo-on-dark (#818cf8)
+$brand-facebook: #4599ff; // Brightened Facebook blue (5.8:1 contrast) — or use your $brand-blue
+$brand-green-on-dark: #4ade80;
+
+.footer {
+    // Base social button styling
+    .btn-social {
+        border-color: rgba(255, 255, 255, 0.25);
+        background-color: rgba(255, 255, 255, 0.04);
+        transition: all 0.15s ease-in-out;
+
+        &:hover,
+        &:focus-visible {
+            background-color: rgba(255, 255, 255, 0.12);
+            border-color: currentColor; // Uses the icon's brand color for the border on hover
+            transform: translateY(-1px);
+            text-decoration: none !important;
+        }
+    }
+
+    .icon-github {
+        color: $brand-github;
+    }
+
+    .icon-discord {
+        color: $brand-discord;
+    }
+
+    .icon-facebook {
+        color: $brand-facebook;
+    }
+
+}
+
 .footer {
     background-color: $footer-bg;
+    color: rgba(255, 255, 255, 0.88); // 13.1:1 contrast voor hoofdtekst
+
+    // Vervangt Bootstrap's .text-white-50 (4.43:1) door een toegankelijke gedempte tint (7.4:1)
+    .text-muted-footer,
+    .text-white-50 {
+        color: rgba(255, 255, 255, 0.72) !important;
+    }
+
+    a {
+        color: #ffffff;
+        transition: color 0.15s ease-in-out;
+
+        &:hover,
+        &:focus-visible {
+            color: $brand-yellow; // 12.56:1 contrast bij hover & focus
+            text-decoration: underline !important;
+            text-underline-offset: 3px;
+        }
+    }
+
+    .btn-outline-light {
+        border-color: rgba(255, 255, 255, 0.35);
+        color: #ffffff;
+
+        &:hover,
+        &:focus-visible {
+            background-color: #ffffff;
+            border-color: #ffffff;
+            color: $footer-bg; // 15.6:1 contrast op witte knop
+            text-decoration: none !important;
+        }
+    }
 }
 
 .footer-icon-color {
-    color: $brand-green
+    color: $brand-green-on-dark;
 }
 
 .bg-callout-card {

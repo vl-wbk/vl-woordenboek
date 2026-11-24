@@ -19,14 +19,14 @@
     </style>
     @if ($article->syllables)
         @if ($autoApproved)
-            <div class="rounded-3 bg-success-subtle text-success-emphasis small px-3 py-2" role="status">
-                <strong>Bedankt!</strong> Dankzij jouw voorstel is goed ontvagen.
+            <div class="rounded-3 bg-success-subtle text-success-emphasis small px-3 py-2 mb-2" role="status">
+                <strong>Bedankt!</strong> Dankzij jouw zijn de lettergrepen voor dit artikel aangevuld.
             </div>
         @endif
 
     @elseif ($done)
         <div class="rounded-3 bg-success-subtle text-success-emphasis small px-3 py-2 mb-2" role="status">
-            <strong>Bedankt!</strong> Een redacteur bekijkt je voorstel.
+            <strong>Bedankt!</strong> We verzamelen meer informatie alvorens we je bijdragen publiceren.
         </div>
 
     @elseif ($alreadySubmitted)
@@ -53,6 +53,12 @@
 
                 @auth
                     <button type="button" class="btn btn-link btn-sm p-0 fw-medium text-success-emphasis text-nowrap"
+                            x-on:click="open = !open" x-bind:aria-expanded="open">
+                        <span x-show="!open">Voorstel doen</span>
+                        <span x-show="open" x-cloak>Sluiten</span>
+                    </button>
+
+                     <button type="button" class="btn btn-link btn-sm p-0 fw-medium text-success-emphasis text-nowrap"
                             x-on:click="open = !open" x-bind:aria-expanded="open">
                         <span x-show="!open">Voorstel doen</span>
                         <span x-show="open" x-cloak>Sluiten</span>

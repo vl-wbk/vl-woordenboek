@@ -609,21 +609,7 @@
                                     </dd>
                                 </div>
 
-                                <div class="d-flex justify-content-between align-items-start gap-3 border-top py-2"
-                                     id="edited-by-item">
-
-                                    <dt class="fw-normal text-muted mb-0">
-                                        Lettergrepen
-                                    </dt>
-
-                                    <dd class="fw-medium text-end mb-0">
-                                        @if ($word->syllablesHtml())
-                                            {{ $word->syllablesHtml() }}
-                                        @else
-                                            <span class="text-muted">- niet opgegeven</span>
-                                        @endif
-                                    </dd>
-                                </div>
+                               <livewire:delete-decided-syllables :word="$word" />
 
                                 <div class="d-flex justify-content-between align-items-start gap-3 border-top py-2"
                                      id="edited-by-item">

@@ -76,13 +76,6 @@
 
                 <x-random-article-navigation-item />
 
-                <li class="nav-item">
-                    <a href="https://www.forum.vlaamswoordenboek.be" class="nav-link" target="_blank" rel="noopener noreferrer">
-                        <x-heroicon-o-chat-bubble-left-right class="icon me-1" />
-                        <span class="d-none d-lg-inline">{{ __('layout/application.footer.community-section.forum') }}</span>
-                    </a>
-                </li>
-
                 @if (\App\Models\Blog::count('id') > 0)
                     <li class="nav-item">
                         <a href="{{ route('news:index') }}" class="nav-link">
@@ -223,143 +216,145 @@
     <footer aria-label="Hoofd footer" class="footer mt-auto pt-4 pt-md-3 mt-5">
         <div class="container-fluid pt-4 pb-2 py-md-4 text-body-secondary">
             <div class="row">
-                <div class="col-lg-3">
-                <a class="d-inline-flex align-items-center mb-2 text-white text-decoration-none" href="/" aria-label="Bootstrap">
-                    <x:heroicon-s-book-open class="icon icon-back-to-results brand-gradient"/>
-                    <span class="fs-5 heading-footer fw-bold ms-2">{{ config('app.name', 'Laravel') }}</span>
+                {{-- Kolom 1: Merk, missie & open-source licenties --}}
+            <div class="col-lg-4 pe-lg-5">
+                <a class="d-inline-flex align-items-center mb-3 text-white text-decoration-none"
+                   href="{{ url('/') }}"
+                   aria-label="{{ config('app.name', 'Laravel') }} startpagina">
+                    <x:heroicon-s-book-open class="icon icon-back-to-results brand-gradient" aria-hidden="true" />
+                    <span class="fs-4 special-elite-regular fw-bold ms-2">{{ config('app.name', 'Laravel') }}</span>
                 </a>
-                <ul class="list-unstyled small text-white">
-                    <li class="mb-2">
-                        {{ __('layout/application.footer.information-section.info-paragraph') }}
-                    </li>
 
-                    <li class="mb-2">
-                        De code is gelicentieerd onder de MIT-licentie. De documentatie hiervan is beschikbaar onder de
-                        <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="text-white">CC BY-NC-SA 4.0 licentie.</a>
-                    </li>
+                <p class="small text-white-50 mb-3">
+                    {{ __('layout/application.footer.information-section.info-paragraph') }}
+                    De broncode valt onder de <span class="text-white">MIT-licentie</span>; de documentatie onder
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+                       class="text-white text-decoration-underline link-offset-2"
+                       target="_blank"
+                       rel="noopener noreferrer">CC BY-NC-SA 4.0</a>.
+                </p>
 
-                    <li class="mb-2 fst-italic heading-footer">
-                        {{ __('layout/application.footer.information-section.version-paragraph', ['version' => 'v0.1.0']) }}
-                    </li>
-                </ul>
+                <div class="d-flex flex-wrap align-items-center gap-2">
+                    <span class="badge rounded-pill bg-white bg-opacity-10 text-white fw-normal px-3 py-2">
+                        {{ __('layout/application.footer.information-section.version-paragraph', ['version' => config('app.version', 'v0.1.0')]) }}
+                    </span>
+                    <a href="https://github.com/vl-wbk/vl-woordenboek/issues"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="badge rounded-pill bg-white bg-opacity-10 text-white text-decoration-none fw-normal px-3 py-2">
+                        <x:tabler-bug class="icon me-1" aria-hidden="true" />
+                        {{ __('layout/application.footer.contribution-section.github-issues') }}
+                    </a>
+                </div>
             </div>
 
-            <div class="col-6 col-lg-2 offset-lg-1 mb-3">
-                <h5 class="heading-footer">{{ __('layout/application.footer.links-section.heading') }}</h5>
-
-                <ul class="list-unstyled">
-                    <li class="mb-2">
-                        <a href="/" class="text-white">
+            <div class="col-6 col-md-4 col-lg-2">
+                <h3 class="h6  text-uppercase small fw-semibold text-white-50 tracking-wider mb-3">
+                    {{ __('layout/application.footer.links-section.heading') }}
+                </h3>
+                <ul class="list-unstyled small mb-0 d-flex flex-column gap-2">
+                    <li>
+                        <a href="{{ url('/') }}" class="text-white text-decoration-none">
                             {{ __('layout/application.footer.links-section.home') }}
                         </a>
                     </li>
-
-                    <li class="mb-2">
-                        <a href="{{ route('statistics') }}" class="text-white">
+                    <li>
+                        <a href="{{ route('statistics') }}" class="text-white text-decoration-none">
                             {{ __('layout/application.footer.links-section.statistics') }}
                         </a>
                     </li>
-
                     @if (app(\App\Settings\ProjectInformationSettings::class)->pageActive)
-                        <li class="mb-2">
-                            <a href="{{ route('project-information') }}" class="text-white">
+                        <li>
+                            <a href="{{ route('project-information') }}" class="text-white text-decoration-none">
                                 {{ __('layout/application.footer.links-section.project-information') }}
                             </a>
                         </li>
                     @endif
-
                     @if (\App\Models\Blog::count('id') > 0)
-                        <li class="mb-2">
-                            <a href="{{ route('news:index') }}" class="text-white">
+                        <li>
+                            <a href="{{ route('news:index') }}" class="text-white text-decoration-none">
                                 {{ __('layout/application.footer.links-section.news') }}
                             </a>
                         </li>
                     @endif
-
-                    <li class="mb-2">
-                        <a href="mailto:contact@vlaamswoordenboek.be" class="text-white">
+                    <li>
+                        <a href="mailto:contact@vlaamswoordenboek.be" class="text-white text-decoration-none">
                             {{ __('layout/application.footer.links-section.contact') }}
                         </a>
                     </li>
                 </ul>
             </div>
 
-            <div class="col-6 col-lg-2 mb-3">
-                <h5 class="heading-footer">{{ __('layout/application.footer.sources-section.heading') }}</h5>
-
-                <ul class="list-unstyled">
-                    <li class="mb-2">
-                        <a href="https://ivdnt.org/woordenboeken/historische-woordenboeken/woordenboek-der-nederlandsche-taal/" class="text-white" target="_blank" rel="noopener" title="Woordenboek der Nederlandsche Taal">
-                            WNT
+            <div class="col-6 col-md-4 col-lg-2">
+                <h3 class="h6 text-uppercase small fw-semibold text-white-50 mb-3">
+                    {{ __('layout/application.footer.sources-section.heading') }}
+                </h3>
+                <ul class="list-unstyled small mb-0 d-flex flex-column gap-2">
+                    <li>
+                        <a href="https://ivdnt.org/woordenboeken/historische-woordenboeken/woordenboek-der-nederlandsche-taal/"
+                           class="text-white text-decoration-none d-inline-flex align-items-center gap-1"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           title="Woordenboek der Nederlandsche Taal">
+                            <span>WNT</span>
+                            <x-tabler-external-link class="icon opacity-50" aria-hidden="true" />
                         </a>
                     </li>
-
-                    <li class="mb-2">
-                        <a href="https://www.dialectloket.be/woord/woordenbank-van-de-nederlandse-dialecten/" class="text-white" target="_blank" rel="noopener" title="Woordenbank van de Nederlandse Dialecten">
-                            WND
+                    <li>
+                        <a href="https://www.dialectloket.be/woord/woordenbank-van-de-nederlandse-dialecten/"
+                           class="text-white text-decoration-none d-inline-flex align-items-center gap-1"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           title="Woordenbank van de Nederlandse Dialecten">
+                            <span>WND</span>
+                            <x-tabler-external-link class="icon opacity-50" aria-hidden="true" />
                         </a>
                     </li>
-
-                    <li class="mb-2">
-                        <a href="https://www.etymologiebank.nl/" class="text-white" target="_blank" rel="noopener">
-                            Etymologiebank
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="col-6 col-lg-2 mb-3">
-                <h5 class="heading-footer">{{ __('layout/application.footer.contribution-section.heading') }}</h5>
-
-                <ul class="list-unstyled">
-                    <li class="mb-2">
-                        <a href="{{ route('definitions.create') }}" target="_blank" rel="noopener" class="text-white">
-                            {{ __('layout/application.footer.contribution-section.submit-suggestion') }}
-                        </a>
-                    </li>
-
-                    <li class="mb-2">
-                        <a href="{{ route('feedback:create') }}" target="_blank" rel="noopener" class="text-white">
-                            {{ __('layout/application.footer.contribution-section.submit-feedback') }}
-                        </a>
-                    </li>
-
-                    <li class="mb-2">
-                        <a href="https://github.com/vl-wbk/vl-woordenboek/issues" target="_blank" rel="noopener" class="text-white">
-                            {{ __('layout/application.footer.contribution-section.github-issues') }}
+                    <li>
+                        <a href="https://www.etymologiebank.nl/"
+                           class="text-white text-decoration-none d-inline-flex align-items-center gap-1"
+                           target="_blank"
+                           rel="noopener noreferrer">
+                            <span>Etymologiebank</span>
+                            <x-tabler-external-link class="icon opacity-50" aria-hidden="true" />
                         </a>
                     </li>
                 </ul>
             </div>
 
-            <div class="col-6 col-lg-2 mb-3">
-                <h5 class="heading-footer">{{ __('layout/application.footer.community-section.heading') }}</h5>
+            <div class="col-12 col-md-4 col-lg-3">
+                <h3 class="h6 text-uppercase small fw-semibold text-white-50 mb-3">
+                    {{ __('layout/application.footer.community-section.heading') }}
+                </h3>
+                <p class="small text-white-50 mb-3">
+                    Praat mee over dialecten, etymologie en de ontwikkeling van het platform.
+                </p>
 
-                <ul class="list-unstyled">
-                    <li class="mb-2">
-                        <a href="https://github.com/vl-wbk/vl-woordenboek" target="_blank" rel="noopener" class="text-white">
-                            <x:tabler-brand-github class="icon me-2" aria-label="GitHub logo"/>Github
-                        </a>
-                    </li>
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                    <a href="https://github.com/vl-wbk/vl-woordenboek"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       aria-label="GitHub"
+                       class="btn btn-social btn-sm d-inline-flex align-items-center justify-content-center p-2">
+                        <x:tabler-brand-github class="icon icon-github" aria-hidden="true" />
+                    </a>
+                    <a href="https://discord.com/invite/bqKNs2SDz8"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       aria-label="Discord"
+                       class="btn btn-social btn-sm d-inline-flex align-items-center justify-content-center p-2">
+                        <x:tabler-brand-discord class="icon icon-discord" aria-hidden="true" />
+                    </a>
+                    <a href="https://www.facebook.com/vlaamswoordenboek"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       aria-label="Facebook"
+                       class="btn btn-social btn-sm d-inline-flex align-items-center justify-content-center p-2">
+                        <x:tabler-brand-facebook class="icon icon-facebook" aria-hidden="true" />
+                    </a>
+                </div>
 
-                    <li class="mb-2">
-                        <a href="https://discord.com/invite/bqKNs2SDz8" target="_blank" rel="noopener" class="text-white">
-                            <x:tabler-brand-discord class="icon me-2" aria-label="Discord logo"/>Discord
-                        </a>
-                    </li>
 
-                    <li class="mb-2">
-                        <a href="https://www.facebook.com/vlaamswoordenboek" target="_blank" rel="noopener" class="text-white">
-                            <x:tabler-brand-facebook class="icon me-2" aria-label="Facebook logo"/>Facebook
-                        </a>
-                    </li>
-
-                    <li class="mb-2">
-                        <a href="https://www.forum.vlaamswoordenboek.be" target="_blank" rel="noopener" class="text-white">
-                            <x:tabler-messages class="icon me-2" aria-label="icoontje voor het forum"/>{{ __('layout/application.footer.community-section.forum') }}
-                        </a>
-                    </li>
-                </ul>
             </div>
         </div>
     </footer>
@@ -367,7 +362,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <span class="heading-footer">
+                    <span>
                         &copy; {{ __('layout/application.footer.copyright', ['date' => date('Y'), 'application' => config('app.name', 'laravel')]) }}
                     </span>
 
