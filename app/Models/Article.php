@@ -275,19 +275,6 @@ final class Article extends Model implements AuditableContract, Commentable
     }
 
     /**
-     * Defines a one-to-many relationship with the `Etymology` model.
-     *
-     * This method indicates that the current model (e.g., an `Article`) can have multiple associated `Etymology` records.
-     * When called, it returns a `HasMany` relationship builder instance, allowing you to query or eager load all etymology entries linked to this specific model instance.
-     *
-     * @return HasMany<Etymology, covariant $this>
-     */
-    public function etymologies(): HasMany
-    {
-        return $this->hasMany(Etymology::class, 'article_id');
-    }
-
-    /**
      * Returns all reactions left on this article by users.
      *
      * Each Reaction belongs to a single Article via the `article_id` foreign key.
