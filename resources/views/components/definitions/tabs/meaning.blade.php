@@ -57,21 +57,7 @@
                     {!! str($word->description)->markdown()->sanitizeHtml() !!}
                 </div>
 
-
-
-                <div class="border-top pt-3 mt-3" >
-                    <div class="card bg-light border-dashed shadow-none" style="border-style: dashed !important;">
-                        <div class="card-body py-2 px-3 d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-2">
-                            <p class="mb-0 text-body-secondary small">
-                                <strong class="text-body fw-semibold">Nog geen etymologie bekend.</strong>
-                                Weet jij waar dit woord vandaan komt?
-                            </p>
-                            <a href="{{-- route('...') --}}" class="btn btn-sm btn-outline-primary text-nowrap">
-                                Etymologie toevoegen
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                <livewire:etymologies.create-etymology :word="$word" />
 
             </div>
         </div>

@@ -32,6 +32,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\HtmlString;
@@ -151,6 +152,17 @@ final class Article extends Model implements AuditableContract, Commentable
     {
         return $this->belongsTo(User::class, 'rejected_by');
     }
+
+    public function etymology(): HasOne
+{
+    return $this->hasOne(Etymology::class)->where('status', Etymology::STATUS_APPROVED);
+}
+
+// Alle voorstellen (pending, approved, rejected, superseded)
+public function etymologySuggestions(): HasMany
+{
+    return $this->hasMany(Etymology::class);
+}
 
     /**
      * Retrieves the associated part of speech data for the article.

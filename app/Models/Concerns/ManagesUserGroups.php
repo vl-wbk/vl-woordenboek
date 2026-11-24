@@ -12,4 +12,9 @@ trait ManagesUserGroups
     {
         return $this->user_type->is(UserTypes::Developer);
     }
+
+    public function isCommunityEditor(): bool
+    {
+        return true;
+    }
 }
