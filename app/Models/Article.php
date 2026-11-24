@@ -32,6 +32,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\HtmlString;
@@ -151,6 +152,17 @@ final class Article extends Model implements AuditableContract, Commentable
     {
         return $this->belongsTo(User::class, 'rejected_by');
     }
+
+    public function etymology(): HasOne
+{
+    return $this->hasOne(Etymology::class)->where('status', Etymology::STATUS_APPROVED);
+}
+
+// Alle voorstellen (pending, approved, rejected, superseded)
+public function etymologySuggestions(): HasMany
+{
+    return $this->hasMany(Etymology::class);
+}
 
     /**
      * Retrieves the associated part of speech data for the article.
@@ -272,19 +284,6 @@ final class Article extends Model implements AuditableContract, Commentable
     {
         return $this->belongsToMany(WordList::class, 'word_list_word')
             ->withTimestamps();
-    }
-
-    /**
-     * Defines a one-to-many relationship with the `Etymology` model.
-     *
-     * This method indicates that the current model (e.g., an `Article`) can have multiple associated `Etymology` records.
-     * When called, it returns a `HasMany` relationship builder instance, allowing you to query or eager load all etymology entries linked to this specific model instance.
-     *
-     * @return HasMany<Etymology, covariant $this>
-     */
-    public function etymologies(): HasMany
-    {
-        return $this->hasMany(Etymology::class, 'article_id');
     }
 
     /**

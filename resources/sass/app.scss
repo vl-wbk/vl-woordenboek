@@ -23,6 +23,12 @@
 @import 'components/search-improvements';
 @import 'components/vote-card';
 
+/* Vervangt de inline style="width:150px;height:150px;" op de woordafbeelding */
+.word-image { width: 150px; height: 150px; }
+
+/* Vervangt style="width:1.25rem;height:1.25rem" in de archived-alert */
+.icon-lg { width: 1.25rem; height: 1.25rem; }
+
 // ── Contribution Heatmap ─────────────────────────────────────────────────────
 :root {
     --lexi-black: #111111;

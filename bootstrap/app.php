@@ -18,7 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->appendToGroup('web', [AuthenticateSession::class]);
         $middleware->alias([
-            'forbid-banned-user' => ForbidBannedUser::class, 
+            'forbid-banned-user' => ForbidBannedUser::class,
             'suggestion.quotum' => EnsureSuggestioneQuotumNotExceeded::class
         ]);
 

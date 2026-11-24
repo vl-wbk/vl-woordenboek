@@ -78,7 +78,6 @@ final readonly class DictionaryArticleController
                 'revisionCount' => $word->audits()->where('event', 'updated')->count(),
                 'exampleCount' => $word->userExamples()->whereState('status', Approved::class)->count(),
                 'articleResource' => ArticleResource::class,
-                'etymologies' => $word->etymologies()->whereNotIn('status', [EtymologyStatus::Draft, EtymologyStatus::Rejected, EtymologyStatus::Archived])->get(),
                 'upcomingSchedule' => WordOfTheDay::where('article_id', $word->id)->whereDate('scheduled_for', today())->first(),
             ]);
         }
