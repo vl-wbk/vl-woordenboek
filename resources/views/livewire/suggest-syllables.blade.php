@@ -25,14 +25,12 @@
         @endif
 
     @elseif ($done)
-        <div class="rounded-3 bg-success-subtle text-success-emphasis small px-3 py-2" role="status">
+        <div class="rounded-3 bg-success-subtle text-success-emphasis small px-3 py-2 mb-2" role="status">
             <strong>Bedankt!</strong> Een redacteur bekijkt je voorstel.
         </div>
 
     @elseif ($alreadySubmitted)
-    <div class="rounded-3 bg-body-tertiary small px-3 py-2" role="status">
-        Je hebt hier al een voorstel voor ingestuurd. Bedankt voor je bijdrage!
-    </div>
+
 
     @else
         @php
@@ -40,7 +38,7 @@
             $hasRawError = filled($rawMessage);
         @endphp
 
-        <div class="crowd-alert rounded-3 bg-success-subtle px-3 py-2" role="region"
+        <div class="crowd-alert rounded-3 bg-success-subtle px-3 py-2 mb-2" role="region"
              aria-label="Help mee" x-data="{ open: false }">
 
             <div class="d-flex align-items-center gap-2">
@@ -78,7 +76,7 @@
                         </label>
                         <input id="syllables-input" type="text" autocomplete="off"
                                wire:model.live.debounce.400ms="raw"
-                               placeholder="ge-ma-ak"
+                               placeholder="goest-ing"
                                aria-invalid="{{ $hasRawError ? 'true' : 'false' }}"
                                aria-describedby="syllables-feedback"
                                @class([
@@ -123,7 +121,7 @@
                                 <span class="syllables ms-2 text-body">→ {!! \App\Services\Syllabification::html($this->parts, $stress) !!}</span>
                             @endif
                         @else
-                            <span>Gebruik streepjes of spaties, bv. ge-<strong>ma</strong>-ak.</span>
+                            <span>Gebruik streepjes of spaties, bv. goest-<strong>ing</strong>.</span>
                         @endif
                         @error('stress')
                             <span class="text-danger-emphasis fw-medium" role="alert">{{ $message }}</span>

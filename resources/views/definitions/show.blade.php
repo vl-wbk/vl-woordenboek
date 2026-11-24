@@ -290,7 +290,7 @@
 
 
                                                             <livewire:suggest-syllables :article="$word" />
-                                                            <hr style="border-style: dashed;">
+
                                                         </section>
                                                     @endunless
 

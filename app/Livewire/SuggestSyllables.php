@@ -8,12 +8,11 @@ use App\Services\Syllabification;
 use App\Services\SyllableModeration;
 use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Attributes\Computed;
-use Livewire\Component;
 use Livewire\Attributes\Locked;
+use Livewire\Component;
 
 class SuggestSyllables extends Component
 {
-
     public string $raw = '';
     public ?int $stress = null;
 
@@ -67,7 +66,7 @@ class SuggestSyllables extends Component
     #[Computed]
     public function canSubmit(): bool
     {
-        return $this->isValidRaw && $this->stress !== null;
+        return $this->isValidRaw && $this->hasValidStress();
     }
 
     public function updatedRaw(): void
@@ -80,6 +79,14 @@ class SuggestSyllables extends Component
     public function setStress(int $i): void
     {
         $this->resetErrorBag('stress');
+
+        if ($i < 0 || $i >= count($this->parts)) {
+            $this->stress = null;
+            $this->addError('stress', 'Tik op de lettergreep met de klemtoon.');
+
+            return;
+        }
+
         $this->stress = $i;
     }
 
@@ -88,36 +95,40 @@ class SuggestSyllables extends Component
         abort_unless(auth()->check(), 403);
         $this->resetErrorBag();
 
-        // stress-validatie (vangt ook negatieve waarden en niet-integers af)
-        if (! is_int($this->stress) || $this->stress < 0 || $this->stress >= count($this->parts)) {
-            $this->addError('stress', 'Tik op de lettergreep met de klemtoon.');
-            return;
-        }
-
-        // DB-check
+        // 1. Al ingediend -> direct stoppen
         if (SyllableSuggestion::alreadySubmitted($this->article->id, auth()->id())) {
             $this->alreadySubmitted = true;
+
             return;
         }
 
-        // Stop bij de eerste fout
-        if (! $this->isValidRaw) {
-            $this->addError('raw', $this->rawError ?? 'Vul de lettergrepen in, bijvoorbeeld sjot-ten.');
-            return;
-        }
-
-        if ($this->stress === null || $this->stress >= count($this->parts)) {
-            $this->addError('stress', 'Tik op de lettergreep met de klemtoon.');
-            return;
-        }
-
+        // 2. Rate limit -> direct stoppen
         $key = 'syllables:' . auth()->id();
         if (RateLimiter::tooManyAttempts($key, 20)) {
             $this->addError('form', 'Je hebt veel voorstellen ingestuurd. Probeer het over een uur opnieuw.');
+
             return;
         }
 
-        RateLimiter::hit($key, 3600);
+        // 3. Eerste veldfout: lettergrepen -> direct stoppen
+        if (trim($this->raw) === '') {
+            $this->addError('raw', 'Vul de lettergrepen in, bijvoorbeeld sjot-ten.');
+
+            return;
+        }
+
+        if ($this->rawError !== null) {
+            $this->addError('raw', $this->rawError);
+
+            return;
+        }
+
+        // 4. Tweede veldfout: klemtoon -> direct stoppen
+        if (! $this->hasValidStress()) {
+            $this->addError('stress', 'Tik op de lettergreep met de klemtoon.');
+
+            return;
+        }
 
         $suggestion = SyllableSuggestion::updateOrCreate(
             ['article_id' => $this->article->id, 'user_id' => auth()->id()],
@@ -129,6 +140,8 @@ class SuggestSyllables extends Component
             ],
         );
 
+        RateLimiter::hit($key, 3600);
+
         $this->autoApproved = SyllableModeration::run($this->article, $suggestion);
 
         if ($this->autoApproved) {
@@ -136,6 +149,13 @@ class SuggestSyllables extends Component
         }
 
         $this->done = true;
+    }
+
+    protected function hasValidStress(): bool
+    {
+        $count = count($this->parts);
+
+        return is_int($this->stress) && $count > 0 && $this->stress >= 0 && $this->stress < $count;
     }
 
     public function render()
