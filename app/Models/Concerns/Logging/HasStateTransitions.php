@@ -7,6 +7,7 @@ namespace App\Models\Concerns\Logging;
 use App\Enums\ArticleStates;
 use App\Models\ArticleStateTransition;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -26,15 +27,16 @@ trait HasStateTransitions
         return $this->hasMany(ArticleStateTransition::class)->latest('id');
     }
 
+    public function latestStateTransition(): HasOne
+    {
+        return $this->hasOne(ArticleStateTransition::class)->latestOfMany();
+    }
+
     /**
      * @param array<string, mixed> $attributes Extra columns written in the same single UPDATE.
      */
-    public function transitionToState(
-        ArticleStates $to,
-        ?string $reason = null,
-        array $attributes = [],
-        ?string $via = null,
-    ): bool {
+    public function transitionToState(ArticleStates $to, ?string $reason = null, array $attributes = [], ?string $via = null): bool
+    {
         return DB::transaction(function () use ($to, $reason, $attributes, $via): bool {
             $this->pendingTransition = ['reason' => $reason, 'via' => $via];
 

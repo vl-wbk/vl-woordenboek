@@ -31,7 +31,11 @@ final class Draft extends ArticleState
      */
     public function transitionToApproved(): void
     {
-        $this->article->update(attributes: ['state' => ArticleStates::Approval]);
+        $this->article->transitionToState(
+            to: ArticleStates::Approval,
+            via: __METHOD__,
+            reason: 'Een redacteur heeft het artikel ingezonden ter controle.',
+        );
     }
 
     /**
@@ -40,9 +44,12 @@ final class Draft extends ArticleState
     #[Todo(message: 'Write docblock for this function', author: 'Tjoosten', priority: 'low')]
     public function transitionToExternalData(): bool
     {
-        return DB::transaction(fn(): bool => $this->article->update(attributes: [
-            'state' => ArticleStates::ExternalData, 'editor_id' => null,
-        ]));
+        return DB::transaction(fn(): bool => $this->article->transitionToState(
+            to: ArticleStates::ExternalData,
+            via: __METHOD__,
+            reason: 'Een redacteur heeft het artikel aangeduid als externe data.',
+            attributes: ['editor_id' => null],
+        ));
     }
 
     /**
@@ -57,8 +64,11 @@ final class Draft extends ArticleState
      */
     public function transitionToSuggestion(): bool
     {
-        return DB::transaction(fn(): bool => $this->article->update(attributes: [
-            'state' => ArticleStates::New, 'editor_id' => null,
-        ]));
+        return DB::transaction(fn(): bool => $this->article->transitionToState(
+            to: ArticleStates::New,
+            via: __METHOD__,
+            reason: 'Een redacteur heeft het artikel terug aangeduid als suggestie.',
+            attributes: ['editor_id' => null],
+        ));
     }
 }

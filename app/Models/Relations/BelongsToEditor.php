@@ -45,6 +45,7 @@ trait BelongsToEditor
      * This method fetches the currently authenticated user via the `auth()` helper, associates this user with the model's publisher relationship, and persists the change to the database.
      * This simplifies managing and tracking the publishing process directly from the model instance.
      *
+     * @deprecated
      * @return self Returns the current instance of the model to allow method chaining.
      */
     public function setCurrentUserAsPublisher(): self
@@ -60,6 +61,7 @@ trait BelongsToEditor
      * Similar to 'setCurrentUserAsEditor', this function assigns the authenticated user as the editor.
      * It establishes the user's association within the model's database and saves the record, which is crucial for tracking revisions or entries by particular users.
      *
+     * @deprecated
      * @return self  Returns the current instance of the model to allow method chaining.
      */
     public function setCurrentUserAsEditor(): self
