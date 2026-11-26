@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Observers;
 
+use App\Enums\ArticleStates;
 use App\Models\Article;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -21,6 +23,11 @@ use Illuminate\Support\Facades\Storage;
  */
 final readonly class ArticleObserver
 {
+    public function created(Article $article): void
+    {
+        $this->record($article, from: null);
+    }
+
     /**
      * Handle the Article "deleting" event.
      *
@@ -65,6 +72,10 @@ final readonly class ArticleObserver
                 Storage::disk('public')->delete($oldImage);
             }
         }
+
+        if ($record->wasChanged('state')) {
+            $this->record($record, from: $record->getOriginal('state'));
+        }
     }
 
     /**
@@ -80,5 +91,22 @@ final readonly class ArticleObserver
     public function restoring(Article $article): void
     {
         $article->userExamples()->restore();
+    }
+
+    private function record(Article $article, ?ArticleStates $from): void
+    {
+        $pending = $article->pullPendingTransition();
+
+        $article->stateTransitions()->create([
+            'from_state' => $from,
+            'to_state'   => $article->state,
+            'actor_id'   => Auth::id(),
+            'reason'     => $pending['reason'],
+            'context'    => array_filter([
+                'source' => app()->runningInConsole() ? 'console' : 'http',
+                'ip'     => request()->ip(),
+                'via'    => $pending['via'],
+            ]),
+        ]);
     }
 }

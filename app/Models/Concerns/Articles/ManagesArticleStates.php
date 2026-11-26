@@ -6,7 +6,6 @@ namespace App\Models\Concerns\Articles;
 
 use App\Enums\ArticleStates;
 use App\Contracts\States\ArticleStateContract;
-use App\States\Articles\ArticleState;
 use App\States\Articles;
 
 trait ManagesArticleStates

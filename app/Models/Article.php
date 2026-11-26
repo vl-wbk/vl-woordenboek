@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Concerns\Logging\HasStateTransitions;
 use App\Services\ViewCounterService;
 use App\Builders\ArticleBuilder;
 use App\Models\Relations\HasNotables;
@@ -106,6 +107,7 @@ final class Article extends Model implements AuditableContract, Commentable
     use Votable;
     use HasCorrectionSupport;
     use ManagesArticleStates;
+    use HasStateTransitions;
 
     /**
      * Relations that are always eager-loaded with this model.
